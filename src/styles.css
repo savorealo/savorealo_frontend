@@ -1,15 +1,10 @@
-/* You can add global styles to this file, and also import other style files */
-/* 1. Orden de capas — evita conflictos entre Tailwind y PrimeNG */
-@layer base, primeng, theme, utilities;
-
-/* 2. Tailwind v4 */
+/* src/styles.css */
 @import "tailwindcss";
 @import "tailwindcss-primeui";
-
-/* 3. Iconos de PrimeNG */
 @import "primeicons/primeicons.css";
 
-/* 4. Tokens de diseño — fuente de verdad única */
+@layer base, primeng, theme, utilities;
+
 @theme {
   --color-primary-50:  #eff6ff;
   --color-primary-100: #dbeafe;
@@ -30,7 +25,6 @@
   --font-family-sans: 'Inter', system-ui, sans-serif;
 }
 
-/* 5. Variables para PrimeNG — apuntan a los tokens */
 @layer theme {
   :root {
     --p-primary-color:        var(--color-primary-500);
@@ -50,7 +44,6 @@
   }
 }
 
-/* 6. Reset mínimo */
 @layer base {
   *, *::before, *::after { box-sizing: border-box; }
   body {
