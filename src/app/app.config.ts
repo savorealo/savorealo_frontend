@@ -19,7 +19,7 @@ import Aura from '@primeng/themes/aura';
 
 import { routes } from './app.routes';
 import { ENVIRONMENT } from '@core/tokens/environment.token';
-import { environment } from '@env/environment';
+import { environment } from '@env/environments';
 
 const SocialPreset = definePreset(Aura, {
   semantic: {
