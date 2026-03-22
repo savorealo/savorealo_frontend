@@ -18,6 +18,8 @@ import { definePreset } from '@primeng/themes';
 import Aura from '@primeng/themes/aura';
 
 import { routes } from './app.routes';
+import { ENVIRONMENT } from '@core/tokens/environment.token';
+import { environment } from '@env/environments';
 
 const SocialPreset = definePreset(Aura, {
   semantic: {
@@ -32,6 +34,7 @@ const SocialPreset = definePreset(Aura, {
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZonelessChangeDetection(),
+    { provide: ENVIRONMENT, useValue: environment },
     provideRouter(routes, withViewTransitions(), withComponentInputBinding()),
     provideHttpClient(withFetch(), withInterceptors([])),
     provideClientHydration(withEventReplay()),
