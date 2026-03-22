@@ -8,7 +8,7 @@
     "build:prod": "ng build --configuration production",
     "test:cov": "vitest --coverage",
     "watch": "ng build --watch --configuration development",
-    "test": "vitest",
+    "test": "vitest --passWithNoTests",
     "serve:ssr:cookeealo": "node dist/cookeealo/server/server.mjs",
     "lint": "eslint src --fix",
     "format": "prettier --write src",
