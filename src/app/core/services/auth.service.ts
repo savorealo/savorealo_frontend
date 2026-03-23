@@ -12,17 +12,24 @@ export class AuthService {
     return from(this.supabase.client.auth.signInWithPassword({ email, password }))
   }
 
-  register(usernname: string, email: string, password: string, birthdate: Date) {
-    return from(this.supabase.client.auth.signUp({
-      email, password,
-      options: {
-        data: {
-          usernname: usernname,
-          birthdate: birthdate,
-          /* añadir los que falten */
+  register(username: string, email: string, password: string, birthDate: Date) {
+    return from(
+      this.supabase.client.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            user_type: 'PERSON',                              // por defecto PERSON
+            username: username.toLowerCase().trim(),         // el trigger hace LOWER() pero mejor enviarlo ya limpio
+            birth_date: birthDate.toISOString().split('T')[0], // 'YYYY-MM-DD' — el trigger espera DATE no timestamp
+            full_name: null,                                  // opcional — se puede rellenar en el perfil después
+            photo_url: null,                                  // opcional
+            bio: null,                                  // opcional
+            location: null,                                  // opcional
+          }
         }
-      }
-    }));
+      })
+    )
   }
 
   logout() {
