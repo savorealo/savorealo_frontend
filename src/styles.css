@@ -1,11 +1,10 @@
-/* src/styles.css */
-@import "tailwindcss";
-@import "tailwindcss-primeui";
 @import "primeicons/primeicons.css";
 
-@layer base, primeng, theme, utilities;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@theme {
+:root {
   --color-primary-50:  #eff6ff;
   --color-primary-100: #dbeafe;
   --color-primary-400: #60a5fa;
@@ -23,33 +22,29 @@
   --color-surface-900: #0f172a;
 
   --font-family-sans: 'Inter', system-ui, sans-serif;
+
+  --p-primary-color:        var(--color-primary-500);
+  --p-primary-color-text:   #ffffff;
+  --p-border-radius:        8px;
+  --p-surface-0:            var(--color-surface-0);
+  --p-surface-ground:       var(--color-surface-50);
+  --p-text-color:           var(--color-surface-900);
+  --p-content-border-color: var(--color-surface-200);
 }
 
-@layer theme {
-  :root {
-    --p-primary-color:        var(--color-primary-500);
-    --p-primary-color-text:   #ffffff;
-    --p-border-radius:        8px;
-    --p-surface-0:            var(--color-surface-0);
-    --p-surface-ground:       var(--color-surface-50);
-    --p-text-color:           var(--color-surface-900);
-    --p-content-border-color: var(--color-surface-200);
-  }
-
-  [data-theme="dark"] {
-    --p-primary-color:   #60a5fa;
-    --p-surface-0:       #0f172a;
-    --p-surface-ground:  #1e293b;
-    --p-text-color:      #f8fafc;
-  }
+[data-theme="dark"] {
+  --p-primary-color:   #60a5fa;
+  --p-surface-0:       #0f172a;
+  --p-surface-ground:  #1e293b;
+  --p-text-color:      #f8fafc;
 }
 
 @layer base {
   *, *::before, *::after { box-sizing: border-box; }
   body {
     font-family: var(--font-family-sans);
-    background:  var(--color-surface-50);
-    color:       var(--color-surface-900);
+    background: var(--color-surface-50);
+    color: var(--color-surface-900);
     -webkit-font-smoothing: antialiased;
   }
   input, button, select, textarea { font-family: inherit; font-size: inherit; }

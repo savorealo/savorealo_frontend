@@ -1,0 +1,51 @@
+<h1 class="text-2xl font-bold text-slate-900">Welcome Back</h1>
+<p class="mt-1 text-sm text-slate-500">Please enter your culinary credentials.</p>
+
+<!-- Formulario -->
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="mt-8 flex flex-col gap-5">
+    <!-- Email -->
+    <div class="flex flex-col gap-1">
+        <input pInputText type="email" id="email" placeholder="Email" formControlName="email"   [ngClass]="{'ng-invalid ng-dirty': isInvalid('email')}"
+ />
+            @if (isInvalid('email')) {
+                @if (loginForm.get('email')?.errors?.['required']) {
+                    <p-message severity="error" size="small" variant="simple">Email is required.</p-message>
+                }
+                @if (loginForm.get('email')?.errors?.['email']) {
+                    <p-message severity="error" size="small" variant="simple">Please enter a valid email.</p-message>
+                }
+            }
+    </div>
+    
+    <!-- Password -->
+    <div class="flex flex-col gap-1">
+        <div class="flex justify-between">
+            <label class="text-xs font-semibold uppercase tracking-widest text-slate-500">Password</label>
+            <a href="#" class="text-xs text-orange-500">Forgot Password?</a>
+        </div>
+        <input type="password" placeholder="••••••••" class="rounded-lg bg-slate-100 px-4 py-3 text-sm outline-none" />
+    </div>
+
+    <!-- Submit -->
+    <button pButton severity="secondary" type="submit"><span pButtonLabel>Submit</span></button>
+
+
+    <div class="flex items-center gap-3">
+        <hr class="flex-1 border-slate-200" />
+        <span class="text-xs text-slate-400">OR CONTINUE WITH</span>
+        <hr class="flex-1 border-slate-200" />
+    </div>
+
+    <div class="flex gap-3">
+        <button class="flex flex-1 items-center justify-center gap-2 rounded-full border border-slate-200 py-2 text-sm hover:bg-slate-50">
+            🌐 Google
+        </button>
+        <button class="flex flex-1 items-center justify-center gap-2 rounded-full border border-slate-200 py-2 text-sm hover:bg-slate-50">
+            🍎 Apple
+        </button>
+    </div>
+
+    <p class="text-center text-sm text-slate-500">
+        Don't have an account? <span class="text-orange-400 cursor-pointer underline" (click)="toRegister(false)">Sign up</span>
+    </p>
+</form>

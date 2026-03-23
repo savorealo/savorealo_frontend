@@ -1,0 +1,16 @@
+<div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+    @for (emoji of emojis; track $index) {
+        <span 
+            class="emoji"
+            [style.left]="emoji.left"
+            [style.animation-duration]="emoji.duration"
+            [style.animation-delay]="emoji.delay"
+            [style.font-size]="emoji.size">
+                
+        {{ emoji.char }}
+    </span>
+    }
+    <div class="relative z-10 pointer-events-auto w-full h-full">
+        <ng-content />
+    </div>
+</div>
