@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core'
 import { SupabaseService } from './supabase.service';
 import { from, Observable } from 'rxjs';
+import { AuthChangeEvent, Session } from '@supabase/supabase-js';
 
 @Injectable({
   providedIn: 'root',
@@ -47,7 +48,7 @@ export class AuthService {
   /* Observa al usuario todo el rato si expira el token si
   cierra sesion si tiene varias sesiones abiertas si cambia
   sus datos en cualquier momento etc */
-  onAuthStateChange() {
+  onAuthStateChange(): Observable<{ event: AuthChangeEvent; session: Session | null }> {
     return new Observable(observer => {
       const { data } = this.supabase.client.auth.onAuthStateChange(
         (event, session) => observer.next({ event, session })
