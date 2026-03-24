@@ -9,7 +9,7 @@
     <!-- Lado derecho -->
     <div class="flex w-3/5 flex-col justify-center bg-white px-12 py-10">
         @if (!isRegister.value) {
-            <app-login (toRegistereEvent)="toRegister($event)" />
+            <app-login (toRegistereEvent)="toRegister($event)" (onLoginSubmit)="onLoginSubmit($event)" />
         }@else{
             <app-register (onSubmitEvent)="onRegisterSubmit($event)" /> 
         }

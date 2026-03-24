@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, inject } from '@angular/core'
 import { ButtonModule } from 'primeng/button';
 import { Title } from "@shared/title/title";
 import { BehaviorSubject } from 'rxjs';
@@ -6,6 +6,7 @@ import { NgClass } from "@angular/common";
 import { Login } from "./login/login";
 import { LoginUser, RegisterUser } from '@core/models/user/User';
 import { Register } from "./register/register";
+import { AuthService } from '@core/services/auth.service';
 
 @Component({
   selector: 'app-auth',
@@ -20,7 +21,7 @@ import { Register } from "./register/register";
   styleUrl: './auth.scss',
 })
 export class Auth {
-
+  authService = inject(AuthService)
   isRegister = new BehaviorSubject(false)
 
   toRegister($event: boolean) {
@@ -32,6 +33,8 @@ export class Auth {
   }
 
   onLoginSubmit($event: LoginUser){
-    console.log($event)
+    this.authService.login($event).subscribe((data)=>{
+      console.log(data)
+    })
   }
 }

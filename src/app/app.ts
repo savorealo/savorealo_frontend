@@ -2,11 +2,10 @@ import { Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Apollo, gql } from 'apollo-angular';
 import { EmojiRain } from "@features/emoji-rain/emoji-rain";
-import { Auth } from "@features/auth/auth";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, EmojiRain, Auth],
+  imports: [RouterOutlet, EmojiRain],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })

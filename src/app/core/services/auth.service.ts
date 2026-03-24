@@ -1,15 +1,23 @@
-import { inject, Injectable } from '@angular/core'
+import { computed, inject, Injectable, signal } from '@angular/core'
 import { SupabaseService } from './supabase.service';
 import { from, Observable } from 'rxjs';
+import { User } from '@supabase/supabase-js';
+import { LoginUser } from '@core/models/user/User';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private supabase = inject(SupabaseService);
+  private _user = signal<User | null>(null)
 
-  login(email: string, password: string) {
-    return from(this.supabase.client.auth.signInWithPassword({ email, password }))
+  user = this._user.asReadonly()
+  isLogged = computed(()=>{
+    return this._user() !== null
+  })
+
+  login(user: LoginUser) {
+    return from(this.supabase.client.auth.signInWithPassword({email: user.email, password: user.password}))
   }
 
   register(username: string, email: string, password: string, birthDate: Date) {

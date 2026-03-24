@@ -49,12 +49,12 @@ export class Login {
   onSubmit() {
     this.formSubmitted = true;
     if (this.loginForm.valid) {
-      this.loginForm.reset();
-      this.formSubmitted = false;
-      this.onLoginSubmit.emit({
+        this.onLoginSubmit.emit({
         email: this.loginForm.get('email')?.value,
         password: this.loginForm.get('password')?.value
       })
+      this.loginForm.reset();
+      this.formSubmitted = false;
     }
   }
 }
