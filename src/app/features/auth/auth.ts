@@ -6,7 +6,8 @@ import { NgClass } from "@angular/common";
 import { Login } from "./login/login";
 import { LoginUser, RegisterUser } from '@core/models/user/User';
 import { Register } from "./register/register";
-import { AuthService } from '@core/services/auth.service';
+import { AuthStore } from '@core/auth/auth.store';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-auth',
@@ -21,7 +22,8 @@ import { AuthService } from '@core/services/auth.service';
   styleUrl: './auth.scss',
 })
 export class Auth {
-  authService = inject(AuthService)
+  private router = inject(Router)
+  authService = inject(AuthStore)
   isRegister = new BehaviorSubject(false)
 
   toRegister($event: boolean) {
@@ -33,8 +35,10 @@ export class Auth {
   }
 
   onLoginSubmit($event: LoginUser){
-    this.authService.login($event).subscribe((data)=>{
-      console.log(data)
+    this.authService.login($event).subscribe({
+      next: ()=>{ 
+        this.router.navigate(['/'])
+      }
     })
   }
 }
