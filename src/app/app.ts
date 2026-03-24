@@ -2,12 +2,11 @@ import { Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Apollo, gql } from 'apollo-angular';
 import { EmojiRain } from "@features/emoji-rain/emoji-rain";
-import { CardModule, Card } from 'primeng/card';
-import { Button, ButtonModule } from "primeng/button";
+import { Auth } from "@features/auth/auth";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, EmojiRain, CardModule, Card, Button, ButtonModule],
+  imports: [RouterOutlet, EmojiRain, Auth],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })

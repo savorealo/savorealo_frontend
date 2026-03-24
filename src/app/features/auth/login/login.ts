@@ -5,6 +5,8 @@ import { ToastModule } from 'primeng/toast';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { NgClass } from '@angular/common';
+import { PasswordModule } from 'primeng/password';
+import { LoginUser } from '@core/models/user/User';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +17,8 @@ import { NgClass } from '@angular/common';
     InputTextModule,
     ReactiveFormsModule,
     InputTextModule,
-    NgClass
+    NgClass,
+    PasswordModule
   ],
 
   templateUrl: './login.html',
@@ -25,6 +28,8 @@ export class Login {
   private formBuilder = inject(FormBuilder)
   formSubmitted: boolean = false;
   toRegistereEvent = output<boolean>()
+  onLoginSubmit = output<LoginUser>()
+
 
   loginForm: FormGroup = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
@@ -37,19 +42,19 @@ export class Login {
   }
 
   isInvalid(controlName: string) {
-    //const control = this.loginForm.get(controlName);
-    //return control?.invalid && (control.touched || this.formSubmitted);
-    console.log(controlName)
-    return true
+    const control = this.loginForm.get(controlName);
+    return control?.invalid && (control.touched || this.formSubmitted);
   }
 
   onSubmit() {
     this.formSubmitted = true;
-    console.log("click")
     if (this.loginForm.valid) {
-      console.log(this.loginForm.value)
       this.loginForm.reset();
       this.formSubmitted = false;
+      this.onLoginSubmit.emit({
+        email: this.loginForm.get('email')?.value,
+        password: this.loginForm.get('password')?.value
+      })
     }
   }
 }

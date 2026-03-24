@@ -1,0 +1,72 @@
+<h1 class="text-3xl font-semibold mb-1">{{ registerTitle() }}</h1>
+<p class="text-sm text-surface-500 mb-6">Fill in your details to get started.</p>
+
+<form (ngSubmit)="onSubmit()" [formGroup]="registerForm">
+  <p-stepper
+    [value]="activeStep()"
+    (valueChange)="activeStep.set($event ?? 1)"
+    class="basis-[40rem]"
+  >
+
+    <!-- Step headers -->
+    <p-step-list>
+
+      <p-step [value]="1" class="flex flex-row flex-auto gap-2">
+        <ng-template #content let-activateCallback="activateCallback" let-value="value">
+          <app-header-step1
+            [activeStep]="activeStep()"
+            [value]="value"
+            (onActiveCallBack)="activateCallback()"
+          />
+        </ng-template>
+      </p-step>
+
+      <p-step [value]="2" class="flex flex-row flex-auto gap-2">
+        <ng-template #content let-value="value">
+          <app-header-step2
+            [activeStep]="activeStep()"
+            [value]="value"
+            (onActiveCallBack)="activateSecondStep()"
+          />
+        </ng-template>
+      </p-step>
+
+      <p-step [value]="3" class="flex flex-row flex-auto gap-2">
+        <ng-template #content let-activateCallback="activateCallback" let-value="value">
+          <app-header-step3
+            [activeStep]="activeStep()"
+            [value]="value"
+            (onActiveCallBack)="activateCallback()"
+          />
+        </ng-template>
+      </p-step>
+
+    </p-step-list>
+
+    <!-- ───── Step panels ───── -->
+    <p-step-panels>
+
+      <!-- Step 1: Account -->
+      <p-step-panel [value]="1">
+        <ng-template #content>
+          <app-body-step1 [registerForm]="registerForm" (submitEvent)="activeStep.set(2)" />
+        </ng-template>
+      </p-step-panel>
+
+      <!-- Step 2: Profile -->
+      <p-step-panel [value]="2">
+        <ng-template #content>
+          <app-body-step2 [registerForm]="registerForm" (goBackEvent)="activeStep.set(1)" (submitEvent)="activeStep.set(3)"  />
+        </ng-template>
+      </p-step-panel>
+
+      <!-- Step 3: Photo -->
+      <p-step-panel [value]="3">
+        <ng-template #content>
+          <app-body-step3 [registerForm]="registerForm" (goBackEvent)="activeStep.set(2)" (submitEvent)="onSubmit()" />
+        </ng-template>
+      </p-step-panel>
+
+    </p-step-panels>
+  </p-stepper>
+</form>

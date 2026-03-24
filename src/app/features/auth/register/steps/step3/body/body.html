@@ -1,0 +1,52 @@
+<div class="flex flex-col items-center gap-4 mx-auto" style="min-height: 16rem; max-width: 24rem">
+    <div class="flex flex-col items-center gap-3 pt-6">
+
+        <!-- Avatar circle -->
+        <div
+        class="w-28 h-28 rounded-full border-2 border-dashed border-surface-300 flex items-center justify-center cursor-pointer overflow-hidden relative transition-all hover:border-primary"
+        (click)="fileInput.click()"
+        >
+        @if (registerForm().get('photo')?.value) {
+            <img
+            [src]="registerForm().get('photo')?.value"
+            class="w-full h-full object-cover"
+            alt="Profile preview"
+            />
+        } @else {
+            <i class="pi pi-camera text-3xl text-surface-400"></i>
+        }
+        <div class="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity rounded-full">
+            <i class="pi pi-pencil text-white text-lg"></i>
+        </div>
+        </div>
+
+        <input
+        #fileInput
+        type="file"
+        accept="image/jpeg,image/png,image/webp"
+        style="display:none"
+        (change)="onPhotoSelected($event)"
+        />
+
+        <p class="text-sm text-surface-500 text-center">
+        Click to choose a profile photo<br/>
+        <span class="text-xs text-surface-400">JPG, PNG, WEBP · max 2MB · optional</span>
+        </p>
+
+    </div>
+    </div>
+
+    <div class="flex pt-6 justify-between">
+    <p-button
+        (onClick)="onGoBack()"
+        label="Back"
+        severity="secondary"
+        icon="pi pi-arrow-left"
+    />
+    <p-button
+        (onClick)="onSubmit()"
+        label="Create account"
+        icon="pi pi-check"
+        iconPos="right"
+    />
+    </div>

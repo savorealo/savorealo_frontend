@@ -1,0 +1,85 @@
+<p-toast/>
+<div [formGroup]="registerForm()" class="flex flex-col gap-3 mx-auto" style="min-height: 16rem; max-width: 24rem">
+    <div class="grid grid-cols-2 gap-3">
+
+        <!-- Email -->
+        <div class="field flex flex-col gap-1">
+        <input
+            pInputText
+            formControlName="email"
+            type="email"
+            placeholder="Email"
+            [ngClass]="{'ng-invalid ng-dirty': isInvalid('email')}"
+            fluid
+        />
+        @if (isInvalid('email')) {
+            @if (registerForm().get('email')?.errors?.['required']) {
+            <p-message severity="error" size="small" variant="simple">Email is required.</p-message>
+            } @else if (registerForm().get('email')?.errors?.['email']) {
+            <p-message severity="error" size="small" variant="simple">Enter a valid email.</p-message>
+            }
+        }
+        </div>
+
+        <!-- Username -->
+        <div class="field flex flex-col gap-1">
+        <input
+            pInputText
+            formControlName="username"
+            type="text"
+            placeholder="Username"
+            [ngClass]="{'ng-invalid ng-dirty': isInvalid('username')}"
+            fluid
+        />
+        @if (isInvalid('username')) {
+            <p-message severity="error" size="small" variant="simple">Username is required.</p-message>
+        }
+        </div>
+
+        <!-- Password -->
+        <div class="field flex flex-col gap-1">
+        <p-password
+            formControlName="password"
+            placeholder="Password"
+            [feedback]="true"
+            [invalid]="isInvalid('password')"
+            fluid
+        />
+        @if (isInvalid('password')) {
+            @if (registerForm().get('password')?.errors?.['required']) {
+            <p-message severity="error" size="small" variant="simple">Password is required.</p-message>
+            } @else if (registerForm().get('password')?.errors?.['minlength']) {
+            <p-message severity="error" size="small" variant="simple">At least 8 characters.</p-message>
+            } @else if (registerForm().get('password')?.errors?.['pattern']) {
+            <p-message severity="error" size="small" variant="simple">Needs uppercase, number & special char.</p-message>
+            }
+        }
+        </div>
+
+        <!-- Confirm password -->
+        <div class="field flex flex-col gap-1">
+        <p-password
+            formControlName="confirmPassword"
+            placeholder="Confirm password"
+            [feedback]="false"
+            [invalid]="isInvalid('confirmPassword') || registerForm().hasError('passwordMismatch')"
+            fluid
+        />
+        @if (isInvalid('confirmPassword')) {
+            <p-message severity="error" size="small" variant="simple">Please confirm your password.</p-message>
+        } @else if (registerForm().hasError('passwordMismatch') && registerForm().get('confirmPassword')?.touched) {
+            <p-message severity="error" size="small" variant="simple">Passwords do not match.</p-message>
+        }
+        </div>
+
+    </div>
+</div>
+
+<div class="flex pt-6 justify-end">
+    <p-button
+        (onClick)="onSubmit()"
+        label="Next"
+        icon="pi pi-arrow-right"
+        iconPos="right"
+    />
+</div>

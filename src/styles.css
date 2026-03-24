@@ -1,9 +1,15 @@
+/* 1. Primeicons PRIMERO (antes de todo, sin @layer) */
 @import "primeicons/primeicons.css";
 
+/* 2. Tailwind */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* 3. Declar el orden DESPUÉS de Tailwind */
+@layer base, primeng, theme, utilities;
+
+/* 4. Variables globales — fuera de cualquier @layer */
 :root {
   --color-primary-50:  #eff6ff;
   --color-primary-100: #dbeafe;
@@ -39,6 +45,7 @@
   --p-text-color:      #f8fafc;
 }
 
+/* 5. Reset dentro de @layer base */
 @layer base {
   *, *::before, *::after { box-sizing: border-box; }
   body {
