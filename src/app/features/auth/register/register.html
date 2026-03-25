@@ -32,11 +32,11 @@
       </p-step>
 
       <p-step [value]="3" class="flex flex-row flex-auto gap-2">
-        <ng-template #content let-activateCallback="activateCallback" let-value="value">
+        <ng-template #content let-value="value">
           <app-header-step3
             [activeStep]="activeStep()"
             [value]="value"
-            (onActiveCallBack)="activateCallback()"
+            (onActiveCallBack)="activateThirdStep()"
           />
         </ng-template>
       </p-step>

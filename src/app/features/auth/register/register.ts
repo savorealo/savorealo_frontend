@@ -122,8 +122,12 @@ export class Register {
 
   activateSecondStep(){
     if(this.isValidStep2()){
-      console.log("hola")
       this.activeStep.set(2);
+    }
+  }
+  activateThirdStep(){
+    if(this.isValidStep2() && this.isValidStep3()){
+      this.activeStep.set(3);
     }
   }
 }
