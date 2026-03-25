@@ -57,19 +57,31 @@ export class Register {
     return ''
   })
 
+  /* Definde si el usuario debe poder pasar al paso 2 */
   isValidStep2 = computed(()=>{
     if(
-      this.isValid("email") && this.isValid("username") && this.isValid("password") 
+     this.registerForm.get('email')?.valid &&
+     this.registerForm.get('username')?.valid &&
+     this.registerForm.get('password')?.valid &&
+     this.registerForm.get('confirmPassword')?.valid
     ){
       return true
     }else return false
 
   })
 
+  /* Define si el usuario puede pasar al paso 3 */
   isValidStep3 = computed(()=>{
     if(
-      this.isValidStep2() && this.isValid("fullName") && this.isValid("birthDate") && this.isValid("bio")
-    ){ return true } else return false
+      this.isValidStep2() &&
+      this.registerForm.get("fullName")?.valid &&
+      this.registerForm.get("birthDate")?.valid &&
+      this.registerForm.get("bio")?.valid
+    ){ 
+      return true
+    } else {
+      return false
+    }
   })
 
   registerForm: FormGroup = this.formBuilder.group({
@@ -123,6 +135,11 @@ export class Register {
   activateSecondStep(){
     if(this.isValidStep2()){
       this.activeStep.set(2);
+    }else{
+      console.log(this.registerForm.get('email')?.valid)
+      console.log(this.registerForm.get('username')?.valid)
+      console.log(this.registerForm.get('password')?.valid)
+      console.log(this.registerForm.get('confirmPassword')?.valid)
     }
   }
   activateThirdStep(){

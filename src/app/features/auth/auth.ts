@@ -23,7 +23,7 @@ import { Router } from '@angular/router';
 })
 export class Auth {
   private router = inject(Router)
-  authService = inject(AuthStore)
+  authStore = inject(AuthStore)
   isRegister = new BehaviorSubject(false)
 
   toRegister($event: boolean) {
@@ -31,11 +31,12 @@ export class Auth {
   }
 
   onRegisterSubmit($event: RegisterUser){
-    console.log($event)
+    console.log("Hola:",$event)
+    this.authStore.register($event).subscribe()
   }
 
   onLoginSubmit($event: LoginUser){
-    this.authService.login($event).subscribe({
+    this.authStore.login($event).subscribe({
       next: ()=>{ 
         this.router.navigate(['/'])
       }

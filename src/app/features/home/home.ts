@@ -12,7 +12,7 @@ import { Button } from "primeng/button";
 export class Home {
   private authStore = inject(AuthStore);
   private router = inject(Router)
-  currentUSer = this.authStore.user
+  currentUSer = this.authStore.profile
 
   logout(){
     this.authStore.logout()

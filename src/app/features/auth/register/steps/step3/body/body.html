@@ -6,12 +6,8 @@
         class="w-28 h-28 rounded-full border-2 border-dashed border-surface-300 flex items-center justify-center cursor-pointer overflow-hidden relative transition-all hover:border-primary"
         (click)="fileInput.click()"
         >
-        @if (registerForm().get('photo')?.value) {
-            <img
-            [src]="registerForm().get('photo')?.value"
-            class="w-full h-full object-cover"
-            alt="Profile preview"
-            />
+        @if (previewUrl) {
+            <img [src]="previewUrl" class="w-full h-full object-cover" alt="Profile preview" />
         } @else {
             <i class="pi pi-camera text-3xl text-surface-400"></i>
         }

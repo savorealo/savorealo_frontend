@@ -1,7 +1,7 @@
 <h1 class="text-3xl font-semibold mb-1">{{ registerTitle() }}</h1>
 <p class="text-sm text-surface-500 mb-6">Fill in your details to get started.</p>
 
-<form (ngSubmit)="onSubmit()" [formGroup]="registerForm">
+<form [formGroup]="registerForm">
   <p-stepper
     [value]="activeStep()"
     (valueChange)="activeStep.set($event ?? 1)"
@@ -56,7 +56,7 @@
       <!-- Step 2: Profile -->
       <p-step-panel [value]="2">
         <ng-template #content>
-          <app-body-step2 [registerForm]="registerForm" (goBackEvent)="activeStep.set(1)" (submitEvent)="activeStep.set(3)"  />
+          <app-body-step2 [registerForm]="registerForm" (goBackEvent)="activeStep.set(1)" (submitEvent)="activeStep.set(3)" />
         </ng-template>
       </p-step-panel>
 

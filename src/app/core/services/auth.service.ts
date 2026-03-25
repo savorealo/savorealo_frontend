@@ -1,44 +1,54 @@
-import { computed, inject, Injectable, signal } from '@angular/core'
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { SupabaseService } from './supabase.service';
 import { from, Observable } from 'rxjs';
-import { AuthChangeEvent, Session } from '@supabase/supabase-js';
-import { User } from '@supabase/supabase-js';
-import { LoginUser } from '@core/models/user/User';
+import { AuthChangeEvent, Session, User } from '@supabase/supabase-js';
+import { LoginUser, RegisterUser } from '@core/models/user/User';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class AuthService {
   private supabase = inject(SupabaseService);
-  private _user = signal<User | null>(null)
+  private _user = signal<User | null>(null);
 
-  user = this._user.asReadonly()
-  isLogged = computed(()=>{
-    return this._user() !== null
-  })
+  user = this._user.asReadonly();
+  isLogged = computed(() => this._user() !== null);
 
   login(user: LoginUser) {
-    return from(this.supabase.client.auth.signInWithPassword({email: user.email, password: user.password}))
+    return from(
+      this.supabase.client.auth.signInWithPassword({
+        email: user.email,
+        password: user.password,
+      })
+    );
   }
 
-  register(username: string, email: string, password: string, birthDate: Date) {
+  /**
+   * El trigger handle_new_auth_user lee raw_user_meta_data y crea automáticamente:
+   *   - public.users
+   *   - public.person_profiles (solo si viene username)
+   * La foto NO se manda aquí — se sube a Storage después del signUp
+   */
+  register(user: RegisterUser) {
+    // El datepicker de PrimeNG devuelve un Date object, el trigger necesita 'YYYY-MM-DD'
+    const birthDate = user.birthDate instanceof Date
+      ? user.birthDate.toISOString().split('T')[0]
+      : user.birthDate;
+
     return from(
       this.supabase.client.auth.signUp({
-        email,
-        password,
+        email: user.email,
+        password: user.password,
         options: {
           data: {
-            user_type: 'PERSON',                              // por defecto PERSON
-            username: username.toLowerCase().trim(),         // el trigger hace LOWER() pero mejor enviarlo ya limpio
-            birth_date: birthDate.toISOString().split('T')[0], // 'YYYY-MM-DD' — el trigger espera DATE no timestamp
-            full_name: null,                                  // opcional — se puede rellenar en el perfil después
-            photo_url: null,                                  // opcional
-            bio: null,                                  // opcional
-            location: null,                                  // opcional
+            username: user.username.toLowerCase().trim(),
+            birth_date: birthDate,
+            full_name: user.fullName ?? null,
+            bio: user.bio ?? null,
+            location: user.location ?? null,
+            photo_url: user.photoUrl ?? null,
           }
         }
       })
-    )
+    );
   }
 
   logout() {
@@ -53,15 +63,12 @@ export class AuthService {
     return from(this.supabase.client.auth.getSession());
   }
 
-  /* Observa al usuario todo el rato si expira el token si
-  cierra sesion si tiene varias sesiones abiertas si cambia
-  sus datos en cualquier momento etc */
   onAuthStateChange(): Observable<{ event: AuthChangeEvent; session: Session | null }> {
     return new Observable(observer => {
       const { data } = this.supabase.client.auth.onAuthStateChange(
         (event, session) => observer.next({ event, session })
-      )
-      return () => data.subscription.unsubscribe()
-    })
+      );
+      return () => data.subscription.unsubscribe();
+    });
   }
 }

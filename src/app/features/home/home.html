@@ -2,5 +2,6 @@
 <p-button (onClick)="logout()">logout</p-button>
 
 <h1 class="text-3xl">
-    Bienvenido {{ currentUSer()?.email }}
+    Bienvenido {{ currentUSer()?.username }}
 </h1>
+<img [src]="currentUSer()?.photo_url" alt="">
