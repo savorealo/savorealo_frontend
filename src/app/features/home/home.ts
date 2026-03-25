@@ -2,10 +2,11 @@ import { Component, inject } from '@angular/core'
 import { AuthStore } from '@core/auth/auth.store'
 import { Router } from '@angular/router';
 import { Button } from "primeng/button";
+import { Avatar } from "@shared/components/avatar/avatar";
 
 @Component({
   selector: 'app-home',
-  imports: [Button],
+  imports: [Button, Avatar],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })

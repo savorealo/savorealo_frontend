@@ -1,14 +1,17 @@
+import { NgClass } from '@angular/common';
 import { Component, Input, OnChanges } from '@angular/core'
 
 export type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 @Component({
   selector: 'app-avatar',
-  imports: [],
+  imports: [
+    NgClass
+  ],
   template: `
     <div
       class="avatar"
-      [class]="'avatar avatar--' + size"
+      [ngClass]="'avatar avatar--' + size"
       [attr.aria-label]="name || 'Avatar'"
       role="img"
     >
@@ -35,11 +38,12 @@ export type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   styleUrl: './avatar.scss',
 })
 export class Avatar implements OnChanges {
-  @Input() src?: string;
+  @Input() src?: string | null;
   @Input() name?: string;
-  @Input() size: AvatarSize = 'md';
+  @Input() size: AvatarSize = "md"
   @Input() online?: boolean;
   @Input() offline?: boolean;
+
 
   initials = '';
   imgError = false;

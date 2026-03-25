@@ -1,7 +1,8 @@
-<p>home works!</p>
-<p-button (onClick)="logout()">logout</p-button>
-
 <h1 class="text-3xl">
     Bienvenido {{ currentUSer()?.username }}
 </h1>
-<img [src]="currentUSer()?.photo_url" alt="">
+
+<div class="absolute top-0 right-0 flex items-center" >
+    <app-avatar [src]="currentUSer()?.photo_url" [size]="'xl'"/>
+    <p-button (onClick)="logout()" label="logout"/>
+</div>

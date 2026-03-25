@@ -8,6 +8,7 @@ import { LoginUser, RegisterUser } from '@core/models/user/User';
 import { Register } from "./register/register";
 import { AuthStore } from '@core/auth/auth.store';
 import { Router } from '@angular/router';
+import { EmojiRain } from "@features/emoji-rain/emoji-rain";
 
 @Component({
   selector: 'app-auth',
@@ -16,7 +17,8 @@ import { Router } from '@angular/router';
     Title,
     NgClass,
     Login,
-    Register
+    Register,
+    EmojiRain
 ],
   templateUrl: './auth.html',
   styleUrl: './auth.scss',

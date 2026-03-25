@@ -1,17 +1,20 @@
-<div class="flex h-[600px] w-[1000px] overflow-hidden rounded-2xl shadow-xl"
-    [ngClass]="!isRegister.value ? 'flex-row' : 'flex-row-reverse'">
+<app-emoji-rain/>
+<div class="center relative z-10">
+    <div class="flex h-[600px] w-[1000px] overflow-hidden rounded-2xl shadow-xl"
+        [ngClass]="!isRegister.value ? 'flex-row' : 'flex-row-reverse'">
 
-    <!-- Logo-->
-    <div class="relative flex w-2/5 flex-col p-8 text-center">
-        <app-title/>
-    </div>
+        <!-- Logo-->
+        <div class="relative flex w-2/5 flex-col p-8 text-center">
+            <app-title/>
+        </div>
 
-    <!-- Lado derecho -->
-    <div class="flex w-3/5 flex-col justify-center bg-white px-12 py-10">
-        @if (!isRegister.value) {
-            <app-login (toRegistereEvent)="toRegister($event)" (onLoginSubmit)="onLoginSubmit($event)" />
-        }@else{
-            <app-register (onSubmitEvent)="onRegisterSubmit($event)" /> 
-        }
+        <!-- Lado derecho -->
+        <div class="flex w-3/5 flex-col justify-center bg-white px-12 py-10">
+            @if (!isRegister.value) {
+                <app-login (toRegistereEvent)="toRegister($event)" (onLoginSubmit)="onLoginSubmit($event)" />
+            }@else{
+                <app-register (onSubmitEvent)="onRegisterSubmit($event)" /> 
+            }
+        </div>
     </div>
 </div>
