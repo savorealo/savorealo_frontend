@@ -11,7 +11,7 @@ import { EmojiRain } from "@features/emoji-rain/emoji-rain";
 })
 export class App {
   protected readonly title = signal('cookeealo');
-  private apollo = inject(Apollo)
+  private apollo = inject(Apollo);
 
   constructor() {
     this.apollo.query({
