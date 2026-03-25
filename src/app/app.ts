@@ -1,11 +1,10 @@
 import { Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Apollo, gql } from 'apollo-angular';
-import { ProgressSpinner } from "primeng/progressspinner";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, ProgressSpinner],
+  imports: [RouterOutlet ],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
