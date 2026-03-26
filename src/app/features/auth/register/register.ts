@@ -126,7 +126,7 @@ export class Register {
         birthDate:    this.registerForm.get('birthDate')?.value,
         photoProfile: this.registerForm.get('photo')?.value,
       })
-    }else console.log("invalido")
+    }
   }
 
   isValid(formControlName: string):boolean{

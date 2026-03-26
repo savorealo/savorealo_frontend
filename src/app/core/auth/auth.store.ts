@@ -10,33 +10,33 @@ import { LoginUser, RegisterUser, User } from '@core/models/user/User';
 
 @Injectable({ providedIn: 'root' })
 export class AuthStore {
-  private authService = inject(AuthService);
-  private userService = inject(UserService);
+  private authService    = inject(AuthService);
+  private userService    = inject(UserService);
   private storageService = inject(StorageService);
-  private router = inject(Router);
+  private router         = inject(Router);
 
-  // Usuario de Supabase Auth — solo para saber si está autenticado y obtener el id
-  private readonly _user = signal<UserSupabase | null>(null);
-  // Perfil completo de la BD (person_profiles) — foto, username, bio, etc.
+  private readonly _user    = signal<UserSupabase | null>(null);
   private readonly _profile = signal<User | null>(null);
   private readonly _loading = signal(false);
-  private readonly _error = signal<string | null>(null);
+  private readonly _error   = signal<string | null>(null);
 
-  readonly user = this._user.asReadonly();
-  readonly profile = this._profile.asReadonly();
-  readonly loading = this._loading.asReadonly();
-  readonly error = this._error.asReadonly();
+  readonly user            = this._user.asReadonly();
+  readonly profile         = this._profile.asReadonly();
+  readonly loading         = this._loading.asReadonly();
+  readonly error           = this._error.asReadonly();
   readonly isAuthenticated = computed(() => this._user() !== null);
-  readonly currentUserId = computed(() => this._user()?.id ?? null);
+  readonly currentUserId   = computed(() => this._user()?.id ?? null);
 
   constructor(private destroyRef: DestroyRef) {
-    this.restoreSession();
     this.authService.onAuthStateChange().pipe(
       takeUntilDestroyed(this.destroyRef)
     ).subscribe(({ session }) => {
       this._user.set(session?.user ?? null);
       if (session?.user) {
-        this.loadProfile(session.user.id);
+        // 1. Perfil básico inmediato desde user_metadata — sin esperar red
+        this._profile.set(this.mapMetaToProfile(session.user));
+        // 2. Contadores desde public.users — cuando responda, actualiza el signal
+        this.loadCounters(session.user.id);
       } else {
         this._profile.set(null);
       }
@@ -50,7 +50,10 @@ export class AuthStore {
       tap(({ data, error }) => {
         if (error) throw error;
         this._user.set(data.user!);
-        this.loadProfile(data.user!.id);
+        // Perfil básico inmediato
+        this._profile.set(this.mapMetaToProfile(data.user!));
+        // Contadores async — actualiza el signal cuando responda
+        this.loadCounters(data.user!.id);
       }),
       catchError(err => {
         this._error.set(err.message);
@@ -61,14 +64,6 @@ export class AuthStore {
     );
   }
 
-  /**
-   * Flujo completo de registro:
-   * 1. Si hay foto → subir a Storage ANTES del signUp (sin sesión, igual que el móvil)
-   * 2. signUp con options.data (incluye photo_url si la hay)
-   *    → el trigger crea auth.users + public.users + person_profiles automáticamente
-   * 3. Carga el perfil de la BD en _profile
-   * 4. Navegar a /home
-   */
   register(userData: RegisterUser): Observable<void> {
     this._loading.set(true);
     this._error.set(null);
@@ -81,7 +76,11 @@ export class AuthStore {
         tap(({ error }) => { if (error) throw error; }),
         tap(({ data }) => {
           this._user.set(data.user!);
-          this.loadProfile(data.user!.id);
+          // Usuario nuevo — contadores a 0, no hace falta llamar al backend
+          this._profile.set({
+            ...this.mapMetaToProfile(data.user!),
+            postsCount: 0, followersCount: 0, followingCount: 0,
+          });
         }),
         tap(() => this.router.navigate(['/home'])),
         catchError(err => {
@@ -97,7 +96,10 @@ export class AuthStore {
       tap(({ error }) => { if (error) throw error; }),
       tap(({ data }) => {
         this._user.set(data.user!);
-        this.loadProfile(data.user!.id);
+        this._profile.set({
+          ...this.mapMetaToProfile(data.user!),
+          postsCount: 0, followersCount: 0, followingCount: 0,
+        });
       }),
       tap(() => this.router.navigate(['/home'])),
       catchError(err => {
@@ -117,19 +119,46 @@ export class AuthStore {
     });
   }
 
-  private loadProfile(userId: string): void {
-    this.userService.getUserById(userId).subscribe({
-      next: ({ data }) => this._profile.set(data),
-      error: err => console.error('Error cargando perfil:', err)
-    });
+  // ─── Helpers ────────────────────────────────────────────────────────────────
+
+  /**
+   * Perfil básico desde user_metadata — inmediato, sin red.
+   * Contadores a null hasta que loadCounters() responda.
+   */
+  private mapMetaToProfile(user: UserSupabase): User {
+    const meta = user.user_metadata ?? {};
+    console.log(meta)
+    return {
+      id:             user.id,
+      email:          user.email ?? '',
+      username:       meta['username']   ?? null,
+      fullName:       meta['full_name']  ?? null,
+      photo_url:      meta['photo_url']  ?? null,
+      bio:            meta['bio']        ?? null,
+      location:       meta['location']   ?? null,
+      birth_date:     meta['birth_date'] ?? null,
+      postsCount:     null,
+      followersCount: null,
+      followingCount: null,
+    };
   }
 
-  private restoreSession(): void {
-    this.authService.getSession().subscribe(({ data }) => {
-      if (data?.session?.user) {
-        this._user.set(data.session.user);
-        this.loadProfile(data.session.user.id);
-      }
+  /**
+   * Carga solo los contadores desde public.users y parchea el signal.
+   * El resto del perfil ya estaba disponible desde user_metadata.
+   */
+  private loadCounters(userId: string): void {
+    this.userService.getUserById(userId).subscribe({
+      next: ({ data }) => {
+        if (!data) return;
+        this._profile.update(profile => profile ? {
+          ...profile,
+          postsCount:     data.postsCount,
+          followersCount: data.followersCount,
+          followingCount: data.followingCount,
+        } : profile);
+      },
+      error: err => console.error('Error cargando contadores:', err)
     });
   }
 }

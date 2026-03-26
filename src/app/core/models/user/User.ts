@@ -27,13 +27,15 @@ export interface CreateUserPayload{
 
 /** Lo que devuelve GET /api/users/:id */
 export interface User {
-  id: string;
-  username: string;
-  fullName: string | null;
-  photo_url: string | null;
-  bio: string | null;
-  location: string | null;
-  postsCount: number;
-  followersCount: number;
-  followingCount: number;
+  id:             string;
+  email:          string;
+  username:       string;
+  fullName:       string | null;
+  photo_url:      string | null;
+  bio:            string | null;
+  location:       string | null;
+  birth_date:     string | null;
+  postsCount:     number | null;
+  followersCount: number | null;
+  followingCount: number | null;
 }

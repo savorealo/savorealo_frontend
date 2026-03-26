@@ -15,14 +15,13 @@ export class Home implements OnInit {
   private authStore = inject(AuthStore);
   private router = inject(Router)
   currentUSer = this.authStore.profile
-  currentUserMetadata = this.authStore.user
+
+  ngOnInit(): void {
+    console.log(this.currentUSer())
+  }
 
   logout(){
     this.authStore.logout()
     this.router.navigate(["auth"])
-  }
-
-  ngOnInit(): void {
-    console.log(this.currentUserMetadata()) 
   }
 }
