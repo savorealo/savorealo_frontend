@@ -34,7 +34,11 @@ export class Auth {
 
   onRegisterSubmit($event: RegisterUser){
     console.log("Hola:",$event)
-    this.authStore.register($event).subscribe()
+    this.authStore.register($event).subscribe({
+      next: ()=>{
+        this.router.navigate(["/"])
+      }
+    })
   }
 
   onLoginSubmit($event: LoginUser){

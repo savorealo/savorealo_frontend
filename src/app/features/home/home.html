@@ -1,8 +1,14 @@
-<h1 class="text-3xl">
-    Bienvenido {{ currentUSer()?.username }}
-</h1>
-
-<div class="absolute top-0 right-0 flex items-center" >
-    <app-avatar [src]="currentUSer()?.photo_url" [size]="'xl'"/>
-    <p-button (onClick)="logout()" label="logout"/>
-</div>
+<app-shell>
+  <div class="flex h-full">
+    <!-- feed central -->
+    <div class="flex-1 overflow-y-auto px-6 py-4">
+      <!-- posts -->
+       posts
+    </div>
+    <!-- columna derecha sugeridos -->
+    <aside class="w-72 border-l border-[--p-content-border-color] p-4">
+      <!-- sugeridos, tendencias -->
+       <p>Sugeridos, tendencias...</p>
+    </aside>
+  </div>
+</app-shell>

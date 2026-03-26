@@ -1,12 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core'
 import { AuthStore } from '@core/auth/auth.store'
 import { Router } from '@angular/router';
-import { Button } from "primeng/button";
-import { Avatar } from "@shared/components/avatar/avatar";
+import { AppShell } from "@shared/components/app-shell/app-shell";
 
 @Component({
   selector: 'app-home',
-  imports: [Button, Avatar],
+  imports: [AppShell],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
@@ -22,6 +21,6 @@ export class Home implements OnInit {
 
   logout(){
     this.authStore.logout()
-    this.router.navigate(["auth"])
+    this.router.navigate(["/auth"])
   }
 }
