@@ -33,16 +33,20 @@
     </div>
 
     <div class="flex pt-6 justify-between">
-    <p-button
-        (onClick)="onGoBack()"
+    <button
+        pButton
+        (click)="onGoBack()"
         label="Back"
         severity="secondary"
         icon="pi pi-arrow-left"
-    />
-    <p-button
-        (onClick)="onSubmit()"
+        style="background: var(--color-primary-300); border-color: var(--color-primary-300);"
+    ></button>
+    <button
+        pButton
+        (click)="onSubmit()"
         label="Create account"
         icon="pi pi-check"
         iconPos="right"
-    />
+        style="background: var(--color-primary-300); border-color: var(--color-primary-300);"
+    ></button>
     </div>

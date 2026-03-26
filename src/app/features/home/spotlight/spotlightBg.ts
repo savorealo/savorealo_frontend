@@ -15,12 +15,12 @@ import {
       inset: 0;
       width: 100%;
       height: 100%;
-      background-color: #E4EDE4;
+      background-color: var(--color-surface-50);
       background-image: radial-gradient(
         circle at var(--mx, 10%) var(--my, 10%),
-        rgba(255,255,255,0.95) 0%,
-        rgba(255,255,255,0.65) 5%,
-        transparent 60%
+        rgba(255, 120, 50, 0.15) 0%,
+        rgba(255, 90, 26, 0.07) 15%,
+        transparent 35%
       );
       z-index: -10;
       pointer-events: none;

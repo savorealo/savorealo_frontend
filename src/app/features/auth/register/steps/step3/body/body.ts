@@ -1,6 +1,6 @@
 import { Component, input, output, OnDestroy } from '@angular/core'
 import { FormGroup, ReactiveFormsModule, ɵInternalFormsSharedModule } from '@angular/forms';
-import { Button } from "primeng/button";
+import { ButtonDirective } from "primeng/button";
 import { InputTextModule } from 'primeng/inputtext';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
@@ -13,14 +13,14 @@ const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
 @Component({
   selector: 'app-body-step3',
   imports: [
-    Button,
     InputTextModule,
     ɵInternalFormsSharedModule,
     ReactiveFormsModule,
     ToastModule,
     DatePickerModule,
     TextareaModule,
-  ],
+    ButtonDirective,
+],
   providers: [MessageService],
   templateUrl: './body.html',
   styleUrl: './body.scss',

@@ -34,30 +34,23 @@
     </div>
 
     <!-- Submit -->
-    <button pButton 
-        severity="secondary" 
+    <button pButton
         type="submit"
-        [disabled]="loginForm.invalid">
+        [disabled]="loginForm.invalid"
+        style="background: var(--color-primary-300); border-color: var(--color-primary-300);">
         <span pButtonLabel>Submit</span>
     </button>
-
-
     <div class="flex items-center gap-3">
-        <hr class="flex-1 border-slate-200" />
-        <span class="text-xs text-slate-400">OR CONTINUE WITH</span>
-        <hr class="flex-1 border-slate-200" />
+        <hr class="flex-1 border-[--p-content-border-color]" />
+        <span class="text-xs text-[--p-text-muted-color]">OR CONTINUE WITH</span>
+        <hr class="flex-1 border-[--p-content-border-color]" />
     </div>
 
-    <div class="flex gap-3">
-        <button class="flex flex-1 items-center justify-center gap-2 rounded-full border border-slate-200 py-2 text-sm hover:bg-slate-50">
-            🌐 Google
-        </button>
-        <button class="flex flex-1 items-center justify-center gap-2 rounded-full border border-slate-200 py-2 text-sm hover:bg-slate-50">
-            🍎 Apple
-        </button>
-    </div>
+    <button class="flex flex-1 items-center justify-center gap-2 rounded-full border border-[--p-content-border-color] py-2 text-sm text-[--p-text-color] hover:bg-[--color-primary-100]">
+        <img src="assets/google.svg" alt="Google" class="w-5 h-5" /> Google
+    </button>
 
     <p class="text-center text-sm text-slate-500">
-        Don't have an account? <span class="text-orange-400 cursor-pointer underline" (click)="toRegister(true)">Sign up</span>
+        Don't have an account? <span class="text-[--color-primary-500] hover:text-[--color-primary-700] cursor-pointer underline" (click)="toRegister(true)">Sign up</span>
     </p>
 </form>

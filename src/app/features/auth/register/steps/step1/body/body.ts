@@ -2,7 +2,7 @@ import { NgClass } from '@angular/common';
 import { Component, input, output } from '@angular/core'
 import { FormGroup, ReactiveFormsModule, ɵInternalFormsSharedModule } from '@angular/forms';
 import { Message } from "primeng/message";
-import { Button } from "primeng/button";
+import { ButtonDirective} from "primeng/button";
 import { Password } from "primeng/password";
 import { InputTextModule } from 'primeng/inputtext';
 
@@ -11,12 +11,12 @@ import { InputTextModule } from 'primeng/inputtext';
   imports: [
     NgClass,
     Message,
-    Button,
     Password,
     InputTextModule,
     ɵInternalFormsSharedModule,
     ReactiveFormsModule,
-  ],
+    ButtonDirective
+],
   templateUrl: './body.html',
   styleUrl: './body.scss',
 })

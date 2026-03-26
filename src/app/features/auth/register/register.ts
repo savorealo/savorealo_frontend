@@ -44,6 +44,7 @@ function passwordMatchValidator(form: AbstractControl): ValidationErrors | null 
 })
 export class Register {
 
+  toLoginEvent     = output()
   activeStep       = signal<number>(1)
   onSubmitEvent    = output<RegisterUser>()
   private formBuilder = inject(FormBuilder)
@@ -135,16 +136,15 @@ export class Register {
   activateSecondStep(){
     if(this.isValidStep2()){
       this.activeStep.set(2);
-    }else{
-      console.log(this.registerForm.get('email')?.valid)
-      console.log(this.registerForm.get('username')?.valid)
-      console.log(this.registerForm.get('password')?.valid)
-      console.log(this.registerForm.get('confirmPassword')?.valid)
     }
   }
   activateThirdStep(){
     if(this.isValidStep2() && this.isValidStep3()){
       this.activeStep.set(3);
     }
+  }
+
+  toLogin(){
+    this.toLoginEvent.emit()
   }
 }

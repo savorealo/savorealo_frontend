@@ -4,16 +4,16 @@
         [ngClass]="!isRegister.value ? 'flex-row' : 'flex-row-reverse'">
 
         <!-- Logo-->
-        <div class="relative flex w-2/5 flex-col p-8 text-center">
+        <div class="relative flex w-2/5 flex-col p-8 bg-[--color-surface-100] text-center">
             <app-title/>
         </div>
 
         <!-- Lado derecho -->
-        <div class="flex w-3/5 flex-col justify-center bg-white px-12 py-10">
+        <div class="flex w-3/5 flex-col justify-center bg-[--p-surface-ground] px-12 py-10">
             @if (!isRegister.value) {
                 <app-login (toRegistereEvent)="toRegister($event)" (onLoginSubmit)="onLoginSubmit($event)" />
             }@else{
-                <app-register (onSubmitEvent)="onRegisterSubmit($event)" /> 
+                <app-register (onSubmitEvent)="onRegisterSubmit($event)" (toLoginEvent)="toRegister(false)" /> 
             }
         </div>
     </div>

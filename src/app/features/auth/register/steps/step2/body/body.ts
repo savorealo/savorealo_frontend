@@ -2,7 +2,7 @@ import { NgClass } from '@angular/common';
 import { Component, input, output } from '@angular/core'
 import { FormGroup, ReactiveFormsModule, ɵInternalFormsSharedModule } from '@angular/forms';
 import { Message } from "primeng/message";
-import { Button } from "primeng/button";
+import { ButtonDirective } from "primeng/button";
 import { InputTextModule } from 'primeng/inputtext';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
@@ -14,7 +14,6 @@ import { TextareaModule } from 'primeng/textarea';
   imports: [
     NgClass,
     Message,
-    Button,
     InputTextModule,
     ɵInternalFormsSharedModule,
     ReactiveFormsModule,
@@ -22,6 +21,7 @@ import { TextareaModule } from 'primeng/textarea';
     DatePickerModule,
     ReactiveFormsModule,
     TextareaModule,
+    ButtonDirective
   ],
     providers: [MessageService],
   templateUrl: './body.html',
