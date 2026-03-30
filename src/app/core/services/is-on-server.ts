@@ -5,11 +5,11 @@ import { inject, Injectable, PLATFORM_ID } from '@angular/core'
   providedIn: 'root',
 })
 export class IsOnServer {
-    private platformId = inject(PLATFORM_ID)
+  private platformId = inject(PLATFORM_ID)
 
-  isServer():boolean {
+  isServer(): boolean {
     if (isPlatformBrowser(this.platformId)) {
       return true
-    }else return false
+    } else return false
   }
 }

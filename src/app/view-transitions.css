@@ -1,0 +1,84 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   VIEW TRANSITIONS — Animaciones nativas entre rutas
+
+   Angular's withViewTransitions() usa la View Transitions API del navegador.
+   Aquí definimos las animaciones CSS para cada tipo de ruta.
+
+   data: { animation: 'feed' } en la ruta → ::view-transition-name en el CSS
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/* Animación por defecto para todas las rutas */
+@keyframes slide-in-right {
+  from {
+    transform: translateX(24px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-out-left {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-24px);
+    opacity: 0;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Root transition (envuelve toda la página) */
+::view-transition-old(root) {
+  animation: 180ms ease-in slide-out-left;
+}
+
+::view-transition-new(root) {
+  animation: 240ms ease-out slide-in-right;
+}
+
+/* Feed — fade simple (ya estamos en casa) */
+::view-transition-old(feed),
+::view-transition-new(feed) {
+  animation: 200ms ease fade-in;
+}
+
+/* Perfil — desliza desde abajo (sensación de "expandir") */
+@keyframes profile-in {
+  from {
+    transform: translateY(16px) scale(0.98);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+::view-transition-new(profile) {
+  animation: 280ms cubic-bezier(0.22, 1, 0.36, 1) profile-in;
+}
+
+/* Mensajes — desliza desde la derecha */
+::view-transition-new(messages) {
+  animation: 220ms ease-out slide-in-right;
+}
+
+/* Respeto a preferencias del usuario */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none;
+  }
+}

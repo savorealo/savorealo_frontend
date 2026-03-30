@@ -1,10 +1,10 @@
-import { inject }                     from '@angular/core'
+import { inject } from '@angular/core'
 import { Router, type CanActivateFn } from '@angular/router'
-import { SupabaseService }            from '@core/services/supabase.service'
+import { SupabaseService } from '@core/services/supabase.service'
 
 export const authGuard: CanActivateFn = async () => {
   const supabase = inject(SupabaseService)
-  const router   = inject(Router)
+  const router = inject(Router)
 
   // getSession() refresca el token si ha expirado antes de responder
   const { data: { session } } = await supabase.client.auth.getSession()
@@ -16,3 +16,4 @@ export const authGuard: CanActivateFn = async () => {
     queryParams: { returnUrl: router.routerState.snapshot.url }
   })
 }
+

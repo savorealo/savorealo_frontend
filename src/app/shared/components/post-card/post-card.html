@@ -1,0 +1,72 @@
+<div class="flex flex-col gap-3 p-4 bg-white rounded-xl border border-gray-100">
+  <div class="flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <app-avatar [src]="post.author.photo" [name]="post.author.name" size="sm" />
+      <div class="flex flex-col">
+        <span class="text-sm font-medium text-gray-900">{{ post.author.name }}</span>
+        <span class="text-xs text-gray-400"
+          >@{{ post.author.username }} · {{ post.createdAt | timeAgo }}</span
+        >
+      </div>
+    </div>
+    <button
+      class="text-gray-400 hover:text-gray-600 transition-colors p-1"
+      (click)="onOptions.emit(post)"
+      aria-label="Opciones"
+    >
+      <i class="pi pi-ellipsis-h text-sm"></i>
+    </button>
+  </div>
+
+  <p class="text-sm text-gray-700 leading-relaxed">
+    {{ expanded ? post.content : (post.content | truncate: 180) }}
+    <button
+      *ngIf="post.content.length > 180"
+      class="text-orange-500 text-sm ml-1 hover:underline"
+      (click)="expanded = !expanded"
+    >
+      {{ expanded ? 'Ver menos' : 'Ver más' }}
+    </button>
+  </p>
+
+  <img
+    *ngIf="post.image"
+    [src]="post.image"
+    alt="Imagen del post"
+    class="w-full rounded-lg object-cover max-h-72"
+  />
+
+  <div class="flex items-center gap-4 pt-1 border-t border-gray-50">
+    <button
+      class="flex items-center gap-1.5 text-xs transition-colors"
+      [class]="post.liked ? 'text-orange-500' : 'text-gray-400 hover:text-orange-400'"
+      (click)="onLike.emit(post)"
+    >
+      <i [class]="post.liked ? 'pi pi-heart-fill' : 'pi pi-heart'" class="text-sm"></i>
+      {{ post.likes }}
+    </button>
+
+    <button
+      class="flex items-center gap-1.5 text-xs text-gray-400 hover:text-blue-400 transition-colors"
+      (click)="onComment.emit(post)"
+    >
+      <i class="pi pi-comment text-sm"></i>
+      {{ post.comments }}
+    </button>
+
+    <button
+      class="flex items-center gap-1.5 text-xs text-gray-400 hover:text-gray-600 transition-colors"
+      (click)="onShare.emit(post)"
+    >
+      <i class="pi pi-share-alt text-sm"></i>
+    </button>
+
+    <button
+      class="ml-auto flex items-center gap-1.5 text-xs transition-colors"
+      [class]="post.saved ? 'text-orange-500' : 'text-gray-400 hover:text-orange-400'"
+      (click)="onSave.emit(post)"
+    >
+      <i [class]="post.saved ? 'pi pi-bookmark-fill' : 'pi pi-bookmark'" class="text-sm"></i>
+    </button>
+  </div>
+</div>
