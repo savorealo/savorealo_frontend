@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core'
 import { AuthStore } from '@core/auth/auth.store';
 import { AppShell } from "@shared/components/app-shell/app-shell";
 import { Avatar } from "@shared/components/avatar/avatar";
-import { Button, ButtonDirective } from "primeng/button";
+import { Button } from "primeng/button";
 import { ImageModule } from 'primeng/image';
 import { TabsModule } from 'primeng/tabs';
 import { DrawerModule } from 'primeng/drawer';
@@ -20,7 +20,6 @@ import { EditProfileComponent } from "./edit-profile/edit-profile";
     TabsModule,
     DrawerModule,
     DialogModule,
-    ButtonDirective,
     EditProfileComponent
 ],
   templateUrl: './profile.html',
