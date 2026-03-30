@@ -18,8 +18,8 @@
               <p class="text-sm text-[--p-text-muted-color]">@{{ profile()?.username }}</p>
             </div>
             <div class="flex flex-col gap-2">
-                <p-button label="Edit profile" [outlined]="true" size="small" rounded/>
-                <p-button label="Log out" (onClick)="logOut()" [outlined]="true" size="small" rounded/>
+              <p-button label="Edit profile" (onClick)="showEditProfile.set(!showEditProfile())" [outlined]="true" size="small" rounded/>
+              <p-button label="Log out" (onClick)="logOut()" [outlined]="true" size="small" rounded/>
             </div>
           </div>
 
@@ -77,8 +77,9 @@
   </div>
 
   <!-- Drawer editar perfil -->
-  <p-drawer [(visible)]="editVisible" position="right">
-  </p-drawer>
+  <p-dialog [(visible)]="showEditProfile">
+    <app-edit-profile (visibleChange)="showEditProfile.set($event)" />
+  </p-dialog>
 
   <!-- Dialog seguidores -->
   <p-dialog [(visible)]="followersVisible" header="Seguidores">

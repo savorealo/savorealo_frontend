@@ -1,6 +1,5 @@
 import { Component, inject } from '@angular/core'
 import { ButtonModule } from 'primeng/button';
-import { Title } from "@shared/title/title";
 import { BehaviorSubject } from 'rxjs';
 import { NgClass } from "@angular/common";
 import { Login } from "./login/login";
@@ -9,6 +8,7 @@ import { Register } from "./register/register";
 import { AuthStore } from '@core/auth/auth.store';
 import { Router } from '@angular/router';
 import { EmojiRain } from "@features/emoji-rain/emoji-rain";
+import { Title } from '@shared/components/title/title';
 
 @Component({
   selector: 'app-auth',

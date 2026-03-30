@@ -2,10 +2,12 @@ import { computed, DestroyRef, inject, Injectable, signal } from '@angular/core'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { User as UserSupabase } from '@supabase/supabase-js';
-import { catchError, finalize, map, Observable, switchMap, tap, throwError } from 'rxjs';
+import { catchError, finalize, from, map, Observable, switchMap, tap, throwError } from 'rxjs';
 import { AuthService } from '@core/services/auth.service';
 import { UserService } from '@core/services/user/user.service';
 import { StorageService } from '@core/services/storage';
+import { SupabaseService } from '@core/services/supabase.service';
+import { ProfileService, UpdatePersonProfileInput } from '@core/services/user/profile-service';
 import { LoginUser, RegisterUser, User } from '@core/models/user/User';
 
 @Injectable({ providedIn: 'root' })
@@ -13,6 +15,8 @@ export class AuthStore {
   private authService    = inject(AuthService);
   private userService    = inject(UserService);
   private storageService = inject(StorageService);
+  private profileService = inject(ProfileService);
+  private supabase       = inject(SupabaseService); // para sacar el token de sesión
   private router         = inject(Router);
 
   private readonly _user    = signal<UserSupabase | null>(null);
@@ -33,15 +37,15 @@ export class AuthStore {
     ).subscribe(({ session }) => {
       this._user.set(session?.user ?? null);
       if (session?.user) {
-        // 1. Perfil básico inmediato desde user_metadata — sin esperar red
         this._profile.set(this.mapMetaToProfile(session.user));
-        // 2. Contadores desde public.users — cuando responda, actualiza el signal
         this.loadCounters(session.user.id);
       } else {
         this._profile.set(null);
       }
     });
   }
+
+  // ─── Auth ────────────────────────────────────────────────────────────────────
 
   login(user: LoginUser): Observable<void> {
     this._loading.set(true);
@@ -50,9 +54,7 @@ export class AuthStore {
       tap(({ data, error }) => {
         if (error) throw error;
         this._user.set(data.user!);
-        // Perfil básico inmediato
         this._profile.set(this.mapMetaToProfile(data.user!));
-        // Contadores async — actualiza el signal cuando responda
         this.loadCounters(data.user!.id);
       }),
       catchError(err => {
@@ -70,13 +72,10 @@ export class AuthStore {
 
     if (userData.photoProfile) {
       return this.storageService.uploadAvatar(userData.photoProfile).pipe(
-        switchMap(photoUrl =>
-          this.authService.register({ ...userData, photoUrl })
-        ),
+        switchMap(photoUrl => this.authService.register({ ...userData, photoUrl })),
         tap(({ error }) => { if (error) throw error; }),
         tap(({ data }) => {
           this._user.set(data.user!);
-          // Usuario nuevo — contadores a 0, no hace falta llamar al backend
           this._profile.set({
             ...this.mapMetaToProfile(data.user!),
             postsCount: 0, followersCount: 0, followingCount: 0,
@@ -119,15 +118,64 @@ export class AuthStore {
     });
   }
 
-  // ─── Helpers ────────────────────────────────────────────────────────────────
+  // ─── Perfil ──────────────────────────────────────────────────────────────────
 
   /**
-   * Perfil básico desde user_metadata — inmediato, sin red.
-   * Contadores a null hasta que loadCounters() responda.
+   * Actualiza el perfil del usuario autenticado.
+   *
+   * Flujo:
+   *   1. Saca el token de la sesión activa de Supabase
+   *   2. Llama al backend GraphQL con la mutación updateProfile
+   *   3. Parchea _profile signal con los nuevos datos (mantiene contadores)
+   *
+   * El trigger SQL trg_sync_profile_to_auth sincroniza raw_user_meta_data
+   * automáticamente, por lo que al recargar la sesión el perfil ya estará
+   * actualizado sin ninguna llamada extra.
+   *
+   * Uso en componente:
+   *   this.authStore.updateProfile({ bio: 'Nueva bio', location: 'Madrid' })
+   *     .subscribe({
+   *       next: () => this.router.navigate(['/profile']),
+   *       error: () => {} // el error ya está en authStore.error()
+   *     });
    */
+  updateProfile(input: UpdatePersonProfileInput): Observable<void> {
+    this._loading.set(true);
+    this._error.set(null);
+
+    // Sacamos el token igual que lo hace Supabase internamente
+    return from(this.supabase.client.auth.getSession()).pipe(
+      switchMap(({ data: { session } }) => {
+        if (!session?.access_token) {
+          throw new Error('No hay sesión activa');
+        }
+        return this.profileService.updateProfile(input, session.access_token);
+      }),
+      tap((updatedUser: User) => {
+        // Parcheamos solo los campos editables, mantenemos contadores intactos
+        this._profile.update(profile => profile ? {
+          ...profile,
+          username:   updatedUser.username   ?? profile.username,
+          fullName:   updatedUser.fullName   ?? profile.fullName,
+          photo_url:  updatedUser.photo_url  ?? profile.photo_url,
+          bio:        updatedUser.bio        ?? profile.bio,
+          location:   updatedUser.location   ?? profile.location,
+          birth_date: updatedUser.birth_date ?? profile.birth_date,
+        } : profile);
+      }),
+      catchError(err => {
+        this._error.set(err.message ?? 'Error al actualizar perfil');
+        return throwError(() => err);
+      }),
+      finalize(() => this._loading.set(false)),
+      map(() => void 0)
+    );
+  }
+
+  // ─── Helpers ─────────────────────────────────────────────────────────────────
+
   private mapMetaToProfile(user: UserSupabase): User {
     const meta = user.user_metadata ?? {};
-    console.log(meta)
     return {
       id:             user.id,
       email:          user.email ?? '',
@@ -143,10 +191,6 @@ export class AuthStore {
     };
   }
 
-  /**
-   * Carga solo los contadores desde public.users y parchea el signal.
-   * El resto del perfil ya estaba disponible desde user_metadata.
-   */
   private loadCounters(userId: string): void {
     this.userService.getUserById(userId).subscribe({
       next: ({ data }) => {

@@ -1,0 +1,138 @@
+<div class="ep-wrap">
+    <div class="ep-header">
+    <span class="ep-title">Editar perfil</span>
+    <button class="ep-close" (click)="onClose()">✕</button>
+    </div>
+
+    <!-- Avatar preview -->
+    <div class="ep-avatar-row">
+    <div class="ep-avatar">
+        @if (form().photoUrl) {
+        <img [src]="form().photoUrl" alt="Avatar" />
+        } @else {
+        <span class="ep-avatar-placeholder">
+            {{ (form().fullName || form().username || '?')[0].toUpperCase() }}
+        </span>
+        }
+    </div>
+    <div class="ep-avatar-info">
+        <span class="ep-avatar-name">{{ form().fullName || form().username || 'Tu nombre' }}</span>
+        <span class="ep-avatar-sub">@{{ form().username || 'username' }}</span>
+    </div>
+    </div>
+
+    <form (ngSubmit)="submit()" class="ep-form">
+
+    <div class="ep-field">
+        <label class="ep-label">Nombre de usuario</label>
+        <div class="ep-input-wrap">
+        <span class="ep-prefix">@</span>
+        <input
+            class="ep-input ep-input--prefix"
+            type="text"
+            [ngModel]="form().username"
+            (ngModelChange)="patch({ username: $event })"
+            name="username"
+            placeholder="tu_usuario"
+            autocomplete="off"
+        />
+        </div>
+    </div>
+
+    <div class="ep-field">
+        <label class="ep-label">Nombre completo</label>
+        <input
+        class="ep-input"
+        type="text"
+        [ngModel]="form().fullName"
+        (ngModelChange)="patch({ fullName: $event })"
+        name="fullName"
+        placeholder="Juan García"
+        />
+    </div>
+
+    <div class="ep-field">
+        <label class="ep-label">Foto de perfil <span class="ep-hint">(URL)</span></label>
+        <input
+        class="ep-input"
+        type="url"
+        [ngModel]="form().photoUrl"
+        (ngModelChange)="patch({ photoUrl: $event })"
+        name="photoUrl"
+        placeholder="https://..."
+        />
+    </div>
+
+    <div class="ep-field">
+        <label class="ep-label">
+        Bio
+        <span class="ep-counter" [class.ep-counter--warn]="bioLength() > 140">
+            {{ bioLength() }}/160
+        </span>
+        </label>
+        <textarea
+        class="ep-input ep-textarea"
+        [ngModel]="form().bio"
+        (ngModelChange)="patch({ bio: $event })"
+        name="bio"
+        placeholder="Cuéntanos algo sobre ti..."
+        maxlength="160"
+        rows="3"
+        ></textarea>
+    </div>
+
+    <div class="ep-field">
+        <label class="ep-label">Ubicación</label>
+        <input
+        class="ep-input"
+        type="text"
+        [ngModel]="form().location"
+        (ngModelChange)="patch({ location: $event })"
+        name="location"
+        placeholder="Madrid, España"
+        />
+    </div>
+
+    <div class="ep-field">
+        <label class="ep-label">Fecha de nacimiento</label>
+        <input
+        class="ep-input"
+        type="date"
+        [ngModel]="form().birthDate"
+        (ngModelChange)="patch({ birthDate: $event })"
+        name="birthDate"
+        />
+    </div>
+
+    @if (authStore.error()) {
+        <div class="ep-error">{{ authStore.error() }}</div>
+    }
+
+    @if (success()) {
+        <div class="ep-success">✓ Perfil actualizado correctamente</div>
+    }
+
+    <div class="ep-actions">
+        <button
+        type="button"
+        class="ep-btn ep-btn--secondary"
+        (click)="onClose()"
+        [disabled]="authStore.loading()"
+        >
+        Cancelar
+        </button>
+        <button
+        type="submit"
+        class="ep-btn ep-btn--primary"
+        [disabled]="authStore.loading() || !isDirty()"
+        >
+        @if (authStore.loading()) {
+            <span class="ep-spinner"></span> Guardando...
+        } @else {
+            Guardar cambios
+        }
+        </button>
+    </div>
+
+    </form>
+</div>
