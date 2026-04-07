@@ -44,3 +44,7 @@ __screenshots__/
 Thumbs.db
 
 
+
+# Environment variables
+.env
+.env.local
