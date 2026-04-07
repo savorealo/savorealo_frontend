@@ -1,0 +1,88 @@
+<app-shell>
+  <div class="flex h-full">
+
+    <!-- Columna principal -->
+    <div class="flex-1 overflow-y-auto px-8 py-6 max-w-9xl mx-auto w-full">
+
+      <!-- Cabecera del perfil -->
+      <div class="flex items-start gap-5 mb-6">
+
+        <!-- Avatar -->
+        <app-avatar [src]="profile()?.photo_url" size="xl" class="flex-shrink-0"/>
+
+        <!-- Info -->
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center justify-between gap-3 mb-1">
+            <div>
+              <h1 class="text-xl font-medium leading-tight">{{ profile()?.fullName }}</h1>
+              <p class="text-sm text-[--p-text-muted-color]">@{{ profile()?.username }}</p>
+            </div>
+            <div class="flex flex-col gap-2">
+              <p-button label="Edit profile" (onClick)="showEditProfile.set(!showEditProfile())" [outlined]="true" size="small" rounded/>
+              <p-button label="Log out" (onClick)="logOut()" [outlined]="true" size="small" rounded/>
+            </div>
+          </div>
+
+          <!-- Contadores -->
+          <div class="flex gap-5 mt-3 mb-3">
+            <button class="text-sm text-center hover:text-[--color-brand]" (click)="openFollowers()">
+              <span class="font-medium text-[--p-text-color]">{{ profile()?.followersCount }}</span>
+              <span class="text-[--p-text-muted-color] ml-1">seguidores</span>
+            </button>
+            <button class="text-sm text-center hover:text-[--color-brand]" (click)="openFollowing()">
+              <span class="font-medium text-[--p-text-color]">{{ profile()?.followingCount }}</span>
+              <span class="text-[--p-text-muted-color] ml-1">siguiendo</span>
+            </button>
+            <span class="text-sm">
+              <span class="font-medium text-[--p-text-color]">{{ profile()?.postsCount }}</span>
+              <span class="text-[--p-text-muted-color] ml-1">posts</span>
+            </span>
+          </div>
+
+          <!-- Bio -->
+          @if (profile()?.bio) {
+            <p class="text-sm text-[--p-text-color] leading-relaxed">{{ profile()?.bio }}</p>
+          }
+        </div>
+
+      </div>
+
+      <!-- Tabs -->
+      <p-tabs lazy value="0">
+        <p-tablist>
+          <p-tab value="0">Posts</p-tab>
+          <p-tab value="1">Guardados</p-tab>
+          <p-tab value="2">Me gusta</p-tab>
+        </p-tablist>
+        <p-tabpanels>
+          <p-tabpanel value="0">
+            <!-- grid recetas -->
+          </p-tabpanel>
+          <p-tabpanel value="1">
+            <!-- guardados -->
+          </p-tabpanel>
+          <p-tabpanel value="2">
+            <!-- likes -->
+          </p-tabpanel>
+        </p-tabpanels>
+      </p-tabs>
+
+    </div>
+
+    <!-- Aside derecho -->
+    <aside class="w-72 border-l border-[--p-content-border-color] p-6 flex-col gap-6 hidden lg:flex overflow-y-auto flex-shrink-0">
+      <!-- recetas destacadas, sugeridos -->
+    </aside>
+
+  </div>
+
+  <!-- Drawer editar perfil -->
+  <p-dialog [(visible)]="showEditProfile">
+    <app-edit-profile (visibleChange)="showEditProfile.set($event)" />
+  </p-dialog>
+
+  <!-- Dialog seguidores -->
+  <p-dialog [(visible)]="followersVisible" header="Seguidores">
+  </p-dialog>
+
+</app-shell>

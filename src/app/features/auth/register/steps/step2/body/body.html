@@ -1,0 +1,66 @@
+<div [formGroup]="registerForm()" class="flex flex-col gap-3 mx-auto" style="min-height: 16rem; max-width: 24rem">
+    <div class="grid grid-cols-2 gap-3">
+
+        <!-- Full name -->
+        <div class="field flex flex-col gap-1">
+            <input
+                pInputText
+                formControlName="fullName"
+                type="text"
+                placeholder="Full name"
+                [ngClass]="{'ng-invalid ng-dirty': isInvalid('fullName')}"
+                fluid
+            />
+            @if (isInvalid('fullName')) {
+                <p-message severity="error" size="small" variant="simple">Full name is required.</p-message>
+            }
+        </div>
+
+        <!-- Birth date -->
+        <div class="field flex flex-col gap-1">
+            <p-datepicker
+                formControlName="birthDate"
+                placeholder="Birth date"
+                [invalid]="isInvalid('birthDate')"
+                fluid
+            />
+            @if (isInvalid('birthDate')) {
+                <p-message severity="error" size="small" variant="simple">Birth date is required.</p-message>
+            }
+        </div>
+
+        <!-- Bio -->
+        <div class="field flex flex-col gap-1 col-span-2">
+            <textarea
+                pTextarea
+                formControlName="bio"
+                placeholder="Tell us something about yourself..."
+                rows="3"
+                style="resize: none;"
+                class="w-full"
+            ></textarea>
+        </div>
+
+    </div>
+    </div>
+
+    <div class="flex pt-6 justify-between">
+        <button
+            pButton
+            (click)="onGoBack()"
+            label="Next"
+            icon="pi pi-arrow-left"
+            iconPos="left"
+            style="background: var(--color-primary-300); border-color: var(--color-primary-300);"
+        >
+        </button>
+        <button
+            pButton
+            (click)="onSubmit()"
+            label="Next"
+            icon="pi pi-arrow-right"
+            iconPos="right"
+            style="background: var(--color-primary-300); border-color: var(--color-primary-300);"
+        >
+        </button>
+    </div>

@@ -12,7 +12,7 @@ export const authGuard: CanActivateFn = async () => {
   if (session) return true
 
   // Sin sesión — redirige a login preservando la URL destino
-  return router.createUrlTree(['/auth/login'], {
+  return router.createUrlTree(['/auth'], {
     queryParams: { returnUrl: router.routerState.snapshot.url }
   })
 }

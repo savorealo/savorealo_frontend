@@ -1,0 +1,59 @@
+<div class="shell">
+
+  <!-- ── Sidebar ─────────────────────────────────────────────── -->
+  <aside
+    class="sidebar"
+    [class.expanded]="expanded()"
+    (mouseenter)="expand()"
+    (mouseleave)="collapse()">
+
+    <!-- Logo -->
+    <div class="sidebar-logo">
+      <span class="logo-icon">C</span>
+      @if (expanded()) {
+        <span class="logo-text">LetMeCook</span>
+      }
+    </div>
+
+    <!-- Nav items -->
+    <nav class="sidebar-nav">
+      @for (item of navItems; track item.route) {
+        <a
+          [routerLink]="item.route"
+          routerLinkActive="active"
+          class="nav-item"
+          [class.nav-item--ai]="item.ai">
+          <i [class]="item.icon + ' nav-icon'" class="nav-icon"></i>
+          @if (expanded()) {
+            <span class="nav-label">{{ item.label }}</span>
+          }
+        </a>
+      }
+    </nav>
+
+    <!-- Bottom: usuario-->
+    <div class="sidebar-footer">
+      <a [routerLink]="'profile'" class="sidebar-user">
+        @if (profile()?.photo_url) {
+          <app-avatar size="lg" [src]="profile()?.photo_url " />
+        } @else {
+          <div class="user-avatar user-avatar--placeholder">
+            {{ profile()?.username?.charAt(0)?.toUpperCase() }}
+          </div>
+        }
+        @if (expanded()) {
+          <div class="user-info">
+            <span class="user-name">@{{ profile()?.username }}</span>
+          </div>
+        }
+      </a>
+    </div>
+
+  </aside>
+
+  <!-- Contenido principal -->
+  <main class="shell-content">
+    <ng-content/>
+  </main>
+
+</div>

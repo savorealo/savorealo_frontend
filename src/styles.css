@@ -1,56 +1,152 @@
-/* src/styles.css */
-@import "tailwindcss";
-@import "tailwindcss-primeui";
+/* 1. Primeicons PRIMERO (antes de todo, sin @layer) */
 @import "primeicons/primeicons.css";
 
+/* 2. Tailwind */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 3. Declarar el orden DESPUÉS de Tailwind */
 @layer base, primeng, theme, utilities;
 
-@theme {
-  --color-primary-50:  #eff6ff;
-  --color-primary-100: #dbeafe;
-  --color-primary-400: #60a5fa;
-  --color-primary-500: #3b82f6;
-  --color-primary-600: #2563eb;
-  --color-primary-900: #1e3a8a;
+/* ─────────────────────────────────────────────
+   4. Variables globales — fuera de cualquier @layer
+   Paleta: Cookealo / Let Me Cook
+   Primary  → Naranja fuego
+   Secondary→ Cúrcuma
+   AI accent→ Albahaca fresca
+   Neutral  → Crema tostada (warm, no cold slate)
+───────────────────────────────────────────── */
+:root {
+  /* — Naranja fuego (primary) — */
+  --color-primary-50:  #fff0e6;
+  --color-primary-100: #ffd5b5;
+  --color-primary-200: #ffab7a;
+  --color-primary-300: #ff8040;
+  --color-primary-400: #ff6b2b;
+  --color-primary-500: #ff5e1a;   /* ← brand color principal */
+  --color-primary-600: #e04800;
+  --color-primary-700: #c03800;
+  --color-primary-800: #962b00;
+  --color-primary-900: #7a1f00;
 
+  /* — Cúrcuma (secondary / accent ratings & badges) — */
+  --color-secondary-50:  #fef9ec;
+  --color-secondary-100: #fde9b8;
+  --color-secondary-200: #fbd07a;
+  --color-secondary-300: #f7c36a;
+  --color-secondary-400: #f5b030;
+  --color-secondary-500: #f5a623;  /* ← secundario principal */
+  --color-secondary-600: #d48a0a;
+  --color-secondary-700: #b87810;
+  --color-secondary-800: #8c5a08;
+  --color-secondary-900: #5c3a04;
+
+  /* — Albahaca fresca (AI accent) — */
+  --color-ai-50:  #e6f7ef;
+  --color-ai-100: #c3ecda;
+  --color-ai-200: #a8e6c3;
+  --color-ai-300: #72cc9e;
+  --color-ai-400: #4caf7a;
+  --color-ai-500: #3a9966;  /* ← AI principal */
+  --color-ai-600: #2e7d52;
+  --color-ai-700: #22603e;
+  --color-ai-800: #1a5035;
+  --color-ai-900: #103320;
+
+  /* — Neutros cálidos (warm cream, no cold slate) — */
   --color-surface-0:   #ffffff;
-  --color-surface-50:  #f8fafc;
-  --color-surface-100: #f1f5f9;
-  --color-surface-200: #e2e8f0;
-  --color-surface-400: #94a3b8;
-  --color-surface-500: #64748b;
-  --color-surface-700: #334155;
-  --color-surface-900: #0f172a;
+  --color-surface-50:  #fffaf5;   /* fondo app light */
+  --color-surface-100: #f5ede0;   /* card light */
+  --color-surface-200: #e8d8c4;   /* borde light */
+  --color-surface-300: #d4bfa6;
+  --color-surface-400: #b89880;
+  --color-surface-500: #8c7260;
+  --color-surface-600: #6b5448;
+  --color-surface-700: #4a3828;
+  --color-surface-800: #3d2e1f;   /* borde dark */
+  --color-surface-900: #2c2018;   /* card dark */
+  --color-surface-950: #1a1410;   /* fondo app dark */
 
+  /* — Tipografía — */
   --font-family-sans: 'Inter', system-ui, sans-serif;
+
+  /* — PrimeNG tokens (light mode) — */
+  --p-primary-color:        var(--color-primary-500);
+  --p-primary-color-text:   #ffffff;
+  --p-primary-50:           var(--color-primary-50);
+  --p-primary-100:          var(--color-primary-100);
+  --p-primary-200:          var(--color-primary-200);
+  --p-primary-300:          var(--color-primary-300);
+  --p-primary-400:          var(--color-primary-400);
+  --p-primary-500:          var(--color-primary-500);
+  --p-primary-600:          var(--color-primary-600);
+  --p-primary-700:          var(--color-primary-700);
+  --p-primary-800:          var(--color-primary-800);
+  --p-primary-900:          var(--color-primary-900);
+
+  --p-border-radius:        8px;
+  --p-surface-0:            var(--color-surface-0);
+  --p-surface-ground:       var(--color-surface-50);
+  --p-text-color:           var(--color-surface-950);
+  --p-text-muted-color:     var(--color-surface-500);
+  --p-content-border-color: var(--color-surface-200);
+
+  /* — Semánticos globales (útiles en toda la app) — */
+  --color-brand:      var(--color-primary-500);
+  --color-brand-soft: var(--color-primary-50);
+  --color-ai:         var(--color-ai-500);
+  --color-ai-soft:    var(--color-ai-50);
+  --color-rating:     var(--color-secondary-500);
 }
 
-@layer theme {
-  :root {
-    --p-primary-color:        var(--color-primary-500);
-    --p-primary-color-text:   #ffffff;
-    --p-border-radius:        8px;
-    --p-surface-0:            var(--color-surface-0);
-    --p-surface-ground:       var(--color-surface-50);
-    --p-text-color:           var(--color-surface-900);
-    --p-content-border-color: var(--color-surface-200);
-  }
+/* ─────────────────────────────────────────────
+   Dark mode
+───────────────────────────────────────────── */
+[data-theme="dark"] {
+  /* El naranja sube un tono para brillar sobre oscuro */
+  --p-primary-color:        var(--color-primary-400);
+  --p-primary-color-text:   #ffffff;
 
-  [data-theme="dark"] {
-    --p-primary-color:   #60a5fa;
-    --p-surface-0:       #0f172a;
-    --p-surface-ground:  #1e293b;
-    --p-text-color:      #f8fafc;
-  }
+  --p-surface-0:            var(--color-surface-900);
+  --p-surface-ground:       var(--color-surface-950);
+  --p-text-color:           var(--color-surface-50);
+  --p-text-muted-color:     var(--color-surface-400);
+  --p-content-border-color: var(--color-surface-800);
+
+  --color-brand:      var(--color-primary-400);
+  --color-brand-soft: var(--color-primary-900);
+  --color-ai:         var(--color-ai-400);
+  --color-ai-soft:    var(--color-ai-900);
+  --color-rating:     var(--color-secondary-400);
 }
 
+/* ─────────────────────────────────────────────
+   5. Reset dentro de @layer base
+───────────────────────────────────────────── */
 @layer base {
   *, *::before, *::after { box-sizing: border-box; }
+
   body {
     font-family: var(--font-family-sans);
-    background:  var(--color-surface-50);
-    color:       var(--color-surface-900);
+    background: var(--p-surface-ground);
+    color: var(--p-text-color);
     -webkit-font-smoothing: antialiased;
   }
-  input, button, select, textarea { font-family: inherit; font-size: inherit; }
+
+  input, button, select, textarea {
+    font-family: inherit;
+    font-size: inherit;
+  }
+
+  /* Scrollbar cálida — opcional, queda bonito */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-surface-300);
+    border-radius: 99px;
+  }
+  [data-theme="dark"] ::-webkit-scrollbar-thumb {
+    background: var(--color-surface-700);
+  }
 }

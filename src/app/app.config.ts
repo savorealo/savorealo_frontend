@@ -47,7 +47,7 @@ export const appConfig: ApplicationConfig = {
         preset: SocialPreset,
         options: {
           darkModeSelector: '[data-theme="dark"]',
-          cssLayer: { name: 'primeng', order: 'base, primeng, theme, utilities' },
+          //cssLayer: { name: 'primeng', order: 'base, primeng, theme, utilities' },
         },
       },
       ripple: true,
