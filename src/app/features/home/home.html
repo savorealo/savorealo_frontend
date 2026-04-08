@@ -1,14 +1,23 @@
 <app-shell>
   <div class="flex h-full">
-    <!-- feed central -->
-    <div class="flex-1 overflow-y-auto px-6 py-4">
-      <!-- posts -->
-       posts
+
+    <!-- ── Feed central ──────────────────────────────────────── -->
+    <div class="flex-1 overflow-y-auto px-4 py-6">
+      <div class="feed-list">
+        @for (post of posts; track post.id) {
+          <app-post-card [post]="post" />
+        }
+      </div>
     </div>
-    <!-- columna derecha sugeridos -->
-    <aside class="w-72 border-l border-[--p-content-border-color] p-4">
-      <!-- sugeridos, tendencias -->
-       <p>Sugeridos, tendencias...</p>
+
+    <!-- ── Columna derecha ────────────────────────────────────── -->
+    <aside class="w-72 shrink-0 border-l border-[--p-content-border-color] p-4 overflow-y-auto">
+      <h3 class="text-sm font-semibold text-[--p-text-muted-color] uppercase tracking-wider mb-3">Sugeridos</h3>
+      <p class="text-sm text-[--p-text-muted-color]">Próximamente...</p>
+
+      <h3 class="text-sm font-semibold text-[--p-text-muted-color] uppercase tracking-wider mt-6 mb-3">Tendencias</h3>
+      <p class="text-sm text-[--p-text-muted-color]">Próximamente...</p>
     </aside>
+
   </div>
 </app-shell>
