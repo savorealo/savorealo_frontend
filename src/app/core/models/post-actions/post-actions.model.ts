@@ -1,5 +1,3 @@
-// src/app/features/feed/models/post-actions.model.ts
-
 export interface Comment {
 	id: string
 	postId: string
@@ -9,13 +7,7 @@ export interface Comment {
 		name: string | null
 		photoUrl: string | null
 	}
-	text: string        // mismo nombre que en BD — ya es semántico
-	createdAt: Date
-}
-
-export interface Like {
-	userId: string
-	postId: string
+	text: string
 	createdAt: Date
 }
 
@@ -25,14 +17,7 @@ export interface SavedPost {
 	savedAt: Date
 }
 
-export interface ViewedPost {
-	userId: string
-	postId: string
-	viewedAt: Date
-}
-
-export interface Follow {
-	followerId: string
-	followedId: string
-	followedAt: Date
+export interface LikeResult {
+	liked: boolean
+	likesCount: number
 }

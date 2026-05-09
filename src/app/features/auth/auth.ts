@@ -5,7 +5,7 @@ import { NgClass } from "@angular/common";
 import { Login } from "./login/login";
 import { LoginUser, RegisterUser } from '@core/models/user/User';
 import { Register } from "./register/register";
-import { AuthStore } from '@core/auth/auth.store';
+import { AuthStore } from '@core/store/auth.store';
 import { Router } from '@angular/router';
 import { EmojiRain } from "@features/emoji-rain/emoji-rain";
 import { Title } from '@shared/components/title/title';
@@ -43,7 +43,7 @@ export class Auth {
 
   onLoginSubmit($event: LoginUser){
     this.authStore.login($event).subscribe({
-      next: ()=>{ 
+      next: ()=>{
         this.router.navigate(['/'])
       }
     })

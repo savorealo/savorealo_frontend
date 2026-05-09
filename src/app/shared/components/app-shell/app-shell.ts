@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core'
 import { RouterLink } from '@angular/router'
-import { AuthStore } from '@core/auth/auth.store'
+import { AuthStore } from '@core/store/auth.store'
 import { Avatar } from "../avatar/avatar";
 
 @Component({

@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core'
-import { AuthStore } from '@core/auth/auth.store'
+import { AuthStore } from '@core/store/auth.store'
 import { Router } from '@angular/router';
 import { AppShell } from "@shared/components/app-shell/app-shell";
 

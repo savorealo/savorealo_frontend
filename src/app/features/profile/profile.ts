@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core'
-import { AuthStore } from '@core/auth/auth.store';
+import { AuthStore } from '@core/store/auth.store';
 import { AppShell } from "@shared/components/app-shell/app-shell";
 import { Avatar } from "@shared/components/avatar/avatar";
 import { Button } from "primeng/button";

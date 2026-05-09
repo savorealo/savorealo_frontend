@@ -29,7 +29,7 @@ export interface RecipeDto {
 	id: string
 	name: string
 	description: string | null
-	steps: { step: number; text: string }[]  // jsonb
+	steps: { step: number; text: string }[]  // json
 	time_required: number | null                      // minutos
 	estimated_cost: number | null
 	servings: number | null

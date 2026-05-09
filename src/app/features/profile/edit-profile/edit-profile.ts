@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { AuthStore } from '@core/auth/auth.store';
+import { AuthStore } from '@core/store/auth.store';
 import { UpdatePersonProfileInput } from '@core/services/user/profile-service';
 
 @Component({
