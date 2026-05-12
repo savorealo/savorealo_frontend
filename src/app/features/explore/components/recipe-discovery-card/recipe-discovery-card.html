@@ -1,0 +1,50 @@
+<article class="group relative min-h-[250px] overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] shadow-[0_18px_48px_rgba(0,0,0,0.25)]">
+	<img
+		[ngSrc]="imageUrl()"
+		[alt]="title()"
+		fill
+		sizes="(max-width: 768px) 100vw, 360px"
+		class="object-cover transition duration-500 group-hover:scale-105"
+	/>
+	<div class="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent"></div>
+
+	@if (isVideo()) {
+		<div class="absolute left-4 top-4 grid size-9 place-items-center rounded-full bg-black/60 text-white backdrop-blur">
+			<i class="pi pi-play"></i>
+		</div>
+		<span class="absolute right-4 top-4 rounded-full bg-black/70 px-2 py-1 text-xs font-black text-white">1:25</span>
+	} @else {
+		<button
+			type="button"
+			class="absolute right-4 top-4 grid size-9 place-items-center rounded-full bg-black/45 text-white backdrop-blur transition hover:bg-orange-600"
+			[class.text-orange-300]="post().saved"
+			(click)="save.emit(post())"
+			aria-label="Guardar receta"
+		>
+			<i [class]="post().saved ? 'pi pi-bookmark-fill' : 'pi pi-bookmark'"></i>
+		</button>
+	}
+
+	<div class="absolute inset-x-0 bottom-0 grid gap-3 p-4">
+		<div class="flex items-center justify-between gap-3">
+			<div class="flex min-w-0 items-center gap-2">
+				<img
+					[src]="post().author.photoUrl || '/assets/icons/new_logo.png'"
+					alt=""
+					class="size-7 rounded-full border border-white/25 object-cover"
+				/>
+				<span class="truncate text-xs font-bold text-white">{{ authorName() }}</span>
+				<i class="pi pi-check-circle text-[0.7rem] text-sky-400"></i>
+			</div>
+			<span class="rounded-full bg-black/70 px-3 py-1 text-xs font-black text-white">{{ minutes() }} min</span>
+		</div>
+
+		<h2 class="line-clamp-2 text-lg font-black leading-tight text-white">{{ title() }}</h2>
+
+		<footer class="flex items-center gap-4 text-xs font-bold text-white/85">
+			<span class="inline-flex items-center gap-1"><i class="pi pi-heart-fill text-red-500"></i>{{ post().likesCount }}</span>
+			<span class="inline-flex items-center gap-1"><i class="pi pi-comment"></i>{{ post().commentsCount }}</span>
+			<span class="ml-auto rounded-full bg-white/10 px-3 py-1 text-orange-400">#{{ tag() }}</span>
+		</footer>
+	</div>
+</article>

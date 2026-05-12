@@ -1,51 +1,62 @@
-<div class="flex flex-col items-center gap-4 mx-auto" style="min-height: 16rem; max-width: 24rem">
-    <div class="flex flex-col items-center gap-3 pt-6">
+<div class="mx-auto grid w-full max-w-xl place-items-center gap-5">
+  <button
+    type="button"
+    class="group relative grid size-36 place-items-center overflow-hidden rounded-full border-2 border-dashed border-orange-300 bg-orange-50 transition hover:border-orange-500 hover:bg-orange-100"
+    (click)="fileInput.click()"
+    aria-label="Elegir foto de perfil"
+  >
+    @if (previewUrl) {
+      <img [src]="previewUrl" class="size-full object-cover" alt="Vista previa de la foto de perfil" />
+    } @else {
+      <span class="grid place-items-center gap-2 text-orange-500">
+        <i class="pi pi-camera text-3xl"></i>
+        <span class="text-xs font-black uppercase tracking-wide">Subir foto</span>
+      </span>
+    }
+    <span class="absolute inset-0 grid place-items-center bg-black/35 text-white opacity-0 transition group-hover:opacity-100">
+      <i class="pi pi-pencil text-xl"></i>
+    </span>
+  </button>
 
-        <!-- Avatar circle -->
-        <div
-        class="w-28 h-28 rounded-full border-2 border-dashed border-surface-300 flex items-center justify-center cursor-pointer overflow-hidden relative transition-all hover:border-primary"
-        (click)="fileInput.click()"
-        >
-        @if (previewUrl) {
-            <img [src]="previewUrl" class="w-full h-full object-cover" alt="Profile preview" />
-        } @else {
-            <i class="pi pi-camera text-3xl text-surface-400"></i>
-        }
-        <div class="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity rounded-full">
-            <i class="pi pi-pencil text-white text-lg"></i>
-        </div>
-        </div>
+  <input
+    #fileInput
+    type="file"
+    accept="image/jpeg,image/png,image/webp"
+    class="hidden"
+    (change)="onPhotoSelected($event)"
+  />
 
-        <input
-        #fileInput
-        type="file"
-        accept="image/jpeg,image/png,image/webp"
-        style="display:none"
-        (change)="onPhotoSelected($event)"
-        />
+  <p class="max-w-sm text-center text-sm font-semibold leading-6 text-black/55">
+    Anade una foto para que otros cocineros te reconozcan. JPG, PNG o WEBP, maximo 2MB. Es opcional.
+  </p>
 
-        <p class="text-sm text-surface-500 text-center">
-        Click to choose a profile photo<br/>
-        <span class="text-xs text-surface-400">JPG, PNG, WEBP · max 2MB · optional</span>
-        </p>
-
-    </div>
-    </div>
-
-    <div class="flex pt-6 justify-between">
+  @if (previewUrl) {
     <button
-        pButton
-        (click)="onGoBack()"
-        label="Back"
-        icon="pi pi-arrow-left"
-        style="background: var(--color-primary-300); border-color: var(--color-primary-300);"
-    ></button>
-    <button
-        pButton
-        (click)="onSubmit()"
-        label="Create account"
-        icon="pi pi-check"
-        iconPos="right"
-        style="background: var(--color-primary-300); border-color: var(--color-primary-300);"
-    ></button>
+      type="button"
+      class="rounded-full border border-black/10 bg-white px-4 py-2 text-xs font-black text-black/60 transition hover:text-red-500"
+      (click)="clearPhoto()"
+    >
+      Quitar imagen
+    </button>
+  }
+</div>
+
+<div class="mx-auto mt-6 flex w-full max-w-xl items-center justify-between gap-3">
+  <button
+    pButton
+    type="button"
+    (click)="onGoBack()"
+    label="Atras"
+    icon="pi pi-arrow-left"
+    class="h-12 rounded-2xl border border-black/10 bg-white px-5 text-sm font-black text-black shadow-sm"
+  ></button>
+  <button
+    pButton
+    type="button"
+    (click)="onSubmit()"
+    label="Crear cuenta"
+    icon="pi pi-check"
+    iconPos="right"
+    class="h-12 rounded-2xl border-0 bg-gradient-to-r from-orange-500 to-orange-600 px-6 text-sm font-black text-white shadow-lg shadow-orange-500/25"
+  ></button>
 </div>

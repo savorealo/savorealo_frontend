@@ -22,13 +22,13 @@ import { LoginUser } from '@core/models/user/User';
   ],
 
   templateUrl: './login.html',
-  styleUrl: './login.scss',
 })
 export class Login {
   private formBuilder = inject(FormBuilder)
   formSubmitted: boolean = false;
   toRegistereEvent = output<boolean>()
   onLoginSubmit = output<LoginUser>()
+  onGoogleLogin = output<void>()
 
 
   loginForm: FormGroup = this.formBuilder.group({
@@ -56,5 +56,9 @@ export class Login {
       this.loginForm.reset();
       this.formSubmitted = false;
     }
+  }
+
+  loginWithGoogle() {
+    this.onGoogleLogin.emit();
   }
 }

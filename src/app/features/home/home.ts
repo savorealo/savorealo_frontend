@@ -1,26 +1,19 @@
 import { Component, inject, OnInit } from '@angular/core'
-import { AuthStore } from '@core/store/auth.store'
-import { Router } from '@angular/router';
 import { AppShell } from "@shared/components/app-shell/app-shell";
+import { FeedStore } from '@core/store/feed.store';
+import { PostCard } from '@shared/components/post-card/post-card';
 
 @Component({
   selector: 'app-home',
-  imports: [AppShell],
+  imports: [AppShell, PostCard],
   templateUrl: './home.html',
-  styleUrl: './home.scss',
 })
 export class Home implements OnInit {
+  feedStore = inject(FeedStore)
 
-  private authStore = inject(AuthStore);
-  private router = inject(Router)
-  currentUSer = this.authStore.profile
-
-  ngOnInit(): void {
-    console.log(this.currentUSer())
-  }
-
-  logout(){
-    this.authStore.logout()
-    this.router.navigate(["/auth"])
+  ngOnInit() {
+    if (this.feedStore.posts().length === 0) {
+      this.feedStore.loadHomeFeed()
+    }
   }
 }

@@ -1,88 +1,227 @@
 <app-shell>
-  <div class="flex h-full">
+  <main class="min-h-dvh bg-[#f6f6f6] px-4 py-5 sm:px-6 lg:px-8">
+    <div class="mx-auto grid max-w-[1280px] gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">
+      <section class="min-w-0">
+        <div class="overflow-hidden rounded-[2rem] border border-black/5 bg-white shadow-[0_18px_60px_rgba(20,20,20,0.08)]">
+          <div class="relative min-h-52 bg-black px-6 py-8 text-white sm:px-8">
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_25%_20%,rgba(255,143,39,0.42),transparent_20rem),linear-gradient(135deg,#050505,#111_62%,#2a1204)]"></div>
+            <div class="absolute right-8 top-8 hidden size-28 rounded-full bg-orange-500/15 blur-3xl sm:block"></div>
 
-    <!-- Columna principal -->
-    <div class="flex-1 overflow-y-auto px-8 py-6 max-w-9xl mx-auto w-full">
+            <div class="relative z-10 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+              <div class="flex flex-col gap-5 sm:flex-row sm:items-end">
+                <div class="rounded-full border-4 border-white bg-white p-1 shadow-2xl">
+                  <app-avatar [src]="profile()?.photo_url" [name]="displayName()" size="xl" />
+                </div>
 
-      <!-- Cabecera del perfil -->
-      <div class="flex items-start gap-5 mb-6">
+                <div class="min-w-0">
+                  <span class="inline-flex rounded-full bg-orange-500 px-3 py-1 text-xs font-black uppercase tracking-wide text-white">
+                    Perfil de cocina
+                  </span>
+                  <h1 class="mt-3 text-4xl font-black tracking-tight sm:text-5xl">{{ displayName() }}</h1>
+                  <div class="mt-2 flex flex-wrap items-center gap-3 text-sm font-semibold text-white/65">
+                    <span>@{{ username() }}</span>
+                    <span class="hidden size-1 rounded-full bg-white/30 sm:inline-block"></span>
+                    <span>{{ location() }}</span>
+                    <span class="hidden size-1 rounded-full bg-white/30 sm:inline-block"></span>
+                    <span>{{ joinedLabel() }}</span>
+                  </div>
+                </div>
+              </div>
 
-        <!-- Avatar -->
-        <app-avatar [src]="profile()?.photo_url" size="xl" class="flex-shrink-0"/>
-
-        <!-- Info -->
-        <div class="flex-1 min-w-0">
-          <div class="flex items-center justify-between gap-3 mb-1">
-            <div>
-              <h1 class="text-xl font-medium leading-tight">{{ profile()?.fullName }}</h1>
-              <p class="text-sm text-[--p-text-muted-color]">@{{ profile()?.username }}</p>
-            </div>
-            <div class="flex flex-col gap-2">
-              <p-button label="Edit profile" (onClick)="showEditProfile.set(!showEditProfile())" [outlined]="true" size="small" rounded/>
-              <p-button label="Log out" (onClick)="logOut()" [outlined]="true" size="small" rounded/>
+              <div class="flex flex-wrap gap-3">
+                <button
+                  type="button"
+                  class="inline-flex h-11 items-center gap-2 rounded-full bg-white px-5 text-sm font-black text-black transition hover:bg-orange-50"
+                  (click)="showEditProfile.set(true)"
+                >
+                  <i class="pi pi-pencil"></i>
+                  Editar perfil
+                </button>
+                <a
+                  routerLink="/settings"
+                  class="inline-flex h-11 items-center gap-2 rounded-full border border-white/15 px-5 text-sm font-black text-white transition hover:bg-white/10"
+                >
+                  <i class="pi pi-cog"></i>
+                  Ajustes
+                </a>
+              </div>
             </div>
           </div>
 
-          <!-- Contadores -->
-          <div class="flex gap-5 mt-3 mb-3">
-            <button class="text-sm text-center hover:text-[--color-brand]" (click)="openFollowers()">
-              <span class="font-medium text-[--p-text-color]">{{ profile()?.followersCount }}</span>
-              <span class="text-[--p-text-muted-color] ml-1">seguidores</span>
-            </button>
-            <button class="text-sm text-center hover:text-[--color-brand]" (click)="openFollowing()">
-              <span class="font-medium text-[--p-text-color]">{{ profile()?.followingCount }}</span>
-              <span class="text-[--p-text-muted-color] ml-1">siguiendo</span>
-            </button>
-            <span class="text-sm">
-              <span class="font-medium text-[--p-text-color]">{{ profile()?.postsCount }}</span>
-              <span class="text-[--p-text-muted-color] ml-1">posts</span>
-            </span>
-          </div>
+          <div class="grid gap-6 px-6 py-6 sm:px-8 lg:grid-cols-[minmax(0,1fr)_280px]">
+            <div class="min-w-0">
+              <p class="max-w-3xl text-base font-semibold leading-7 text-black/65">{{ bio() }}</p>
 
-          <!-- Bio -->
-          @if (profile()?.bio) {
-            <p class="text-sm text-[--p-text-color] leading-relaxed">{{ profile()?.bio }}</p>
-          }
+              <div class="mt-6 grid grid-cols-3 overflow-hidden rounded-3xl border border-black/5 bg-[#fafafa]">
+                <div class="px-4 py-5">
+                  <span class="block text-2xl font-black text-black">{{ profile()?.followersCount ?? 0 }}</span>
+                  <span class="text-xs font-black uppercase tracking-wide text-black/40">Seguidores</span>
+                </div>
+                <div class="border-x border-black/5 px-4 py-5">
+                  <span class="block text-2xl font-black text-black">{{ profile()?.followingCount ?? 0 }}</span>
+                  <span class="text-xs font-black uppercase tracking-wide text-black/40">Siguiendo</span>
+                </div>
+                <div class="px-4 py-5">
+                  <span class="block text-2xl font-black text-black">{{ postsCount() }}</span>
+                  <span class="text-xs font-black uppercase tracking-wide text-black/40">Posts</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="rounded-3xl border border-orange-100 bg-orange-50 p-5">
+              <div class="flex items-start gap-3">
+                <span class="grid size-11 shrink-0 place-items-center rounded-2xl bg-white text-orange-500 shadow-sm">
+                  <i class="pi pi-chart-line"></i>
+                </span>
+                <div>
+                  <h2 class="text-sm font-black text-black">Impulsa tu perfil</h2>
+                  <p class="mt-1 text-sm font-semibold leading-6 text-black/55">Completa tu bio, sube foto y publica recetas para mejorar tu descubrimiento.</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
-      </div>
+        <div class="mt-6 rounded-[1.75rem] border border-black/5 bg-white p-4 shadow-[0_14px_40px_rgba(20,20,20,0.06)] sm:p-6">
+          <p-tabs lazy value="0">
+            <p-tablist>
+              <p-tab value="0">Posts</p-tab>
+              <p-tab value="1">Guardados</p-tab>
+              <p-tab value="2">Me gusta</p-tab>
+            </p-tablist>
+            <p-tabpanels>
+              <p-tabpanel value="0">
+                <!-- Loading skeletons -->
+                @if (loadingPosts()) {
+                  <div class="grid gap-4 pt-4 sm:grid-cols-2 xl:grid-cols-3">
+                    @for (item of [1,2,3,4,5,6]; track item) {
+                      <div class="overflow-hidden rounded-3xl border border-black/5 bg-[#fafafa]">
+                        <div class="aspect-[4/3] animate-pulse bg-surface-100"></div>
+                        <div class="grid gap-2 p-4">
+                          <div class="h-4 w-3/4 animate-pulse rounded-full bg-surface-100"></div>
+                          <div class="h-3 w-1/3 animate-pulse rounded-full bg-surface-100"></div>
+                        </div>
+                      </div>
+                    }
+                  </div>
+                }
 
-      <!-- Tabs -->
-      <p-tabs lazy value="0">
-        <p-tablist>
-          <p-tab value="0">Posts</p-tab>
-          <p-tab value="1">Guardados</p-tab>
-          <p-tab value="2">Me gusta</p-tab>
-        </p-tablist>
-        <p-tabpanels>
-          <p-tabpanel value="0">
-            <!-- grid recetas -->
-          </p-tabpanel>
-          <p-tabpanel value="1">
-            <!-- guardados -->
-          </p-tabpanel>
-          <p-tabpanel value="2">
-            <!-- likes -->
-          </p-tabpanel>
-        </p-tabpanels>
-      </p-tabs>
+                <!-- Real posts -->
+                @if (!loadingPosts() && posts().length > 0) {
+                  <div class="grid gap-4 pt-4 sm:grid-cols-2 xl:grid-cols-3">
+                    @for (post of posts(); track post.id) {
+                      <a [routerLink]="['/post', post.id]" class="group overflow-hidden rounded-3xl border border-black/5 bg-[#fafafa] transition hover:-translate-y-0.5 hover:shadow-xl">
+                        @if (post.media[0]; as media) {
+                          <div class="relative aspect-[4/3] overflow-hidden">
+                            @if (media.type === 'VIDEO') {
+                              <video [src]="media.url" class="size-full object-cover" muted></video>
+                              <span class="absolute left-3 top-3 grid size-7 place-items-center rounded-full bg-black/65 text-white">
+                                <i class="pi pi-play text-xs"></i>
+                              </span>
+                            } @else {
+                              <img [ngSrc]="media.url" fill class="object-cover transition duration-500 group-hover:scale-105" [alt]="post.title ?? ''" />
+                            }
+                            @if (post.recipe?.timeRequired) {
+                              <span class="absolute right-3 top-3 rounded-full bg-black/65 px-3 py-1 text-xs font-black text-white">
+                                {{ post.recipe!.timeRequired }} min
+                              </span>
+                            }
+                          </div>
+                        } @else {
+                          <div class="flex aspect-[4/3] items-center justify-center bg-orange-50 p-4">
+                            <p class="line-clamp-5 text-center text-sm font-semibold text-black/65">{{ post.description }}</p>
+                          </div>
+                        }
+                        <div class="p-4">
+                          <h3 class="line-clamp-2 text-base font-black text-black">{{ post.title || post.description }}</h3>
+                          <div class="mt-3 flex items-center gap-4 text-sm font-bold text-black/55">
+                            <span><i class="pi pi-heart-fill text-red-500"></i> {{ post.likesCount }}</span>
+                            <span><i class="pi pi-comment"></i> {{ post.commentsCount }}</span>
+                          </div>
+                        </div>
+                      </a>
+                    }
+                  </div>
+                }
 
+                <!-- Empty state -->
+                @if (!loadingPosts() && posts().length === 0) {
+                  <div class="grid min-h-56 place-items-center rounded-3xl bg-[#fafafa] p-8 text-center">
+                    <div>
+                      <i class="pi pi-pencil text-3xl text-orange-500"></i>
+                      <h3 class="mt-3 text-lg font-black text-black">Aun no has publicado nada</h3>
+                      <p class="mt-1 text-sm font-semibold text-black/50">Comparte tu primera receta con la comunidad.</p>
+                    </div>
+                  </div>
+                }
+              </p-tabpanel>
+              <p-tabpanel value="1">
+                <div class="grid min-h-56 place-items-center rounded-3xl bg-[#fafafa] p-8 text-center">
+                  <div>
+                    <i class="pi pi-bookmark text-3xl text-orange-500"></i>
+                    <h3 class="mt-3 text-lg font-black text-black">Tus recetas guardadas apareceran aqui</h3>
+                    <p class="mt-1 text-sm font-semibold text-black/50">Guarda ideas desde el feed o Explorar para cocinarlas despues.</p>
+                  </div>
+                </div>
+              </p-tabpanel>
+              <p-tabpanel value="2">
+                <div class="grid min-h-56 place-items-center rounded-3xl bg-[#fafafa] p-8 text-center">
+                  <div>
+                    <i class="pi pi-heart text-3xl text-orange-500"></i>
+                    <h3 class="mt-3 text-lg font-black text-black">Aqui veras lo que te gusta</h3>
+                    <p class="mt-1 text-sm font-semibold text-black/50">Las recetas marcadas con like se organizan en este espacio.</p>
+                  </div>
+                </div>
+              </p-tabpanel>
+            </p-tabpanels>
+          </p-tabs>
+        </div>
+      </section>
+
+      <aside class="hidden gap-5 xl:grid">
+        <section class="rounded-[1.75rem] border border-black/5 bg-white p-5 shadow-[0_14px_40px_rgba(20,20,20,0.06)]">
+          <h2 class="text-lg font-black text-black">Insignias</h2>
+          <div class="mt-4 grid gap-3">
+            @for (badge of badges; track badge.label) {
+              <div class="flex items-start gap-3 rounded-2xl bg-[#fafafa] p-3">
+                <span class="grid size-10 shrink-0 place-items-center rounded-2xl bg-orange-50 text-orange-500">
+                  <i [class]="badge.icon"></i>
+                </span>
+                <div>
+                  <p class="text-sm font-black text-black">{{ badge.label }}</p>
+                  <p class="mt-0.5 text-xs font-semibold leading-5 text-black/45">{{ badge.description }}</p>
+                </div>
+              </div>
+            }
+          </div>
+        </section>
+
+        <section class="rounded-[1.75rem] border border-black/5 bg-white p-5 shadow-[0_14px_40px_rgba(20,20,20,0.06)]">
+          <h2 class="text-lg font-black text-black">Cuenta</h2>
+          <div class="mt-4 grid gap-2">
+            <a routerLink="/settings" class="flex items-center justify-between rounded-2xl px-3 py-3 text-sm font-black text-black transition hover:bg-orange-50">
+              Ajustes
+              <i class="pi pi-chevron-right text-xs text-black/35"></i>
+            </a>
+            <button type="button" class="flex items-center justify-between rounded-2xl px-3 py-3 text-left text-sm font-black text-red-500 transition hover:bg-red-50" (click)="logOut()">
+              Cerrar sesion
+              <i class="pi pi-sign-out text-xs"></i>
+            </button>
+          </div>
+        </section>
+      </aside>
     </div>
 
-    <!-- Aside derecho -->
-    <aside class="w-72 border-l border-[--p-content-border-color] p-6 flex-col gap-6 hidden lg:flex overflow-y-auto flex-shrink-0">
-      <!-- recetas destacadas, sugeridos -->
-    </aside>
+    <p-dialog
+      [visible]="showEditProfile()"
+      (visibleChange)="showEditProfile.set($event)"
+      [modal]="true"
+      [dismissableMask]="true"
+      [style]="{ width: 'min(92vw, 520px)' }"
+      [showHeader]="false"
+    >
+      <app-edit-profile (visibleChange)="showEditProfile.set($event)" />
+    </p-dialog>
 
-  </div>
-
-  <!-- Drawer editar perfil -->
-  <p-dialog [(visible)]="showEditProfile">
-    <app-edit-profile (visibleChange)="showEditProfile.set($event)" />
-  </p-dialog>
-
-  <!-- Dialog seguidores -->
-  <p-dialog [(visible)]="followersVisible" header="Seguidores">
-  </p-dialog>
-
+  </main>
 </app-shell>

@@ -1,5 +1,6 @@
-import { ApplicationConfig } from '@angular/core'
-import { provideZonelessChangeDetection, inject } from '@angular/core'
+import { ApplicationConfig, isDevMode } from '@angular/core'
+import { provideZonelessChangeDetection } from '@angular/core'
+import { provideServiceWorker } from '@angular/service-worker'
 import { provideRouter, withViewTransitions, withComponentInputBinding } from '@angular/router'
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http'
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser'
@@ -13,9 +14,6 @@ import { authInterceptor } from '@core/interceptors/auth.interceptor'
 import { ENVIRONMENT } from '@core/tokens/environment.token'
 import { environment } from '../environments/environment'
 import { provideApollo } from 'apollo-angular'
-import { HttpLink } from 'apollo-angular/http'
-import { InMemoryCache } from '@apollo/client'
-import { APOLLO_OPTIONS } from 'apollo-angular'
 import { apolloOptionsFactory } from '@core/services/apollo.provider'
 
 const SocialPreset = definePreset(Aura, {
@@ -53,17 +51,10 @@ export const appConfig: ApplicationConfig = {
       ripple: true,
     }),
     { provide: ENVIRONMENT, useValue: environment },
-    provideHttpClient(),
-    provideApollo(() => {
-      const httpLink = inject(HttpLink);
-      const env = inject(ENVIRONMENT);
-
-      return {
-        link: httpLink.create({ uri: env.apiUrl }),
-        cache: new InMemoryCache(),
-        connectToDevTools: !env.production,
-      }
+    provideApollo(apolloOptionsFactory),
+    provideServiceWorker('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000',
     }),
-    { provide: APOLLO_OPTIONS, useFactory: apolloOptionsFactory },
   ],
 }

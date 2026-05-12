@@ -1,0 +1,170 @@
+<section class="mx-auto w-full max-w-[500px] overflow-hidden px-2 py-4">
+	<div class="flex gap-4 overflow-x-auto pb-2 scrollbar-none">
+
+		<!-- Add story button -->
+		<div class="relative flex shrink-0 flex-col items-center gap-1.5">
+			<button
+				type="button"
+				class="relative grid size-14 shrink-0 place-items-center rounded-full border-2 border-dashed border-black/20 bg-white transition hover:border-orange-400 hover:bg-orange-50"
+				(click)="menuOpen.set(!menuOpen())"
+				aria-label="Añadir historia"
+			>
+				<i class="pi pi-plus text-lg text-black/40"></i>
+			</button>
+			<span class="text-[0.65rem] font-black text-black/40">Tu historia</span>
+
+			<!-- Dropdown menu -->
+			@if (menuOpen()) {
+				<div class="absolute left-0 top-16 z-20 w-44 overflow-hidden rounded-2xl border border-black/5 bg-white shadow-xl">
+					<label class="flex cursor-pointer items-center gap-3 px-4 py-3 text-sm font-semibold text-black transition hover:bg-orange-50">
+						<i class="pi pi-image text-orange-500"></i>
+						Galería
+						<input type="file" accept="image/*,video/*" class="sr-only" (change)="onFileSelected($event)" />
+					</label>
+					<button type="button" class="flex w-full items-center gap-3 px-4 py-3 text-sm font-semibold text-black transition hover:bg-orange-50" (click)="openCamera()">
+						<i class="pi pi-camera text-orange-500"></i>
+						Cámara
+					</button>
+				</div>
+				<!-- Click outside to close -->
+				<div class="fixed inset-0 z-10" (click)="menuOpen.set(false)"></div>
+			}
+		</div>
+
+		<!-- Loading skeletons -->
+		@if (store.loading()) {
+			@for (i of [1,2,3,4,5]; track i) {
+				<div class="flex shrink-0 flex-col items-center gap-1.5">
+					<div class="size-14 animate-pulse rounded-full bg-surface-100"></div>
+					<div class="h-2 w-10 animate-pulse rounded-full bg-surface-100"></div>
+				</div>
+			}
+		}
+
+		<!-- Story groups -->
+		@for (group of store.groups(); track group.userId; let i = $index) {
+			<button
+				type="button"
+				class="flex shrink-0 flex-col items-center gap-1.5 focus:outline-none"
+				[attr.aria-label]="group.displayName"
+				(click)="openStory(i)"
+			>
+				<span
+					class="grid size-14 place-items-center rounded-full p-[2px] transition hover:scale-105"
+					[class]="group.hasUnviewed ? 'grid size-14 place-items-center rounded-full p-[2px] transition hover:scale-105 bg-gradient-to-tr from-orange-400 to-yellow-300' : 'grid size-14 place-items-center rounded-full p-[2px] transition hover:scale-105 bg-surface-200'"
+				>
+					<span class="grid size-full place-items-center rounded-full bg-white p-[2px]">
+						<app-avatar [src]="group.avatarUrl" [name]="group.displayName" size="md" class="block size-full rounded-full" />
+					</span>
+				</span>
+				<span [class]="group.hasUnviewed ? 'max-w-[3.5rem] truncate text-[0.65rem] font-black text-black' : 'max-w-[3.5rem] truncate text-[0.65rem] font-black text-black/40'">
+					{{ group.displayName }}
+				</span>
+			</button>
+		}
+
+		<!-- Empty state -->
+		@if (!store.loading() && store.groups().length === 0) {
+			<p class="flex items-center text-sm font-semibold text-black/35">Sin historias activas</p>
+		}
+	</div>
+</section>
+
+<!-- Camera modal -->
+@if (cameraOpen()) {
+	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black">
+		<div class="relative h-dvh w-full max-w-sm overflow-hidden sm:h-[90vh] sm:rounded-2xl">
+
+			<!-- Live feed -->
+			<video #cameraVideo class="absolute inset-0 size-full object-cover" autoplay muted playsinline></video>
+			<canvas #cameraCanvas class="hidden"></canvas>
+
+			<!-- Overlay gradient -->
+			<div class="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/70 to-transparent"></div>
+
+			<!-- Close button -->
+			<button
+				type="button"
+				class="absolute right-4 top-4 grid size-10 place-items-center rounded-full bg-black/40 text-white transition hover:bg-black/60"
+				aria-label="Cerrar cámara"
+				(click)="closeCamera()"
+			>
+				<i class="pi pi-times"></i>
+			</button>
+
+			<!-- Error -->
+			@if (cameraError()) {
+				<div class="absolute inset-x-4 top-1/2 -translate-y-1/2 rounded-2xl bg-black/70 p-5 text-center">
+					<i class="pi pi-exclamation-triangle text-2xl text-orange-400"></i>
+					<p class="mt-2 text-sm font-semibold text-white">{{ cameraError() }}</p>
+					<button type="button" class="mt-4 rounded-full bg-white px-5 py-2 text-sm font-black text-black" (click)="closeCamera()">Cerrar</button>
+				</div>
+			}
+
+			<!-- Capture button -->
+			@if (!cameraError()) {
+				<div class="absolute inset-x-0 bottom-10 flex justify-center">
+					<button
+						type="button"
+						class="grid size-[72px] place-items-center rounded-full border-4 border-white bg-white/20 transition active:scale-95 hover:bg-white/30"
+						aria-label="Capturar foto"
+						(click)="capturePhoto()"
+					>
+						<span class="size-14 rounded-full bg-white"></span>
+					</button>
+				</div>
+			}
+		</div>
+
+		<!-- Click outside (desktop) -->
+		<div class="absolute inset-0 -z-10 hidden sm:block" (click)="closeCamera()"></div>
+	</div>
+}
+
+<!-- Preview modal -->
+@if (previewUrl()) {
+	<div class="fixed inset-0 z-50 flex items-end justify-center bg-black/70 sm:items-center">
+		<div class="w-full max-w-sm overflow-hidden rounded-t-3xl bg-white sm:rounded-3xl">
+
+			<!-- Preview media -->
+			<div class="relative aspect-[9/16] max-h-[60vh] w-full overflow-hidden bg-black">
+				@if (selectedFile()?.type?.startsWith('video')) {
+					<video [src]="previewUrl()!" class="size-full object-cover" autoplay muted loop playsinline></video>
+				} @else {
+					<img [src]="previewUrl()!" alt="Preview" class="size-full object-cover" />
+				}
+
+				<!-- Duration badge -->
+				<span class="absolute right-3 top-3 rounded-full bg-black/60 px-3 py-1 text-xs font-black text-white">
+					Expira en 24h
+				</span>
+			</div>
+
+			<!-- Actions -->
+			<div class="flex gap-3 p-4">
+				<button
+					type="button"
+					class="flex-1 rounded-full border border-black/10 py-3 text-sm font-black text-black/60 transition hover:bg-black/5 disabled:opacity-40"
+					(click)="cancel()"
+					[disabled]="uploading()"
+				>
+					Cancelar
+				</button>
+				<button
+					type="button"
+					class="flex flex-1 items-center justify-center gap-2 rounded-full bg-orange-500 py-3 text-sm font-black text-white transition hover:bg-orange-600 disabled:opacity-60"
+					(click)="publish()"
+					[disabled]="uploading()"
+				>
+					@if (uploading()) {
+						<i class="pi pi-spin pi-spinner"></i>
+						Subiendo...
+					} @else {
+						<i class="pi pi-send"></i>
+						Publicar historia
+					}
+				</button>
+			</div>
+		</div>
+	</div>
+}

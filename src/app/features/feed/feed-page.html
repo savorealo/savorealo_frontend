@@ -1,0 +1,38 @@
+<app-shell>
+	<div class="grid h-dvh grid-rows-[auto_minmax(0,1fr)] overflow-hidden bg-[#f4f4f4]">
+		<app-feed-topbar (create)="composerOpen.set(!composerOpen())" />
+
+		<section class="mx-auto grid min-h-0 w-full max-w-[1040px] grid-cols-1 gap-8 px-4 lg:grid-cols-[minmax(0,500px)_242px] xl:gap-10">
+			<main class="grid min-h-0 grid-rows-[auto_auto_minmax(0,1fr)]">
+				<app-stories-strip />
+
+				@if (composerOpen()) {
+					<div class="pb-4">
+						<app-create-post (postCreated)="addCreatedPost($event)" />
+					</div>
+				}
+
+				<app-feed-post-list
+					[posts]="feed.posts()"
+					[loading]="feed.loading()"
+					[loadingMore]="feed.loadingMore()"
+					[isEmpty]="feed.isEmpty()"
+					[error]="feed.error()"
+					(like)="feed.toggleLike($event)"
+					(save)="feed.toggleSave($event)"
+					(comment)="openComments($event)"
+					(retry)="feed.loadHomeFeed()"
+					(nearEnd)="feed.loadMore()"
+				/>
+			</main>
+
+			<div class="hidden min-w-0 py-4 lg:block">
+				<app-feed-right-rail />
+			</div>
+		</section>
+	</div>
+
+	<app-comments-sheet [(visible)]="commentsOpen" [post]="selectedPost()" />
+</app-shell>
+
+<app-story-viewer />

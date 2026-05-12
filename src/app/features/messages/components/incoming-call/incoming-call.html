@@ -1,0 +1,61 @@
+@if (store.isIncoming()) {
+	<div class="fixed inset-x-0 top-4 z-[99] flex justify-center px-4">
+		<div
+			class="flex w-full max-w-sm items-center gap-4 rounded-3xl bg-gray-900/95 p-4 shadow-2xl backdrop-blur ring-1 ring-white/10"
+			style="animation: slideDown 0.3s ease"
+		>
+			<!-- Avatar -->
+			<div class="relative shrink-0">
+				<img
+					[src]="call().remoteAvatar || '/assets/icons/new_logo.png'"
+					[alt]="call().remoteName"
+					class="size-14 rounded-full object-cover"
+				/>
+				<span class="absolute inset-0 rounded-full animate-ping bg-orange-500/30 pointer-events-none"></span>
+			</div>
+
+			<!-- Info -->
+			<div class="min-w-0 flex-1">
+				<p class="truncate font-black text-white text-base">{{ call().remoteName }}</p>
+				<p class="flex items-center gap-1.5 text-sm font-semibold text-white/55 mt-0.5">
+					@if (call().isVideo) {
+						<i class="pi pi-video text-orange-400 text-xs"></i>
+						Videollamada entrante
+					} @else {
+						<i class="pi pi-phone text-orange-400 text-xs"></i>
+						Llamada entrante
+					}
+				</p>
+			</div>
+
+			<!-- Actions -->
+			<div class="flex shrink-0 gap-2">
+				<!-- Reject -->
+				<button
+					type="button"
+					class="grid size-12 place-items-center rounded-full bg-red-500 text-white shadow-lg shadow-red-500/30 transition hover:bg-red-600 active:scale-95"
+					(click)="store.rejectCall()"
+					aria-label="Rechazar llamada"
+				>
+					<i class="pi pi-phone text-lg" style="transform: rotate(135deg)"></i>
+				</button>
+				<!-- Accept -->
+				<button
+					type="button"
+					class="grid size-12 place-items-center rounded-full bg-green-500 text-white shadow-lg shadow-green-500/30 transition hover:bg-green-600 active:scale-95"
+					(click)="store.acceptCall()"
+					aria-label="Aceptar llamada"
+				>
+					<i class="pi pi-phone text-lg"></i>
+				</button>
+			</div>
+		</div>
+	</div>
+}
+
+<style>
+@@keyframes slideDown {
+	from { opacity: 0; transform: translateY(-1rem) }
+	to   { opacity: 1; transform: translateY(0) }
+}
+</style>

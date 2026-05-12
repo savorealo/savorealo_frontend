@@ -1,0 +1,437 @@
+<!-- Full-screen cooking mode -->
+<div class="fixed inset-0 z-50 flex flex-col bg-[#0d0d0d] text-white overflow-hidden" style="font-family: inherit">
+
+	<!-- Loading -->
+	@if (loading()) {
+		<div class="grid h-full place-items-center">
+			<div class="grid gap-4 text-center">
+				<i class="pi pi-spin pi-spinner text-4xl text-orange-500"></i>
+				<p class="font-semibold text-white/50">Preparando el modo cocina…</p>
+			</div>
+		</div>
+	}
+
+	@if (!loading() && post(); as post) {
+		<!-- Responsive wrapper: column on mobile, 3-col grid on desktop -->
+		<div class="flex flex-1 flex-col overflow-hidden lg:grid lg:grid-cols-[200px_1fr_300px]">
+
+			<!-- ─── MOBILE HEADER (hidden on lg) ──────────────────────────────── -->
+			<header class="flex items-center gap-3 border-b border-white/8 bg-[#111] px-4 py-3 lg:hidden">
+				<button type="button" class="grid size-9 place-items-center rounded-full text-white/50 hover:bg-white/10" (click)="exit()" aria-label="Salir">
+					<i class="pi pi-times"></i>
+				</button>
+				<div class="flex min-w-0 flex-1 items-center gap-2">
+					<img src="assets/icons/icon-72x72.png" alt="" class="size-6 rounded-md" />
+					<span class="truncate text-sm font-black">{{ post.recipe?.name ?? post.title ?? 'Modo cocina' }}</span>
+				</div>
+				<span class="shrink-0 text-sm font-black text-orange-400">{{ progress() | number:'1.0-0' }}%</span>
+			</header>
+
+			<!-- ─── LEFT SIDEBAR (desktop only) ──────────────────────────────── -->
+			<aside class="hidden flex-col border-r border-white/8 bg-[#111] px-4 py-6 lg:flex">
+				<!-- Logo -->
+				<div class="mb-8 flex items-center gap-2 px-1">
+					<img src="assets/icons/icon-72x72.png" alt="Savorealo" class="size-7 rounded-lg" />
+					<span class="text-sm font-black">savorealo</span>
+				</div>
+
+				<!-- Exit -->
+				<button
+					type="button"
+					class="mb-8 flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-bold text-white/50 transition hover:bg-white/5 hover:text-white"
+					(click)="exit()"
+				>
+					<i class="pi pi-times text-base"></i>
+					<span>Salir del<br>modo cocina</span>
+				</button>
+
+				<!-- Nav -->
+				<nav class="flex flex-col gap-1">
+					@for (item of [{icon:'pi-book',label:'Receta',key:'receta'},{icon:'pi-list',label:'Ingredientes',key:'ingredientes'},{icon:'pi-play-circle',label:'Pasos',key:'pasos'},{icon:'pi-pencil',label:'Notas',key:'notas'}]; track item.key) {
+						<button
+							type="button"
+							class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-bold transition"
+							[class]="activeSection() === item.key ? 'bg-orange-500/15 text-orange-400' : 'text-white/45 hover:bg-white/5 hover:text-white'"
+							(click)="activeSection.set($any(item.key))"
+						>
+							<i [class]="'pi ' + item.icon + ' text-base w-4'"></i>
+							{{ item.label }}
+						</button>
+					}
+				</nav>
+
+				<div class="mt-auto pt-4">
+					<div class="flex items-center gap-2 rounded-xl px-2 py-2">
+						@if (post.author.photoUrl) {
+							<img [src]="post.author.photoUrl" [alt]="authorName()" class="size-8 rounded-full object-cover" />
+						} @else {
+							<span class="grid size-8 place-items-center rounded-full bg-orange-500/20 text-xs font-black text-orange-400">
+								{{ authorName().charAt(0).toUpperCase() }}
+							</span>
+						}
+						<div class="min-w-0">
+							<p class="truncate text-xs font-black">{{ authorName() }}</p>
+							@if (post.author.username) {
+								<p class="truncate text-xs text-white/35">@{{ post.author.username }}</p>
+							}
+						</div>
+					</div>
+				</div>
+			</aside>
+
+			<!-- ─── MAIN CONTENT ─────────────────────────────────────────────── -->
+			<main class="relative flex flex-1 flex-col overflow-hidden">
+
+				<!-- Background image -->
+				@if (post.media[0]) {
+					<div class="pointer-events-none absolute inset-0">
+						<img [src]="post.media[0].url" alt="" class="size-full object-cover opacity-30 blur-sm scale-105" />
+						<div class="absolute inset-0 bg-gradient-to-r from-[#0d0d0d] via-[#0d0d0d]/80 to-transparent"></div>
+						<div class="absolute inset-0 bg-gradient-to-t from-[#0d0d0d] via-transparent to-[#0d0d0d]/60"></div>
+					</div>
+				}
+
+				<!-- Foreground -->
+				<div class="relative z-10 flex h-full flex-col px-5 py-5 lg:px-10 lg:py-8">
+
+					<!-- Header (desktop only) -->
+					<div class="mb-4 hidden items-center gap-4 lg:flex">
+						<div class="flex items-center gap-2 text-sm font-black text-orange-400">
+							<i class="pi pi-star-fill text-xs"></i>
+							Modo cocina
+							<span class="font-normal text-white/30">· Cocina sin distracciones ✨</span>
+						</div>
+					</div>
+
+					<!-- Progress -->
+					<div class="mb-5 lg:mb-8">
+						<div class="mb-2 flex items-center justify-between text-xs font-bold text-white/40">
+							<span>Paso {{ activeStep() + 1 }} de {{ stepsCount() }}</span>
+							<span>{{ progress() | number:'1.0-0' }}%</span>
+						</div>
+						<div class="h-1 w-full rounded-full bg-white/10">
+							<div class="h-1 rounded-full bg-orange-500 transition-all duration-500" [style.width.%]="progress()"></div>
+						</div>
+					</div>
+
+					<!-- Section content -->
+					@if (activeSection() === 'pasos') {
+						@if (currentStep(); as step) {
+							<div class="flex flex-1 flex-col justify-center">
+								<p class="mb-3 text-xs font-black uppercase tracking-widest text-orange-400/70 lg:mb-4 lg:text-sm">
+									Paso {{ step.step }}
+								</p>
+								<h1 class="mb-4 text-2xl font-black leading-tight text-white sm:text-3xl lg:mb-6 lg:text-5xl">
+									{{ step.text }}
+								</h1>
+							</div>
+						} @else {
+							<div class="flex-1 grid place-items-center text-center">
+								<div>
+									<p class="text-xl font-black text-white/30 lg:text-2xl">¡Receta sin pasos definidos!</p>
+									<p class="mt-2 text-sm text-white/20">Esta receta no tiene pasos detallados.</p>
+								</div>
+							</div>
+						}
+					}
+
+					@if (activeSection() === 'receta') {
+						<div class="flex-1 overflow-y-auto pr-2">
+							<h2 class="mb-3 text-xl font-black lg:text-2xl">{{ post.recipe?.name ?? post.title }}</h2>
+							@if (post.recipe?.description) {
+								<p class="text-sm leading-7 text-white/60">{{ post.recipe!.description }}</p>
+							}
+							@if (post.description) {
+								<p class="mt-4 text-sm leading-7 text-white/60">{{ post.description }}</p>
+							}
+						</div>
+					}
+
+					@if (activeSection() === 'ingredientes') {
+						<div class="flex-1 overflow-y-auto pr-2">
+							<h2 class="mb-4 text-lg font-black">Ingredientes
+								<span class="ml-2 text-sm font-semibold text-orange-400">{{ checkedIngredients().size }}/{{ post.recipe?.ingredients?.length ?? 0 }}</span>
+							</h2>
+							<ul class="grid gap-2">
+								@for (ing of post.recipe?.ingredients ?? []; track ing.ingredientId) {
+									<li
+										class="flex cursor-pointer items-center gap-3 rounded-xl px-4 py-3 transition"
+										[class]="checkedIngredients().has(ing.ingredientId) ? 'bg-white/5 opacity-50' : 'bg-white/8 hover:bg-white/12'"
+										(click)="toggleIngredient(ing.ingredientId)"
+									>
+										<span
+											class="grid size-5 shrink-0 place-items-center rounded-full border-2 transition"
+											[class]="checkedIngredients().has(ing.ingredientId) ? 'border-orange-500 bg-orange-500' : 'border-white/30'"
+										>
+											@if (checkedIngredients().has(ing.ingredientId)) {
+												<i class="pi pi-check text-[10px] text-white"></i>
+											}
+										</span>
+										<span class="flex-1 text-sm font-semibold" [class.line-through]="checkedIngredients().has(ing.ingredientId)">
+											{{ ing.name }}
+										</span>
+										<span class="text-xs text-white/40">{{ ing.quantity }} {{ ing.unit }}</span>
+									</li>
+								}
+								@if (!post.recipe?.ingredients?.length) {
+									<p class="text-sm text-white/30">Sin ingredientes definidos.</p>
+								}
+							</ul>
+						</div>
+					}
+
+					@if (activeSection() === 'notas') {
+						<div class="flex flex-1 flex-col">
+							<h2 class="mb-4 text-lg font-black">Notas personales</h2>
+							<textarea
+								class="flex-1 resize-none rounded-2xl bg-white/8 p-4 text-sm font-semibold text-white/80 outline-none placeholder:text-white/25 focus:bg-white/12 focus:ring-1 focus:ring-orange-500/50"
+								placeholder="Escribe tus notas, sustituciones, tiempos personales…"
+								[value]="notes()"
+								(input)="notes.set($any($event.target).value)"
+							></textarea>
+						</div>
+					}
+
+					<!-- Bottom bar (steps section) -->
+					@if (activeSection() === 'pasos') {
+						<div class="mt-4 flex items-center gap-2 lg:mt-6 lg:gap-3">
+							<button
+								type="button"
+								class="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/8 px-4 py-2.5 text-sm font-black transition hover:bg-white/15 disabled:opacity-30 lg:gap-2 lg:px-5 lg:py-3"
+								[disabled]="isFirst()"
+								(click)="prevStep()"
+							>
+								<i class="pi pi-chevron-left text-xs"></i>
+								<span class="hidden sm:inline">Anterior</span>
+							</button>
+
+							<button
+								type="button"
+								class="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-orange-500 px-4 py-2.5 text-sm font-black shadow-lg shadow-orange-500/25 transition hover:bg-orange-400 disabled:opacity-40 lg:px-6 lg:py-3"
+								[disabled]="isLast()"
+								(click)="nextStep()"
+							>
+								Siguiente
+								<i class="pi pi-chevron-right text-xs"></i>
+							</button>
+
+							<button
+								type="button"
+								class="grid size-10 place-items-center rounded-full border border-white/15 bg-white/8 transition hover:bg-white/15 lg:size-12"
+								(click)="toggleTimer()"
+								[attr.aria-label]="timerRunning() ? 'Pausar' : 'Iniciar timer'"
+							>
+								<i [class]="timerRunning() ? 'pi pi-pause' : 'pi pi-play'"></i>
+							</button>
+
+							<button
+								type="button"
+								class="grid size-10 place-items-center rounded-full border border-white/15 transition lg:size-12"
+								[class]="voiceActive() ? 'bg-orange-500/20 border-orange-500/40 text-orange-400' : 'bg-white/8 hover:bg-white/15'"
+								(click)="speakStep()"
+								aria-label="Leer en voz alta"
+							>
+								<i class="pi pi-volume-up"></i>
+							</button>
+						</div>
+
+						<p class="mt-2 hidden text-center text-xs text-white/20 lg:block">
+							<kbd class="rounded bg-white/10 px-1 py-0.5">←</kbd> / <kbd class="rounded bg-white/10 px-1 py-0.5">→</kbd> cambiar paso
+							&nbsp;·&nbsp;
+							<kbd class="rounded bg-white/10 px-1 py-0.5">V</kbd> voz
+							&nbsp;·&nbsp;
+							<kbd class="rounded bg-white/10 px-1 py-0.5">P</kbd> pausa
+						</p>
+					}
+				</div>
+			</main>
+
+			<!-- ─── RIGHT PANEL (desktop only) ───────────────────────────────── -->
+			<aside class="hidden flex-col gap-5 overflow-y-auto border-l border-white/8 bg-[#111] px-5 py-6 lg:flex">
+
+				<!-- Recipe card -->
+				<div class="flex gap-3 rounded-2xl bg-white/5 p-3">
+					@if (post.media[0]) {
+						<img [src]="post.media[0].url" alt="" class="size-16 shrink-0 rounded-xl object-cover" />
+					}
+					<div class="min-w-0">
+						<p class="line-clamp-2 text-sm font-black leading-tight">{{ post.recipe?.name ?? post.title ?? 'Receta' }}</p>
+						<div class="mt-1 flex items-center gap-1.5 text-xs text-white/40">
+							@if (post.author.photoUrl) {
+								<img [src]="post.author.photoUrl" alt="" class="size-4 rounded-full object-cover" />
+							}
+							Por {{ authorName() }}
+						</div>
+					</div>
+				</div>
+
+				<!-- Meta chips -->
+				@if (post.recipe) {
+					<div class="grid grid-cols-3 gap-2 text-center text-xs">
+						@if (post.recipe.timeRequired) {
+							<div class="rounded-xl bg-white/5 px-2 py-3">
+								<i class="pi pi-clock mb-1 block text-orange-400"></i>
+								<strong class="block font-black text-white">{{ post.recipe.timeRequired }} min</strong>
+								<span class="text-white/35">Tiempo</span>
+							</div>
+						}
+						@if (post.recipe.difficulty) {
+							<div class="rounded-xl bg-white/5 px-2 py-3">
+								<i class="pi pi-chart-bar mb-1 block text-sky-400"></i>
+								<strong class="block text-[11px] font-black text-white">
+									{{ post.recipe.difficulty === 'EASY' ? 'Fácil' : post.recipe.difficulty === 'MEDIUM' ? 'Media' : 'Difícil' }}
+								</strong>
+								<span class="text-white/35">Dificultad</span>
+							</div>
+						}
+						@if (post.recipe.servings) {
+							<div class="rounded-xl bg-white/5 px-2 py-3">
+								<i class="pi pi-users mb-1 block text-green-400"></i>
+								<strong class="block font-black text-white">{{ post.recipe.servings }}</strong>
+								<span class="text-white/35">Porciones</span>
+							</div>
+						}
+					</div>
+				}
+
+				<!-- Ingredients checklist (compact) -->
+				@if (post.recipe?.ingredients?.length) {
+					<div>
+						<div class="mb-2 flex items-center justify-between">
+							<h3 class="text-xs font-black uppercase tracking-widest text-white/40">Ingredientes</h3>
+							<span class="text-xs font-black text-orange-400">
+								{{ checkedIngredients().size }}/{{ post.recipe!.ingredients.length }}
+							</span>
+						</div>
+						<ul class="grid gap-1.5">
+							@for (ing of post.recipe!.ingredients; track ing.ingredientId) {
+								<li
+									class="flex cursor-pointer items-center gap-2 rounded-lg px-3 py-2 text-xs transition"
+									[class]="checkedIngredients().has(ing.ingredientId) ? 'opacity-40' : 'hover:bg-white/5'"
+									(click)="toggleIngredient(ing.ingredientId)"
+								>
+									<span
+										class="grid size-4 shrink-0 place-items-center rounded-full border transition"
+										[class]="checkedIngredients().has(ing.ingredientId) ? 'border-orange-500 bg-orange-500' : 'border-white/20'"
+									>
+										@if (checkedIngredients().has(ing.ingredientId)) {
+											<i class="pi pi-check text-[8px] text-white"></i>
+										}
+									</span>
+									<span class="flex-1 font-semibold" [class.line-through]="checkedIngredients().has(ing.ingredientId)">
+										{{ ing.name }}
+									</span>
+									<span class="text-white/30">{{ ing.quantity }} {{ ing.unit }}</span>
+								</li>
+							}
+						</ul>
+					</div>
+				}
+
+				<!-- Timer -->
+				<div class="rounded-2xl bg-white/5 p-4">
+					<div class="mb-3 flex items-center justify-between">
+						<h3 class="text-xs font-black uppercase tracking-widest text-white/40">Temporizador</h3>
+						@if (!editingTimer()) {
+							<button type="button" class="text-xs font-black text-orange-400 hover:text-orange-300" (click)="editingTimer.set(true)">Editar</button>
+						}
+					</div>
+
+					@if (editingTimer()) {
+						<div class="flex gap-2">
+							<input
+								type="number" min="1" max="120"
+								class="h-9 flex-1 rounded-xl bg-white/10 px-3 text-sm font-black text-white outline-none focus:ring-1 focus:ring-orange-500"
+								[value]="timerInput()"
+								(input)="timerInput.set($any($event.target).value)"
+								placeholder="minutos"
+							/>
+							<button type="button" class="h-9 rounded-xl bg-orange-500 px-4 text-xs font-black" (click)="applyTimerEdit()">OK</button>
+						</div>
+					} @else {
+						<div class="flex items-center gap-4">
+							<div class="relative">
+								<svg width="100" height="100" class="-rotate-90">
+									<circle cx="50" cy="50" r="45" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="6" />
+									<circle cx="50" cy="50" r="45" fill="none" stroke="#f97316" stroke-width="6" stroke-linecap="round"
+										[attr.stroke-dasharray]="timerCircumference"
+										[attr.stroke-dashoffset]="timerCircle()"
+										class="transition-all duration-1000"
+									/>
+								</svg>
+								<div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+									<span class="text-lg font-black tabular-nums leading-none">{{ timerMinutes() }}:{{ timerSeconds() }}</span>
+									<span class="text-[9px] text-white/30">min : seg</span>
+								</div>
+							</div>
+							<button
+								type="button"
+								class="grid size-11 place-items-center rounded-full border border-white/15 bg-white/8 transition hover:bg-white/15"
+								(click)="toggleTimer()"
+							>
+								<i [class]="timerRunning() ? 'pi pi-pause' : 'pi pi-play'"></i>
+							</button>
+						</div>
+					}
+				</div>
+
+				<!-- Steps list (mini) -->
+				@if (steps().length > 0) {
+					<div>
+						<h3 class="mb-2 text-xs font-black uppercase tracking-widest text-white/40">Todos los pasos</h3>
+						<div class="grid gap-1">
+							@for (step of steps(); track step.step; let i = $index) {
+								<button
+									type="button"
+									class="flex items-start gap-2 rounded-xl px-3 py-2 text-left text-xs transition"
+									[class]="activeStep() === i ? 'bg-orange-500/15 text-orange-300' : 'text-white/40 hover:bg-white/5 hover:text-white/70'"
+									(click)="activeStep.set(i); activeSection.set('pasos')"
+								>
+									<span class="mt-0.5 grid size-4 shrink-0 place-items-center rounded-full text-[9px] font-black"
+										[class]="activeStep() === i ? 'bg-orange-500 text-white' : 'bg-white/10'">
+										{{ step.step }}
+									</span>
+									<span class="line-clamp-2 font-semibold">{{ step.text }}</span>
+								</button>
+							}
+						</div>
+					</div>
+				}
+			</aside>
+		</div>
+
+		<!-- ─── MOBILE BOTTOM NAV (hidden on lg) ─────────────────────────────── -->
+		<nav class="flex shrink-0 border-t border-white/8 bg-[#111] lg:hidden">
+			@for (item of [
+				{icon:'pi-play-circle', label:'Pasos',        key:'pasos'},
+				{icon:'pi-list',        label:'Ingredientes', key:'ingredientes'},
+				{icon:'pi-book',        label:'Receta',       key:'receta'},
+				{icon:'pi-stopwatch',   label:'Timer',        key:'timer'},
+				{icon:'pi-pencil',      label:'Notas',        key:'notas'}
+			]; track item.key) {
+				@if (item.key === 'timer') {
+					<!-- Timer button: shows clock + mini display -->
+					<button
+						type="button"
+						class="flex flex-1 flex-col items-center justify-center gap-0.5 py-3 text-[0.6rem] font-black transition"
+						[class]="timerRunning() ? 'text-orange-400' : 'text-white/40'"
+						(click)="toggleTimer()"
+					>
+						<i class="pi pi-stopwatch text-lg"></i>
+						<span>{{ timerMinutes() }}:{{ timerSeconds() }}</span>
+					</button>
+				} @else {
+					<button
+						type="button"
+						class="flex flex-1 flex-col items-center justify-center gap-0.5 py-3 text-[0.6rem] font-black transition"
+						[class]="activeSection() === item.key ? 'text-orange-400' : 'text-white/40'"
+						(click)="activeSection.set($any(item.key))"
+					>
+						<i [class]="'pi ' + item.icon + ' text-lg'"></i>
+						<span>{{ item.label }}</span>
+					</button>
+				}
+			}
+		</nav>
+	}
+</div>

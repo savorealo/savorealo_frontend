@@ -1,0 +1,127 @@
+<app-shell>
+	<main class="min-h-dvh bg-[#f6f6f6] px-4 py-5 sm:px-6 lg:px-8">
+		<div class="mx-auto max-w-2xl">
+
+			<!-- Header -->
+			<div class="mb-5 flex items-center justify-between">
+				<div>
+					<h1 class="text-3xl font-black tracking-tight text-black">Notificaciones</h1>
+					@if (store.unreadCount() > 0) {
+						<p class="mt-1 text-sm font-semibold text-black/45">
+							{{ store.unreadCount() }} sin leer
+						</p>
+					}
+				</div>
+				@if (store.unreadCount() > 0) {
+					<button
+						type="button"
+						class="inline-flex h-10 items-center gap-2 rounded-full border border-black/10 px-4 text-sm font-black text-black/60 transition hover:bg-white hover:text-black"
+						(click)="store.markAllRead()"
+					>
+						<i class="pi pi-check-square"></i>
+						Marcar todo como leido
+					</button>
+				}
+			</div>
+
+			<!-- Loading -->
+			@if (store.loading()) {
+				<div class="grid gap-3">
+					@for (item of [1, 2, 3, 4, 5]; track item) {
+						<div class="flex gap-3 rounded-2xl bg-white p-4 shadow-sm">
+							<div class="size-11 shrink-0 animate-pulse rounded-full bg-surface-100"></div>
+							<div class="flex-1 grid gap-2 py-1">
+								<div class="h-4 w-3/4 animate-pulse rounded-full bg-surface-100"></div>
+								<div class="h-3 w-1/3 animate-pulse rounded-full bg-surface-100"></div>
+							</div>
+						</div>
+					}
+				</div>
+			}
+
+			<!-- Error -->
+			@if (store.error()) {
+				<div class="rounded-2xl bg-red-50 p-6 text-center">
+					<p class="font-semibold text-red-700">{{ store.error() }}</p>
+				</div>
+			}
+
+			<!-- Empty -->
+			@if (store.isEmpty()) {
+				<div class="grid place-items-center rounded-[1.75rem] bg-white py-20 text-center shadow-sm">
+					<i class="pi pi-bell text-4xl text-orange-300"></i>
+					<h2 class="mt-4 text-lg font-black text-black">Todo tranquilo por aqui</h2>
+					<p class="mt-1 text-sm font-semibold text-black/45">Las notificaciones de likes, comentarios y seguidores apareceran aqui.</p>
+				</div>
+			}
+
+			<!-- List -->
+			@if (!store.loading() && store.notifications().length > 0) {
+				<div class="grid gap-2">
+					@for (n of store.notifications(); track n.id) {
+						<div
+							class="group relative flex gap-3 rounded-2xl p-4 transition"
+							[class.bg-white]="n.isRead"
+							[class.bg-orange-50]="!n.isRead"
+							[class.shadow-sm]="n.isRead"
+							[class.shadow-orange-100]="!n.isRead"
+							[class.shadow-md]="!n.isRead"
+						>
+							<!-- Unread dot -->
+							@if (!n.isRead) {
+								<span class="absolute right-4 top-4 size-2 rounded-full bg-orange-500"></span>
+							}
+
+							<!-- Actor avatar -->
+							<a
+								[routerLink]="n.actor?.username ? ['/profile', n.actor!.username!] : null"
+								class="relative shrink-0"
+							>
+								<app-avatar [src]="n.actor?.photoUrl" [name]="actorName(n)" size="md" />
+								<span class="absolute -bottom-1 -right-1 grid size-5 place-items-center rounded-full bg-white shadow-sm text-[0.6rem]">
+									<i [class]="notificationIcon(n.type)"></i>
+								</span>
+							</a>
+
+							<!-- Content -->
+							<div class="min-w-0 flex-1 pr-4">
+								<p class="text-sm font-semibold leading-5 text-black">
+									<a
+										[routerLink]="n.actor?.username ? ['/profile', n.actor!.username!] : null"
+										class="font-black hover:underline"
+									>{{ actorName(n) }}</a>
+									{{ notificationText(n) }}
+								</p>
+								<p class="mt-1 text-xs font-semibold text-black/40">{{ n.createdAt | timeAgo }}</p>
+							</div>
+
+							<!-- Mark read + go to target -->
+							<div class="flex shrink-0 items-center gap-2">
+								@if (targetLink(n); as link) {
+									<a
+										[routerLink]="link"
+										class="grid size-8 place-items-center rounded-full text-black/30 transition hover:bg-black/5 hover:text-black"
+										aria-label="Ver publicacion"
+										(click)="store.markRead(n)"
+									>
+										<i class="pi pi-arrow-right text-xs"></i>
+									</a>
+								}
+								@if (!n.isRead) {
+									<button
+										type="button"
+										class="grid size-8 place-items-center rounded-full text-black/30 transition hover:bg-black/5 hover:text-orange-500"
+										aria-label="Marcar como leido"
+										(click)="store.markRead(n)"
+									>
+										<i class="pi pi-check text-xs"></i>
+									</button>
+								}
+							</div>
+						</div>
+					}
+				</div>
+			}
+		</div>
+	</main>
+</app-shell>

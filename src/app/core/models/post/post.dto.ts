@@ -1,4 +1,3 @@
-// src/app/features/feed/models/post.dto.ts
 export type PostType = 'PHOTO' | 'VIDEO' | 'TEXT' | 'RECIPE'
 export type PostCategory =
 	'TRENDING' | 'ITALIAN' | 'MEXICAN' | 'JAPANESE' | 'CHINESE' |
@@ -6,62 +5,59 @@ export type PostCategory =
 	'COCKTAILS' | 'BREAKFAST' | 'LUNCH' | 'DINNER' | 'SNACKS' |
 	'HEALTHY' | 'COMFORT_FOOD' | 'STREET_FOOD'
 
-export interface PostMediaDto {
-	id: string
-	post_id: string
-	media_url: string
-	media_type: string      // 'image' | 'video'
-	position: number
+export interface PageInfoDto {
+	hasNextPage: boolean
+	endCursor: string | null
 }
 
-export interface RecipeIngredientDto {
-	ingredient_id: string
-	quantity: number
-	notes: string | null
-	ingredient: {
-		id: string
-		name: string
-		unit: string
-	}
+export interface PostConnectionDto {
+	edges: PostEdgeDto[]
+	pageInfo: PageInfoDto
+	totalCount: number
+}
+
+export interface PostEdgeDto {
+	cursor: string
+	node: PostDto
+}
+
+export interface PostMediaDto {
+	id: string
+	media_url: string
+	media_type: string
+	position: number
 }
 
 export interface RecipeDto {
 	id: string
 	name: string
 	description: string | null
-	steps: { step: number; text: string }[]  // json
-	time_required: number | null                      // minutos
-	estimated_cost: number | null
+	steps: string
+	time_required: number | null
+	estimated_cost: string | null
 	servings: number | null
-	difficulty: 'EASY' | 'MEDIUM' | 'HARD' | null
-	recipe_ingredients: RecipeIngredientDto[]
+	difficulty: string | null
+}
+
+export interface PostAuthorDto {
+	id: string
+	username: string | null
+	display_name: string | null
+	avatar_url: string | null
 }
 
 export interface PostDto {
-	// De public.posts
 	id: string
-	user_id: string
 	created_at: string
-	updated_at: string
 	post_type: PostType
 	title: string | null
 	description: string | null
-	categories: PostCategory[] | null
-	likes_count: number
-	comments_count: number
-	views_count: number
-	saves_count: number
-	// Relaciones
+	likes_count: number | null
+	comments_count: number | null
+	saves_count: number | null
 	post_media: PostMediaDto[]
-	recipe: RecipeDto | null    // solo si post_type === 'RECIPE'
-	// Del usuario autor (join)
-	user: {
-		id: string
-		user_type: string
-		person_profile?: { username: string; full_name: string | null; photo_url: string | null }
-		business_profile?: { business_name: string; photo_url: string | null }
-	}
-	// Del usuario actual (para saber si dio like o guardó)
+	recipe: RecipeDto | null
+	author: PostAuthorDto
 	liked: boolean
 	saved: boolean
 }

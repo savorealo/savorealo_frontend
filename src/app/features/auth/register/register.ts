@@ -40,21 +40,21 @@ function passwordMatchValidator(form: AbstractControl): ValidationErrors | null 
     Body_Step_3,
   ],
   templateUrl: './register.html',
-  styleUrl: './register.scss',
 })
 export class Register {
 
   toLoginEvent     = output()
   activeStep       = signal<number>(1)
   onSubmitEvent    = output<RegisterUser>()
+  onGoogleRegister = output<void>()
   private formBuilder = inject(FormBuilder)
 
   
 
   registerTitle = computed(() => {
-    if (this.activeStep() === 1) return 'Create your account'
-    if (this.activeStep() === 2) return 'Create your profile'
-    if (this.activeStep() === 3) return 'Add a photo'
+    if (this.activeStep() === 1) return 'Crea tu cuenta'
+    if (this.activeStep() === 2) return 'Completa tu perfil'
+    if (this.activeStep() === 3) return 'Anade una foto'
     return ''
   })
 
@@ -146,5 +146,9 @@ export class Register {
 
   toLogin(){
     this.toLoginEvent.emit()
+  }
+
+  registerWithGoogle() {
+    this.onGoogleRegister.emit()
   }
 }

@@ -4,10 +4,10 @@ import { Router } from '@angular/router';
 import { User as UserSupabase } from '@supabase/supabase-js';
 import { catchError, finalize, from, map, Observable, switchMap, tap, throwError } from 'rxjs';
 import { AuthService } from '@core/services/auth.service';
-import { UserService } from '@core/services/user/user.service';
+import { UserService } from '@core/services/user.service';
 import { StorageService } from '@core/services/storage';
 import { SupabaseService } from '@core/services/supabase.service';
-import { ProfileService, UpdatePersonProfileInput } from '@core/services/user/profile-service';
+import { ProfileService, UpdatePersonProfileInput } from '@core/services/profile-service';
 import { LoginUser, RegisterUser, User } from '@core/models/user/User';
 
 @Injectable({ providedIn: 'root' })
@@ -66,6 +66,23 @@ export class AuthStore {
     );
   }
 
+  loginWithGoogle(): Observable<void> {
+    this._loading.set(true);
+    this._error.set(null);
+
+    return this.authService.loginWithGoogle().pipe(
+      tap(({ error }) => {
+        if (error) throw error;
+      }),
+      catchError(err => {
+        this._error.set(err.message ?? 'Error al iniciar sesión con Google');
+        return throwError(() => err);
+      }),
+      finalize(() => this._loading.set(false)),
+      map(() => void 0)
+    );
+  }
+
   register(userData: RegisterUser): Observable<void> {
     this._loading.set(true);
     this._error.set(null);
@@ -81,7 +98,6 @@ export class AuthStore {
             postsCount: 0, followersCount: 0, followingCount: 0,
           });
         }),
-        tap(() => this.router.navigate(['/home'])),
         catchError(err => {
           this._error.set(err.message ?? 'Error al registrar');
           return throwError(() => err);
@@ -100,7 +116,6 @@ export class AuthStore {
           postsCount: 0, followersCount: 0, followingCount: 0,
         });
       }),
-      tap(() => this.router.navigate(['/home'])),
       catchError(err => {
         this._error.set(err.message ?? 'Error al registrar');
         return throwError(() => err);
@@ -124,9 +139,8 @@ export class AuthStore {
    * Actualiza el perfil del usuario autenticado.
    *
    * Flujo:
-   *   1. Saca el token de la sesión activa de Supabase
-   *   2. Llama al backend GraphQL con la mutación updateProfile
-   *   3. Parchea _profile signal con los nuevos datos (mantiene contadores)
+   *   1. Llama a ProfileService que actualiza person_profiles en Supabase
+   *   2. Parchea _profile signal con los nuevos datos (mantiene contadores)
    *
    * El trigger SQL trg_sync_profile_to_auth sincroniza raw_user_meta_data
    * automáticamente, por lo que al recargar la sesión el perfil ya estará

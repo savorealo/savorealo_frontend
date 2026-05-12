@@ -1,0 +1,130 @@
+<article class="mx-auto grid w-full max-w-[500px] gap-2 bg-transparent">
+	<header class="flex min-w-0 items-center gap-2 px-2">
+		<a [routerLink]="profileLink()" class="shrink-0 rounded-full focus:outline-none focus:ring-2 focus:ring-[#ff8f27]">
+			<app-avatar [src]="post().author.photoUrl" [name]="authorName()" size="md" />
+		</a>
+
+		<div class="min-w-0 flex-1 leading-none">
+			<div class="flex min-w-0 items-center gap-1">
+				<a [routerLink]="profileLink()" class="truncate text-sm font-black text-black hover:underline">
+					{{ authorName() }}
+				</a>
+				<i class="pi pi-check-circle text-[0.7rem] text-sky-500"></i>
+				<span class="truncate text-[0.68rem] font-semibold text-black/45">{{ authorHandle() }}</span>
+				<span class="text-[0.68rem] font-semibold text-black/45">{{ post().createdAt | timeAgo }}</span>
+			</div>
+
+			@if (content()) {
+				<p class="mt-1 truncate text-[0.72rem] font-bold text-black">
+					{{ expanded() ? content() : (content() | truncate:96) }}
+					@if (hasLongContent()) {
+						<button
+							type="button"
+							class="font-black text-[#ff6d00]"
+							(click)="expanded.set(!expanded())"
+						>
+							{{ expanded() ? 'ver menos' : 'ver mas' }}
+						</button>
+					}
+				</p>
+			}
+		</div>
+
+		<button
+			type="button"
+			class="grid size-8 place-items-center rounded-full text-black/45 transition hover:bg-black/5 hover:text-black"
+			(click)="toggleMenu($event)"
+			aria-label="Opciones del post"
+		>
+			<i class="pi pi-ellipsis-h"></i>
+		</button>
+		<p-menu #optionsMenu [model]="menuItems()" [popup]="true" appendTo="body" />
+	</header>
+
+	@if (primaryMedia(); as media) {
+		@if (media.type === 'video') {
+			<video class="aspect-[1.7] w-full rounded-2xl bg-black object-cover" [src]="media.url" controls preload="metadata"></video>
+		} @else {
+			<a [routerLink]="postLink()" class="block">
+				<div class="relative aspect-[1.7] overflow-hidden rounded-2xl bg-surface-100">
+					<img
+						[ngSrc]="media.url"
+						[alt]="post().title || 'Publicacion culinaria'"
+						fill
+						sizes="(max-width: 768px) 100vw, 500px"
+						class="object-cover transition hover:scale-[1.02]"
+					/>
+				</div>
+			</a>
+		}
+	} @else {
+		<a [routerLink]="postLink()" class="block rounded-2xl bg-white p-5 text-sm font-semibold leading-6 text-black shadow-sm hover:bg-surface-50">
+			{{ content() }}
+		</a>
+	}
+
+	<footer class="flex items-center gap-5 px-4 pt-1 text-black">
+		<!-- Like -->
+		<button
+			type="button"
+			class="inline-flex items-center gap-1.5 text-sm font-black transition"
+			[class.text-[#d00000]]="post().liked"
+			[attr.aria-pressed]="post().liked"
+			(click)="triggerLike()"
+		>
+			<i
+				[class]="post().liked ? 'pi pi-heart-fill' : 'pi pi-heart'"
+				[class.like-pop]="likeAnimating()"
+				class="text-base"
+			></i>
+			<span>{{ post().likesCount }}</span>
+		</button>
+
+		<!-- Comment -->
+		<button
+			type="button"
+			class="inline-flex items-center gap-1.5 text-sm font-black transition hover:text-[#ff6d00]"
+			(click)="onComment.emit(post())"
+		>
+			<i class="pi pi-comment text-base"></i>
+			<span>{{ post().commentsCount }}</span>
+		</button>
+
+		<!-- Cooking mode (solo si tiene receta) -->
+		@if (post().recipe) {
+			<button
+				type="button"
+				class="inline-flex items-center gap-1.5 rounded-full bg-orange-50 px-3 py-1 text-xs font-black text-orange-500 transition hover:bg-orange-100"
+				(click)="openCookingMode()"
+				aria-label="Modo cocina"
+			>
+				<i class="pi pi-play-circle text-sm"></i>
+				<span class="hidden sm:inline">Cocinar</span>
+			</button>
+		}
+
+		<!-- Save -->
+		<button
+			type="button"
+			class="ml-auto grid size-8 place-items-center rounded-full text-sm transition hover:bg-black/5 hover:text-[#ff6d00]"
+			[class.text-[#ff6d00]]="post().saved"
+			[attr.aria-pressed]="post().saved"
+			(click)="onSave.emit(post())"
+			aria-label="Guardar post"
+		>
+			<i [class]="post().saved ? 'pi pi-bookmark-fill' : 'pi pi-bookmark'" class="text-base"></i>
+		</button>
+	</footer>
+</article>
+
+<style>
+.like-pop {
+	animation: likePop 0.35s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+@@keyframes likePop {
+	0%   { transform: scale(1) }
+	30%  { transform: scale(1.5) }
+	60%  { transform: scale(0.9) }
+	100% { transform: scale(1) }
+}
+</style>

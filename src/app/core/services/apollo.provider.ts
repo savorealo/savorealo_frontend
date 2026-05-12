@@ -8,8 +8,9 @@ export function apolloOptionsFactory() {
 	const env = inject(ENVIRONMENT)
 
 	return {
-		link: httpLink.create({ uri: env.apiUrl }),
+		link: httpLink.create({ uri: `${env.apiUrl}/graphql` }),
 		cache: new InMemoryCache(),
+		connectToDevTools: !env.production,
 		defaultOptions: {
 			watchQuery: { fetchPolicy: 'cache-and-network' as const },
 		},

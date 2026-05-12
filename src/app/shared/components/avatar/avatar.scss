@@ -6,8 +6,8 @@
   border-radius: 50%;
   overflow: visible;
   flex-shrink: 0;
-  background-color: var(--avatar-bg, #e6f1fb);
-  color: var(--avatar-color, #185fa5);
+  background-color: var(--avatar-bg, var(--color-primary-50));
+  color: var(--avatar-color, var(--color-primary-600));
   font-weight: 500;
   user-select: none;
 }

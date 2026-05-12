@@ -1,0 +1,59 @@
+<div class="flex gap-3" [ngClass]="isMine() ? 'justify-end' : 'justify-start'">
+	@if (!isMine()) {
+		<img [src]="conversation().user.avatarUrl" [alt]="conversation().user.name" class="mt-auto size-9 rounded-full object-cover shadow-sm" />
+	}
+
+	@if (message().typing) {
+		<div class="rounded-2xl bg-white px-5 py-3 shadow-[0_8px_24px_rgba(20,20,20,0.08)]">
+			<span class="flex items-center gap-1">
+				<span class="size-2 rounded-full bg-black/25"></span>
+				<span class="size-2 rounded-full bg-black/25"></span>
+				<span class="size-2 rounded-full bg-black/25"></span>
+			</span>
+		</div>
+	} @else {
+		<div
+			class="max-w-[min(80%,38rem)] overflow-hidden rounded-3xl text-sm font-bold leading-6 shadow-[0_10px_30px_rgba(20,20,20,0.08)]"
+			[ngClass]="isMine() ? 'bg-orange-50 text-black' : 'bg-white text-black'"
+		>
+			@if (message().text) {
+				<div class="flex items-end gap-4 px-5 py-3">
+					<p class="whitespace-pre-line">{{ message().text }}</p>
+					@if (message().time) {
+						<span class="shrink-0 text-xs font-black text-black/35">{{ message().time }}</span>
+					}
+					@if (isMine()) {
+						<i class="pi pi-check text-xs text-orange-500"></i>
+					}
+				</div>
+			}
+
+			@if (message().attachment; as recipe) {
+				<div class="grid overflow-hidden border-t border-black/5 bg-white sm:grid-cols-[210px_minmax(0,1fr)]">
+					<img [src]="recipe.imageUrl" [alt]="recipe.title" class="h-44 w-full object-cover sm:h-full" />
+					<div class="grid content-between gap-4 p-5">
+						<div>
+							<h3 class="text-lg font-black leading-6 text-black">{{ recipe.title }}</h3>
+							<p class="mt-2 text-sm font-semibold text-black/50">
+								<i class="pi pi-user"></i>
+								Por {{ recipe.author }}
+							</p>
+						</div>
+						<a class="inline-flex items-center gap-2 text-sm font-black text-orange-500">
+							Ver receta
+							<i class="pi pi-chevron-right text-xs"></i>
+						</a>
+					</div>
+				</div>
+				@if (message().time) {
+					<div class="flex justify-end gap-2 px-4 pb-3 text-xs font-black text-black/35">
+						<span>{{ message().time }}</span>
+						@if (isMine()) {
+							<i class="pi pi-check text-orange-500"></i>
+						}
+					</div>
+				}
+			}
+		</div>
+	}
+</div>

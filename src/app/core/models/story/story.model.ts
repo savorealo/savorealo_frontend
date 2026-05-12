@@ -1,18 +1,20 @@
-// src/app/features/stories/models/story.model.ts
-
 export type StoryType = 'PHOTO' | 'VIDEO'
 
-export interface Story {
+export interface StoryItem {
 	id: string
 	userId: string
 	storyType: StoryType
 	mediaUrl: string
-	createdAt: Date
-	expiresAt: Date
+	createdAt: string
+	expiresAt: string
+	viewed: boolean
 }
 
-export interface ViewedStory {
+export interface StoryGroup {
 	userId: string
-	storyId: string
-	viewedAt: Date
+	username: string
+	displayName: string
+	avatarUrl: string | null
+	stories: StoryItem[]
+	hasUnviewed: boolean
 }

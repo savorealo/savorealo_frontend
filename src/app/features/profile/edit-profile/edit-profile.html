@@ -1,138 +1,180 @@
-<div class="ep-wrap">
-    <div class="ep-header">
-    <span class="ep-title">Editar perfil</span>
-    <button class="ep-close" (click)="onClose()">✕</button>
-    </div>
+<div class="flex flex-col bg-white" style="min-width: min(92vw, 480px); max-height: 90dvh; overflow: hidden">
 
-    <!-- Avatar preview -->
-    <div class="ep-avatar-row">
-    <div class="ep-avatar">
-        @if (form().photoUrl) {
-        <img [src]="form().photoUrl" alt="Avatar" />
-        } @else {
-        <span class="ep-avatar-placeholder">
-            {{ (form().fullName || form().username || '?')[0].toUpperCase() }}
-        </span>
-        }
-    </div>
-    <div class="ep-avatar-info">
-        <span class="ep-avatar-name">{{ form().fullName || form().username || 'Tu nombre' }}</span>
-        <span class="ep-avatar-sub">@{{ form().username || 'username' }}</span>
-    </div>
-    </div>
+	<!-- Header -->
+	<div class="flex shrink-0 items-center justify-between border-b border-black/8 px-6 py-4">
+		<h2 class="text-[17px] font-black tracking-tight text-black">Editar perfil</h2>
+		<button
+			type="button"
+			class="grid size-8 place-items-center rounded-full text-black/40 transition hover:bg-black/5 hover:text-black"
+			(click)="onClose()"
+			aria-label="Cerrar"
+		>
+			<i class="pi pi-times text-sm"></i>
+		</button>
+	</div>
 
-    <form (ngSubmit)="submit()" class="ep-form">
+	<!-- Scrollable body -->
+	<div class="flex-1 overflow-y-auto">
 
-    <div class="ep-field">
-        <label class="ep-label">Nombre de usuario</label>
-        <div class="ep-input-wrap">
-        <span class="ep-prefix">@</span>
-        <input
-            class="ep-input ep-input--prefix"
-            type="text"
-            [ngModel]="form().username"
-            (ngModelChange)="patch({ username: $event })"
-            name="username"
-            placeholder="tu_usuario"
-            autocomplete="off"
-        />
-        </div>
-    </div>
+		<!-- Avatar strip -->
+		<div class="flex items-center gap-4 border-b border-black/5 bg-orange-50/60 px-6 py-5">
+			<div class="relative shrink-0">
+				<div class="size-16 overflow-hidden rounded-full border-2 border-white shadow-md">
+					@if (photoPreview()) {
+						<img [src]="photoPreview()!" alt="Avatar" class="size-full object-cover" />
+					} @else {
+						<span class="grid size-full place-items-center bg-orange-100 text-2xl font-black text-orange-500">
+							{{ (form().fullName || form().username || '?')[0].toUpperCase() }}
+						</span>
+					}
+				</div>
 
-    <div class="ep-field">
-        <label class="ep-label">Nombre completo</label>
-        <input
-        class="ep-input"
-        type="text"
-        [ngModel]="form().fullName"
-        (ngModelChange)="patch({ fullName: $event })"
-        name="fullName"
-        placeholder="Juan García"
-        />
-    </div>
+				<!-- Upload overlay -->
+				<label
+					class="absolute inset-0 flex cursor-pointer items-center justify-center rounded-full bg-black/40 opacity-0 transition hover:opacity-100"
+					[class.opacity-100]="uploadingPhoto()"
+				>
+					@if (uploadingPhoto()) {
+						<i class="pi pi-spin pi-spinner text-sm text-white"></i>
+					} @else {
+						<i class="pi pi-camera text-sm text-white"></i>
+					}
+					<input
+						type="file"
+						accept="image/*"
+						class="hidden"
+						(change)="onAvatarFile($event)"
+						[disabled]="uploadingPhoto()"
+					/>
+				</label>
+			</div>
 
-    <div class="ep-field">
-        <label class="ep-label">Foto de perfil <span class="ep-hint">(URL)</span></label>
-        <input
-        class="ep-input"
-        type="url"
-        [ngModel]="form().photoUrl"
-        (ngModelChange)="patch({ photoUrl: $event })"
-        name="photoUrl"
-        placeholder="https://..."
-        />
-    </div>
+			<div class="min-w-0">
+				<p class="truncate font-black text-black">{{ form().fullName || form().username || 'Tu nombre' }}</p>
+				<p class="truncate text-sm font-semibold text-black/45">@{{ form().username || 'usuario' }}</p>
+				<p class="mt-1 text-xs font-semibold text-orange-600">Toca la foto para cambiarla</p>
+			</div>
+		</div>
 
-    <div class="ep-field">
-        <label class="ep-label">
-        Bio
-        <span class="ep-counter" [class.ep-counter--warn]="bioLength() > 140">
-            {{ bioLength() }}/160
-        </span>
-        </label>
-        <textarea
-        class="ep-input ep-textarea"
-        [ngModel]="form().bio"
-        (ngModelChange)="patch({ bio: $event })"
-        name="bio"
-        placeholder="Cuéntanos algo sobre ti..."
-        maxlength="160"
-        rows="3"
-        ></textarea>
-    </div>
+		<!-- Form fields -->
+		<form (ngSubmit)="submit()" id="edit-profile-form" class="grid gap-5 px-6 py-5">
 
-    <div class="ep-field">
-        <label class="ep-label">Ubicación</label>
-        <input
-        class="ep-input"
-        type="text"
-        [ngModel]="form().location"
-        (ngModelChange)="patch({ location: $event })"
-        name="location"
-        placeholder="Madrid, España"
-        />
-    </div>
+			<!-- Username -->
+			<div class="grid gap-1.5">
+				<label class="text-[11px] font-black uppercase tracking-widest text-black/40">Nombre de usuario</label>
+				<div class="relative">
+					<span class="absolute left-3 top-1/2 -translate-y-1/2 font-mono text-sm text-black/35">@</span>
+					<input
+						type="text"
+						name="username"
+						class="h-11 w-full rounded-xl border border-black/10 bg-[#f6f6f6] pl-7 pr-3 text-sm font-semibold text-black outline-none placeholder:text-black/25 focus:border-orange-400 focus:bg-white focus:ring-2 focus:ring-orange-100"
+						[ngModel]="form().username"
+						(ngModelChange)="patch({ username: $event })"
+						placeholder="tu_usuario"
+						autocomplete="off"
+					/>
+				</div>
+			</div>
 
-    <div class="ep-field">
-        <label class="ep-label">Fecha de nacimiento</label>
-        <input
-        class="ep-input"
-        type="date"
-        [ngModel]="form().birthDate"
-        (ngModelChange)="patch({ birthDate: $event })"
-        name="birthDate"
-        />
-    </div>
+			<!-- Full name -->
+			<div class="grid gap-1.5">
+				<label class="text-[11px] font-black uppercase tracking-widest text-black/40">Nombre completo</label>
+				<input
+					type="text"
+					name="fullName"
+					class="h-11 w-full rounded-xl border border-black/10 bg-[#f6f6f6] px-3 text-sm font-semibold text-black outline-none placeholder:text-black/25 focus:border-orange-400 focus:bg-white focus:ring-2 focus:ring-orange-100"
+					[ngModel]="form().fullName"
+					(ngModelChange)="patch({ fullName: $event })"
+					placeholder="Juan García"
+				/>
+			</div>
 
-    @if (authStore.error()) {
-        <div class="ep-error">{{ authStore.error() }}</div>
-    }
+			<!-- Bio -->
+			<div class="grid gap-1.5">
+				<div class="flex items-center justify-between">
+					<label class="text-[11px] font-black uppercase tracking-widest text-black/40">Bio</label>
+					<span class="text-[11px] font-semibold" [class.text-red-500]="bioLength() > 140" [class.text-black/30]="bioLength() <= 140">
+						{{ bioLength() }}/160
+					</span>
+				</div>
+				<textarea
+					name="bio"
+					rows="3"
+					maxlength="160"
+					class="w-full resize-none rounded-xl border border-black/10 bg-[#f6f6f6] px-3 py-2.5 text-sm font-semibold leading-6 text-black outline-none placeholder:text-black/25 focus:border-orange-400 focus:bg-white focus:ring-2 focus:ring-orange-100"
+					[ngModel]="form().bio"
+					(ngModelChange)="patch({ bio: $event })"
+					placeholder="Cuéntanos algo sobre ti..."
+				></textarea>
+			</div>
 
-    @if (success()) {
-        <div class="ep-success">✓ Perfil actualizado correctamente</div>
-    }
+			<!-- Location -->
+			<div class="grid gap-1.5">
+				<label class="text-[11px] font-black uppercase tracking-widest text-black/40">Ubicación</label>
+				<div class="relative">
+					<i class="pi pi-map-marker absolute left-3 top-1/2 -translate-y-1/2 text-sm text-black/30"></i>
+					<input
+						type="text"
+						name="location"
+						class="h-11 w-full rounded-xl border border-black/10 bg-[#f6f6f6] pl-8 pr-3 text-sm font-semibold text-black outline-none placeholder:text-black/25 focus:border-orange-400 focus:bg-white focus:ring-2 focus:ring-orange-100"
+						[ngModel]="form().location"
+						(ngModelChange)="patch({ location: $event })"
+						placeholder="Madrid, España"
+					/>
+				</div>
+			</div>
 
-    <div class="ep-actions">
-        <button
-        type="button"
-        class="ep-btn ep-btn--secondary"
-        (click)="onClose()"
-        [disabled]="authStore.loading()"
-        >
-        Cancelar
-        </button>
-        <button
-        type="submit"
-        class="ep-btn ep-btn--primary"
-        [disabled]="authStore.loading() || !isDirty()"
-        >
-        @if (authStore.loading()) {
-            <span class="ep-spinner"></span> Guardando...
-        } @else {
-            Guardar cambios
-        }
-        </button>
-    </div>
+			<!-- Birth date -->
+			<div class="grid gap-1.5">
+				<label class="text-[11px] font-black uppercase tracking-widest text-black/40">Fecha de nacimiento</label>
+				<input
+					type="date"
+					name="birthDate"
+					class="h-11 w-full rounded-xl border border-black/10 bg-[#f6f6f6] px-3 text-sm font-semibold text-black outline-none focus:border-orange-400 focus:bg-white focus:ring-2 focus:ring-orange-100"
+					[ngModel]="form().birthDate"
+					(ngModelChange)="patch({ birthDate: $event })"
+				/>
+			</div>
 
-    </form>
+			<!-- Feedback -->
+			@if (authStore.error()) {
+				<div class="flex items-center gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700">
+					<i class="pi pi-exclamation-circle shrink-0"></i>
+					{{ authStore.error() }}
+				</div>
+			}
+
+			@if (success()) {
+				<div class="flex items-center gap-2 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm font-semibold text-green-700">
+					<i class="pi pi-check-circle shrink-0"></i>
+					¡Perfil actualizado correctamente!
+				</div>
+			}
+		</form>
+	</div>
+
+	<!-- Footer -->
+	<div class="flex shrink-0 items-center justify-end gap-3 border-t border-black/8 px-6 py-4">
+		<button
+			type="button"
+			class="h-10 rounded-full border border-black/10 px-5 text-sm font-black text-black/60 transition hover:bg-black/5 disabled:opacity-50"
+			(click)="onClose()"
+			[disabled]="authStore.loading()"
+		>
+			Cancelar
+		</button>
+		<button
+			type="submit"
+			form="edit-profile-form"
+			class="inline-flex h-10 items-center gap-2 rounded-full bg-[#ff8f27] px-5 text-sm font-black text-white transition hover:bg-[#f47f13] disabled:cursor-not-allowed disabled:opacity-50"
+			[disabled]="authStore.loading() || !isDirty()"
+		>
+			@if (authStore.loading()) {
+				<i class="pi pi-spin pi-spinner text-xs"></i>
+				Guardando...
+			} @else {
+				Guardar cambios
+			}
+		</button>
+	</div>
 </div>

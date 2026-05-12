@@ -1,20 +1,77 @@
-<app-emoji-rain/>
-<div class="center relative z-10">
-    <div class="flex h-[600px] w-[1000px] overflow-hidden rounded-2xl shadow-xl"
-        [ngClass]="!isRegister.value ? 'flex-row' : 'flex-row-reverse'">
+<app-emoji-rain />
 
-        <!-- Logo-->
-        <div class="relative flex w-2/5 flex-col p-8 bg-[--color-surface-100] text-center">
-            <app-title/>
+<main class="relative grid min-h-dvh place-items-center overflow-hidden bg-[#fff8ef] px-4 py-8">
+  <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_15%,rgba(255,132,42,0.22),transparent_24rem),radial-gradient(circle_at_86%_82%,rgba(245,166,35,0.18),transparent_22rem)]"></div>
+
+  <section
+    class="relative grid w-full max-w-6xl overflow-hidden rounded-[2rem] border border-white/70 bg-white/90 shadow-[0_28px_80px_rgba(74,45,20,0.16)] backdrop-blur xl:grid-cols-[0.95fr_1.05fr]"
+    [ngClass]="isRegister.value ? 'xl:[&>.auth-brand-panel]:order-2 xl:[&>.auth-form-panel]:order-1' : ''"
+  >
+    <aside class="auth-brand-panel relative hidden min-h-[680px] overflow-hidden bg-black p-10 text-white xl:grid">
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_35%_15%,rgba(255,143,39,0.32),transparent_18rem),linear-gradient(145deg,#050505,#111_58%,#2a1204)]"></div>
+      <div class="absolute -right-24 -top-24 size-72 rounded-full bg-orange-500/20 blur-3xl"></div>
+      <div class="absolute -bottom-24 -left-20 size-64 rounded-full bg-yellow-400/10 blur-3xl"></div>
+
+      <div class="relative z-10 flex h-full flex-col">
+        <div class="flex items-center gap-3">
+          <span class="grid size-16 place-items-center overflow-hidden rounded-full bg-orange-500">
+            <img [src]="logoUrl" alt="" class="size-full object-contain" />
+          </span>
+          <span class="text-4xl font-black tracking-tight">savore<span class="text-orange-500">alo</span></span>
         </div>
 
-        <!-- Lado derecho -->
-        <div class="flex w-3/5 flex-col justify-center bg-[--p-surface-ground] px-12 py-10">
-            @if (!isRegister.value) {
-                <app-login (toRegistereEvent)="toRegister($event)" (onLoginSubmit)="onLoginSubmit($event)" />
-            }@else{
-                <app-register (onSubmitEvent)="onRegisterSubmit($event)" (toLoginEvent)="toRegister(false)" /> 
-            }
+        <div class="my-auto max-w-md">
+          <span class="rounded-full bg-white/10 px-4 py-2 text-sm font-black text-orange-200">Cook. Share. Repeat.</span>
+          <h1 class="mt-8 text-6xl font-black leading-[0.95] tracking-tight">
+            Cocina mejor, comparte mas.
+          </h1>
+          <p class="mt-6 text-lg font-semibold leading-8 text-white/70">
+            Tu comunidad para descubrir recetas, publicar antojos y guardar ideas deliciosas para cualquier momento.
+          </p>
+
+          <div class="mt-8 grid grid-cols-3 gap-3">
+            <div class="rounded-2xl border border-white/10 bg-white/10 p-4">
+              <strong class="block text-2xl">12K</strong>
+              <span class="text-xs font-bold text-white/55">recetas</span>
+            </div>
+            <div class="rounded-2xl border border-white/10 bg-white/10 p-4">
+              <strong class="block text-2xl">8K</strong>
+              <span class="text-xs font-bold text-white/55">cocineros</span>
+            </div>
+            <div class="rounded-2xl border border-white/10 bg-white/10 p-4">
+              <strong class="block text-2xl">IA</strong>
+              <span class="text-xs font-bold text-white/55">recetas</span>
+            </div>
+          </div>
         </div>
-    </div>
-</div>
+
+        <p class="text-sm font-semibold text-white/45">Savorealo convierte cada receta en una historia compartida.</p>
+      </div>
+    </aside>
+
+    <section class="auth-form-panel grid min-h-[680px] content-center px-6 py-10 sm:px-10 lg:px-16">
+      <div class="mx-auto w-full max-w-xl">
+        <div class="mb-8 flex items-center gap-3 xl:hidden">
+          <span class="grid size-12 place-items-center overflow-hidden rounded-full bg-orange-500">
+            <img [src]="logoUrl" alt="" class="size-full object-contain" />
+          </span>
+          <span class="text-3xl font-black tracking-tight">savore<span class="text-orange-500">alo</span></span>
+        </div>
+
+        @if (!isRegister.value) {
+          <app-login
+            (toRegistereEvent)="toRegister($event)"
+            (onLoginSubmit)="onLoginSubmit($event)"
+            (onGoogleLogin)="onGoogleAuth()"
+          />
+        } @else {
+          <app-register
+            (onSubmitEvent)="onRegisterSubmit($event)"
+            (toLoginEvent)="toRegister(false)"
+            (onGoogleRegister)="onGoogleAuth()"
+          />
+        }
+      </div>
+    </section>
+  </section>
+</main>

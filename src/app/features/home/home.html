@@ -1,14 +1,70 @@
 <app-shell>
-  <div class="flex h-full">
-    <!-- feed central -->
-    <div class="flex-1 overflow-y-auto px-6 py-4">
-      <!-- posts -->
-       posts
-    </div>
-    <!-- columna derecha sugeridos -->
-    <aside class="w-72 border-l border-[--p-content-border-color] p-4">
-      <!-- sugeridos, tendencias -->
-       <p>Sugeridos, tendencias...</p>
+  <div class="home-layout">
+    <section class="feed-column" aria-label="Feed principal">
+      <header class="feed-hero">
+        <span>Feed culinario</span>
+        <h1>Lo que se esta cocinando ahora</h1>
+        <p>Recetas, sitios y antojos de la comunidad Savorealo.</p>
+      </header>
+
+      @if (feedStore.error()) {
+        <div class="feed-alert">
+          <i class="pi pi-exclamation-triangle"></i>
+          <span>{{ feedStore.error() }}</span>
+          <button type="button" (click)="feedStore.loadHomeFeed()">Reintentar</button>
+        </div>
+      }
+
+      @if (feedStore.loading()) {
+        <div class="feed-skeleton">
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      } @else if (feedStore.isEmpty()) {
+        <div class="feed-empty">
+          <strong>Aun no hay publicaciones por aqui.</strong>
+          <span>Cuando la comunidad empiece a compartir, este sera el primer sitio donde apareceran.</span>
+        </div>
+      } @else {
+        <div class="feed-list">
+          @for (post of feedStore.posts(); track post.id) {
+            <app-post-card
+              [post]="post"
+              (onLike)="feedStore.toggleLike($event)"
+              (onSave)="feedStore.toggleSave($event)"
+            />
+          }
+        </div>
+
+        @if (feedStore.hasNextPage()) {
+          <button
+            type="button"
+            class="load-more"
+            [disabled]="feedStore.loadingMore()"
+            (click)="feedStore.loadMore()"
+          >
+            {{ feedStore.loadingMore() ? 'Cargando...' : 'Ver mas recetas' }}
+          </button>
+        }
+      }
+    </section>
+
+    <aside class="home-rail" aria-label="Resumen del feed">
+      <div class="rail-card rail-card--hot">
+        <span class="rail-card__eyebrow">Hoy</span>
+        <strong>{{ feedStore.totalCount() }}</strong>
+        <p>publicaciones listas para inspirarte.</p>
+      </div>
+
+      <div class="rail-card">
+        <span class="rail-card__eyebrow">Ideas rapidas</span>
+        <ul>
+          <li>Guarda recetas para cocinarlas luego.</li>
+          <li>Dale like a lo que quieras ver mas.</li>
+          <li>Explorar y chat llegaran en rutas propias.</li>
+        </ul>
+      </div>
     </aside>
   </div>
 </app-shell>

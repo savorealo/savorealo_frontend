@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core'
+import { NgIf } from '@angular/common'
 import { ButtonComponent } from '../button/button';
 
 /**
@@ -28,11 +29,17 @@ import { ButtonComponent } from '../button/button';
 
 @Component({
   selector: 'app-emptystate',
-  imports: [ButtonComponent],
+  imports: [ButtonComponent, NgIf],
   template: `
     <div class="flex flex-col items-center justify-center py-16 px-6 text-center gap-4">
 
-      <div class="text-5xl">{{ icon }}</div>
+      <div class="text-5xl">
+        @if (icon.startsWith('pi ')) {
+          <i [class]="icon"></i>
+        } @else {
+          {{ icon }}
+        }
+      </div>
 
       <div class="flex flex-col gap-1 max-w-xs">
         <h3 class="text-base font-medium text-surface-900 dark:text-surface-100">

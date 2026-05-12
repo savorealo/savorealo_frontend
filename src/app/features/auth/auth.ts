@@ -1,32 +1,29 @@
 import { Component, inject } from '@angular/core'
-import { ButtonModule } from 'primeng/button';
 import { BehaviorSubject } from 'rxjs';
 import { NgClass } from "@angular/common";
 import { Login } from "./login/login";
 import { LoginUser, RegisterUser } from '@core/models/user/User';
 import { Register } from "./register/register";
 import { AuthStore } from '@core/store/auth.store';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EmojiRain } from "@features/emoji-rain/emoji-rain";
-import { Title } from '@shared/components/title/title';
 
 @Component({
   selector: 'app-auth',
   imports: [
-    ButtonModule,
-    Title,
     NgClass,
     Login,
     Register,
     EmojiRain
-],
+  ],
   templateUrl: './auth.html',
-  styleUrl: './auth.scss',
 })
 export class Auth {
   private router = inject(Router)
+  private route = inject(ActivatedRoute)
   authStore = inject(AuthStore)
   isRegister = new BehaviorSubject(false)
+  readonly logoUrl = '/assets/icons/new_logo.png'
 
   toRegister($event: boolean) {
     this.isRegister.next($event)
@@ -36,7 +33,7 @@ export class Auth {
     console.log("Hola:",$event)
     this.authStore.register($event).subscribe({
       next: ()=>{
-        this.router.navigate(["/"])
+        this.router.navigateByUrl(this.getSafeReturnUrl())
       }
     })
   }
@@ -44,8 +41,17 @@ export class Auth {
   onLoginSubmit($event: LoginUser){
     this.authStore.login($event).subscribe({
       next: ()=>{
-        this.router.navigate(['/'])
+        this.router.navigateByUrl(this.getSafeReturnUrl())
       }
     })
+  }
+
+  onGoogleAuth() {
+    this.authStore.loginWithGoogle().subscribe();
+  }
+
+  private getSafeReturnUrl(): string {
+    const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl')
+    return returnUrl?.startsWith('/') ? returnUrl : '/'
   }
 }

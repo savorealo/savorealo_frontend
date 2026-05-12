@@ -1,66 +1,63 @@
-<div [formGroup]="registerForm()" class="flex flex-col gap-3 mx-auto" style="min-height: 16rem; max-width: 24rem">
-    <div class="grid grid-cols-2 gap-3">
+<div [formGroup]="registerForm()" class="mx-auto grid w-full max-w-xl gap-5">
+  <div class="grid gap-4 sm:grid-cols-2">
+    <label class="grid gap-2">
+      <span class="text-xs font-black uppercase tracking-wide text-black/45">Nombre completo</span>
+      <input
+        pInputText
+        formControlName="fullName"
+        type="text"
+        placeholder="Maria Garcia"
+        class="h-12 rounded-2xl border-black/10 bg-white px-4 text-sm font-semibold"
+        [ngClass]="{'ng-invalid ng-dirty': isInvalid('fullName')}"
+        fluid
+      />
+      @if (isInvalid('fullName')) {
+        <p-message severity="error" size="small" variant="simple">El nombre es obligatorio.</p-message>
+      }
+    </label>
 
-        <!-- Full name -->
-        <div class="field flex flex-col gap-1">
-            <input
-                pInputText
-                formControlName="fullName"
-                type="text"
-                placeholder="Full name"
-                [ngClass]="{'ng-invalid ng-dirty': isInvalid('fullName')}"
-                fluid
-            />
-            @if (isInvalid('fullName')) {
-                <p-message severity="error" size="small" variant="simple">Full name is required.</p-message>
-            }
-        </div>
+    <label class="grid gap-2">
+      <span class="text-xs font-black uppercase tracking-wide text-black/45">Fecha de nacimiento</span>
+      <p-datepicker
+        formControlName="birthDate"
+        placeholder="Selecciona una fecha"
+        [invalid]="isInvalid('birthDate')"
+        fluid
+      />
+      @if (isInvalid('birthDate')) {
+        <p-message severity="error" size="small" variant="simple">La fecha es obligatoria.</p-message>
+      }
+    </label>
 
-        <!-- Birth date -->
-        <div class="field flex flex-col gap-1">
-            <p-datepicker
-                formControlName="birthDate"
-                placeholder="Birth date"
-                [invalid]="isInvalid('birthDate')"
-                fluid
-            />
-            @if (isInvalid('birthDate')) {
-                <p-message severity="error" size="small" variant="simple">Birth date is required.</p-message>
-            }
-        </div>
+    <label class="grid gap-2 sm:col-span-2">
+      <span class="text-xs font-black uppercase tracking-wide text-black/45">Bio</span>
+      <textarea
+        pTextarea
+        formControlName="bio"
+        placeholder="Cuentanos que te gusta cocinar..."
+        rows="4"
+        class="w-full resize-none rounded-2xl border-black/10 bg-white px-4 py-3 text-sm font-semibold"
+      ></textarea>
+    </label>
+  </div>
+</div>
 
-        <!-- Bio -->
-        <div class="field flex flex-col gap-1 col-span-2">
-            <textarea
-                pTextarea
-                formControlName="bio"
-                placeholder="Tell us something about yourself..."
-                rows="3"
-                style="resize: none;"
-                class="w-full"
-            ></textarea>
-        </div>
-
-    </div>
-    </div>
-
-    <div class="flex pt-6 justify-between">
-        <button
-            pButton
-            (click)="onGoBack()"
-            label="Next"
-            icon="pi pi-arrow-left"
-            iconPos="left"
-            style="background: var(--color-primary-300); border-color: var(--color-primary-300);"
-        >
-        </button>
-        <button
-            pButton
-            (click)="onSubmit()"
-            label="Next"
-            icon="pi pi-arrow-right"
-            iconPos="right"
-            style="background: var(--color-primary-300); border-color: var(--color-primary-300);"
-        >
-        </button>
-    </div>
+<div class="mx-auto mt-6 flex w-full max-w-xl items-center justify-between gap-3">
+  <button
+    pButton
+    type="button"
+    (click)="onGoBack()"
+    label="Atras"
+    icon="pi pi-arrow-left"
+    class="h-12 rounded-2xl border border-black/10 bg-white px-5 text-sm font-black text-black shadow-sm"
+  ></button>
+  <button
+    pButton
+    type="button"
+    (click)="onSubmit()"
+    label="Siguiente"
+    icon="pi pi-arrow-right"
+    iconPos="right"
+    class="h-12 rounded-2xl border-0 bg-gradient-to-r from-orange-500 to-orange-600 px-6 text-sm font-black text-white shadow-lg shadow-orange-500/25"
+  ></button>
+</div>

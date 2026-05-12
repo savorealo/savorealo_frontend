@@ -21,6 +21,21 @@ export class AuthService {
     );
   }
 
+  loginWithGoogle() {
+    const redirectTo = typeof window !== 'undefined'
+      ? window.location.origin
+      : undefined;
+
+    return from(
+      this.supabase.client.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo,
+        },
+      })
+    );
+  }
+
   /**
    * El trigger handle_new_auth_user lee raw_user_meta_data y crea automáticamente:
    *   - public.users

@@ -1,0 +1,16 @@
+.lmc-title {
+  font-family: var(--font-family-display, 'Playfair Display', Georgia, serif);
+  font-size: 4.5rem;
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--title-color, var(--p-text-color));
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25em;
+
+  &__word--accent {
+    color: var(--title-accent-color, var(--color-brand));
+    font-style: italic;
+  }
+}

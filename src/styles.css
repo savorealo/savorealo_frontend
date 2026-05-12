@@ -1,4 +1,7 @@
-/* 1. Primeicons PRIMERO (antes de todo, sin @layer) */
+/* 1. Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap');
+
+/* 2. Primeicons PRIMERO (antes de todo, sin @layer) */
 @import "primeicons/primeicons.css";
 
 /* 2. Tailwind */
@@ -70,6 +73,7 @@
 
   /* — Tipografía — */
   --font-family-sans: 'Inter', system-ui, sans-serif;
+  --font-family-display: 'Playfair Display', Georgia, serif;
 
   /* — PrimeNG tokens (light mode) — */
   --p-primary-color:        var(--color-primary-500);
@@ -148,5 +152,41 @@
   }
   [data-theme="dark"] ::-webkit-scrollbar-thumb {
     background: var(--color-surface-700);
+  }
+}
+
+/* ─────────────────────────────────────────────
+   6. Utilidades globales de marca
+───────────────────────────────────────────── */
+@layer utilities {
+  .brand-gradient {
+    background: linear-gradient(145deg, var(--color-primary-500) 0%, var(--color-primary-700) 100%);
+  }
+
+  .brand-gradient-soft {
+    background: linear-gradient(135deg, var(--color-primary-50) 0%, var(--color-secondary-50) 100%);
+  }
+
+  .text-brand { color: var(--color-brand); }
+  .text-muted  { color: var(--p-text-muted-color); }
+
+  .card {
+    background: var(--p-surface-0);
+    border: 1px solid var(--p-content-border-color);
+    border-radius: 16px;
+  }
+
+  .btn-brand {
+    background: var(--color-primary-500);
+    border-color: var(--color-primary-500);
+    color: #fff;
+    transition: background 150ms ease, border-color 150ms ease, transform 100ms ease;
+
+    &:hover:not(:disabled) {
+      background: var(--color-primary-600);
+      border-color: var(--color-primary-600);
+    }
+    &:active:not(:disabled) { transform: scale(0.98); }
+    &:disabled { opacity: 0.55; cursor: not-allowed; }
   }
 }

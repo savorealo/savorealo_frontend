@@ -1,0 +1,99 @@
+@if (store.viewerOpen() && store.activeStory()) {
+	<div
+		class="fixed inset-0 z-50 flex items-center justify-center bg-black"
+		(keydown.escape)="close()"
+		tabindex="0"
+	>
+		<!-- Story card -->
+		<div class="relative h-dvh w-full max-w-sm overflow-hidden sm:rounded-2xl sm:h-[90vh]">
+
+			<!-- Media -->
+			@if (store.activeStory()!.storyType === 'VIDEO') {
+				<video
+					#storyVideo
+					[src]="store.activeStory()!.mediaUrl"
+					class="absolute inset-0 size-full object-cover"
+					autoplay
+					muted
+					playsinline
+					(loadedmetadata)="onVideoMetadata()"
+					(timeupdate)="onVideoTimeUpdate($event)"
+					(ended)="store.nextStory()"
+				></video>
+			} @else {
+				<img
+					[src]="store.activeStory()!.mediaUrl"
+					[alt]="store.activeGroup()!.displayName"
+					class="absolute inset-0 size-full object-cover"
+				/>
+			}
+
+			<!-- Gradient overlay top -->
+			<div class="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-black/60 to-transparent"></div>
+			<!-- Gradient overlay bottom -->
+			<div class="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/40 to-transparent"></div>
+
+			<!-- Progress bars -->
+			<div class="absolute inset-x-0 top-0 flex gap-1 px-3 pt-3">
+				@for (s of store.activeGroup()!.stories; track s.id; let i = $index) {
+					<div class="h-[3px] flex-1 overflow-hidden rounded-full bg-white/30">
+						@if (i < store.activeStoryIdx()) {
+							<div class="h-full w-full bg-white"></div>
+						} @else if (i === store.activeStoryIdx()) {
+							<div class="h-full bg-white" [style.width.%]="progressPct()"></div>
+						}
+					</div>
+				}
+			</div>
+
+			<!-- Header -->
+			<div class="absolute inset-x-0 top-5 flex items-center justify-between gap-3 px-3 pt-3">
+				<div class="flex items-center gap-3">
+					<app-avatar
+						[src]="store.activeGroup()!.avatarUrl"
+						[name]="store.activeGroup()!.displayName"
+						size="sm"
+					/>
+					<div>
+						<p class="text-sm font-black text-white leading-tight">{{ store.activeGroup()!.displayName }}</p>
+						<p class="text-xs font-semibold text-white/60">{{ store.activeStory()!.createdAt | timeAgo }}</p>
+					</div>
+				</div>
+				<button
+					type="button"
+					class="grid size-9 place-items-center rounded-full bg-white/10 text-white transition hover:bg-white/20"
+					aria-label="Cerrar"
+					(click)="close()"
+				>
+					<i class="pi pi-times"></i>
+				</button>
+			</div>
+
+			<!-- Tap zones -->
+			<div class="absolute inset-0 flex">
+				<button
+					type="button"
+					class="h-full w-1/3 focus:outline-none"
+					aria-label="Historia anterior"
+					(click)="tap('left')"
+					(pointerdown)="holdStart()"
+					(pointerup)="holdEnd()"
+					(pointerleave)="holdEnd()"
+				></button>
+				<div class="flex-1"></div>
+				<button
+					type="button"
+					class="h-full w-1/3 focus:outline-none"
+					aria-label="Historia siguiente"
+					(click)="tap('right')"
+					(pointerdown)="holdStart()"
+					(pointerup)="holdEnd()"
+					(pointerleave)="holdEnd()"
+				></button>
+			</div>
+		</div>
+
+		<!-- Click outside to close (desktop) -->
+		<div class="absolute inset-0 -z-10 hidden sm:block" (click)="close()"></div>
+	</div>
+}

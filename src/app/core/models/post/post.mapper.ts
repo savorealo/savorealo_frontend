@@ -1,23 +1,17 @@
-// src/app/features/feed/models/post.mapper.ts
-import { PostDto } from './post.dto'
-import { Post, PostAuthor, PostMedia, Recipe, RecipeIngredient } from './post.model'
+import { PostDto, PostMediaDto, RecipeDto } from './post.dto'
+import { Post, PostAuthor, PostMedia, Recipe, RecipeStep } from './post.model'
 
-function mapAuthor(dto: PostDto['user']): PostAuthor {
-	const isPerson = dto.user_type === 'PERSON'
+function mapAuthor(dto: PostDto['author']): PostAuthor {
 	return {
 		id: dto.id,
-		name: isPerson
-			? (dto.person_profile?.full_name ?? null)
-			: (dto.business_profile?.business_name ?? null),
-		username: isPerson ? (dto.person_profile?.username ?? null) : null,
-		photoUrl: isPerson
-			? (dto.person_profile?.photo_url ?? null)
-			: (dto.business_profile?.photo_url ?? null),
+		name: dto.display_name ?? null,
+		username: dto.username ?? null,
+		photoUrl: dto.avatar_url ?? null,
 	}
 }
 
-function mapMedia(dto: PostDto['post_media']): PostMedia[] {
-	return dto
+function mapMedia(dto: PostMediaDto[]): PostMedia[] {
+	return [...dto]
 		.sort((a, b) => a.position - b.position)
 		.map(m => ({
 			id: m.id,
@@ -27,44 +21,49 @@ function mapMedia(dto: PostDto['post_media']): PostMedia[] {
 		}))
 }
 
-function mapRecipe(dto: NonNullable<PostDto['recipe']>): Recipe {
+function mapRecipe(dto: RecipeDto): Recipe {
+	let steps: RecipeStep[] = []
+	try {
+		const parsed = JSON.parse(dto.steps)
+		if (Array.isArray(parsed)) {
+			steps = parsed.map((s: { step?: number; order?: number; text?: string; description?: string }, i: number) => ({
+				step: s.step ?? s.order ?? i + 1,
+				text: s.text ?? s.description ?? '',
+			}))
+		}
+	} catch { steps = [] }
+
 	return {
 		id: dto.id,
 		name: dto.name,
 		description: dto.description,
-		steps: dto.steps,
+		steps,
 		timeRequired: dto.time_required,
-		estimatedCost: dto.estimated_cost,
+		estimatedCost: dto.estimated_cost ? parseFloat(dto.estimated_cost) : null,
 		servings: dto.servings,
-		difficulty: dto.difficulty,
-		ingredients: dto.recipe_ingredients.map((ri): RecipeIngredient => ({
-			ingredientId: ri.ingredient_id,
-			name: ri.ingredient.name,
-			unit: ri.ingredient.unit,
-			quantity: ri.quantity,
-			notes: ri.notes,
-		})),
+		difficulty: (dto.difficulty as 'EASY' | 'MEDIUM' | 'HARD' | null) ?? null,
+		ingredients: [],
 	}
 }
 
 export function mapPostDtoToPost(dto: PostDto): Post {
 	return {
 		id: dto.id,
-		authorId: dto.user_id,
-		author: mapAuthor(dto.user),
+		authorId: dto.author.id,
+		author: mapAuthor(dto.author),
 		postType: dto.post_type,
 		title: dto.title,
 		description: dto.description,
-		categories: dto.categories ?? [],
-		media: mapMedia(dto.post_media),
+		categories: [],
+		media: mapMedia(dto.post_media ?? []),
 		recipe: dto.recipe ? mapRecipe(dto.recipe) : null,
-		likesCount: dto.likes_count,
-		commentsCount: dto.comments_count,
-		viewsCount: dto.views_count,
-		savesCount: dto.saves_count,
-		liked: dto.liked,
-		saved: dto.saved,
+		likesCount: dto.likes_count ?? 0,
+		commentsCount: dto.comments_count ?? 0,
+		viewsCount: 0,
+		savesCount: dto.saves_count ?? 0,
+		liked: dto.liked ?? false,
+		saved: dto.saved ?? false,
 		createdAt: new Date(dto.created_at),
-		updatedAt: new Date(dto.updated_at),
+		updatedAt: new Date(dto.created_at),
 	}
 }
