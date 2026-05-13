@@ -38,13 +38,17 @@ jobs:
       - name: Build (Cloudflare SSR)
         run: npm run build:cloudflare
 
-      - name: Prepare SSR worker for Cloudflare Pages
+      - name: Bundle SSR worker
         run: |
-          cp -r dist/cookeealo/server/. dist/cookeealo/browser/
-          mv dist/cookeealo/browser/server.mjs dist/cookeealo/browser/_worker.js
+          npx esbuild dist/cookeealo/server/server.mjs \
+            --bundle \
+            --outfile=dist/cookeealo/browser/_worker.js \
+            --format=esm \
+            --platform=browser \
+            --define:import.meta.url='"file:///worker"'
 
       - name: Deploy to Cloudflare Pages
-        run: npx wrangler pages deploy dist/cookeealo/browser --project-name savorealo-frontend
+        run: npx wrangler pages deploy dist/cookeealo/browser --project-name savorealo-frontend --no-bundle
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
