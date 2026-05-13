@@ -40,7 +40,7 @@ jobs:
 
       - name: Prepare SSR worker for Cloudflare Pages
         run: |
-          cp dist/cookeealo/server/*.mjs dist/cookeealo/browser/
+          cp -r dist/cookeealo/server/. dist/cookeealo/browser/
           mv dist/cookeealo/browser/server.mjs dist/cookeealo/browser/_worker.js
 
       - name: Deploy to Cloudflare Pages
