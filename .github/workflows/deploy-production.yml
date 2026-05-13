@@ -40,12 +40,19 @@ jobs:
 
       - name: Bundle SSR worker
         run: |
-          npx esbuild dist/cookeealo/server/server.mjs \
+          echo "=== Server dir ==="
+          ls -la dist/cookeealo/server/
+          echo "=== Bundling ==="
+          node_modules/.bin/esbuild dist/cookeealo/server/server.mjs \
             --bundle \
             --outfile=dist/cookeealo/browser/_worker.js \
             --format=esm \
-            --platform=browser \
-            --define:import.meta.url='"file:///worker"'
+            --platform=neutral \
+            '--define:import.meta.url="file:///worker"' \
+            --external:node:* \
+            --log-level=info
+          echo "=== Output ==="
+          ls -lh dist/cookeealo/browser/_worker.js
 
       - name: Deploy to Cloudflare Pages
         run: npx wrangler pages deploy dist/cookeealo/browser --project-name savorealo-frontend --no-bundle

@@ -50,3 +50,6 @@ Thumbs.db
 # Environment variables
 .env
 .env.local
+
+# Claude Code worktrees (local tooling, not part of the repo)
+.claude/
