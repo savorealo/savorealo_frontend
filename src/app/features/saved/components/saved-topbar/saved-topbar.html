@@ -1,0 +1,47 @@
+<header class="sticky top-0 z-30 border-b border-black/10 bg-white/95 px-4 py-4 backdrop-blur">
+	<div class="mx-auto grid max-w-[1280px] grid-cols-[minmax(0,1fr)_auto] items-center gap-4 xl:grid-cols-[minmax(24rem,44rem)_auto]">
+		<label class="relative min-w-0">
+			<i class="pi pi-search absolute left-5 top-1/2 -translate-y-1/2 text-xl text-black/25"></i>
+			<input
+				type="search"
+				class="h-12 w-full rounded-full border-0 bg-[#f1f1f1] pl-14 pr-16 text-sm font-semibold text-black outline-none placeholder:text-black/35 focus:bg-white focus:shadow-[0_0_0_2px_rgba(255,139,37,0.22)]"
+				placeholder="Buscar recetas, ingredientes o usuarios..."
+			/>
+			<span class="absolute right-5 top-1/2 hidden -translate-y-1/2 rounded-lg bg-white px-2 py-1 text-xs font-black text-black/35 shadow-sm sm:inline">⌘ K</span>
+		</label>
+
+		<div class="flex items-center gap-3">
+			<button
+				type="button"
+				class="inline-flex h-12 items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 px-6 text-base font-black text-white shadow-[0_12px_30px_rgba(255,101,32,0.25)] transition hover:brightness-110"
+				(click)="create.emit()"
+			>
+				<i class="pi pi-plus"></i>
+				<span class="hidden sm:inline">Crear</span>
+			</button>
+
+			<a routerLink="/ai" class="hidden h-12 items-center gap-2 rounded-full border border-black/10 bg-white px-5 text-sm font-black text-black shadow-sm transition hover:bg-orange-50 md:inline-flex">
+				<i class="pi pi-sparkles text-orange-500"></i>
+				<span>IA Recetas</span>
+			</a>
+
+			<button type="button" class="relative hidden size-12 place-items-center rounded-full border border-black/10 bg-white text-black shadow-sm transition hover:bg-orange-50 sm:grid" aria-label="Notificaciones">
+				<i class="pi pi-bell text-xl"></i>
+				<span class="absolute right-1 top-1 grid size-5 place-items-center rounded-full bg-orange-600 text-[0.7rem] font-black text-white">3</span>
+			</button>
+
+			<a routerLink="/profile" class="flex items-center gap-2 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-400">
+				<span class="grid size-12 shrink-0 place-items-center overflow-hidden rounded-full border border-[#ff8f27] bg-[#ff8f27]">
+					<img
+						[src]="profile()?.photo_url || logoUrl"
+						[alt]="profile()?.username || 'Perfil'"
+						class="size-full"
+						[class.object-cover]="profile()?.photo_url"
+						[class.object-contain]="!profile()?.photo_url"
+					/>
+				</span>
+				<i class="pi pi-chevron-down hidden text-sm text-black/35 sm:inline"></i>
+			</a>
+		</div>
+	</div>
+</header>

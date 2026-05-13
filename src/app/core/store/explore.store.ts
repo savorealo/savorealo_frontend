@@ -1,0 +1,96 @@
+import { computed, inject, Injectable, signal } from '@angular/core'
+import { finalize } from 'rxjs'
+import { Post } from '@core/models/post/post.model'
+import { PostCategory } from '@core/models/post/post.dto'
+import { ExploreService } from '@core/services/explore.service'
+
+export type ExploreSort = 'relevant' | 'recent' | 'popular'
+
+@Injectable({ providedIn: 'root' })
+export class ExploreStore {
+	private readonly exploreService = inject(ExploreService)
+
+	private readonly _posts = signal<Post[]>([])
+	private readonly _loading = signal(false)
+	private readonly _loadingMore = signal(false)
+	private readonly _error = signal<string | null>(null)
+	private readonly _endCursor = signal<string | null>(null)
+	private readonly _hasNextPage = signal(false)
+	private readonly _totalCount = signal(0)
+	private readonly _selectedCategory = signal<PostCategory | null>(null)
+	private readonly _sort = signal<ExploreSort>('relevant')
+
+	readonly posts = this._posts.asReadonly()
+	readonly loading = this._loading.asReadonly()
+	readonly loadingMore = this._loadingMore.asReadonly()
+	readonly error = this._error.asReadonly()
+	readonly hasNextPage = this._hasNextPage.asReadonly()
+	readonly totalCount = this._totalCount.asReadonly()
+	readonly selectedCategory = this._selectedCategory.asReadonly()
+	readonly sort = this._sort.asReadonly()
+	readonly isEmpty = computed(() => !this._loading() && this._posts().length === 0)
+
+	loadExplore(): void {
+		this._loading.set(true)
+		this._error.set(null)
+		this._endCursor.set(null)
+
+		this.exploreService.getExplorePosts(this.categoryVariable()).pipe(
+			finalize(() => this._loading.set(false)),
+		).subscribe({
+			next: page => {
+				this._posts.set(this.sortPosts(page.posts))
+				this._endCursor.set(page.endCursor)
+				this._hasNextPage.set(page.hasNextPage)
+				this._totalCount.set(page.totalCount)
+			},
+			error: err => this._error.set(err.message ?? 'No se pudo cargar explorar'),
+		})
+	}
+
+	loadMore(): void {
+		if (!this._hasNextPage() || this._loadingMore()) return
+
+		this._loadingMore.set(true)
+		this._error.set(null)
+
+		this.exploreService.getExplorePosts(this.categoryVariable(), 12, this._endCursor()).pipe(
+			finalize(() => this._loadingMore.set(false)),
+		).subscribe({
+			next: page => {
+				this._posts.update(posts => this.sortPosts([...posts, ...page.posts]))
+				this._endCursor.set(page.endCursor)
+				this._hasNextPage.set(page.hasNextPage)
+				this._totalCount.set(page.totalCount)
+			},
+			error: err => this._error.set(err.message ?? 'No se pudieron cargar mas recetas'),
+		})
+	}
+
+	setCategory(category: PostCategory | null): void {
+		if (this._selectedCategory() === category) return
+		this._selectedCategory.set(category)
+		this.loadExplore()
+	}
+
+	setSort(sort: ExploreSort): void {
+		this._sort.set(sort)
+		this._posts.update(posts => this.sortPosts([...posts]))
+	}
+
+	private categoryVariable(): PostCategory[] | null {
+		const category = this._selectedCategory()
+		return category ? [category] : null
+	}
+
+	private sortPosts(posts: Post[]): Post[] {
+		switch (this._sort()) {
+			case 'popular':
+				return posts.sort((a, b) => b.likesCount + b.commentsCount - (a.likesCount + a.commentsCount))
+			case 'recent':
+				return posts.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+			default:
+				return posts
+		}
+	}
+}

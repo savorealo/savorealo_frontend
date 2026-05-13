@@ -1,0 +1,77 @@
+<div>
+  <span class="inline-flex rounded-full bg-orange-50 px-4 py-2 text-sm font-black text-orange-600">Bienvenido de nuevo</span>
+  <h1 class="mt-4 text-4xl font-black tracking-tight text-black">Entra a tu cocina</h1>
+  <p class="mt-3 text-base font-semibold leading-7 text-black/55">Continua descubriendo recetas, guardando ideas y compartiendo tus platos favoritos.</p>
+</div>
+
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="mt-8 grid gap-5">
+  <label class="grid gap-2">
+    <span class="text-sm font-black text-black/70">Correo electronico</span>
+    <input
+      pInputText
+      type="email"
+      id="email"
+      placeholder="tu@email.com"
+      formControlName="email"
+      class="h-13 w-full rounded-2xl border border-black/10 bg-black/[0.03] px-4 text-base font-semibold outline-none focus:border-orange-400 focus:bg-white"
+      [ngClass]="{'ng-invalid ng-dirty': isInvalid('email')}"
+    />
+    @if (isInvalid('email')) {
+      @if (loginForm.get('email')?.errors?.['required']) {
+        <p-message severity="error" size="small" variant="simple">El email es obligatorio.</p-message>
+      }
+      @if (loginForm.get('email')?.errors?.['email']) {
+        <p-message severity="error" size="small" variant="simple">Introduce un email valido.</p-message>
+      }
+    }
+  </label>
+
+  <label class="grid gap-2">
+    <span class="text-sm font-black text-black/70">Contrasena</span>
+    <p-password
+      formControlName="password"
+      [invalid]="isInvalid('password')"
+      [toggleMask]="true"
+      [feedback]="false"
+      autocomplete="off"
+      placeholder="Tu contrasena"
+      fluid
+    />
+    @if (isInvalid('password')) {
+      <p-message severity="error" size="small" variant="simple">La contrasena es obligatoria.</p-message>
+    }
+  </label>
+
+  <button
+    pButton
+    type="submit"
+    [disabled]="loginForm.invalid"
+    class="mt-1 flex h-13 w-full items-center justify-center rounded-2xl border-0 bg-gradient-to-r from-orange-500 to-orange-600 text-base font-black text-white shadow-[0_14px_34px_rgba(255,111,32,0.28)] disabled:opacity-60"
+  >
+    <span pButtonLabel>Entrar</span>
+  </button>
+
+  <div class="flex items-center gap-3">
+    <hr class="flex-1 border-black/10" />
+    <span class="text-xs font-black text-black/35">O CONTINUA CON</span>
+    <hr class="flex-1 border-black/10" />
+  </div>
+
+  <button
+    type="button"
+    class="flex h-12 items-center justify-center gap-3 rounded-2xl border border-black/10 bg-white text-sm font-black text-black transition hover:bg-orange-50"
+    (click)="loginWithGoogle()"
+  >
+    <img src="assets/google.svg" alt="" class="size-5" />
+    <span>Google</span>
+  </button>
+
+  <p class="text-center text-sm font-semibold text-black/55">
+    No tienes cuenta?
+    <button
+      type="button"
+      class="font-black text-orange-600 underline decoration-orange-300 underline-offset-4"
+      (click)="toRegister(true)"
+    >Registrate</button>
+  </p>
+</form>

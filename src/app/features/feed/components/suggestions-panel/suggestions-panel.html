@@ -1,0 +1,26 @@
+<section class="rounded-2xl bg-white p-5 shadow-sm">
+	<header class="mb-4 flex items-center justify-between">
+		<h2 class="text-sm font-semibold text-black">Sugerencias para ti</h2>
+		<button type="button" class="text-xs font-semibold text-[#ff6d00]">Ver todo</button>
+	</header>
+
+	<div class="grid gap-3">
+		@for (suggestion of suggestions; track suggestion.id) {
+			<article class="flex items-center gap-2">
+				<span class="grid size-10 shrink-0 place-items-center overflow-hidden rounded-full border border-[#ff8f27] bg-[#ff8f27]">
+					<img [src]="suggestion.avatarUrl" alt="" class="size-full object-contain" />
+				</span>
+				<div class="min-w-0 flex-1 leading-tight">
+					<div class="flex items-center gap-1">
+						<strong class="truncate text-xs font-black text-black">{{ suggestion.name }}</strong>
+						<i class="pi pi-verified text-[0.65rem] text-sky-500"></i>
+					</div>
+					<span class="truncate text-[0.65rem] font-semibold text-black/45">{{ suggestion.username }}</span>
+				</div>
+				<button type="button" class="rounded-full border border-black/10 px-3 py-1.5 text-[0.62rem] font-black text-[#ff6d00]">
+					Seguir
+				</button>
+			</article>
+		}
+	</div>
+</section>

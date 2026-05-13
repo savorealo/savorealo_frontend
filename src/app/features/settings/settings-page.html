@@ -1,0 +1,237 @@
+<app-shell>
+	<main class="min-h-dvh bg-[#f6f6f6] px-4 py-5 sm:px-6 lg:px-8">
+		<div class="mx-auto grid max-w-[1180px] gap-6 xl:grid-cols-[minmax(0,1fr)_340px]">
+			<section class="min-w-0">
+
+				<!-- Header -->
+				<div class="rounded-[2rem] border border-black/5 bg-white p-6 shadow-[0_18px_60px_rgba(20,20,20,0.08)] sm:p-8">
+					<div class="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+						<div>
+							<span class="inline-flex rounded-full bg-orange-50 px-4 py-2 text-sm font-black text-orange-600">Centro de control</span>
+							<h1 class="mt-4 text-4xl font-black tracking-tight text-black">Ajustes</h1>
+							<p class="mt-2 max-w-2xl text-base font-semibold leading-7 text-black/55">
+								Gestiona tu perfil, privacidad y notificaciones sin salir de Savorealo.
+							</p>
+						</div>
+						<a
+							routerLink="/profile"
+							class="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-black/10 bg-white px-5 text-sm font-black text-black transition hover:bg-orange-50"
+						>
+							<i class="pi pi-user"></i>
+							Ver perfil
+						</a>
+					</div>
+				</div>
+
+				<div class="mt-6 grid gap-6">
+
+					<!-- Cuenta -->
+					<section class="rounded-[1.75rem] border border-black/5 bg-white p-6 shadow-[0_14px_40px_rgba(20,20,20,0.06)]">
+						<div class="flex items-center justify-between gap-4">
+							<div>
+								<h2 class="text-xl font-black text-black">Cuenta</h2>
+								<p class="mt-1 text-sm font-semibold text-black/45">Informacion basica de tu acceso.</p>
+							</div>
+							<span class="grid size-11 place-items-center rounded-2xl bg-orange-50 text-orange-500">
+								<i class="pi pi-shield"></i>
+							</span>
+						</div>
+						<div class="mt-5 grid gap-4 sm:grid-cols-2">
+							<label class="grid gap-2">
+								<span class="text-xs font-black uppercase tracking-wide text-black/40">Nombre publico</span>
+								<input type="text" [value]="displayName()" readonly
+									class="h-12 rounded-2xl border border-black/10 bg-[#fafafa] px-4 text-sm font-bold text-black outline-none" />
+							</label>
+							<label class="grid gap-2">
+								<span class="text-xs font-black uppercase tracking-wide text-black/40">Usuario</span>
+								<input type="text" [value]="'@' + username()" readonly
+									class="h-12 rounded-2xl border border-black/10 bg-[#fafafa] px-4 text-sm font-bold text-black outline-none" />
+							</label>
+							<label class="grid gap-2 sm:col-span-2">
+								<span class="text-xs font-black uppercase tracking-wide text-black/40">Email</span>
+								<input type="email" [value]="email()" readonly
+									class="h-12 rounded-2xl border border-black/10 bg-[#fafafa] px-4 text-sm font-bold text-black outline-none" />
+							</label>
+						</div>
+					</section>
+
+					<!-- Notificaciones -->
+					<section class="rounded-[1.75rem] border border-black/5 bg-white p-6 shadow-[0_14px_40px_rgba(20,20,20,0.06)]">
+						<div class="flex items-center justify-between gap-4">
+							<div>
+								<h2 class="text-xl font-black text-black">Notificaciones</h2>
+								<p class="mt-1 text-sm font-semibold text-black/45">Se guardan automaticamente en tu cuenta.</p>
+							</div>
+							<span class="grid size-11 place-items-center rounded-2xl bg-orange-50 text-orange-500">
+								@if (saving()) {
+									<i class="pi pi-spinner pi-spin"></i>
+								} @else {
+									<i class="pi pi-bell"></i>
+								}
+							</span>
+						</div>
+						<div class="mt-5 divide-y divide-black/5 overflow-hidden rounded-3xl border border-black/5">
+							@for (item of notificationToggles; track item.key) {
+								<button
+									type="button"
+									class="flex w-full items-center justify-between gap-5 bg-white p-4 text-left transition hover:bg-orange-50"
+									(click)="toggle(item.key)"
+									[attr.aria-pressed]="settings()[item.key]"
+								>
+									<span>
+										<span class="block text-sm font-black text-black">{{ item.label }}</span>
+										<span class="mt-1 block text-sm font-semibold leading-5 text-black/45">{{ item.description }}</span>
+									</span>
+									<span
+										class="relative h-7 w-12 shrink-0 rounded-full transition"
+										[class.bg-orange-500]="settings()[item.key]"
+										[class.bg-black/10]="!settings()[item.key]"
+									>
+										<span
+											class="absolute top-1 size-5 rounded-full bg-white shadow transition"
+											[class.left-6]="settings()[item.key]"
+											[class.left-1]="!settings()[item.key]"
+										></span>
+									</span>
+								</button>
+							}
+						</div>
+					</section>
+
+					<!-- Apariencia + Privacidad -->
+					<section class="rounded-[1.75rem] border border-black/5 bg-white p-6 shadow-[0_14px_40px_rgba(20,20,20,0.06)]">
+						<div class="flex items-center justify-between gap-4">
+							<div>
+								<h2 class="text-xl font-black text-black">Apariencia y privacidad</h2>
+								<p class="mt-1 text-sm font-semibold text-black/45">Personaliza tu experiencia y visibilidad.</p>
+							</div>
+							<span class="grid size-11 place-items-center rounded-2xl bg-orange-50 text-orange-500">
+								<i class="pi pi-palette"></i>
+							</span>
+						</div>
+						<div class="mt-5 divide-y divide-black/5 overflow-hidden rounded-3xl border border-black/5">
+
+							<!-- Dark mode -->
+							<button
+								type="button"
+								class="flex w-full items-center justify-between gap-5 bg-white p-4 text-left transition hover:bg-orange-50"
+								(click)="toggleTheme()"
+								[attr.aria-pressed]="isDark()"
+							>
+								<span class="flex items-center gap-3">
+									<span class="grid size-9 place-items-center rounded-xl text-lg"
+										[class]="isDark() ? 'bg-slate-800 text-yellow-300' : 'bg-orange-50 text-orange-500'">
+										<i [class]="isDark() ? 'pi pi-moon' : 'pi pi-sun'"></i>
+									</span>
+									<span>
+										<span class="block text-sm font-black text-black">Modo oscuro</span>
+										<span class="mt-1 block text-sm font-semibold leading-5 text-black/45">
+											{{ isDark() ? 'Activo — interfaz oscura' : 'Inactivo — interfaz clara' }}
+										</span>
+									</span>
+								</span>
+								<span
+									class="relative h-7 w-12 shrink-0 rounded-full transition"
+									[class.bg-orange-500]="isDark()"
+									[class.bg-black/10]="!isDark()"
+								>
+									<span
+										class="absolute top-1 size-5 rounded-full bg-white shadow transition"
+										[class.left-6]="isDark()"
+										[class.left-1]="!isDark()"
+									></span>
+								</span>
+							</button>
+
+							<!-- Perfil privado -->
+							<button
+								type="button"
+								class="flex w-full items-center justify-between gap-5 bg-white p-4 text-left transition hover:bg-orange-50"
+								(click)="togglePrivacy()"
+								[attr.aria-pressed]="settings().is_private"
+							>
+								<span class="flex items-center gap-3">
+									<span class="grid size-9 place-items-center rounded-xl bg-orange-50 text-orange-500 text-lg">
+										<i class="pi pi-lock"></i>
+									</span>
+									<span>
+										<span class="block text-sm font-black text-black">Perfil privado</span>
+										<span class="mt-1 block text-sm font-semibold leading-5 text-black/45">
+											Limita la visibilidad de tus posts a tus seguidores.
+										</span>
+									</span>
+								</span>
+								<span
+									class="relative h-7 w-12 shrink-0 rounded-full transition"
+									[class.bg-orange-500]="settings().is_private"
+									[class.bg-black/10]="!settings().is_private"
+								>
+									<span
+										class="absolute top-1 size-5 rounded-full bg-white shadow transition"
+										[class.left-6]="settings().is_private"
+										[class.left-1]="!settings().is_private"
+									></span>
+								</span>
+							</button>
+
+						</div>
+					</section>
+
+					<!-- Sesion -->
+					<section class="rounded-[1.75rem] border border-red-100 bg-white p-6 shadow-[0_14px_40px_rgba(20,20,20,0.06)]">
+						<div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+							<div>
+								<h2 class="text-xl font-black text-black">Sesion</h2>
+								<p class="mt-1 text-sm font-semibold text-black/45">Puedes cerrar sesion en este dispositivo.</p>
+							</div>
+							<button
+								type="button"
+								class="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-red-500 px-5 text-sm font-black text-white transition hover:bg-red-600"
+								(click)="logOut()"
+							>
+								<i class="pi pi-sign-out"></i>
+								Cerrar sesion
+							</button>
+						</div>
+					</section>
+
+				</div>
+			</section>
+
+			<!-- Aside -->
+			<aside class="hidden gap-5 xl:grid">
+				<section class="rounded-[1.75rem] border border-black/5 bg-white p-5 shadow-[0_14px_40px_rgba(20,20,20,0.06)]">
+					<div class="flex items-center gap-3">
+						<span class="grid size-14 shrink-0 place-items-center overflow-hidden rounded-full bg-orange-500">
+							<img
+								[src]="profile()?.photo_url || logoUrl"
+								[alt]="username()"
+								class="size-full"
+								[class.object-cover]="profile()?.photo_url"
+								[class.object-contain]="!profile()?.photo_url"
+							/>
+						</span>
+						<div class="min-w-0">
+							<h2 class="truncate text-base font-black text-black">{{ displayName() }}</h2>
+							<p class="truncate text-sm font-semibold text-black/45">@{{ username() }}</p>
+						</div>
+					</div>
+					<div class="mt-5 rounded-3xl bg-[#fafafa] p-4">
+						<p class="text-sm font-semibold leading-6 text-black/55">
+							Tus preferencias se guardan en tu cuenta y se restauran automaticamente al iniciar sesion.
+						</p>
+					</div>
+				</section>
+
+				<section class="rounded-[1.75rem] border border-black/5 bg-black p-5 text-white shadow-[0_14px_40px_rgba(20,20,20,0.10)]">
+					<span class="inline-flex rounded-full bg-white/10 px-3 py-1 text-xs font-black text-orange-200">Savorealo Pro</span>
+					<h2 class="mt-4 text-xl font-black">Mas control para creadores</h2>
+					<p class="mt-2 text-sm font-semibold leading-6 text-white/55">Estadisticas avanzadas, colecciones privadas y recetas destacadas.</p>
+					<button type="button" class="mt-5 h-11 w-full rounded-full bg-white text-sm font-black text-black transition hover:bg-orange-50">
+						Proximamente
+					</button>
+				</section>
+			</aside>
+		</div>
+	</main>
+</app-shell>

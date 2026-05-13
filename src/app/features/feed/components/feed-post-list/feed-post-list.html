@@ -1,0 +1,43 @@
+<cdk-virtual-scroll-viewport
+	itemSize="540"
+	class="h-full w-full"
+	(scrolledIndexChange)="onScrolledIndexChange()"
+>
+	<div class="grid gap-7 pb-10">
+		@if (error()) {
+			<div class="mx-auto flex w-full max-w-[500px] items-center gap-3 rounded-lg bg-red-50 p-3 text-sm font-semibold text-red-700">
+				<i class="pi pi-exclamation-triangle"></i>
+				<span class="flex-1">{{ error() }}</span>
+				<button type="button" class="font-black text-red-800" (click)="retry.emit()">Reintentar</button>
+			</div>
+		}
+
+		@if (loading() && posts().length === 0) {
+			@for (i of [1, 2, 3]; track i) {
+				<app-skeleton-card />
+			}
+		}
+
+		<app-post-card
+			*cdkVirtualFor="let post of posts(); trackBy: trackById"
+			[post]="post"
+			(onLike)="like.emit($event)"
+			(onSave)="save.emit($event)"
+			(onComment)="comment.emit($event)"
+		/>
+
+		@if (loadingMore()) {
+			<app-skeleton-card />
+		}
+
+		@if (isEmpty()) {
+			<div class="mx-auto w-full max-w-[500px] rounded-lg bg-white">
+				<app-emptystate
+					icon="pi pi-home"
+					title="Tu feed esta vacio"
+					description="Sigue a otros cocineros para ver sus recetas"
+				/>
+			</div>
+		}
+	</div>
+</cdk-virtual-scroll-viewport>

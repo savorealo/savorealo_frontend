@@ -1,0 +1,61 @@
+<article class="group overflow-hidden rounded-[1.75rem] border border-black/5 bg-white shadow-[0_14px_40px_rgba(20,20,20,0.06)] transition hover:-translate-y-0.5 hover:shadow-xl">
+	<div class="relative aspect-[4/3] overflow-hidden bg-orange-50">
+		@if (post().media[0]) {
+			<img [src]="post().media[0].url" [alt]="post().title ?? ''" class="size-full object-cover transition duration-500 group-hover:scale-105" />
+		} @else {
+			<div class="grid size-full place-items-center text-orange-200">
+				<i class="pi pi-image text-5xl"></i>
+			</div>
+		}
+		<div class="absolute inset-x-0 top-0 flex items-start justify-between p-4">
+			@if (post().categories[0]) {
+				<span class="rounded-full bg-black/65 px-3 py-1 text-xs font-black text-white">{{ post().categories[0] }}</span>
+			} @else {
+				<span></span>
+			}
+			<button
+				type="button"
+				class="grid size-10 place-items-center rounded-full bg-white text-orange-500 shadow-lg transition hover:bg-orange-500 hover:text-white"
+				(click)="remove.emit(post().id)"
+				aria-label="Quitar guardado"
+			>
+				<i class="pi pi-bookmark-fill"></i>
+			</button>
+		</div>
+		@if (post().recipe?.timeRequired) {
+			<span class="absolute bottom-4 right-4 rounded-full bg-white/90 px-3 py-1 text-xs font-black text-black">{{ post().recipe!.timeRequired }} min</span>
+		}
+	</div>
+
+	<div class="p-5">
+		<div class="flex items-center gap-2">
+			@if (post().author.photoUrl) {
+				<img [src]="post().author.photoUrl" [alt]="post().author.name ?? ''" class="size-8 rounded-full object-cover" />
+			} @else {
+				<span class="grid size-8 shrink-0 place-items-center rounded-full bg-orange-100 text-xs font-black text-orange-500">
+					{{ (post().author.name ?? post().author.username ?? '?').charAt(0).toUpperCase() }}
+				</span>
+			}
+			<span class="truncate text-sm font-black text-black/65">{{ post().author.name ?? post().author.username }}</span>
+		</div>
+
+		<h3 class="mt-4 line-clamp-2 text-xl font-black leading-7 text-black">
+			{{ post().title ?? post().recipe?.name ?? post().description }}
+		</h3>
+		<p class="mt-2 line-clamp-2 text-sm font-semibold leading-6 text-black/50">{{ post().description }}</p>
+
+		<div class="mt-5 flex items-center justify-between gap-3">
+			<div class="flex items-center gap-4 text-sm font-bold text-black/45">
+				<span><i class="pi pi-heart-fill text-red-500"></i> {{ post().likesCount }}</span>
+				<span><i class="pi pi-comment"></i> {{ post().commentsCount }}</span>
+				@if (post().recipe?.servings) {
+					<span><i class="pi pi-users"></i> {{ post().recipe!.servings }}</span>
+				}
+			</div>
+			<a [routerLink]="['/post', post().id]" class="inline-flex items-center gap-2 text-sm font-black text-orange-500">
+				Ver
+				<i class="pi pi-chevron-right text-xs"></i>
+			</a>
+		</div>
+	</div>
+</article>

@@ -1,0 +1,27 @@
+<section class="rounded-3xl border border-black/5 bg-white p-6 shadow-sm">
+	<header class="mb-6 flex items-center justify-between">
+		<h2 class="flex items-center gap-3 text-2xl font-black text-black">
+			<span>💡</span>
+			<span>Ideas para ti</span>
+		</h2>
+		<button type="button" class="inline-flex items-center gap-2 text-sm font-black text-orange-500" (click)="store.refreshIdeas()">
+			<i class="pi pi-refresh"></i>
+			<span>Actualizar</span>
+		</button>
+	</header>
+
+	<div class="grid gap-5">
+		@for (idea of store.ideas(); track idea.id) {
+			<article class="grid grid-cols-[56px_1fr_auto] items-center gap-4">
+				<img [src]="idea.imageUrl" alt="" class="size-16 rounded-full object-cover" />
+				<div class="min-w-0">
+					<h3 class="truncate text-lg font-black text-black">{{ idea.title }}</h3>
+					<p class="truncate text-sm font-semibold text-black/45">{{ idea.description }}</p>
+				</div>
+				<button type="button" class="rounded-full bg-orange-50 px-5 py-3 text-sm font-black text-orange-500">
+					Ver receta
+				</button>
+			</article>
+		}
+	</div>
+</section>

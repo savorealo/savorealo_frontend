@@ -1,0 +1,15 @@
+<div class="flex items-center justify-between gap-4 py-3">
+	<label class="inline-flex h-12 items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.04] px-5 text-sm text-white/65">
+		<span>Ordenar por:</span>
+		<select class="bg-transparent font-bold text-white outline-none" [value]="sort()" (change)="updateSort($event)">
+			<option class="bg-[#111]" value="relevant">Relevantes</option>
+			<option class="bg-[#111]" value="recent">Recientes</option>
+			<option class="bg-[#111]" value="popular">Populares</option>
+		</select>
+	</label>
+
+	<button type="button" class="inline-flex h-12 items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.04] px-6 text-sm font-black text-white transition hover:bg-white/10">
+		<i class="pi pi-sliders-h"></i>
+		<span>Filtros</span>
+	</button>
+</div>

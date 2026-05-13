@@ -1,0 +1,11 @@
+<button class="inline-flex border-0 bg-transparent" (click)="activateCallback()">
+    <span
+        class="inline-flex size-12 items-center justify-center rounded-full border text-base transition"
+        [ngClass]="{
+            'border-orange-500 bg-orange-500 text-white shadow-lg shadow-orange-500/25': value <= activeStep,
+            'border-black/10 bg-white text-black/35': value > activeStep
+        }"
+    >
+        <i class="pi pi-id-card"></i>
+    </span>
+</button>

@@ -1,0 +1,109 @@
+.auth-bg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: var(--color-surface-50);
+  padding: 24px;
+}
+
+.auth-card {
+  display: flex;
+  flex-direction: row;
+  width: min(1020px, 100%);
+  min-height: 620px;
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.04),
+    0 20px 60px rgba(0, 0, 0, 0.10),
+    0 0 0 1px rgba(0, 0, 0, 0.04);
+
+  &--reversed {
+    flex-direction: row-reverse;
+  }
+}
+
+/* ── Panel izquierdo: marca ────────────────────── */
+.auth-brand {
+  position: relative;
+  width: 42%;
+  flex-shrink: 0;
+  background: linear-gradient(150deg, var(--color-primary-400) 0%, var(--color-primary-600) 55%, var(--color-primary-800) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 36px;
+  overflow: hidden;
+
+  /* Sobreescribir variables del título para fondo naranja */
+  --title-color: #fff;
+  --title-accent-color: var(--color-secondary-200);
+}
+
+.auth-brand__deco {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.07);
+  pointer-events: none;
+
+  &--top {
+    width: 340px;
+    height: 340px;
+    top: -100px;
+    right: -100px;
+  }
+
+  &--bottom {
+    width: 240px;
+    height: 240px;
+    bottom: -80px;
+    left: -80px;
+    background: rgba(255, 255, 255, 0.05);
+  }
+}
+
+.auth-brand__inner {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.auth-brand__tagline {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.75);
+  margin-top: -8px;
+}
+
+.auth-brand__icons {
+  display: flex;
+  gap: 18px;
+  font-size: 30px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+}
+
+.auth-brand__copy {
+  font-size: 14px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.70);
+  max-width: 240px;
+}
+
+/* ── Panel derecho: formulario ─────────────────── */
+.auth-form-panel {
+  flex: 1;
+  background: var(--p-surface-0);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 48px 52px;
+  overflow-y: auto;
+}
