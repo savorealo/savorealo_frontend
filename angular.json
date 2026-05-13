@@ -62,7 +62,7 @@
             ],
             "styles": ["src/styles.css"],
             "server": "src/main.server.ts",
-            "outputMode": "static",
+            "outputMode": "server",
             "security": {
               "allowedHosts": []
             },
@@ -90,6 +90,11 @@
                 "fonts": {
                   "inline": false
                 }
+              }
+            },
+            "cloudflare": {
+              "ssr": {
+                "entry": "src/server.cloudflare.ts"
               }
             },
             "development": {

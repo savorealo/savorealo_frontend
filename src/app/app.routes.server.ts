@@ -2,11 +2,11 @@ import { RenderMode, ServerRoute } from '@angular/ssr';
 
 export const serverRoutes: ServerRoute[] = [
   {
-    path: 'auth',       // ← solo SSR en la página de login
+    path: 'auth',
     renderMode: RenderMode.Server
   },
   {
-    path: '**',         // ← todo lo demás en el cliente
+    path: '**',
     renderMode: RenderMode.Client
   }
 ];

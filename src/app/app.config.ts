@@ -6,6 +6,7 @@ import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser'
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'
 import { providePrimeNG } from 'primeng/config'
+import { MessageService } from 'primeng/api'
 import { definePreset } from '@primeng/themes'
 import Aura from '@primeng/themes/aura'
 
@@ -50,6 +51,7 @@ export const appConfig: ApplicationConfig = {
       },
       ripple: true,
     }),
+    MessageService,
     { provide: ENVIRONMENT, useValue: environment },
     provideApollo(apolloOptionsFactory),
     provideServiceWorker('ngsw-worker.js', {

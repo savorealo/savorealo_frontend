@@ -31,16 +31,18 @@ jobs:
             production: true,
             supabaseUrl: '${{ secrets.SUPABASE_URL }}',
             supabaseKey: '${{ secrets.SUPABASE_ANON_KEY }}',
-            apiUrl: 'https://app.develop.savorealo.com/api',
+            apiUrl: 'https://develop.savorealo.com/api',
           }
           EOF
 
-      - name: Build
-        run: npm run build:prod
+      - name: Build (Cloudflare SSR)
+        run: npm run build:cloudflare
+
+      - name: Prepare SSR worker for Cloudflare Pages
+        run: cp dist/cookeealo/server/server.mjs dist/cookeealo/browser/_worker.js
 
       - name: Deploy to Cloudflare Pages
-        # --project-name es necesario para que Wrangler cree el proyecto si no existe
-        run: npx wrangler pages deploy --project-name savorealo-frontend --branch develop
+        run: npx wrangler pages deploy dist/cookeealo/browser --project-name savorealo-frontend --branch develop
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
