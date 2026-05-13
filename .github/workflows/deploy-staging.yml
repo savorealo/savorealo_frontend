@@ -39,7 +39,9 @@ jobs:
         run: npm run build:cloudflare
 
       - name: Prepare SSR worker for Cloudflare Pages
-        run: cp dist/cookeealo/server/server.mjs dist/cookeealo/browser/_worker.js
+        run: |
+          cp dist/cookeealo/server/*.mjs dist/cookeealo/browser/
+          mv dist/cookeealo/browser/server.mjs dist/cookeealo/browser/_worker.js
 
       - name: Deploy to Cloudflare Pages
         run: npx wrangler pages deploy dist/cookeealo/browser --project-name savorealo-frontend --branch develop
