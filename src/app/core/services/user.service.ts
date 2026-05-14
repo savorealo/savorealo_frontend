@@ -45,23 +45,23 @@ export class UserService {
 		return from(
 			this.supabase.client
 				.from('users')
-				.select('id, posts_count, followers_count, following_count, person_profiles(username, full_name, photo_url, bio, location)')
+				.select('id, posts_count, followers_count, following_count')
 				.eq('id', userId)
-				.single(),
+				.maybeSingle(),
 		).pipe(
 			map(({ data, error }) => {
-				if (error || !data) throw new Error('Usuario no encontrado')
-				const row = data as { id: string; posts_count: number | null; followers_count: number | null; following_count: number | null; person_profiles: { username: string; full_name: string | null; photo_url: string | null; bio: string | null; location: string | null } | { username: string; full_name: string | null; photo_url: string | null; bio: string | null; location: string | null }[] | null }
-				const profile = Array.isArray(row.person_profiles) ? row.person_profiles[0] : row.person_profiles
+				if (error) throw new Error(error.message)
+				if (!data) throw new Error('Usuario no encontrado')
+				const row = data as { id: string; posts_count: number | null; followers_count: number | null; following_count: number | null }
 				return {
 					data: {
 						id: row.id,
 						email: '',
-						username: profile?.username ?? '',
-						fullName: profile?.full_name ?? null,
-						photo_url: profile?.photo_url ?? null,
-						bio: profile?.bio ?? null,
-						location: profile?.location ?? null,
+						username: '',
+						fullName: null,
+						photo_url: null,
+						bio: null,
+						location: null,
 						birth_date: null,
 						postsCount: row.posts_count ?? null,
 						followersCount: row.followers_count ?? null,

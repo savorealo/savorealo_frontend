@@ -13,6 +13,12 @@
   <span>Registrarse con Google</span>
 </button>
 
+@if (submitError(); as err) {
+  <div class="mt-5 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-bold text-red-700">
+    {{ err }}
+  </div>
+}
+
 <form [formGroup]="registerForm" class="mt-7">
   <p-stepper
     [value]="activeStep()"

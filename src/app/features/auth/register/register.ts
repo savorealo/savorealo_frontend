@@ -115,8 +115,11 @@ export class Register {
     }
   }
 
+  submitError = signal<string | null>(null)
+
   onSubmit() {
     if (this.registerForm.valid) {
+      this.submitError.set(null)
       this.onSubmitEvent.emit({
         email:        this.registerForm.get('email')?.value,
         password:     this.registerForm.get('password')?.value,
@@ -126,7 +129,27 @@ export class Register {
         birthDate:    this.registerForm.get('birthDate')?.value,
         photoProfile: this.registerForm.get('photo')?.value,
       })
+      return
     }
+
+    // Marcar todo como touched para que se muestren los errores en los inputs
+    this.registerForm.markAllAsTouched()
+
+    // Identificar qué falla para dar feedback al usuario
+    const errors: string[] = []
+    if (this.registerForm.get('email')?.invalid)           errors.push('Email inválido')
+    if (this.registerForm.get('username')?.invalid)        errors.push('Usuario requerido')
+    if (this.registerForm.get('password')?.invalid)        errors.push('Contraseña: mín 8, mayúscula, minúscula, número y símbolo')
+    if (this.registerForm.get('confirmPassword')?.invalid) errors.push('Confirma la contraseña')
+    if (this.registerForm.errors?.['passwordMismatch'])    errors.push('Las contraseñas no coinciden')
+    if (this.registerForm.get('fullName')?.invalid)        errors.push('Nombre completo requerido')
+    if (this.registerForm.get('birthDate')?.invalid)       errors.push('Fecha de nacimiento requerida')
+
+    this.submitError.set(errors.length ? errors.join(' · ') : 'Revisa los campos del formulario')
+
+    // Volver al primer paso con errores para que el usuario los vea
+    if (!this.isValidStep2()) this.activeStep.set(1)
+    else if (!this.isValidStep3()) this.activeStep.set(2)
   }
 
   isValid(formControlName: string):boolean{

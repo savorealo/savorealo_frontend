@@ -33,7 +33,10 @@ export class Auth {
       next: ()=>{
         this.router.navigateByUrl(this.getSafeReturnUrl())
       },
-      error: (err) => { console.error('Register error:', err) }
+      error: (err) => {
+        console.error('Register error:', err)
+        alert(err?.message ?? 'Error al registrarse, inténtalo de nuevo')
+      }
     })
   }
 
@@ -42,7 +45,10 @@ export class Auth {
       next: ()=>{
         this.router.navigateByUrl(this.getSafeReturnUrl())
       },
-      error: (err) => { console.error('Login error:', err) }
+      error: (err) => {
+        console.error('Login error:', err)
+        alert(err?.message ?? 'Error al iniciar sesión')
+      }
     })
   }
 
