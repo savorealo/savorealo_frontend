@@ -16,6 +16,7 @@ export class ChatPanel {
 	sendMessage = output<string>()
 	typing      = output<void>()
 	startCall   = output<'audio' | 'video'>()
+	back        = output<void>()
 
 	readonly draft = signal('')
 

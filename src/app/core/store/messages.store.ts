@@ -69,6 +69,13 @@ export class MessagesStore {
 		this.markConversationRead(id)
 	}
 
+	clearActive(): void {
+		this._activeId.set(null)
+		this._messages.set([])
+		this.channel?.unsubscribe()
+		this.channel = null
+	}
+
 	sendMessage(text: string): void {
 		const userId = this.auth.currentUserId()
 		const convId = this._activeId()
