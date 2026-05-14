@@ -44,23 +44,24 @@ export class UserService {
 	getUserById(userId: string): Observable<{ data: User }> {
 		return from(
 			this.supabase.client
-				.from('person_profiles')
-				.select('user_id, username, full_name, photo_url, bio, location, posts_count, followers_count, following_count')
-				.eq('user_id', userId)
+				.from('users')
+				.select('id, posts_count, followers_count, following_count, person_profiles(username, full_name, photo_url, bio, location)')
+				.eq('id', userId)
 				.single(),
 		).pipe(
 			map(({ data, error }) => {
 				if (error || !data) throw new Error('Usuario no encontrado')
-				const row = data as { user_id: string; username: string; full_name: string | null; photo_url: string | null; bio: string | null; location: string | null; posts_count: number | null; followers_count: number | null; following_count: number | null }
+				const row = data as { id: string; posts_count: number | null; followers_count: number | null; following_count: number | null; person_profiles: { username: string; full_name: string | null; photo_url: string | null; bio: string | null; location: string | null } | { username: string; full_name: string | null; photo_url: string | null; bio: string | null; location: string | null }[] | null }
+				const profile = Array.isArray(row.person_profiles) ? row.person_profiles[0] : row.person_profiles
 				return {
 					data: {
-						id: row.user_id,
+						id: row.id,
 						email: '',
-						username: row.username,
-						fullName: row.full_name ?? null,
-						photo_url: row.photo_url ?? null,
-						bio: row.bio ?? null,
-						location: row.location ?? null,
+						username: profile?.username ?? '',
+						fullName: profile?.full_name ?? null,
+						photo_url: profile?.photo_url ?? null,
+						bio: profile?.bio ?? null,
+						location: profile?.location ?? null,
 						birth_date: null,
 						postsCount: row.posts_count ?? null,
 						followersCount: row.followers_count ?? null,
@@ -118,15 +119,24 @@ export class UserService {
 	private async fetchUserByUsername(username: string): Promise<PublicUser | null> {
 		const { data, error } = await this.supabase.client
 			.from('person_profiles')
-			.select('user_id, username, full_name, photo_url, bio, location, posts_count, followers_count, following_count')
+			.select('user_id, username, full_name, photo_url, bio, location, users!inner(posts_count, followers_count, following_count)')
 			.eq('username', username)
 			.single()
 
 		if (error || !data) return null
 
-		const row = data as {
+		const raw = data as {
 			user_id: string; username: string; full_name: string | null; photo_url: string | null
-			bio: string | null; location: string | null; posts_count: number | null; followers_count: number | null; following_count: number | null
+			bio: string | null; location: string | null
+			users: { posts_count: number | null; followers_count: number | null; following_count: number | null } | { posts_count: number | null; followers_count: number | null; following_count: number | null }[] | null
+		}
+		const counts = Array.isArray(raw.users) ? raw.users[0] : raw.users
+		const row = {
+			user_id: raw.user_id, username: raw.username, full_name: raw.full_name, photo_url: raw.photo_url,
+			bio: raw.bio, location: raw.location,
+			posts_count: counts?.posts_count ?? null,
+			followers_count: counts?.followers_count ?? null,
+			following_count: counts?.following_count ?? null,
 		}
 
 		const { data: authData } = await this.supabase.client.auth.getUser()

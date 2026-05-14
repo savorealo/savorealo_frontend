@@ -6,16 +6,21 @@ import {
 	inject,
 	OnDestroy,
 	OnInit,
+	PLATFORM_ID,
 	viewChild,
 } from '@angular/core'
+import { isPlatformBrowser, NgClass } from '@angular/common'
 import { GlobalSearchStore } from '@core/store/global-search.store'
 
 @Component({
 	selector: 'app-global-search-panel',
 	templateUrl: './global-search-panel.html',
+	styleUrls: ['./global-search-panel.css'],
+	imports: [NgClass],
 })
 export class GlobalSearchPanel implements OnInit, OnDestroy {
 	readonly store = inject(GlobalSearchStore)
+	private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID))
 
 	private readonly inputEl = viewChild<ElementRef<HTMLInputElement>>('searchInput')
 
@@ -41,11 +46,11 @@ export class GlobalSearchPanel implements OnInit, OnDestroy {
 	}
 
 	ngOnInit(): void {
-		document.addEventListener('keydown', this.handleKeydown)
+		if (this.isBrowser) document.addEventListener('keydown', this.handleKeydown)
 	}
 
 	ngOnDestroy(): void {
-		document.removeEventListener('keydown', this.handleKeydown)
+		if (this.isBrowser) document.removeEventListener('keydown', this.handleKeydown)
 	}
 
 	private readonly handleKeydown = (e: KeyboardEvent): void => {

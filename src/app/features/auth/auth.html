@@ -5,7 +5,7 @@
 
   <section
     class="relative grid w-full max-w-6xl overflow-hidden rounded-[2rem] border border-white/70 bg-white/90 shadow-[0_28px_80px_rgba(74,45,20,0.16)] backdrop-blur xl:grid-cols-[0.95fr_1.05fr]"
-    [ngClass]="isRegister.value ? 'xl:[&>.auth-brand-panel]:order-2 xl:[&>.auth-form-panel]:order-1' : ''"
+    [ngClass]="isRegister() ? 'xl:[&>.auth-brand-panel]:order-2 xl:[&>.auth-form-panel]:order-1' : ''"
   >
     <aside class="auth-brand-panel relative hidden min-h-[680px] overflow-hidden bg-black p-10 text-white xl:grid">
       <div class="absolute inset-0 bg-[radial-gradient(circle_at_35%_15%,rgba(255,143,39,0.32),transparent_18rem),linear-gradient(145deg,#050505,#111_58%,#2a1204)]"></div>
@@ -58,7 +58,7 @@
           <span class="text-3xl font-black tracking-tight">savore<span class="text-orange-500">alo</span></span>
         </div>
 
-        @if (!isRegister.value) {
+        @if (!isRegister()) {
           <app-login
             (toRegistereEvent)="toRegister($event)"
             (onLoginSubmit)="onLoginSubmit($event)"

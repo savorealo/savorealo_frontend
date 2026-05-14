@@ -184,69 +184,13 @@ export class MessagesService {
 	 * Returns the existing DIRECT conversation between two users,
 	 * or creates a new one (with both participants) and returns its ID.
 	 */
-	findOrCreateConversation(myId: string, otherId: string): Observable<string> {
-		// 1. Find all conversations I'm in
-		const myConvs$ = from(
-			this.supabase.client
-				.from('conversation_participants')
-				.select('conversation_id')
-				.eq('user_id', myId),
-		)
-
-		return myConvs$.pipe(
-			switchMap(({ data: myParts, error: e1 }) => {
-				if (e1) throw e1
-				const myIds = (myParts ?? []).map(p => p.conversation_id)
-				if (!myIds.length) return this.createConversation(myId, otherId)
-
-				// 2. Check if the other user is also in any of those conversations
-				return from(
-					this.supabase.client
-						.from('conversation_participants')
-						.select('conversation_id, conversations!inner(type)')
-						.eq('user_id', otherId)
-						.in('conversation_id', myIds)
-						.eq('conversations.type', 'DIRECT'),
-				).pipe(
-					switchMap(({ data: shared }) => {
-						const existing = (shared ?? [])[0]?.conversation_id
-						if (existing) return of(existing as string)
-						return this.createConversation(myId, otherId)
-					}),
-				)
-			}),
-		)
-	}
-
-	private createConversation(myId: string, otherId: string): Observable<string> {
-		const insert$ = from(
-			this.supabase.client
-				.from('conversations')
-				.insert({ type: 'DIRECT' })
-				.select('id')
-				.single(),
-		)
-
-		return insert$.pipe(
-			switchMap(({ data, error }) => {
+	findOrCreateConversation(_myId: string, otherId: string): Observable<string> {
+		return from(
+			this.supabase.client.rpc('create_direct_conversation', { other_user_id: otherId }),
+		).pipe(
+			map(({ data, error }) => {
 				if (error) throw error
-				const convId = (data as { id: string }).id
-
-				const participants$ = from(
-					this.supabase.client
-						.from('conversation_participants')
-						.insert([
-							{ conversation_id: convId, user_id: myId },
-							{ conversation_id: convId, user_id: otherId },
-						]),
-				)
-
-				return participants$.pipe(
-					map(({ error: e2 }) => {
-						if (e2) throw e2
-						return convId
-					}),
-				)
+				return data as string
 			}),
 		)
 	}

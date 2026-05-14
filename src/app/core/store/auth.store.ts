@@ -32,15 +32,24 @@ export class AuthStore {
   readonly currentUserId   = computed(() => this._user()?.id ?? null);
 
   constructor(private destroyRef: DestroyRef) {
+    let lastCountersUserId: string | null = null;
+
     this.authService.onAuthStateChange().pipe(
       takeUntilDestroyed(this.destroyRef)
-    ).subscribe(({ session }) => {
+    ).subscribe(({ event, session }) => {
       this._user.set(session?.user ?? null);
       if (session?.user) {
         this._profile.set(this.mapMetaToProfile(session.user));
-        this.loadCounters(session.user.id);
+        // Cargar contadores solo en eventos relevantes y una sola vez por sesión,
+        // no en cada TOKEN_REFRESHED ni USER_UPDATED.
+        const isRelevant = event === 'INITIAL_SESSION' || event === 'SIGNED_IN';
+        if (isRelevant && lastCountersUserId !== session.user.id) {
+          lastCountersUserId = session.user.id;
+          this.loadCounters(session.user.id);
+        }
       } else {
         this._profile.set(null);
+        lastCountersUserId = null;
       }
     });
   }

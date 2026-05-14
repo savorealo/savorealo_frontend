@@ -1,4 +1,5 @@
 import { ApplicationConfig, isDevMode } from '@angular/core'
+import { MessageService } from 'primeng/api'
 import { provideZonelessChangeDetection } from '@angular/core'
 import { provideServiceWorker } from '@angular/service-worker'
 import { provideRouter, withViewTransitions, withComponentInputBinding } from '@angular/router'
@@ -6,7 +7,6 @@ import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser'
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'
 import { providePrimeNG } from 'primeng/config'
-import { MessageService } from 'primeng/api'
 import { definePreset } from '@primeng/themes'
 import Aura from '@primeng/themes/aura'
 
@@ -53,6 +53,7 @@ export const appConfig: ApplicationConfig = {
     }),
     MessageService,
     { provide: ENVIRONMENT, useValue: environment },
+    MessageService,
     provideApollo(apolloOptionsFactory),
     provideServiceWorker('ngsw-worker.js', {
       enabled: !isDevMode(),

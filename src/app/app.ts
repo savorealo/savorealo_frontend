@@ -1,10 +1,9 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { SpotlightBg } from "@shared/components/spotlight/spotlightBg";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, SpotlightBg],
+  imports: [RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
