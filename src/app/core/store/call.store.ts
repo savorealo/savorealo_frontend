@@ -78,23 +78,13 @@ export class CallStore {
 	 */
 	subscribeForConversation(conversationId: string): void {
 		if (this.channels.has(conversationId)) return
-		const myId = this.auth.currentUserId()
-		if (!myId) return
-
-		const ch = this.supabase.client
-			.channel(`call-room:${conversationId}`)
-			.on('broadcast', { event: 'call-signal' }, ({ payload }: { payload: CallSignalPayload }) => {
-				if (payload.to !== myId) return
-				this.handleSignal(conversationId, payload)
-			})
-			.subscribe()
-
-		this.channels.set(conversationId, ch)
+		this.ensureSubscribed(conversationId)
 	}
 
 	unsubscribeAll(): void {
 		this.channels.forEach(ch => ch.unsubscribe())
 		this.channels.clear()
+		this.subscriptionReady.clear()
 	}
 
 	// ── Initiate ──────────────────────────────────────────────────────────
@@ -249,23 +239,37 @@ export class CallStore {
 		}
 	}
 
-	private sendSignal(conversationId: string, payload: CallSignalPayload): void {
-		let ch = this.channels.get(conversationId)
+	private subscriptionReady = new Map<string, Promise<void>>()
 
-		if (!ch) {
-			// Lazily subscribe if not already (e.g. caller's own conversation)
-			const myId = this.auth.currentUserId()!
-			ch = this.supabase.client
+	private ensureSubscribed(conversationId: string): Promise<void> {
+		const existing = this.subscriptionReady.get(conversationId)
+		if (existing) return existing
+
+		const myId = this.auth.currentUserId()
+		if (!myId) return Promise.resolve()
+
+		const ready = new Promise<void>((resolve) => {
+			const ch = this.supabase.client
 				.channel(`call-room:${conversationId}`)
 				.on('broadcast', { event: 'call-signal' }, ({ payload: p }: { payload: CallSignalPayload }) => {
 					if (p.to !== myId) return
 					this.handleSignal(conversationId, p)
 				})
-				.subscribe()
+				.subscribe((status) => {
+					if (status === 'SUBSCRIBED') resolve()
+				})
 			this.channels.set(conversationId, ch)
-		}
+		})
 
-		ch.send({ type: 'broadcast', event: 'call-signal', payload })
+		this.subscriptionReady.set(conversationId, ready)
+		return ready
+	}
+
+	private async sendSignal(conversationId: string, payload: CallSignalPayload): Promise<void> {
+		await this.ensureSubscribed(conversationId)
+		const ch = this.channels.get(conversationId)
+		if (!ch) return
+		await ch.send({ type: 'broadcast', event: 'call-signal', payload })
 	}
 
 	// ── Timer ──────────────────────────────────────────────────────────────

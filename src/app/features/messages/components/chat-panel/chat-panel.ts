@@ -19,6 +19,7 @@ export class ChatPanel {
 	back        = output<void>()
 
 	readonly draft = signal('')
+	readonly menuOpen = signal(false)
 
 	setDraft(event: Event): void {
 		const value = (event.target as HTMLInputElement).value
@@ -31,5 +32,14 @@ export class ChatPanel {
 		if (!text) return
 		this.sendMessage.emit(text)
 		this.draft.set('')
+	}
+
+	toggleMenu(): void {
+		this.menuOpen.update(v => !v)
+	}
+
+	callFromMenu(type: 'audio' | 'video'): void {
+		this.menuOpen.set(false)
+		this.startCall.emit(type)
 	}
 }

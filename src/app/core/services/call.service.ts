@@ -15,8 +15,19 @@ export class CallService {
 		iceServers: [
 			{ urls: 'stun:stun.l.google.com:19302' },
 			{ urls: 'stun:stun1.l.google.com:19302' },
-			{ urls: 'stun:stun2.l.google.com:19302' },
+			// TURN gratis de OpenRelay (Metered) — necesario para NAT estrictos
+			// Sin TURN, los media streams no fluyen aunque la señalización funcione.
+			{
+				urls: [
+					'turn:openrelay.metered.ca:80',
+					'turn:openrelay.metered.ca:443',
+					'turn:openrelay.metered.ca:443?transport=tcp',
+				],
+				username: 'openrelayproject',
+				credential: 'openrelayproject',
+			},
 		],
+		iceCandidatePoolSize: 10,
 	}
 
 	// ─── Media ───────────────────────────────────────────────────────────────

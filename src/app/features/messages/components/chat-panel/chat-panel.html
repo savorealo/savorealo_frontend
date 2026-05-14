@@ -56,9 +56,50 @@
 			>
 				<i class="pi pi-video text-xl"></i>
 			</button>
-			<button type="button" class="grid size-10 place-items-center rounded-full text-black transition hover:bg-orange-50 sm:size-11" aria-label="Mas opciones">
-				<i class="pi pi-ellipsis-v text-lg sm:text-xl"></i>
-			</button>
+			<div class="relative">
+				<button
+					type="button"
+					class="grid size-10 place-items-center rounded-full text-black transition hover:bg-orange-50 sm:size-11"
+					(click)="toggleMenu()"
+					aria-label="Mas opciones"
+				>
+					<i class="pi pi-ellipsis-v text-lg sm:text-xl"></i>
+				</button>
+
+				@if (menuOpen()) {
+					<!-- Backdrop para cerrar al pulsar fuera -->
+					<div class="fixed inset-0 z-40" (click)="menuOpen.set(false)"></div>
+
+					<!-- Menú -->
+					<div class="absolute right-0 top-full z-50 mt-2 w-56 overflow-hidden rounded-2xl border border-black/5 bg-white shadow-[0_18px_60px_rgba(20,20,20,0.18)]">
+						<button
+							type="button"
+							class="flex w-full items-center gap-3 px-4 py-3 text-left text-sm font-bold text-black transition hover:bg-orange-50"
+							(click)="callFromMenu('audio')"
+						>
+							<i class="pi pi-phone text-base text-orange-500"></i>
+							Llamada de voz
+						</button>
+						<button
+							type="button"
+							class="flex w-full items-center gap-3 px-4 py-3 text-left text-sm font-bold text-black transition hover:bg-orange-50"
+							(click)="callFromMenu('video')"
+						>
+							<i class="pi pi-video text-base text-orange-500"></i>
+							Videollamada
+						</button>
+						<div class="border-t border-black/5"></div>
+						<button
+							type="button"
+							class="flex w-full items-center gap-3 px-4 py-3 text-left text-sm font-bold text-black/70 transition hover:bg-orange-50"
+							(click)="menuOpen.set(false)"
+						>
+							<i class="pi pi-search text-base text-black/40"></i>
+							Buscar en el chat
+						</button>
+					</div>
+				}
+			</div>
 		</div>
 	</header>
 
