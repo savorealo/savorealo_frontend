@@ -4,9 +4,11 @@ import { RealtimeChannel } from '@supabase/supabase-js'
 import { SupabaseService } from '@core/services/supabase.service'
 import { ChatMessage, Conversation } from '@features/messages/models/messages.models'
 
+interface ProfileEmbed { username: string; full_name: string | null; photo_url: string | null }
+interface UserEmbed { person_profiles: ProfileEmbed | ProfileEmbed[] | null }
 interface ParticipantRow {
 	user_id: string
-	profile: { username: string; full_name: string | null; photo_url: string | null } | null
+	user: UserEmbed | UserEmbed[] | null
 }
 
 interface ConversationRow {
@@ -56,7 +58,7 @@ export class MessagesService {
 							id, type, name, last_message_at, last_message_preview,
 							participants:conversation_participants(
 								user_id,
-								profile:person_profiles(username, full_name, photo_url)
+								user:users(person_profiles(username, full_name, photo_url))
 							)
 						`)
 						.in('id', ids),
@@ -198,7 +200,10 @@ export class MessagesService {
 	private mapConversation(row: ConversationRow, userId: string, unread: number): Conversation {
 		const isGroup = row.type === 'GROUP'
 		const other = row.participants.find(p => p.user_id !== userId)
-		const profile = other?.profile
+		// La query embebe person_profiles dentro de users: extraer el primer profile
+		const userEmbed = Array.isArray(other?.user) ? other?.user?.[0] : other?.user
+		const rawProfile = userEmbed?.person_profiles
+		const profile = Array.isArray(rawProfile) ? rawProfile[0] : rawProfile
 
 		return {
 			id: row.id,
