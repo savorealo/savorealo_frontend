@@ -22,6 +22,7 @@ export class FeedPostList {
 	like = output<Post>()
 	save = output<Post>()
 	comment = output<Post>()
+	report = output<Post>()
 	retry = output<void>()
 	nearEnd = output<void>()
 

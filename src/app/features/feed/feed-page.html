@@ -21,6 +21,7 @@
 					(like)="feed.toggleLike($event)"
 					(save)="feed.toggleSave($event)"
 					(comment)="openComments($event)"
+					(report)="openReport($event)"
 					(retry)="feed.loadHomeFeed()"
 					(nearEnd)="feed.loadMore()"
 				/>
@@ -33,6 +34,10 @@
 	</div>
 
 	<app-comments-sheet [(visible)]="commentsOpen" [post]="selectedPost()" />
+
+	@if (reportingPost(); as p) {
+		<app-report-sheet [post]="p" (close)="closeReport()" />
+	}
 </app-shell>
 
 <app-story-viewer />

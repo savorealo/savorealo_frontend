@@ -9,6 +9,7 @@ import { FeedRightRail } from './components/feed-right-rail/feed-right-rail'
 import { FeedTopbar } from './components/feed-topbar/feed-topbar'
 import { StoriesStrip } from './components/stories-strip/stories-strip'
 import { StoryViewer } from './components/story-viewer/story-viewer'
+import { ReportSheet } from './components/report-sheet/report-sheet'
 
 @Component({
 	selector: 'app-feed-page',
@@ -21,6 +22,7 @@ import { StoryViewer } from './components/story-viewer/story-viewer'
 		FeedTopbar,
 		StoriesStrip,
 		StoryViewer,
+		ReportSheet,
 	],
 	templateUrl: './feed-page.html',
 })
@@ -31,6 +33,7 @@ export class FeedPage implements OnInit {
 	readonly selectedPost = signal<Post | null>(null)
 	readonly commentsOpen = signal(false)
 	readonly composerOpen = signal(false)
+	readonly reportingPost = signal<Post | null>(null)
 
 	ngOnInit(): void {
 		if (this.feed.posts().length === 0) {
@@ -41,6 +44,14 @@ export class FeedPage implements OnInit {
 	openComments(post: Post): void {
 		this.selectedPost.set(post)
 		this.commentsOpen.set(true)
+	}
+
+	openReport(post: Post): void {
+		this.reportingPost.set(post)
+	}
+
+	closeReport(): void {
+		this.reportingPost.set(null)
 	}
 
 	addCreatedPost(post: Post): void {
