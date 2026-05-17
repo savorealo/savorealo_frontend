@@ -6,6 +6,7 @@ import { finalize } from 'rxjs'
 import { NotificationsService } from '@core/services/notifications.service'
 import { AuthStore } from '@core/store/auth.store'
 import { Notification } from '@core/models/notification/notification.model'
+import { toUserMessage } from '@core/utils/user-error'
 
 @Injectable({ providedIn: 'root' })
 export class NotificationsStore {
@@ -41,7 +42,7 @@ export class NotificationsStore {
 				this._notifications.set(notifications)
 				this.subscribeRealtime(userId)
 			},
-			error: err => this._error.set(err.message ?? 'No se pudieron cargar las notificaciones'),
+			error: err => this._error.set(toUserMessage(err, 'No se pudieron cargar las notificaciones')),
 		})
 	}
 

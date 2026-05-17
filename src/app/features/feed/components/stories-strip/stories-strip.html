@@ -1,71 +1,98 @@
-<section class="mx-auto w-full max-w-[500px] overflow-hidden px-2 py-4">
-	<div class="flex gap-4 overflow-x-auto pb-2 scrollbar-none">
+<section class="mx-auto flex w-full max-w-[500px] items-start gap-3 px-3 py-2 sm:gap-4 sm:px-2">
 
-		<!-- Add story button -->
-		<div class="relative flex shrink-0 flex-col items-center gap-1.5">
+	<!-- Tu historia (pinned — fuera del scroll para que el menú no se recorte) -->
+	<div class="relative flex w-[4rem] shrink-0 flex-col items-center gap-1.5">
+		@if (store.myGroup(); as mine) {
+			<!-- Ya tienes historia: tu avatar abre tu propia historia; el "+" añade otra -->
+			<div class="relative size-[52px] sm:size-14">
+				<button
+					type="button"
+					class="grid size-full place-items-center rounded-pill p-[2px] transition-transform duration-fast ease-standard hover:scale-105 active:scale-[0.98]"
+					[class]="mine.hasUnviewed ? 'bg-gradient-to-tr from-primary to-secondary' : 'bg-surface-container-high'"
+					(click)="store.openGroup(mine)"
+					aria-label="Ver tu historia"
+				>
+					<span class="grid size-full place-items-center rounded-pill bg-surface p-[2px]">
+						<app-avatar [src]="mine.avatarUrl" [name]="mine.displayName" size="md" class="block size-full rounded-pill" />
+					</span>
+				</button>
+				<button
+					type="button"
+					class="absolute -bottom-0.5 -right-0.5 grid size-5 place-items-center rounded-pill border-2 border-surface bg-primary text-on-primary transition-transform duration-fast ease-standard hover:scale-110 active:scale-95"
+					(click)="menuOpen.set(!menuOpen())"
+					aria-label="Añadir otra historia"
+				>
+					<i class="pi pi-plus text-[0.6rem]"></i>
+				</button>
+			</div>
+		} @else {
 			<button
 				type="button"
-				class="relative grid size-14 shrink-0 place-items-center rounded-full border-2 border-dashed border-black/20 bg-white transition hover:border-orange-400 hover:bg-orange-50"
+				class="relative grid size-[52px] shrink-0 place-items-center rounded-pill border-2 border-dashed border-outline-strong bg-surface-container transition-colors duration-fast ease-standard hover:border-primary hover:bg-primary-container sm:size-14"
 				(click)="menuOpen.set(!menuOpen())"
 				aria-label="Añadir historia"
 			>
-				<i class="pi pi-plus text-lg text-black/40"></i>
+				<i class="pi pi-plus text-lg text-on-surface-muted"></i>
 			</button>
-			<span class="text-[0.65rem] font-black text-black/40">Tu historia</span>
+		}
+		<span class="max-w-full truncate text-[0.65rem] font-bold text-on-surface-muted">Tu historia</span>
 
-			<!-- Dropdown menu -->
-			@if (menuOpen()) {
-				<div class="absolute left-0 top-16 z-20 w-44 overflow-hidden rounded-2xl border border-black/5 bg-white shadow-xl">
-					<label class="flex cursor-pointer items-center gap-3 px-4 py-3 text-sm font-semibold text-black transition hover:bg-orange-50">
-						<i class="pi pi-image text-orange-500"></i>
-						Galería
-						<input type="file" accept="image/*,video/*" class="sr-only" (change)="onFileSelected($event)" />
-					</label>
-					<button type="button" class="flex w-full items-center gap-3 px-4 py-3 text-sm font-semibold text-black transition hover:bg-orange-50" (click)="openCamera()">
-						<i class="pi pi-camera text-orange-500"></i>
-						Cámara
-					</button>
-				</div>
-				<!-- Click outside to close -->
-				<div class="fixed inset-0 z-10" (click)="menuOpen.set(false)"></div>
-			}
-		</div>
+		<!-- Dropdown menu -->
+		@if (menuOpen()) {
+			<div class="absolute left-0 top-[4.5rem] z-30 w-44 overflow-hidden rounded-2xl border border-outline bg-surface-container shadow-3">
+				<label class="flex cursor-pointer items-center gap-3 px-4 py-3 text-body-sm font-semibold text-on-surface transition-colors duration-fast ease-standard hover:bg-surface-container-high">
+					<i class="pi pi-image text-primary"></i>
+					Galería
+					<input type="file" accept="image/*,video/*" class="sr-only" (change)="onFileSelected($event)" />
+				</label>
+				<button type="button" class="flex w-full items-center gap-3 px-4 py-3 text-body-sm font-semibold text-on-surface transition-colors duration-fast ease-standard hover:bg-surface-container-high" (click)="openCamera()">
+					<i class="pi pi-camera text-primary"></i>
+					Cámara
+				</button>
+			</div>
+			<!-- Click outside to close -->
+			<div class="fixed inset-0 z-20" (click)="menuOpen.set(false)"></div>
+		}
+	</div>
+
+	<!-- Scrollable stories row -->
+	<div class="flex min-w-0 flex-1 gap-3 overflow-x-auto pb-1 scrollbar-none sm:gap-4">
 
 		<!-- Loading skeletons -->
 		@if (store.loading()) {
 			@for (i of [1,2,3,4,5]; track i) {
-				<div class="flex shrink-0 flex-col items-center gap-1.5">
-					<div class="size-14 animate-pulse rounded-full bg-surface-100"></div>
-					<div class="h-2 w-10 animate-pulse rounded-full bg-surface-100"></div>
+				<div class="flex w-[4rem] shrink-0 flex-col items-center gap-1.5">
+					<div class="size-[52px] animate-pulse rounded-pill bg-surface-container-high sm:size-14"></div>
+					<div class="h-2 w-10 animate-pulse rounded-pill bg-surface-container-high"></div>
 				</div>
 			}
 		}
 
-		<!-- Story groups -->
-		@for (group of store.groups(); track group.userId; let i = $index) {
+		<!-- Story groups (sin la tuya — esa va en "Tu historia") -->
+		@for (group of store.otherGroups(); track group.userId) {
 			<button
 				type="button"
-				class="flex shrink-0 flex-col items-center gap-1.5 focus:outline-none"
+				class="flex w-[4rem] shrink-0 flex-col items-center gap-1.5 focus:outline-none"
 				[attr.aria-label]="group.displayName"
-				(click)="openStory(i)"
+				(click)="store.openGroup(group)"
 			>
 				<span
-					class="grid size-14 place-items-center rounded-full p-[2px] transition hover:scale-105"
-					[class]="group.hasUnviewed ? 'grid size-14 place-items-center rounded-full p-[2px] transition hover:scale-105 bg-gradient-to-tr from-orange-400 to-yellow-300' : 'grid size-14 place-items-center rounded-full p-[2px] transition hover:scale-105 bg-surface-200'"
+					class="grid size-[52px] place-items-center rounded-pill p-[2px] transition-transform duration-fast ease-standard hover:scale-105 active:scale-[0.98] sm:size-14"
+					[class]="group.hasUnviewed ? 'bg-gradient-to-tr from-primary to-secondary' : 'bg-surface-container-high'"
 				>
-					<span class="grid size-full place-items-center rounded-full bg-white p-[2px]">
-						<app-avatar [src]="group.avatarUrl" [name]="group.displayName" size="md" class="block size-full rounded-full" />
+					<span class="grid size-full place-items-center rounded-pill bg-surface p-[2px]">
+						<app-avatar [src]="group.avatarUrl" [name]="group.displayName" size="md" class="block size-full rounded-pill" />
 					</span>
 				</span>
-				<span [class]="group.hasUnviewed ? 'max-w-[3.5rem] truncate text-[0.65rem] font-black text-black' : 'max-w-[3.5rem] truncate text-[0.65rem] font-black text-black/40'">
+				<span class="max-w-[3.5rem] truncate text-[0.65rem] font-bold" [class.text-on-surface]="group.hasUnviewed" [class.text-on-surface-muted]="!group.hasUnviewed">
 					{{ group.displayName }}
 				</span>
 			</button>
 		}
 
 		<!-- Empty state -->
-		@if (!store.loading() && store.groups().length === 0) {
-			<p class="flex items-center text-sm font-semibold text-black/35">Sin historias activas</p>
+		@if (!store.loading() && store.otherGroups().length === 0) {
+			<p class="flex items-center text-body-sm font-medium text-on-surface-muted">Sin historias activas</p>
 		}
 	</div>
 </section>
@@ -85,7 +112,7 @@
 			<!-- Close button -->
 			<button
 				type="button"
-				class="absolute right-4 top-4 grid size-10 place-items-center rounded-full bg-black/40 text-white transition hover:bg-black/60"
+				class="absolute right-4 top-4 grid size-10 place-items-center rounded-pill bg-black/40 text-white transition-colors duration-fast ease-standard hover:bg-black/60"
 				aria-label="Cerrar cámara"
 				(click)="closeCamera()"
 			>
@@ -95,9 +122,9 @@
 			<!-- Error -->
 			@if (cameraError()) {
 				<div class="absolute inset-x-4 top-1/2 -translate-y-1/2 rounded-2xl bg-black/70 p-5 text-center">
-					<i class="pi pi-exclamation-triangle text-2xl text-orange-400"></i>
-					<p class="mt-2 text-sm font-semibold text-white">{{ cameraError() }}</p>
-					<button type="button" class="mt-4 rounded-full bg-white px-5 py-2 text-sm font-black text-black" (click)="closeCamera()">Cerrar</button>
+					<i class="pi pi-exclamation-triangle text-2xl text-primary"></i>
+					<p class="mt-2 text-body-sm font-semibold text-white">{{ cameraError() }}</p>
+					<button type="button" class="mt-4 rounded-pill bg-surface px-5 py-2 text-body-sm font-bold text-on-surface" (click)="closeCamera()">Cerrar</button>
 				</div>
 			}
 
@@ -106,11 +133,11 @@
 				<div class="absolute inset-x-0 bottom-10 flex justify-center">
 					<button
 						type="button"
-						class="grid size-[72px] place-items-center rounded-full border-4 border-white bg-white/20 transition active:scale-95 hover:bg-white/30"
+						class="grid size-[72px] place-items-center rounded-pill border-4 border-white bg-white/20 transition-all duration-fast ease-standard active:scale-95 hover:bg-white/30"
 						aria-label="Capturar foto"
 						(click)="capturePhoto()"
 					>
-						<span class="size-14 rounded-full bg-white"></span>
+						<span class="size-14 rounded-pill bg-white"></span>
 					</button>
 				</div>
 			}
@@ -124,7 +151,7 @@
 <!-- Preview modal -->
 @if (previewUrl()) {
 	<div class="fixed inset-0 z-50 flex items-end justify-center bg-black/70 sm:items-center">
-		<div class="w-full max-w-sm overflow-hidden rounded-t-3xl bg-white sm:rounded-3xl">
+		<div class="w-full max-w-sm overflow-hidden rounded-t-3xl bg-surface-container sm:rounded-3xl">
 
 			<!-- Preview media -->
 			<div class="relative aspect-[9/16] max-h-[60vh] w-full overflow-hidden bg-black">
@@ -135,7 +162,7 @@
 				}
 
 				<!-- Duration badge -->
-				<span class="absolute right-3 top-3 rounded-full bg-black/60 px-3 py-1 text-xs font-black text-white">
+				<span class="absolute right-3 top-3 rounded-pill bg-black/60 px-3 py-1 text-label-md font-bold text-white">
 					Expira en 24h
 				</span>
 			</div>
@@ -144,7 +171,7 @@
 			<div class="flex gap-3 p-4">
 				<button
 					type="button"
-					class="flex-1 rounded-full border border-black/10 py-3 text-sm font-black text-black/60 transition hover:bg-black/5 disabled:opacity-40"
+					class="flex-1 rounded-pill border border-outline py-3 text-body-sm font-bold text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container-high disabled:opacity-40"
 					(click)="cancel()"
 					[disabled]="uploading()"
 				>
@@ -152,7 +179,7 @@
 				</button>
 				<button
 					type="button"
-					class="flex flex-1 items-center justify-center gap-2 rounded-full bg-orange-500 py-3 text-sm font-black text-white transition hover:bg-orange-600 disabled:opacity-60"
+					class="flex flex-1 items-center justify-center gap-2 rounded-pill bg-primary py-3 text-body-sm font-bold text-on-primary transition-all duration-fast ease-standard hover:shadow-2 disabled:opacity-60"
 					(click)="publish()"
 					[disabled]="uploading()"
 				>

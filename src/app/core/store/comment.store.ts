@@ -4,6 +4,7 @@ import { Comment } from '@core/models/post-actions/post-actions.model'
 import { CommentService } from '@core/services/comment.service'
 import { ToastService } from '@core/services/toast.service'
 import { FeedStore } from './feed.store'
+import { toUserMessage } from '@core/utils/user-error'
 
 @Injectable({ providedIn: 'root' })
 export class CommentStore {
@@ -52,7 +53,7 @@ export class CommentStore {
 				this._endCursor.set(page.endCursor)
 				this._hasNextPage.set(page.hasNextPage)
 			},
-			error: err => this._error.set(err.message ?? 'No se pudieron cargar mas comentarios'),
+			error: err => this._error.set(toUserMessage(err, 'No se pudieron cargar más comentarios')),
 		})
 	}
 
@@ -82,12 +83,12 @@ export class CommentStore {
 				this._comments.update(comments =>
 					comments.map(item => item.id === optimistic.id ? comment : item),
 				)
-				this.toast.success('Comentario publicado 💬', '')
+				this.toast.success('Comentario publicado', '')
 			},
 			error: err => {
 				this._comments.update(comments => comments.filter(item => item.id !== optimistic.id))
 				this.feedStore.decrementComments(postId)
-				this._error.set(err.message ?? 'No se pudo comentar')
+				this._error.set(toUserMessage(err, 'No se pudo comentar'))
 				this.toast.error('No se pudo publicar el comentario')
 			},
 		})
@@ -101,7 +102,7 @@ export class CommentStore {
 			error: err => {
 				this._comments.update(comments => [comment, ...comments])
 				this.feedStore.incrementComments(comment.postId)
-				this._error.set(err.message ?? 'No se pudo eliminar el comentario')
+				this._error.set(toUserMessage(err, 'No se pudo eliminar el comentario'))
 			},
 		})
 	}
@@ -118,7 +119,7 @@ export class CommentStore {
 				this._endCursor.set(page.endCursor)
 				this._hasNextPage.set(page.hasNextPage)
 			},
-			error: err => this._error.set(err.message ?? 'No se pudieron cargar los comentarios'),
+			error: err => this._error.set(toUserMessage(err, 'No se pudieron cargar los comentarios')),
 		})
 	}
 }

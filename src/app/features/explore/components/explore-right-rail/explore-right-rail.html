@@ -1,57 +1,59 @@
 <aside class="sticky top-24 grid gap-4">
-	<section class="rounded-2xl border border-white/10 bg-white/[0.04] p-5 shadow-[0_18px_48px_rgba(0,0,0,0.25)]">
+	<section class="rounded-2xl border border-outline bg-surface-container p-5 shadow-1">
 		<header class="mb-4 flex items-center justify-between">
-			<h2 class="font-black text-white">Colecciones populares</h2>
-			<button type="button" class="text-sm font-black text-orange-500">Ver todas</button>
+			<h2 class="font-bold text-on-surface">Colecciones populares</h2>
+			<button type="button" class="text-body-sm font-bold text-primary hover:underline">Ver todas</button>
 		</header>
 		<div class="grid gap-3">
 			@for (collection of collections; track collection.id) {
-				<article class="grid grid-cols-[64px_1fr] overflow-hidden rounded-xl bg-white/[0.04]">
+				<article class="grid grid-cols-[64px_1fr] overflow-hidden rounded-xl bg-surface-container-high">
 					<img [src]="collection.imageUrl" alt="" class="h-16 w-16 object-cover" />
 					<div class="grid content-center px-3">
-						<strong class="truncate text-sm text-white">{{ collection.title }}</strong>
-						<span class="text-xs font-medium text-white/55">{{ collection.count }}</span>
+						<strong class="truncate text-body-sm text-on-surface">{{ collection.title }}</strong>
+						<span class="text-label-md font-medium text-on-surface-muted">{{ collection.count }}</span>
 					</div>
 				</article>
 			}
 		</div>
 	</section>
 
-	<section class="overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] p-5 text-center shadow-[0_18px_48px_rgba(0,0,0,0.25)]">
-		<h2 class="mb-5 text-left font-black text-white">Chef destacado</h2>
-		<div class="relative mx-auto mb-3 grid size-24 place-items-center rounded-full bg-orange-500/15">
-			<div class="absolute size-28 rounded-full bg-orange-500/25 blur-xl"></div>
-			<img [src]="chefImageUrl" alt="" class="relative size-20 rounded-full object-contain" />
-			<span class="absolute bottom-0 right-1 grid size-7 place-items-center rounded-full bg-orange-500 text-white">★</span>
+	<section class="overflow-hidden rounded-2xl border border-outline bg-surface-container p-5 text-center shadow-1">
+		<h2 class="mb-5 text-left font-bold text-on-surface">Chef destacado</h2>
+		<div class="relative mx-auto mb-3 grid size-24 place-items-center rounded-pill bg-primary/15">
+			<div class="absolute size-28 rounded-pill bg-primary/25 blur-xl"></div>
+			<img [src]="chefImageUrl" alt="" class="relative size-20 rounded-pill object-contain" />
+			<span class="absolute bottom-0 right-1 grid size-7 place-items-center rounded-pill bg-primary text-on-primary">
+				<i class="pi pi-star text-xs"></i>
+			</span>
 		</div>
-		<div class="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
-			<h3 class="text-lg font-black text-white">Pablo Chef <i class="pi pi-check-circle text-xs text-sky-400"></i></h3>
-			<p class="text-sm font-medium text-white/50">@pablochef</p>
-			<p class="mx-auto mt-3 max-w-56 text-sm leading-5 text-white/70">Recetas creativas, faciles y llenas de sabor. ¡Te encantaran!</p>
+		<div class="rounded-2xl border border-outline bg-surface-container-high p-4">
+			<h3 class="text-title-md font-bold text-on-surface">Pablo Chef <i class="pi pi-check-circle text-xs text-tertiary"></i></h3>
+			<p class="text-body-sm font-medium text-on-surface-muted">@pablochef</p>
+			<p class="mx-auto mt-3 max-w-56 text-body-sm leading-snug text-on-surface-muted">Recetas creativas, fáciles y llenas de sabor. ¡Te encantarán!</p>
 			<div class="mt-4 grid grid-cols-3 gap-3 text-center">
-				<div><strong class="block text-white">128</strong><span class="text-xs text-white/50">Recetas</span></div>
-				<div><strong class="block text-white">24K</strong><span class="text-xs text-white/50">Seguidores</span></div>
-				<div><strong class="block text-white">98%</strong><span class="text-xs text-white/50">Valoracion</span></div>
+				<div><strong class="block text-on-surface">128</strong><span class="text-label-md text-on-surface-muted">Recetas</span></div>
+				<div><strong class="block text-on-surface">24K</strong><span class="text-label-md text-on-surface-muted">Seguidores</span></div>
+				<div><strong class="block text-on-surface">98%</strong><span class="text-label-md text-on-surface-muted">Valoración</span></div>
 			</div>
-			<button type="button" class="mt-4 h-11 w-full rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 text-sm font-black text-white">
+			<button type="button" class="mt-4 h-11 w-full rounded-xl bg-primary text-body-sm font-bold text-on-primary transition-all duration-fast ease-standard hover:shadow-2 active:scale-95">
 				Ver perfil
 			</button>
 		</div>
 	</section>
 
-	<section class="rounded-2xl border border-white/10 bg-white/[0.04] p-5 shadow-[0_18px_48px_rgba(0,0,0,0.25)]">
+	<section class="rounded-2xl border border-outline bg-surface-container p-5 shadow-1">
 		<header class="mb-4 flex items-center justify-between">
-			<h2 class="font-black text-white">Tendencias</h2>
-			<button type="button" class="text-sm font-black text-orange-500">Ver todo</button>
+			<h2 class="font-bold text-on-surface">Tendencias</h2>
+			<button type="button" class="text-body-sm font-bold text-primary hover:underline">Ver todo</button>
 		</header>
 		<div class="grid gap-4">
 			@for (trend of trends; track trend.id) {
 				<article class="grid grid-cols-[42px_20px_1fr] items-center gap-3">
 					<img [src]="trend.imageUrl" alt="" class="size-11 rounded-xl object-cover" />
-					<span class="text-sm font-black text-white">{{ trend.id }}</span>
+					<span class="text-body-sm font-bold text-on-surface">{{ trend.id }}</span>
 					<div class="min-w-0">
-						<strong class="block truncate text-sm text-white">{{ trend.title }}</strong>
-						<span class="text-xs text-white/50">{{ trend.posts }}</span>
+						<strong class="block truncate text-body-sm text-on-surface">{{ trend.title }}</strong>
+						<span class="text-label-md text-on-surface-muted">{{ trend.posts }}</span>
 					</div>
 				</article>
 			}

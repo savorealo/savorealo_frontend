@@ -9,6 +9,7 @@ import { StorageService } from '@core/services/storage';
 import { SupabaseService } from '@core/services/supabase.service';
 import { ProfileService, UpdatePersonProfileInput } from '@core/services/profile-service';
 import { LoginUser, RegisterUser, User } from '@core/models/user/User';
+import { toUserMessage } from '@core/utils/user-error';
 
 @Injectable({ providedIn: 'root' })
 export class AuthStore {
@@ -67,7 +68,7 @@ export class AuthStore {
         this.loadCounters(data.user!.id);
       }),
       catchError(err => {
-        this._error.set(err.message);
+        this._error.set(toUserMessage(err, 'No se pudo iniciar sesión'));
         return throwError(() => err);
       }),
       finalize(() => this._loading.set(false)),
@@ -84,7 +85,7 @@ export class AuthStore {
         if (error) throw error;
       }),
       catchError(err => {
-        this._error.set(err.message ?? 'Error al iniciar sesión con Google');
+        this._error.set(toUserMessage(err, 'No se pudo iniciar sesión con Google'));
         return throwError(() => err);
       }),
       finalize(() => this._loading.set(false)),
@@ -108,7 +109,7 @@ export class AuthStore {
           });
         }),
         catchError(err => {
-          this._error.set(err.message ?? 'Error al registrar');
+          this._error.set(toUserMessage(err, 'No se pudo completar el registro'));
           return throwError(() => err);
         }),
         finalize(() => this._loading.set(false)),
@@ -126,7 +127,7 @@ export class AuthStore {
         });
       }),
       catchError(err => {
-        this._error.set(err.message ?? 'Error al registrar');
+        this._error.set(toUserMessage(err, 'No se pudo completar el registro'));
         return throwError(() => err);
       }),
       finalize(() => this._loading.set(false)),
@@ -187,7 +188,7 @@ export class AuthStore {
         } : profile);
       }),
       catchError(err => {
-        this._error.set(err.message ?? 'Error al actualizar perfil');
+        this._error.set(toUserMessage(err, 'No se pudo actualizar el perfil'));
         return throwError(() => err);
       }),
       finalize(() => this._loading.set(false)),

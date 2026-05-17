@@ -3,12 +3,17 @@ import { finalize } from 'rxjs'
 import { Post } from '@core/models/post/post.model'
 import { PostCategory } from '@core/models/post/post.dto'
 import { ExploreService } from '@core/services/explore.service'
+import { FeedService } from '@core/services/feed.service'
+import { ToastService } from '@core/services/toast.service'
+import { toUserMessage } from '@core/utils/user-error'
 
 export type ExploreSort = 'relevant' | 'recent' | 'popular'
 
 @Injectable({ providedIn: 'root' })
 export class ExploreStore {
 	private readonly exploreService = inject(ExploreService)
+	private readonly feedService    = inject(FeedService)
+	private readonly toast          = inject(ToastService)
 
 	private readonly _posts = signal<Post[]>([])
 	private readonly _loading = signal(false)
@@ -44,7 +49,7 @@ export class ExploreStore {
 				this._hasNextPage.set(page.hasNextPage)
 				this._totalCount.set(page.totalCount)
 			},
-			error: err => this._error.set(err.message ?? 'No se pudo cargar explorar'),
+			error: err => this._error.set(toUserMessage(err, 'No se pudo cargar explorar')),
 		})
 	}
 
@@ -63,8 +68,28 @@ export class ExploreStore {
 				this._hasNextPage.set(page.hasNextPage)
 				this._totalCount.set(page.totalCount)
 			},
-			error: err => this._error.set(err.message ?? 'No se pudieron cargar mas recetas'),
+			error: err => this._error.set(toUserMessage(err, 'No se pudieron cargar más recetas')),
 		})
+	}
+
+	toggleSave(post: Post): void {
+		const optimistic = { ...post, saved: !post.saved, savesCount: post.saved ? Math.max(0, post.savesCount - 1) : post.savesCount + 1 }
+		this.replacePost(optimistic)
+
+		this.feedService.toggleSave(post.id).subscribe({
+			next: result => {
+				this.replacePost({ ...optimistic, saved: result.active })
+				this.toast.success(result.active ? 'Guardado en tu colección' : 'Eliminado de guardados', '')
+			},
+			error: err => {
+				this.replacePost(post)
+				this._error.set(toUserMessage(err, 'No se pudo guardar el post'))
+			},
+		})
+	}
+
+	private replacePost(updatedPost: Post): void {
+		this._posts.update(posts => posts.map(p => p.id === updatedPost.id ? updatedPost : p))
 	}
 
 	setCategory(category: PostCategory | null): void {

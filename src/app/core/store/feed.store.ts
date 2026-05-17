@@ -3,6 +3,7 @@ import { finalize } from 'rxjs'
 import { FeedService } from '@core/services/feed.service'
 import { ToastService } from '@core/services/toast.service'
 import { Post } from '@core/models/post/post.model'
+import { toUserMessage } from '@core/utils/user-error'
 
 @Injectable({ providedIn: 'root' })
 export class FeedStore {
@@ -38,7 +39,7 @@ export class FeedStore {
 				this._hasNextPage.set(page.hasNextPage)
 				this._totalCount.set(page.totalCount)
 			},
-			error: err => this._error.set(err.message ?? 'No se pudo cargar el feed'),
+			error: err => this._error.set(toUserMessage(err, 'No se pudo cargar el feed')),
 		})
 	}
 
@@ -57,7 +58,7 @@ export class FeedStore {
 				this._hasNextPage.set(page.hasNextPage)
 				this._totalCount.set(page.totalCount)
 			},
-			error: err => this._error.set(err.message ?? 'No se pudo cargar mas feed'),
+			error: err => this._error.set(toUserMessage(err, 'No se pudo cargar más feed')),
 		})
 	}
 
@@ -69,11 +70,11 @@ export class FeedStore {
 		this.feedService.toggleLike(post.id).subscribe({
 			next: result => {
 				this.replacePost({ ...optimistic, liked: result.active, likesCount: result.count })
-				if (result.active) this.toast.success('¡Le diste like! ❤️', '')
+				if (result.active) this.toast.success('Le diste like', '')
 			},
 			error: err => {
 				this.replacePost(post)
-				this._error.set(err.message ?? 'No se pudo actualizar el like')
+				this._error.set(toUserMessage(err, 'No se pudo actualizar el like'))
 			},
 		})
 	}
@@ -86,11 +87,11 @@ export class FeedStore {
 		this.feedService.toggleSave(post.id).subscribe({
 			next: result => {
 				this.replacePost({ ...optimistic, saved: result.active, savesCount: result.count })
-				this.toast.success(result.active ? 'Guardado en tu colección 🔖' : 'Eliminado de guardados', '')
+				this.toast.success(result.active ? 'Guardado en tu colección' : 'Eliminado de guardados', '')
 			},
 			error: err => {
 				this.replacePost(post)
-				this._error.set(err.message ?? 'No se pudo guardar el post')
+				this._error.set(toUserMessage(err, 'No se pudo guardar el post'))
 			},
 		})
 	}

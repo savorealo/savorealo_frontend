@@ -1,5 +1,6 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { ThemeService } from '@core/services/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -8,5 +9,11 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.scss'
 })
 export class App {
-  protected readonly title = signal('cookeealo');
+  protected readonly title = signal('Savorealo');
+
+  constructor() {
+    // Bootstrap del ThemeService al arrancar la app (lee localStorage
+    // y suscribe el listener de `prefers-color-scheme`).
+    inject(ThemeService);
+  }
 }

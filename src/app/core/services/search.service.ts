@@ -1,6 +1,8 @@
 import { inject, Injectable } from '@angular/core'
 import { from, map, Observable } from 'rxjs'
+import { Apollo } from 'apollo-angular'
 import { SupabaseService } from '@core/services/supabase.service'
+import { SEARCH_USERS_QUERY } from '@graphql/feed.mutations'
 
 export interface SearchPost {
 	id: string
@@ -19,6 +21,17 @@ export interface SearchUser {
 	fullName: string | null
 	photoUrl: string | null
 	bio: string | null
+	followersCount: number
+	isFollowing: boolean
+}
+
+interface GqlSearchUser {
+	id: string
+	username: string | null
+	display_name: string | null
+	avatar_url: string | null
+	followers_count: number | null
+	isFollowing: boolean | null
 }
 
 interface PostRow {
@@ -31,17 +44,10 @@ interface PostRow {
 	media: { media_url: string; media_type: string; position: number }[]
 }
 
-interface UserRow {
-	user_id: string
-	username: string
-	full_name: string | null
-	photo_url: string | null
-	bio: string | null
-}
-
 @Injectable({ providedIn: 'root' })
 export class SearchService {
 	private readonly supabase = inject(SupabaseService)
+	private readonly apollo   = inject(Apollo)
 
 	searchPosts(query: string): Observable<SearchPost[]> {
 		const q = query.trim()
@@ -74,23 +80,20 @@ export class SearchService {
 
 	searchUsers(query: string): Observable<SearchUser[]> {
 		const q = query.trim()
-		return from(
-			this.supabase.client
-				.from('person_profiles')
-				.select('user_id, username, full_name, photo_url, bio')
-				.or(`username.ilike.%${q}%,full_name.ilike.%${q}%`)
-				.limit(20),
-		).pipe(
-			map(({ data, error }) => {
-				if (error) throw error
-				return ((data ?? []) as unknown as UserRow[]).map(row => ({
-					userId: row.user_id,
-					username: row.username,
-					fullName: row.full_name,
-					photoUrl: row.photo_url,
-					bio: row.bio,
-				}))
-			}),
+		return this.apollo.query<{ searchUsers: GqlSearchUser[] }>({
+			query: SEARCH_USERS_QUERY,
+			variables: { q, limit: 20, offset: 0 },
+			fetchPolicy: 'network-only',
+		}).pipe(
+			map(res => (res.data?.searchUsers ?? []).map(u => ({
+				userId: u.id,
+				username: u.username ?? '',
+				fullName: u.display_name,
+				photoUrl: u.avatar_url,
+				bio: null,
+				followersCount: u.followers_count ?? 0,
+				isFollowing: !!u.isFollowing,
+			}))),
 		)
 	}
 }

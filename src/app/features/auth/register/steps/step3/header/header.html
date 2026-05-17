@@ -1,9 +1,9 @@
 <button class="inline-flex border-0 bg-transparent" (click)="activateCallback()">
     <span
-        class="inline-flex size-12 items-center justify-center rounded-full border text-base transition"
+        class="inline-flex size-12 items-center justify-center rounded-pill border text-base transition-all duration-fast ease-standard"
         [ngClass]="{
-            'border-orange-500 bg-orange-500 text-white shadow-lg shadow-orange-500/25': value <= activeStep,
-            'border-black/10 bg-white text-black/35': value > activeStep
+            'border-primary bg-primary text-on-primary shadow-2': value <= activeStep,
+            'border-outline bg-surface-container text-on-surface-muted': value > activeStep
         }"
     >
         <i class="pi pi-camera"></i>

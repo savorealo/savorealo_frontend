@@ -1,17 +1,17 @@
-<section>
+<section class="rounded-2xl border border-outline bg-surface-container p-5 shadow-1">
 	<header class="mb-3 flex items-center justify-between">
-		<h2 class="text-sm font-black text-black">Tendencias</h2>
-		<button type="button" class="text-[0.65rem] font-semibold text-[#ff6d00]">Ver todo</button>
+		<h2 class="text-title-sm font-bold text-on-surface">Tendencias</h2>
+		<button type="button" class="text-label-md font-bold text-primary hover:underline">Ver todo</button>
 	</header>
 
 	<div class="grid gap-3">
 		@for (trend of trends; track trend.id) {
 			<article class="grid grid-cols-[44px_18px_1fr] items-center gap-2">
 				<img [src]="trend.imageUrl" alt="" class="size-11 rounded-xl object-cover" />
-				<span class="text-sm font-black text-black/70">{{ trend.id }}</span>
+				<span class="text-body-sm font-bold text-on-surface-muted">{{ trend.id }}</span>
 				<div class="min-w-0 leading-tight">
-					<strong class="block truncate text-sm font-black text-black">{{ trend.title }}</strong>
-					<span class="text-xs font-black text-black/55">{{ trend.posts }}</span>
+					<strong class="block truncate text-body-sm font-bold text-on-surface">{{ trend.title }}</strong>
+					<span class="text-label-md font-semibold text-on-surface-muted">{{ trend.posts }}</span>
 				</div>
 			</article>
 		}

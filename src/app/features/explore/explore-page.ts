@@ -4,7 +4,7 @@ import { NgOptimizedImage } from '@angular/common'
 import { AppShell } from '@shared/components/app-shell/app-shell'
 import { Avatar } from '@shared/components/avatar/avatar'
 import { ExploreStore } from '@core/store/explore.store'
-import { FeedStore } from '@core/store/feed.store'
+import { Post } from '@core/models/post/post.model'
 import { SearchService, SearchPost, SearchUser } from '@core/services/search.service'
 import { ExploreCategoryTabs } from './components/explore-category-tabs/explore-category-tabs'
 import { ExploreHero } from './components/explore-hero/explore-hero'
@@ -31,7 +31,6 @@ import { RecipeDiscoveryGrid } from './components/recipe-discovery-grid/recipe-d
 })
 export class ExplorePage implements OnInit {
 	readonly explore = inject(ExploreStore)
-	private readonly feed = inject(FeedStore)
 	private readonly searchService = inject(SearchService)
 
 	readonly searchQuery = signal('')
@@ -67,7 +66,7 @@ export class ExplorePage implements OnInit {
 		})
 	}
 
-	toggleSave(post: Parameters<FeedStore['toggleSave']>[0]): void {
-		this.feed.toggleSave(post)
+	toggleSave(post: Post): void {
+		this.explore.toggleSave(post)
 	}
 }

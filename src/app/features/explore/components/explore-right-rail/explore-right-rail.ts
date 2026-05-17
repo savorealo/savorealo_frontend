@@ -22,10 +22,10 @@ export class ExploreRightRail {
 	readonly chefImageUrl = '/assets/icons/new_logo.png'
 
 	readonly collections: Collection[] = [
-		{ id: 1, title: '🔥 Virales de la semana', count: '12 recetas', imageUrl: '/prueba1.png' },
-		{ id: 2, title: '🍝 Pasta Lovers', count: '24 recetas', imageUrl: '/prueba1.png' },
-		{ id: 3, title: '🥗 Healthy Meal Prep', count: '18 recetas', imageUrl: '/prueba1.png' },
-		{ id: 4, title: '🍰 Postres irresistibles', count: '15 recetas', imageUrl: '/prueba1.png' },
+		{ id: 1, title: 'Virales de la semana', count: '12 recetas', imageUrl: '/prueba1.png' },
+		{ id: 2, title: 'Pasta Lovers', count: '24 recetas', imageUrl: '/prueba1.png' },
+		{ id: 3, title: 'Healthy Meal Prep', count: '18 recetas', imageUrl: '/prueba1.png' },
+		{ id: 4, title: 'Postres irresistibles', count: '15 recetas', imageUrl: '/prueba1.png' },
 	]
 
 	readonly trends: Trend[] = [

@@ -53,6 +53,8 @@ export class ButtonComponent {
   }
 
   get styleClass() {
-    return this.full ? 'w-full' : '';
+    const classes = ['min-h-11', 'rounded-pill', 'font-bold'];
+    if (this.full) classes.push('w-full');
+    return classes.join(' ');
   }
 }

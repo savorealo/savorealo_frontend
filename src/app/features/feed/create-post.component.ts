@@ -31,7 +31,7 @@ import { Textarea } from 'primeng/textarea'
 
 			@if (previewUrl(); as preview) {
 				<div class="relative overflow-hidden rounded-2xl border border-black/10">
-					<img [src]="preview" alt="Preview de la imagen seleccionada" class="max-h-80 w-full object-cover" />
+					<img [src]="preview" alt="Preview de la imagen seleccionada" class="max-h-48 w-full object-cover sm:max-h-72" />
 					<button
 						type="button"
 						class="absolute right-3 top-3 grid size-9 place-items-center rounded-full bg-white/90 text-surface-800 shadow-sm hover:bg-white"
@@ -139,7 +139,7 @@ export class CreatePostComponent {
 				this.content.set('')
 				this.removeImage()
 				this.postCreated.emit(post)
-				this.toast.success('¡Post publicado! 🎉', '')
+				this.toast.success('Post publicado', '')
 			},
 			error: err => {
 				this.error.set(err.message ?? 'No se pudo publicar')

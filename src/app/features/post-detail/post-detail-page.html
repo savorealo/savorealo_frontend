@@ -4,7 +4,7 @@
 		<!-- Back -->
 		<button
 			type="button"
-			class="mb-5 inline-flex items-center gap-2 text-sm font-bold text-black/50 hover:text-black transition"
+			class="mb-5 inline-flex min-h-11 items-center gap-2 rounded-pill px-3 text-body-sm font-bold text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container hover:text-on-surface"
 			(click)="goBack()"
 		>
 			<i class="pi pi-arrow-left"></i>
@@ -15,27 +15,27 @@
 		@if (loading()) {
 			<div class="grid gap-5">
 				<div class="flex items-center gap-3">
-					<div class="size-12 animate-pulse rounded-full bg-gray-200"></div>
+					<div class="size-12 animate-pulse rounded-pill bg-surface-container-high"></div>
 					<div class="grid gap-2">
-						<div class="h-4 w-32 animate-pulse rounded-full bg-gray-200"></div>
-						<div class="h-3 w-20 animate-pulse rounded-full bg-gray-200"></div>
+						<div class="h-4 w-32 animate-pulse rounded-pill bg-surface-container-high"></div>
+						<div class="h-3 w-20 animate-pulse rounded-pill bg-surface-container-high"></div>
 					</div>
 				</div>
-				<div class="aspect-square w-full animate-pulse rounded-2xl bg-gray-200"></div>
+				<div class="aspect-square w-full animate-pulse rounded-2xl bg-surface-container-high"></div>
 				<div class="grid gap-2">
-					<div class="h-4 w-3/4 animate-pulse rounded-full bg-gray-200"></div>
-					<div class="h-4 w-full animate-pulse rounded-full bg-gray-200"></div>
-					<div class="h-4 w-2/3 animate-pulse rounded-full bg-gray-200"></div>
+					<div class="h-4 w-3/4 animate-pulse rounded-pill bg-surface-container-high"></div>
+					<div class="h-4 w-full animate-pulse rounded-pill bg-surface-container-high"></div>
+					<div class="h-4 w-2/3 animate-pulse rounded-pill bg-surface-container-high"></div>
 				</div>
 			</div>
 		}
 
 		<!-- Error -->
 		@if (error()) {
-			<div class="rounded-2xl bg-red-50 p-6 text-center">
-				<i class="pi pi-exclamation-triangle mb-2 text-3xl text-red-400"></i>
-				<p class="font-black text-red-700">{{ error() }}</p>
-				<button type="button" class="mt-3 text-sm font-bold text-red-600 underline" (click)="router.navigate(['/'])">Ir al feed</button>
+			<div class="rounded-2xl border border-error/30 bg-error-container p-6 text-center">
+				<i class="pi pi-exclamation-triangle mb-2 text-3xl text-error"></i>
+				<p class="font-bold text-on-error-container">{{ error() }}</p>
+				<button type="button" class="mt-3 text-body-sm font-bold text-error underline" (click)="router.navigate(['/'])">Ir al feed</button>
 			</div>
 		}
 
@@ -49,8 +49,8 @@
 						<app-avatar [src]="post.author.photoUrl" [name]="authorName()" size="lg" />
 					</a>
 					<div class="min-w-0 flex-1">
-						<a [routerLink]="profileLink()" class="text-base font-black hover:underline">{{ authorName() }}</a>
-						<div class="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-sm font-semibold text-black/45">
+						<a [routerLink]="profileLink()" class="text-body-md font-bold text-on-surface hover:underline">{{ authorName() }}</a>
+						<div class="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-body-sm font-medium text-on-surface-muted">
 							@if (authorHandle()) { <span>{{ authorHandle() }}</span><span>·</span> }
 							<span>{{ post.createdAt | timeAgo }}</span>
 						</div>
@@ -59,14 +59,14 @@
 
 				<!-- Title -->
 				@if (post.title) {
-					<h1 class="text-2xl font-black leading-tight text-black">{{ post.title }}</h1>
+					<h1 class="font-display text-headline-md text-on-surface">{{ post.title }}</h1>
 				}
 
 				<!-- Categories -->
 				@if (post.categories.length > 0) {
 					<div class="flex flex-wrap gap-2">
 						@for (cat of post.categories; track cat) {
-							<span class="rounded-full bg-orange-100 px-3 py-1 text-xs font-black text-orange-700">{{ cat }}</span>
+							<span class="rounded-pill bg-primary-container px-3 py-1 text-label-md font-bold text-on-primary-container">{{ cat }}</span>
 						}
 					</div>
 				}
@@ -74,7 +74,7 @@
 				<!-- Media carousel -->
 				@if (post.media.length > 0) {
 					<div class="grid gap-2">
-						<div class="relative aspect-square overflow-hidden rounded-2xl bg-gray-100">
+						<div class="relative aspect-square overflow-hidden rounded-2xl border border-outline bg-surface-container">
 							@if (primaryMedia()!.type === 'video') {
 								<video
 									class="size-full object-cover"
@@ -87,7 +87,7 @@
 									[ngSrc]="primaryMedia()!.url"
 									[alt]="post.title || 'Publicación culinaria'"
 									fill
-									sizes="(max-width: 768px) 100vw, 672px"
+									sizes="(max-width: 768px) 100vw, 50vw"
 									class="object-cover"
 								/>
 							}
@@ -98,8 +98,8 @@
 								@for (media of post.media; track media.id; let i = $index) {
 									<button
 										type="button"
-										class="relative aspect-square w-16 shrink-0 overflow-hidden rounded-lg transition"
-										[class]="activeMediaIdx() === i ? 'ring-2 ring-orange-500' : 'opacity-60 hover:opacity-100'"
+										class="relative aspect-square w-16 shrink-0 overflow-hidden rounded-lg transition-all duration-fast ease-standard"
+										[class]="activeMediaIdx() === i ? 'ring-2 ring-primary' : 'opacity-60 hover:opacity-100'"
 										(click)="activeMediaIdx.set(i)"
 									>
 										<img [ngSrc]="media.url" [alt]="'Imagen ' + (i + 1)" fill class="object-cover" />
@@ -112,39 +112,39 @@
 
 				<!-- Description -->
 				@if (post.description) {
-					<p class="text-sm font-semibold leading-7 text-black/75 whitespace-pre-line">{{ post.description }}</p>
+					<p class="text-body-md font-medium leading-base text-on-surface whitespace-pre-line">{{ post.description }}</p>
 				}
 
 				<!-- Recipe -->
 				@if (post.recipe; as recipe) {
-					<section class="grid gap-5 rounded-2xl border border-black/5 bg-[#fafafa] p-5">
+					<section class="grid gap-5 rounded-2xl border border-outline bg-surface-container p-5">
 						<div class="flex items-start justify-between gap-3">
-							<h2 class="text-lg font-black text-black">{{ recipe.name }}</h2>
+							<h2 class="text-title-lg font-bold text-on-surface">{{ recipe.name }}</h2>
 						</div>
 
 						@if (recipe.description) {
-							<p class="text-sm font-semibold leading-6 text-black/55">{{ recipe.description }}</p>
+							<p class="text-body-sm font-medium leading-base text-on-surface-muted">{{ recipe.description }}</p>
 						}
 
 						<!-- Meta chips -->
-						<div class="flex flex-wrap gap-2 text-xs font-bold">
+						<div class="flex flex-wrap gap-2 text-label-md font-bold">
 							@if (recipe.timeRequired) {
-								<span class="inline-flex items-center gap-1.5 rounded-full bg-orange-100 px-3 py-1.5 text-orange-700">
+								<span class="inline-flex items-center gap-1.5 rounded-pill bg-primary-container px-3 py-1.5 text-on-primary-container">
 									<i class="pi pi-clock"></i> {{ recipe.timeRequired }} min
 								</span>
 							}
 							@if (difficultyLabel()) {
-								<span class="inline-flex items-center gap-1.5 rounded-full bg-sky-100 px-3 py-1.5 text-sky-700">
+								<span class="inline-flex items-center gap-1.5 rounded-pill bg-tertiary-container px-3 py-1.5 text-on-tertiary-container">
 									<i class="pi pi-chart-bar"></i> {{ difficultyLabel() }}
 								</span>
 							}
 							@if (recipe.servings) {
-								<span class="inline-flex items-center gap-1.5 rounded-full bg-green-100 px-3 py-1.5 text-green-700">
+								<span class="inline-flex items-center gap-1.5 rounded-pill bg-secondary-container px-3 py-1.5 text-on-secondary-container">
 									<i class="pi pi-users"></i> {{ recipe.servings }} porciones
 								</span>
 							}
 							@if (recipe.estimatedCost) {
-								<span class="inline-flex items-center gap-1.5 rounded-full bg-purple-100 px-3 py-1.5 text-purple-700">
+								<span class="inline-flex items-center gap-1.5 rounded-pill bg-surface-container-high px-3 py-1.5 text-on-surface">
 									<i class="pi pi-dollar"></i> ~{{ recipe.estimatedCost }}€
 								</span>
 							}
@@ -153,15 +153,15 @@
 						<!-- Ingredients -->
 						@if (recipe.ingredients.length > 0) {
 							<div>
-								<h3 class="mb-3 text-xs font-black uppercase tracking-widest text-black/35">Ingredientes</h3>
+								<h3 class="mb-3 text-label-md font-bold uppercase tracking-wide text-on-surface-muted">Ingredientes</h3>
 								<ul class="grid gap-2">
 									@for (ing of recipe.ingredients; track ing.ingredientId) {
-										<li class="flex items-center gap-3 rounded-xl bg-white px-4 py-3 text-sm font-semibold shadow-sm">
-											<span class="size-2 shrink-0 rounded-full bg-orange-400"></span>
-											<span class="flex-1 text-black">{{ ing.name }}</span>
-											<span class="text-black/45">{{ ing.quantity }} {{ ing.unit }}</span>
+										<li class="flex items-center gap-3 rounded-xl bg-surface px-4 py-3 text-body-sm font-medium shadow-1">
+											<span class="size-2 shrink-0 rounded-pill bg-primary"></span>
+											<span class="flex-1 text-on-surface">{{ ing.name }}</span>
+											<span class="text-on-surface-muted">{{ ing.quantity }} {{ ing.unit }}</span>
 											@if (ing.notes) {
-												<span class="text-black/30 text-xs">({{ ing.notes }})</span>
+												<span class="text-on-surface-muted text-label-md">({{ ing.notes }})</span>
 											}
 										</li>
 									}
@@ -172,14 +172,14 @@
 						<!-- Steps -->
 						@if (recipe.steps.length > 0) {
 							<div>
-								<h3 class="mb-3 text-xs font-black uppercase tracking-widest text-black/35">Preparación</h3>
+								<h3 class="mb-3 text-label-md font-bold uppercase tracking-wide text-on-surface-muted">Preparación</h3>
 								<ol class="grid gap-4">
 									@for (step of recipe.steps; track step.step) {
 										<li class="flex gap-4">
-											<span class="grid size-8 shrink-0 place-items-center rounded-full bg-orange-500 text-xs font-black text-white shadow-sm shadow-orange-500/30">
+											<span class="grid size-8 shrink-0 place-items-center rounded-pill bg-primary text-label-md font-bold text-on-primary shadow-1">
 												{{ step.step }}
 											</span>
-											<p class="flex-1 pt-1 text-sm font-semibold leading-6 text-black/70">{{ step.text }}</p>
+											<p class="flex-1 pt-1 text-body-sm font-medium leading-base text-on-surface">{{ step.text }}</p>
 										</li>
 									}
 								</ol>
@@ -192,20 +192,20 @@
 				@if (post.recipe && post.recipe.steps.length > 0) {
 					<a
 						[routerLink]="['/cook', post.id]"
-						class="flex w-full items-center justify-center gap-3 rounded-2xl bg-black px-6 py-4 font-black text-white transition hover:bg-orange-500 hover:shadow-lg hover:shadow-orange-500/25"
+						class="flex w-full items-center justify-center gap-3 rounded-2xl bg-inverse-surface px-6 py-4 font-bold text-inverse-on-surface transition-all duration-fast ease-standard hover:bg-primary hover:text-on-primary hover:shadow-3"
 					>
-						<i class="pi pi-star-fill text-orange-400"></i>
+						<i class="pi pi-star-fill text-primary"></i>
 						Modo cocina
-						<span class="ml-auto rounded-full bg-white/10 px-3 py-1 text-xs font-bold">{{ post.recipe.steps.length }} pasos</span>
+						<span class="ml-auto rounded-pill bg-inverse-on-surface/10 px-3 py-1 text-label-md font-bold">{{ post.recipe.steps.length }} pasos</span>
 					</a>
 				}
 
 			<!-- Actions -->
-				<footer class="flex items-center gap-6 border-t border-black/5 pt-4">
+				<footer class="flex items-center gap-3 border-t border-outline pt-4 sm:gap-6">
 					<button
 						type="button"
-						class="inline-flex items-center gap-2 text-sm font-black transition"
-						[class]="post.liked ? 'text-red-500' : 'text-black/50 hover:text-red-500'"
+						class="inline-flex min-h-11 items-center gap-2 rounded-pill px-2 text-body-sm font-bold transition-colors duration-fast ease-standard hover:bg-surface-container active:scale-[0.98]"
+						[class]="post.liked ? 'text-error' : 'text-on-surface-muted hover:text-error'"
 						(click)="toggleLike()"
 					>
 						<i [class]="post.liked ? 'pi pi-heart-fill' : 'pi pi-heart'"></i>
@@ -214,22 +214,22 @@
 
 					<button
 						type="button"
-						class="inline-flex items-center gap-2 text-sm font-black text-black/50 transition hover:text-orange-500"
+						class="inline-flex min-h-11 items-center gap-2 rounded-pill px-2 text-body-sm font-bold text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container hover:text-primary active:scale-[0.98]"
 						(click)="commentsVisible.set(true)"
 					>
 						<i class="pi pi-comment"></i>
 						<span>{{ post.commentsCount }}</span>
 					</button>
 
-					<span class="inline-flex items-center gap-2 text-sm font-black text-black/30">
+					<span class="inline-flex items-center gap-2 text-body-sm font-bold text-on-surface-muted">
 						<i class="pi pi-eye"></i>
 						<span>{{ post.viewsCount }}</span>
 					</span>
 
 					<button
 						type="button"
-						class="ml-auto grid size-9 place-items-center rounded-full transition hover:bg-black/5"
-						[class]="post.saved ? 'text-orange-500' : 'text-black/40'"
+						class="ml-auto grid size-11 place-items-center rounded-pill transition-colors duration-fast ease-standard hover:bg-surface-container active:scale-[0.98]"
+						[class]="post.saved ? 'text-primary' : 'text-on-surface-muted'"
 						(click)="toggleSave()"
 						aria-label="Guardar post"
 					>

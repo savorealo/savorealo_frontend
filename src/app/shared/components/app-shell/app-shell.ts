@@ -4,6 +4,7 @@ import { AuthStore } from '@core/store/auth.store'
 import { NotificationsStore } from '@core/store/notifications.store'
 import { GlobalSearchStore } from '@core/store/global-search.store'
 import { GlobalSearchPanel } from '@shared/components/global-search/global-search-panel'
+import { ThemeService } from '@core/services/theme.service'
 
 interface ShellNavItem {
 	icon: string
@@ -20,6 +21,7 @@ export class AppShell implements OnInit {
 	private readonly authStore = inject(AuthStore)
 	readonly notifications = inject(NotificationsStore)
 	readonly globalSearch   = inject(GlobalSearchStore)
+	readonly theme          = inject(ThemeService)
 
 	readonly profile = this.authStore.profile
 	readonly logoUrl = '/assets/icons/new_logo.png'
@@ -34,8 +36,20 @@ export class AppShell implements OnInit {
 		{ icon: 'pi pi-cog', label: 'Ajustes', route: '/settings' },
 	]
 
+	readonly mobileNavItems: ShellNavItem[] = [
+		{ icon: 'pi pi-home', label: 'Feed', route: '/' },
+		{ icon: 'pi pi-search', label: 'Explorar', route: '/explore' },
+		{ icon: 'pi pi-sparkles', label: 'IA', route: '/ai' },
+		{ icon: 'pi pi-comments', label: 'Chats', route: '/chat' },
+		{ icon: 'pi pi-user', label: 'Perfil', route: '/profile' },
+	]
+
 	ngOnInit(): void {
 		this.notifications.load()
+	}
+
+	toggleTheme(): void {
+		this.theme.toggle()
 	}
 
 	logout(): void {

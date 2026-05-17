@@ -9,7 +9,9 @@ import {
 import { FormsModule } from '@angular/forms'
 import { AuthStore } from '@core/store/auth.store'
 import { PostMediaService } from '@core/services/post-media.service'
+import { UserService } from '@core/services/user.service'
 import { UpdatePersonProfileInput } from '@core/services/profile-service'
+import { validateUsernameFormat } from '@core/utils/username'
 import { finalize } from 'rxjs'
 
 @Component({
@@ -24,14 +26,19 @@ export class EditProfileComponent implements OnInit {
 
 	readonly authStore    = inject(AuthStore)
 	private readonly media = inject(PostMediaService)
+	private readonly userService = inject(UserService)
+
+	readonly usernameError = signal<string | null>(null)
+	readonly usernameChecking = signal(false)
+	private usernameTimer: ReturnType<typeof setTimeout> | null = null
 
 	form = signal<UpdatePersonProfileInput>({
-		username:  '',
-		fullName:  '',
-		photoUrl:  '',
-		bio:       '',
-		location:  '',
-		birthDate: '',
+		username:    '',
+		displayName: '',
+		avatarUrl:   '',
+		bio:         '',
+		location:    '',
+		birthDate:   '',
 	})
 
 	private initial = signal<UpdatePersonProfileInput>({})
@@ -54,12 +61,12 @@ export class EditProfileComponent implements OnInit {
 		if (!p) return
 
 		const initial: UpdatePersonProfileInput = {
-			username:  p.username   ?? '',
-			fullName:  p.fullName   ?? '',
-			photoUrl:  p.photo_url  ?? '',
-			bio:       p.bio        ?? '',
-			location:  p.location   ?? '',
-			birthDate: p.birth_date
+			username:    p.username   ?? '',
+			displayName: p.fullName   ?? '',
+			avatarUrl:   p.photo_url  ?? '',
+			bio:         p.bio        ?? '',
+			location:    p.location   ?? '',
+			birthDate:   p.birth_date
 				? new Date(p.birth_date).toISOString().split('T')[0]
 				: '',
 		}
@@ -72,6 +79,37 @@ export class EditProfileComponent implements OnInit {
 	patch(partial: Partial<UpdatePersonProfileInput>): void {
 		this.form.update(f => ({ ...f, ...partial }))
 		this.success.set(false)
+		if ('username' in partial) this.validateUsername((partial.username ?? '').trim())
+	}
+
+	private validateUsername(value: string): void {
+		if (this.usernameTimer) { clearTimeout(this.usernameTimer); this.usernameTimer = null }
+
+		// Sin cambios respecto al original → nada que validar
+		if (value === (this.initial().username ?? '')) {
+			this.usernameError.set(null)
+			this.usernameChecking.set(false)
+			return
+		}
+
+		const localErr = validateUsernameFormat(value)
+		if (localErr) {
+			this.usernameError.set(localErr)
+			this.usernameChecking.set(false)
+			return
+		}
+
+		this.usernameError.set(null)
+		this.usernameChecking.set(true)
+		this.usernameTimer = setTimeout(() => {
+			this.userService.checkUsername(value).subscribe({
+				next: res => {
+					this.usernameChecking.set(false)
+					this.usernameError.set(res.valid && res.available ? null : (res.reason ?? 'Ese usuario no está disponible.'))
+				},
+				error: () => this.usernameChecking.set(false),
+			})
+		}, 400)
 	}
 
 	onAvatarFile(event: Event): void {
@@ -87,20 +125,24 @@ export class EditProfileComponent implements OnInit {
 			finalize(() => this.uploadingPhoto.set(false)),
 		).subscribe({
 			next: url => {
-				this.patch({ photoUrl: url })
+				this.patch({ avatarUrl: url })
 				this.photoPreview.set(url)
 			},
 			error: () => {
 				// revert preview on failure
-				this.photoPreview.set(this.form().photoUrl || null)
+				this.photoPreview.set(this.form().avatarUrl || null)
 			},
 		})
 
 		input.value = ''
 	}
 
+	readonly canSave = computed(() =>
+		this.isDirty() && !this.usernameError() && !this.usernameChecking(),
+	)
+
 	submit(): void {
-		if (!this.isDirty()) return
+		if (!this.canSave()) return
 
 		const diff: UpdatePersonProfileInput = {}
 		const f = this.form()

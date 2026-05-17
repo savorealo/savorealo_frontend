@@ -1,0 +1,306 @@
+/* =============================================================
+   Savorealo · Design Tokens
+   Única fuente de verdad de colores, tipografías, espaciado,
+   radios, sombras y motion. NO escribir colores literales en
+   componentes — siempre referenciar desde aquí.
+
+   Estrategia de color:
+     · Las variables `--rgb-*` guardan tripletes R G B (sin coma)
+       para que Tailwind use el modificador `/<alpha-value>` y
+       podamos hacer `bg-primary/40`, `text-on-surface/70`, etc.
+     · Las variables `--color-*` exponen el color ya envuelto en
+       `rgb(...)` para uso directo en CSS de componentes.
+
+   Paleta oficial (Figma) — Mayo 2026
+   ============================================================= */
+
+:root {
+	/* ───────── Primitivos · paleta de marca ───────── */
+	--rgb-yellow-500:  255 231 119;   /* #FFE777 Primario  */
+	--rgb-yellow-900:   57  48   0;   /* #393000 En primario */
+	--rgb-salmon-500:  255 163 119;   /* #FFA377 Secundario */
+	--rgb-salmon-900:   69  23   0;   /* #451700 En secundario */
+	--rgb-indigo-300:  144 163 255;   /* #90A3FF Terciario */
+	--rgb-indigo-900:    0  27 110;   /* #001B6E En terciario */
+	--rgb-cream-100:   238 232 219;   /* #EEE8DB Superficie seleccionada */
+	--rgb-error-500:   207  44  39;   /* #CF2C27 Error */
+
+	/* ───────── Primitivos · neutros cálidos ─────────
+	   Pensados para encajar con la paleta cálida de marca,
+	   evitando grises azulados que rompen la armonía. */
+	--rgb-neutral-0:   255 255 255;
+	--rgb-neutral-50:  255 250 245;
+	--rgb-neutral-100: 247 241 232;
+	--rgb-neutral-200: 230 220 205;
+	--rgb-neutral-300: 198 184 165;
+	--rgb-neutral-400: 158 143 125;
+	--rgb-neutral-500: 117 103  88;
+	--rgb-neutral-600:  87  74  62;
+	--rgb-neutral-700:  60  49  39;
+	--rgb-neutral-800:  40  32  25;
+	--rgb-neutral-900:  26  20  16;
+	--rgb-neutral-950:  16  12   8;
+
+	/* ───────── Semánticos · LIGHT THEME (default) ─────────
+	   Inspirado en Material 3 (container / on-container).
+	   Cambiar SOLO aquí para mover toda la app. */
+
+	/* Superficies */
+	--rgb-surface:                 var(--rgb-neutral-50);
+	--rgb-surface-container:       var(--rgb-neutral-0);
+	--rgb-surface-container-high:  var(--rgb-cream-100);
+	--rgb-surface-container-low:   var(--rgb-neutral-100);
+	--rgb-on-surface:              var(--rgb-neutral-950);
+	--rgb-on-surface-muted:        var(--rgb-neutral-500);
+	--rgb-outline:                 var(--rgb-neutral-200);
+	--rgb-outline-strong:          var(--rgb-neutral-300);
+
+	/* Marca · usar para CTAs principales */
+	--rgb-primary:                 var(--rgb-yellow-500);
+	--rgb-on-primary:              var(--rgb-yellow-900);
+	--rgb-primary-container:       var(--rgb-yellow-500);
+	--rgb-on-primary-container:    var(--rgb-yellow-900);
+
+	/* Acento secundario · CTAs alternativos, badges */
+	--rgb-secondary:               var(--rgb-salmon-500);
+	--rgb-on-secondary:            var(--rgb-salmon-900);
+	--rgb-secondary-container:     var(--rgb-salmon-500);
+	--rgb-on-secondary-container:  var(--rgb-salmon-900);
+
+	/* Acento terciario · highlights, info, IA */
+	--rgb-tertiary:                var(--rgb-indigo-300);
+	--rgb-on-tertiary:             var(--rgb-indigo-900);
+	--rgb-tertiary-container:      var(--rgb-indigo-300);
+	--rgb-on-tertiary-container:   var(--rgb-indigo-900);
+
+	/* Estado de error */
+	--rgb-error:                   var(--rgb-error-500);
+	--rgb-on-error:                255 255 255;
+	--rgb-error-container:         252 220 218;
+	--rgb-on-error-container:       89   0   0;
+
+	/* Inverso (snackbars/tooltips) */
+	--rgb-inverse-surface:         var(--rgb-neutral-900);
+	--rgb-inverse-on-surface:      var(--rgb-neutral-50);
+
+	/* Estado · interacción */
+	--rgb-focus-ring:              var(--rgb-indigo-300);
+
+	/* ───────── Wrappers `rgb()` para uso directo en CSS ───────── */
+	--color-surface:                rgb(var(--rgb-surface));
+	--color-surface-container:      rgb(var(--rgb-surface-container));
+	--color-surface-container-high: rgb(var(--rgb-surface-container-high));
+	--color-surface-container-low:  rgb(var(--rgb-surface-container-low));
+	--color-on-surface:             rgb(var(--rgb-on-surface));
+	--color-on-surface-muted:       rgb(var(--rgb-on-surface-muted));
+	--color-outline:                rgb(var(--rgb-outline));
+	--color-outline-strong:         rgb(var(--rgb-outline-strong));
+
+	--color-primary:                rgb(var(--rgb-primary));
+	--color-on-primary:             rgb(var(--rgb-on-primary));
+	--color-primary-container:      rgb(var(--rgb-primary-container));
+	--color-on-primary-container:   rgb(var(--rgb-on-primary-container));
+
+	--color-secondary:              rgb(var(--rgb-secondary));
+	--color-on-secondary:           rgb(var(--rgb-on-secondary));
+	--color-secondary-container:    rgb(var(--rgb-secondary-container));
+	--color-on-secondary-container: rgb(var(--rgb-on-secondary-container));
+
+	--color-tertiary:               rgb(var(--rgb-tertiary));
+	--color-on-tertiary:            rgb(var(--rgb-on-tertiary));
+	--color-tertiary-container:     rgb(var(--rgb-tertiary-container));
+	--color-on-tertiary-container:  rgb(var(--rgb-on-tertiary-container));
+
+	--color-error:                  rgb(var(--rgb-error));
+	--color-on-error:               rgb(var(--rgb-on-error));
+	--color-error-container:        rgb(var(--rgb-error-container));
+	--color-on-error-container:     rgb(var(--rgb-on-error-container));
+
+	--color-inverse-surface:        rgb(var(--rgb-inverse-surface));
+	--color-inverse-on-surface:     rgb(var(--rgb-inverse-on-surface));
+	--color-focus-ring:             rgb(var(--rgb-focus-ring));
+
+	/* ───────── Tipografía ───────── */
+	--font-display: 'Dela Gothic One', 'Impact', system-ui, sans-serif;
+	--font-body:    'Chivo', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+	/* Escala (line-height en valor unitario para herencia limpia) */
+	--text-display-lg: 3rem;       /* 48px */
+	--text-display-md: 2.25rem;    /* 36px */
+	--text-display-sm: 1.75rem;    /* 28px */
+	--text-headline-lg: 1.75rem;   /* 28px */
+	--text-headline-md: 1.5rem;    /* 24px */
+	--text-headline-sm: 1.25rem;   /* 20px */
+	--text-title-lg: 1.25rem;      /* 20px */
+	--text-title-md: 1.125rem;     /* 18px */
+	--text-title-sm: 1rem;         /* 16px */
+	--text-body-lg: 1.125rem;      /* 18px */
+	--text-body-md: 1rem;          /* 16px */
+	--text-body-sm: 0.875rem;      /* 14px */
+	--text-label-lg: 0.875rem;     /* 14px */
+	--text-label-md: 0.75rem;      /* 12px */
+	--text-label-sm: 0.6875rem;    /* 11px */
+
+	--leading-tight: 1.15;
+	--leading-snug:  1.3;
+	--leading-base:  1.5;
+	--leading-loose: 1.7;
+
+	--tracking-tight:  -0.01em;
+	--tracking-base:    0em;
+	--tracking-wide:    0.04em;
+	--tracking-display: -0.02em;
+
+	/* ───────── Espaciado (escala 4px) ───────── */
+	--space-0:  0;
+	--space-1:  0.25rem;   /*  4px */
+	--space-2:  0.5rem;    /*  8px */
+	--space-3:  0.75rem;   /* 12px */
+	--space-4:  1rem;      /* 16px */
+	--space-5:  1.25rem;   /* 20px */
+	--space-6:  1.5rem;    /* 24px */
+	--space-8:  2rem;      /* 32px */
+	--space-10: 2.5rem;    /* 40px */
+	--space-12: 3rem;      /* 48px */
+	--space-16: 4rem;      /* 64px */
+	--space-20: 5rem;      /* 80px */
+	--space-24: 6rem;      /* 96px */
+
+	/* ───────── Radios ───────── */
+	--radius-xs:   4px;
+	--radius-sm:   8px;
+	--radius-md:  12px;
+	--radius-lg:  16px;
+	--radius-xl:  20px;
+	--radius-2xl: 28px;
+	--radius-3xl: 36px;
+	--radius-pill: 9999px;
+
+	/* ───────── Elevación · sombras suaves cálidas ───────── */
+	--shadow-0: none;
+	--shadow-1: 0 1px 2px rgb(var(--rgb-neutral-900) / 0.06);
+	--shadow-2: 0 2px 6px rgb(var(--rgb-neutral-900) / 0.08), 0 1px 2px rgb(var(--rgb-neutral-900) / 0.04);
+	--shadow-3: 0 6px 14px rgb(var(--rgb-neutral-900) / 0.10), 0 2px 4px rgb(var(--rgb-neutral-900) / 0.06);
+	--shadow-4: 0 14px 28px rgb(var(--rgb-neutral-900) / 0.12), 0 4px 8px rgb(var(--rgb-neutral-900) / 0.06);
+	--shadow-5: 0 28px 60px rgb(var(--rgb-neutral-900) / 0.16), 0 8px 16px rgb(var(--rgb-neutral-900) / 0.08);
+
+	/* ───────── Motion ───────── */
+	--duration-instant: 50ms;
+	--duration-fast:    150ms;
+	--duration-base:    250ms;
+	--duration-slow:    400ms;
+	--duration-slower:  600ms;
+
+	--ease-standard:    cubic-bezier(0.2, 0, 0, 1);
+	--ease-emphasized:  cubic-bezier(0.3, 0, 0, 1);
+	--ease-decelerated: cubic-bezier(0.05, 0.7, 0.1, 1);
+	--ease-accelerated: cubic-bezier(0.3, 0, 0.8, 0.15);
+
+	/* ───────── Layout · alturas/anchuras estructurales ───────── */
+	--shell-sidebar-width:    240px;
+	--shell-sidebar-collapsed: 84px;
+	--shell-topbar-height:    64px;
+	--shell-bottombar-height: 68px;
+
+	/* ───────── PrimeNG bridge ─────────
+	   Mapeamos los tokens del preset Aura a nuestras variables
+	   para que p-button, p-toast, p-card... usen automáticamente
+	   la paleta Savorealo, sin necesidad de duplicar nada en TS. */
+	--p-primary-color:               var(--color-primary);
+	--p-primary-color-text:          var(--color-on-primary);
+	--p-primary-50:                  rgb(var(--rgb-yellow-500) / 0.10);
+	--p-primary-100:                 rgb(var(--rgb-yellow-500) / 0.20);
+	--p-primary-200:                 rgb(var(--rgb-yellow-500) / 0.35);
+	--p-primary-300:                 rgb(var(--rgb-yellow-500) / 0.55);
+	--p-primary-400:                 rgb(var(--rgb-yellow-500) / 0.75);
+	--p-primary-500:                 var(--color-primary);
+	--p-primary-600:                 rgb(var(--rgb-yellow-900) / 0.75);
+	--p-primary-700:                 rgb(var(--rgb-yellow-900) / 0.85);
+	--p-primary-800:                 var(--color-on-primary);
+	--p-primary-900:                 var(--color-on-primary);
+
+	--p-border-radius:               var(--radius-md);
+	--p-surface-0:                   var(--color-surface-container);
+	--p-surface-ground:              var(--color-surface);
+	--p-text-color:                  var(--color-on-surface);
+	--p-text-muted-color:            var(--color-on-surface-muted);
+	--p-content-border-color:        var(--color-outline);
+}
+
+/* =============================================================
+   DARK THEME · overrides
+   Aplicado por `<html data-theme="dark">` (gestionado por ThemeService).
+   ============================================================= */
+[data-theme='dark'] {
+	/* Superficies invertidas */
+	--rgb-surface:                 var(--rgb-neutral-950);
+	--rgb-surface-container:       var(--rgb-neutral-900);
+	--rgb-surface-container-high:  var(--rgb-neutral-800);
+	--rgb-surface-container-low:   var(--rgb-neutral-900);
+	--rgb-on-surface:              var(--rgb-neutral-50);
+	--rgb-on-surface-muted:        var(--rgb-neutral-400);
+	--rgb-outline:                 var(--rgb-neutral-700);
+	--rgb-outline-strong:          var(--rgb-neutral-600);
+
+	/* Containers oscuros (en M3, en dark el container se invierte) */
+	--rgb-primary:                 var(--rgb-yellow-500);
+	--rgb-on-primary:              var(--rgb-yellow-900);
+	--rgb-primary-container:       var(--rgb-yellow-900);
+	--rgb-on-primary-container:    var(--rgb-yellow-500);
+
+	--rgb-secondary:               var(--rgb-salmon-500);
+	--rgb-on-secondary:            var(--rgb-salmon-900);
+	--rgb-secondary-container:     var(--rgb-salmon-900);
+	--rgb-on-secondary-container:  var(--rgb-salmon-500);
+
+	--rgb-tertiary:                var(--rgb-indigo-300);
+	--rgb-on-tertiary:             var(--rgb-indigo-900);
+	--rgb-tertiary-container:      var(--rgb-indigo-900);
+	--rgb-on-tertiary-container:   var(--rgb-indigo-300);
+
+	--rgb-error-container:          89   0   0;
+	--rgb-on-error-container:      252 220 218;
+
+	--rgb-inverse-surface:         var(--rgb-neutral-50);
+	--rgb-inverse-on-surface:      var(--rgb-neutral-900);
+
+	/* Sombras más sutiles en oscuro */
+	--shadow-1: 0 1px 2px rgb(0 0 0 / 0.40);
+	--shadow-2: 0 2px 6px rgb(0 0 0 / 0.50);
+	--shadow-3: 0 6px 14px rgb(0 0 0 / 0.55);
+	--shadow-4: 0 14px 28px rgb(0 0 0 / 0.60);
+	--shadow-5: 0 28px 60px rgb(0 0 0 / 0.70);
+}
+
+/* =============================================================
+   Auto-dark cuando NO hay preferencia explícita del usuario.
+   El ThemeService añade `data-theme="light"` o `dark` cuando el
+   usuario elige manualmente; mientras no exista esa marca,
+   seguimos al sistema operativo.
+   ============================================================= */
+@media (prefers-color-scheme: dark) {
+	html:not([data-theme]) {
+		color-scheme: dark;
+		--rgb-surface:                 var(--rgb-neutral-950);
+		--rgb-surface-container:       var(--rgb-neutral-900);
+		--rgb-surface-container-high:  var(--rgb-neutral-800);
+		--rgb-surface-container-low:   var(--rgb-neutral-900);
+		--rgb-on-surface:              var(--rgb-neutral-50);
+		--rgb-on-surface-muted:        var(--rgb-neutral-400);
+		--rgb-outline:                 var(--rgb-neutral-700);
+		--rgb-outline-strong:          var(--rgb-neutral-600);
+
+		--rgb-primary-container:       var(--rgb-yellow-900);
+		--rgb-on-primary-container:    var(--rgb-yellow-500);
+		--rgb-secondary-container:     var(--rgb-salmon-900);
+		--rgb-on-secondary-container:  var(--rgb-salmon-500);
+		--rgb-tertiary-container:      var(--rgb-indigo-900);
+		--rgb-on-tertiary-container:   var(--rgb-indigo-300);
+
+		--rgb-error-container:          89   0   0;
+		--rgb-on-error-container:      252 220 218;
+
+		--rgb-inverse-surface:         var(--rgb-neutral-50);
+		--rgb-inverse-on-surface:      var(--rgb-neutral-900);
+	}
+}
