@@ -1,4 +1,4 @@
-import { computed, inject, Injectable, signal } from '@angular/core'
+import { computed, effect, inject, Injectable, signal, untracked } from '@angular/core'
 import { Observable, tap, throwError } from 'rxjs'
 import { finalize } from 'rxjs/operators'
 import { StoriesService } from '@core/services/stories.service'
@@ -20,6 +20,29 @@ export class StoriesStore {
 	readonly activeGroup = computed(() => this.groups()[this.activeGroupIdx()] ?? null)
 	readonly activeStory = computed(() => this.activeGroup()?.stories[this.activeStoryIdx()] ?? null)
 
+	/** Tu propio grupo de historias (va en el botón "Tu historia", no en la fila). */
+	readonly myGroup = computed(() => {
+		const id = this.authStore.currentUserId()
+		return id ? this.groups().find(g => g.userId === id) ?? null : null
+	})
+
+	/** Historias del resto — lo que se muestra en la tira horizontal. */
+	readonly otherGroups = computed(() => {
+		const id = this.authStore.currentUserId()
+		return this.groups().filter(g => g.userId !== id)
+	})
+
+	constructor() {
+		// La sesión Supabase se restaura de forma asíncrona: `currentUserId()`
+		// arranca null y se rellena después. Reaccionamos a ese cambio para
+		// disparar la carga en cuanto haya usuario (en vez de un único intento
+		// en ngOnInit que puede llegar demasiado pronto y no reintentarse).
+		effect(() => {
+			const userId = this.authStore.currentUserId()
+			if (userId) untracked(() => this.load())
+		})
+	}
+
 	load(): void {
 		const userId = this.authStore.currentUserId()
 		if (!userId || this._initialized()) return
@@ -33,6 +56,12 @@ export class StoriesStore {
 				this._initialized.set(false)
 			},
 		})
+	}
+
+	/** Abre el visor en un grupo concreto (resuelve su índice en la lista completa). */
+	openGroup(group: StoryGroup): void {
+		const idx = this.groups().findIndex(g => g.userId === group.userId)
+		if (idx >= 0) this.openViewer(idx)
 	}
 
 	openViewer(groupIdx: number): void {

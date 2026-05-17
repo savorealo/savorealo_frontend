@@ -31,6 +31,9 @@ export class CookingModePage implements OnInit, OnDestroy {
 	private timerInterval: ReturnType<typeof setInterval> | null = null
 
 	readonly voiceActive = signal(false)
+	readonly cookingMuted = signal(this.readMutedPref())
+
+	private static readonly MUTE_KEY = 'savorealo:cookingMuted'
 
 	readonly steps = computed(() => this.post()?.recipe?.steps ?? [])
 	readonly currentStep = computed(() => this.steps()[this.activeStep()] ?? null)
@@ -64,7 +67,7 @@ export class CookingModePage implements OnInit, OnDestroy {
 		if (e.key === 'ArrowRight' || e.key === 'a' || e.key === 'A') this.nextStep()
 		if (e.key === 'ArrowLeft') this.prevStep()
 		if (e.key === 'p' || e.key === 'P') this.toggleTimer()
-		if (e.key === 'v' || e.key === 'V') this.speakStep()
+		if (e.key === 'v' || e.key === 'V') this.toggleMute()
 		if (e.key === 'Escape') this.exit()
 	}
 
@@ -73,7 +76,11 @@ export class CookingModePage implements OnInit, OnDestroy {
 		const id = this.route.snapshot.paramMap.get('id')
 		if (!id) { this.router.navigate(['/']); return }
 		this.feedService.getPostById(id).subscribe({
-			next: post => { this.post.set(post); this.loading.set(false) },
+			next: post => {
+				this.post.set(post)
+				this.loading.set(false)
+				this.speakCurrentStep()
+			},
 			error: () => { this.router.navigate(['/']); },
 		})
 	}
@@ -88,12 +95,14 @@ export class CookingModePage implements OnInit, OnDestroy {
 		if (this.isLast()) return
 		this.activeStep.update(s => s + 1)
 		this.resetTimer()
+		this.speakCurrentStep()
 	}
 
 	prevStep(): void {
 		if (this.isFirst()) return
 		this.activeStep.update(s => s - 1)
 		this.resetTimer()
+		this.speakCurrentStep()
 	}
 
 	toggleIngredient(key: string): void {
@@ -139,17 +148,49 @@ export class CookingModePage implements OnInit, OnDestroy {
 		this.editingTimer.set(false)
 	}
 
-	speakStep(): void {
-		if (!window.speechSynthesis) return
-		const step = this.currentStep()
-		if (!step) return
+	/** Lee en voz alta el paso actual si el TTS no está muteado. */
+	speakCurrentStep(): void {
+		if (typeof window === 'undefined' || !window.speechSynthesis) return
 		window.speechSynthesis.cancel()
-		if (this.voiceActive()) { this.voiceActive.set(false); return }
+		this.voiceActive.set(false)
+		if (this.cookingMuted()) return
+		const step = this.currentStep()
+		if (!step?.text) return
 		const utt = new SpeechSynthesisUtterance(step.text)
 		utt.lang = 'es-ES'
 		utt.onend = () => this.voiceActive.set(false)
 		this.voiceActive.set(true)
 		window.speechSynthesis.speak(utt)
+	}
+
+	/** Alterna el mute del TTS y lo persiste entre sesiones. */
+	toggleMute(): void {
+		const muted = !this.cookingMuted()
+		this.cookingMuted.set(muted)
+		this.persistMutedPref(muted)
+		if (muted) {
+			window.speechSynthesis?.cancel()
+			this.voiceActive.set(false)
+		} else {
+			this.speakCurrentStep()
+		}
+	}
+
+	private readMutedPref(): boolean {
+		try {
+			return typeof localStorage !== 'undefined'
+				&& localStorage.getItem(CookingModePage.MUTE_KEY) === '1'
+		} catch {
+			return false
+		}
+	}
+
+	private persistMutedPref(muted: boolean): void {
+		try {
+			if (typeof localStorage !== 'undefined') {
+				localStorage.setItem(CookingModePage.MUTE_KEY, muted ? '1' : '0')
+			}
+		} catch { /* ignore */ }
 	}
 
 	exit(): void {

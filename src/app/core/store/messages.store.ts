@@ -5,6 +5,7 @@ import { RealtimeChannel } from '@supabase/supabase-js'
 import { MessagesService } from '@core/services/messages.service'
 import { AuthStore } from '@core/store/auth.store'
 import { ChatMessage, Conversation } from '@features/messages/models/messages.models'
+import { toUserMessage } from '@core/utils/user-error'
 
 @Injectable({ providedIn: 'root' })
 export class MessagesStore {
@@ -56,7 +57,7 @@ export class MessagesStore {
 					this.selectConversation(convs[0].id)
 				}
 			},
-			error: err => this._error.set(err.message ?? 'No se pudieron cargar los mensajes'),
+			error: err => this._error.set(toUserMessage(err, 'No se pudieron cargar las conversaciones')),
 		})
 	}
 
@@ -122,7 +123,7 @@ export class MessagesStore {
 				this._messages.set(messages)
 				this.subscribeRealtime(conversationId, userId)
 			},
-			error: err => this._error.set(err.message ?? 'No se pudieron cargar los mensajes'),
+			error: err => this._error.set(toUserMessage(err, 'No se pudieron cargar los mensajes')),
 		})
 	}
 
@@ -145,7 +146,7 @@ export class MessagesStore {
 				this.loadMessages(convId)
 				this.markConversationRead(convId)
 			},
-			error: err => this._error.set(err.message ?? 'No se pudo abrir la conversación'),
+			error: err => this._error.set(toUserMessage(err, 'No se pudo abrir la conversación')),
 		})
 	}
 

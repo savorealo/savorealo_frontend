@@ -1,23 +1,23 @@
-<section class="rounded-2xl bg-white p-5 shadow-sm">
+<section class="rounded-2xl border border-outline bg-surface-container p-5 shadow-1">
 	<header class="mb-4 flex items-center justify-between">
-		<h2 class="text-sm font-semibold text-black">Sugerencias para ti</h2>
-		<button type="button" class="text-xs font-semibold text-[#ff6d00]">Ver todo</button>
+		<h2 class="text-title-sm font-bold text-on-surface">Sugerencias para ti</h2>
+		<button type="button" class="inline-flex min-h-11 items-center rounded-pill px-3 text-label-md font-bold text-primary transition-colors duration-fast ease-standard hover:bg-primary-container">Ver todo</button>
 	</header>
 
 	<div class="grid gap-3">
 		@for (suggestion of suggestions; track suggestion.id) {
-			<article class="flex items-center gap-2">
-				<span class="grid size-10 shrink-0 place-items-center overflow-hidden rounded-full border border-[#ff8f27] bg-[#ff8f27]">
+			<article class="flex items-center gap-3">
+				<span class="grid size-10 shrink-0 place-items-center overflow-hidden rounded-pill bg-primary">
 					<img [src]="suggestion.avatarUrl" alt="" class="size-full object-contain" />
 				</span>
 				<div class="min-w-0 flex-1 leading-tight">
 					<div class="flex items-center gap-1">
-						<strong class="truncate text-xs font-black text-black">{{ suggestion.name }}</strong>
-						<i class="pi pi-verified text-[0.65rem] text-sky-500"></i>
+						<strong class="truncate text-body-sm font-bold text-on-surface">{{ suggestion.name }}</strong>
+						<i class="pi pi-verified text-[0.65rem] text-tertiary"></i>
 					</div>
-					<span class="truncate text-[0.65rem] font-semibold text-black/45">{{ suggestion.username }}</span>
+					<span class="truncate text-label-md font-medium text-on-surface-muted">{{ suggestion.username }}</span>
 				</div>
-				<button type="button" class="rounded-full border border-black/10 px-3 py-1.5 text-[0.62rem] font-black text-[#ff6d00]">
+				<button type="button" class="inline-flex min-h-11 items-center justify-center rounded-pill border border-outline px-4 text-label-md font-bold text-primary transition-colors duration-fast ease-standard hover:border-primary hover:bg-primary hover:text-on-primary active:scale-[0.98]">
 					Seguir
 				</button>
 			</article>

@@ -17,19 +17,27 @@ import { environment } from '../environments/environment'
 import { provideApollo } from 'apollo-angular'
 import { apolloOptionsFactory } from '@core/services/apollo.provider'
 
-const SocialPreset = definePreset(Aura, {
+/**
+ * Preset PrimeNG alineado con la paleta oficial Savorealo.
+ * El color base (#FFE777) se sitúa en 500, y el "en primario"
+ * (#393000) cierra la escala en 900. Light/dark se controla
+ * vía CSS variables en `src/styles/tokens.css` — esta escala
+ * solo cubre los tokens que PrimeNG necesita para componentes
+ * como p-button, p-tag, p-toast, etc.
+ */
+const SavorealoPreset = definePreset(Aura, {
   semantic: {
     primary: {
-      50: '#eff6ff',
-      100: '#dbeafe',
-      200: '#bfdbfe',
-      300: '#93c5fd',
-      400: '#60a5fa',
-      500: '#3b82f6',
-      600: '#2563eb',
-      700: '#1d4ed8',
-      800: '#1e40af',
-      900: '#1e3a8a',
+      50:  '#fffdf0',
+      100: '#fffbd9',
+      200: '#fff5a3',
+      300: '#ffef7d',
+      400: '#ffeb60',
+      500: '#ffe777',
+      600: '#b89e00',
+      700: '#826f00',
+      800: '#5c4f00',
+      900: '#393000',
     },
   },
 })
@@ -37,16 +45,15 @@ const SocialPreset = definePreset(Aura, {
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZonelessChangeDetection(),
-    provideRouter(routes, withViewTransitions(), withComponentInputBinding()),
+    provideRouter(routes, withViewTransitions({ skipInitialTransition: true }), withComponentInputBinding()),
     provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
     provideClientHydration(withEventReplay()),
     provideAnimationsAsync(),
     providePrimeNG({
       theme: {
-        preset: SocialPreset,
+        preset: SavorealoPreset,
         options: {
           darkModeSelector: '[data-theme="dark"]',
-          //cssLayer: { name: 'primeng', order: 'base, primeng, theme, utilities' },
         },
       },
       ripple: true,

@@ -3,6 +3,8 @@ import { StepperModule } from 'primeng/stepper'
 import { ButtonModule } from 'primeng/button'
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators, ReactiveFormsModule } from '@angular/forms'
 import { RegisterUser } from '@core/models/user/User'
+import { UserService } from '@core/services/user.service'
+import { usernameAvailableValidator, usernameFormatValidator } from '@core/utils/username.validators'
 import { PasswordModule } from 'primeng/password'
 import { DatePickerModule } from 'primeng/datepicker'
 import { TextareaModule } from 'primeng/textarea'
@@ -48,6 +50,7 @@ export class Register {
   onSubmitEvent    = output<RegisterUser>()
   onGoogleRegister = output<void>()
   private formBuilder = inject(FormBuilder)
+  private userService = inject(UserService)
 
   
 
@@ -88,7 +91,7 @@ export class Register {
   registerForm: FormGroup = this.formBuilder.group({
     // Step 1
     email:           ['', [Validators.required, Validators.email]],
-    username:        ['', Validators.required],
+    username:        ['', [Validators.required, usernameFormatValidator], [usernameAvailableValidator(this.userService)]],
     password:        ['', [
       Validators.required,
       Validators.minLength(8),

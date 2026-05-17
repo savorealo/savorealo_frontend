@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core'
+import { afterNextRender, Component, computed, inject, signal } from '@angular/core'
 import { ActivatedRoute, Router, RouterLink } from '@angular/router'
 import { finalize } from 'rxjs'
 import { UserService, PublicUser } from '@core/services/user.service'
@@ -14,7 +14,7 @@ import { TabsModule } from 'primeng/tabs'
 	imports: [AppShell, Avatar, RouterLink, TabsModule],
 	templateUrl: './public-profile-page.html',
 })
-export class PublicProfilePage implements OnInit {
+export class PublicProfilePage {
 	private readonly route = inject(ActivatedRoute)
 	readonly router = inject(Router)
 	private readonly userService = inject(UserService)
@@ -38,8 +38,18 @@ export class PublicProfilePage implements OnInit {
 		this.user()?.fullName || this.user()?.username || 'Chef Savorealo',
 	)
 	readonly location = computed(() => this.user()?.location || null)
+	readonly isPrivate = computed(() => !!this.user()?.isPrivate)
+	readonly isViewable = computed(() => this.user()?.isViewable !== false)
 
-	ngOnInit(): void {
+	constructor() {
+		// El estado de seguimiento (`isFollowing`) depende de la sesión Supabase,
+		// que no existe en SSR. Si cargáramos en el servidor, el backend
+		// resolvería `isFollowing=false` y la hidratación dejaría ese valor
+		// obsoleto. Por eso cargamos solo en el navegador, ya autenticados.
+		afterNextRender(() => this.load())
+	}
+
+	private load(): void {
 		const username = this.route.snapshot.paramMap.get('username')
 		if (!username) { this.router.navigate(['/']); return }
 
@@ -51,7 +61,7 @@ export class PublicProfilePage implements OnInit {
 			next: user => {
 				if (!user) { this.error.set('Usuario no encontrado'); return }
 				this.user.set(user)
-				this.loadUserPosts(user.id)
+				if (user.isViewable) this.loadUserPosts(user.id)
 			},
 			error: err => this.error.set(err.message ?? 'No se pudo cargar el perfil'),
 		})
@@ -82,9 +92,12 @@ export class PublicProfilePage implements OnInit {
 			next: nowFollowing => {
 				this.user.update(u => u ? { ...u, isFollowedByCurrentUser: nowFollowing } : u)
 				const name = this.user()?.fullName || this.user()?.username || 'este usuario'
-				this.toast.success(nowFollowing ? `Siguiendo a ${name} 👋` : `Dejaste de seguir a ${name}`, '')
+				this.toast.success(nowFollowing ? `Ahora sigues a ${name}` : `Dejaste de seguir a ${name}`, '')
 			},
-			error: () => this.user.update(u => u ? { ...u, isFollowedByCurrentUser: wasFollowing, followersCount: (u.followersCount ?? 0) + (wasFollowing ? 1 : -1) } : u),
+			error: () => {
+				this.user.update(u => u ? { ...u, isFollowedByCurrentUser: wasFollowing, followersCount: (u.followersCount ?? 0) + (wasFollowing ? 1 : -1) } : u)
+				this.toast.error('No se pudo actualizar el seguimiento')
+			},
 		})
 	}
 }

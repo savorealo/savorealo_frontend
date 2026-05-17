@@ -5,33 +5,33 @@
 >
 	<!-- Sheet -->
 	<div
-		class="w-full max-w-lg overflow-hidden rounded-t-3xl bg-white shadow-2xl sm:rounded-3xl"
+		class="w-full max-w-lg overflow-hidden rounded-t-3xl bg-surface-container text-on-surface shadow-5 sm:rounded-3xl"
 		(click)="$event.stopPropagation()"
 		style="animation: reportSheetSlide 0.22s ease"
 	>
 		<!-- Estado de éxito -->
 		@if (submitted()) {
 			<div class="px-6 py-10 text-center">
-				<div class="mx-auto mb-4 grid size-14 place-items-center rounded-full bg-green-50">
-					<i class="pi pi-check-circle text-3xl text-green-500"></i>
+				<div class="mx-auto mb-4 grid size-14 place-items-center rounded-pill bg-primary-container">
+					<i class="pi pi-check-circle text-3xl text-on-primary-container"></i>
 				</div>
-				<h2 class="text-xl font-black text-black">Reporte enviado</h2>
-				<p class="mt-2 text-sm font-semibold text-black/55">
+				<h2 class="text-title-lg font-bold text-on-surface">Reporte enviado</h2>
+				<p class="mt-2 text-body-sm font-semibold text-on-surface-muted">
 					Gracias por avisarnos. Nuestro equipo revisará el contenido.
 				</p>
 			</div>
 		} @else {
 			<!-- Header -->
-			<header class="flex items-start justify-between gap-3 border-b border-black/5 px-5 py-4">
+			<header class="flex items-start justify-between gap-3 border-b border-outline px-5 py-4">
 				<div>
-					<h2 class="text-lg font-black text-black">Reportar publicación</h2>
-					<p class="mt-1 text-xs font-semibold text-black/45">
+					<h2 class="text-title-md font-bold text-on-surface">Reportar publicación</h2>
+					<p class="mt-1 text-body-sm font-semibold text-on-surface-muted">
 						¿Por qué crees que esta publicación incumple las normas?
 					</p>
 				</div>
 				<button
 					type="button"
-					class="grid size-9 shrink-0 place-items-center rounded-full text-black/40 transition hover:bg-black/5 hover:text-black"
+					class="grid size-11 shrink-0 place-items-center rounded-pill text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container-high hover:text-on-surface active:scale-[0.98]"
 					(click)="close.emit()"
 					[disabled]="submitting()"
 					aria-label="Cerrar"
@@ -46,31 +46,31 @@
 					@for (cat of categories; track cat.value) {
 						<button
 							type="button"
-							class="group flex w-full items-start gap-3 rounded-2xl border-2 p-3 text-left transition active:scale-[0.99]"
-							[class.border-orange-500]="selectedCategory() === cat.value"
-							[class.bg-orange-50]="selectedCategory() === cat.value"
+							class="group flex min-h-[72px] w-full items-start gap-3 rounded-2xl border-2 p-3 text-left transition-colors duration-fast ease-standard active:scale-[0.99]"
+							[class.border-primary]="selectedCategory() === cat.value"
+							[class.bg-primary-container]="selectedCategory() === cat.value"
 							[class.border-transparent]="selectedCategory() !== cat.value"
-							[class.hover:bg-orange-50]="selectedCategory() !== cat.value"
-							[class.hover:border-orange-200]="selectedCategory() !== cat.value"
+							[class.hover:bg-surface-container-high]="selectedCategory() !== cat.value"
+							[class.hover:border-outline]="selectedCategory() !== cat.value"
 							(click)="selectCategory(cat.value)"
 						>
 							<span
-								class="grid size-10 shrink-0 place-items-center rounded-full bg-orange-100 transition"
-								[class.bg-orange-500]="selectedCategory() === cat.value"
+								class="grid size-11 shrink-0 place-items-center rounded-pill bg-surface-container-high transition-colors duration-fast ease-standard"
+								[class.bg-primary]="selectedCategory() === cat.value"
 							>
 								<i
 									[class]="cat.icon"
 									class="text-lg"
-									[class.text-orange-500]="selectedCategory() !== cat.value"
-									[class.text-white]="selectedCategory() === cat.value"
+									[class.text-primary]="selectedCategory() !== cat.value"
+									[class.text-on-primary]="selectedCategory() === cat.value"
 								></i>
 							</span>
 							<span class="min-w-0 flex-1">
-								<span class="block text-sm font-black text-black">{{ cat.label }}</span>
-								<span class="block text-xs font-semibold text-black/45">{{ cat.description }}</span>
+								<span class="block text-body-sm font-bold text-on-surface">{{ cat.label }}</span>
+								<span class="block text-label-md font-semibold normal-case tracking-normal text-on-surface-muted">{{ cat.description }}</span>
 							</span>
 							@if (selectedCategory() === cat.value) {
-								<i class="pi pi-check-circle mt-1 text-lg text-orange-500"></i>
+								<i class="pi pi-check-circle mt-1 text-lg text-primary"></i>
 							}
 						</button>
 					}
@@ -79,18 +79,18 @@
 				<!-- Textarea opcional para detalles -->
 				@if (selectedCategory()) {
 					<div class="mt-4 px-1">
-						<label class="block text-xs font-black uppercase tracking-wider text-black/45">
+						<label class="block text-label-md font-bold text-on-surface-muted">
 							Más detalles (opcional)
 						</label>
 						<textarea
-							class="mt-2 h-24 w-full resize-none rounded-2xl border-0 bg-[#f1f1f1] px-4 py-3 text-sm font-semibold text-black outline-none placeholder:text-black/35 focus:bg-white focus:shadow-[0_0_0_2px_rgba(255,139,37,0.18)]"
+							class="mt-2 h-24 w-full resize-none rounded-2xl border border-outline bg-surface px-4 py-3 text-body-sm font-semibold text-on-surface outline-none placeholder:text-on-surface-muted focus:bg-surface-container focus:shadow-[0_0_0_2px_rgb(var(--rgb-primary)/0.45)]"
 							placeholder="Cuéntanos qué está pasando (máx. 500 caracteres)"
 							maxlength="500"
 							[value]="detail()"
 							(input)="onDetailInput($event)"
 							[disabled]="submitting()"
 						></textarea>
-						<p class="mt-1 text-right text-xs font-semibold text-black/30">
+						<p class="mt-1 text-right text-label-md font-semibold text-on-surface-muted">
 							{{ detail().length }}/500
 						</p>
 					</div>
@@ -98,17 +98,17 @@
 
 				<!-- Error -->
 				@if (error(); as err) {
-					<div class="mt-3 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-bold text-red-700">
+					<div class="mt-3 rounded-2xl border border-error/30 bg-error-container px-4 py-3 text-body-sm font-bold text-on-error-container">
 						{{ err }}
 					</div>
 				}
 			</div>
 
 			<!-- Footer -->
-			<footer class="flex items-center justify-end gap-3 border-t border-black/5 bg-[#fafafa] px-5 py-4">
+			<footer class="flex items-center justify-end gap-3 border-t border-outline bg-surface-container-low px-5 py-4">
 				<button
 					type="button"
-					class="rounded-2xl px-5 py-2.5 text-sm font-black text-black/60 transition hover:text-black"
+					class="inline-flex min-h-11 items-center justify-center rounded-pill px-5 text-body-sm font-bold text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container-high hover:text-on-surface"
 					(click)="close.emit()"
 					[disabled]="submitting()"
 				>
@@ -116,7 +116,7 @@
 				</button>
 				<button
 					type="button"
-					class="flex items-center gap-2 rounded-2xl bg-gradient-to-r from-orange-500 to-orange-600 px-5 py-2.5 text-sm font-black text-white shadow-lg shadow-orange-500/25 transition disabled:opacity-40"
+					class="inline-flex min-h-11 items-center justify-center gap-2 rounded-pill bg-primary px-5 text-body-sm font-bold text-on-primary shadow-2 transition-all duration-fast ease-standard hover:shadow-3 active:scale-[0.98] disabled:opacity-40"
 					[disabled]="!canSubmit()"
 					(click)="submit()"
 				>

@@ -1,10 +1,11 @@
 import { NgOptimizedImage } from '@angular/common'
 import { Component, computed, input, output } from '@angular/core'
+import { RouterLink } from '@angular/router'
 import { Post } from '@core/models/post/post.model'
 
 @Component({
 	selector: 'app-recipe-discovery-card',
-	imports: [NgOptimizedImage],
+	imports: [NgOptimizedImage, RouterLink],
 	templateUrl: './recipe-discovery-card.html',
 })
 export class RecipeDiscoveryCard {

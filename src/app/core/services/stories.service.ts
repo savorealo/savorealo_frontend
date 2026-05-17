@@ -14,18 +14,29 @@ interface StoryRow {
 	viewed: { user_id: string }[]
 }
 
+interface PersonEmbed {
+	username: string
+	full_name: string | null
+	photo_url: string | null
+}
+
+interface BusinessEmbed {
+	business_name: string
+	photo_url: string | null
+}
+
 interface UserRow {
 	id: string
 	user_type: UserType
-	person_profiles: {
-		username: string
-		full_name: string | null
-		photo_url: string | null
-	}[] | null
-	business_profiles: {
-		business_name: string
-		photo_url: string | null
-	}[] | null
+	// PostgREST devuelve relaciones to-one como objeto (no array); person_profiles
+	// y business_profiles tienen PK = user_id (1-a-1), así que llegan como objeto.
+	person_profiles: PersonEmbed | PersonEmbed[] | null
+	business_profiles: BusinessEmbed | BusinessEmbed[] | null
+}
+
+function firstOrSelf<T>(v: T | T[] | null | undefined): T | null {
+	if (v == null) return null
+	return Array.isArray(v) ? v[0] ?? null : v
 }
 
 interface ResolvedProfile {
@@ -158,8 +169,8 @@ export class StoriesService {
 	}
 
 	private resolveProfile(user: UserRow): ResolvedProfile {
-		const person = user.person_profiles?.[0] ?? null
-		const business = user.business_profiles?.[0] ?? null
+		const person = firstOrSelf(user.person_profiles)
+		const business = firstOrSelf(user.business_profiles)
 
 		if (user.user_type === 'PERSON') {
 			return {

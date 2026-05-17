@@ -1,13 +1,13 @@
 <div [formGroup]="registerForm()" class="mx-auto grid w-full max-w-xl gap-5">
   <div class="grid gap-4 sm:grid-cols-2">
     <label class="grid gap-2">
-      <span class="text-xs font-black uppercase tracking-wide text-black/45">Email</span>
+      <span class="text-xs font-black uppercase tracking-wide text-on-surface-muted">Email</span>
       <input
         pInputText
         formControlName="email"
         type="email"
         placeholder="tu@email.com"
-        class="h-12 rounded-2xl border-black/10 bg-white px-4 text-sm font-semibold"
+        class="h-12 rounded-2xl border border-outline bg-surface px-4 text-sm font-semibold text-on-surface"
         [ngClass]="{'ng-invalid ng-dirty': isInvalid('email')}"
         fluid
       />
@@ -21,23 +21,35 @@
     </label>
 
     <label class="grid gap-2">
-      <span class="text-xs font-black uppercase tracking-wide text-black/45">Usuario</span>
-      <input
-        pInputText
-        formControlName="username"
-        type="text"
-        placeholder="@cocinero"
-        class="h-12 rounded-2xl border-black/10 bg-white px-4 text-sm font-semibold"
-        [ngClass]="{'ng-invalid ng-dirty': isInvalid('username')}"
-        fluid
-      />
-      @if (isInvalid('username')) {
-        <p-message severity="error" size="small" variant="simple">El usuario es obligatorio.</p-message>
+      <span class="text-xs font-black uppercase tracking-wide text-on-surface-muted">Usuario</span>
+      <div class="relative">
+        <span class="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-on-surface-muted">&#64;</span>
+        <input
+          pInputText
+          formControlName="username"
+          type="text"
+          autocapitalize="none"
+          autocomplete="username"
+          placeholder="cocinero"
+          class="h-12 w-full rounded-2xl border border-outline bg-surface pl-9 pr-4 text-sm font-semibold text-on-surface"
+          [ngClass]="{'ng-invalid ng-dirty': isInvalid('username')}"
+        />
+      </div>
+      @if (registerForm().get('username')?.pending) {
+        <p-message severity="secondary" size="small" variant="simple">Comprobando disponibilidad…</p-message>
+      } @else if (isInvalid('username')) {
+        @if (registerForm().get('username')?.errors?.['required']) {
+          <p-message severity="error" size="small" variant="simple">El usuario es obligatorio.</p-message>
+        } @else if (registerForm().get('username')?.errors?.['usernameFormat']) {
+          <p-message severity="error" size="small" variant="simple">{{ registerForm().get('username')?.errors?.['usernameFormat'] }}</p-message>
+        } @else if (registerForm().get('username')?.errors?.['usernameUnavailable']) {
+          <p-message severity="error" size="small" variant="simple">{{ registerForm().get('username')?.errors?.['usernameUnavailable'] }}</p-message>
+        }
       }
     </label>
 
     <label class="grid gap-2">
-      <span class="text-xs font-black uppercase tracking-wide text-black/45">Contrasena</span>
+      <span class="text-xs font-black uppercase tracking-wide text-on-surface-muted">Contrasena</span>
       <p-password
         formControlName="password"
         placeholder="Minimo 8 caracteres"
@@ -57,7 +69,7 @@
     </label>
 
     <label class="grid gap-2">
-      <span class="text-xs font-black uppercase tracking-wide text-black/45">Confirmar</span>
+      <span class="text-xs font-black uppercase tracking-wide text-on-surface-muted">Confirmar</span>
       <p-password
         formControlName="confirmPassword"
         placeholder="Repite tu contrasena"
@@ -82,6 +94,6 @@
     label="Siguiente"
     icon="pi pi-arrow-right"
     iconPos="right"
-    class="h-12 rounded-2xl border-0 bg-gradient-to-r from-orange-500 to-orange-600 px-6 text-sm font-black text-white shadow-lg shadow-orange-500/25"
+    class="h-12 rounded-2xl border-0 bg-primary px-6 text-sm font-black text-on-primary shadow-2 transition-transform duration-fast ease-standard hover:shadow-3 active:scale-[0.98]"
   ></button>
 </div>
