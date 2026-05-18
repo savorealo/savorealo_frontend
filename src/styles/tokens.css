@@ -124,20 +124,20 @@
 	--font-display: 'Dela Gothic One', 'Impact', system-ui, sans-serif;
 	--font-body:    'Chivo', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 
-	/* Escala (line-height en valor unitario para herencia limpia) */
-	--text-display-lg: 3rem;       /* 48px */
-	--text-display-md: 2.25rem;    /* 36px */
-	--text-display-sm: 1.75rem;    /* 28px */
-	--text-headline-lg: 1.75rem;   /* 28px */
-	--text-headline-md: 1.5rem;    /* 24px */
-	--text-headline-sm: 1.25rem;   /* 20px */
-	--text-title-lg: 1.25rem;      /* 20px */
-	--text-title-md: 1.125rem;     /* 18px */
-	--text-title-sm: 1rem;         /* 16px */
-	--text-body-lg: 1.125rem;      /* 18px */
-	--text-body-md: 1rem;          /* 16px */
-	--text-body-sm: 0.875rem;      /* 14px */
-	--text-label-lg: 0.875rem;     /* 14px */
+	/* Escala responsiva con clamp() — escala suavemente entre móvil y escritorio */
+	--text-display-lg: clamp(1.75rem, 6vw, 3rem);      /* 28px → 48px */
+	--text-display-md: clamp(1.5rem, 4.5vw, 2.25rem);  /* 24px → 36px */
+	--text-display-sm: clamp(1.25rem, 3.5vw, 1.75rem); /* 20px → 28px */
+	--text-headline-lg: clamp(1.25rem, 3.5vw, 1.75rem);/* 20px → 28px */
+	--text-headline-md: clamp(1.125rem, 3vw, 1.5rem);  /* 18px → 24px */
+	--text-headline-sm: clamp(1rem, 2.5vw, 1.25rem);   /* 16px → 20px */
+	--text-title-lg: 1.125rem;     /* 18px — fijo, ya es moderado */
+	--text-title-md: 1rem;         /* 16px */
+	--text-title-sm: 0.9375rem;    /* 15px */
+	--text-body-lg: 1rem;          /* 16px */
+	--text-body-md: 0.9375rem;     /* 15px */
+	--text-body-sm: 0.8125rem;     /* 13px */
+	--text-label-lg: 0.8125rem;    /* 13px */
 	--text-label-md: 0.75rem;      /* 12px */
 	--text-label-sm: 0.6875rem;    /* 11px */
 

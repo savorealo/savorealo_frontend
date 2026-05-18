@@ -26,11 +26,15 @@
 
 	html {
 		font-family: var(--font-body);
-		font-size: 16px;
+		font-size: 15px;
 		scroll-behavior: smooth;
 		-webkit-text-size-adjust: 100%;
 		text-rendering: optimizeLegibility;
 		color-scheme: light dark;
+	}
+
+	@media (min-width: 640px) {
+		html { font-size: 16px; }
 	}
 
 	body {
@@ -62,6 +66,20 @@
 		font-family: inherit;
 		font-size: inherit;
 		color: inherit;
+	}
+
+	/* Previene que iOS Safari haga zoom automático al enfocar inputs */
+	@media (max-width: 767px) {
+		input[type="text"],
+		input[type="email"],
+		input[type="password"],
+		input[type="search"],
+		input[type="url"],
+		input[type="number"],
+		textarea,
+		select {
+			font-size: max(16px, 1em);
+		}
 	}
 
 	button { background: none; border: 0; padding: 0; cursor: pointer; }
@@ -114,13 +132,13 @@
 	}
 
 	@keyframes savorealo-page-enter {
-		from { opacity: 0; transform: translateY(10px) scale(0.995); }
-		to   { opacity: 1; transform: translateY(0) scale(1); }
+		from { opacity: 0; transform: translateY(8px); }
+		to   { opacity: 1; transform: translateY(0); }
 	}
 
 	@keyframes savorealo-page-exit {
-		from { opacity: 1; transform: translateY(0) scale(1); }
-		to   { opacity: 0; transform: translateY(-6px) scale(0.998); }
+		from { opacity: 1; transform: translateY(0); }
+		to   { opacity: 0; transform: translateY(-4px); }
 	}
 
 	/* Respetar usuarios con motion reducido */

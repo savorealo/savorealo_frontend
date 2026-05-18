@@ -43,10 +43,10 @@
 
 	@if (primaryMedia(); as media) {
 		@if (media.type === 'video') {
-			<video class="aspect-[1.2] w-full rounded-2xl bg-black object-cover sm:aspect-[1.7]" [src]="media.url" controls preload="metadata"></video>
+			<video class="aspect-[3/2] w-full rounded-2xl bg-black object-cover sm:aspect-[1.7]" [src]="media.url" controls preload="metadata"></video>
 		} @else {
 			<a [routerLink]="postLink()" class="block">
-				<div class="relative aspect-[1.2] overflow-hidden rounded-2xl border border-outline bg-surface-container sm:aspect-[1.7]">
+				<div class="relative aspect-[3/2] overflow-hidden rounded-2xl border border-outline bg-surface-container sm:aspect-[1.7]">
 					<img
 						[ngSrc]="media.url"
 						[alt]="post().title || 'Publicación culinaria'"
