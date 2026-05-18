@@ -1,13 +1,14 @@
 import { Component, effect, ElementRef, inject, OnDestroy, signal, viewChild } from '@angular/core'
 import { StoriesStore } from '@core/store/stories.store'
 import { Avatar } from '@shared/components/avatar/avatar'
+import { ImgFallbackDirective } from '@shared/directives/img-fallback.directive'
 import { TimeAgoPipe } from '@shared/pipes/time-ago.pipe'
 
 const STORY_DURATION = 5000
 
 @Component({
 	selector: 'app-story-viewer',
-	imports: [Avatar, TimeAgoPipe],
+	imports: [Avatar, TimeAgoPipe, ImgFallbackDirective],
 	templateUrl: './story-viewer.html',
 })
 export class StoryViewer implements OnDestroy {

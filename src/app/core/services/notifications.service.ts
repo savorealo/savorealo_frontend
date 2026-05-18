@@ -30,6 +30,27 @@ export class NotificationsService {
 		)
 	}
 
+	getNotification(notificationId: string): Observable<Notification | null> {
+		return from(
+			this.supabase.client
+				.from('notifications')
+				.select(`
+					id, user_id, actor_id, target_id, type, content, is_read, created_at,
+					actor:users!actor_id(
+						id,
+						person_profiles(username, full_name, photo_url)
+					)
+				`)
+				.eq('id', notificationId)
+				.maybeSingle(),
+		).pipe(
+			map(({ data, error }) => {
+				if (error) throw error
+				return data ? this.mapRow(data) : null
+			}),
+		)
+	}
+
 	markAsRead(notificationId: string): Observable<void> {
 		return from(
 			this.supabase.client
@@ -55,22 +76,45 @@ export class NotificationsService {
 			.on(
 				'postgres_changes',
 				{ event: 'INSERT', schema: 'public', table: 'notifications', filter: `user_id=eq.${userId}` },
-				payload => onNew(this.mapRow(payload.new as Record<string, unknown>)),
+				payload => {
+					const row = payload.new as Record<string, unknown>
+					this.getNotification(row['id'] as string).subscribe({
+						next: notification => onNew(notification ?? this.mapRow(row)),
+						error: () => onNew(this.mapRow(row)),
+					})
+				},
 			)
 			.subscribe()
 	}
 
 	private mapRow(row: Record<string, unknown>): Notification {
-		const actorRaw = row['actor'] as { id: string; person_profiles: { username: string; full_name: string; photo_url: string }[] } | null
-		const profile = actorRaw?.person_profiles?.[0] ?? null
+		type PersonProfile = { username: string | null; full_name: string | null; photo_url: string | null }
+		const actorRaw = row['actor'] as {
+			id?: string
+			username?: string | null
+			display_name?: string | null
+			avatar_url?: string | null
+			person_profiles?: PersonProfile | PersonProfile[]
+		} | null
+		const personProfiles = actorRaw?.person_profiles
+		const profile = Array.isArray(personProfiles)
+			? personProfiles[0] ?? null
+			: personProfiles ?? null
 
 		const actor: NotificationActor | null = actorRaw
 			? {
-				id: actorRaw.id,
-				username: profile?.username ?? null,
-				fullName: profile?.full_name ?? null,
-				photoUrl: profile?.photo_url ?? null,
+				id: actorRaw.id ?? (row['actor_id'] as string | null) ?? '',
+				username: profile?.username ?? actorRaw.username ?? (row['username'] as string | null) ?? null,
+				fullName: profile?.full_name ?? actorRaw.display_name ?? (row['display_name'] as string | null) ?? null,
+				photoUrl: profile?.photo_url ?? actorRaw.avatar_url ?? (row['photo_url'] as string | null) ?? null,
 			}
+			: row['actor_id'] || row['username'] || row['photo_url']
+				? {
+					id: (row['actor_id'] as string | null) ?? '',
+					username: (row['username'] as string | null) ?? null,
+					fullName: (row['display_name'] as string | null) ?? null,
+					photoUrl: (row['photo_url'] as string | null) ?? null,
+				}
 			: null
 
 		return {

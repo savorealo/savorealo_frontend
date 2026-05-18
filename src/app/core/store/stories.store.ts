@@ -14,11 +14,8 @@ export class StoriesStore {
 	readonly groups = signal<StoryGroup[]>([])
 	readonly loading = signal(false)
 	readonly viewerOpen = signal(false)
-	readonly activeGroupIdx = signal(0)
+	readonly activeGroupIdx = signal(0)  // índice relativo a viewerGroups, no a groups
 	readonly activeStoryIdx = signal(0)
-
-	readonly activeGroup = computed(() => this.groups()[this.activeGroupIdx()] ?? null)
-	readonly activeStory = computed(() => this.activeGroup()?.stories[this.activeStoryIdx()] ?? null)
 
 	/** Tu propio grupo de historias (va en el botón "Tu historia", no en la fila). */
 	readonly myGroup = computed(() => {
@@ -31,6 +28,19 @@ export class StoriesStore {
 		const id = this.authStore.currentUserId()
 		return this.groups().filter(g => g.userId !== id)
 	})
+
+	// 'others' = navegar dentro de otherGroups; 'mine' = solo mi propio grupo
+	private readonly viewerScope = signal<'others' | 'mine'>('others')
+
+	/** Lista sobre la que navega el visor (depende del scope). */
+	private readonly viewerGroups = computed(() =>
+		this.viewerScope() === 'mine'
+			? (this.myGroup() ? [this.myGroup()!] : [])
+			: this.otherGroups()
+	)
+
+	readonly activeGroup = computed(() => this.viewerGroups()[this.activeGroupIdx()] ?? null)
+	readonly activeStory = computed(() => this.activeGroup()?.stories[this.activeStoryIdx()] ?? null)
 
 	constructor() {
 		// La sesión Supabase se restaura de forma asíncrona: `currentUserId()`
@@ -58,9 +68,14 @@ export class StoriesStore {
 		})
 	}
 
-	/** Abre el visor en un grupo concreto (resuelve su índice en la lista completa). */
+	/** Abre el visor en un grupo — scope determinado automáticamente. */
 	openGroup(group: StoryGroup): void {
-		const idx = this.groups().findIndex(g => g.userId === group.userId)
+		const isMine = group.userId === this.authStore.currentUserId()
+		this.viewerScope.set(isMine ? 'mine' : 'others')
+		const list = isMine
+			? (this.myGroup() ? [this.myGroup()!] : [])
+			: this.otherGroups()
+		const idx = list.findIndex(g => g.userId === group.userId)
 		if (idx >= 0) this.openViewer(idx)
 	}
 
@@ -78,15 +93,16 @@ export class StoriesStore {
 	nextStory(): void {
 		const group = this.activeGroup()
 		if (!group) return
+		const groups = this.viewerGroups()
 		if (this.activeStoryIdx() < group.stories.length - 1) {
 			this.activeStoryIdx.update(i => i + 1)
 			this._markCurrentViewed()
-		} else if (this.activeGroupIdx() < this.groups().length - 1) {
+		} else if (this.activeGroupIdx() < groups.length - 1) {
 			this.activeGroupIdx.update(i => i + 1)
 			this.activeStoryIdx.set(0)
 			this._markCurrentViewed()
 		} else {
-			this.closeViewer()
+			this.closeViewer() // no saltar entre scopes
 		}
 	}
 

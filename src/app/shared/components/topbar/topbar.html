@@ -3,7 +3,7 @@
 		<!-- Search trigger — opens global panel -->
 		<button
 			type="button"
-			class="relative flex h-11 min-w-0 items-center gap-3 rounded-pill border border-outline bg-surface-container pl-11 pr-3 text-body-sm font-semibold text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container-high hover:text-on-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:pl-12 sm:pr-4"
+			class="relative flex h-11 min-w-0 items-center gap-3 rounded-pill border border-outline bg-surface-container pl-11 pr-3 text-left text-body-sm font-semibold text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container-high hover:text-on-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:pl-12 sm:pr-4"
 			(click)="globalSearch.openPanel()"
 			aria-label="Buscar"
 		>
@@ -31,13 +31,16 @@
 			>
 				<i class="pi pi-bell text-xl"></i>
 				@if (notifications.unreadCount() > 0) {
-					<span class="absolute right-1 top-1 grid min-w-[16px] h-[16px] place-items-center rounded-pill bg-error px-1 text-[0.6rem] font-black text-on-error">
+					<span class="absolute right-1 top-1 grid h-[16px] min-w-[16px] place-items-center rounded-pill bg-error px-1 text-[0.6rem] font-black text-on-error">
 						{{ notifications.unreadCount() > 9 ? '9+' : notifications.unreadCount() }}
 					</span>
 				}
 			</a>
 
-			<a routerLink="/profile" class="hidden items-center gap-2 rounded-pill focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:flex">
+			<a
+				routerLink="/profile"
+				class="hidden items-center gap-2 rounded-pill focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:flex"
+			>
 				<span class="grid size-10 shrink-0 place-items-center overflow-hidden rounded-pill bg-primary">
 					<img
 						[src]="profile()?.photo_url || logoUrl"

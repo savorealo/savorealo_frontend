@@ -9,7 +9,13 @@ export function apolloOptionsFactory() {
 
 	return {
 		link: httpLink.create({ uri: `${env.apiUrl}/graphql` }),
-		cache: new InMemoryCache(),
+		cache: new InMemoryCache({
+			typePolicies: {
+				// __typename as returned by the backend GraphQL schema
+				posts: { keyFields: ['id'] },
+				users: { keyFields: ['id'] },
+			},
+		}),
 		connectToDevTools: !env.production,
 		defaultOptions: {
 			watchQuery: { fetchPolicy: 'cache-and-network' as const },

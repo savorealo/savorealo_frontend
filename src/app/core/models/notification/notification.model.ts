@@ -1,4 +1,4 @@
-export type NotificationType = 'LIKE' | 'COMMENT' | 'FOLLOW' | 'MENTION' | 'RECIPE_SAVE'
+export type NotificationType = 'LIKE' | 'COMMENT' | 'FOLLOW' | 'FOLLOW_REQUEST' | 'FOLLOW_ACCEPTED' | 'MENTION' | 'RECIPE_SAVE'
 export type NotificationTab = 'all' | 'unread' | 'mentions' | 'social'
 
 export interface NotificationActor {

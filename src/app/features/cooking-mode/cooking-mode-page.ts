@@ -1,6 +1,6 @@
 import { Component, computed, inject, OnDestroy, OnInit, signal } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
-import { DecimalPipe } from '@angular/common'
+import { DecimalPipe, Location } from '@angular/common'
 import { FeedService } from '@core/services/feed.service'
 import { Post } from '@core/models/post/post.model'
 
@@ -14,6 +14,7 @@ type Section = 'pasos' | 'ingredientes' | 'receta' | 'notas'
 export class CookingModePage implements OnInit, OnDestroy {
 	private readonly route = inject(ActivatedRoute)
 	readonly router = inject(Router)
+	private readonly location = inject(Location)
 	private readonly feedService = inject(FeedService)
 
 	readonly post = signal<Post | null>(null)
@@ -194,7 +195,6 @@ export class CookingModePage implements OnInit, OnDestroy {
 	}
 
 	exit(): void {
-		const id = this.route.snapshot.paramMap.get('id')
-		this.router.navigate(id ? ['/post', id] : ['/'])
+		this.location.back()
 	}
 }

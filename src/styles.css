@@ -141,6 +141,10 @@
 		to   { opacity: 0; transform: translateY(-4px); }
 	}
 
+	/* Escala tipográfica progresiva */
+	@media (min-width: 1280px) { html { font-size: 15.5px; } }
+	@media (min-width: 1440px) { html { font-size: 16px; } }
+
 	/* Respetar usuarios con motion reducido */
 	@media (prefers-reduced-motion: reduce) {
 		*, *::before, *::after {

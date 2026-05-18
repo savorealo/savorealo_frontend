@@ -6,9 +6,7 @@
 		<app-new-conversation (close)="showCompose.set(false)" />
 	}
 
-	<div class="flex h-dvh min-h-0 flex-col overflow-hidden bg-surface text-on-surface">
-		<app-messages-topbar class="shrink-0" (newConversation)="showCompose.set(true)" />
-
+	<div class="flex h-full min-h-0 flex-col overflow-hidden bg-surface text-on-surface">
 		<main class="mx-auto grid min-h-0 w-full max-w-[1480px] flex-1 gap-0 overflow-hidden px-0 py-0 lg:grid-cols-[430px_minmax(0,1fr)] lg:gap-5 lg:px-5 lg:py-5">
 
 			@if (store.loadingConversations()) {

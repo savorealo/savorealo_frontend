@@ -34,7 +34,7 @@ import { Textarea } from 'primeng/textarea'
 					<img [src]="preview" alt="Preview de la imagen seleccionada" class="max-h-48 w-full object-cover sm:max-h-72" />
 					<button
 						type="button"
-						class="absolute right-3 top-3 grid size-9 place-items-center rounded-full bg-white/90 text-surface-800 shadow-sm hover:bg-white"
+						class="absolute right-3 top-3 z-10 grid size-9 place-items-center rounded-full bg-white/90 text-surface-800 shadow-sm hover:bg-white"
 						(click)="removeImage()"
 						aria-label="Eliminar imagen"
 					>

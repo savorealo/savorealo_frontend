@@ -3,7 +3,7 @@ import { firstValueFrom, from, Observable } from 'rxjs'
 import { Apollo } from 'apollo-angular'
 import { Post, PostCategory, Recipe, RecipeStep } from '@core/models/post/post.model'
 import { SupabaseService } from '@core/services/supabase.service'
-import { DISCOVER_FEED_QUERY, POST_CARD_FRAGMENT, SAVED_POSTS_QUERY, TOGGLE_LIKE_MUTATION, TOGGLE_SAVE_MUTATION } from '@graphql/feed.mutations'
+import { DISCOVER_FEED_QUERY, HOME_FEED_QUERY, LIKED_POSTS_QUERY, POST_CARD_FRAGMENT, SAVED_POSTS_QUERY, TOGGLE_LIKE_MUTATION, TOGGLE_SAVE_MUTATION } from '@graphql/feed.mutations'
 
 // ── GraphQL post shape (PostCardFields fragment) ──────────────────────────────
 export interface GqlPostNode {
@@ -138,6 +138,22 @@ export class FeedService {
 		return from(this.fetchSavedPosts(limit))
 	}
 
+	getLikedPosts(limit = 24): Observable<FeedPage> {
+		return from(this.fetchLikedPosts(limit))
+	}
+
+	/** Lee los posts que le gustan al usuario actual vía GraphQL. */
+	async fetchLikedGql(limit = 24, offset = 0): Promise<Post[]> {
+		const res = await firstValueFrom(
+			this.apollo.query<{ likedPosts: GqlPostNode[] }>({
+				query: LIKED_POSTS_QUERY,
+				variables: { limit, offset },
+				fetchPolicy: 'network-only',
+			}),
+		)
+		return (res.data?.likedPosts ?? []).map(n => this.mapGqlPost(n))
+	}
+
 	// ── Interactions ─────────────────────────────────────────────────────────
 
 	toggleLike(postId: string): Observable<ToggleResult> {
@@ -156,13 +172,16 @@ export class FeedService {
 
 	// ── Private helpers ───────────────────────────────────────────────────────
 
-	// El feed home se sirve desde el backend GraphQL (tiene permisos
-	// service_role). El resolver `feed` del backend está roto (500), así que
-	// usamos `discoverFeed` — equivale al fallback que ya existía cuando el
-	// usuario no sigue a nadie. Paginación por offset codificado en el cursor.
 	private async fetchHomeFeed(limit: number, after?: string | null): Promise<FeedPage> {
 		const offset = after ? Number(after) || 0 : 0
-		const posts = await this.fetchDiscoverGql(limit, offset)
+		const res = await firstValueFrom(
+			this.apollo.query<{ feed: GqlPostNode[] }>({
+				query: HOME_FEED_QUERY,
+				variables: { limit, offset },
+				fetchPolicy: 'network-only',
+			}),
+		)
+		const posts = (res.data?.feed ?? []).map(n => this.mapGqlPost(n))
 		const hasNextPage = posts.length === limit
 		const endCursor = hasNextPage ? String(offset + limit) : null
 		return { posts, endCursor, hasNextPage, totalCount: posts.length }
@@ -170,18 +189,21 @@ export class FeedService {
 
 	// El backend aún no expone `post(id)` como query GraphQL singular y el
 	// embed Supabase de `post_media` falla con "permission denied" (falta GRANT).
-	// Mientras tanto, miramos primero la caché de Apollo (lo más común: el usuario
-	// llega aquí desde el feed/explore/saved) y, si no está, lo buscamos en un
-	// batch de `discoverFeed` y `savedPosts`.
+	// Buscamos el post siempre con network-only en discoverFeed / savedPosts para
+	// evitar que la caché devuelva valores viewer-relativos obsoletos (liked/saved
+	// con el dev-fallback del backend). El caché de Apollo NO se lee directamente
+	// para `liked`/`saved` ya que esos campos dependen de la sesión del usuario.
 	private async fetchPostById(id: string): Promise<Post> {
-		const cached = this.readPostFromApolloCache(id)
-		if (cached) return cached
-
+		// Try discover feed first (covers most navigation paths)
 		const discoverHit = await this.fetchDiscoverGql(50).then(posts => posts.find(p => p.id === id))
 		if (discoverHit) return discoverHit
 
 		const savedHit = await this.fetchSavedGql(50).then(posts => posts.find(p => p.id === id)).catch(() => null)
 		if (savedHit) return savedHit
+
+		// Last resort: read from cache (non-viewer-relative fields only, liked/saved default to false)
+		const cached = this.readPostFromApolloCache(id)
+		if (cached) return { ...cached, liked: false, saved: false }
 
 		throw new Error('No se encontró el post')
 	}
@@ -205,11 +227,27 @@ export class FeedService {
 		return { posts, endCursor: null, hasNextPage: false, totalCount: posts.length }
 	}
 
+	private async fetchLikedPosts(limit: number): Promise<FeedPage> {
+		const posts = await this.fetchLikedGql(limit)
+		return { posts, endCursor: null, hasNextPage: false, totalCount: posts.length }
+	}
+
 	private async doToggleLike(postId: string): Promise<ToggleResult> {
 		const res = await firstValueFrom(
 			this.apollo.mutate<{ toggleLike: { postId: string; liked: boolean; likes: number } }>({
 				mutation: TOGGLE_LIKE_MUTATION,
 				variables: { postId },
+				update: (cache, { data }) => {
+					const result = data?.toggleLike
+					if (!result) return
+					cache.modify({
+						id: cache.identify({ __typename: 'posts', id: postId }),
+						fields: {
+							liked: () => result.liked,
+							likes_count: () => result.likes,
+						},
+					})
+				},
 			}),
 		)
 		const data = res.data?.toggleLike
@@ -221,6 +259,16 @@ export class FeedService {
 			this.apollo.mutate<{ toggleSave: { postId: string; saved: boolean } }>({
 				mutation: TOGGLE_SAVE_MUTATION,
 				variables: { postId },
+				update: (cache, { data }) => {
+					const result = data?.toggleSave
+					if (!result) return
+					cache.modify({
+						id: cache.identify({ __typename: 'posts', id: postId }),
+						fields: {
+							saved: () => result.saved,
+						},
+					})
+				},
 			}),
 		)
 		return { active: !!res.data?.toggleSave?.saved, count: 0 }

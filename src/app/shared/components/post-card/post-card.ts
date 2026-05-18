@@ -5,6 +5,7 @@ import { Post } from '@core/models/post/post.model'
 import { PreferencesService } from '@core/services/preferences.service'
 import { VeganConvertModal } from '@features/feed/components/vegan-convert-modal/vegan-convert-modal'
 import { Avatar } from '@shared/components/avatar/avatar'
+import { ImgFallbackDirective } from '@shared/directives/img-fallback.directive'
 import { TimeAgoPipe } from '@shared/pipes/time-ago.pipe'
 import { TruncateTextPipe } from '@shared/pipes/truncate.pipe'
 import { MenuItem } from 'primeng/api'
@@ -12,7 +13,7 @@ import { Menu } from 'primeng/menu'
 
 @Component({
 	selector: 'app-post-card',
-	imports: [Avatar, Menu, NgOptimizedImage, RouterLink, TimeAgoPipe, TruncateTextPipe, VeganConvertModal],
+	imports: [Avatar, Menu, NgOptimizedImage, RouterLink, TimeAgoPipe, TruncateTextPipe, VeganConvertModal, ImgFallbackDirective],
 	templateUrl: './post-card.html',
 })
 export class PostCard {

@@ -24,6 +24,7 @@
 				<img
 					[src]="store.activeStory()!.mediaUrl"
 					[alt]="store.activeGroup()!.displayName"
+					appImgFallback
 					class="absolute inset-0 size-full object-cover"
 				/>
 			}
@@ -46,13 +47,14 @@
 				}
 			</div>
 
-			<!-- Header -->
-			<div class="absolute inset-x-0 top-5 flex items-center justify-between gap-3 px-3 pt-3">
+			<!-- Header — z-20 para quedar por encima de las tap-zones -->
+			<div class="absolute inset-x-0 top-5 z-20 flex items-center justify-between gap-3 px-3 pt-3">
 				<div class="flex items-center gap-3">
 					<app-avatar
 						[src]="store.activeGroup()!.avatarUrl"
 						[name]="store.activeGroup()!.displayName"
-						size="sm"
+						[fill]="true"
+						class="block size-8 rounded-pill"
 					/>
 					<div>
 						<p class="text-sm font-black text-white leading-tight">{{ store.activeGroup()!.displayName }}</p>

@@ -10,7 +10,6 @@ import { ExploreCategoryTabs } from './components/explore-category-tabs/explore-
 import { ExploreHero } from './components/explore-hero/explore-hero'
 import { ExploreRightRail } from './components/explore-right-rail/explore-right-rail'
 import { ExploreToolbar } from './components/explore-toolbar/explore-toolbar'
-import { ExploreTopbar } from './components/explore-topbar/explore-topbar'
 import { RecipeDiscoveryGrid } from './components/recipe-discovery-grid/recipe-discovery-grid'
 
 @Component({
@@ -24,7 +23,6 @@ import { RecipeDiscoveryGrid } from './components/recipe-discovery-grid/recipe-d
 		ExploreHero,
 		ExploreRightRail,
 		ExploreToolbar,
-		ExploreTopbar,
 		RecipeDiscoveryGrid,
 	],
 	templateUrl: './explore-page.html',
@@ -45,6 +43,10 @@ export class ExplorePage implements OnInit {
 		if (this.explore.posts().length === 0) {
 			this.explore.loadExplore()
 		}
+	}
+
+	onInputSearch(event: Event): void {
+		this.onQueryChange((event.target as HTMLInputElement).value)
 	}
 
 	onQueryChange(q: string): void {

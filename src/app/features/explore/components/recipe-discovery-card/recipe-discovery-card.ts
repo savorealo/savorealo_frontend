@@ -2,10 +2,11 @@ import { NgOptimizedImage } from '@angular/common'
 import { Component, computed, input, output } from '@angular/core'
 import { RouterLink } from '@angular/router'
 import { Post } from '@core/models/post/post.model'
+import { ImgFallbackDirective } from '@shared/directives/img-fallback.directive'
 
 @Component({
 	selector: 'app-recipe-discovery-card',
-	imports: [NgOptimizedImage, RouterLink],
+	imports: [NgOptimizedImage, RouterLink, ImgFallbackDirective],
 	templateUrl: './recipe-discovery-card.html',
 })
 export class RecipeDiscoveryCard {

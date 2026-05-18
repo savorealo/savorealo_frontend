@@ -1,10 +1,11 @@
-import { Component, inject, OnInit } from '@angular/core'
-import { RouterLink, RouterLinkActive } from '@angular/router'
-import { AuthStore } from '@core/store/auth.store'
-import { NotificationsStore } from '@core/store/notifications.store'
-import { GlobalSearchStore } from '@core/store/global-search.store'
-import { GlobalSearchPanel } from '@shared/components/global-search/global-search-panel'
-import { ThemeService } from '@core/services/theme.service'
+import { Component, inject, input, OnInit, output } from '@angular/core'
+import { RouterLink, RouterLinkActive }              from '@angular/router'
+import { AuthStore }                                 from '@core/store/auth.store'
+import { NotificationsStore }                        from '@core/store/notifications.store'
+import { GlobalSearchStore }                         from '@core/store/global-search.store'
+import { GlobalSearchPanel }                         from '@shared/components/global-search/global-search-panel'
+import { ThemeService }                              from '@core/services/theme.service'
+import { Topbar }                                    from '@shared/components/topbar/topbar'
 
 interface ShellNavItem {
 	icon: string
@@ -14,7 +15,7 @@ interface ShellNavItem {
 
 @Component({
 	selector: 'app-shell',
-	imports: [RouterLink, RouterLinkActive, GlobalSearchPanel],
+	imports: [RouterLink, RouterLinkActive, GlobalSearchPanel, Topbar],
 	templateUrl: './app-shell.html',
 })
 export class AppShell implements OnInit {
@@ -23,8 +24,10 @@ export class AppShell implements OnInit {
 	readonly globalSearch   = inject(GlobalSearchStore)
 	readonly theme          = inject(ThemeService)
 
-	readonly profile = this.authStore.profile
-	readonly logoUrl = '/assets/icons/new_logo.png'
+	readonly profile    = this.authStore.profile
+	readonly logoUrl    = '/assets/icons/new_logo.png'
+	readonly showTopbar = input(true)
+	readonly create     = output<void>()
 
 	readonly navItems: ShellNavItem[] = [
 		{ icon: 'pi pi-home', label: 'Feed', route: '/' },

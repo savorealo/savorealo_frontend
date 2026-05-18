@@ -1,17 +1,19 @@
 import { afterNextRender, Component, computed, inject, signal } from '@angular/core'
 import { ActivatedRoute, Router, RouterLink } from '@angular/router'
 import { finalize } from 'rxjs'
-import { UserService, PublicUser } from '@core/services/user.service'
+import { UserService, PublicUser, FollowListUser } from '@core/services/user.service'
 import { AuthStore } from '@core/store/auth.store'
 import { ToastService } from '@core/services/toast.service'
 import { Post } from '@core/models/post/post.model'
 import { AppShell } from '@shared/components/app-shell/app-shell'
 import { Avatar } from '@shared/components/avatar/avatar'
+import { ImgFallbackDirective } from '@shared/directives/img-fallback.directive'
 import { TabsModule } from 'primeng/tabs'
+import { DialogModule } from 'primeng/dialog'
 
 @Component({
 	selector: 'app-public-profile-page',
-	imports: [AppShell, Avatar, RouterLink, TabsModule],
+	imports: [AppShell, Avatar, RouterLink, TabsModule, DialogModule, ImgFallbackDirective],
 	templateUrl: './public-profile-page.html',
 })
 export class PublicProfilePage {
@@ -27,6 +29,11 @@ export class PublicProfilePage {
 	readonly loadingPosts  = signal(false)
 	readonly error         = signal<string | null>(null)
 	readonly followLoading = signal(false)
+
+	readonly showFollowList = signal(false)
+	readonly followListTitle = signal('')
+	readonly followListUsers = signal<FollowListUser[]>([])
+	readonly followListLoading = signal(false)
 
 	readonly isOwnProfile = computed(() => {
 		const currentUsername = this.authStore.profile()?.username
@@ -77,25 +84,89 @@ export class PublicProfilePage {
 		})
 	}
 
+	openFollowList(type: 'followers' | 'following'): void {
+		const user = this.user()
+		if (!user || !this.isViewable()) return
+
+		this.followListTitle.set(type === 'followers' ? 'Seguidores' : 'Siguiendo')
+		this.followListUsers.set([])
+		this.followListLoading.set(true)
+		this.showFollowList.set(true)
+
+		const obs = type === 'followers'
+			? this.userService.getFollowers(user.id)
+			: this.userService.getFollowing(user.id)
+
+		obs.subscribe({
+			next: users => {
+				this.followListUsers.set(users)
+				this.followListLoading.set(false)
+			},
+			error: () => this.followListLoading.set(false),
+		})
+	}
+
 	toggleFollow(): void {
 		const user = this.user()
 		if (!user || this.followLoading()) return
 
-		const wasFollowing = user.isFollowedByCurrentUser
+		const wasStatus = user.followStatus
+		const wasFollowers = user.followersCount ?? 0
 		this.followLoading.set(true)
-		// Optimistic update
-		this.user.update(u => u ? { ...u, isFollowedByCurrentUser: !wasFollowing, followersCount: (u.followersCount ?? 0) + (wasFollowing ? -1 : 1) } : u)
 
-		this.userService.toggleFollow(user.id, wasFollowing).pipe(
+		// Optimistic update based on current state
+		let optimisticStatus: 'none' | 'following' | 'requested'
+		let optimisticFollowers = wasFollowers
+		if (wasStatus === 'following') {
+			optimisticStatus = 'none'
+			optimisticFollowers = wasFollowers - 1
+		} else if (wasStatus === 'requested') {
+			optimisticStatus = 'none'
+		} else {
+			optimisticStatus = user.isPrivate ? 'requested' : 'following'
+			if (!user.isPrivate) optimisticFollowers = wasFollowers + 1
+		}
+		this.user.update(u => u ? {
+			...u,
+			isFollowedByCurrentUser: optimisticStatus === 'following',
+			followStatus: optimisticStatus,
+			followersCount: optimisticFollowers,
+		} : u)
+
+		this.userService.toggleFollow(user.id, wasStatus === 'following').pipe(
 			finalize(() => this.followLoading.set(false)),
 		).subscribe({
-			next: nowFollowing => {
-				this.user.update(u => u ? { ...u, isFollowedByCurrentUser: nowFollowing } : u)
+			next: result => {
+				const newStatus: 'none' | 'following' | 'requested' =
+					result.following ? 'following' : result.requested ? 'requested' : 'none'
+				// Reconcile with server response
+				let newFollowers = wasFollowers
+				if (result.following && wasStatus !== 'following') newFollowers = wasFollowers + 1
+				else if (!result.following && wasStatus === 'following') newFollowers = wasFollowers - 1
+				this.user.update(u => u ? {
+					...u,
+					isFollowedByCurrentUser: result.following,
+					followStatus: newStatus,
+					followersCount: newFollowers,
+				} : u)
 				const name = this.user()?.fullName || this.user()?.username || 'este usuario'
-				this.toast.success(nowFollowing ? `Ahora sigues a ${name}` : `Dejaste de seguir a ${name}`, '')
+				if (result.following) {
+					this.toast.success(`Ahora sigues a ${name}`, '')
+				} else if (result.requested) {
+					this.toast.success(`Solicitud enviada a ${name}`, '')
+				} else if (wasStatus === 'requested') {
+					this.toast.success(`Solicitud cancelada`, '')
+				} else {
+					this.toast.success(`Dejaste de seguir a ${name}`, '')
+				}
 			},
 			error: () => {
-				this.user.update(u => u ? { ...u, isFollowedByCurrentUser: wasFollowing, followersCount: (u.followersCount ?? 0) + (wasFollowing ? 1 : -1) } : u)
+				this.user.update(u => u ? {
+					...u,
+					isFollowedByCurrentUser: wasStatus === 'following',
+					followStatus: wasStatus,
+					followersCount: wasFollowers,
+				} : u)
 				this.toast.error('No se pudo actualizar el seguimiento')
 			},
 		})

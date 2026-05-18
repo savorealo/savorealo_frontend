@@ -52,15 +52,29 @@ export class StoriesService {
 	getStories(currentUserId: string): Observable<StoryGroup[]> {
 		const now = new Date().toISOString()
 
-		const stories$ = from(
+		// Primero obtenemos los IDs de usuarios que seguimos
+		const following$ = from(
 			this.supabase.client
-				.from('stories')
-				.select('id, user_id, story_type, media_url, created_at, expires_at, viewed:viewed_stories(user_id)')
-				.gt('expires_at', now)
-				.order('created_at', { ascending: true }),
+				.from('follows')
+				.select('followed_id')
+				.eq('follower_id', currentUserId),
 		)
 
-		return stories$.pipe(
+		return following$.pipe(
+			switchMap(({ data: followData, error: followErr }) => {
+				if (followErr) throw followErr
+				// Historias visibles: las propias + las de usuarios que seguimos
+				const allowedIds = [currentUserId, ...(followData ?? []).map(f => f.followed_id)]
+
+				return from(
+					this.supabase.client
+						.from('stories')
+						.select('id, user_id, story_type, media_url, created_at, expires_at, viewed:viewed_stories(user_id)')
+						.in('user_id', allowedIds)
+						.gt('expires_at', now)
+						.order('created_at', { ascending: true }),
+				)
+			}),
 			switchMap(({ data, error }) => {
 				if (error) throw error
 				const rows = (data ?? []) as unknown as StoryRow[]
