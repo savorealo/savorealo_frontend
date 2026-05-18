@@ -79,6 +79,7 @@ export class NotificationsService {
 			actorId: row['actor_id'] as string | null,
 			actor,
 			targetId: row['target_id'] as string | null,
+			targetImageUrl: (row['target_image_url'] as string | null) ?? null,
 			type: row['type'] as NotificationType,
 			content: row['content'] as string | null,
 			isRead: row['is_read'] as boolean,

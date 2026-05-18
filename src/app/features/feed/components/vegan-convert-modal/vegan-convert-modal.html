@@ -1,0 +1,155 @@
+<p-dialog
+  [visible]="visible()"
+  (visibleChange)="visible.set($event)"
+  [modal]="true"
+  [dismissableMask]="true"
+  [style]="{ width: 'min(95vw, 540px)', maxHeight: '90vh' }"
+  [showHeader]="false"
+  appendTo="body"
+>
+  <div class="flex flex-col gap-0">
+
+    <!-- Header -->
+    <div class="flex items-center justify-between gap-3 border-b border-outline px-5 pb-4 pt-5">
+      <div class="flex items-center gap-3">
+        <span class="grid size-10 shrink-0 place-items-center rounded-xl bg-green-100 text-xl">🌱</span>
+        <div>
+          <h2 class="text-title-md font-bold text-on-surface">Versión vegana</h2>
+          <p class="text-label-md font-medium text-on-surface-muted">Generado por IA</p>
+        </div>
+      </div>
+      <button
+        type="button"
+        class="grid size-9 place-items-center rounded-xl text-on-surface-muted transition-colors hover:bg-surface-container"
+        (click)="close()"
+        aria-label="Cerrar"
+      >
+        <i class="pi pi-times text-sm"></i>
+      </button>
+    </div>
+
+    <!-- Cargando -->
+    @if (loading()) {
+      <div class="flex flex-col items-center gap-4 px-5 py-14 text-center">
+        <span class="relative flex size-16 items-center justify-center">
+          <span class="absolute inset-0 animate-ping rounded-full bg-green-200 opacity-60"></span>
+          <span class="relative text-4xl">🥦</span>
+        </span>
+        <div>
+          <p class="text-body-md font-bold text-on-surface">La IA está veganizando...</p>
+          <p class="mt-1 text-body-sm font-medium text-on-surface-muted">Buscando los mejores sustitutos veganos</p>
+        </div>
+      </div>
+    }
+
+    <!-- Error -->
+    @if (!loading() && error()) {
+      <div class="flex flex-col items-center gap-4 px-5 py-10 text-center">
+        <span class="text-4xl">😕</span>
+        <p class="text-body-sm font-medium text-on-surface-muted">{{ error() }}</p>
+        <button
+          type="button"
+          class="inline-flex min-h-10 items-center gap-2 rounded-pill bg-green-600 px-5 text-body-sm font-bold text-white transition-colors hover:bg-green-700 active:scale-[0.98]"
+          (click)="retry()"
+        >
+          <i class="pi pi-refresh text-xs"></i>
+          Reintentar
+        </button>
+      </div>
+    }
+
+    <!-- Resultado -->
+    @if (!loading() && result(); as r) {
+      <div class="overflow-y-auto" style="max-height: 65vh">
+
+        <!-- Título + descripción -->
+        <div class="border-b border-outline px-5 py-4">
+          <h3 class="text-title-sm font-bold text-green-700">{{ r.title }}</h3>
+          <p class="mt-1 text-body-sm font-medium leading-relaxed text-on-surface-muted">{{ r.description }}</p>
+        </div>
+
+        <!-- Ingredientes -->
+        @if (r.ingredients.length > 0) {
+          <div class="border-b border-outline px-5 py-4">
+            <p class="mb-3 text-label-md font-bold uppercase tracking-wide text-on-surface-muted">Ingredientes</p>
+            <ul class="grid gap-2">
+              @for (ing of r.ingredients; track $index) {
+                <li class="flex items-start gap-3">
+                  <span class="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full text-xs"
+                    [class]="ing.changed ? 'bg-green-100 text-green-700' : 'bg-surface-container text-on-surface-muted'">
+                    {{ ing.changed ? '✓' : '·' }}
+                  </span>
+                  <span class="flex-1 text-body-sm font-medium text-on-surface">
+                    @if (ing.quantity) {
+                      <span class="font-bold">{{ ing.quantity }}{{ ing.unit ? ' ' + ing.unit : '' }}</span>
+                      <span> de </span>
+                    }
+                    <span [class.font-bold]="ing.changed" [class.text-green-700]="ing.changed">{{ ing.vegan }}</span>
+                    @if (ing.changed) {
+                      <span class="ml-1 text-label-sm text-on-surface-muted line-through">{{ ing.original }}</span>
+                    }
+                  </span>
+                </li>
+              }
+            </ul>
+          </div>
+        }
+
+        <!-- Pasos -->
+        @if (r.steps.length > 0) {
+          <div class="border-b border-outline px-5 py-4">
+            <p class="mb-3 text-label-md font-bold uppercase tracking-wide text-on-surface-muted">Preparación</p>
+            <ol class="grid gap-3">
+              @for (s of r.steps; track s.step) {
+                <li class="flex gap-3">
+                  <span class="mt-0.5 grid size-6 shrink-0 place-items-center rounded-full bg-green-600 text-label-sm font-bold text-white">
+                    {{ s.step }}
+                  </span>
+                  <span class="flex-1 text-body-sm font-medium leading-relaxed text-on-surface">{{ s.text }}</span>
+                </li>
+              }
+            </ol>
+          </div>
+        }
+
+        <!-- Tip del chef -->
+        @if (r.tip) {
+          <div class="px-5 py-4">
+            <div class="flex items-start gap-3 rounded-xl bg-green-50 p-3">
+              <span class="text-xl">💡</span>
+              <div>
+                <p class="text-label-md font-bold text-green-800">Tip del chef vegano</p>
+                <p class="mt-0.5 text-body-sm font-medium text-green-700">{{ r.tip }}</p>
+              </div>
+            </div>
+          </div>
+        }
+
+      </div>
+
+      <!-- Footer -->
+      <div class="flex items-center justify-between gap-3 border-t border-outline px-5 py-4">
+        <button
+          type="button"
+          class="inline-flex min-h-10 items-center gap-2 rounded-pill border border-outline px-4 text-body-sm font-bold text-on-surface transition-colors hover:bg-surface-container"
+          (click)="retry()"
+          title="Generar otra versión"
+        >
+          <i class="pi pi-refresh text-xs"></i>
+          Regenerar
+        </button>
+
+        <button
+          type="button"
+          class="inline-flex min-h-10 items-center gap-2 rounded-pill px-5 text-body-sm font-bold text-white transition-all active:scale-[0.98]"
+          [class]="copied() ? 'bg-green-700' : 'bg-green-600 hover:bg-green-700'"
+          (click)="copyToClipboard()"
+        >
+          <i [class]="copied() ? 'pi pi-check' : 'pi pi-copy'" class="text-xs"></i>
+          {{ copied() ? '¡Copiado!' : 'Copiar receta' }}
+        </button>
+      </div>
+    }
+
+  </div>
+</p-dialog>

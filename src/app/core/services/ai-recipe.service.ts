@@ -1,5 +1,8 @@
-import { Injectable } from '@angular/core'
-import { delay, Observable, of } from 'rxjs'
+import { inject, Injectable } from '@angular/core'
+import { from, map, Observable } from 'rxjs'
+import { delay, of } from 'rxjs'
+import { Post } from '@core/models/post/post.model'
+import { SupabaseService } from '@core/services/supabase.service'
 
 export type AiRecipeType = 'quick' | 'healthy' | 'vegetarian' | 'gourmet'
 
@@ -20,8 +23,53 @@ export interface AiRecipeResult {
 	steps: string[]
 }
 
+export interface VeganIngredientResult {
+	original: string
+	vegan: string
+	quantity: number | null
+	unit: string | null
+	changed: boolean
+}
+
+export interface VeganRecipeResult {
+	title: string
+	description: string
+	ingredients: VeganIngredientResult[]
+	steps: Array<{ step: number; text: string }>
+	tip: string
+}
+
 @Injectable({ providedIn: 'root' })
 export class AiRecipeService {
+	private readonly supabase = inject(SupabaseService)
+
+	veganizeRecipe(post: Post): Observable<VeganRecipeResult> {
+		const recipe = post.recipe
+		const body = {
+			title: recipe?.name ?? post.title,
+			description: recipe?.description ?? post.description,
+			ingredients: recipe?.ingredients.map(i => ({
+				name: i.name,
+				quantity: i.quantity,
+				unit: i.unit,
+				notes: i.notes,
+			})) ?? [],
+			steps: recipe?.steps ?? [],
+		}
+
+		return from(
+			this.supabase.client.functions.invoke<{ ok: boolean; data: VeganRecipeResult }>('veganize-recipe', {
+				body,
+			}),
+		).pipe(
+			map(({ data, error }) => {
+				if (error) throw error
+				if (!data?.ok) throw new Error('La IA no pudo generar la receta vegana')
+				return data.data
+			}),
+		)
+	}
+
 	generateRecipe(input: AiRecipeRequest): Observable<AiRecipeResult> {
 		const ingredients = input.ingredients.length > 0
 			? input.ingredients

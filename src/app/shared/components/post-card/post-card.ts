@@ -2,6 +2,8 @@ import { NgOptimizedImage } from '@angular/common'
 import { Component, computed, inject, input, output, signal, ViewChild } from '@angular/core'
 import { Router, RouterLink } from '@angular/router'
 import { Post } from '@core/models/post/post.model'
+import { PreferencesService } from '@core/services/preferences.service'
+import { VeganConvertModal } from '@features/feed/components/vegan-convert-modal/vegan-convert-modal'
 import { Avatar } from '@shared/components/avatar/avatar'
 import { TimeAgoPipe } from '@shared/pipes/time-ago.pipe'
 import { TruncateTextPipe } from '@shared/pipes/truncate.pipe'
@@ -10,13 +12,14 @@ import { Menu } from 'primeng/menu'
 
 @Component({
 	selector: 'app-post-card',
-	imports: [Avatar, Menu, NgOptimizedImage, RouterLink, TimeAgoPipe, TruncateTextPipe],
+	imports: [Avatar, Menu, NgOptimizedImage, RouterLink, TimeAgoPipe, TruncateTextPipe, VeganConvertModal],
 	templateUrl: './post-card.html',
 })
 export class PostCard {
 	@ViewChild('optionsMenu') private optionsMenu?: Menu
 
 	private readonly router = inject(Router)
+	readonly preferences = inject(PreferencesService)
 
 	post = input.required<Post>()
 	onLike = output<Post>()
@@ -24,8 +27,9 @@ export class PostCard {
 	onComment = output<Post>()
 	onReport = output<Post>()
 
-	expanded     = signal(false)
-	likeAnimating = signal(false)
+	expanded       = signal(false)
+	likeAnimating  = signal(false)
+	veganModalOpen = signal(false)
 
 	primaryMedia = computed(() => this.post().media[0] ?? null)
 

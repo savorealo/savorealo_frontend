@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms'
 import { RouterLink } from '@angular/router'
 import { AppShell } from '@shared/components/app-shell/app-shell'
 import { AuthStore } from '@core/store/auth.store'
+import { PreferencesService } from '@core/services/preferences.service'
 import { SettingsService, UserSettings } from '@core/services/settings.service'
 import { ToastService } from '@core/services/toast.service'
 
@@ -21,6 +22,7 @@ export class SettingsPage implements OnInit {
 	private readonly auth = inject(AuthStore)
 	private readonly settingsService = inject(SettingsService)
 	private readonly toast = inject(ToastService)
+	readonly preferences = inject(PreferencesService)
 
 	readonly profile = this.auth.profile
 	readonly logoUrl = '/assets/icons/new_logo.png'
