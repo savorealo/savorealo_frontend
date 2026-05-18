@@ -1,6 +1,5 @@
 import { Component, effect, inject, OnDestroy, signal } from '@angular/core'
 import { AppShell } from '@shared/components/app-shell/app-shell'
-import { MessagesTopbar } from './components/messages-topbar/messages-topbar'
 import { ConversationList } from './components/conversation-list/conversation-list'
 import { ChatPanel } from './components/chat-panel/chat-panel'
 import { CallOverlay } from './components/call-overlay/call-overlay'
@@ -12,7 +11,7 @@ import { AuthStore } from '@core/store/auth.store'
 
 @Component({
 	selector: 'app-messages-page',
-	imports: [AppShell, MessagesTopbar, ConversationList, ChatPanel, CallOverlay, IncomingCall, NewConversation],
+	imports: [AppShell, ConversationList, ChatPanel, CallOverlay, IncomingCall, NewConversation],
 	templateUrl: './messages-page.html',
 })
 export class MessagesPage implements OnDestroy {

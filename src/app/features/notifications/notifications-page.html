@@ -130,10 +130,10 @@
 									class="flex flex-1 min-w-0 gap-3 p-4"
 									[class.pl-5]="!n.isRead"
 								>
-									<!-- Avatar with type badge -->
+									<!-- Avatar with type badge — click to go to profile -->
 									<a
 										[routerLink]="n.actor?.username ? ['/profile', n.actor!.username!] : null"
-										class="relative shrink-0"
+										class="relative shrink-0 cursor-pointer"
 									>
 										<app-avatar
 											[src]="n.actor?.photoUrl"
@@ -150,13 +150,13 @@
 										<p class="text-sm leading-snug text-on-surface">
 											<a
 												[routerLink]="n.actor?.username ? ['/profile', n.actor!.username!] : null"
-												class="font-bold hover:underline"
+												class="font-bold hover:underline cursor-pointer"
 												[class.text-on-primary-container]="!n.isRead"
 											>{{ actorName(n) }}</a>
 											<span [class.text-on-primary-container]="!n.isRead">
 												{{ notificationText(n) }}
 												@if (n.content && n.type !== 'COMMENT') {
-													<span class="font-semibold"> «{{ n.content }}»</span>
+													<span class="font-semibold"> &laquo;{{ n.content }}&raquo;</span>
 												}
 											</span>
 										</p>
@@ -168,6 +168,16 @@
 												class="inline-flex items-center rounded-pill px-2.5 py-0.5 text-xs font-medium"
 												[class]="chipClass(n.type)"
 											>{{ chipLabel(n.type) }}</span>
+											@if (!n.isRead) {
+												<button
+													type="button"
+													class="ml-auto grid size-7 place-items-center rounded-pill text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container-high hover:text-primary active:scale-[0.98]"
+													aria-label="Marcar como leído"
+													(click)="store.markRead(n)"
+												>
+													<i class="pi pi-check text-xs"></i>
+												</button>
+											}
 										</div>
 
 										<!-- Comment preview -->
@@ -187,25 +197,98 @@
 												Responder
 											</a>
 										}
+
+										<!-- FOLLOW_REQUEST: accept / reject actions -->
+										@if (n.type === 'FOLLOW_REQUEST') {
+											<div class="mt-2.5 flex flex-wrap items-center gap-2">
+												@if (getRequestResponse(n.id); as response) {
+													@if (response === 'accepted') {
+														<span class="inline-flex items-center gap-1.5 rounded-pill bg-green-100 px-3 py-1 text-xs font-bold text-green-700 dark:bg-green-900/30 dark:text-green-400">
+															<i class="pi pi-check-circle text-xs"></i>
+															Aceptada
+														</span>
+														@if (!getFollowState(n)) {
+															<button
+																type="button"
+																class="inline-flex min-h-8 items-center gap-1.5 rounded-pill bg-primary px-4 text-xs font-bold text-on-primary shadow-1 transition-all duration-fast ease-standard hover:shadow-2 active:scale-[0.97] disabled:opacity-50"
+																[disabled]="isLoadingFollow(n)"
+																(click)="followActor(n)"
+															>
+																@if (isLoadingFollow(n)) {
+																	<i class="pi pi-spin pi-spinner text-xs"></i>
+																}
+																Seguir de vuelta
+															</button>
+														} @else {
+															<span class="inline-flex items-center gap-1.5 rounded-pill border border-outline px-3 py-1 text-xs font-bold text-on-surface-muted">
+																<i class="pi pi-check text-xs"></i>
+																{{ followButtonLabel(n) }}
+															</span>
+														}
+													} @else {
+														<span class="inline-flex items-center gap-1.5 rounded-pill bg-red-100 px-3 py-1 text-xs font-bold text-red-700 dark:bg-red-900/30 dark:text-red-400">
+															<i class="pi pi-times-circle text-xs"></i>
+															Rechazada
+														</span>
+													}
+												} @else {
+													<button
+														type="button"
+														class="inline-flex min-h-8 items-center gap-1.5 rounded-pill bg-primary px-4 text-xs font-bold text-on-primary shadow-1 transition-all duration-fast ease-standard hover:shadow-2 active:scale-[0.97] disabled:opacity-50"
+														[disabled]="isLoadingRequest(n.id)"
+														(click)="respondRequest(n, true)"
+													>
+														@if (isLoadingRequest(n.id)) {
+															<i class="pi pi-spin pi-spinner text-xs"></i>
+														} @else {
+															<i class="pi pi-check text-xs"></i>
+														}
+														Aceptar
+													</button>
+													<button
+														type="button"
+														class="inline-flex min-h-8 items-center gap-1.5 rounded-pill border border-outline bg-surface px-4 text-xs font-bold text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container-high hover:text-on-surface active:scale-[0.97] disabled:opacity-50"
+														[disabled]="isLoadingRequest(n.id)"
+														(click)="respondRequest(n, false)"
+													>
+														<i class="pi pi-times text-xs"></i>
+														Rechazar
+													</button>
+												}
+											</div>
+										}
+
+										<!-- FOLLOW: follow back option -->
+										@if (n.type === 'FOLLOW') {
+											<div class="mt-2.5 flex items-center gap-2">
+												@if (!getFollowState(n)) {
+													<button
+														type="button"
+														class="inline-flex min-h-8 items-center gap-1.5 rounded-pill bg-primary px-4 text-xs font-bold text-on-primary shadow-1 transition-all duration-fast ease-standard hover:shadow-2 active:scale-[0.97] disabled:opacity-50"
+														[disabled]="isLoadingFollow(n)"
+														(click)="followActor(n)"
+													>
+														@if (isLoadingFollow(n)) {
+															<i class="pi pi-spin pi-spinner text-xs"></i>
+														} @else {
+															<i class="pi pi-user-plus text-xs"></i>
+														}
+														Seguir de vuelta
+													</button>
+												} @else {
+													<span class="inline-flex items-center gap-1.5 rounded-pill border border-outline px-3 py-1 text-xs font-bold text-on-surface-muted">
+														<i class="pi pi-check text-xs"></i>
+														{{ followButtonLabel(n) }}
+													</span>
+												}
+											</div>
+										}
 									</div>
 								</div>
 
 								<!-- ── Right side ── -->
-								<!-- Follow: Seguir button -->
-								@if (n.type === 'FOLLOW') {
-									<div class="flex shrink-0 items-center pr-4">
-										<a
-											[routerLink]="n.actor?.username ? ['/profile', n.actor!.username!] : null"
-											(click)="store.markRead(n)"
-											class="rounded-xl bg-primary px-5 py-2 text-sm font-bold text-on-primary transition-colors duration-fast ease-standard hover:opacity-90 active:scale-[0.98]"
-										>
-											Seguir
-										</a>
-									</div>
-								}
-
-								<!-- Other types with a target: post thumbnail -->
-								@if (n.type !== 'FOLLOW' && hasPostThumbnail(n)) {
+								<!-- Post thumbnail for types with a target post -->
+								@if (hasPostThumbnail(n)) {
 									<a
 										[routerLink]="targetLink(n)"
 										(click)="store.markRead(n)"
@@ -220,7 +303,7 @@
 											/>
 										} @else {
 											<div class="grid size-16 place-items-center rounded-xl bg-surface-container-high text-2xl shadow-1">
-												🍽️
+												&#127869;
 											</div>
 										}
 									</a>

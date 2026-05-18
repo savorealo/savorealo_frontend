@@ -1,4 +1,4 @@
-import { computed, DestroyRef, inject, Injectable } from '@angular/core'
+import { computed, DestroyRef, effect, inject, Injectable, untracked } from '@angular/core'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { signal } from '@angular/core'
 import { RealtimeChannel } from '@supabase/supabase-js'
@@ -29,7 +29,7 @@ export class NotificationsStore {
 	readonly unreadCount = computed(() => this._notifications().filter(n => !n.isRead).length)
 	readonly mentionsCount = computed(() => this._notifications().filter(n => n.type === 'MENTION').length)
 	readonly socialCount = computed(() =>
-		this._notifications().filter(n => ['FOLLOW', 'LIKE', 'RECIPE_SAVE'].includes(n.type)).length,
+		this._notifications().filter(n => ['FOLLOW', 'FOLLOW_REQUEST', 'LIKE', 'RECIPE_SAVE'].includes(n.type)).length,
 	)
 	readonly isEmpty = computed(() => !this._loading() && this._notifications().length === 0)
 
@@ -39,10 +39,17 @@ export class NotificationsStore {
 		switch (tab) {
 			case 'unread': return all.filter(n => !n.isRead)
 			case 'mentions': return all.filter(n => n.type === 'MENTION')
-			case 'social': return all.filter(n => ['FOLLOW', 'LIKE', 'RECIPE_SAVE'].includes(n.type))
+			case 'social': return all.filter(n => ['FOLLOW', 'FOLLOW_REQUEST', 'LIKE', 'RECIPE_SAVE'].includes(n.type))
 			default: return all
 		}
 	})
+
+	constructor() {
+		effect(() => {
+			const userId = this.auth.currentUserId()
+			if (userId) untracked(() => this.load())
+		})
+	}
 
 	load(): void {
 		const userId = this.auth.currentUserId()
@@ -60,7 +67,10 @@ export class NotificationsStore {
 				this._notifications.set(notifications)
 				this.subscribeRealtime(userId)
 			},
-			error: err => this._error.set(toUserMessage(err, 'No se pudieron cargar las notificaciones')),
+			error: err => {
+				this._initialized.set(false)
+				this._error.set(toUserMessage(err, 'No se pudieron cargar las notificaciones'))
+			},
 		})
 	}
 
@@ -71,7 +81,7 @@ export class NotificationsStore {
 	markRead(notification: Notification): void {
 		if (notification.isRead) return
 		this._notifications.update(list =>
-			list.map(n => n.id === notification.id ? { ...n, isRead: true } : n),
+			list.filter(n => n.id !== notification.id),
 		)
 		this.service.markAsRead(notification.id).subscribe()
 	}
@@ -79,7 +89,7 @@ export class NotificationsStore {
 	markAllRead(): void {
 		const userId = this.auth.currentUserId()
 		if (!userId) return
-		this._notifications.update(list => list.map(n => ({ ...n, isRead: true })))
+		this._notifications.set([])
 		this.service.markAllAsRead(userId).subscribe()
 	}
 

@@ -13,7 +13,7 @@
 					aria-label="Ver tu historia"
 				>
 					<span class="grid size-full place-items-center rounded-pill bg-surface p-[2px]">
-						<app-avatar [src]="mine.avatarUrl" [name]="mine.displayName" size="md" class="block size-full rounded-pill" />
+						<app-avatar [src]="mine.avatarUrl" [name]="mine.displayName" [fill]="true" class="block size-full rounded-pill" />
 					</span>
 				</button>
 				<button
@@ -81,7 +81,7 @@
 					[class]="group.hasUnviewed ? 'bg-gradient-to-tr from-primary to-secondary' : 'bg-surface-container-high'"
 				>
 					<span class="grid size-full place-items-center rounded-pill bg-surface p-[2px]">
-						<app-avatar [src]="group.avatarUrl" [name]="group.displayName" size="md" class="block size-full rounded-pill" />
+						<app-avatar [src]="group.avatarUrl" [name]="group.displayName" [fill]="true" class="block size-full rounded-pill" />
 					</span>
 				</span>
 				<span class="max-w-[3.5rem] truncate text-[0.65rem] font-bold" [class.text-on-surface]="group.hasUnviewed" [class.text-on-surface-muted]="!group.hasUnviewed">

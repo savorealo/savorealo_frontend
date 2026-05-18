@@ -39,19 +39,9 @@ export const POST_CARD_FRAGMENT = gql`
 `
 
 export const HOME_FEED_QUERY = gql`
-  query Feed($first: Int, $after: String) {
-    feed(first: $first, after: $after) {
-      edges {
-        cursor
-        node {
-          ...PostCardFields
-        }
-      }
-      pageInfo {
-        hasNextPage
-        endCursor
-      }
-      totalCount
+  query Feed($limit: Int, $offset: Int) {
+    feed(limit: $limit, offset: $offset) {
+      ...PostCardFields
     }
   }
   ${POST_CARD_FRAGMENT}
@@ -108,6 +98,7 @@ export const TOGGLE_FOLLOW_MUTATION = gql`
     toggleFollow(userId: $userId) {
       userId
       following
+      requested
     }
   }
 `
@@ -172,6 +163,7 @@ export const GET_USER_QUERY = gql`
       followers_count
       following_count
       isFollowing
+      followStatus
       is_private
       isViewable
     }
@@ -284,4 +276,101 @@ export const UPDATE_PROFILE_MUTATION = gql`
       avatar_url
     }
   }
+`
+
+export const FOLLOWERS_QUERY = gql`
+  query Followers($userId: ID!, $limit: Int, $offset: Int) {
+    followers(userId: $userId, limit: $limit, offset: $offset) {
+      id
+      username
+      display_name
+      avatar_url
+      isFollowing
+      followStatus
+    }
+  }
+`
+
+export const FOLLOWING_QUERY = gql`
+  query Following($userId: ID!, $limit: Int, $offset: Int) {
+    following(userId: $userId, limit: $limit, offset: $offset) {
+      id
+      username
+      display_name
+      avatar_url
+      isFollowing
+      followStatus
+    }
+  }
+`
+
+export const NOTIFICATIONS_QUERY = gql`
+  query Notifications($limit: Int, $offset: Int) {
+    notifications(limit: $limit, offset: $offset) {
+      id
+      type
+      content
+      isRead
+      createdAt
+      targetId
+      actor {
+        id
+        username
+        display_name
+        avatar_url
+      }
+    }
+  }
+`
+
+export const UNREAD_NOTIFICATIONS_COUNT_QUERY = gql`
+  query UnreadNotificationsCount {
+    unreadNotificationsCount
+  }
+`
+
+export const MARK_NOTIFICATION_READ_MUTATION = gql`
+  mutation MarkNotificationRead($id: ID!) {
+    markNotificationRead(id: $id)
+  }
+`
+
+export const MARK_ALL_NOTIFICATIONS_READ_MUTATION = gql`
+  mutation MarkAllNotificationsRead {
+    markAllNotificationsRead
+  }
+`
+
+export const RESPOND_FOLLOW_REQUEST_MUTATION = gql`
+  mutation RespondFollowRequest($requestId: ID!, $accept: Boolean!) {
+    respondFollowRequest(requestId: $requestId, accept: $accept) {
+      requestId
+      accepted
+    }
+  }
+`
+
+export const PENDING_FOLLOW_REQUESTS_QUERY = gql`
+  query PendingFollowRequests($limit: Int, $offset: Int) {
+    pendingFollowRequests(limit: $limit, offset: $offset) {
+      id
+      status
+      createdAt
+      requester {
+        id
+        username
+        display_name
+        avatar_url
+      }
+    }
+  }
+`
+
+export const LIKED_POSTS_QUERY = gql`
+  query LikedPosts($limit: Int, $offset: Int) {
+    likedPosts(limit: $limit, offset: $offset) {
+      ...PostCardFields
+    }
+  }
+  ${POST_CARD_FRAGMENT}
 `

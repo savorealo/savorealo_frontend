@@ -1,7 +1,6 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core'
 import { NgClass } from '@angular/common'
 import { AppShell } from '@shared/components/app-shell/app-shell'
-import { SavedTopbar } from './components/saved-topbar/saved-topbar'
 import { SavedRecipeCard } from './components/saved-recipe-card/saved-recipe-card'
 import { SavedFilter } from './models/saved.models'
 import { FeedService } from '@core/services/feed.service'
@@ -9,7 +8,7 @@ import { Post } from '@core/models/post/post.model'
 
 @Component({
 	selector: 'app-saved-page',
-	imports: [NgClass, AppShell, SavedTopbar, SavedRecipeCard],
+	imports: [NgClass, AppShell, SavedRecipeCard],
 	templateUrl: './saved-page.html',
 })
 export class SavedPage implements OnInit {

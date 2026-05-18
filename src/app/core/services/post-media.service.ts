@@ -12,13 +12,13 @@ export class PostMediaService {
 
 		return from(
 			this.supabase.client.storage
-				.from('posts_storage')
+				.from('post_media')
 				.upload(path, file, { upsert: false }),
 		).pipe(
 			switchMap(({ data, error }) => {
 				if (error) return throwError(() => error)
 				const { data: urlData } = this.supabase.client.storage
-					.from('posts_storage')
+					.from('post_media')
 					.getPublicUrl(data.path)
 				return [urlData.publicUrl]
 			}),

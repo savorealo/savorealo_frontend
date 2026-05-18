@@ -3,6 +3,7 @@
 		[ngSrc]="imageUrl()"
 		[alt]="title()"
 		fill
+		appImgFallback
 		sizes="(max-width: 768px) 100vw, 33vw"
 		class="object-cover transition-transform duration-slow ease-decelerated group-hover:scale-105"
 	/>
@@ -37,6 +38,7 @@
 				<img
 					[src]="post().author.photoUrl || '/assets/icons/new_logo.png'"
 					alt=""
+					appImgFallback
 					class="size-7 rounded-pill border border-white/25 object-cover"
 				/>
 				<span class="truncate text-label-md font-bold text-white">{{ authorName() }}</span>

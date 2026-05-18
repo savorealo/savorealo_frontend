@@ -3,6 +3,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { User as UserSupabase } from '@supabase/supabase-js';
 import { catchError, finalize, from, map, Observable, switchMap, tap, throwError } from 'rxjs';
+import { MessageService } from 'primeng/api';
 import { AuthService } from '@core/services/auth.service';
 import { UserService } from '@core/services/user.service';
 import { StorageService } from '@core/services/storage';
@@ -17,13 +18,17 @@ export class AuthStore {
   private userService    = inject(UserService);
   private storageService = inject(StorageService);
   private profileService = inject(ProfileService);
-  private supabase       = inject(SupabaseService); // para sacar el token de sesión
+  private supabase       = inject(SupabaseService);
   private router         = inject(Router);
+  private messages       = inject(MessageService);
 
   private readonly _user    = signal<UserSupabase | null>(null);
   private readonly _profile = signal<User | null>(null);
   private readonly _loading = signal(false);
   private readonly _error   = signal<string | null>(null);
+
+  // Flag para distinguir logout voluntario de sesión expirada
+  private _loggingOut = false;
 
   readonly user            = this._user.asReadonly();
   readonly profile         = this._profile.asReadonly();
@@ -33,24 +38,38 @@ export class AuthStore {
   readonly currentUserId   = computed(() => this._user()?.id ?? null);
 
   constructor(private destroyRef: DestroyRef) {
-    let lastCountersUserId: string | null = null;
+    let lastProfileUserId: string | null = null;
 
     this.authService.onAuthStateChange().pipe(
       takeUntilDestroyed(this.destroyRef)
     ).subscribe(({ event, session }) => {
       this._user.set(session?.user ?? null);
       if (session?.user) {
+        // Fallback inmediato desde JWT metadata (puede estar stale)
         this._profile.set(this.mapMetaToProfile(session.user));
-        // Cargar contadores solo en eventos relevantes y una sola vez por sesión,
-        // no en cada TOKEN_REFRESHED ni USER_UPDATED.
-        const isRelevant = event === 'INITIAL_SESSION' || event === 'SIGNED_IN';
-        if (isRelevant && lastCountersUserId !== session.user.id) {
-          lastCountersUserId = session.user.id;
-          this.loadCounters(session.user.id);
+        // Cargar perfil fresco desde la BD en eventos relevantes:
+        // - INITIAL_SESSION / SIGNED_IN: primera carga o login
+        // - USER_UPDATED: el trigger SQL sincronizó metadata
+        const isRelevant = event === 'INITIAL_SESSION' || event === 'SIGNED_IN' || event === 'USER_UPDATED';
+        if (isRelevant && (lastProfileUserId !== session.user.id || event === 'USER_UPDATED')) {
+          lastProfileUserId = session.user.id;
+          this.loadFullProfile(session.user.id);
         }
       } else {
         this._profile.set(null);
-        lastCountersUserId = null;
+        lastProfileUserId = null;
+        if (event === 'SIGNED_OUT') {
+          if (!this._loggingOut) {
+            // Sesión expirada por caducidad del refresh token — informar al usuario
+            this.messages.add({
+              severity: 'warn',
+              summary: 'Sesión expirada',
+              detail: 'Por favor, inicia sesión de nuevo.',
+              life: 5000,
+            });
+          }
+          this.router.navigate(['/auth']);
+        }
       }
     });
   }
@@ -65,7 +84,7 @@ export class AuthStore {
         if (error) throw error;
         this._user.set(data.user!);
         this._profile.set(this.mapMetaToProfile(data.user!));
-        this.loadCounters(data.user!.id);
+        this.loadFullProfile(data.user!.id);
       }),
       catchError(err => {
         this._error.set(toUserMessage(err, 'No se pudo iniciar sesión'));
@@ -136,10 +155,10 @@ export class AuthStore {
   }
 
   logout(): void {
-    this.authService.logout().subscribe(() => {
-      this._user.set(null);
-      this._profile.set(null);
-      this.router.navigate(['/auth']);
+    this._loggingOut = true;
+    this.authService.logout().subscribe({
+      complete: () => { this._loggingOut = false; },
+      error:    () => { this._loggingOut = false; },
     });
   }
 
@@ -176,7 +195,7 @@ export class AuthStore {
         return this.profileService.updateProfile(input, session.access_token);
       }),
       tap((updatedUser: User) => {
-        // Parcheamos solo los campos editables, mantenemos contadores intactos
+        // Parche optimista inmediato para que la UI refleje el cambio al instante
         this._profile.update(profile => profile ? {
           ...profile,
           username:   updatedUser.username   ?? profile.username,
@@ -186,6 +205,11 @@ export class AuthStore {
           location:   updatedUser.location   ?? profile.location,
           birth_date: updatedUser.birth_date ?? profile.birth_date,
         } : profile);
+
+        // Recargamos el perfil completo desde la BD para que el signal
+        // tenga datos frescos y no dependamos del JWT cacheado de Supabase
+        const userId = this._user()?.id;
+        if (userId) this.loadFullProfile(userId);
       }),
       catchError(err => {
         this._error.set(toUserMessage(err, 'No se pudo actualizar el perfil'));
@@ -215,18 +239,30 @@ export class AuthStore {
     };
   }
 
-  private loadCounters(userId: string): void {
+  /**
+   * Carga el perfil completo desde GraphQL (BD) y sobrescribe los datos
+   * del JWT cacheado. Así bio, foto, location, contadores, etc. siempre
+   * reflejan el estado real de la base de datos, no el user_metadata stale
+   * del token de Supabase.
+   */
+  private loadFullProfile(userId: string): void {
     this.userService.getUserById(userId).subscribe({
       next: ({ data }) => {
         if (!data) return;
         this._profile.update(profile => profile ? {
           ...profile,
+          username:       data.username       ?? profile.username,
+          fullName:       data.fullName        ?? profile.fullName,
+          photo_url:      data.photo_url       ?? profile.photo_url,
+          bio:            data.bio             ?? profile.bio,
+          location:       data.location        ?? profile.location,
+          birth_date:     data.birth_date      ?? profile.birth_date,
           postsCount:     data.postsCount,
           followersCount: data.followersCount,
           followingCount: data.followingCount,
         } : profile);
       },
-      error: err => console.error('Error cargando contadores:', err)
+      error: err => console.error('Error cargando perfil:', err)
     });
   }
 }

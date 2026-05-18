@@ -1,8 +1,4 @@
-<cdk-virtual-scroll-viewport
-	itemSize="540"
-	class="h-full w-full"
-	(scrolledIndexChange)="onScrolledIndexChange()"
->
+<div #scrollContainer class="h-full w-full overflow-y-auto">
 	<div class="grid gap-7 pb-10">
 		@if (error()) {
 			<div class="mx-auto grid w-full max-w-[500px] place-items-center rounded-2xl border border-error/30 bg-error-container p-8 text-center text-on-error-container">
@@ -33,17 +29,39 @@
 			</div>
 		}
 
-		<app-post-card
-			*cdkVirtualFor="let post of posts(); trackBy: trackById"
-			[post]="post"
-			(onLike)="like.emit($event)"
-			(onSave)="save.emit($event)"
-			(onComment)="comment.emit($event)"
-			(onReport)="report.emit($event)"
-		/>
+		@for (post of posts(); track post.id) {
+			<app-post-card
+				[post]="post"
+				(onLike)="like.emit($event)"
+				(onSave)="save.emit($event)"
+				(onComment)="comment.emit($event)"
+				(onReport)="report.emit($event)"
+			/>
+		}
 
+		<!-- Spinner para "cargando más" — skeletons solo en carga inicial -->
 		@if (loadingMore()) {
-			<app-skeleton-card />
+			<div class="flex justify-center py-6">
+				<app-spinner size="md" message="Cargando más recetas..." />
+			</div>
+		}
+
+		<!-- Fin del feed — aparece cuando no hay más páginas -->
+		@if (posts().length > 0 && !loadingMore() && !hasNextPage()) {
+			<div class="mx-auto w-full max-w-[500px] rounded-2xl border border-outline bg-surface-container">
+				<app-emptystate
+					icon="pi pi-check-circle"
+					title="¡Estás al día!"
+					description="Has visto todas las recetas. Descubre nuevos creadores en Explorar."
+					actionLabel="Ir a Explorar"
+					[onAction]="emitExplore"
+				/>
+			</div>
+		}
+
+		<!-- Sentinela para IntersectionObserver — activa nearEnd al entrar en viewport -->
+		@if (posts().length > 0 && !loadingMore() && hasNextPage()) {
+			<div #sentinel class="h-px w-full"></div>
 		}
 	</div>
-</cdk-virtual-scroll-viewport>
+</div>

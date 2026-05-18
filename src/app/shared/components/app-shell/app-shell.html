@@ -1,6 +1,6 @@
 <app-global-search-panel />
 
-<div class="h-dvh overflow-hidden bg-surface text-on-surface transition-colors duration-base ease-standard lg:grid lg:grid-cols-[240px_minmax(0,1fr)]">
+<div class="h-dvh overflow-hidden bg-surface text-on-surface transition-colors duration-base ease-standard lg:grid lg:grid-cols-[200px_minmax(0,1fr)] xl:grid-cols-[240px_minmax(0,1fr)]">
 
 	<!-- ============== NAVEGACIÓN PRINCIPAL ============== -->
 	<aside
@@ -133,8 +133,13 @@
 		</div>
 	</aside>
 
-	<!-- ============== CONTENIDO PRINCIPAL ============== -->
-	<main class="h-[calc(100dvh-var(--shell-bottombar-height))] min-w-0 overflow-y-auto overflow-x-hidden lg:h-dvh">
-		<ng-content />
-	</main>
+	<!-- ============== CONTENIDO PRINCIPAL (topbar + main) ============== -->
+	<div class="grid min-w-0 grid-rows-[auto_minmax(0,1fr)] h-[calc(100dvh-var(--shell-bottombar-height))] lg:h-dvh">
+		@if (showTopbar()) {
+			<app-topbar (create)="create.emit()" />
+		}
+		<main class="min-w-0 overflow-y-auto overflow-x-hidden">
+			<ng-content />
+		</main>
+	</div>
 </div>

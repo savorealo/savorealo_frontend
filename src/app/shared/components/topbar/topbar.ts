@@ -1,15 +1,15 @@
 import { Component, inject, output } from '@angular/core'
-import { RouterLink } from '@angular/router'
-import { AuthStore } from '@core/store/auth.store'
-import { GlobalSearchStore } from '@core/store/global-search.store'
-import { NotificationsStore } from '@core/store/notifications.store'
+import { RouterLink }               from '@angular/router'
+import { AuthStore }                from '@core/store/auth.store'
+import { GlobalSearchStore }        from '@core/store/global-search.store'
+import { NotificationsStore }       from '@core/store/notifications.store'
 
 @Component({
-	selector: 'app-feed-topbar',
+	selector: 'app-topbar',
 	imports: [RouterLink],
-	templateUrl: './feed-topbar.html',
+	templateUrl: './topbar.html',
 })
-export class FeedTopbar {
+export class Topbar {
 	private readonly auth  = inject(AuthStore)
 	readonly globalSearch  = inject(GlobalSearchStore)
 	readonly notifications = inject(NotificationsStore)
