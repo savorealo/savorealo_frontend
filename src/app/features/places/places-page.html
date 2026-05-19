@@ -1,0 +1,147 @@
+<app-shell>
+  <div class="min-h-dvh bg-surface text-on-surface">
+
+    <!-- Header sticky -->
+    <header class="sticky top-0 z-30 border-b border-outline bg-surface/90 backdrop-blur-md">
+      <div class="mx-auto max-w-[1100px] px-4 py-3">
+
+        <div class="flex items-center gap-3">
+          <div class="flex-1">
+            <h1 class="font-display text-headline-sm text-on-surface">Lugares</h1>
+            <p class="text-label-md font-medium text-on-surface-muted">Restaurantes y bares cerca de ti</p>
+          </div>
+
+          <!-- Botón ubicación -->
+          @if (!store.hasLocation()) {
+            <button
+              type="button"
+              class="inline-flex items-center gap-2 rounded-pill border border-outline bg-surface px-3 py-2 text-label-md font-bold text-on-surface transition-colors hover:bg-surface-container"
+              [disabled]="store.locDenied()"
+              (click)="store.requestLocation()"
+            >
+              <i class="pi pi-map-marker text-sm text-primary"></i>
+              <span class="hidden sm:inline">{{ store.locDenied() ? 'Sin acceso' : 'Ubicarme' }}</span>
+            </button>
+          } @else {
+            <span class="inline-flex items-center gap-1.5 rounded-pill bg-green-100 px-3 py-1.5 text-label-md font-bold text-green-700">
+              <i class="pi pi-map-marker text-xs"></i>
+              Cerca de ti
+            </span>
+          }
+        </div>
+
+        <!-- Buscador -->
+        <div class="relative mt-3">
+          <i class="pi pi-search absolute left-3.5 top-1/2 -translate-y-1/2 text-sm text-on-surface-muted"></i>
+          <input
+            type="search"
+            [ngModel]="store.search()"
+            (ngModelChange)="store.setSearch($event)"
+            placeholder="Buscar por nombre, dirección o especialidad..."
+            class="h-11 w-full rounded-xl border border-outline bg-surface-container pl-10 pr-4 text-body-sm font-medium text-on-surface outline-none transition-colors focus:border-primary"
+          />
+        </div>
+
+        <!-- Tabs de tipo -->
+        <div class="mt-3 flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+          @for (tab of typeTabs; track tab.value) {
+            <button
+              type="button"
+              class="inline-flex shrink-0 items-center gap-1.5 rounded-pill px-3 py-1.5 text-label-md font-bold transition-all duration-fast ease-standard"
+              [class]="store.typeFilter() === tab.value
+                ? 'bg-on-surface text-surface shadow-1'
+                : 'bg-surface-container text-on-surface-muted hover:bg-surface-container-high hover:text-on-surface'"
+              (click)="store.setType(tab.value)"
+            >
+              <span>{{ tab.icon }}</span>
+              <span>{{ tab.label }}</span>
+            </button>
+          }
+        </div>
+
+        <!-- Chips de filtro por tag -->
+        <div class="mt-2 flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+          @for (chip of tagChips; track chip.value) {
+            <button
+              type="button"
+              class="inline-flex shrink-0 items-center rounded-pill px-3 py-1 text-label-md font-semibold transition-all duration-fast ease-standard"
+              [class]="store.tagFilter() === chip.value
+                ? 'bg-primary text-on-primary shadow-1'
+                : 'bg-surface-container text-on-surface-muted hover:bg-surface-container-high'"
+              (click)="store.setTag(store.tagFilter() === chip.value ? null : chip.value)"
+            >
+              {{ chip.label }}
+            </button>
+          }
+        </div>
+
+      </div>
+    </header>
+
+    <!-- Ordenación -->
+    <div class="mx-auto max-w-[1100px] px-4 pt-4">
+      <div class="flex items-center justify-between gap-4">
+        <p class="text-body-sm font-medium text-on-surface-muted">
+          {{ store.filtered().length }} lugar{{ store.filtered().length !== 1 ? 'es' : '' }}
+        </p>
+        <div class="flex gap-1">
+          @for (opt of [
+            { value: 'rating',   label: 'Valoración', icon: 'pi-star' },
+            { value: 'distance', label: 'Distancia',  icon: 'pi-map-marker' },
+            { value: 'name',     label: 'Nombre',     icon: 'pi-sort-alpha-down' }
+          ]; track opt.value) {
+            <button
+              type="button"
+              class="inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-label-md font-bold transition-colors"
+              [class]="store.sortMode() === opt.value
+                ? 'bg-primary-container text-on-primary-container'
+                : 'text-on-surface-muted hover:bg-surface-container'"
+              (click)="store.setSort($any(opt.value))"
+            >
+              <i [class]="'pi ' + opt.icon + ' text-xs'"></i>
+              <span class="hidden sm:inline">{{ opt.label }}</span>
+            </button>
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- Grid de lugares -->
+    <main class="mx-auto max-w-[1100px] px-4 py-4 pb-10">
+
+      @if (store.loading()) {
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          @for (i of [1,2,3,4,5,6]; track i) {
+            <div class="h-72 animate-pulse rounded-2xl bg-surface-container"></div>
+          }
+        </div>
+      } @else if (store.error()) {
+        <div class="flex flex-col items-center gap-4 py-16 text-center">
+          <span class="text-5xl">😕</span>
+          <p class="text-body-sm font-medium text-on-surface-muted">{{ store.error() }}</p>
+          <button
+            type="button"
+            class="inline-flex items-center gap-2 rounded-pill bg-primary px-5 py-2.5 text-body-sm font-bold text-on-primary"
+            (click)="store.load()"
+          >
+            <i class="pi pi-refresh text-xs"></i>
+            Reintentar
+          </button>
+        </div>
+      } @else if (store.isEmpty()) {
+        <div class="flex flex-col items-center gap-3 py-16 text-center">
+          <span class="text-5xl">🔍</span>
+          <p class="text-body-md font-bold text-on-surface">Sin resultados</p>
+          <p class="text-body-sm font-medium text-on-surface-muted">Prueba a cambiar los filtros o la búsqueda</p>
+        </div>
+      } @else {
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          @for (place of store.filtered(); track place.id) {
+            <app-place-card [place]="place" />
+          }
+        </div>
+      }
+
+    </main>
+  </div>
+</app-shell>

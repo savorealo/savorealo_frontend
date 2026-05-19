@@ -63,6 +63,19 @@ export class CookingModePage implements OnInit, OnDestroy {
 		return p?.author.name ?? p?.author.username ?? 'Chef'
 	})
 
+	readonly nextStepText = computed(() => {
+		const next = this.steps()[this.activeStep() + 1]
+		if (!next) return null
+		return next.text.length > 65 ? next.text.slice(0, 65) + '…' : next.text
+	})
+
+	readonly ingredientsLeft = computed(() => {
+		const total = this.post()?.recipe?.ingredients?.length ?? 0
+		return total - this.checkedIngredients().size
+	})
+
+	showSheet = signal(false)
+
 	private readonly keyListener = (e: KeyboardEvent) => {
 		if ((e.target as HTMLElement).tagName === 'TEXTAREA' || (e.target as HTMLElement).tagName === 'INPUT') return
 		if (e.key === 'ArrowRight' || e.key === 'a' || e.key === 'A') this.nextStep()
