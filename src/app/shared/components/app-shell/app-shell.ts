@@ -20,10 +20,10 @@ interface ShellNavItem {
 	styles: [`
 		@keyframes logo-roll-in {
 			from { transform: translateX(calc(100vw - 200px)) rotate(0deg); }
-			to   { transform: translateX(0) rotate(-1080deg); }
+			to   { transform: translateX(0) rotate(-3240deg); }
 		}
 		.logo-roll-in {
-			animation: logo-roll-in 1.6s cubic-bezier(0.4, 0, 0.2, 1) both;
+			animation: logo-roll-in 2.8s cubic-bezier(0.25, 0, 0.35, 1) both;
 			position: relative;
 			z-index: 9999;
 		}
