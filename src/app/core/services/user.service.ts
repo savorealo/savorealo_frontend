@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core'
-import { map, Observable, of } from 'rxjs'
+import { map, Observable, of, switchMap } from 'rxjs'
 import { User } from '@core/models/user/User'
 import { Post } from '@core/models/post/post.model'
 import { FeedService } from '@core/services/feed.service'
