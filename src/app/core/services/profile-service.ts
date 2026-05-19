@@ -1,41 +1,29 @@
 import { inject, Injectable } from '@angular/core'
-import { Apollo } from 'apollo-angular'
-import { from, Observable, throwError } from 'rxjs'
+import { Observable, throwError } from 'rxjs'
 import { map, catchError } from 'rxjs/operators'
-import { UPDATE_PROFILE_MUTATION } from '@graphql/feed.mutations'
 import { User } from '@core/models/user/User'
+import { PROFILE_REPOSITORY } from '@core/repositories/tokens/repository.tokens'
 
 export interface UpdatePersonProfileInput {
 	username?: string
-	/** Nombre visible (canónico). Antes era `fullName`. */
 	displayName?: string
-	/** URL del avatar (canónico). Antes era `photoUrl`. */
 	avatarUrl?: string
 	bio?: string
 	location?: string
 	birthDate?: string | Date
-	/** Solo BUSINESS. Alias de displayName. */
 	businessName?: string
 	specialty?: string
 	phone?: string
 	website?: string
-
 	/** @deprecated alias legacy mantenido para no romper formularios existentes. */
 	fullName?: string
 	/** @deprecated alias legacy mantenido para no romper formularios existentes. */
 	photoUrl?: string
 }
 
-interface GqlUpdateProfileResult {
-	id: string
-	username: string | null
-	display_name: string | null
-	avatar_url: string | null
-}
-
 @Injectable({ providedIn: 'root' })
 export class ProfileService {
-	private readonly apollo = inject(Apollo)
+	private readonly repo = inject(PROFILE_REPOSITORY)
 
 	updateProfile(input: UpdatePersonProfileInput, _token?: string): Observable<User> {
 		const variables = this.buildVariables(input)
@@ -44,20 +32,9 @@ export class ProfileService {
 			return throwError(() => new Error('Debes proporcionar al menos un campo a actualizar'))
 		}
 
-		return from(
-			this.apollo.mutate<{ updateProfile: GqlUpdateProfileResult }>({
-				mutation: UPDATE_PROFILE_MUTATION,
-				variables,
-			}).toPromise(),
-		).pipe(
-			map(res => {
-				const updated = res?.data?.updateProfile
-				if (!updated) throw new Error('No se pudo actualizar el perfil')
-
-				// El backend ahora resuelve `avatar_url` de forma consistente.
-				// Invalidamos el User cacheado para que feed/post.author/perfil
-				// vuelvan a leer la misma fuente tras editar el perfil.
-				this.evictUserFromCache(updated.id)
+		return this.repo.updateProfile(variables).pipe(
+			map(updated => {
+				this.repo.evictUserFromCache(updated.id)
 
 				return {
 					id:             updated.id,
@@ -78,15 +55,6 @@ export class ProfileService {
 				return throwError(() => err)
 			}),
 		)
-	}
-
-	private evictUserFromCache(userId: string): void {
-		try {
-			const cache = this.apollo.client.cache
-			cache.evict({ id: cache.identify({ __typename: 'users', id: userId }) })
-			cache.evict({ id: 'ROOT_QUERY', fieldName: 'user' })
-			cache.gc()
-		} catch { /* cache best-effort */ }
 	}
 
 	private buildVariables(input: UpdatePersonProfileInput): Record<string, unknown> {

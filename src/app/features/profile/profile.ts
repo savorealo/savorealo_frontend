@@ -1,8 +1,10 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core'
+import { Component, computed, DestroyRef, inject, OnInit, signal } from '@angular/core'
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { finalize } from 'rxjs'
 import { AuthStore } from '@core/store/auth.store'
 import { UserService } from '@core/services/user.service'
 import { FeedService } from '@core/services/feed.service'
+import { PostActionsService } from '@core/services/post-actions.service'
 import { Post } from '@core/models/post/post.model'
 import { AppShell } from '@shared/components/app-shell/app-shell'
 import { Avatar } from '@shared/components/avatar/avatar'
@@ -22,6 +24,8 @@ export class Profile implements OnInit {
   private readonly authStore = inject(AuthStore)
   private readonly userService = inject(UserService)
   private readonly feedService = inject(FeedService)
+  private readonly postActions = inject(PostActionsService)
+  private readonly destroyRef = inject(DestroyRef)
   readonly router = inject(Router)
 
   readonly profile = this.authStore.profile
@@ -54,6 +58,21 @@ export class Profile implements OnInit {
     { icon: 'pi pi-heart-fill', label: 'Favoritos', description: 'Sus recetas reciben buen feedback' },
     { icon: 'pi pi-bookmark-fill', label: 'Curador', description: 'Guarda ideas para cocinar mejor' },
   ]
+
+  constructor() {
+    this.postActions.likeChanged$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(e => {
+      this.posts.update(ps => ps.map(p =>
+        p.id === e.postId ? { ...p, liked: e.liked, likesCount: e.likesCount } : p,
+      ))
+      this.likedLoaded.set(false)
+    })
+    this.postActions.saveChanged$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(e => {
+      this.posts.update(ps => ps.map(p =>
+        p.id === e.postId ? { ...p, saved: e.saved, savesCount: e.savesCount } : p,
+      ))
+      this.savedLoaded.set(false)
+    })
+  }
 
   ngOnInit(): void {
     const userId = this.authStore.currentUserId()

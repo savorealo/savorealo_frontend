@@ -1,95 +1,46 @@
 import { inject, Injectable } from '@angular/core'
-import { from, map, Observable } from 'rxjs'
+import { map, Observable } from 'rxjs'
 import { RealtimeChannel } from '@supabase/supabase-js'
-import { SupabaseService } from '@core/services/supabase.service'
 import { Notification, NotificationActor, NotificationType } from '@core/models/notification/notification.model'
+import { NOTIFICATION_REPOSITORY } from '@core/repositories/tokens/repository.tokens'
+import type { RawNotificationRow } from '@core/repositories/notification/notification-repository'
 
 @Injectable({ providedIn: 'root' })
 export class NotificationsService {
-	private readonly supabase = inject(SupabaseService)
+	private readonly repo = inject(NOTIFICATION_REPOSITORY)
 
 	getNotifications(userId: string, limit = 30): Observable<Notification[]> {
-		return from(
-			this.supabase.client
-				.from('notifications')
-				.select(`
-					id, user_id, actor_id, target_id, type, content, is_read, created_at,
-					actor:users!actor_id(
-						id,
-						person_profiles(username, full_name, photo_url)
-					)
-				`)
-				.eq('user_id', userId)
-				.order('created_at', { ascending: false })
-				.limit(limit),
-		).pipe(
-			map(({ data, error }) => {
-				if (error) throw error
-				return (data ?? []).map(row => this.mapRow(row))
-			}),
+		return this.repo.getNotifications(userId, limit).pipe(
+			map(rows => rows.map(row => this.mapRow(row))),
 		)
 	}
 
 	getNotification(notificationId: string): Observable<Notification | null> {
-		return from(
-			this.supabase.client
-				.from('notifications')
-				.select(`
-					id, user_id, actor_id, target_id, type, content, is_read, created_at,
-					actor:users!actor_id(
-						id,
-						person_profiles(username, full_name, photo_url)
-					)
-				`)
-				.eq('id', notificationId)
-				.maybeSingle(),
-		).pipe(
-			map(({ data, error }) => {
-				if (error) throw error
-				return data ? this.mapRow(data) : null
-			}),
+		return this.repo.getNotification(notificationId).pipe(
+			map(row => row ? this.mapRow(row) : null),
 		)
 	}
 
 	markAsRead(notificationId: string): Observable<void> {
-		return from(
-			this.supabase.client
-				.from('notifications')
-				.update({ is_read: true })
-				.eq('id', notificationId),
-		).pipe(map(({ error }) => { if (error) throw error }))
+		return this.repo.markAsRead(notificationId)
 	}
 
 	markAllAsRead(userId: string): Observable<void> {
-		return from(
-			this.supabase.client
-				.from('notifications')
-				.update({ is_read: true })
-				.eq('user_id', userId)
-				.eq('is_read', false),
-		).pipe(map(({ error }) => { if (error) throw error }))
+		return this.repo.markAllAsRead(userId)
 	}
 
 	subscribeToNew(userId: string, onNew: (notification: Notification) => void): RealtimeChannel {
-		return this.supabase.client
-			.channel(`notifications:${userId}`)
-			.on(
-				'postgres_changes',
-				{ event: 'INSERT', schema: 'public', table: 'notifications', filter: `user_id=eq.${userId}` },
-				payload => {
-					const row = payload.new as Record<string, unknown>
-					this.getNotification(row['id'] as string).subscribe({
-						next: notification => onNew(notification ?? this.mapRow(row)),
-						error: () => onNew(this.mapRow(row)),
-					})
-				},
-			)
-			.subscribe()
+		return this.repo.subscribeToNew(userId, row => {
+			this.getNotification(row['id'] as string).subscribe({
+				next: notification => onNew(notification ?? this.mapRow(row as unknown as RawNotificationRow)),
+				error: () => onNew(this.mapRow(row as unknown as RawNotificationRow)),
+			})
+		})
 	}
 
-	private mapRow(row: Record<string, unknown>): Notification {
+	mapRow(row: RawNotificationRow | Record<string, unknown>): Notification {
 		type PersonProfile = { username: string | null; full_name: string | null; photo_url: string | null }
-		const actorRaw = row['actor'] as {
+		const actorRaw = (row as Record<string, unknown>)['actor'] as {
 			id?: string
 			username?: string | null
 			display_name?: string | null
@@ -101,33 +52,35 @@ export class NotificationsService {
 			? personProfiles[0] ?? null
 			: personProfiles ?? null
 
+		const r = row as Record<string, unknown>
+
 		const actor: NotificationActor | null = actorRaw
 			? {
-				id: actorRaw.id ?? (row['actor_id'] as string | null) ?? '',
-				username: profile?.username ?? actorRaw.username ?? (row['username'] as string | null) ?? null,
-				fullName: profile?.full_name ?? actorRaw.display_name ?? (row['display_name'] as string | null) ?? null,
-				photoUrl: profile?.photo_url ?? actorRaw.avatar_url ?? (row['photo_url'] as string | null) ?? null,
+				id: actorRaw.id ?? (r['actor_id'] as string | null) ?? '',
+				username: profile?.username ?? actorRaw.username ?? (r['username'] as string | null) ?? null,
+				fullName: profile?.full_name ?? actorRaw.display_name ?? (r['display_name'] as string | null) ?? null,
+				photoUrl: profile?.photo_url ?? actorRaw.avatar_url ?? (r['photo_url'] as string | null) ?? null,
 			}
-			: row['actor_id'] || row['username'] || row['photo_url']
+			: r['actor_id'] || r['username'] || r['photo_url']
 				? {
-					id: (row['actor_id'] as string | null) ?? '',
-					username: (row['username'] as string | null) ?? null,
-					fullName: (row['display_name'] as string | null) ?? null,
-					photoUrl: (row['photo_url'] as string | null) ?? null,
+					id: (r['actor_id'] as string | null) ?? '',
+					username: (r['username'] as string | null) ?? null,
+					fullName: (r['display_name'] as string | null) ?? null,
+					photoUrl: (r['photo_url'] as string | null) ?? null,
 				}
 			: null
 
 		return {
-			id: row['id'] as string,
-			userId: row['user_id'] as string,
-			actorId: row['actor_id'] as string | null,
+			id: r['id'] as string,
+			userId: r['user_id'] as string,
+			actorId: r['actor_id'] as string | null,
 			actor,
-			targetId: row['target_id'] as string | null,
-			targetImageUrl: (row['target_image_url'] as string | null) ?? null,
-			type: row['type'] as NotificationType,
-			content: row['content'] as string | null,
-			isRead: row['is_read'] as boolean,
-			createdAt: new Date(row['created_at'] as string),
+			targetId: r['target_id'] as string | null,
+			targetImageUrl: (r['target_image_url'] as string | null) ?? null,
+			type: r['type'] as NotificationType,
+			content: r['content'] as string | null,
+			isRead: r['is_read'] as boolean,
+			createdAt: new Date(r['created_at'] as string),
 		}
 	}
 }

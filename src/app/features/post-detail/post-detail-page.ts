@@ -1,4 +1,5 @@
-import { afterNextRender, Component, computed, inject, OnInit, signal } from '@angular/core'
+import { afterNextRender, Component, computed, DestroyRef, inject, OnInit, signal } from '@angular/core'
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { Location } from '@angular/common'
 import { ActivatedRoute, Router, RouterLink } from '@angular/router'
 import { NgOptimizedImage } from '@angular/common'
@@ -8,6 +9,7 @@ import { FeedStore } from '@core/store/feed.store'
 import { UserService } from '@core/services/user.service'
 import { AuthStore } from '@core/store/auth.store'
 import { ToastService } from '@core/services/toast.service'
+import { PostActionsService } from '@core/services/post-actions.service'
 import { Post } from '@core/models/post/post.model'
 import { AppShell } from '@shared/components/app-shell/app-shell'
 import { Avatar } from '@shared/components/avatar/avatar'
@@ -29,6 +31,8 @@ export class PostDetailPage implements OnInit {
 	private readonly userService = inject(UserService)
 	private readonly authStore = inject(AuthStore)
 	private readonly toast = inject(ToastService)
+	private readonly postActions = inject(PostActionsService)
+	private readonly destroyRef = inject(DestroyRef)
 
 	readonly post = signal<Post | null>(null)
 	readonly loading = signal(true)
@@ -72,6 +76,13 @@ export class PostDetailPage implements OnInit {
 
 	constructor() {
 		afterNextRender(() => { this._browserReady = true; this.loadFollowStatus() })
+
+		this.postActions.likeChanged$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(e => {
+			this.post.update(p => p?.id === e.postId ? { ...p, liked: e.liked, likesCount: e.likesCount } : p)
+		})
+		this.postActions.saveChanged$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(e => {
+			this.post.update(p => p?.id === e.postId ? { ...p, saved: e.saved, savesCount: e.savesCount } : p)
+		})
 	}
 
 	ngOnInit(): void {
@@ -135,6 +146,11 @@ export class PostDetailPage implements OnInit {
 				const newStatus: 'none' | 'following' | 'requested' =
 					result.following ? 'following' : result.requested ? 'requested' : 'none'
 				this.followStatus.set(newStatus)
+				this.postActions.followChanged$.next({
+					userId: authorId,
+					following: result.following,
+					requested: result.requested,
+				})
 				const name = this.authorName()
 				if (result.following) {
 					this.toast.success(`Ahora sigues a ${name}`, '')

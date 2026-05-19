@@ -2,6 +2,7 @@ import { computed, inject, Injectable, signal } from '@angular/core'
 import { finalize } from 'rxjs'
 import { FeedService } from '@core/services/feed.service'
 import { ToastService } from '@core/services/toast.service'
+import { PostActionsService } from '@core/services/post-actions.service'
 import { Post } from '@core/models/post/post.model'
 import { toUserMessage } from '@core/utils/user-error'
 
@@ -11,6 +12,7 @@ const STALE_MS = 5 * 60_000
 export class FeedStore {
 	private readonly feedService = inject(FeedService)
 	private readonly toast       = inject(ToastService)
+	private readonly postActions  = inject(PostActionsService)
 
 	private readonly _posts = signal<Post[]>([])
 	private readonly _loading = signal(false)
@@ -34,6 +36,26 @@ export class FeedStore {
 
 	get scrollTop(): number { return this._scrollTop }
 	saveScroll(top: number): void { this._scrollTop = top }
+
+	constructor() {
+		this.postActions.likeChanged$.subscribe(e =>
+			this.updatePost(e.postId, { liked: e.liked, likesCount: e.likesCount }),
+		)
+		this.postActions.saveChanged$.subscribe(e =>
+			this.updatePost(e.postId, { saved: e.saved, savesCount: e.savesCount }),
+		)
+		this.postActions.commentCountChanged$.subscribe(e =>
+			this._posts.update(posts =>
+				posts.map(p => p.id === e.postId
+					? { ...p, commentsCount: Math.max(0, p.commentsCount + e.delta) }
+					: p,
+				),
+			),
+		)
+		this.postActions.followChanged$.subscribe(() => {
+			this._lastFetchedAt = 0
+		})
+	}
 
 	isStale(): boolean {
 		return this._posts().length === 0 || Date.now() - this._lastFetchedAt > STALE_MS
@@ -104,6 +126,7 @@ export class FeedStore {
 		this.feedService.toggleLike(post.id).subscribe({
 			next: result => {
 				this.replacePost({ ...optimistic, liked: result.active, likesCount: result.count })
+				this.postActions.likeChanged$.next({ postId: post.id, liked: result.active, likesCount: result.count })
 				if (result.active) this.toast.success('Le diste like', '')
 			},
 			error: err => {
@@ -120,7 +143,9 @@ export class FeedStore {
 
 		this.feedService.toggleSave(post.id).subscribe({
 			next: result => {
-				this.replacePost({ ...optimistic, saved: result.active, savesCount: result.count })
+				const savesCount = result.count || optimistic.savesCount
+				this.replacePost({ ...optimistic, saved: result.active, savesCount })
+				this.postActions.saveChanged$.next({ postId: post.id, saved: result.active, savesCount })
 				this.toast.success(result.active ? 'Guardado en tu colección' : 'Eliminado de guardados', '')
 			},
 			error: err => {
@@ -135,29 +160,15 @@ export class FeedStore {
 		this._totalCount.update(count => count + 1)
 	}
 
-	incrementComments(postId: string): void {
-		this._posts.update(posts =>
-			posts.map(post =>
-				post.id === postId
-					? { ...post, commentsCount: post.commentsCount + 1 }
-					: post,
-			),
-		)
-	}
-
-	decrementComments(postId: string): void {
-		this._posts.update(posts =>
-			posts.map(post =>
-				post.id === postId
-					? { ...post, commentsCount: Math.max(0, post.commentsCount - 1) }
-					: post,
-			),
-		)
-	}
-
 	private replacePost(updatedPost: Post): void {
 		this._posts.update(posts =>
 			posts.map(post => post.id === updatedPost.id ? updatedPost : post),
+		)
+	}
+
+	private updatePost(postId: string, patch: Partial<Post>): void {
+		this._posts.update(posts =>
+			posts.map(p => p.id === postId ? { ...p, ...patch } : p),
 		)
 	}
 }
