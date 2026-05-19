@@ -9,6 +9,7 @@ import { Notification, NotificationGroup, NotificationTab, NotificationType } fr
 import { AppShell } from '@shared/components/app-shell/app-shell'
 import { Avatar } from '@shared/components/avatar/avatar'
 import { TimeAgoPipe } from '@shared/pipes/time-ago.pipe'
+import { SavoLoader } from '@shared/components/savo-loader/savo-loader'
 
 interface Tab {
 	key: NotificationTab
@@ -18,7 +19,7 @@ interface Tab {
 
 @Component({
 	selector: 'app-notifications-page',
-	imports: [AppShell, Avatar, RouterLink, TimeAgoPipe],
+	imports: [AppShell, Avatar, RouterLink, TimeAgoPipe, SavoLoader],
 	templateUrl: './notifications-page.html',
 })
 export class NotificationsPage implements OnInit {

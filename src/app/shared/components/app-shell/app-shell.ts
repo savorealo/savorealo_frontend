@@ -17,6 +17,17 @@ interface ShellNavItem {
 	selector: 'app-shell',
 	imports: [RouterLink, RouterLinkActive, GlobalSearchPanel, Topbar],
 	templateUrl: './app-shell.html',
+	styles: [`
+		@keyframes logo-roll-in {
+			from { transform: translateX(calc(100vw - 200px)) rotate(0deg); }
+			to   { transform: translateX(0) rotate(-1080deg); }
+		}
+		.logo-roll-in {
+			animation: logo-roll-in 1.6s cubic-bezier(0.4, 0, 0.2, 1) both;
+			position: relative;
+			z-index: 9999;
+		}
+	`],
 })
 export class AppShell implements OnInit {
 	private readonly authStore = inject(AuthStore)

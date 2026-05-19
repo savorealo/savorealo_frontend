@@ -1,6 +1,6 @@
 import { Component, computed, inject, OnDestroy, OnInit, signal } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
-import { DecimalPipe, Location } from '@angular/common'
+import { Location } from '@angular/common'
 import { FeedService } from '@core/services/feed.service'
 import { Post } from '@core/models/post/post.model'
 
@@ -8,7 +8,7 @@ type Section = 'pasos' | 'ingredientes' | 'receta' | 'notas'
 
 @Component({
 	selector: 'app-cooking-mode-page',
-	imports: [DecimalPipe],
+	imports: [],
 	templateUrl: './cooking-mode-page.html',
 })
 export class CookingModePage implements OnInit, OnDestroy {
