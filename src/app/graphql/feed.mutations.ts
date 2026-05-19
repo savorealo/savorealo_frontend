@@ -93,6 +93,7 @@ export const TOGGLE_SAVE_MUTATION = gql`
     toggleSave(postId: $postId) {
       postId
       saved
+      saves
     }
   }
 `
@@ -170,6 +171,7 @@ export const GET_USER_QUERY = gql`
       followStatus
       is_private
       isViewable
+      isFollowingViewer
     }
   }
 `
@@ -346,8 +348,8 @@ export const MARK_ALL_NOTIFICATIONS_READ_MUTATION = gql`
 `
 
 export const RESPOND_FOLLOW_REQUEST_MUTATION = gql`
-  mutation RespondFollowRequest($requestId: ID!, $accept: Boolean!) {
-    respondFollowRequest(requestId: $requestId, accept: $accept) {
+  mutation RespondFollowRequest($actorId: ID!, $accept: Boolean!) {
+    respondFollowRequest(actorId: $actorId, accept: $accept) {
       requestId
       accepted
     }
