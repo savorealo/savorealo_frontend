@@ -30,21 +30,22 @@ export class AppShell implements OnInit {
 	readonly create     = output<void>()
 
 	readonly navItems: ShellNavItem[] = [
-		{ icon: 'pi pi-home', label: 'Feed', route: '/' },
-		{ icon: 'pi pi-search', label: 'Explorar', route: '/explore' },
-		{ icon: 'pi pi-sparkles', label: 'IA Recetas', route: '/ai' },
-		{ icon: 'pi pi-bookmark', label: 'Guardados', route: '/saved' },
-		{ icon: 'pi pi-comments', label: 'Mensajes', route: '/chat' },
-		{ icon: 'pi pi-bell', label: 'Notificaciones', route: '/notifications' },
-		{ icon: 'pi pi-cog', label: 'Ajustes', route: '/settings' },
+		{ icon: 'pi pi-home',       label: 'Feed',          route: '/' },
+		{ icon: 'pi pi-search',     label: 'Explorar',      route: '/explore' },
+		{ icon: 'pi pi-map-marker', label: 'Lugares',       route: '/places' },
+		{ icon: 'pi pi-sparkles',   label: 'IA Recetas',    route: '/ai' },
+		{ icon: 'pi pi-bookmark',   label: 'Guardados',     route: '/saved' },
+		{ icon: 'pi pi-comments',   label: 'Mensajes',      route: '/chat' },
+		{ icon: 'pi pi-bell',       label: 'Notificaciones',route: '/notifications' },
+		{ icon: 'pi pi-cog',        label: 'Ajustes',       route: '/settings' },
 	]
 
 	readonly mobileNavItems: ShellNavItem[] = [
-		{ icon: 'pi pi-home', label: 'Feed', route: '/' },
-		{ icon: 'pi pi-search', label: 'Explorar', route: '/explore' },
-		{ icon: 'pi pi-sparkles', label: 'IA', route: '/ai' },
-		{ icon: 'pi pi-comments', label: 'Chats', route: '/chat' },
-		{ icon: 'pi pi-user', label: 'Perfil', route: '/profile' },
+		{ icon: 'pi pi-home',       label: 'Feed',    route: '/' },
+		{ icon: 'pi pi-search',     label: 'Explorar',route: '/explore' },
+		{ icon: 'pi pi-map-marker', label: 'Lugares', route: '/places' },
+		{ icon: 'pi pi-comments',   label: 'Chats',   route: '/chat' },
+		{ icon: 'pi pi-user',       label: 'Perfil',  route: '/profile' },
 	]
 
 	ngOnInit(): void {
