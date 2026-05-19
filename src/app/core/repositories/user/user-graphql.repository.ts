@@ -4,9 +4,9 @@ import { firstValueFrom, from, map, Observable } from 'rxjs'
 import { SupabaseService } from '@core/services/supabase.service'
 import {
 	CHECK_USERNAME_QUERY, FOLLOWERS_QUERY, FOLLOWING_QUERY,
-	GET_USER_QUERY, RESPOND_FOLLOW_REQUEST_MUTATION, TOGGLE_FOLLOW_MUTATION,
+	GET_USER_QUERY, RESPOND_FOLLOW_REQUEST_MUTATION, SUGGESTED_USERS_QUERY, TOGGLE_FOLLOW_MUTATION,
 } from '@graphql/feed.mutations'
-import type { GqlFollowUser, GqlUser, IUserRepository, RespondFollowRequestResult, ToggleFollowResult } from './user-repository'
+import type { GqlFollowUser, GqlSuggestedUser, GqlUser, IUserRepository, RespondFollowRequestResult, ToggleFollowResult } from './user-repository'
 
 @Injectable({ providedIn: 'root' })
 export class UserGraphqlRepository implements IUserRepository {
@@ -92,6 +92,16 @@ export class UserGraphqlRepository implements IUserRepository {
 
 	getFollowing(userId: string, limit: number): Observable<GqlFollowUser[]> {
 		return this.fetchFollowList(FOLLOWING_QUERY, 'following', userId, limit)
+	}
+
+	getSuggestedUsers(preferenceIds: string[], limit = 5): Observable<GqlSuggestedUser[]> {
+		return from(firstValueFrom(
+			this.apollo.query<{ suggestedUsers: GqlSuggestedUser[] }>({
+				query: SUGGESTED_USERS_QUERY,
+				variables: { preferenceIds, limit },
+				fetchPolicy: 'network-only',
+			}),
+		)).pipe(map(res => res.data?.suggestedUsers ?? []))
 	}
 
 	private fetchFollowList(query: any, key: string, userId: string, limit: number): Observable<GqlFollowUser[]> {

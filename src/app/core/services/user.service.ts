@@ -6,6 +6,14 @@ import { FeedService } from '@core/services/feed.service'
 import { POST_REPOSITORY, USER_REPOSITORY } from '@core/repositories/tokens/repository.tokens'
 import type { GqlUser } from '@core/repositories/user/user-repository'
 
+export interface SuggestedUser {
+	id: string
+	username: string | null
+	displayName: string | null
+	avatarUrl: string | null
+	isFollowing: boolean
+}
+
 export interface PublicUser extends User {
 	isFollowedByCurrentUser: boolean
 	followStatus: 'none' | 'following' | 'requested'
@@ -89,6 +97,18 @@ export class UserService {
 				displayName: u.display_name,
 				avatarUrl: u.avatar_url,
 				followStatus: (u.followStatus === 'following' || u.followStatus === 'requested' ? u.followStatus : 'none') as FollowListUser['followStatus'],
+			}))),
+		)
+	}
+
+	getSuggestedUsers(preferenceIds: string[] = [], limit = 5): Observable<SuggestedUser[]> {
+		return this.userRepo.getSuggestedUsers(preferenceIds, limit).pipe(
+			map(users => users.map(u => ({
+				id: u.id,
+				username: u.username,
+				displayName: u.display_name,
+				avatarUrl: u.avatar_url,
+				isFollowing: !!u.isFollowing,
 			}))),
 		)
 	}

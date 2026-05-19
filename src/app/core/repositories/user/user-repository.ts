@@ -25,6 +25,14 @@ export interface GqlFollowUser {
 	followStatus: string | null
 }
 
+export interface GqlSuggestedUser {
+	id: string
+	username: string | null
+	display_name: string | null
+	avatar_url: string | null
+	isFollowing: boolean | null
+}
+
 export interface ToggleFollowResult {
 	userId: string
 	following: boolean
@@ -44,4 +52,5 @@ export interface IUserRepository {
 	respondFollowRequest(actorId: string, accept: boolean): Observable<RespondFollowRequestResult>
 	getFollowers(userId: string, limit: number): Observable<GqlFollowUser[]>
 	getFollowing(userId: string, limit: number): Observable<GqlFollowUser[]>
+	getSuggestedUsers(preferenceIds: string[], limit?: number): Observable<GqlSuggestedUser[]>
 }
