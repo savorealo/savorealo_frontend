@@ -5,6 +5,8 @@ import { ToastService } from '@core/services/toast.service'
 import { Post } from '@core/models/post/post.model'
 import { toUserMessage } from '@core/utils/user-error'
 
+const STALE_MS = 5 * 60_000
+
 @Injectable({ providedIn: 'root' })
 export class FeedStore {
 	private readonly feedService = inject(FeedService)
@@ -12,19 +14,30 @@ export class FeedStore {
 
 	private readonly _posts = signal<Post[]>([])
 	private readonly _loading = signal(false)
+	private readonly _refreshing = signal(false)
 	private readonly _loadingMore = signal(false)
 	private readonly _error = signal<string | null>(null)
 	private readonly _endCursor = signal<string | null>(null)
 	private readonly _hasNextPage = signal(false)
 	private readonly _totalCount = signal(0)
+	private _lastFetchedAt = 0
+	private _scrollTop = 0
 
 	readonly posts = this._posts.asReadonly()
 	readonly loading = this._loading.asReadonly()
+	readonly refreshing = this._refreshing.asReadonly()
 	readonly loadingMore = this._loadingMore.asReadonly()
 	readonly error = this._error.asReadonly()
 	readonly hasNextPage = this._hasNextPage.asReadonly()
 	readonly totalCount = this._totalCount.asReadonly()
 	readonly isEmpty = computed(() => !this._loading() && this._posts().length === 0)
+
+	get scrollTop(): number { return this._scrollTop }
+	saveScroll(top: number): void { this._scrollTop = top }
+
+	isStale(): boolean {
+		return this._posts().length === 0 || Date.now() - this._lastFetchedAt > STALE_MS
+	}
 
 	loadHomeFeed(): void {
 		this._loading.set(true)
@@ -38,8 +51,29 @@ export class FeedStore {
 				this._endCursor.set(page.endCursor)
 				this._hasNextPage.set(page.hasNextPage)
 				this._totalCount.set(page.totalCount)
+				this._lastFetchedAt = Date.now()
 			},
 			error: err => this._error.set(toUserMessage(err, 'No se pudo cargar el feed')),
+		})
+	}
+
+	refresh(): void {
+		if (this._refreshing()) return
+		this._refreshing.set(true)
+		this._error.set(null)
+
+		this.feedService.getHomeFeed().pipe(
+			finalize(() => this._refreshing.set(false)),
+		).subscribe({
+			next: page => {
+				this._posts.set(page.posts)
+				this._endCursor.set(page.endCursor)
+				this._hasNextPage.set(page.hasNextPage)
+				this._totalCount.set(page.totalCount)
+				this._lastFetchedAt = Date.now()
+				this._scrollTop = 0
+			},
+			error: err => this._error.set(toUserMessage(err, 'No se pudo refrescar el feed')),
 		})
 	}
 

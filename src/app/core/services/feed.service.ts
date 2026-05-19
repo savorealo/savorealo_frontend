@@ -59,16 +59,21 @@ export class FeedService {
 		return (res.data?.discoverFeed ?? []).map(n => this.mapGqlPost(n))
 	}
 
-	/** Lee guardados del usuario actual vía GraphQL. */
-	async fetchSavedGql(limit = 24, offset = 0): Promise<Post[]> {
+	/** Lee guardados del usuario actual vía GraphQL (cursor-based). */
+	async fetchSavedGql(limit = 24, cursor?: string | null): Promise<{ posts: Post[]; nextCursor: string | null; hasNextPage: boolean }> {
 		const res = await firstValueFrom(
-			this.apollo.query<{ savedPosts: GqlPostNode[] }>({
+			this.apollo.query<{ savedPosts: { posts: GqlPostNode[]; nextCursor: string | null; hasNextPage: boolean } }>({
 				query: SAVED_POSTS_QUERY,
-				variables: { limit, offset },
+				variables: { limit, cursor: cursor ?? undefined },
 				fetchPolicy: 'network-only',
 			}),
 		)
-		return (res.data?.savedPosts ?? []).map(n => this.mapGqlPost(n))
+		const data = res.data?.savedPosts
+		return {
+			posts: (data?.posts ?? []).map(n => this.mapGqlPost(n)),
+			nextCursor: data?.nextCursor ?? null,
+			hasNextPage: data?.hasNextPage ?? false,
+		}
 	}
 
 	/** Mapea la forma GraphQL (PostCardFields) al modelo Post. */
@@ -134,8 +139,8 @@ export class FeedService {
 		return from(this.fetchPostById(id))
 	}
 
-	getSavedPosts(limit = 24): Observable<FeedPage> {
-		return from(this.fetchSavedPosts(limit))
+	getSavedPosts(limit = 24, cursor?: string | null): Observable<FeedPage> {
+		return from(this.fetchSavedPosts(limit, cursor))
 	}
 
 	getLikedPosts(limit = 24): Observable<FeedPage> {
@@ -198,7 +203,7 @@ export class FeedService {
 		const discoverHit = await this.fetchDiscoverGql(50).then(posts => posts.find(p => p.id === id))
 		if (discoverHit) return discoverHit
 
-		const savedHit = await this.fetchSavedGql(50).then(posts => posts.find(p => p.id === id)).catch(() => null)
+		const savedHit = await this.fetchSavedGql(50).then(r => r.posts.find(p => p.id === id)).catch(() => null)
 		if (savedHit) return savedHit
 
 		// Last resort: read from cache (non-viewer-relative fields only, liked/saved default to false)
@@ -222,9 +227,9 @@ export class FeedService {
 		}
 	}
 
-	private async fetchSavedPosts(limit: number): Promise<FeedPage> {
-		const posts = await this.fetchSavedGql(limit)
-		return { posts, endCursor: null, hasNextPage: false, totalCount: posts.length }
+	private async fetchSavedPosts(limit: number, cursor?: string | null): Promise<FeedPage> {
+		const result = await this.fetchSavedGql(limit, cursor)
+		return { posts: result.posts, endCursor: result.nextCursor, hasNextPage: result.hasNextPage, totalCount: result.posts.length }
 	}
 
 	private async fetchLikedPosts(limit: number): Promise<FeedPage> {

@@ -15,6 +15,7 @@
 					[posts]="feed.posts()"
 					[loading]="feed.loading()"
 					[loadingMore]="feed.loadingMore()"
+					[refreshing]="feed.refreshing()"
 					[isEmpty]="feed.isEmpty()"
 					[error]="feed.error()"
 					[hasNextPage]="feed.hasNextPage()"
@@ -25,6 +26,7 @@
 					(retry)="feed.loadHomeFeed()"
 					(nearEnd)="feed.loadMore()"
 					(explore)="navigateToExplore()"
+					(refresh)="feed.refresh()"
 				/>
 			</main>
 

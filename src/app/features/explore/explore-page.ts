@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core'
+import { afterNextRender, Component, computed, ElementRef, inject, OnDestroy, OnInit, signal, viewChild } from '@angular/core'
 import { RouterLink } from '@angular/router'
 import { NgOptimizedImage } from '@angular/common'
 import { AppShell } from '@shared/components/app-shell/app-shell'
@@ -27,7 +27,9 @@ import { RecipeDiscoveryGrid } from './components/recipe-discovery-grid/recipe-d
 	],
 	templateUrl: './explore-page.html',
 })
-export class ExplorePage implements OnInit {
+export class ExplorePage implements OnInit, OnDestroy {
+	private readonly scrollContainer = viewChild<ElementRef<HTMLElement>>('exploreScroll')
+
 	readonly explore = inject(ExploreStore)
 	private readonly searchService = inject(SearchService)
 
@@ -39,10 +41,64 @@ export class ExplorePage implements OnInit {
 
 	readonly isSearching = computed(() => this.searchQuery().trim().length >= 2)
 
+	readonly pullProgress = signal(0)
+	readonly pullTriggered = signal(false)
+	private pullStartY = 0
+	private pulling = false
+
+	constructor() {
+		afterNextRender(() => {
+			const saved = this.explore.scrollTop
+			if (saved > 0) {
+				this.scrollContainer()?.nativeElement.scrollTo({ top: saved })
+			}
+			this.setupPullToRefresh()
+		})
+	}
+
 	ngOnInit(): void {
-		if (this.explore.posts().length === 0) {
+		if (this.explore.isStale()) {
 			this.explore.loadExplore()
 		}
+	}
+
+	ngOnDestroy(): void {
+		const el = this.scrollContainer()?.nativeElement
+		this.explore.saveScroll(el?.scrollTop ?? 0)
+	}
+
+	private setupPullToRefresh(): void {
+		const el = this.scrollContainer()?.nativeElement
+		if (!el) return
+
+		el.addEventListener('touchstart', (e: TouchEvent) => {
+			if (el.scrollTop <= 0) {
+				this.pullStartY = e.touches[0].clientY
+				this.pulling = true
+			}
+		}, { passive: true })
+
+		el.addEventListener('touchmove', (e: TouchEvent) => {
+			if (!this.pulling || el.scrollTop > 0) {
+				this.pulling = false
+				this.pullProgress.set(0)
+				return
+			}
+			const dy = e.touches[0].clientY - this.pullStartY
+			if (dy > 0) {
+				this.pullProgress.set(Math.min(dy / 100, 1))
+				this.pullTriggered.set(dy >= 100)
+			}
+		}, { passive: true })
+
+		el.addEventListener('touchend', () => {
+			if (this.pullTriggered()) {
+				this.explore.refresh()
+			}
+			this.pulling = false
+			this.pullProgress.set(0)
+			this.pullTriggered.set(false)
+		}, { passive: true })
 	}
 
 	onInputSearch(event: Event): void {

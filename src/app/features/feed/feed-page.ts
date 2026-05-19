@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal, ViewChild } from '@angular/core'
+import { afterNextRender, Component, inject, OnDestroy, OnInit, signal, ViewChild } from '@angular/core'
 import { Router } from '@angular/router'
 import { Post } from '@core/models/post/post.model'
 import { FeedStore } from '@core/store/feed.store'
@@ -25,7 +25,7 @@ import { ReportSheet } from './components/report-sheet/report-sheet'
 	],
 	templateUrl: './feed-page.html',
 })
-export class FeedPage implements OnInit {
+export class FeedPage implements OnInit, OnDestroy {
 	@ViewChild(FeedPostList) private postList?: FeedPostList
 
 	readonly feed = inject(FeedStore)
@@ -35,10 +35,24 @@ export class FeedPage implements OnInit {
 	readonly composerOpen = signal(false)
 	readonly reportingPost = signal<Post | null>(null)
 
+	constructor() {
+		afterNextRender(() => {
+			const saved = this.feed.scrollTop
+			if (saved > 0) {
+				this.postList?.restoreScroll(saved)
+			}
+		})
+	}
+
 	ngOnInit(): void {
-		if (this.feed.posts().length === 0) {
+		if (this.feed.isStale()) {
 			this.feed.loadHomeFeed()
 		}
+	}
+
+	ngOnDestroy(): void {
+		const top = this.postList?.currentScroll() ?? 0
+		this.feed.saveScroll(top)
 	}
 
 	openComments(post: Post): void {
