@@ -66,9 +66,13 @@ export const USER_POSTS_QUERY = gql`
 `
 
 export const SAVED_POSTS_QUERY = gql`
-  query SavedPosts($limit: Int, $offset: Int) {
-    savedPosts(limit: $limit, offset: $offset) {
-      ...PostCardFields
+  query SavedPosts($limit: Int, $cursor: String) {
+    savedPosts(limit: $limit, cursor: $cursor) {
+      posts {
+        ...PostCardFields
+      }
+      nextCursor
+      hasNextPage
     }
   }
   ${POST_CARD_FRAGMENT}

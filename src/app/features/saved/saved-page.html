@@ -12,17 +12,6 @@
 								Tus recetas y posts guardados para no perder ninguna buena idea.
 							</p>
 						</div>
-
-						<div class="grid grid-cols-2 overflow-hidden rounded-2xl border border-on-primary-container/15 bg-on-primary-container/5 text-center">
-							<div class="px-4 py-3 sm:px-6 sm:py-4">
-								<strong class="block text-headline-sm">{{ totalCount() }}</strong>
-								<span class="text-label-md font-bold uppercase tracking-wide text-on-primary-container/65">Guardados</span>
-							</div>
-							<div class="border-l border-on-primary-container/15 px-4 py-3 sm:px-6 sm:py-4">
-								<strong class="block text-headline-sm">{{ posts().length }}</strong>
-								<span class="text-label-md font-bold uppercase tracking-wide text-on-primary-container/65">Cargados</span>
-							</div>
-						</div>
 					</div>
 				</div>
 
@@ -98,6 +87,18 @@
 							</div>
 						}
 					</div>
+
+					<!-- Loading more spinner -->
+					@if (loadingMore()) {
+						<div class="flex justify-center py-6">
+							<app-spinner size="md" message="Cargando más guardados..." />
+						</div>
+					}
+
+					<!-- Sentinel for IntersectionObserver -->
+					@if (posts().length > 0 && !loadingMore() && hasNextPage()) {
+						<div #sentinel class="h-px w-full"></div>
+					}
 				}
 			</section>
 		</main>

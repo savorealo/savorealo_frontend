@@ -1,5 +1,37 @@
 <div #scrollContainer class="h-full w-full overflow-y-auto">
+	<!-- Pull-to-refresh indicator -->
+	@if (pullProgress() > 0 || refreshing()) {
+		<div
+			class="flex items-center justify-center overflow-hidden transition-[height] duration-fast ease-standard"
+			[style.height.px]="refreshing() ? 48 : pullProgress() * 48"
+		>
+			@if (refreshing()) {
+				<i class="pi pi-spin pi-spinner text-lg text-primary"></i>
+			} @else {
+				<i
+					class="pi pi-arrow-down text-lg text-primary transition-transform duration-fast"
+					[class.rotate-180]="pullTriggered()"
+				></i>
+			}
+		</div>
+	}
+
 	<div class="grid gap-7 pb-10">
+		<!-- Refresh button (visible when posts loaded) -->
+		@if (posts().length > 0 && !loading()) {
+			<div class="flex justify-center">
+				<button
+					type="button"
+					class="inline-flex h-10 items-center gap-2 rounded-pill border border-outline bg-surface-container px-5 text-body-sm font-bold text-on-surface-muted transition-all duration-fast ease-standard hover:bg-surface-container-high hover:text-on-surface active:scale-[0.98] disabled:opacity-50"
+					[disabled]="refreshing()"
+					(click)="refresh.emit()"
+				>
+					<i class="pi text-xs" [class]="refreshing() ? 'pi-spin pi-spinner' : 'pi-refresh'"></i>
+					{{ refreshing() ? 'Actualizando...' : 'Actualizar feed' }}
+				</button>
+			</div>
+		}
+
 		@if (error()) {
 			<div class="mx-auto grid w-full max-w-[500px] place-items-center rounded-2xl border border-error/30 bg-error-container p-8 text-center text-on-error-container">
 				<div>
