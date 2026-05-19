@@ -1,9 +1,11 @@
-import { afterNextRender, Component, computed, inject, signal } from '@angular/core'
+import { afterNextRender, Component, computed, DestroyRef, inject, signal } from '@angular/core'
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { ActivatedRoute, Router, RouterLink } from '@angular/router'
 import { finalize } from 'rxjs'
 import { UserService, PublicUser, FollowListUser } from '@core/services/user.service'
 import { AuthStore } from '@core/store/auth.store'
 import { ToastService } from '@core/services/toast.service'
+import { PostActionsService } from '@core/services/post-actions.service'
 import { Post } from '@core/models/post/post.model'
 import { AppShell } from '@shared/components/app-shell/app-shell'
 import { Avatar } from '@shared/components/avatar/avatar'
@@ -22,6 +24,8 @@ export class PublicProfilePage {
 	private readonly userService = inject(UserService)
 	private readonly authStore   = inject(AuthStore)
 	private readonly toast       = inject(ToastService)
+	private readonly postActions = inject(PostActionsService)
+	private readonly destroyRef  = inject(DestroyRef)
 
 	readonly user          = signal<PublicUser | null>(null)
 	readonly posts         = signal<Post[]>([])
@@ -47,8 +51,19 @@ export class PublicProfilePage {
 	readonly location = computed(() => this.user()?.location || null)
 	readonly isPrivate = computed(() => !!this.user()?.isPrivate)
 	readonly isViewable = computed(() => this.user()?.isViewable !== false)
+	readonly followsYou = computed(() => !!this.user()?.followsYou)
 
 	constructor() {
+		this.postActions.likeChanged$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(e =>
+			this.posts.update(ps => ps.map(p =>
+				p.id === e.postId ? { ...p, liked: e.liked, likesCount: e.likesCount } : p,
+			)),
+		)
+		this.postActions.saveChanged$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(e =>
+			this.posts.update(ps => ps.map(p =>
+				p.id === e.postId ? { ...p, saved: e.saved, savesCount: e.savesCount } : p,
+			)),
+		)
 		// El estado de seguimiento (`isFollowing`) depende de la sesión Supabase,
 		// que no existe en SSR. Si cargáramos en el servidor, el backend
 		// resolvería `isFollowing=false` y la hidratación dejaría ese valor
@@ -139,7 +154,6 @@ export class PublicProfilePage {
 			next: result => {
 				const newStatus: 'none' | 'following' | 'requested' =
 					result.following ? 'following' : result.requested ? 'requested' : 'none'
-				// Reconcile with server response
 				let newFollowers = wasFollowers
 				if (result.following && wasStatus !== 'following') newFollowers = wasFollowers + 1
 				else if (!result.following && wasStatus === 'following') newFollowers = wasFollowers - 1
@@ -149,6 +163,11 @@ export class PublicProfilePage {
 					followStatus: newStatus,
 					followersCount: newFollowers,
 				} : u)
+				this.postActions.followChanged$.next({
+					userId: user.id,
+					following: result.following,
+					requested: result.requested,
+				})
 				const name = this.user()?.fullName || this.user()?.username || 'este usuario'
 				if (result.following) {
 					this.toast.success(`Ahora sigues a ${name}`, '')

@@ -5,6 +5,7 @@ import { Spinner } from '@shared/components/spinner/spinner'
 import { SavedRecipeCard } from './components/saved-recipe-card/saved-recipe-card'
 import { SavedFilter } from './models/saved.models'
 import { FeedService } from '@core/services/feed.service'
+import { PostActionsService } from '@core/services/post-actions.service'
 import { Post } from '@core/models/post/post.model'
 
 const PAGE_SIZE = 18
@@ -16,6 +17,7 @@ const PAGE_SIZE = 18
 })
 export class SavedPage implements OnInit {
 	private readonly feedService = inject(FeedService)
+	private readonly postActions = inject(PostActionsService)
 	private readonly sentinel = viewChild<ElementRef<HTMLElement>>('sentinel')
 	private observer?: IntersectionObserver
 
@@ -58,6 +60,11 @@ export class SavedPage implements OnInit {
 
 	constructor() {
 		afterNextRender(() => this.setupIntersectionObserver())
+		this.postActions.saveChanged$.subscribe(e => {
+			if (!e.saved) {
+				this.posts.update(items => items.filter(p => p.id !== e.postId))
+			}
+		})
 	}
 
 	ngOnInit(): void {
@@ -113,7 +120,11 @@ export class SavedPage implements OnInit {
 	}
 
 	removeSaved(postId: string): void {
-		this.feedService.toggleSave(postId).subscribe()
 		this.posts.update(items => items.filter(p => p.id !== postId))
+		this.feedService.toggleSave(postId).subscribe({
+			next: result => {
+				this.postActions.saveChanged$.next({ postId, saved: result.active, savesCount: 0 })
+			},
+		})
 	}
 }

@@ -1,27 +1,11 @@
 import { inject, Injectable } from '@angular/core'
-import { firstValueFrom, from, Observable } from 'rxjs'
-import { Apollo } from 'apollo-angular'
+import { from, map, Observable, switchMap } from 'rxjs'
 import { Post, PostCategory, Recipe, RecipeStep } from '@core/models/post/post.model'
 import { SupabaseService } from '@core/services/supabase.service'
-import { DISCOVER_FEED_QUERY, HOME_FEED_QUERY, LIKED_POSTS_QUERY, POST_CARD_FRAGMENT, SAVED_POSTS_QUERY, TOGGLE_LIKE_MUTATION, TOGGLE_SAVE_MUTATION } from '@graphql/feed.mutations'
+import { POST_REPOSITORY } from '@core/repositories/tokens/repository.tokens'
+import type { GqlPostNode } from '@core/repositories/post/post-repository'
 
-// ── GraphQL post shape (PostCardFields fragment) ──────────────────────────────
-export interface GqlPostNode {
-	id: string
-	post_type: string
-	title: string | null
-	description: string | null
-	created_at: string
-	likes_count: number
-	comments_count: number
-	saves_count: number
-	liked?: boolean
-	saved?: boolean
-	categories?: string[] | null
-	author: { id: string; username: string | null; display_name: string | null; avatar_url: string | null } | null
-	post_media: { id: string; media_url: string; media_type: string; position: number }[] | null
-	recipe: { id: string; name: string; description: string | null; steps: string | null; time_required: number | null; estimated_cost: number | null; servings: number | null; difficulty: string | null } | null
-}
+export type { GqlPostNode } from '@core/repositories/post/post-repository'
 
 export interface CreatePostInput {
 	title?: string | null
@@ -45,38 +29,124 @@ export interface ToggleResult {
 @Injectable({ providedIn: 'root' })
 export class FeedService {
 	private readonly supabase = inject(SupabaseService)
-	private readonly apollo   = inject(Apollo)
+	private readonly repo     = inject(POST_REPOSITORY)
 
-	/** Lee posts del backend GraphQL (tiene los permisos service_role). */
-	async fetchDiscoverGql(limit: number, offset = 0, category: string | null = null): Promise<Post[]> {
-		const res = await firstValueFrom(
-			this.apollo.query<{ discoverFeed: GqlPostNode[] }>({
-				query: DISCOVER_FEED_QUERY,
-				variables: { limit, offset, category: category ?? undefined },
-				fetchPolicy: 'network-only',
+	// ── Feed ────────────────────────────────────────────────────────────────
+
+	getHomeFeed(limit = 12, after?: string | null): Observable<FeedPage> {
+		const offset = after ? Number(after) || 0 : 0
+		return this.repo.fetchHomeFeed(limit, offset).pipe(
+			map(nodes => {
+				const posts = nodes.map(n => this.mapGqlPost(n))
+				const hasNextPage = posts.length === limit
+				const endCursor = hasNextPage ? String(offset + limit) : null
+				return { posts, endCursor, hasNextPage, totalCount: posts.length }
 			}),
 		)
-		return (res.data?.discoverFeed ?? []).map(n => this.mapGqlPost(n))
+	}
+
+	getPostById(id: string): Observable<Post> {
+		return from(this.fetchPostById(id))
+	}
+
+	getSavedPosts(limit = 24, cursor?: string | null): Observable<FeedPage> {
+		return this.repo.fetchSavedPosts(limit, cursor ?? null).pipe(
+			map(result => ({
+				posts: result.posts.map(n => this.mapGqlPost(n)),
+				endCursor: result.nextCursor,
+				hasNextPage: result.hasNextPage,
+				totalCount: result.posts.length,
+			})),
+		)
+	}
+
+	getLikedPosts(limit = 24): Observable<FeedPage> {
+		return this.repo.fetchLikedPosts(limit, 0).pipe(
+			map(nodes => ({
+				posts: nodes.map(n => this.mapGqlPost(n)),
+				endCursor: null,
+				hasNextPage: false,
+				totalCount: nodes.length,
+			})),
+		)
+	}
+
+	/** Lee posts del backend GraphQL (discover). */
+	async fetchDiscoverGql(limit: number, offset = 0, category: string | null = null): Promise<Post[]> {
+		return new Promise((resolve, reject) => {
+			this.repo.fetchDiscoverFeed(limit, offset, category).subscribe({
+				next: nodes => resolve(nodes.map(n => this.mapGqlPost(n))),
+				error: reject,
+			})
+		})
 	}
 
 	/** Lee guardados del usuario actual vía GraphQL (cursor-based). */
 	async fetchSavedGql(limit = 24, cursor?: string | null): Promise<{ posts: Post[]; nextCursor: string | null; hasNextPage: boolean }> {
-		const res = await firstValueFrom(
-			this.apollo.query<{ savedPosts: { posts: GqlPostNode[]; nextCursor: string | null; hasNextPage: boolean } }>({
-				query: SAVED_POSTS_QUERY,
-				variables: { limit, cursor: cursor ?? undefined },
-				fetchPolicy: 'network-only',
-			}),
-		)
-		const data = res.data?.savedPosts
-		return {
-			posts: (data?.posts ?? []).map(n => this.mapGqlPost(n)),
-			nextCursor: data?.nextCursor ?? null,
-			hasNextPage: data?.hasNextPage ?? false,
-		}
+		return new Promise((resolve, reject) => {
+			this.repo.fetchSavedPosts(limit, cursor ?? null).subscribe({
+				next: result => resolve({
+					posts: result.posts.map(n => this.mapGqlPost(n)),
+					nextCursor: result.nextCursor,
+					hasNextPage: result.hasNextPage,
+				}),
+				error: reject,
+			})
+		})
 	}
 
-	/** Mapea la forma GraphQL (PostCardFields) al modelo Post. */
+	/** Lee los posts que le gustan al usuario actual vía GraphQL. */
+	async fetchLikedGql(limit = 24, offset = 0): Promise<Post[]> {
+		return new Promise((resolve, reject) => {
+			this.repo.fetchLikedPosts(limit, offset).subscribe({
+				next: nodes => resolve(nodes.map(n => this.mapGqlPost(n))),
+				error: reject,
+			})
+		})
+	}
+
+	// ── Interactions ─────────────────────────────────────────────────────────
+
+	toggleLike(postId: string): Observable<ToggleResult> {
+		return this.repo.toggleLike(postId).pipe(
+			map(data => ({ active: data.liked, count: data.likes })),
+		)
+	}
+
+	toggleSave(postId: string): Observable<ToggleResult> {
+		return this.repo.toggleSave(postId).pipe(
+			map(data => ({ active: data.saved, count: data.saves })),
+		)
+	}
+
+	// ── Create ───────────────────────────────────────────────────────────────
+
+	createPost(input: CreatePostInput): Observable<Post> {
+		return from(this.supabase.client.auth.getUser()).pipe(
+			switchMap(({ data: auth }) => {
+				const userId = auth.user?.id
+				if (!userId) throw new Error('No autenticado')
+				return this.repo.createPost({
+					userId,
+					description: input.description,
+					title: input.title ?? null,
+					postType: 'POST',
+				}).pipe(
+					switchMap(postId => {
+						if (input.mediaUrl) {
+							return this.repo.insertPostMedia(postId, input.mediaUrl, input.mediaType ?? 'image').pipe(
+								switchMap(() => this.getPostById(postId)),
+							)
+						}
+						return this.getPostById(postId)
+					}),
+				)
+			}),
+		)
+	}
+
+	// ── Mapping ──────────────────────────────────────────────────────────────
+
 	mapGqlPost(n: GqlPostNode): Post {
 		const media = (n.post_media ?? [])
 			.slice()
@@ -129,186 +199,18 @@ export class FeedService {
 		}
 	}
 
-	// ── Feed ────────────────────────────────────────────────────────────────
-
-	getHomeFeed(limit = 12, after?: string | null): Observable<FeedPage> {
-		return from(this.fetchHomeFeed(limit, after))
-	}
-
-	getPostById(id: string): Observable<Post> {
-		return from(this.fetchPostById(id))
-	}
-
-	getSavedPosts(limit = 24, cursor?: string | null): Observable<FeedPage> {
-		return from(this.fetchSavedPosts(limit, cursor))
-	}
-
-	getLikedPosts(limit = 24): Observable<FeedPage> {
-		return from(this.fetchLikedPosts(limit))
-	}
-
-	/** Lee los posts que le gustan al usuario actual vía GraphQL. */
-	async fetchLikedGql(limit = 24, offset = 0): Promise<Post[]> {
-		const res = await firstValueFrom(
-			this.apollo.query<{ likedPosts: GqlPostNode[] }>({
-				query: LIKED_POSTS_QUERY,
-				variables: { limit, offset },
-				fetchPolicy: 'network-only',
-			}),
-		)
-		return (res.data?.likedPosts ?? []).map(n => this.mapGqlPost(n))
-	}
-
-	// ── Interactions ─────────────────────────────────────────────────────────
-
-	toggleLike(postId: string): Observable<ToggleResult> {
-		return from(this.doToggleLike(postId))
-	}
-
-	toggleSave(postId: string): Observable<ToggleResult> {
-		return from(this.doToggleSave(postId))
-	}
-
-	// ── Create ───────────────────────────────────────────────────────────────
-
-	createPost(input: CreatePostInput): Observable<Post> {
-		return from(this.doCreatePost(input))
-	}
-
 	// ── Private helpers ───────────────────────────────────────────────────────
 
-	private async fetchHomeFeed(limit: number, after?: string | null): Promise<FeedPage> {
-		const offset = after ? Number(after) || 0 : 0
-		const res = await firstValueFrom(
-			this.apollo.query<{ feed: GqlPostNode[] }>({
-				query: HOME_FEED_QUERY,
-				variables: { limit, offset },
-				fetchPolicy: 'network-only',
-			}),
-		)
-		const posts = (res.data?.feed ?? []).map(n => this.mapGqlPost(n))
-		const hasNextPage = posts.length === limit
-		const endCursor = hasNextPage ? String(offset + limit) : null
-		return { posts, endCursor, hasNextPage, totalCount: posts.length }
-	}
-
-	// El backend aún no expone `post(id)` como query GraphQL singular y el
-	// embed Supabase de `post_media` falla con "permission denied" (falta GRANT).
-	// Buscamos el post siempre con network-only en discoverFeed / savedPosts para
-	// evitar que la caché devuelva valores viewer-relativos obsoletos (liked/saved
-	// con el dev-fallback del backend). El caché de Apollo NO se lee directamente
-	// para `liked`/`saved` ya que esos campos dependen de la sesión del usuario.
 	private async fetchPostById(id: string): Promise<Post> {
-		// Try discover feed first (covers most navigation paths)
-		const discoverHit = await this.fetchDiscoverGql(50).then(posts => posts.find(p => p.id === id))
+		const cached = this.repo.readPostFromCache(id)
+		if (cached) return this.mapGqlPost(cached)
+
+		const discoverHit = await this.fetchDiscoverGql(20).then(posts => posts.find(p => p.id === id))
 		if (discoverHit) return discoverHit
 
-		const savedHit = await this.fetchSavedGql(50).then(r => r.posts.find(p => p.id === id)).catch(() => null)
+		const savedHit = await this.fetchSavedGql(20).then(r => r.posts.find(p => p.id === id)).catch(() => null)
 		if (savedHit) return savedHit
-
-		// Last resort: read from cache (non-viewer-relative fields only, liked/saved default to false)
-		const cached = this.readPostFromApolloCache(id)
-		if (cached) return { ...cached, liked: false, saved: false }
 
 		throw new Error('No se encontró el post')
 	}
-
-	private readPostFromApolloCache(id: string): Post | null {
-		try {
-			const node = this.apollo.client.cache.readFragment<GqlPostNode>({
-				id: this.apollo.client.cache.identify({ __typename: 'posts', id }) ?? `posts:${id}`,
-				fragment: POST_CARD_FRAGMENT,
-				fragmentName: 'PostCardFields',
-			})
-			if (!node || !node.id) return null
-			return this.mapGqlPost(node)
-		} catch {
-			return null
-		}
-	}
-
-	private async fetchSavedPosts(limit: number, cursor?: string | null): Promise<FeedPage> {
-		const result = await this.fetchSavedGql(limit, cursor)
-		return { posts: result.posts, endCursor: result.nextCursor, hasNextPage: result.hasNextPage, totalCount: result.posts.length }
-	}
-
-	private async fetchLikedPosts(limit: number): Promise<FeedPage> {
-		const posts = await this.fetchLikedGql(limit)
-		return { posts, endCursor: null, hasNextPage: false, totalCount: posts.length }
-	}
-
-	private async doToggleLike(postId: string): Promise<ToggleResult> {
-		const res = await firstValueFrom(
-			this.apollo.mutate<{ toggleLike: { postId: string; liked: boolean; likes: number } }>({
-				mutation: TOGGLE_LIKE_MUTATION,
-				variables: { postId },
-				update: (cache, { data }) => {
-					const result = data?.toggleLike
-					if (!result) return
-					cache.modify({
-						id: cache.identify({ __typename: 'posts', id: postId }),
-						fields: {
-							liked: () => result.liked,
-							likes_count: () => result.likes,
-						},
-					})
-				},
-			}),
-		)
-		const data = res.data?.toggleLike
-		return { active: !!data?.liked, count: data?.likes ?? 0 }
-	}
-
-	private async doToggleSave(postId: string): Promise<ToggleResult> {
-		const res = await firstValueFrom(
-			this.apollo.mutate<{ toggleSave: { postId: string; saved: boolean } }>({
-				mutation: TOGGLE_SAVE_MUTATION,
-				variables: { postId },
-				update: (cache, { data }) => {
-					const result = data?.toggleSave
-					if (!result) return
-					cache.modify({
-						id: cache.identify({ __typename: 'posts', id: postId }),
-						fields: {
-							saved: () => result.saved,
-						},
-					})
-				},
-			}),
-		)
-		return { active: !!res.data?.toggleSave?.saved, count: 0 }
-	}
-
-	private async doCreatePost(input: CreatePostInput): Promise<Post> {
-		const { data: auth } = await this.supabase.client.auth.getUser()
-		const userId = auth.user?.id
-		if (!userId) throw new Error('No autenticado')
-
-		const { data: post, error } = await this.supabase.client
-			.from('posts')
-			.insert({
-				user_id:     userId,
-				description: input.description,
-				title:       input.title ?? null,
-				post_type:   'POST',
-			})
-			.select('id')
-			.single()
-
-		if (error) throw new Error(error.message)
-		const postId = (post as { id: string }).id
-
-		if (input.mediaUrl) {
-			await this.supabase.client.from('post_media').insert({
-				post_id:    postId,
-				media_url:  input.mediaUrl,
-				media_type: input.mediaType ?? 'image',
-				position:   0,
-			})
-		}
-
-		// Return full post
-		return this.fetchPostById(postId)
-	}
-
 }

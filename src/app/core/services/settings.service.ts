@@ -1,8 +1,7 @@
 import { inject, Injectable } from '@angular/core'
-import { Apollo } from 'apollo-angular'
-import { from, map, Observable } from 'rxjs'
+import { map, Observable } from 'rxjs'
 import { ThemeService } from '@core/services/theme.service'
-import { MY_SETTINGS_QUERY, UPDATE_SETTINGS_MUTATION } from '@graphql/feed.mutations'
+import { SETTINGS_REPOSITORY } from '@core/repositories/tokens/repository.tokens'
 
 export interface UserSettings {
 	is_private: boolean
@@ -22,29 +21,14 @@ const DEFAULTS: UserSettings = {
 	language: 'es',
 }
 
-interface GqlUserSettings {
-	is_private: boolean
-	language: string
-	theme: string
-	notify_likes: boolean
-	notify_comments: boolean
-	notify_follows: boolean
-}
-
 @Injectable({ providedIn: 'root' })
 export class SettingsService {
-	private readonly apollo = inject(Apollo)
+	private readonly repo = inject(SETTINGS_REPOSITORY)
 	private readonly theme = inject(ThemeService)
 
 	loadSettings(): Observable<UserSettings> {
-		return from(
-			this.apollo.query<{ mySettings: GqlUserSettings | null }>({
-				query: MY_SETTINGS_QUERY,
-				fetchPolicy: 'network-only',
-			}).toPromise(),
-		).pipe(
-			map(res => {
-				const row = res?.data?.mySettings
+		return this.repo.loadSettings().pipe(
+			map(row => {
 				const settings: UserSettings = row ? this.normalize(row) : { ...DEFAULTS }
 				this.applyTheme(settings.theme)
 				return settings
@@ -53,31 +37,14 @@ export class SettingsService {
 	}
 
 	saveSettings(patch: Partial<UserSettings>): Observable<void> {
-		return from(
-			this.apollo.mutate<{ updateSettings: GqlUserSettings }>({
-				mutation: UPDATE_SETTINGS_MUTATION,
-				variables: {
-					is_private:       patch.is_private,
-					language:         patch.language,
-					theme:            patch.theme,
-					notify_likes:     patch.notify_likes,
-					notify_comments:  patch.notify_comments,
-					notify_follows:   patch.notify_follows,
-				},
-			}).toPromise(),
-		).pipe(map(() => void 0))
+		return this.repo.saveSettings(patch)
 	}
 
-	/**
-	 * Delegación al `ThemeService` para mantener una única fuente de verdad.
-	 * Mantenido aquí por compatibilidad con código existente que ya llamaba
-	 * `settingsService.applyTheme(...)`.
-	 */
 	applyTheme(theme: 'light' | 'dark'): void {
 		this.theme.setMode(theme)
 	}
 
-	private normalize(row: GqlUserSettings): UserSettings {
+	private normalize(row: { is_private: boolean; language: string; theme: string; notify_likes: boolean; notify_comments: boolean; notify_follows: boolean }): UserSettings {
 		return {
 			is_private:       row.is_private,
 			language:         row.language || DEFAULTS.language,

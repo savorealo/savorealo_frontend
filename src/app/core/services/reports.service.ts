@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core'
-import { from, map, Observable, switchMap, throwError } from 'rxjs'
+import { from, Observable, switchMap, throwError } from 'rxjs'
 import { SupabaseService } from '@core/services/supabase.service'
+import { REPORT_REPOSITORY } from '@core/repositories/tokens/repository.tokens'
 
 export type ReportCategory = 'SPAM' | 'HATE' | 'VIOLENCE' | 'SEXUAL' | 'FRAUD' | 'OTHER'
 
@@ -22,28 +23,14 @@ export const REPORT_CATEGORIES: ReportCategoryOption[] = [
 
 @Injectable({ providedIn: 'root' })
 export class ReportsService {
+	private readonly repo = inject(REPORT_REPOSITORY)
 	private readonly supabase = inject(SupabaseService)
 
 	createReport(postId: string, category: ReportCategory, detail: string | null): Observable<void> {
 		return from(this.supabase.client.auth.getUser()).pipe(
 			switchMap(({ data: { user } }) => {
 				if (!user) return throwError(() => new Error('Debes iniciar sesión para reportar contenido'))
-				return from(
-					this.supabase.client.from('content_reports').insert({
-						post_id: postId,
-						reporter_id: user.id,
-						category,
-						detail: detail?.trim() || null,
-					}),
-				).pipe(
-					map(({ error }) => {
-						if (error) {
-							// 23505 = unique_violation → ya reportó este post
-							if (error.code === '23505') throw new Error('Ya has reportado este contenido')
-							throw new Error(error.message)
-						}
-					}),
-				)
+				return this.repo.createReport(postId, user.id, category, detail)
 			}),
 		)
 	}
