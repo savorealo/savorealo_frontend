@@ -15,10 +15,11 @@ import { AppShell } from '@shared/components/app-shell/app-shell'
 import { Avatar } from '@shared/components/avatar/avatar'
 import { TimeAgoPipe } from '@shared/pipes/time-ago.pipe'
 import { CommentsSheetComponent } from '@features/feed/comments-sheet.component'
+import { SavoLoader } from '@shared/components/savo-loader/savo-loader'
 
 @Component({
 	selector: 'app-post-detail-page',
-	imports: [AppShell, Avatar, NgOptimizedImage, RouterLink, TimeAgoPipe, CommentsSheetComponent],
+	imports: [AppShell, Avatar, NgOptimizedImage, RouterLink, TimeAgoPipe, CommentsSheetComponent, SavoLoader],
 	host: { ngSkipHydration: 'true' },
 	templateUrl: './post-detail-page.html',
 })

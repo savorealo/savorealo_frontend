@@ -1,10 +1,11 @@
 import { Component, input, output, signal } from '@angular/core'
 import { MessageBubble } from '../message-bubble/message-bubble'
 import { ChatMessage, Conversation } from '../../models/messages.models'
+import { SavoLoader } from '@shared/components/savo-loader/savo-loader'
 
 @Component({
 	selector: 'app-chat-panel',
-	imports: [MessageBubble],
+	imports: [MessageBubble, SavoLoader],
 	templateUrl: './chat-panel.html',
 })
 export class ChatPanel {

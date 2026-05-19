@@ -5,13 +5,14 @@ import { ChatPanel } from './components/chat-panel/chat-panel'
 import { CallOverlay } from './components/call-overlay/call-overlay'
 import { IncomingCall } from './components/incoming-call/incoming-call'
 import { NewConversation } from './components/new-conversation/new-conversation'
+import { SavoLoader } from '@shared/components/savo-loader/savo-loader'
 import { MessagesStore } from '@core/store/messages.store'
 import { CallStore } from '@core/store/call.store'
 import { AuthStore } from '@core/store/auth.store'
 
 @Component({
 	selector: 'app-messages-page',
-	imports: [AppShell, ConversationList, ChatPanel, CallOverlay, IncomingCall, NewConversation],
+	imports: [AppShell, ConversationList, ChatPanel, CallOverlay, IncomingCall, NewConversation, SavoLoader],
 	templateUrl: './messages-page.html',
 })
 export class MessagesPage implements OnDestroy {
