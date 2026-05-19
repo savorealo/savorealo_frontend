@@ -1,4 +1,4 @@
-<app-shell>
+<app-shell [showTopbar]="false">
 	<div #exploreScroll class="h-full overflow-y-auto bg-surface text-on-surface">
 		<!-- Pull-to-refresh indicator -->
 		@if (pullProgress() > 0 || explore.refreshing()) {

@@ -6,6 +6,7 @@ import { GlobalSearchStore }                         from '@core/store/global-se
 import { GlobalSearchPanel }                         from '@shared/components/global-search/global-search-panel'
 import { ThemeService }                              from '@core/services/theme.service'
 import { Topbar }                                    from '@shared/components/topbar/topbar'
+import { ShoppingListService }                       from '@features/shopping-list/shopping-list.service'
 
 interface ShellNavItem {
 	icon: string
@@ -34,6 +35,7 @@ export class AppShell implements OnInit {
 	readonly notifications = inject(NotificationsStore)
 	readonly globalSearch   = inject(GlobalSearchStore)
 	readonly theme          = inject(ThemeService)
+	readonly shoppingList   = inject(ShoppingListService)
 
 	readonly profile    = this.authStore.profile
 	readonly logoUrl    = '/assets/icons/new_logo.png'
@@ -48,7 +50,8 @@ export class AppShell implements OnInit {
 		{ icon: 'pi pi-bookmark',   label: 'Guardados',     route: '/saved' },
 		{ icon: 'pi pi-comments',   label: 'Mensajes',      route: '/chat' },
 		{ icon: 'pi pi-bell',       label: 'Notificaciones',route: '/notifications' },
-		{ icon: 'pi pi-cog',        label: 'Ajustes',       route: '/settings' },
+		{ icon: 'pi pi-shopping-cart', label: 'Compra',      route: '/shopping' },
+		{ icon: 'pi pi-cog',           label: 'Ajustes',     route: '/settings' },
 	]
 
 	readonly mobileNavItems: ShellNavItem[] = [

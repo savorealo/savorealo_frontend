@@ -14,8 +14,8 @@
 				class="flex items-center gap-3 rounded-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
 				aria-label="Ir al feed"
 			>
-				<span class="grid size-11 shrink-0 place-items-center rounded-pill bg-primary shadow-2">
-					<img [src]="logoUrl" alt="" class="logo-roll-in size-full object-contain" />
+				<span class="grid size-11 shrink-0 place-items-center overflow-hidden rounded-pill">
+					<img [src]="logoUrl" alt="" class="size-full object-contain" />
 				</span>
 				<span class="font-display text-headline-sm tracking-tight text-on-surface">
 					savorealo
@@ -53,6 +53,14 @@
 								aria-label="Notificaciones sin leer"
 							>
 								{{ notifications.unreadCount() > 9 ? '9+' : notifications.unreadCount() }}
+							</span>
+						}
+						@if (item.route === '/shopping' && shoppingList.uncheckedCount() > 0) {
+							<span
+								class="absolute -right-2 -top-2 grid min-w-[18px] place-items-center rounded-pill bg-primary px-1 text-[0.625rem] font-black leading-none text-on-primary h-[18px]"
+								aria-label="Ingredientes pendientes"
+							>
+								{{ shoppingList.uncheckedCount() > 9 ? '9+' : shoppingList.uncheckedCount() }}
 							</span>
 						}
 					</span>

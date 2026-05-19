@@ -2,10 +2,11 @@ import { Component, effect, inject, input, model, signal } from '@angular/core'
 import { Post } from '@core/models/post/post.model'
 import { AiRecipeService, VeganRecipeResult } from '@core/services/ai-recipe.service'
 import { DialogModule } from 'primeng/dialog'
+import { SavoLoader } from '@shared/components/savo-loader/savo-loader'
 
 @Component({
   selector: 'app-vegan-convert-modal',
-  imports: [DialogModule],
+  imports: [DialogModule, SavoLoader],
   templateUrl: './vegan-convert-modal.html',
 })
 export class VeganConvertModal {

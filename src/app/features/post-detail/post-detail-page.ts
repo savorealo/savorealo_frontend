@@ -16,6 +16,7 @@ import { Avatar } from '@shared/components/avatar/avatar'
 import { TimeAgoPipe } from '@shared/pipes/time-ago.pipe'
 import { CommentsSheetComponent } from '@features/feed/comments-sheet.component'
 import { SavoLoader } from '@shared/components/savo-loader/savo-loader'
+import { ShoppingListService } from '@features/shopping-list/shopping-list.service'
 
 @Component({
 	selector: 'app-post-detail-page',
@@ -24,16 +25,17 @@ import { SavoLoader } from '@shared/components/savo-loader/savo-loader'
 	templateUrl: './post-detail-page.html',
 })
 export class PostDetailPage implements OnInit {
-	private readonly route = inject(ActivatedRoute)
-	readonly router = inject(Router)
-	private readonly location = inject(Location)
+	private readonly route       = inject(ActivatedRoute)
+	readonly router              = inject(Router)
+	private readonly location    = inject(Location)
 	private readonly feedService = inject(FeedService)
-	private readonly feedStore = inject(FeedStore)
+	private readonly feedStore   = inject(FeedStore)
 	private readonly userService = inject(UserService)
-	private readonly authStore = inject(AuthStore)
-	private readonly toast = inject(ToastService)
-	private readonly postActions = inject(PostActionsService)
-	private readonly destroyRef = inject(DestroyRef)
+	private readonly authStore   = inject(AuthStore)
+	private readonly toast       = inject(ToastService)
+	readonly postActions         = inject(PostActionsService)
+	readonly shoppingList        = inject(ShoppingListService)
+	private readonly destroyRef  = inject(DestroyRef)
 
 	readonly post = signal<Post | null>(null)
 	readonly loading = signal(true)
@@ -79,10 +81,10 @@ export class PostDetailPage implements OnInit {
 		afterNextRender(() => { this._browserReady = true; this.loadFollowStatus() })
 
 		this.postActions.likeChanged$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(e => {
-			this.post.update(p => p?.id === e.postId ? { ...p, liked: e.liked, likesCount: e.likesCount } : p)
+			this.post.update(p => p?.id === e.postId ? ({ ...p, liked: e.liked, likesCount: e.likesCount }) as Post : p)
 		})
 		this.postActions.saveChanged$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(e => {
-			this.post.update(p => p?.id === e.postId ? { ...p, saved: e.saved, savesCount: e.savesCount } : p)
+			this.post.update(p => p?.id === e.postId ? ({ ...p, saved: e.saved, savesCount: e.savesCount }) as Post : p)
 		})
 	}
 
@@ -117,7 +119,7 @@ export class PostDetailPage implements OnInit {
 					raw === 'following' || raw === 'requested' ? raw as 'following' | 'requested' : 'none',
 				)
 			},
-			error: () => {},
+			error: () => {throw new Error('No se pudo cargar el estado de seguimiento')},
 		})
 	}
 
@@ -179,6 +181,17 @@ export class PostDetailPage implements OnInit {
 			liked: !p.liked,
 			likesCount: p.liked ? Math.max(0, p.likesCount - 1) : p.likesCount + 1,
 		} : p)
+	}
+
+	addToShoppingList(): void {
+		const post = this.post()
+		if (!post?.recipe) return
+		const added = this.shoppingList.addFromRecipe(post.recipe, post.title ?? '')
+		if (added > 0) {
+			this.toast.success(`${added} ingrediente${added !== 1 ? 's' : ''} añadido${added !== 1 ? 's' : ''} a la lista`)
+		} else {
+			this.toast.info('Todos los ingredientes ya están en tu lista')
+		}
 	}
 
 	toggleSave(): void {

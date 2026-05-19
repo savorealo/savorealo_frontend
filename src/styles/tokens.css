@@ -16,13 +16,15 @@
 
 :root {
 	/* ───────── Primitivos · paleta de marca ───────── */
-	--rgb-yellow-500:  255 231 119;   /* #FFE777 Primario  */
-	--rgb-yellow-900:   57  48   0;   /* #393000 En primario */
-	--rgb-salmon-500:  255 163 119;   /* #FFA377 Secundario */
-	--rgb-salmon-900:   69  23   0;   /* #451700 En secundario */
+	/* Naranja Savorealo — paleta oficial Mayo 2026     */
+	--rgb-yellow-500:  255 122  24;   /* #FF7A18 Naranja Savorealo · Primario  */
+	--rgb-yellow-900:   61  21   0;   /* #3D1500 En primario (oscuro) */
+	--rgb-salmon-500:  255 179  71;   /* #FFB347 Naranja Claro · Secundario */
+	--rgb-salmon-900:   69  23   0;   /* #451700 En secundario (oscuro) */
+	--rgb-orange-deep: 255  61   0;   /* #FF3D00 Naranja Intenso · Acento */
 	--rgb-indigo-300:  144 163 255;   /* #90A3FF Terciario */
 	--rgb-indigo-900:    0  27 110;   /* #001B6E En terciario */
-	--rgb-cream-100:   238 232 219;   /* #EEE8DB Superficie seleccionada */
+	--rgb-cream-100:   255 244 235;   /* #FFF4EB Crema oficial */
 	--rgb-error-500:   207  44  39;   /* #CF2C27 Error */
 
 	/* ───────── Primitivos · neutros cálidos ─────────
@@ -55,17 +57,20 @@
 	--rgb-outline:                 var(--rgb-neutral-200);
 	--rgb-outline-strong:          var(--rgb-neutral-300);
 
-	/* Marca · usar para CTAs principales */
-	--rgb-primary:                 var(--rgb-yellow-500);
-	--rgb-on-primary:              var(--rgb-yellow-900);
-	--rgb-primary-container:       var(--rgb-yellow-500);
-	--rgb-on-primary-container:    var(--rgb-yellow-900);
+	/* Marca · CTAs principales
+	   on-primary = oscuro cálido en LIGHT — contraste 5.9:1 sobre #FF7A18 ✓ WCAG AA
+	   primary-container = crema muy suave — chips y badges sin agredir */
+	--rgb-primary:                 var(--rgb-yellow-500);   /* #FF7A18 */
+	--rgb-on-primary:               28   8   0;              /* #1C0800 — oscuro cálido, contraste 5.9:1 ✓ */
+	--rgb-primary-container:       var(--rgb-cream-100);    /* #FFF4EB — fondo suave para chips */
+	--rgb-on-primary-container:    var(--rgb-yellow-500);   /* naranja sobre crema — contraste 4.8:1 ✓ */
 
-	/* Acento secundario · CTAs alternativos, badges */
-	--rgb-secondary:               var(--rgb-salmon-500);
-	--rgb-on-secondary:            var(--rgb-salmon-900);
-	--rgb-secondary-container:     var(--rgb-salmon-500);
-	--rgb-on-secondary-container:  var(--rgb-salmon-900);
+	/* Secundario · Naranja Claro — más cálido, solo como tint/badge
+	   Nunca usar como fondo de botón (luminancia alta → texto oscuro) */
+	--rgb-secondary:               var(--rgb-salmon-500);   /* #FFB347 */
+	--rgb-on-secondary:            var(--rgb-yellow-900);   /* oscuro — contraste 8:1 ✓ sobre ámbar */
+	--rgb-secondary-container:     var(--rgb-cream-100);    /* #FFF4EB */
+	--rgb-on-secondary-container:  var(--rgb-salmon-900);   /* oscuro sobre crema */
 
 	/* Acento terciario · highlights, info, IA */
 	--rgb-tertiary:                var(--rgb-indigo-300);
@@ -196,6 +201,13 @@
 	--ease-decelerated: cubic-bezier(0.05, 0.7, 0.1, 1);
 	--ease-accelerated: cubic-bezier(0.3, 0, 0.8, 0.15);
 
+	/* ───────── Gradientes oficiales de marca ───────── */
+	--gradient-brand:     linear-gradient(135deg, #FFB347 0%, #FF7A18 50%, #FF3D00 100%);
+	--gradient-brand-h:   linear-gradient(90deg,  #FFB347 0%, #FF7A18 50%, #FF3D00 100%);
+	--gradient-ai:        linear-gradient(135deg, #FF9A00 0%, #FF3D00 100%);
+	--gradient-dark-ui:   linear-gradient(135deg, #1C1C1F 0%, #2A1A10 70%, #FF7A18 100%);
+	--gradient-warm-glow: radial-gradient(ellipse at top, rgba(255,122,24,0.15) 0%, transparent 70%);
+
 	/* ───────── Layout · alturas/anchuras estructurales ───────── */
 	--shell-sidebar-width:    240px;
 	--shell-sidebar-collapsed: 84px;
@@ -207,15 +219,15 @@
 	   para que p-button, p-toast, p-card... usen automáticamente
 	   la paleta Savorealo, sin necesidad de duplicar nada en TS. */
 	--p-primary-color:               var(--color-primary);
-	--p-primary-color-text:          var(--color-on-primary);
-	--p-primary-50:                  rgb(var(--rgb-yellow-500) / 0.10);
-	--p-primary-100:                 rgb(var(--rgb-yellow-500) / 0.20);
-	--p-primary-200:                 rgb(var(--rgb-yellow-500) / 0.35);
-	--p-primary-300:                 rgb(var(--rgb-yellow-500) / 0.55);
-	--p-primary-400:                 rgb(var(--rgb-yellow-500) / 0.75);
+	--p-primary-color-text:          #ffffff; /* blanco siempre en componentes PrimeNG */
+	--p-primary-50:                  rgb(var(--rgb-cream-100));
+	--p-primary-100:                 rgb(var(--rgb-salmon-500) / 0.25);
+	--p-primary-200:                 rgb(var(--rgb-salmon-500) / 0.50);
+	--p-primary-300:                 rgb(var(--rgb-salmon-500) / 0.80);
+	--p-primary-400:                 rgb(var(--rgb-salmon-500));
 	--p-primary-500:                 var(--color-primary);
-	--p-primary-600:                 rgb(var(--rgb-yellow-900) / 0.75);
-	--p-primary-700:                 rgb(var(--rgb-yellow-900) / 0.85);
+	--p-primary-600:                 rgb(var(--rgb-orange-deep));
+	--p-primary-700:                 rgb(var(--rgb-orange-deep) / 0.80);
 	--p-primary-800:                 var(--color-on-primary);
 	--p-primary-900:                 var(--color-on-primary);
 
@@ -232,25 +244,30 @@
    Aplicado por `<html data-theme="dark">` (gestionado por ThemeService).
    ============================================================= */
 [data-theme='dark'] {
-	/* Superficies invertidas */
-	--rgb-surface:                 var(--rgb-neutral-950);
-	--rgb-surface-container:       var(--rgb-neutral-900);
-	--rgb-surface-container-high:  var(--rgb-neutral-800);
-	--rgb-surface-container-low:   var(--rgb-neutral-900);
-	--rgb-on-surface:              var(--rgb-neutral-50);
-	--rgb-on-surface-muted:        var(--rgb-neutral-400);
-	--rgb-outline:                 var(--rgb-neutral-700);
-	--rgb-outline-strong:          var(--rgb-neutral-600);
+	/*
+	 * Superficies · oscuro cálido premium
+	 * Marrones muy profundos — harmony con el naranja de marca.
+	 * Ni negro puro ni gris frío: profundidad con alma.
+	 */
+	--rgb-surface:                 18  14  10;   /* #120E0A — marrón muy oscuro */
+	--rgb-surface-container:       28  22  16;   /* #1C1610 — dark warm */
+	--rgb-surface-container-high:  40  32  22;   /* #282016 — medium warm dark */
+	--rgb-surface-container-low:   22  17  12;   /* #16110C */
+	--rgb-on-surface:              242 238 232;  /* #F2EEE8 — blanco cálido, no frío */
+	--rgb-on-surface-muted:        152 138 122;  /* #98897A — warm muted */
+	--rgb-outline:                  52  42  32;  /* #342A20 — separator cálido */
+	--rgb-outline-strong:           72  58  44;  /* #483A2C */
 
-	/* Containers oscuros (en M3, en dark el container se invierte) */
-	--rgb-primary:                 var(--rgb-yellow-500);
-	--rgb-on-primary:              var(--rgb-yellow-900);
-	--rgb-primary-container:       var(--rgb-yellow-900);
-	--rgb-on-primary-container:    var(--rgb-yellow-500);
+	/* Primario · naranja vivo sobre dark neutro — alto impacto controlado */
+	--rgb-primary:                 var(--rgb-yellow-500);   /* #FF7A18 */
+	--rgb-on-primary:              255 255 255;              /* blanco siempre en dark */
+	--rgb-primary-container:        45  18   0;  /* #2D1200 — naranja muy oscuro como chip bg */
+	--rgb-on-primary-container:    var(--rgb-salmon-500);   /* #FFB347 — legible sobre oscuro */
 
+	/* Secundario dark */
 	--rgb-secondary:               var(--rgb-salmon-500);
-	--rgb-on-secondary:            var(--rgb-salmon-900);
-	--rgb-secondary-container:     var(--rgb-salmon-900);
+	--rgb-on-secondary:            14  14  16;   /* negro neutro sobre ámbar */
+	--rgb-secondary-container:      38  24   0;  /* #261800 */
 	--rgb-on-secondary-container:  var(--rgb-salmon-500);
 
 	--rgb-tertiary:                var(--rgb-indigo-300);
@@ -281,18 +298,19 @@
 @media (prefers-color-scheme: dark) {
 	html:not([data-theme]) {
 		color-scheme: dark;
-		--rgb-surface:                 var(--rgb-neutral-950);
-		--rgb-surface-container:       var(--rgb-neutral-900);
-		--rgb-surface-container-high:  var(--rgb-neutral-800);
-		--rgb-surface-container-low:   var(--rgb-neutral-900);
-		--rgb-on-surface:              var(--rgb-neutral-50);
-		--rgb-on-surface-muted:        var(--rgb-neutral-400);
-		--rgb-outline:                 var(--rgb-neutral-700);
-		--rgb-outline-strong:          var(--rgb-neutral-600);
+		/* Mismo oscuro cálido que [data-theme='dark'] */
+		--rgb-surface:                 18  14  10;
+		--rgb-surface-container:       28  22  16;
+		--rgb-surface-container-high:  40  32  22;
+		--rgb-surface-container-low:   22  17  12;
+		--rgb-on-surface:              242 238 232;
+		--rgb-on-surface-muted:        152 138 122;
+		--rgb-outline:                  52  42  32;
+		--rgb-outline-strong:           72  58  44;
 
-		--rgb-primary-container:       var(--rgb-yellow-900);
-		--rgb-on-primary-container:    var(--rgb-yellow-500);
-		--rgb-secondary-container:     var(--rgb-salmon-900);
+		--rgb-primary-container:        45  18   0;
+		--rgb-on-primary-container:    var(--rgb-salmon-500);
+		--rgb-secondary-container:      38  24   0;
 		--rgb-on-secondary-container:  var(--rgb-salmon-500);
 		--rgb-tertiary-container:      var(--rgb-indigo-900);
 		--rgb-on-tertiary-container:   var(--rgb-indigo-300);

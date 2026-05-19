@@ -78,7 +78,8 @@
 
 	<button
 		type="button"
-		class="mt-7 flex min-h-14 w-full items-center justify-center gap-3 rounded-2xl bg-primary text-title-md font-bold text-on-primary shadow-2 transition-all duration-fast ease-standard hover:shadow-3 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60 sm:min-h-16"
+		class="mt-7 flex min-h-14 w-full items-center justify-center gap-3 rounded-2xl text-title-md font-bold text-white shadow-2 transition-all duration-fast ease-standard hover:shadow-4 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60 sm:min-h-16"
+	style="background: var(--gradient-ai); box-shadow: 0 4px 24px rgba(255,122,24,0.35)"
 		[disabled]="!store.canGenerate()"
 		(click)="store.generate()"
 	>

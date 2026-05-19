@@ -95,7 +95,7 @@
 		@if (post().recipe) {
 			<button
 				type="button"
-				class="inline-flex min-h-11 items-center justify-center gap-1.5 rounded-pill bg-primary-container px-3 text-label-md font-bold text-on-primary-container transition-all duration-fast ease-standard hover:shadow-1 active:scale-[0.98]"
+				class="btn-cta inline-flex min-h-11 items-center justify-center gap-1.5 rounded-pill px-3 text-label-md transition-all duration-fast ease-standard active:scale-[0.98]"
 				(click)="openCookingMode()"
 				aria-label="Modo cocina"
 			>
@@ -108,13 +108,18 @@
 		@if (preferences.veganMode()) {
 			<button
 				type="button"
-				class="inline-flex min-h-11 items-center justify-center gap-1.5 rounded-pill bg-green-100 px-3 text-label-md font-bold text-green-700 transition-all duration-fast ease-standard hover:bg-green-200 hover:shadow-1 active:scale-[0.98]"
+				class="inline-flex min-h-11 items-center justify-center gap-1.5 rounded-pill px-2.5 text-label-md font-semibold transition-all duration-fast ease-standard active:scale-[0.98]"
+				style="color: #16a34a;"
 				(click)="veganModalOpen.set(true)"
 				aria-label="Convertir a versión vegana"
-				title="Crear versión vegana"
+				onmouseenter="this.style.background='rgba(34,197,94,0.1)'"
+				onmouseleave="this.style.background=''"
 			>
-				<span class="text-base leading-none">🌱</span>
-				<span class="hidden min-[390px]:inline">Veganizar</span>
+				<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+					<path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/>
+					<path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
+				</svg>
+				<span class="hidden min-[390px]:inline">Vegano</span>
 			</button>
 		}
 

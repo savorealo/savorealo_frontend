@@ -190,11 +190,51 @@
 		border-radius: var(--radius-lg);
 	}
 
-	/* Gradiente de marca (logo, splashes) */
-	.brand-gradient {
-		background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
-		color: var(--color-on-primary);
+	/* ── Gradientes oficiales Savorealo ── */
+	.gradient-brand     { background: var(--gradient-brand);    color: #fff; }
+	.gradient-brand-h   { background: var(--gradient-brand-h);  color: #fff; }
+	.gradient-ai        { background: var(--gradient-ai);       color: #fff; }
+	.gradient-dark-ui   { background: var(--gradient-dark-ui);  color: #fff; }
+	.gradient-warm-glow { background: var(--gradient-warm-glow); }
+	.brand-gradient     { background: var(--gradient-brand);    color: #fff; }
+
+	/*
+	 * Sistema de botones — jerarquía de 3 niveles:
+	 *
+	 * 1. .btn-cta    → gradiente brand · UN solo CTA por pantalla
+	 * 2. bg-primary  → naranja sólido #FF7A18 · acciones importantes
+	 * 3. bg-primary-container → crema #FFF4EB · chips, badges, estados
+	 *
+	 * Los botones bg-primary usan texto blanco siempre.
+	 * font-weight mínimo 600 para compensar el contraste borderline.
+	 */
+	/*
+	 * Fuerza el color del token en botones primarios.
+	 * Light mode → oscuro cálido #1C0800 (5.9:1 sobre naranja ✓)
+	 * Dark mode  → blanco (token se sobreescribe en [data-theme='dark'])
+	 * El !important es necesario porque los templates usan text-white explícito.
+	 */
+	button.bg-primary,
+	a.bg-primary {
+		color: rgb(var(--rgb-on-primary)) !important;
+		font-weight: 600;
 	}
+
+	button.bg-primary:hover,
+	a.bg-primary:hover {
+		filter: brightness(1.06);
+	}
+
+	/* CTA único → hereda el mismo sistema de color */
+	.btn-cta {
+		background: var(--gradient-brand);
+		color: rgb(var(--rgb-on-primary)) !important;
+		font-weight: 700;
+		box-shadow: 0 2px 16px rgba(255, 122, 24, 0.28);
+	}
+
+	.btn-cta:hover  { filter: brightness(1.07); }
+	.btn-cta:active { transform: scale(0.98); }
 
 	/* Animación de entrada compartida (fade + slide) */
 	.animate-rise-in {

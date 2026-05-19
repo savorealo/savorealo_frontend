@@ -1,0 +1,208 @@
+<app-shell>
+	<div class="mx-auto max-w-2xl px-4 py-6 pb-28">
+
+		<!-- Header -->
+		<div class="mb-6 flex items-center justify-between gap-3">
+			<div>
+				<h1 class="font-display text-headline-md text-on-surface">Lista de la compra</h1>
+				@if (list.totalCount() > 0) {
+					<p class="mt-0.5 text-body-sm font-medium text-on-surface-muted">
+						{{ list.uncheckedCount() }} pendientes · {{ checkedCount() }} listos
+					</p>
+				}
+			</div>
+
+			@if (list.totalCount() > 0) {
+				<div class="flex items-center gap-2">
+					<!-- Compartir -->
+					<button type="button"
+						class="grid size-10 place-items-center rounded-full border border-outline text-on-surface-muted transition hover:bg-surface-container hover:text-on-surface active:scale-95"
+						(click)="share()"
+						aria-label="Compartir lista">
+						<i class="pi pi-share-alt text-base"></i>
+					</button>
+					<!-- Vaciar -->
+					<button type="button"
+						class="grid size-10 place-items-center rounded-full border border-outline text-on-surface-muted transition hover:bg-error/10 hover:text-error active:scale-95"
+						(click)="confirmClear.set(true)"
+						aria-label="Vaciar lista">
+						<i class="pi pi-trash text-base"></i>
+					</button>
+				</div>
+			}
+		</div>
+
+		<!-- Input manual de ingredientes -->
+		<div class="mb-5 overflow-hidden rounded-2xl border border-outline bg-surface-container">
+			<div class="border-b border-outline px-4 py-2.5">
+				<p class="text-label-md font-bold text-on-surface-muted">Añadir ingrediente</p>
+			</div>
+			<form class="flex gap-2 p-3" (ngSubmit)="addManual()">
+				<input
+					type="text"
+					class="min-h-10 flex-1 rounded-xl border border-outline bg-surface px-3 text-body-sm font-semibold text-on-surface outline-none placeholder:text-on-surface-muted focus:border-primary focus:ring-2 focus:ring-primary/20"
+					placeholder="Nombre del ingrediente"
+					[ngModel]="manualName()"
+					(ngModelChange)="manualName.set($event)"
+					name="manualName"
+					autocomplete="off"
+				/>
+				<input
+					type="number"
+					class="min-h-10 w-20 rounded-xl border border-outline bg-surface px-3 text-body-sm font-semibold text-on-surface outline-none placeholder:text-on-surface-muted focus:border-primary focus:ring-2 focus:ring-primary/20"
+					placeholder="Cant."
+					[ngModel]="manualQuantity()"
+					(ngModelChange)="manualQuantity.set($event)"
+					name="manualQty"
+					min="0"
+				/>
+				<input
+					type="text"
+					class="min-h-10 w-20 rounded-xl border border-outline bg-surface px-3 text-body-sm font-semibold text-on-surface outline-none placeholder:text-on-surface-muted focus:border-primary focus:ring-2 focus:ring-primary/20"
+					placeholder="Ud."
+					[ngModel]="manualUnit()"
+					(ngModelChange)="manualUnit.set($event)"
+					name="manualUnit"
+					autocomplete="off"
+				/>
+				<button type="submit"
+					class="grid size-10 shrink-0 place-items-center rounded-xl bg-primary text-on-primary transition hover:opacity-90 active:scale-95 disabled:opacity-40"
+					[disabled]="!manualName().trim()">
+					<i class="pi pi-plus text-sm"></i>
+				</button>
+			</form>
+		</div>
+
+		<!-- Confirm clear dialog -->
+		@if (confirmClear()) {
+			<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+				<div class="w-full max-w-sm rounded-3xl bg-surface p-6 shadow-4">
+					<h3 class="mb-2 text-title-md font-bold text-on-surface">¿Vaciar la lista?</h3>
+					<p class="mb-5 text-body-sm text-on-surface-muted">Se eliminarán todos los ingredientes.</p>
+					<div class="flex gap-3">
+						<button type="button"
+							class="flex-1 rounded-2xl border border-outline py-3 text-body-sm font-bold text-on-surface transition hover:bg-surface-container"
+							(click)="confirmClear.set(false)">
+							Cancelar
+						</button>
+						<button type="button"
+							class="flex-1 rounded-2xl bg-error py-3 text-body-sm font-bold text-on-error transition hover:opacity-90"
+							(click)="clearAll()">
+							Vaciar
+						</button>
+					</div>
+				</div>
+			</div>
+		}
+
+		<!-- Empty state -->
+		@if (list.totalCount() === 0) {
+			<div class="flex flex-col items-center justify-center gap-4 py-20 text-center">
+				<div class="grid size-20 place-items-center rounded-full bg-surface-container-high">
+					<i class="pi pi-shopping-cart text-3xl text-on-surface-muted"></i>
+				</div>
+				<div>
+					<p class="text-title-md font-bold text-on-surface">Tu lista está vacía</p>
+					<p class="mt-1 text-body-sm text-on-surface-muted">Añade ingredientes desde cualquier receta</p>
+				</div>
+				<a routerLink="/explore"
+					class="inline-flex items-center gap-2 rounded-2xl bg-primary px-5 py-3 text-body-sm font-bold text-on-primary transition hover:opacity-90">
+					<i class="pi pi-search"></i>
+					Explorar recetas
+				</a>
+			</div>
+		}
+
+		<!-- Barra de acciones rápidas -->
+		@if (checkedCount() > 0) {
+			<div class="mb-4 flex items-center justify-between rounded-2xl bg-surface-container px-4 py-3">
+				<span class="text-body-sm font-medium text-on-surface-muted">
+					{{ checkedCount() }} ingrediente{{ checkedCount() !== 1 ? 's' : '' }} marcado{{ checkedCount() !== 1 ? 's' : '' }}
+				</span>
+				<button type="button"
+					class="text-body-sm font-bold text-error transition hover:underline"
+					(click)="clearChecked()">
+					Eliminar marcados
+				</button>
+			</div>
+		}
+
+		<!-- Grupos por receta -->
+		<div class="grid gap-4">
+			@for (group of list.groups(); track group.recipeId) {
+				<section class="overflow-hidden rounded-2xl border border-outline bg-surface-container">
+
+					<!-- Cabecera del grupo -->
+					<div class="flex items-center justify-between gap-2 border-b border-outline px-4 py-3">
+						<div class="flex items-center gap-2 min-w-0">
+							<i class="pi pi-book shrink-0 text-sm text-on-surface-muted"></i>
+							<h2 class="truncate text-label-md font-bold text-on-surface">{{ group.recipeName }}</h2>
+							@if (group.allChecked) {
+								<span class="shrink-0 rounded-pill bg-[#22c55e]/15 px-2 py-0.5 text-[0.65rem] font-black text-[#16a34a]">
+									¡Completo!
+								</span>
+							}
+						</div>
+						<button type="button"
+							class="grid size-7 shrink-0 place-items-center rounded-full text-on-surface-muted transition hover:bg-surface-container-high hover:text-error active:scale-95"
+							(click)="removeGroup(group.recipeId)"
+							aria-label="Eliminar grupo">
+							<i class="pi pi-times text-xs"></i>
+						</button>
+					</div>
+
+					<!-- Items -->
+					<ul class="divide-y divide-outline">
+						@for (item of group.items; track item.key) {
+							<li class="flex items-center gap-3 px-4 py-3.5 transition-colors duration-fast"
+								[class.bg-surface-container-high]="item.checked">
+								<!-- Checkbox -->
+								<button type="button"
+									class="grid size-5 shrink-0 place-items-center rounded-full border-2 transition-all duration-fast"
+									[class]="item.checked
+										? 'border-[#22c55e] bg-[#22c55e]'
+										: 'border-outline hover:border-primary'"
+									(click)="toggleItem(item.key)"
+									[attr.aria-label]="item.checked ? 'Desmarcar ' + item.name : 'Marcar ' + item.name">
+									@if (item.checked) {
+										<i class="pi pi-check text-[0.55rem] text-white"></i>
+									}
+								</button>
+
+								<!-- Nombre -->
+								<span class="flex-1 text-body-sm font-semibold transition-colors"
+									[class]="item.checked ? 'text-on-surface-muted line-through' : 'text-on-surface'">
+									{{ item.name }}
+								</span>
+
+								<!-- Cantidad + botón Amazon -->
+								<div class="flex items-center gap-2">
+									@if (item.quantity) {
+										<span class="text-label-md font-bold tabular-nums text-on-surface-muted">
+											{{ item.quantity }} {{ item.unit }}
+										</span>
+									}
+									<a [href]="amazonUrl(item.name)" target="_blank" rel="noopener noreferrer"
+										class="grid size-7 shrink-0 place-items-center rounded-lg bg-[#FF9900]/10 text-[#FF9900] transition hover:bg-[#FF9900]/25 active:scale-95"
+										[attr.aria-label]="'Buscar ' + item.name + ' en Amazon'"
+										(click)="$event.stopPropagation()">
+										<i class="pi pi-shopping-cart text-[0.65rem]"></i>
+									</a>
+								</div>
+							</li>
+						}
+					</ul>
+
+					<!-- Footer: comprar toda la receta en Amazon -->
+					<div class="border-t border-outline px-4 py-3">
+						<a [href]="amazonUrl(group.recipeName + ' ingredientes cocina')" target="_blank" rel="noopener noreferrer"
+							class="flex w-full items-center justify-center gap-2 rounded-xl bg-[#FF9900]/10 py-2 text-label-md font-bold text-[#FF9900] transition hover:bg-[#FF9900]/20 active:scale-[0.98]">
+							<i class="pi pi-external-link text-xs"></i>
+							Buscar todo en Amazon
+						</a>
+					</div>
+				</section>
+			}
+		</div>
+	</div>
+</app-shell>

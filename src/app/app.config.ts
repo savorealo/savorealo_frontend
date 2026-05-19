@@ -45,16 +45,16 @@ import { MessageSupabaseRepository } from '@core/repositories/message/message-su
 const SavorealoPreset = definePreset(Aura, {
   semantic: {
     primary: {
-      50:  '#fffdf0',
-      100: '#fffbd9',
-      200: '#fff5a3',
-      300: '#ffef7d',
-      400: '#ffeb60',
-      500: '#ffe777',
-      600: '#b89e00',
-      700: '#826f00',
-      800: '#5c4f00',
-      900: '#393000',
+      50:  '#FFF4EB',  // Crema
+      100: '#FFE8D2',
+      200: '#FFD0A6',
+      300: '#FFB96E',
+      400: '#FFB347',  // Naranja Claro
+      500: '#FF7A18',  // Naranja Savorealo — MAIN
+      600: '#FF3D00',  // Naranja Intenso
+      700: '#CC3000',
+      800: '#992400',
+      900: '#3D1500',  // on-primary oscuro
     },
   },
 })

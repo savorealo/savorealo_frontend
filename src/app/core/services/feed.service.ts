@@ -7,11 +7,21 @@ import type { GqlPostNode } from '@core/repositories/post/post-repository'
 
 export type { GqlPostNode } from '@core/repositories/post/post-repository'
 
+export interface CreatePostRecipeInput {
+	name: string
+	difficulty?: string | null
+	timeRequired?: number | null
+	servings?: number | null
+	ingredients: { name: string; quantity: number; unit: string }[]
+	steps: { order: number; text: string }[]
+}
+
 export interface CreatePostInput {
 	title?: string | null
 	description: string
 	mediaUrl?: string | null
 	mediaType?: string | null
+	recipe?: CreatePostRecipeInput | null
 }
 
 export interface FeedPage {

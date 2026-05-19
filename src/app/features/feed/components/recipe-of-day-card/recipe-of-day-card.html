@@ -1,13 +1,28 @@
 <section>
 	<h2 class="mb-2 text-title-sm font-bold text-on-surface">Receta del día</h2>
-	<article class="relative aspect-[1.45] overflow-hidden rounded-2xl border border-outline bg-surface-container shadow-2">
-		<img [src]="imageUrl" alt="Pancakes de avena" class="h-full w-full object-cover" />
-		<div class="absolute bottom-3 left-3 w-[62%] rounded-2xl bg-surface/85 p-3 shadow-2 backdrop-blur-md">
-			<h3 class="text-body-sm font-bold leading-tight text-on-surface">Pancakes de avena</h3>
-			<p class="mt-1 text-label-md font-medium leading-tight text-on-surface-muted">y plátanos rojos</p>
-			<button type="button" class="mt-2 inline-flex min-h-11 items-center rounded-pill bg-primary px-4 text-body-sm font-bold text-on-primary transition-all duration-fast ease-standard hover:shadow-2 active:scale-95">
-				Ver receta
-			</button>
+
+	@if (loading()) {
+		<div class="aspect-[1.45] rounded-2xl bg-surface-container-low animate-pulse"></div>
+	} @else if (post()) {
+		<article class="relative aspect-[1.45] overflow-hidden rounded-2xl border border-outline bg-surface-container shadow-2">
+			<img [src]="imageUrl" [alt]="title" class="h-full w-full object-cover" />
+			<div class="absolute bottom-3 left-3 w-[62%] rounded-2xl bg-surface/85 p-3 shadow-2 backdrop-blur-md">
+				<h3 class="text-body-sm font-bold leading-tight text-on-surface">{{ title }}</h3>
+				@if (post()?.recipe?.timeRequired) {
+					<p class="mt-0.5 text-label-md font-medium leading-tight text-on-surface-muted">{{ post()!.recipe!.timeRequired }} min</p>
+				}
+				<button
+					type="button"
+					(click)="viewRecipe()"
+					class="mt-2 inline-flex min-h-11 items-center rounded-pill bg-primary px-4 text-body-sm font-bold transition-all duration-fast ease-standard hover:shadow-2 active:scale-95"
+				>
+					Ver receta
+				</button>
+			</div>
+		</article>
+	} @else {
+		<div class="flex aspect-[1.45] items-center justify-center rounded-2xl border border-outline bg-surface-container text-body-sm text-on-surface-muted">
+			Sin receta destacada hoy
 		</div>
-	</article>
+	}
 </section>

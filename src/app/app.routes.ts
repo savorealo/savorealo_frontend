@@ -103,6 +103,13 @@ export const routes: Routes = [
         loadComponent: () => import('@features/places/place-detail-page').then(c => c.PlaceDetailPage),
     },
     {
+        path: 'shopping',
+        title: 'Lista de la compra | Savorealo',
+        canMatch: [authMatchGuard],
+        canActivate: [authGuard],
+        loadComponent: () => import('@features/shopping-list/shopping-list-page').then(c => c.ShoppingListPage),
+    },
+    {
         path: '**',
         redirectTo: '',
     },
