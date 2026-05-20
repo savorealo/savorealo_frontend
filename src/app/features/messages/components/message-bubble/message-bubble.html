@@ -1,59 +1,141 @@
-<div class="flex gap-3" [ngClass]="isMine() ? 'justify-end' : 'justify-start'">
+<div class="flex w-full min-w-0 scroll-mt-24 gap-2 transition-shadow duration-normal sm:gap-3" [attr.data-message-id]="message().id" [ngClass]="isMine() ? 'justify-end' : 'justify-start'">
 	@if (!isMine()) {
-		<img [src]="conversation().user.avatarUrl" [alt]="conversation().user.name" class="mt-auto size-9 rounded-full object-cover shadow-sm" />
+		<img [src]="conversation().user.avatarUrl" [alt]="conversation().user.name" class="mt-auto size-8 shrink-0 rounded-pill object-cover shadow-1 sm:size-9" />
 	}
 
 	@if (message().typing) {
-		<div class="rounded-2xl bg-white px-5 py-3 shadow-[0_8px_24px_rgba(20,20,20,0.08)]">
+		<div class="rounded-2xl border border-outline bg-surface-container px-5 py-3 shadow-2">
 			<span class="flex items-center gap-1">
-				<span class="size-2 rounded-full bg-black/25"></span>
-				<span class="size-2 rounded-full bg-black/25"></span>
-				<span class="size-2 rounded-full bg-black/25"></span>
+				<span class="size-2 rounded-pill bg-on-surface-muted"></span>
+				<span class="size-2 rounded-pill bg-on-surface-muted"></span>
+				<span class="size-2 rounded-pill bg-on-surface-muted"></span>
 			</span>
 		</div>
 	} @else {
 		<div
-			class="max-w-[min(80%,38rem)] overflow-hidden rounded-3xl text-sm font-bold leading-6 shadow-[0_10px_30px_rgba(20,20,20,0.08)]"
-			[ngClass]="isMine() ? 'bg-orange-50 text-black' : 'bg-white text-black'"
+			class="group flex min-w-0 items-end gap-1.5 sm:gap-2"
+			[class.flex-row-reverse]="isMine()"
+			[ngClass]="isMine() ? 'max-w-[min(92%,38rem)]' : 'max-w-[calc(100%-2.75rem)] sm:max-w-[min(80%,38rem)]'"
 		>
-			@if (message().text) {
-				<div class="flex items-end gap-4 px-5 py-3">
-					<p class="whitespace-pre-line">{{ message().text }}</p>
+			<button
+				type="button"
+				class="grid size-7 shrink-0 place-items-center rounded-pill text-on-surface-muted opacity-100 transition duration-fast ease-standard hover:bg-primary-container hover:text-on-primary-container sm:size-8 sm:opacity-0 sm:group-hover:opacity-100"
+				(click)="reply.emit(message())"
+				aria-label="Responder mensaje"
+			>
+				<i class="pi pi-reply text-sm"></i>
+			</button>
+
+			<div
+				data-message-surface
+				class="min-w-0 max-w-full overflow-hidden rounded-2xl border text-sm font-bold leading-6 shadow-2"
+				[ngClass]="isMine() ? 'border-primary/15 bg-primary-container text-on-surface' : 'border-outline bg-surface-container text-on-surface'"
+			>
+				@if (message().replyTo; as replyTo) {
+					<button
+						type="button"
+						class="mx-3 mt-3 block max-w-[calc(100%-1.5rem)] overflow-hidden rounded-xl border border-outline/70 bg-surface-container-low px-3 py-2 text-left transition duration-fast ease-standard hover:border-primary/40 hover:bg-primary-container/50"
+						(click)="navigateToMessage.emit(replyTo.id)"
+					>
+						<p class="truncate text-xs font-black text-primary">{{ replyTo.senderName }}</p>
+						<p class="mt-0.5 line-clamp-2 max-h-9 break-words text-xs font-semibold leading-[1.125rem] text-on-surface-muted">{{ replyTo.text }}</p>
+					</button>
+				}
+
+			@if (sharedPostId(); as postId) {
+				<app-shared-post-card
+					[postId]="postId"
+					[authorId]="sharedPostAuthorId()"
+				/>
+			}
+
+			@if (sharedProfileId() || sharedProfileUsername()) {
+				<app-shared-profile-card
+					[userId]="sharedProfileId()"
+					[username]="sharedProfileUsername()"
+				/>
+			}
+
+			@if (message().text && !hasSharedReference()) {
+				<div class="flex min-w-0 items-end gap-2 px-3 py-2.5 sm:gap-4 sm:px-5 sm:py-3">
+					<div class="min-w-0 flex-1 whitespace-normal break-words [overflow-wrap:anywhere] [&_span+span]:mt-1" [innerHTML]="(expanded() ? message().text : (message().text | truncate:textLimit)) | messageMarkdown"></div>
+					<div class="shrink-0">
+						@if (hasLongText()) {
+							<button
+								type="button"
+								class="inline min-h-0 align-baseline text-sm font-black text-primary hover:underline"
+								(click)="expanded.set(!expanded())"
+							>
+								{{ expanded() ? 'ver menos' : 'ver más' }}
+							</button>
+						}
+					</div>
 					@if (message().time) {
-						<span class="shrink-0 text-xs font-black text-black/35">{{ message().time }}</span>
+						<span class="shrink-0 text-xs font-black text-on-surface-muted">{{ message().time }}</span>
 					}
 					@if (isMine()) {
-						<i class="pi pi-check text-xs text-orange-500"></i>
+						<span
+							class="inline-flex shrink-0 items-center gap-1 text-xs font-black"
+							[ngClass]="message().deliveryStatus === 'seen' ? 'text-primary' : 'text-on-surface-muted'"
+							[attr.aria-label]="message().deliveryStatus === 'seen' ? 'Visto' : 'Enviado'"
+						>
+							<i class="pi" [ngClass]="message().deliveryStatus === 'seen' ? 'pi-check-circle' : 'pi-check'"></i>
+							<span class="sr-only">{{ message().deliveryStatus === 'seen' ? 'Visto' : 'Enviado' }}</span>
+						</span>
+					}
+				</div>
+			}
+
+			@if (hasSharedReference() && message().time) {
+				<div class="flex justify-end gap-2 px-4 pb-3 text-xs font-black text-on-surface-muted">
+					<span>{{ message().time }}</span>
+					@if (isMine()) {
+						<span
+							class="inline-flex items-center gap-1"
+							[ngClass]="message().deliveryStatus === 'seen' ? 'text-primary' : 'text-on-surface-muted'"
+							[attr.aria-label]="message().deliveryStatus === 'seen' ? 'Visto' : 'Enviado'"
+						>
+							<i class="pi" [ngClass]="message().deliveryStatus === 'seen' ? 'pi-check-circle' : 'pi-check'"></i>
+							<span class="sr-only">{{ message().deliveryStatus === 'seen' ? 'Visto' : 'Enviado' }}</span>
+						</span>
 					}
 				</div>
 			}
 
 			@if (message().attachment; as recipe) {
-				<div class="grid overflow-hidden border-t border-black/5 bg-white sm:grid-cols-[210px_minmax(0,1fr)]">
+				<div class="grid overflow-hidden border-t border-outline bg-surface-container sm:grid-cols-[210px_minmax(0,1fr)]">
 					<img [src]="recipe.imageUrl" [alt]="recipe.title" class="h-44 w-full object-cover sm:h-full" />
 					<div class="grid content-between gap-4 p-5">
 						<div>
-							<h3 class="text-lg font-black leading-6 text-black">{{ recipe.title }}</h3>
-							<p class="mt-2 text-sm font-semibold text-black/50">
+							<h3 class="text-lg font-black leading-6 text-on-surface">{{ recipe.title }}</h3>
+							<p class="mt-2 text-sm font-semibold text-on-surface-muted">
 								<i class="pi pi-user"></i>
 								Por {{ recipe.author }}
 							</p>
 						</div>
-						<a class="inline-flex items-center gap-2 text-sm font-black text-orange-500">
+						<a class="inline-flex items-center gap-2 text-sm font-black text-primary">
 							Ver receta
 							<i class="pi pi-chevron-right text-xs"></i>
 						</a>
 					</div>
 				</div>
 				@if (message().time) {
-					<div class="flex justify-end gap-2 px-4 pb-3 text-xs font-black text-black/35">
+					<div class="flex justify-end gap-2 px-4 pb-3 text-xs font-black text-on-surface-muted">
 						<span>{{ message().time }}</span>
 						@if (isMine()) {
-							<i class="pi pi-check text-orange-500"></i>
+							<span
+								class="inline-flex items-center gap-1"
+								[ngClass]="message().deliveryStatus === 'seen' ? 'text-primary' : 'text-on-surface-muted'"
+								[attr.aria-label]="message().deliveryStatus === 'seen' ? 'Visto' : 'Enviado'"
+							>
+								<i class="pi" [ngClass]="message().deliveryStatus === 'seen' ? 'pi-check-circle' : 'pi-check'"></i>
+								<span class="sr-only">{{ message().deliveryStatus === 'seen' ? 'Visto' : 'Enviado' }}</span>
+							</span>
 						}
 					</div>
 				}
 			}
+			</div>
 		</div>
 	}
 </div>

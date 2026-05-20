@@ -27,6 +27,7 @@ export class PostCard {
 	post = input.required<Post>()
 	onComment = output<Post>()
 	onReport = output<Post>()
+	onShare = output<Post>()
 
 	expanded       = signal(false)
 	likeAnimating  = signal(false)

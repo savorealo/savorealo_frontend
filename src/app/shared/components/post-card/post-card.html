@@ -64,7 +64,7 @@
 		</a>
 	}
 
-	<footer class="grid grid-cols-[auto_auto_auto_1fr] items-center gap-2 px-0 pt-1 text-on-surface sm:flex sm:gap-5 sm:px-4">
+	<footer class="grid grid-cols-[auto_auto_auto_auto_1fr] items-center gap-2 px-0 pt-1 text-on-surface sm:flex sm:gap-5 sm:px-4">
 		<!-- Like -->
 		<button
 			type="button"
@@ -89,6 +89,17 @@
 		>
 			<i class="pi pi-comment text-base"></i>
 			<span>{{ post().commentsCount }}</span>
+		</button>
+
+		<!-- Share -->
+		<button
+			type="button"
+			class="inline-flex min-h-11 items-center gap-1.5 rounded-pill px-2 text-body-sm font-bold transition-colors duration-fast ease-standard hover:bg-surface-container hover:text-primary active:scale-[0.98]"
+			(click)="onShare.emit(post())"
+			aria-label="Enviar post"
+		>
+			<i class="pi pi-send text-base"></i>
+			<span class="hidden min-[390px]:inline">Enviar</span>
 		</button>
 
 		<!-- Cooking mode (solo si tiene receta) -->

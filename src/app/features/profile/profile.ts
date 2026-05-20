@@ -14,10 +14,11 @@ import { Router, RouterLink } from '@angular/router'
 import { EditProfileComponent } from './edit-profile/edit-profile'
 import { NgOptimizedImage } from '@angular/common'
 import { ImgFallbackDirective } from '@shared/directives/img-fallback.directive'
+import { ShareProfileModal, ShareableProfile } from '@features/messages/components/share-profile-modal/share-profile-modal'
 
 @Component({
   selector: 'app-profile',
-  imports: [AppShell, Avatar, TabsModule, DialogModule, RouterLink, EditProfileComponent, NgOptimizedImage, ImgFallbackDirective],
+  imports: [AppShell, Avatar, TabsModule, DialogModule, RouterLink, EditProfileComponent, NgOptimizedImage, ImgFallbackDirective, ShareProfileModal],
   templateUrl: './profile.html',
 })
 export class Profile {
@@ -32,6 +33,7 @@ export class Profile {
   readonly posts = signal<Post[]>([])
   readonly loadingPosts = signal(false)
   readonly showEditProfile = signal(false)
+  readonly sharingProfile = signal<ShareableProfile | null>(null)
 
   readonly savedPosts = signal<Post[]>([])
   readonly loadingSaved = signal(false)
@@ -118,6 +120,18 @@ export class Profile {
     this.activeTab.set(tab)
     if (tab === '1') this.loadSaved()
     if (tab === '2') this.loadLiked()
+  }
+
+  openShareProfile(): void {
+    const profile = this.profile()
+    const id = this.authStore.currentUserId()
+    if (!profile || !id) return
+    this.sharingProfile.set({
+      id,
+      username: profile.username,
+      displayName: profile.fullName,
+      photoUrl: profile.photo_url,
+    })
   }
 
   logOut(): void {

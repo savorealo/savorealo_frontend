@@ -4,6 +4,8 @@ export interface MessageUser {
 	username: string
 	avatarUrl: string
 	online?: boolean
+	lastSeenAt?: string | null
+	statusText?: string
 	verified?: boolean
 }
 
@@ -15,12 +17,20 @@ export interface Conversation {
 	time: string
 	unread: number
 	group?: boolean
+	typing?: boolean
 }
 
 export interface RecipeAttachment {
 	title: string
 	author: string
 	imageUrl: string
+}
+
+export interface MessageReply {
+	id: string
+	senderName: string
+	text: string
+	isMine: boolean
 }
 
 export interface ChatMessage {
@@ -30,6 +40,15 @@ export interface ChatMessage {
 	sender: 'me' | 'them'
 	text?: string
 	time?: string
+	createdAt?: string
+	readAt?: string | null
+	deliveryStatus?: 'sent' | 'seen'
+	sharedPostId?: string | null
+	sharedPostAuthorId?: string | null
+	sharedProfileId?: string | null
+	sharedProfileUsername?: string | null
+	replyToMessageId?: string | null
+	replyTo?: MessageReply | null
 	typing?: boolean
 	attachment?: RecipeAttachment
 }

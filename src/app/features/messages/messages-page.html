@@ -1,4 +1,4 @@
-<app-shell>
+<app-shell [showTopbar]="false">
 	<!-- Global overlays -->
 	<app-incoming-call />
 	<app-call-overlay />
@@ -48,7 +48,10 @@
 					[messages]="store.messages()"
 					[loading]="store.loadingMessages()"
 					[isTyping]="store.isTyping()"
-					(sendMessage)="store.sendMessage($event)"
+					[loadingMore]="store.loadingMoreMessages()"
+					[hasMore]="store.hasMoreMessages()"
+					(sendMessage)="store.sendMessage($event.text, $event.replyTo)"
+					(loadOlderMessages)="store.loadOlderMessages()"
 					(typing)="store.onTyping()"
 					(startCall)="onStartCall($event)"
 					(back)="store.clearActive()"

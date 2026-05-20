@@ -1,9 +1,18 @@
 import { inject, Injectable } from '@angular/core'
 import { forkJoin, map, Observable, of, switchMap } from 'rxjs'
 import { RealtimeChannel } from '@supabase/supabase-js'
-import { ChatMessage, Conversation } from '@features/messages/models/messages.models'
+import { ChatMessage, Conversation, MessageReply } from '@features/messages/models/messages.models'
 import { MESSAGE_REPOSITORY } from '@core/repositories/tokens/repository.tokens'
 import type { ConversationRow, MessageRow } from '@core/repositories/message/message-repository'
+
+export interface MessagesPageResult {
+	messages: ChatMessage[]
+	hasMore: boolean
+}
+
+const SHARED_POST_TOKEN = '__shared_post__:'
+const SHARED_POST_LINK_PREFIX = '/post/'
+const SHARED_PROFILE_TOKEN = '__shared_profile__:'
 
 @Injectable({ providedIn: 'root' })
 export class MessagesService {
@@ -39,9 +48,17 @@ export class MessagesService {
 		)
 	}
 
-	getMessages(conversationId: string, currentUserId: string): Observable<ChatMessage[]> {
-		return this.repo.getMessages(conversationId, 60).pipe(
-			map(rows => rows.map(row => this.mapMessage(row, currentUserId))),
+	getMessages(conversationId: string, currentUserId: string, limit = 30, beforeCreatedAt?: string | null): Observable<MessagesPageResult> {
+		return this.repo.getMessages(conversationId, limit + 1, beforeCreatedAt).pipe(
+			map(rows => {
+				const hasMore = rows.length > limit
+				const pageRows = hasMore ? rows.slice(1) : rows
+				const messages = pageRows.map(row => this.mapMessage(row, currentUserId))
+				return {
+					messages: messages.map(message => this.withReplyPreview(message, messages, currentUserId)),
+					hasMore,
+				}
+			}),
 		)
 	}
 
@@ -50,9 +67,16 @@ export class MessagesService {
 		senderId: string,
 		receiverId: string,
 		content: string,
+		replyToMessageId?: string | null,
+		sharedPostId?: string | null,
+		sharedPostAuthorId?: string | null,
 	): Observable<ChatMessage> {
+		const storedContent = sharedPostId
+			? this.buildSharedPostContent(sharedPostId, sharedPostAuthorId)
+			: content
+
 		return forkJoin([
-			this.repo.sendMessage(conversationId, senderId, receiverId, content),
+			this.repo.sendMessage(conversationId, senderId, receiverId, storedContent, replyToMessageId, sharedPostId, sharedPostAuthorId),
 			this.repo.updateConversationPreview(conversationId, content),
 		]).pipe(
 			map(([row]) => this.mapMessage(row, senderId)),
@@ -68,14 +92,24 @@ export class MessagesService {
 		currentUserId: string,
 		callbacks: {
 			onMessage: (msg: ChatMessage) => void
-			onTyping: () => void
+			onUpdate: (msg: ChatMessage) => void
 		},
 	): RealtimeChannel {
 		return this.repo.subscribeToConversation(
 			conversationId,
 			row => callbacks.onMessage(this.mapMessage(row, currentUserId)),
-			payload => { if (payload.userId !== currentUserId) callbacks.onTyping() },
+			row => callbacks.onUpdate(this.mapMessage(row, currentUserId)),
 		)
+	}
+
+	subscribeToTyping(
+		conversationId: string,
+		currentUserId: string,
+		onTyping: (conversationId: string) => void,
+	): RealtimeChannel {
+		return this.repo.subscribeToTyping(conversationId, payload => {
+			if (payload.userId !== currentUserId) onTyping(payload.conversationId)
+		})
 	}
 
 	sendTyping(conversationId: string, userId: string): void {
@@ -101,32 +135,128 @@ export class MessagesService {
 				username: profile?.username ?? '',
 				avatarUrl: profile?.photo_url ?? '',
 				online: false,
+				lastSeenAt: profile?.last_seen_at ?? null,
+				statusText: profile?.last_seen_at ? this.formatLastSeen(new Date(profile.last_seen_at)) : 'Desconectado',
 			},
 			lastMessage: row.last_message_preview ?? '',
 			lastMessageAt: row.last_message_at,
-			time: row.last_message_at ? this.formatTime(new Date(row.last_message_at)) : '',
+			time: row.last_message_at ? this.formatConversationTime(new Date(row.last_message_at)) : '',
 			unread,
 			group: isGroup,
 		}
 	}
 
 	private mapMessage(row: MessageRow, currentUserId: string): ChatMessage {
+		const parsedSharedPost = this.parseSharedPostContent(row.content) ?? this.parseSharedPostLink(row.content)
+		const parsedSharedProfile = this.parseSharedProfileContent(row.content) ?? this.parseSharedProfileLink(row.content)
+
 		return {
 			id: row.id,
 			conversationId: row.conversation_id,
 			senderId: row.sender_id,
 			sender: row.sender_id === currentUserId ? 'me' : 'them',
-			text: row.content,
-			time: this.formatTime(new Date(row.created_at)),
+			text: parsedSharedPost ? 'Post compartido' : parsedSharedProfile ? 'Perfil compartido' : row.content,
+			time: this.formatMessageTime(new Date(row.created_at)),
+			createdAt: row.created_at,
+			readAt: row.read_at,
+			deliveryStatus: row.sender_id === currentUserId && row.read_at ? 'seen' : 'sent',
+			sharedPostId: row.shared_post_id || parsedSharedPost?.postId || null,
+			sharedPostAuthorId: row.shared_post_author_id || parsedSharedPost?.authorId || null,
+			sharedProfileId: parsedSharedProfile?.userId ?? null,
+			sharedProfileUsername: parsedSharedProfile?.username ?? null,
+			replyToMessageId: row.reply_to_message_id,
 		}
 	}
 
-	private formatTime(date: Date): string {
+	buildReplyPreview(message: ChatMessage, messages: ChatMessage[], currentUserId: string, otherUserName = 'Usuario'): ChatMessage {
+		return this.withReplyPreview(message, messages, currentUserId, otherUserName)
+	}
+
+	private withReplyPreview(message: ChatMessage, messages: ChatMessage[], currentUserId: string, otherUserName = 'Usuario'): ChatMessage {
+		if (!message.replyToMessageId) return message
+		const original = messages.find(item => item.id === message.replyToMessageId)
+		if (!original) return message
+
+		const replyTo: MessageReply = {
+			id: original.id,
+			senderName: original.senderId === currentUserId ? 'Tu' : otherUserName,
+			text: this.previewText(original.text),
+			isMine: original.senderId === currentUserId,
+		}
+
+		return { ...message, replyTo }
+	}
+
+	private formatMessageTime(date: Date): string {
+		return date.toLocaleTimeString('es', { hour: '2-digit', minute: '2-digit' })
+	}
+
+	private formatConversationTime(date: Date): string {
 		const now = new Date()
 		const diffDays = Math.floor((now.getTime() - date.getTime()) / 86400000)
 		if (diffDays === 0) return date.toLocaleTimeString('es', { hour: '2-digit', minute: '2-digit' })
 		if (diffDays === 1) return 'Ayer'
 		if (diffDays < 7) return date.toLocaleDateString('es', { weekday: 'short' })
 		return date.toLocaleDateString('es', { day: 'numeric', month: 'short' })
+	}
+
+	formatLastSeen(date: Date): string {
+		const time = date.getTime()
+		if (Number.isNaN(time)) return 'Desconectado'
+
+		const now = Date.now()
+		const diffMinutes = Math.max(0, Math.floor((now - time) / 60000))
+		if (diffMinutes < 1) return 'Activo hace un momento'
+		if (diffMinutes < 60) return `Activo hace ${diffMinutes} min`
+
+		const diffHours = Math.floor(diffMinutes / 60)
+		if (diffHours < 24) return `Activo hace ${diffHours} h`
+
+		const diffDays = Math.floor(diffHours / 24)
+		if (diffDays === 1) return 'Activo ayer'
+		if (diffDays < 7) return `Activo hace ${diffDays} dias`
+
+		return `Activo el ${date.toLocaleDateString('es', { day: 'numeric', month: 'short' })}`
+	}
+
+	private previewText(text?: string): string {
+		const clean = (text ?? 'Mensaje').replace(/\s+/g, ' ').trim()
+		return clean.length > 120 ? `${clean.slice(0, 117)}...` : clean
+	}
+
+	private buildSharedPostContent(postId: string, authorId?: string | null): string {
+		return `${SHARED_POST_TOKEN}${postId}:${authorId ?? ''}\n${SHARED_POST_LINK_PREFIX}${postId}`
+	}
+
+	private parseSharedPostContent(content: string): { postId: string; authorId: string | null } | null {
+		if (!content.startsWith(SHARED_POST_TOKEN)) return null
+		const raw = content.slice(SHARED_POST_TOKEN.length).split(/\s+/)[0]
+		const [postId, authorId] = raw.split(':')
+		if (!postId) return null
+		return { postId, authorId: authorId || null }
+	}
+
+	private parseSharedPostLink(content: string): { postId: string; authorId: string | null } | null {
+		const match = content.match(/(?:^|\s)\/post\/([0-9a-fA-F-]{20,})/)
+		if (!match?.[1]) return null
+		return { postId: match[1], authorId: null }
+	}
+
+	buildSharedProfileContent(userId: string, username?: string | null): string {
+		return `${SHARED_PROFILE_TOKEN}${userId}:${username ?? ''}\n/profile/${username ?? userId}`
+	}
+
+	private parseSharedProfileContent(content: string): { userId: string; username: string | null } | null {
+		if (!content.startsWith(SHARED_PROFILE_TOKEN)) return null
+		const raw = content.slice(SHARED_PROFILE_TOKEN.length).split(/\s+/)[0]
+		const [userId, username] = raw.split(':')
+		if (!userId) return null
+		return { userId, username: username || null }
+	}
+
+	private parseSharedProfileLink(content: string): { userId: string | null; username: string } | null {
+		const match = content.match(/(?:^|\s)\/profile\/([A-Za-z0-9_.-]+)/)
+		if (!match?.[1]) return null
+		return { userId: null, username: match[1] }
 	}
 }
