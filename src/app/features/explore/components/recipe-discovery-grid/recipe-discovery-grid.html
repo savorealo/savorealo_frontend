@@ -26,7 +26,7 @@
 	} @else {
 		<div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
 			@for (post of posts(); track post.id) {
-				<app-recipe-discovery-card [post]="post" (save)="save.emit($event)" />
+				<app-recipe-discovery-card [post]="post" />
 			}
 		</div>
 	}

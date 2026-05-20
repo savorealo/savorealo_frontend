@@ -19,8 +19,6 @@
 					[isEmpty]="feed.isEmpty()"
 					[error]="feed.error()"
 					[hasNextPage]="feed.hasNextPage()"
-					(like)="feed.toggleLike($event)"
-					(save)="feed.toggleSave($event)"
 					(comment)="openComments($event)"
 					(report)="openReport($event)"
 					(retry)="feed.loadHomeFeed()"

@@ -1,11 +1,10 @@
-import { afterNextRender, Component, computed, DestroyRef, inject, OnInit, signal } from '@angular/core'
+import { afterNextRender, Component, computed, DestroyRef, inject, signal } from '@angular/core'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { Location } from '@angular/common'
 import { ActivatedRoute, Router, RouterLink } from '@angular/router'
 import { NgOptimizedImage } from '@angular/common'
 import { finalize } from 'rxjs'
 import { FeedService } from '@core/services/feed.service'
-import { FeedStore } from '@core/store/feed.store'
 import { UserService } from '@core/services/user.service'
 import { AuthStore } from '@core/store/auth.store'
 import { ToastService } from '@core/services/toast.service'
@@ -24,12 +23,11 @@ import { ShoppingListService } from '@features/shopping-list/shopping-list.servi
 	host: { ngSkipHydration: 'true' },
 	templateUrl: './post-detail-page.html',
 })
-export class PostDetailPage implements OnInit {
+export class PostDetailPage {
 	private readonly route       = inject(ActivatedRoute)
 	readonly router              = inject(Router)
 	private readonly location    = inject(Location)
 	private readonly feedService = inject(FeedService)
-	private readonly feedStore   = inject(FeedStore)
 	private readonly userService = inject(UserService)
 	private readonly authStore   = inject(AuthStore)
 	private readonly toast       = inject(ToastService)
@@ -49,6 +47,23 @@ export class PostDetailPage implements OnInit {
 		const currentUserId = this.authStore.currentUserId()
 		const authorId = this.post()?.author.id
 		return !!currentUserId && !!authorId && currentUserId === authorId
+	})
+
+	readonly liked = computed(() => {
+		const p = this.post()
+		return p ? this.postActions.isLiked(p.id, p.liked) : false
+	})
+	readonly likesCount = computed(() => {
+		const p = this.post()
+		return p ? this.postActions.likesCount(p.id, p.likesCount) : 0
+	})
+	readonly saved = computed(() => {
+		const p = this.post()
+		return p ? this.postActions.isSaved(p.id, p.saved) : false
+	})
+	readonly savesCount = computed(() => {
+		const p = this.post()
+		return p ? this.postActions.savesCount(p.id, p.savesCount) : 0
 	})
 
 	readonly primaryMedia = computed(() => {
@@ -75,35 +90,31 @@ export class PostDetailPage implements OnInit {
 		return this.post()?.recipe?.difficulty ? map[this.post()!.recipe!.difficulty!] : null
 	})
 
-	private _browserReady = false
-
 	constructor() {
-		afterNextRender(() => { this._browserReady = true; this.loadFollowStatus() })
+		afterNextRender(() => {
+			const id = this.route.snapshot.paramMap.get('id')
+			if (!id) {
+				this.router.navigate(['/'])
+				return
+			}
+			this.feedService.getPostById(id).subscribe({
+				next: post => {
+					this.post.set(post)
+					this.loading.set(false)
+					this.loadFollowStatus()
+				},
+				error: err => {
+					this.error.set(err.message ?? 'No se pudo cargar el post')
+					this.loading.set(false)
+				},
+			})
+		})
 
 		this.postActions.likeChanged$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(e => {
 			this.post.update(p => p?.id === e.postId ? ({ ...p, liked: e.liked, likesCount: e.likesCount }) as Post : p)
 		})
 		this.postActions.saveChanged$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(e => {
 			this.post.update(p => p?.id === e.postId ? ({ ...p, saved: e.saved, savesCount: e.savesCount }) as Post : p)
-		})
-	}
-
-	ngOnInit(): void {
-		const id = this.route.snapshot.paramMap.get('id')
-		if (!id) {
-			this.router.navigate(['/'])
-			return
-		}
-		this.feedService.getPostById(id).subscribe({
-			next: post => {
-				this.post.set(post)
-				this.loading.set(false)
-				if (this._browserReady) this.loadFollowStatus()
-			},
-			error: err => {
-				this.error.set(err.message ?? 'No se pudo cargar el post')
-				this.loading.set(false)
-			},
 		})
 	}
 
@@ -173,14 +184,15 @@ export class PostDetailPage implements OnInit {
 	}
 
 	toggleLike(): void {
-		const post = this.post()
-		if (!post) return
-		this.feedStore.toggleLike(post)
-		this.post.update(p => p ? {
-			...p,
-			liked: !p.liked,
-			likesCount: p.liked ? Math.max(0, p.likesCount - 1) : p.likesCount + 1,
-		} : p)
+		const p = this.post()
+		if (!p) return
+		this.postActions.toggleLike(p.id, this.liked(), this.likesCount())
+	}
+
+	toggleSave(): void {
+		const p = this.post()
+		if (!p) return
+		this.postActions.toggleSave(p.id, this.saved(), this.savesCount())
 	}
 
 	addToShoppingList(): void {
@@ -192,16 +204,5 @@ export class PostDetailPage implements OnInit {
 		} else {
 			this.toast.info('Todos los ingredientes ya están en tu lista')
 		}
-	}
-
-	toggleSave(): void {
-		const post = this.post()
-		if (!post) return
-		this.feedStore.toggleSave(post)
-		this.post.update(p => p ? {
-			...p,
-			saved: !p.saved,
-			savesCount: p.saved ? Math.max(0, p.savesCount - 1) : p.savesCount + 1,
-		} : p)
 	}
 }

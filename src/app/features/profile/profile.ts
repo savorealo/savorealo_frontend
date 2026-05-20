@@ -1,4 +1,4 @@
-import { Component, computed, DestroyRef, inject, OnInit, signal } from '@angular/core'
+import { afterNextRender, Component, computed, DestroyRef, inject, signal } from '@angular/core'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { finalize } from 'rxjs'
 import { AuthStore } from '@core/store/auth.store'
@@ -20,7 +20,7 @@ import { ImgFallbackDirective } from '@shared/directives/img-fallback.directive'
   imports: [AppShell, Avatar, TabsModule, DialogModule, RouterLink, EditProfileComponent, NgOptimizedImage, ImgFallbackDirective],
   templateUrl: './profile.html',
 })
-export class Profile implements OnInit {
+export class Profile {
   private readonly authStore = inject(AuthStore)
   private readonly userService = inject(UserService)
   private readonly feedService = inject(FeedService)
@@ -60,6 +60,17 @@ export class Profile implements OnInit {
   ]
 
   constructor() {
+    afterNextRender(() => {
+      const userId = this.authStore.currentUserId()
+      if (!userId) return
+      this.loadingPosts.set(true)
+      this.userService.getUserPosts(userId).pipe(
+        finalize(() => this.loadingPosts.set(false)),
+      ).subscribe({
+        next: page => this.posts.set(page.posts),
+        error: () => {},
+      })
+    })
     this.postActions.likeChanged$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(e => {
       this.posts.update(ps => ps.map(p =>
         p.id === e.postId ? { ...p, liked: e.liked, likesCount: e.likesCount } : p,
@@ -71,18 +82,6 @@ export class Profile implements OnInit {
         p.id === e.postId ? { ...p, saved: e.saved, savesCount: e.savesCount } : p,
       ))
       this.savedLoaded.set(false)
-    })
-  }
-
-  ngOnInit(): void {
-    const userId = this.authStore.currentUserId()
-    if (!userId) return
-    this.loadingPosts.set(true)
-    this.userService.getUserPosts(userId).pipe(
-      finalize(() => this.loadingPosts.set(false)),
-    ).subscribe({
-      next: page => this.posts.set(page.posts),
-      error: () => {},
     })
   }
 

@@ -1,10 +1,9 @@
-import { afterNextRender, Component, computed, ElementRef, inject, OnDestroy, OnInit, signal, viewChild } from '@angular/core'
+import { afterNextRender, Component, computed, ElementRef, inject, OnDestroy, signal, viewChild } from '@angular/core'
 import { RouterLink } from '@angular/router'
 import { NgOptimizedImage } from '@angular/common'
 import { AppShell } from '@shared/components/app-shell/app-shell'
 import { Avatar } from '@shared/components/avatar/avatar'
 import { ExploreStore } from '@core/store/explore.store'
-import { Post } from '@core/models/post/post.model'
 import { SearchService, SearchPost, SearchUser } from '@core/services/search.service'
 import { ExploreCategoryTabs } from './components/explore-category-tabs/explore-category-tabs'
 import { ExploreHero } from './components/explore-hero/explore-hero'
@@ -27,7 +26,7 @@ import { RecipeDiscoveryGrid } from './components/recipe-discovery-grid/recipe-d
 	],
 	templateUrl: './explore-page.html',
 })
-export class ExplorePage implements OnInit, OnDestroy {
+export class ExplorePage implements OnDestroy {
 	private readonly scrollContainer = viewChild<ElementRef<HTMLElement>>('exploreScroll')
 
 	readonly explore = inject(ExploreStore)
@@ -53,13 +52,10 @@ export class ExplorePage implements OnInit, OnDestroy {
 				this.scrollContainer()?.nativeElement.scrollTo({ top: saved })
 			}
 			this.setupPullToRefresh()
+			if (this.explore.isStale()) {
+				this.explore.loadExplore()
+			}
 		})
-	}
-
-	ngOnInit(): void {
-		if (this.explore.isStale()) {
-			this.explore.loadExplore()
-		}
 	}
 
 	ngOnDestroy(): void {
@@ -124,7 +120,4 @@ export class ExplorePage implements OnInit, OnDestroy {
 		})
 	}
 
-	toggleSave(post: Post): void {
-		this.explore.toggleSave(post)
-	}
 }

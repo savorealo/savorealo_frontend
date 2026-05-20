@@ -28,8 +28,6 @@ export class FeedPostList implements OnDestroy {
 	error       = input<string | null>(null)
 	hasNextPage = input(true)
 
-	like    = output<Post>()
-	save    = output<Post>()
 	comment = output<Post>()
 	report  = output<Post>()
 	retry   = output<void>()

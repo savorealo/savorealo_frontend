@@ -1,4 +1,4 @@
-import { afterNextRender, Component, computed, ElementRef, inject, OnInit, signal, viewChild } from '@angular/core'
+import { afterNextRender, Component, computed, ElementRef, inject, signal, viewChild } from '@angular/core'
 import { NgClass } from '@angular/common'
 import { AppShell } from '@shared/components/app-shell/app-shell'
 import { Spinner } from '@shared/components/spinner/spinner'
@@ -15,7 +15,7 @@ const PAGE_SIZE = 18
 	imports: [NgClass, AppShell, SavedRecipeCard, Spinner],
 	templateUrl: './saved-page.html',
 })
-export class SavedPage implements OnInit {
+export class SavedPage {
 	private readonly feedService = inject(FeedService)
 	private readonly postActions = inject(PostActionsService)
 	private readonly sentinel = viewChild<ElementRef<HTMLElement>>('sentinel')
@@ -59,16 +59,15 @@ export class SavedPage implements OnInit {
 	})
 
 	constructor() {
-		afterNextRender(() => this.setupIntersectionObserver())
+		afterNextRender(() => {
+			this.loadPage()
+			this.setupIntersectionObserver()
+		})
 		this.postActions.saveChanged$.subscribe(e => {
 			if (!e.saved) {
 				this.posts.update(items => items.filter(p => p.id !== e.postId))
 			}
 		})
-	}
-
-	ngOnInit(): void {
-		this.loadPage()
 	}
 
 	private loadPage(): void {
@@ -120,11 +119,10 @@ export class SavedPage implements OnInit {
 	}
 
 	removeSaved(postId: string): void {
+		const post = this.posts().find(p => p.id === postId)
 		this.posts.update(items => items.filter(p => p.id !== postId))
-		this.feedService.toggleSave(postId).subscribe({
-			next: result => {
-				this.postActions.saveChanged$.next({ postId, saved: result.active, savesCount: 0 })
-			},
-		})
+		if (post) {
+			this.postActions.toggleSave(postId, true, post.savesCount)
+		}
 	}
 }
