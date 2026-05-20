@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core'
 import { Apollo } from 'apollo-angular'
 import { firstValueFrom, from, map, Observable } from 'rxjs'
 import {
-	CREATE_POST_MUTATION, DISCOVER_FEED_QUERY, HOME_FEED_QUERY, LIKED_POSTS_QUERY,
+	CREATE_POST_MUTATION, CREATE_RECIPE_POST_MUTATION, DISCOVER_FEED_QUERY, HOME_FEED_QUERY, LIKED_POSTS_QUERY,
 	POST_CARD_FRAGMENT, SAVED_POSTS_QUERY, TOGGLE_LIKE_MUTATION,
 	TOGGLE_SAVE_MUTATION, USER_POSTS_QUERY,
 } from '@graphql/feed.mutations'
@@ -123,6 +123,37 @@ export class PostGraphqlRepository implements IPostRepository {
 				},
 			}),
 		)).pipe(map(res => ({ postId, saved: !!res.data?.toggleSave?.saved, saves: res.data?.toggleSave?.saves ?? 0 })))
+	}
+
+	createRecipePost(input: {
+		content: string
+		imageUrl?: string | null
+		recipeName: string
+		difficulty?: string | null
+		timeRequired?: number | null
+		servings?: number | null
+		ingredients: { name: string; quantity: number; unit: string }[]
+		steps: { order: number; text: string }[]
+	}): Observable<GqlPostNode> {
+		return from(firstValueFrom(
+			this.apollo.mutate<{ createRecipePost: GqlPostNode }>({
+				mutation: CREATE_RECIPE_POST_MUTATION,
+				variables: {
+					content:      input.content,
+					imageUrl:     input.imageUrl ?? null,
+					recipeName:   input.recipeName,
+					difficulty:   input.difficulty ?? null,
+					timeRequired: input.timeRequired ?? null,
+					servings:     input.servings ?? null,
+					ingredients:  input.ingredients,
+					steps:        input.steps,
+				},
+			}),
+		)).pipe(map(res => {
+			const post = res.data?.createRecipePost
+			if (!post) throw new Error('No se pudo crear la receta')
+			return post
+		}))
 	}
 
 	createPost(input: { content: string; title?: string | null; imageUrl?: string | null }): Observable<GqlPostNode> {

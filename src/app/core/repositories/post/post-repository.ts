@@ -45,4 +45,14 @@ export interface IPostRepository {
 	toggleLike(postId: string): Observable<ToggleLikeResult>
 	toggleSave(postId: string): Observable<ToggleSaveResult>
 	createPost(input: { content: string; title?: string | null; imageUrl?: string | null }): Observable<GqlPostNode>
+	createRecipePost(input: {
+		content: string
+		imageUrl?: string | null
+		recipeName: string
+		difficulty?: string | null
+		timeRequired?: number | null
+		servings?: number | null
+		ingredients: { name: string; quantity: number; unit: string }[]
+		steps: { order: number; text: string }[]
+	}): Observable<GqlPostNode>
 }

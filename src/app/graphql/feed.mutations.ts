@@ -117,6 +117,33 @@ export const CREATE_POST_MUTATION = gql`
   ${POST_CARD_FRAGMENT}
 `
 
+export const CREATE_RECIPE_POST_MUTATION = gql`
+  mutation CreateRecipePost(
+    $content: String!
+    $imageUrl: String
+    $recipeName: String!
+    $difficulty: String
+    $timeRequired: Int
+    $servings: Int
+    $ingredients: [IngredientInput!]!
+    $steps: [StepInput!]!
+  ) {
+    createRecipePost(
+      content: $content
+      imageUrl: $imageUrl
+      recipeName: $recipeName
+      difficulty: $difficulty
+      timeRequired: $timeRequired
+      servings: $servings
+      ingredients: $ingredients
+      steps: $steps
+    ) {
+      ...PostCardFields
+    }
+  }
+  ${POST_CARD_FRAGMENT}
+`
+
 export const POST_COMMENTS_QUERY = gql`
   query Comments($postId: ID!) {
     comments(postId: $postId) {

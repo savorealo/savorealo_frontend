@@ -130,6 +130,19 @@ export class FeedService {
 	// ── Create ───────────────────────────────────────────────────────────────
 
 	createPost(input: CreatePostInput): Observable<Post> {
+		if (input.recipe) {
+			return this.repo.createRecipePost({
+				content:      input.description,
+				imageUrl:     input.mediaUrl ?? null,
+				recipeName:   input.recipe.name,
+				difficulty:   input.recipe.difficulty ?? null,
+				timeRequired: input.recipe.timeRequired ?? null,
+				servings:     input.recipe.servings ?? null,
+				ingredients:  input.recipe.ingredients,
+				steps:        input.recipe.steps,
+			}).pipe(map(node => this.mapGqlPost(node)))
+		}
+
 		return this.repo.createPost({
 			content:  input.description,
 			title:    input.title ?? null,
