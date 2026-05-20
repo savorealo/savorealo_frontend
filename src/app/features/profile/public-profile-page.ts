@@ -121,6 +121,12 @@ export class PublicProfilePage {
 		})
 	}
 
+	messageUser(): void {
+		const user = this.user()
+		if (!user) return
+		this.router.navigate(['/chat'], { queryParams: { with: user.id } })
+	}
+
 	toggleFollow(): void {
 		const user = this.user()
 		if (!user || this.followLoading()) return

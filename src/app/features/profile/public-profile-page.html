@@ -74,34 +74,43 @@
                       </div>
                     </div>
 
-                    <!-- Follow / Unfollow / Requested -->
-                    <button
-                      type="button"
-                      class="inline-flex h-11 items-center gap-2 rounded-full px-6 text-sm font-black transition disabled:opacity-60"
-                      [class]="user.followStatus === 'following'
-                        ? 'border border-white/30 text-white hover:bg-white/10'
-                        : user.followStatus === 'requested'
-                          ? 'border border-white/30 text-white/70 hover:bg-white/10'
-                          : 'bg-white text-black hover:bg-orange-50'"
-                      [disabled]="followLoading()"
-                      (click)="toggleFollow()"
-                    >
-                      @if (followLoading()) {
-                        <i class="pi pi-spinner pi-spin"></i>
-                      } @else if (user.followStatus === 'following') {
-                        <i class="pi pi-user-minus"></i>
-                        Siguiendo
-                      } @else if (user.followStatus === 'requested') {
-                        <i class="pi pi-clock"></i>
-                        Solicitado
-                      } @else if (followsYou()) {
-                        <i class="pi pi-user-plus"></i>
-                        Seguir también
-                      } @else {
-                        <i class="pi pi-user-plus"></i>
-                        Seguir
-                      }
-                    </button>
+                    <div class="flex flex-wrap items-center gap-3">
+                      <button
+                        type="button"
+                        class="inline-flex h-11 items-center gap-2 rounded-full px-6 text-sm font-black transition disabled:opacity-60"
+                        [class]="user.followStatus === 'following'
+                          ? 'border border-white/30 text-white hover:bg-white/10'
+                          : user.followStatus === 'requested'
+                            ? 'border border-white/30 text-white/70 hover:bg-white/10'
+                            : 'bg-white text-black hover:bg-orange-50'"
+                        [disabled]="followLoading()"
+                        (click)="toggleFollow()"
+                      >
+                        @if (followLoading()) {
+                          <i class="pi pi-spinner pi-spin"></i>
+                        } @else if (user.followStatus === 'following') {
+                          <i class="pi pi-user-minus"></i>
+                          Siguiendo
+                        } @else if (user.followStatus === 'requested') {
+                          <i class="pi pi-clock"></i>
+                          Solicitado
+                        } @else if (followsYou()) {
+                          <i class="pi pi-user-plus"></i>
+                          Seguir también
+                        } @else {
+                          <i class="pi pi-user-plus"></i>
+                          Seguir
+                        }
+                      </button>
+                      <button
+                        type="button"
+                        class="inline-flex h-11 items-center gap-2 rounded-full bg-orange-500 px-6 text-sm font-black text-white transition hover:bg-orange-600"
+                        (click)="messageUser()"
+                      >
+                        <i class="pi pi-send"></i>
+                        Mensaje
+                      </button>
+                    </div>
                   </div>
                 </div>
 
@@ -265,33 +274,43 @@
                       </span>
                     }
                   </div>
-                  <button
-                    type="button"
-                    class="inline-flex h-11 items-center gap-2 rounded-full px-6 text-sm font-black transition disabled:opacity-60"
-                    [class]="user.followStatus === 'following'
-                      ? 'border border-white/30 text-white hover:bg-white/10'
-                      : user.followStatus === 'requested'
-                        ? 'border border-white/30 text-white/70 hover:bg-white/10'
-                        : 'bg-white text-black hover:bg-orange-50'"
-                    [disabled]="followLoading()"
-                    (click)="toggleFollow()"
-                  >
-                    @if (followLoading()) {
-                      <i class="pi pi-spinner pi-spin"></i>
-                    } @else if (user.followStatus === 'following') {
-                      <i class="pi pi-user-minus"></i>
-                      Siguiendo
-                    } @else if (user.followStatus === 'requested') {
-                      <i class="pi pi-clock"></i>
-                      Solicitado
-                    } @else if (followsYou()) {
-                      <i class="pi pi-user-plus"></i>
-                      Seguir también
-                    } @else {
-                      <i class="pi pi-user-plus"></i>
-                      Seguir
-                    }
-                  </button>
+                  <div class="flex flex-wrap justify-center gap-3">
+                    <button
+                      type="button"
+                      class="inline-flex h-11 items-center gap-2 rounded-full px-6 text-sm font-black transition disabled:opacity-60"
+                      [class]="user.followStatus === 'following'
+                        ? 'border border-white/30 text-white hover:bg-white/10'
+                        : user.followStatus === 'requested'
+                          ? 'border border-white/30 text-white/70 hover:bg-white/10'
+                          : 'bg-white text-black hover:bg-orange-50'"
+                      [disabled]="followLoading()"
+                      (click)="toggleFollow()"
+                    >
+                      @if (followLoading()) {
+                        <i class="pi pi-spinner pi-spin"></i>
+                      } @else if (user.followStatus === 'following') {
+                        <i class="pi pi-user-minus"></i>
+                        Siguiendo
+                      } @else if (user.followStatus === 'requested') {
+                        <i class="pi pi-clock"></i>
+                        Solicitado
+                      } @else if (followsYou()) {
+                        <i class="pi pi-user-plus"></i>
+                        Seguir también
+                      } @else {
+                        <i class="pi pi-user-plus"></i>
+                        Seguir
+                      }
+                    </button>
+                    <button
+                      type="button"
+                      class="inline-flex h-11 items-center gap-2 rounded-full bg-orange-500 px-6 text-sm font-black text-white transition hover:bg-orange-600"
+                      (click)="messageUser()"
+                    >
+                      <i class="pi pi-send"></i>
+                      Mensaje
+                    </button>
+                  </div>
                 </div>
               </div>
               <div class="grid place-items-center px-6 py-12 text-center">
