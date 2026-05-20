@@ -1,55 +1,55 @@
 <div class="flex gap-3" [ngClass]="isMine() ? 'justify-end' : 'justify-start'">
 	@if (!isMine()) {
-		<img [src]="conversation().user.avatarUrl" [alt]="conversation().user.name" class="mt-auto size-9 rounded-full object-cover shadow-sm" />
+		<img [src]="conversation().user.avatarUrl" [alt]="conversation().user.name" class="mt-auto size-9 rounded-pill object-cover shadow-1" />
 	}
 
 	@if (message().typing) {
-		<div class="rounded-2xl bg-white px-5 py-3 shadow-[0_8px_24px_rgba(20,20,20,0.08)]">
+		<div class="rounded-2xl border border-outline bg-surface-container px-5 py-3 shadow-2">
 			<span class="flex items-center gap-1">
-				<span class="size-2 rounded-full bg-black/25"></span>
-				<span class="size-2 rounded-full bg-black/25"></span>
-				<span class="size-2 rounded-full bg-black/25"></span>
+				<span class="size-2 rounded-pill bg-on-surface-muted"></span>
+				<span class="size-2 rounded-pill bg-on-surface-muted"></span>
+				<span class="size-2 rounded-pill bg-on-surface-muted"></span>
 			</span>
 		</div>
 	} @else {
 		<div
-			class="max-w-[min(80%,38rem)] overflow-hidden rounded-3xl text-sm font-bold leading-6 shadow-[0_10px_30px_rgba(20,20,20,0.08)]"
-			[ngClass]="isMine() ? 'bg-orange-50 text-black' : 'bg-white text-black'"
+			class="max-w-[min(80%,38rem)] overflow-hidden rounded-2xl border text-sm font-bold leading-6 shadow-2"
+			[ngClass]="isMine() ? 'border-primary/15 bg-primary-container text-on-surface' : 'border-outline bg-surface-container text-on-surface'"
 		>
 			@if (message().text) {
 				<div class="flex items-end gap-4 px-5 py-3">
 					<p class="whitespace-pre-line">{{ message().text }}</p>
 					@if (message().time) {
-						<span class="shrink-0 text-xs font-black text-black/35">{{ message().time }}</span>
+						<span class="shrink-0 text-xs font-black text-on-surface-muted">{{ message().time }}</span>
 					}
 					@if (isMine()) {
-						<i class="pi pi-check text-xs text-orange-500"></i>
+						<i class="pi pi-check text-xs text-primary"></i>
 					}
 				</div>
 			}
 
 			@if (message().attachment; as recipe) {
-				<div class="grid overflow-hidden border-t border-black/5 bg-white sm:grid-cols-[210px_minmax(0,1fr)]">
+				<div class="grid overflow-hidden border-t border-outline bg-surface-container sm:grid-cols-[210px_minmax(0,1fr)]">
 					<img [src]="recipe.imageUrl" [alt]="recipe.title" class="h-44 w-full object-cover sm:h-full" />
 					<div class="grid content-between gap-4 p-5">
 						<div>
-							<h3 class="text-lg font-black leading-6 text-black">{{ recipe.title }}</h3>
-							<p class="mt-2 text-sm font-semibold text-black/50">
+							<h3 class="text-lg font-black leading-6 text-on-surface">{{ recipe.title }}</h3>
+							<p class="mt-2 text-sm font-semibold text-on-surface-muted">
 								<i class="pi pi-user"></i>
 								Por {{ recipe.author }}
 							</p>
 						</div>
-						<a class="inline-flex items-center gap-2 text-sm font-black text-orange-500">
+						<a class="inline-flex items-center gap-2 text-sm font-black text-primary">
 							Ver receta
 							<i class="pi pi-chevron-right text-xs"></i>
 						</a>
 					</div>
 				</div>
 				@if (message().time) {
-					<div class="flex justify-end gap-2 px-4 pb-3 text-xs font-black text-black/35">
+					<div class="flex justify-end gap-2 px-4 pb-3 text-xs font-black text-on-surface-muted">
 						<span>{{ message().time }}</span>
 						@if (isMine()) {
-							<i class="pi pi-check text-orange-500"></i>
+							<i class="pi pi-check text-primary"></i>
 						}
 					</div>
 				}
