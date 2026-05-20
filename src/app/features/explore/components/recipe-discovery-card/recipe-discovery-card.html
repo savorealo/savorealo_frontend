@@ -24,11 +24,11 @@
 		<button
 			type="button"
 			class="absolute right-4 top-4 z-[2] grid size-11 place-items-center rounded-pill bg-black/45 text-white backdrop-blur transition-all duration-fast ease-standard hover:bg-primary hover:text-on-primary active:scale-[0.98]"
-			[class.text-primary]="post().saved"
-			(click)="save.emit(post())"
+			[class.text-primary]="saved()"
+			(click)="triggerSave()"
 			aria-label="Guardar receta"
 		>
-			<i [class]="post().saved ? 'pi pi-bookmark-fill' : 'pi pi-bookmark'"></i>
+			<i [class]="saved() ? 'pi pi-bookmark-fill' : 'pi pi-bookmark'"></i>
 		</button>
 	}
 
@@ -50,7 +50,7 @@
 		<h2 class="line-clamp-3 text-body-lg font-bold leading-tight text-white">{{ title() }}</h2>
 
 		<footer class="flex items-center gap-4 text-label-md font-bold text-white/90">
-			<span class="inline-flex items-center gap-1"><i class="pi pi-heart-fill text-error"></i>{{ post().likesCount }}</span>
+			<span class="inline-flex items-center gap-1"><i class="pi pi-heart-fill text-error"></i>{{ likesCount() }}</span>
 			<span class="inline-flex items-center gap-1"><i class="pi pi-comment"></i>{{ post().commentsCount }}</span>
 			<span class="ml-auto rounded-pill bg-white/15 px-3 py-1 text-primary">#{{ tag() }}</span>
 		</footer>

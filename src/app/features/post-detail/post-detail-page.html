@@ -224,11 +224,11 @@
 					<button
 						type="button"
 						class="inline-flex min-h-11 items-center gap-2 rounded-pill px-2 text-body-sm font-bold transition-colors duration-fast ease-standard hover:bg-surface-container active:scale-[0.98]"
-						[class]="post.liked ? 'text-error' : 'text-on-surface-muted hover:text-error'"
+						[class]="liked() ? 'text-error' : 'text-on-surface-muted hover:text-error'"
 						(click)="toggleLike()"
 					>
-						<i [class]="post.liked ? 'pi pi-heart-fill' : 'pi pi-heart'"></i>
-						<span>{{ post.likesCount }}</span>
+						<i [class]="liked() ? 'pi pi-heart-fill' : 'pi pi-heart'"></i>
+						<span>{{ likesCount() }}</span>
 					</button>
 
 					<button
@@ -248,11 +248,11 @@
 					<button
 						type="button"
 						class="ml-auto grid size-11 place-items-center rounded-pill transition-colors duration-fast ease-standard hover:bg-surface-container active:scale-[0.98]"
-						[class]="post.saved ? 'text-primary' : 'text-on-surface-muted'"
+						[class]="saved() ? 'text-primary' : 'text-on-surface-muted'"
 						(click)="toggleSave()"
 						aria-label="Guardar post"
 					>
-						<i [class]="post.saved ? 'pi pi-bookmark-fill' : 'pi pi-bookmark'"></i>
+						<i [class]="saved() ? 'pi pi-bookmark-fill' : 'pi pi-bookmark'"></i>
 					</button>
 				</footer>
 			</article>

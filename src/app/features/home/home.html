@@ -27,8 +27,6 @@
           @for (post of feedStore.posts(); track post.id) {
             <app-post-card
               [post]="post"
-              (onLike)="feedStore.toggleLike($event)"
-              (onSave)="feedStore.toggleSave($event)"
             />
           }
         </div>

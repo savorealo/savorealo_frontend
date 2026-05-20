@@ -3,8 +3,6 @@ import { finalize } from 'rxjs'
 import { Post } from '@core/models/post/post.model'
 import { PostCategory } from '@core/models/post/post.dto'
 import { ExploreService } from '@core/services/explore.service'
-import { FeedService } from '@core/services/feed.service'
-import { ToastService } from '@core/services/toast.service'
 import { PostActionsService } from '@core/services/post-actions.service'
 import { toUserMessage } from '@core/utils/user-error'
 
@@ -15,8 +13,6 @@ const STALE_MS = 5 * 60_000
 @Injectable({ providedIn: 'root' })
 export class ExploreStore {
 	private readonly exploreService = inject(ExploreService)
-	private readonly feedService    = inject(FeedService)
-	private readonly toast          = inject(ToastService)
 	private readonly postActions    = inject(PostActionsService)
 
 	private readonly _posts = signal<Post[]>([])
@@ -124,46 +120,6 @@ export class ExploreStore {
 			},
 			error: err => this._error.set(toUserMessage(err, 'No se pudieron cargar más recetas')),
 		})
-	}
-
-	toggleLike(post: Post): void {
-		const nowLiked = !post.liked
-		const optimistic = { ...post, liked: nowLiked, likesCount: post.liked ? Math.max(0, post.likesCount - 1) : post.likesCount + 1 }
-		this.replacePost(optimistic)
-
-		this.feedService.toggleLike(post.id).subscribe({
-			next: result => {
-				this.replacePost({ ...optimistic, liked: result.active, likesCount: result.count })
-				this.postActions.likeChanged$.next({ postId: post.id, liked: result.active, likesCount: result.count })
-				if (result.active) this.toast.success('Le diste like', '')
-			},
-			error: err => {
-				this.replacePost(post)
-				this._error.set(toUserMessage(err, 'No se pudo actualizar el like'))
-			},
-		})
-	}
-
-	toggleSave(post: Post): void {
-		const optimistic = { ...post, saved: !post.saved, savesCount: post.saved ? Math.max(0, post.savesCount - 1) : post.savesCount + 1 }
-		this.replacePost(optimistic)
-
-		this.feedService.toggleSave(post.id).subscribe({
-			next: result => {
-				const savesCount = result.count || optimistic.savesCount
-				this.replacePost({ ...optimistic, saved: result.active, savesCount })
-				this.postActions.saveChanged$.next({ postId: post.id, saved: result.active, savesCount })
-				this.toast.success(result.active ? 'Guardado en tu colección' : 'Eliminado de guardados', '')
-			},
-			error: err => {
-				this.replacePost(post)
-				this._error.set(toUserMessage(err, 'No se pudo guardar el post'))
-			},
-		})
-	}
-
-	private replacePost(updatedPost: Post): void {
-		this._posts.update(posts => posts.map(p => p.id === updatedPost.id ? updatedPost : p))
 	}
 
 	private updatePost(postId: string, patch: Partial<Post>): void {

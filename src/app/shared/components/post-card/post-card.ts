@@ -2,6 +2,7 @@ import { NgOptimizedImage } from '@angular/common'
 import { Component, computed, inject, input, output, signal, ViewChild } from '@angular/core'
 import { Router, RouterLink } from '@angular/router'
 import { Post } from '@core/models/post/post.model'
+import { PostActionsService } from '@core/services/post-actions.service'
 import { PreferencesService } from '@core/services/preferences.service'
 import { VeganConvertModal } from '@features/feed/components/vegan-convert-modal/vegan-convert-modal'
 import { Avatar } from '@shared/components/avatar/avatar'
@@ -20,17 +21,21 @@ export class PostCard {
 	@ViewChild('optionsMenu') private optionsMenu?: Menu
 
 	private readonly router = inject(Router)
+	private readonly postActions = inject(PostActionsService)
 	readonly preferences = inject(PreferencesService)
 
 	post = input.required<Post>()
-	onLike = output<Post>()
-	onSave = output<Post>()
 	onComment = output<Post>()
 	onReport = output<Post>()
 
 	expanded       = signal(false)
 	likeAnimating  = signal(false)
 	veganModalOpen = signal(false)
+
+	readonly liked      = computed(() => this.postActions.isLiked(this.post().id, this.post().liked))
+	readonly likesCount = computed(() => this.postActions.likesCount(this.post().id, this.post().likesCount))
+	readonly saved      = computed(() => this.postActions.isSaved(this.post().id, this.post().saved))
+	readonly savesCount = computed(() => this.postActions.savesCount(this.post().id, this.post().savesCount))
 
 	primaryMedia = computed(() => this.post().media[0] ?? null)
 
@@ -56,9 +61,9 @@ export class PostCard {
 
 	menuItems = computed<MenuItem[]>(() => [
 		{
-			label: this.post().saved ? 'Quitar guardado' : 'Guardar',
-			icon: this.post().saved ? 'pi pi-bookmark-fill' : 'pi pi-bookmark',
-			command: () => this.onSave.emit(this.post()),
+			label: this.saved() ? 'Quitar guardado' : 'Guardar',
+			icon: this.saved() ? 'pi pi-bookmark-fill' : 'pi pi-bookmark',
+			command: () => this.triggerSave(),
 		},
 		{
 			label: 'Reportar',
@@ -74,7 +79,11 @@ export class PostCard {
 	triggerLike(): void {
 		this.likeAnimating.set(true)
 		setTimeout(() => this.likeAnimating.set(false), 400)
-		this.onLike.emit(this.post())
+		this.postActions.toggleLike(this.post().id, this.liked(), this.likesCount())
+	}
+
+	triggerSave(): void {
+		this.postActions.toggleSave(this.post().id, this.saved(), this.savesCount())
 	}
 
 	openCookingMode(): void {

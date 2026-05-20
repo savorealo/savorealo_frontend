@@ -15,7 +15,6 @@ export class RecipeDiscoveryGrid {
 	isEmpty = input(false)
 	error = input<string | null>(null)
 
-	save = output<Post>()
 	retry = output<void>()
 	loadMore = output<void>()
 }
