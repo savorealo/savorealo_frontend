@@ -4,7 +4,6 @@ import { AuthStore }                                 from '@core/store/auth.stor
 import { NotificationsStore }                        from '@core/store/notifications.store'
 import { GlobalSearchStore }                         from '@core/store/global-search.store'
 import { GlobalSearchPanel }                         from '@shared/components/global-search/global-search-panel'
-import { ThemeService }                              from '@core/services/theme.service'
 import { Topbar }                                    from '@shared/components/topbar/topbar'
 import { ShoppingListService }                       from '@features/shopping-list/shopping-list.service'
 
@@ -34,7 +33,6 @@ export class AppShell implements OnInit {
 	private readonly authStore = inject(AuthStore)
 	readonly notifications = inject(NotificationsStore)
 	readonly globalSearch   = inject(GlobalSearchStore)
-	readonly theme          = inject(ThemeService)
 	readonly shoppingList   = inject(ShoppingListService)
 
 	readonly profile    = this.authStore.profile
@@ -64,10 +62,6 @@ export class AppShell implements OnInit {
 
 	ngOnInit(): void {
 		this.notifications.load()
-	}
-
-	toggleTheme(): void {
-		this.theme.toggle()
 	}
 
 	logout(): void {
