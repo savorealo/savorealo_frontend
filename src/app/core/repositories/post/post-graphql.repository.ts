@@ -1,9 +1,8 @@
 import { inject, Injectable } from '@angular/core'
 import { Apollo } from 'apollo-angular'
 import { firstValueFrom, from, map, Observable } from 'rxjs'
-import { SupabaseService } from '@core/services/supabase.service'
 import {
-	DISCOVER_FEED_QUERY, HOME_FEED_QUERY, LIKED_POSTS_QUERY,
+	CREATE_POST_MUTATION, DISCOVER_FEED_QUERY, HOME_FEED_QUERY, LIKED_POSTS_QUERY,
 	POST_CARD_FRAGMENT, SAVED_POSTS_QUERY, TOGGLE_LIKE_MUTATION,
 	TOGGLE_SAVE_MUTATION, USER_POSTS_QUERY,
 } from '@graphql/feed.mutations'
@@ -12,7 +11,6 @@ import type { GqlPostNode, IPostRepository, SavedPostsResult, ToggleLikeResult, 
 @Injectable({ providedIn: 'root' })
 export class PostGraphqlRepository implements IPostRepository {
 	private readonly apollo = inject(Apollo)
-	private readonly supabase = inject(SupabaseService)
 
 	fetchHomeFeed(limit: number, offset: number): Observable<GqlPostNode[]> {
 		return from(firstValueFrom(
@@ -127,32 +125,20 @@ export class PostGraphqlRepository implements IPostRepository {
 		)).pipe(map(res => ({ postId, saved: !!res.data?.toggleSave?.saved, saves: res.data?.toggleSave?.saves ?? 0 })))
 	}
 
-	createPost(input: { userId: string; description: string; title: string | null; postType: string }): Observable<string> {
-		return from(
-			this.supabase.client
-				.from('posts')
-				.insert({
-					user_id:     input.userId,
-					description: input.description,
-					title:       input.title,
-					post_type:   input.postType,
-				})
-				.select('id')
-				.single(),
-		).pipe(map(({ data, error }) => {
-			if (error) throw new Error(error.message)
-			return (data as { id: string }).id
-		}))
-	}
-
-	insertPostMedia(postId: string, mediaUrl: string, mediaType: string): Observable<void> {
-		return from(
-			this.supabase.client.from('post_media').insert({
-				post_id:    postId,
-				media_url:  mediaUrl,
-				media_type: mediaType,
-				position:   0,
+	createPost(input: { content: string; title?: string | null; imageUrl?: string | null }): Observable<GqlPostNode> {
+		return from(firstValueFrom(
+			this.apollo.mutate<{ createPost: GqlPostNode }>({
+				mutation: CREATE_POST_MUTATION,
+				variables: {
+					content:  input.content,
+					title:    input.title ?? null,
+					imageUrl: input.imageUrl ?? null,
+				},
 			}),
-		).pipe(map(({ error }) => { if (error) throw new Error(error.message) }))
+		)).pipe(map(res => {
+			const post = res.data?.createPost
+			if (!post) throw new Error('No se pudo crear el post')
+			return post
+		}))
 	}
 }
