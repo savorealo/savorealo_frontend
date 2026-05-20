@@ -10,16 +10,39 @@
 				<i class="pi pi-arrow-left text-lg"></i>
 			</button>
 
-			<span class="relative grid size-11 shrink-0 place-items-center overflow-hidden rounded-full bg-orange-100 sm:size-16">
-				<img [src]="conversation().user.avatarUrl" [alt]="conversation().user.name" class="size-full object-cover" />
-				@if (conversation().user.online) {
-					<span class="absolute bottom-1 right-1 size-3 rounded-full border-2 border-white bg-green-500 sm:size-3.5"></span>
-				}
-			</span>
+			@if (conversation().user.username) {
+				<a
+					[routerLink]="['/profile', conversation().user.username]"
+					class="relative grid size-11 shrink-0 place-items-center overflow-hidden rounded-full bg-orange-100 transition hover:ring-2 hover:ring-orange-300 sm:size-16"
+					[attr.aria-label]="'Ver perfil de ' + conversation().user.name"
+				>
+					<img [src]="conversation().user.avatarUrl" [alt]="conversation().user.name" class="size-full object-cover" />
+					@if (conversation().user.online) {
+						<span class="absolute bottom-1 right-1 size-3 rounded-full border-2 border-white bg-green-500 sm:size-3.5"></span>
+					}
+				</a>
+			} @else {
+				<span class="relative grid size-11 shrink-0 place-items-center overflow-hidden rounded-full bg-orange-100 sm:size-16">
+					<img [src]="conversation().user.avatarUrl" [alt]="conversation().user.name" class="size-full object-cover" />
+					@if (conversation().user.online) {
+						<span class="absolute bottom-1 right-1 size-3 rounded-full border-2 border-white bg-green-500 sm:size-3.5"></span>
+					}
+				</span>
+			}
 
 			<div class="min-w-0">
 				<div class="flex min-w-0 items-center gap-2">
-					<h2 class="truncate text-base font-black text-black sm:text-xl">{{ conversation().user.name }}</h2>
+					@if (conversation().user.username) {
+						<a
+							[routerLink]="['/profile', conversation().user.username]"
+							class="min-w-0 hover:underline"
+							[attr.aria-label]="'Ver perfil de ' + conversation().user.name"
+						>
+							<h2 class="truncate text-base font-black text-black sm:text-xl">{{ conversation().user.name }}</h2>
+						</a>
+					} @else {
+						<h2 class="truncate text-base font-black text-black sm:text-xl">{{ conversation().user.name }}</h2>
+					}
 					@if (conversation().user.verified) {
 						<i class="pi pi-verified text-blue-500"></i>
 					}

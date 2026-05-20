@@ -1,5 +1,6 @@
 import { Component, effect, inject, OnDestroy, signal } from '@angular/core'
 import { AppShell } from '@shared/components/app-shell/app-shell'
+import { ActivatedRoute } from '@angular/router'
 import { ConversationList } from './components/conversation-list/conversation-list'
 import { ChatPanel } from './components/chat-panel/chat-panel'
 import { CallOverlay } from './components/call-overlay/call-overlay'
@@ -19,6 +20,7 @@ export class MessagesPage implements OnDestroy {
 	readonly store        = inject(MessagesStore)
 	readonly callStore    = inject(CallStore)
 	private readonly auth = inject(AuthStore)
+	private readonly route = inject(ActivatedRoute)
 	readonly showCompose  = signal(false)
 	private hasLoaded = false
 
@@ -28,7 +30,12 @@ export class MessagesPage implements OnDestroy {
 			const uid = this.auth.currentUserId()
 			if (uid && !this.hasLoaded) {
 				this.hasLoaded = true
-				this.store.loadConversations()
+				const requestedUserId = this.route.snapshot.queryParamMap.get('with')
+				if (requestedUserId && requestedUserId !== uid) {
+					this.store.openOrCreateWith(requestedUserId)
+				} else {
+					this.store.loadConversations()
+				}
 			}
 		})
 
