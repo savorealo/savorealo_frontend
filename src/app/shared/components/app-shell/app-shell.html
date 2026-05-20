@@ -86,25 +86,8 @@
 			}
 		</nav>
 
-		<!-- Pie de la sidebar: perfil + tema + logout (desktop) -->
+		<!-- Pie de la sidebar: perfil + logout (desktop) -->
 		<div class="mt-auto hidden gap-2 pt-4 lg:grid">
-			<!-- Toggle de tema -->
-			<button
-				type="button"
-				class="flex min-h-12 items-center justify-start gap-3 rounded-pill px-4 text-body-sm font-semibold text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container hover:text-on-surface"
-				(click)="toggleTheme()"
-				[attr.aria-label]="theme.isDark() ? 'Activar modo claro' : 'Activar modo oscuro'"
-				[attr.aria-pressed]="theme.isDark()"
-			>
-				@if (theme.isDark()) {
-					<i class="pi pi-sun text-xl" aria-hidden="true"></i>
-					<span>Modo claro</span>
-				} @else {
-					<i class="pi pi-moon text-xl" aria-hidden="true"></i>
-					<span>Modo oscuro</span>
-				}
-			</button>
-
 			<!-- Tarjeta de perfil -->
 			<a
 				routerLink="/profile"
