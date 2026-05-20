@@ -1,7 +1,6 @@
 import { inject, Injectable } from '@angular/core'
-import { from, map, Observable, switchMap } from 'rxjs'
+import { from, map, Observable } from 'rxjs'
 import { Post, PostCategory, Recipe, RecipeStep } from '@core/models/post/post.model'
-import { SupabaseService } from '@core/services/supabase.service'
 import { POST_REPOSITORY } from '@core/repositories/tokens/repository.tokens'
 import type { GqlPostNode } from '@core/repositories/post/post-repository'
 
@@ -38,8 +37,7 @@ export interface ToggleResult {
 
 @Injectable({ providedIn: 'root' })
 export class FeedService {
-	private readonly supabase = inject(SupabaseService)
-	private readonly repo     = inject(POST_REPOSITORY)
+	private readonly repo = inject(POST_REPOSITORY)
 
 	// ── Feed ────────────────────────────────────────────────────────────────
 
@@ -132,27 +130,11 @@ export class FeedService {
 	// ── Create ───────────────────────────────────────────────────────────────
 
 	createPost(input: CreatePostInput): Observable<Post> {
-		return from(this.supabase.client.auth.getUser()).pipe(
-			switchMap(({ data: auth }) => {
-				const userId = auth.user?.id
-				if (!userId) throw new Error('No autenticado')
-				return this.repo.createPost({
-					userId,
-					description: input.description,
-					title: input.title ?? null,
-					postType: 'POST',
-				}).pipe(
-					switchMap(postId => {
-						if (input.mediaUrl) {
-							return this.repo.insertPostMedia(postId, input.mediaUrl, input.mediaType ?? 'image').pipe(
-								switchMap(() => this.getPostById(postId)),
-							)
-						}
-						return this.getPostById(postId)
-					}),
-				)
-			}),
-		)
+		return this.repo.createPost({
+			content:  input.description,
+			title:    input.title ?? null,
+			imageUrl: input.mediaUrl ?? null,
+		}).pipe(map(node => this.mapGqlPost(node)))
 	}
 
 	// ── Mapping ──────────────────────────────────────────────────────────────

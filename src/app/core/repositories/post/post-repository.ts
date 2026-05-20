@@ -44,6 +44,5 @@ export interface IPostRepository {
 	readPostFromCache(id: string): GqlPostNode | null
 	toggleLike(postId: string): Observable<ToggleLikeResult>
 	toggleSave(postId: string): Observable<ToggleSaveResult>
-	createPost(input: { userId: string; description: string; title: string | null; postType: string }): Observable<string>
-	insertPostMedia(postId: string, mediaUrl: string, mediaType: string): Observable<void>
+	createPost(input: { content: string; title?: string | null; imageUrl?: string | null }): Observable<GqlPostNode>
 }
