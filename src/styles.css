@@ -236,6 +236,15 @@
 	.btn-cta:hover  { filter: brightness(1.07); }
 	.btn-cta:active { transform: scale(0.98); }
 
+	/* Slide-up para el panel de comentarios */
+	.animate-slide-up-panel {
+		animation: slide-up-panel 0.35s cubic-bezier(0.32, 0.72, 0, 1) both;
+	}
+	@keyframes slide-up-panel {
+		from { transform: translateY(100%); }
+		to   { transform: translateY(0); }
+	}
+
 	/* Animación de entrada compartida (fade + slide) */
 	.animate-rise-in {
 		animation: rise-in var(--duration-slow) var(--ease-decelerated) both;

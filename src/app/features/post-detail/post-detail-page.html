@@ -211,11 +211,11 @@
 				@if (post.recipe && post.recipe.steps.length > 0) {
 					<a
 						[routerLink]="['/cook', post.id]"
-						class="flex w-full items-center justify-center gap-3 rounded-2xl bg-inverse-surface px-6 py-4 font-bold text-inverse-on-surface transition-all duration-fast ease-standard hover:bg-primary hover:text-on-primary hover:shadow-3"
+						class="group flex w-full items-center justify-center gap-3 rounded-2xl bg-inverse-surface px-6 py-4 font-bold text-inverse-on-surface transition-all duration-fast ease-standard hover:bg-primary hover:text-on-primary hover:shadow-3"
 					>
-						<i class="pi pi-star-fill text-primary"></i>
+						<img src="/gorro-de-cocinero.png" class="size-6 shrink-0 object-contain transition-all group-hover:brightness-[100]" aria-hidden="true" alt="" />
 						Modo cocina
-						<span class="ml-auto rounded-pill bg-inverse-on-surface/10 px-3 py-1 text-label-md font-bold">{{ post.recipe.steps.length }} pasos</span>
+						<span class="ml-auto rounded-pill bg-inverse-on-surface/10 px-3 py-1 text-label-md font-bold group-hover:bg-on-primary/10">{{ post.recipe.steps.length }} pasos</span>
 					</a>
 				}
 
@@ -234,7 +234,7 @@
 					<button
 						type="button"
 						class="inline-flex min-h-11 items-center gap-2 rounded-pill px-2 text-body-sm font-bold text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container hover:text-primary active:scale-[0.98]"
-						(click)="commentsVisible.set(true)"
+						(click)="openComments()"
 					>
 						<i class="pi pi-comment"></i>
 						<span>{{ post.commentsCount }}</span>
@@ -256,8 +256,108 @@
 					</button>
 				</footer>
 			</article>
+
+			<!-- ── Panel de comentarios ─────────────────────────────────────
+			     Mobile : ancho completo, slide-up desde el fondo
+			     Desktop: ancho del post (max-w-2xl), centrado, 75 vh
+			──────────────────────────────────────────────────────────────── -->
+			@if (commentsVisible()) {
+				<!-- Backdrop -->
+				<div
+					class="fixed inset-0 z-40 bg-black/50 backdrop-blur-[2px]"
+					(click)="closeComments()"
+				></div>
+
+				<!-- Sheet: full-width mobile / post-width desktop -->
+				<div class="fixed bottom-0 left-0 z-50 w-full lg:left-1/2 lg:max-w-2xl lg:-translate-x-1/2" style="height: 75vh;">
+					<div class="animate-slide-up-panel flex h-full flex-col overflow-hidden rounded-t-2xl border border-b-0 border-outline bg-surface shadow-4">
+
+						<!-- Cabecera -->
+						<div class="flex shrink-0 items-center justify-between border-b border-outline px-4 py-3">
+							<div>
+								<span class="text-body-sm font-bold text-on-surface">Comentarios</span>
+								<span class="ml-2 text-label-md font-semibold text-on-surface-muted">{{ post.commentsCount }}</span>
+							</div>
+							<button
+								type="button"
+								class="grid size-8 place-items-center rounded-full text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container hover:text-on-surface active:scale-95"
+								(click)="closeComments()"
+								aria-label="Cerrar comentarios"
+							>
+								<i class="pi pi-times text-sm"></i>
+							</button>
+						</div>
+
+						<!-- Lista -->
+						<section class="flex-1 overflow-y-auto px-3 py-3" (scroll)="onCommentScroll($event)">
+							@if (comments.error()) {
+								<p class="rounded-xl border border-error/30 bg-error-container p-3 text-body-sm font-semibold text-on-error-container">{{ comments.error() }}</p>
+							}
+							@if (comments.loading()) {
+								<div class="grid gap-2.5">
+									@for (s of [1,2,3]; track s) {
+										<div class="h-14 animate-pulse rounded-xl bg-surface-container-high"></div>
+									}
+								</div>
+							} @else if (comments.isEmpty()) {
+								<div class="grid place-items-center py-12 text-center">
+									<i class="pi pi-comment text-2xl text-on-surface-muted"></i>
+									<p class="mt-2 text-body-sm font-semibold text-on-surface-muted">Sé el primero en comentar</p>
+								</div>
+							} @else {
+								<div class="grid gap-2.5">
+									@for (comment of comments.comments(); track comment.id) {
+										<article class="flex gap-2.5 rounded-xl bg-surface px-3 py-2.5 shadow-1">
+											<app-avatar [src]="comment.author.photoUrl" [name]="commentAuthorName(comment)" size="sm" />
+											<div class="min-w-0 flex-1">
+												<div class="flex items-center gap-2">
+													<strong class="truncate text-label-md font-bold text-on-surface">{{ commentAuthorName(comment) }}</strong>
+													<span class="shrink-0 text-[0.65rem] font-semibold text-on-surface-muted">{{ comment.createdAt | timeAgo }}</span>
+												</div>
+												<p class="mt-0.5 whitespace-pre-line text-body-sm font-medium leading-snug text-on-surface">{{ comment.text }}</p>
+											</div>
+											@if (isOwnComment(comment)) {
+												<button
+													type="button"
+													class="grid size-7 shrink-0 place-items-center rounded-full text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-error/10 hover:text-error active:scale-95"
+													(click)="comments.deleteComment(comment)"
+													aria-label="Eliminar comentario"
+												>
+													<i class="pi pi-trash text-xs"></i>
+												</button>
+											}
+										</article>
+									}
+								</div>
+							}
+							@if (comments.loadingMore()) {
+								<div class="mt-2.5 h-12 animate-pulse rounded-xl bg-surface-container-high"></div>
+							}
+						</section>
+
+						<!-- Formulario -->
+						<form class="flex shrink-0 gap-2 border-t border-outline px-3 py-3" (ngSubmit)="submitComment()">
+							<textarea
+								name="commentInput"
+								rows="1"
+								maxlength="300"
+								class="min-h-10 flex-1 resize-none rounded-xl border border-outline bg-surface px-3 py-2.5 text-body-sm font-medium outline-none placeholder:text-on-surface-muted transition-colors duration-fast ease-standard focus:border-primary focus:ring-2 focus:ring-primary/20"
+								placeholder="Escribe un comentario..."
+								[ngModel]="commentDraft()"
+								(ngModelChange)="commentDraft.set($event)"
+							></textarea>
+							<button
+								type="submit"
+								class="grid size-10 shrink-0 place-items-center rounded-full bg-primary text-on-primary transition-colors duration-fast ease-standard hover:opacity-90 disabled:opacity-40 active:scale-95"
+								[disabled]="!canSubmitComment()"
+								aria-label="Enviar comentario"
+							>
+								<i class="pi pi-send text-sm"></i>
+							</button>
+						</form>
+					</div>
+				</div>
+			}
 		}
 	</div>
 </app-shell>
-
-<app-comments-sheet [(visible)]="commentsVisible" [post]="post()" />

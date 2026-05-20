@@ -1,6 +1,7 @@
 import { afterNextRender, Component, computed, DestroyRef, inject, signal } from '@angular/core'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { Location } from '@angular/common'
+import { FormsModule } from '@angular/forms'
 import { ActivatedRoute, Router, RouterLink } from '@angular/router'
 import { NgOptimizedImage } from '@angular/common'
 import { finalize } from 'rxjs'
@@ -9,17 +10,18 @@ import { UserService } from '@core/services/user.service'
 import { AuthStore } from '@core/store/auth.store'
 import { ToastService } from '@core/services/toast.service'
 import { PostActionsService } from '@core/services/post-actions.service'
+import { CommentStore } from '@core/store/comment.store'
 import { Post } from '@core/models/post/post.model'
+import { Comment } from '@core/models/post-actions/post-actions.model'
 import { AppShell } from '@shared/components/app-shell/app-shell'
 import { Avatar } from '@shared/components/avatar/avatar'
 import { TimeAgoPipe } from '@shared/pipes/time-ago.pipe'
-import { CommentsSheetComponent } from '@features/feed/comments-sheet.component'
 import { SavoLoader } from '@shared/components/savo-loader/savo-loader'
 import { ShoppingListService } from '@features/shopping-list/shopping-list.service'
 
 @Component({
 	selector: 'app-post-detail-page',
-	imports: [AppShell, Avatar, NgOptimizedImage, RouterLink, TimeAgoPipe, CommentsSheetComponent, SavoLoader],
+	imports: [AppShell, Avatar, NgOptimizedImage, RouterLink, TimeAgoPipe, FormsModule, SavoLoader],
 	host: { ngSkipHydration: 'true' },
 	templateUrl: './post-detail-page.html',
 })
@@ -33,12 +35,15 @@ export class PostDetailPage {
 	private readonly toast       = inject(ToastService)
 	readonly postActions         = inject(PostActionsService)
 	readonly shoppingList        = inject(ShoppingListService)
+	readonly comments            = inject(CommentStore)
 	private readonly destroyRef  = inject(DestroyRef)
 
 	readonly post = signal<Post | null>(null)
 	readonly loading = signal(true)
 	readonly error = signal<string | null>(null)
-	readonly commentsVisible = signal(false)
+	readonly commentsVisible  = signal(false)
+	readonly commentDraft     = signal('')
+	readonly canSubmitComment = computed(() => this.commentDraft().trim().length > 0 && !this.comments.submitting())
 	readonly activeMediaIdx = signal(0)
 	readonly followStatus = signal<'none' | 'following' | 'requested'>('none')
 	readonly followLoading = signal(false)
@@ -193,6 +198,38 @@ export class PostDetailPage {
 		const p = this.post()
 		if (!p) return
 		this.postActions.toggleSave(p.id, this.saved(), this.savesCount())
+	}
+
+	openComments(): void {
+		const post = this.post()
+		if (post) this.comments.open(post.id)
+		this.commentsVisible.set(true)
+	}
+
+	closeComments(): void {
+		this.commentsVisible.set(false)
+	}
+
+	submitComment(): void {
+		const text = this.commentDraft().trim()
+		if (!text) return
+		this.commentDraft.set('')
+		this.comments.addComment(text)
+	}
+
+	onCommentScroll(event: Event): void {
+		const el = event.target as HTMLElement
+		if (el.scrollTop + el.clientHeight >= el.scrollHeight - 80) {
+			this.comments.loadMore()
+		}
+	}
+
+	commentAuthorName(comment: Comment): string {
+		return comment.author.name || comment.author.username || 'Chef'
+	}
+
+	isOwnComment(comment: Comment): boolean {
+		return !!this.authStore.currentUserId() && comment.authorId === this.authStore.currentUserId()
 	}
 
 	addToShoppingList(): void {

@@ -25,13 +25,14 @@ export class PostCard {
 	readonly preferences = inject(PreferencesService)
 
 	post = input.required<Post>()
-	onComment = output<Post>()
-	onReport = output<Post>()
-	onShare = output<Post>()
+	comment = output<Post>()
+	report = output<Post>()
+	share = output<Post>()
 
 	expanded       = signal(false)
 	likeAnimating  = signal(false)
 	veganModalOpen = signal(false)
+	vegetarianModalOpen = signal(false)
 
 	readonly liked      = computed(() => this.postActions.isLiked(this.post().id, this.post().liked))
 	readonly likesCount = computed(() => this.postActions.likesCount(this.post().id, this.post().likesCount))
@@ -69,7 +70,7 @@ export class PostCard {
 		{
 			label: 'Reportar',
 			icon: 'pi pi-flag',
-			command: () => this.onReport.emit(this.post()),
+			command: () => this.report.emit(this.post()),
 		},
 	])
 
