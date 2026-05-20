@@ -21,6 +21,7 @@
 					[hasNextPage]="feed.hasNextPage()"
 					(comment)="openComments($event)"
 					(report)="openReport($event)"
+					(share)="openShare($event)"
 					(retry)="feed.loadHomeFeed()"
 					(nearEnd)="feed.loadMore()"
 					(explore)="navigateToExplore()"
@@ -38,6 +39,10 @@
 
 	@if (reportingPost(); as p) {
 		<app-report-sheet [post]="p" (close)="closeReport()" />
+	}
+
+	@if (sharingPost(); as p) {
+		<app-share-post-modal [post]="p" (close)="closeShare()" />
 	}
 </app-shell>
 

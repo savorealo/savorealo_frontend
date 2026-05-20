@@ -30,7 +30,7 @@ export class MessageSupabaseRepository implements IMessageRepository {
 					id, type, name, last_message_at, last_message_preview,
 					participants:conversation_participants(
 						user_id,
-						user:users(person_profiles(username, full_name, photo_url))
+						user:users(person_profiles(username, full_name, photo_url, last_seen_at))
 					)
 				`)
 				.in('id', ids),
@@ -58,27 +58,39 @@ export class MessageSupabaseRepository implements IMessageRepository {
 		)
 	}
 
-	getMessages(conversationId: string, limit: number): Observable<MessageRow[]> {
-		return from(
-			this.supabase.client
-				.from('direct_messages')
-				.select('id, sender_id, content, created_at, read_at, media_url, conversation_id')
-				.eq('conversation_id', conversationId)
-				.order('created_at', { ascending: true })
-				.limit(limit),
-		).pipe(
+	getMessages(conversationId: string, limit: number, beforeCreatedAt?: string | null): Observable<MessageRow[]> {
+		let query = this.supabase.client
+			.from('direct_messages')
+			.select('id, sender_id, content, created_at, read_at, media_url, conversation_id, reply_to_message_id, shared_post_id, shared_post_author_id')
+			.eq('conversation_id', conversationId)
+			.order('created_at', { ascending: false })
+			.limit(limit)
+
+		if (beforeCreatedAt) {
+			query = query.lt('created_at', beforeCreatedAt)
+		}
+
+		return from(query).pipe(
 			map(({ data, error }) => {
 				if (error) throw error
-				return (data ?? []) as MessageRow[]
+				return [...((data ?? []) as MessageRow[])].reverse()
 			}),
 		)
 	}
 
-	sendMessage(conversationId: string, senderId: string, receiverId: string, content: string): Observable<MessageRow> {
+	sendMessage(conversationId: string, senderId: string, receiverId: string, content: string, replyToMessageId?: string | null, sharedPostId?: string | null, sharedPostAuthorId?: string | null): Observable<MessageRow> {
 		return from(
 			this.supabase.client
 				.from('direct_messages')
-				.insert({ conversation_id: conversationId, sender_id: senderId, receiver_id: receiverId, content })
+				.insert({
+					conversation_id: conversationId,
+					sender_id: senderId,
+					receiver_id: receiverId,
+					content,
+					reply_to_message_id: replyToMessageId ?? null,
+					shared_post_id: sharedPostId ?? null,
+					shared_post_author_id: sharedPostAuthorId ?? null,
+				})
 				.select()
 				.single(),
 		).pipe(
@@ -99,17 +111,28 @@ export class MessageSupabaseRepository implements IMessageRepository {
 	}
 
 	markRead(conversationId: string, userId: string): Observable<void> {
-		return from(
+		const readAt = new Date().toISOString()
+		return from(Promise.all([
 			this.supabase.client
 				.from('direct_messages')
-				.update({ read_at: new Date().toISOString() })
+				.update({ read_at: readAt })
 				.eq('conversation_id', conversationId)
 				.neq('sender_id', userId)
 				.is('read_at', null),
-		).pipe(map(({ error }) => { if (error) throw error }))
+			this.supabase.client
+				.from('conversation_participants')
+				.update({ last_read_at: readAt })
+				.eq('conversation_id', conversationId)
+				.eq('user_id', userId),
+		])).pipe(
+			map(results => {
+				const error = results.find(result => result.error)?.error
+				if (error) throw error
+			}),
+		)
 	}
 
-	subscribeToConversation(conversationId: string, onInsert: (row: MessageRow) => void, onTyping: (payload: { userId: string }) => void): RealtimeChannel {
+	subscribeToConversation(conversationId: string, onInsert: (row: MessageRow) => void, onUpdate: (row: MessageRow) => void): RealtimeChannel {
 		return this.supabase.client
 			.channel(`conv:${conversationId}`)
 			.on(
@@ -117,16 +140,31 @@ export class MessageSupabaseRepository implements IMessageRepository {
 				{ event: 'INSERT', schema: 'public', table: 'direct_messages', filter: `conversation_id=eq.${conversationId}` },
 				payload => onInsert(payload.new as MessageRow),
 			)
-			.on('broadcast', { event: 'typing' }, ({ payload }: { payload: { userId: string } }) => {
-				onTyping(payload)
+			.on(
+				'postgres_changes',
+				{ event: 'UPDATE', schema: 'public', table: 'direct_messages', filter: `conversation_id=eq.${conversationId}` },
+				payload => onUpdate(payload.new as MessageRow),
+			)
+			.subscribe()
+	}
+
+	subscribeToTyping(conversationId: string, onTyping: (payload: { userId: string; conversationId: string }) => void): RealtimeChannel {
+		return this.supabase.client
+			.channel(`typing:${conversationId}`)
+			.on('broadcast', { event: 'typing' }, ({ payload }: { payload: { userId: string; conversationId?: string } }) => {
+				onTyping({ userId: payload.userId, conversationId: payload.conversationId ?? conversationId })
 			})
 			.subscribe()
 	}
 
 	sendTyping(conversationId: string, userId: string): void {
-		this.supabase.client
-			.channel(`conv:${conversationId}`)
-			.send({ type: 'broadcast', event: 'typing', payload: { userId } })
+		const channel = this.supabase.client.channel(`typing:${conversationId}`)
+		channel.subscribe(status => {
+			if (status !== 'SUBSCRIBED') return
+			void channel
+				.send({ type: 'broadcast', event: 'typing', payload: { userId, conversationId } })
+				.finally(() => channel.unsubscribe())
+		})
 	}
 
 	findOrCreateConversation(otherId: string): Observable<string> {

@@ -12,10 +12,11 @@ import { Avatar } from '@shared/components/avatar/avatar'
 import { ImgFallbackDirective } from '@shared/directives/img-fallback.directive'
 import { TabsModule } from 'primeng/tabs'
 import { DialogModule } from 'primeng/dialog'
+import { ShareProfileModal, ShareableProfile } from '@features/messages/components/share-profile-modal/share-profile-modal'
 
 @Component({
 	selector: 'app-public-profile-page',
-	imports: [AppShell, Avatar, RouterLink, TabsModule, DialogModule, ImgFallbackDirective],
+	imports: [AppShell, Avatar, RouterLink, TabsModule, DialogModule, ImgFallbackDirective, ShareProfileModal],
 	templateUrl: './public-profile-page.html',
 })
 export class PublicProfilePage {
@@ -33,6 +34,7 @@ export class PublicProfilePage {
 	readonly loadingPosts  = signal(false)
 	readonly error         = signal<string | null>(null)
 	readonly followLoading = signal(false)
+	readonly sharingProfile = signal<ShareableProfile | null>(null)
 
 	readonly showFollowList = signal(false)
 	readonly followListTitle = signal('')
@@ -125,6 +127,17 @@ export class PublicProfilePage {
 		const user = this.user()
 		if (!user) return
 		this.router.navigate(['/chat'], { queryParams: { with: user.id } })
+	}
+
+	openShareProfile(): void {
+		const user = this.user()
+		if (!user) return
+		this.sharingProfile.set({
+			id: user.id,
+			username: user.username,
+			displayName: user.fullName,
+			photoUrl: user.photo_url,
+		})
 	}
 
 	toggleFollow(): void {

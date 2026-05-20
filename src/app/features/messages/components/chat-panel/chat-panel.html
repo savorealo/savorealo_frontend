@@ -50,17 +50,23 @@
 				<p class="mt-0.5 flex items-center gap-1.5 text-xs font-semibold text-on-surface-muted sm:mt-1 sm:gap-2 sm:text-sm">
 					@if (conversation().user.online) {
 						<span class="size-2 rounded-pill bg-green-500"></span>
-						En linea
+						{{ conversation().user.statusText || 'En linea' }}
 					} @else {
 						<span class="size-2 rounded-pill bg-outline-strong"></span>
-						Desconectado
+						{{ conversation().user.statusText || 'Desconectado' }}
 					}
 				</p>
 			</div>
 		</div>
 
 		<div class="flex items-center gap-1 sm:gap-2">
-			<button type="button" class="hidden size-10 place-items-center rounded-pill text-on-surface transition duration-fast ease-standard hover:bg-primary-container sm:grid sm:size-11" aria-label="Buscar en el chat">
+			<button
+				type="button"
+				class="grid size-10 place-items-center rounded-pill text-on-surface transition duration-fast ease-standard hover:bg-primary-container sm:size-11"
+				[ngClass]="searchOpen() ? 'bg-primary-container text-on-primary-container' : ''"
+				(click)="searchOpen() ? closeSearch() : openSearch()"
+				aria-label="Buscar en el chat"
+			>
 				<i class="pi pi-search text-lg sm:text-xl"></i>
 			</button>
 			<button
@@ -115,7 +121,7 @@
 						<button
 							type="button"
 							class="flex w-full items-center gap-3 px-4 py-3 text-left text-sm font-bold text-on-surface-muted transition duration-fast ease-standard hover:bg-primary-container hover:text-on-surface"
-							(click)="menuOpen.set(false)"
+							(click)="openSearch()"
 						>
 							<i class="pi pi-search text-base text-on-surface-muted"></i>
 							Buscar en el chat
@@ -126,10 +132,70 @@
 		</div>
 	</header>
 
-	<div class="relative min-h-0 flex-1 overflow-y-auto bg-surface px-3 py-4 sm:px-8 sm:py-6">
+	@if (searchOpen()) {
+		<div class="flex items-center gap-2 border-b border-outline bg-surface-container px-3 py-3 sm:px-6">
+			<label class="relative min-w-0 flex-1">
+				<i class="pi pi-search pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-sm text-on-surface-muted"></i>
+				<input
+					#searchInput
+					type="search"
+					[value]="searchQuery()"
+					(input)="setSearchQuery($event)"
+					(keydown.enter)="nextSearchMatch()"
+					(keydown.shift.enter)="previousSearchMatch()"
+					(keydown.escape)="closeSearch()"
+					class="h-10 w-full rounded-pill border border-outline bg-surface-container-low px-10 text-sm font-semibold text-on-surface outline-none placeholder:text-on-surface-muted focus:border-primary focus:bg-surface-container focus:shadow-[0_0_0_3px_rgb(var(--rgb-primary)/0.16)]"
+					placeholder="Buscar mensajes"
+				/>
+			</label>
+
+			<span class="hidden min-w-20 text-center text-xs font-black text-on-surface-muted sm:block">
+				@if (searchQuery().trim()) {
+					{{ searchMatches().length ? activeSearchIndex() + 1 : 0 }}/{{ searchMatches().length }}
+				} @else {
+					0/0
+				}
+			</span>
+
+			<button
+				type="button"
+				class="grid size-10 shrink-0 place-items-center rounded-pill text-on-surface transition duration-fast ease-standard hover:bg-primary-container disabled:opacity-40"
+				[disabled]="searchMatches().length === 0"
+				(click)="previousSearchMatch()"
+				aria-label="Coincidencia anterior"
+			>
+				<i class="pi pi-chevron-up text-sm"></i>
+			</button>
+
+			<button
+				type="button"
+				class="grid size-10 shrink-0 place-items-center rounded-pill text-on-surface transition duration-fast ease-standard hover:bg-primary-container disabled:opacity-40"
+				[disabled]="searchMatches().length === 0"
+				(click)="nextSearchMatch()"
+				aria-label="Coincidencia siguiente"
+			>
+				<i class="pi pi-chevron-down text-sm"></i>
+			</button>
+
+			<button
+				type="button"
+				class="grid size-10 shrink-0 place-items-center rounded-pill text-on-surface-muted transition duration-fast ease-standard hover:bg-primary-container hover:text-on-primary-container"
+				(click)="closeSearch()"
+				aria-label="Cerrar búsqueda"
+			>
+				<i class="pi pi-times text-sm"></i>
+			</button>
+		</div>
+	}
+
+	<div
+		#messagesViewport
+		class="relative min-h-0 flex-1 overflow-x-hidden overflow-y-auto bg-surface px-2 py-3 sm:px-8 sm:py-6"
+		(scroll)="onMessagesScroll($event)"
+	>
 		<div class="pointer-events-none absolute inset-0 opacity-[0.035] [background-image:radial-gradient(circle_at_center,#ff8f27_1.5px,transparent_1.5px)] [background-size:56px_56px]"></div>
 
-		<div class="relative z-10 mx-auto grid max-w-5xl gap-5">
+		<div class="relative z-10 mx-auto grid w-full max-w-5xl gap-3 sm:gap-5">
 			@if (loading()) {
 				@for (item of [1, 2, 3]; track item) {
 					<div class="flex gap-3" [class.flex-row-reverse]="item % 2 === 0">
@@ -138,10 +204,23 @@
 					</div>
 				}
 			} @else {
-				<div class="justify-self-center rounded-pill border border-outline bg-surface-container px-5 py-2 text-sm font-black text-on-surface-muted shadow-1">Hoy</div>
+				@if (loadingMore()) {
+					<div class="justify-self-center">
+						<app-savo-loader size="sm" [padded]="false" />
+					</div>
+				}
 
-				@for (message of messages(); track message.id) {
-					<app-message-bubble [message]="message" [conversation]="conversation()" />
+				@for (group of messageGroups(); track group.key) {
+					<div class="justify-self-center rounded-pill border border-outline bg-surface-container px-5 py-2 text-sm font-black text-on-surface-muted shadow-1">{{ group.label }}</div>
+
+					@for (message of group.messages; track message.id) {
+						<app-message-bubble
+							[message]="message"
+							[conversation]="conversation()"
+							(reply)="replyTo($event)"
+							(navigateToMessage)="scrollToMessage($event)"
+						/>
+					}
 				}
 
 				@if (messages().length === 0) {
@@ -170,7 +249,24 @@
 		</div>
 	</div>
 
-	<footer class="border-t border-outline bg-surface-container p-3 sm:p-5">
+	<footer class="border-t border-outline bg-surface-container p-2.5 sm:p-5">
+		@if (replyingTo(); as reply) {
+			<div class="mb-3 flex items-center gap-3 rounded-xl border border-outline bg-surface-container-low px-4 py-3">
+				<div class="min-w-0 flex-1 border-l-4 border-primary pl-3">
+					<p class="text-xs font-black uppercase text-primary">Respondiendo a {{ reply.sender === 'me' ? 'ti' : conversation().user.name }}</p>
+					<p class="mt-0.5 line-clamp-2 max-h-10 break-words text-sm font-semibold leading-5 text-on-surface-muted">{{ reply.text || 'Mensaje' }}</p>
+				</div>
+				<button
+					type="button"
+					class="grid size-9 shrink-0 place-items-center rounded-pill text-on-surface-muted transition duration-fast ease-standard hover:bg-primary-container hover:text-on-primary-container"
+					(click)="replyingTo.set(null)"
+					aria-label="Cancelar respuesta"
+				>
+					<i class="pi pi-times text-sm"></i>
+				</button>
+			</div>
+		}
+
 		<div class="flex items-center gap-2 sm:gap-3">
 			<button type="button" class="grid size-10 shrink-0 place-items-center rounded-pill bg-surface-container-low text-on-surface transition duration-fast ease-standard hover:bg-primary-container hover:text-on-primary-container sm:size-12" aria-label="Adjuntar">
 				<i class="pi pi-plus text-lg sm:text-xl"></i>
@@ -178,14 +274,37 @@
 
 			<label class="relative min-w-0 flex-1">
 				<input
+					#messageInput
 					type="text"
 					[value]="draft()"
 					(input)="setDraft($event)"
 					(keydown.enter)="send()"
-					class="h-11 w-full rounded-pill border border-transparent bg-surface-container-low px-4 pr-12 text-sm font-semibold text-on-surface outline-none placeholder:text-on-surface-muted focus:border-primary focus:bg-surface-container focus:shadow-[0_0_0_3px_rgb(var(--rgb-primary)/0.16)] sm:h-14 sm:px-6 sm:pr-14"
+					(keydown.escape)="emojiOpen.set(false)"
+					class="h-11 w-full rounded-pill border border-transparent bg-surface-container-low px-4 pr-11 text-sm font-semibold text-on-surface outline-none placeholder:text-on-surface-muted focus:border-primary focus:bg-surface-container focus:shadow-[0_0_0_3px_rgb(var(--rgb-primary)/0.16)] sm:h-14 sm:px-6 sm:pr-14"
 					placeholder="Escribe un mensaje..."
 				/>
-				<button type="button" class="absolute right-1 top-1/2 grid size-10 -translate-y-1/2 place-items-center rounded-pill text-on-surface-muted transition duration-fast ease-standard hover:bg-primary-container hover:text-on-primary-container active:scale-[0.98] sm:right-2 sm:size-11" aria-label="Emoji">
+				@if (emojiOpen()) {
+					<div class="fixed inset-0 z-20" (click)="emojiOpen.set(false)"></div>
+					<div class="absolute bottom-[calc(100%+0.5rem)] right-0 z-30 grid w-64 grid-cols-8 gap-1 rounded-2xl border border-outline bg-surface-container p-2 shadow-4 sm:w-72">
+						@for (emoji of emojis; track emoji) {
+							<button
+								type="button"
+								class="grid size-8 place-items-center rounded-lg text-lg transition duration-fast ease-standard hover:bg-primary-container active:scale-[0.96] sm:size-9 sm:text-xl"
+								(click)="insertEmoji(emoji)"
+								[attr.aria-label]="'Insertar emoji ' + emoji"
+							>
+								{{ emoji }}
+							</button>
+						}
+					</div>
+				}
+				<button
+					type="button"
+					class="absolute right-1 top-1/2 grid size-10 -translate-y-1/2 place-items-center rounded-pill text-on-surface-muted transition duration-fast ease-standard hover:bg-primary-container hover:text-on-primary-container active:scale-[0.98] sm:right-2 sm:size-11"
+					[ngClass]="emojiOpen() ? 'bg-primary-container text-on-primary-container' : ''"
+					(click)="toggleEmojiPicker()"
+					aria-label="Emoji"
+				>
 					<i class="pi pi-face-smile text-base sm:text-xl"></i>
 				</button>
 			</label>

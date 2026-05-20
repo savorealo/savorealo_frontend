@@ -10,6 +10,7 @@ import { FeedRightRail } from './components/feed-right-rail/feed-right-rail'
 import { StoriesStrip } from './components/stories-strip/stories-strip'
 import { StoryViewer } from './components/story-viewer/story-viewer'
 import { ReportSheet } from './components/report-sheet/report-sheet'
+import { SharePostModal } from '@features/messages/components/share-post-modal/share-post-modal'
 
 @Component({
 	selector: 'app-feed-page',
@@ -22,6 +23,7 @@ import { ReportSheet } from './components/report-sheet/report-sheet'
 		StoriesStrip,
 		StoryViewer,
 		ReportSheet,
+		SharePostModal,
 	],
 	templateUrl: './feed-page.html',
 })
@@ -34,6 +36,7 @@ export class FeedPage implements OnDestroy {
 	readonly commentsOpen = signal(false)
 	readonly composerOpen = signal(false)
 	readonly reportingPost = signal<Post | null>(null)
+	readonly sharingPost = signal<Post | null>(null)
 
 	constructor() {
 		afterNextRender(() => {
@@ -63,6 +66,14 @@ export class FeedPage implements OnDestroy {
 
 	closeReport(): void {
 		this.reportingPost.set(null)
+	}
+
+	openShare(post: Post): void {
+		this.sharingPost.set(post)
+	}
+
+	closeShare(): void {
+		this.sharingPost.set(null)
 	}
 
 	addCreatedPost(post: Post): void {

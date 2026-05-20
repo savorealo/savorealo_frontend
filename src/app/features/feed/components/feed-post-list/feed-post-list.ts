@@ -30,6 +30,7 @@ export class FeedPostList implements OnDestroy {
 
 	comment = output<Post>()
 	report  = output<Post>()
+	share   = output<Post>()
 	retry   = output<void>()
 	nearEnd = output<void>()
 	explore = output<void>()

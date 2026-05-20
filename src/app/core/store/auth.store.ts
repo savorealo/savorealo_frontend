@@ -8,6 +8,8 @@ import { AuthService } from '@core/services/auth.service';
 import { UserService } from '@core/services/user.service';
 import { StorageService } from '@core/services/storage';
 import { SupabaseService } from '@core/services/supabase.service';
+import { PresenceService } from '@core/services/presence.service';
+import { SettingsService } from '@core/services/settings.service';
 import { ProfileService, UpdatePersonProfileInput } from '@core/services/profile-service';
 import { LoginUser, RegisterUser, User } from '@core/models/user/User';
 import { toUserMessage } from '@core/utils/user-error';
@@ -19,6 +21,8 @@ export class AuthStore {
   private storageService = inject(StorageService);
   private profileService = inject(ProfileService);
   private supabase       = inject(SupabaseService);
+  private presence       = inject(PresenceService);
+  private settings       = inject(SettingsService);
   private router         = inject(Router);
   private messages       = inject(MessageService);
 
@@ -29,6 +33,7 @@ export class AuthStore {
 
   // Flag para distinguir logout voluntario de sesión expirada
   private _loggingOut = false;
+  private _settingsLoadedForUserId: string | null = null;
 
   readonly user            = this._user.asReadonly();
   readonly profile         = this._profile.asReadonly();
@@ -45,18 +50,25 @@ export class AuthStore {
     ).subscribe(({ event, session }) => {
       this._user.set(session?.user ?? null);
       if (session?.user) {
+        this.presence.start(session.user.id);
         // Fallback inmediato desde JWT metadata (puede estar stale)
         this._profile.set(this.mapMetaToProfile(session.user));
         // Cargar perfil fresco desde la BD en eventos relevantes:
         // - INITIAL_SESSION / SIGNED_IN: primera carga o login
         // - USER_UPDATED: el trigger SQL sincronizó metadata
         const isRelevant = event === 'INITIAL_SESSION' || event === 'SIGNED_IN' || event === 'USER_UPDATED';
+        if ((event === 'INITIAL_SESSION' || event === 'SIGNED_IN') && this._settingsLoadedForUserId !== session.user.id) {
+          this._settingsLoadedForUserId = session.user.id;
+          this.loadUserSettings();
+        }
         if (isRelevant && (lastProfileUserId !== session.user.id || event === 'USER_UPDATED')) {
           lastProfileUserId = session.user.id;
           this.loadFullProfile(session.user.id);
         }
       } else {
+        this.presence.stop();
         this._profile.set(null);
+        this._settingsLoadedForUserId = null;
         lastProfileUserId = null;
         if (event === 'SIGNED_OUT') {
           if (!this._loggingOut) {
@@ -84,6 +96,8 @@ export class AuthStore {
         if (error) throw error;
         this._user.set(data.user!);
         this._profile.set(this.mapMetaToProfile(data.user!));
+        this._settingsLoadedForUserId = data.user!.id;
+        this.loadUserSettings();
         this.loadFullProfile(data.user!.id);
       }),
       catchError(err => {
@@ -122,6 +136,8 @@ export class AuthStore {
         tap(({ error }) => { if (error) throw error; }),
         tap(({ data }) => {
           this._user.set(data.user!);
+          this._settingsLoadedForUserId = data.user!.id;
+          this.loadUserSettings();
           this._profile.set({
             ...this.mapMetaToProfile(data.user!),
             postsCount: 0, followersCount: 0, followingCount: 0,
@@ -140,6 +156,8 @@ export class AuthStore {
       tap(({ error }) => { if (error) throw error; }),
       tap(({ data }) => {
         this._user.set(data.user!);
+        this._settingsLoadedForUserId = data.user!.id;
+        this.loadUserSettings();
         this._profile.set({
           ...this.mapMetaToProfile(data.user!),
           postsCount: 0, followersCount: 0, followingCount: 0,
@@ -263,6 +281,14 @@ export class AuthStore {
         } : profile);
       },
       error: err => console.error('Error cargando perfil:', err)
+    });
+  }
+
+  private loadUserSettings(): void {
+    this.settings.loadSettings().pipe(
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe({
+      error: err => console.error('Error cargando ajustes:', err)
     });
   }
 }
