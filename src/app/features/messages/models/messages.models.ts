@@ -13,6 +13,7 @@ export interface Conversation {
 	id: string
 	user: MessageUser
 	lastMessage: string
+	lastMessageKind?: 'text' | 'post' | 'profile'
 	lastMessageAt: string | null
 	time: string
 	unread: number

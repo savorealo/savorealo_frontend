@@ -75,9 +75,11 @@ export class MessagesService {
 			? this.buildSharedPostContent(sharedPostId, sharedPostAuthorId)
 			: content
 
+		const previewContent = this.conversationPreview(sharedPostId ? storedContent : content).text
+
 		return forkJoin([
 			this.repo.sendMessage(conversationId, senderId, receiverId, storedContent, replyToMessageId, sharedPostId, sharedPostAuthorId),
-			this.repo.updateConversationPreview(conversationId, content),
+			this.repo.updateConversationPreview(conversationId, previewContent),
 		]).pipe(
 			map(([row]) => this.mapMessage(row, senderId)),
 		)
@@ -127,6 +129,8 @@ export class MessagesService {
 		const rawProfile = userEmbed?.person_profiles
 		const profile = Array.isArray(rawProfile) ? rawProfile[0] : rawProfile
 
+		const preview = this.conversationPreview(row.last_message_preview ?? '')
+
 		return {
 			id: row.id,
 			user: {
@@ -138,7 +142,8 @@ export class MessagesService {
 				lastSeenAt: profile?.last_seen_at ?? null,
 				statusText: profile?.last_seen_at ? this.formatLastSeen(new Date(profile.last_seen_at)) : 'Desconectado',
 			},
-			lastMessage: row.last_message_preview ?? '',
+			lastMessage: preview.text,
+			lastMessageKind: preview.kind,
 			lastMessageAt: row.last_message_at,
 			time: row.last_message_at ? this.formatConversationTime(new Date(row.last_message_at)) : '',
 			unread,
@@ -222,6 +227,28 @@ export class MessagesService {
 	private previewText(text?: string): string {
 		const clean = (text ?? 'Mensaje').replace(/\s+/g, ' ').trim()
 		return clean.length > 120 ? `${clean.slice(0, 117)}...` : clean
+	}
+
+	private conversationPreview(content: string): { text: string; kind: Conversation['lastMessageKind'] } {
+		const clean = content.replace(/\s+/g, ' ').trim()
+
+		if (
+			this.parseSharedPostContent(content) ||
+			this.parseSharedPostLink(content) ||
+			clean.toLowerCase() === 'post compartido'
+		) {
+			return { text: 'Post compartido', kind: 'post' }
+		}
+
+		if (
+			this.parseSharedProfileContent(content) ||
+			this.parseSharedProfileLink(content) ||
+			clean.toLowerCase() === 'perfil compartido'
+		) {
+			return { text: 'Perfil compartido', kind: 'profile' }
+		}
+
+		return { text: clean, kind: 'text' }
 	}
 
 	private buildSharedPostContent(postId: string, authorId?: string | null): string {

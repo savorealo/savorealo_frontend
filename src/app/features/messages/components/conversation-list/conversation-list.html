@@ -80,6 +80,16 @@
 							<span class="size-1.5 rounded-pill bg-primary"></span>
 							escribiendo...
 						</span>
+					} @else if (conversation.lastMessageKind === 'post') {
+						<span class="mt-1 inline-flex max-w-full items-center gap-1.5 rounded-pill bg-primary-container px-2.5 py-1 text-xs font-black text-on-primary-container">
+							<i class="pi pi-images text-[0.7rem]"></i>
+							<span class="truncate">{{ conversation.lastMessage }}</span>
+						</span>
+					} @else if (conversation.lastMessageKind === 'profile') {
+						<span class="mt-1 inline-flex max-w-full items-center gap-1.5 rounded-pill bg-primary-container px-2.5 py-1 text-xs font-black text-on-primary-container">
+							<i class="pi pi-user text-[0.7rem]"></i>
+							<span class="truncate">{{ conversation.lastMessage }}</span>
+						</span>
 					} @else {
 						<span class="mt-1 block truncate text-sm font-semibold text-on-surface-muted">{{ conversation.lastMessage }}</span>
 					}
