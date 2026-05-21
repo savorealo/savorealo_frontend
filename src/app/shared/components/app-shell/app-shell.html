@@ -1,13 +1,12 @@
 <app-global-search-panel />
+<app-call-host />
 
 <div class="h-dvh overflow-hidden bg-surface text-on-surface transition-colors duration-base ease-standard lg:grid lg:grid-cols-[200px_minmax(0,1fr)] xl:grid-cols-[240px_minmax(0,1fr)]">
 
-	<!-- ============== NAVEGACIÓN PRINCIPAL ============== -->
 	<aside
 		class="fixed inset-x-0 bottom-0 z-40 border-t border-outline bg-surface-container-high px-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] pt-2 shadow-4 lg:sticky lg:inset-auto lg:top-0 lg:h-dvh lg:border-r lg:border-t-0 lg:px-4 lg:py-6 lg:shadow-none lg:flex lg:flex-col lg:gap-6"
 		aria-label="Navegación principal"
 	>
-		<!-- Logo (desktop) -->
 		<div class="hidden items-center gap-3 lg:flex">
 			<a
 				routerLink="/"
@@ -23,7 +22,6 @@
 			</a>
 		</div>
 
-		<!-- Quick search (desktop) -->
 		<button
 			type="button"
 			class="hidden w-full items-center gap-2 rounded-pill border border-outline bg-surface-container px-4 py-2.5 text-left text-body-sm font-medium text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container-low hover:text-on-surface lg:flex"
@@ -35,7 +33,6 @@
 			<kbd class="rounded-sm border border-outline bg-surface px-1.5 py-0.5 text-[0.65rem] font-bold text-on-surface-muted">⌘K</kbd>
 		</button>
 
-		<!-- Items de navegación -->
 		<nav class="hidden lg:flex lg:flex-col lg:gap-1.5">
 			@for (item of navItems; track item.route) {
 				<a
@@ -86,9 +83,7 @@
 			}
 		</nav>
 
-		<!-- Pie de la sidebar: perfil + logout (desktop) -->
 		<div class="mt-auto hidden gap-2 pt-4 lg:grid">
-			<!-- Tarjeta de perfil -->
 			<a
 				routerLink="/profile"
 				class="flex items-center gap-3 rounded-xl border border-outline bg-surface-container p-3 text-left transition-colors duration-fast ease-standard hover:bg-surface-container-low"
@@ -124,7 +119,6 @@
 		</div>
 	</aside>
 
-	<!-- ============== CONTENIDO PRINCIPAL (topbar + main) ============== -->
 	<div class="grid min-w-0 grid-rows-[auto_minmax(0,1fr)] h-[calc(100dvh-var(--shell-bottombar-height))] lg:h-dvh">
 		@if (showTopbar()) {
 			<app-topbar (create)="create.emit()" />

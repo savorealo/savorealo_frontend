@@ -1,14 +1,14 @@
-@if (store.isInCall()) {
+@if (store.isCalling() || store.isActive()) {
 	<div class="fixed inset-0 z-[100] flex flex-col bg-gray-950 text-white">
+		@if (!call().isVideo && store.remoteStream()) {
+			<audio #remoteAudio autoplay></audio>
+		}
 
-		<!-- ── Main area ───────────────────────────────────────────────── -->
 		<div class="relative flex-1 overflow-hidden">
 
-			<!-- Remote video (active call, video enabled) -->
 			@if (call().isVideo && store.isActive() && store.remoteStream()) {
 				<video #remoteVideo autoplay playsinline class="h-full w-full object-cover"></video>
 			} @else {
-				<!-- Avatar / waiting screen -->
 				<div class="flex h-full flex-col items-center justify-center gap-6 bg-gradient-to-b from-gray-900 to-gray-950">
 					<div class="relative">
 						<img
@@ -31,7 +31,6 @@
 				</div>
 			}
 
-			<!-- Local video PiP (bottom-right corner) -->
 			@if (call().isVideo && store.localStream()) {
 				<div class="absolute bottom-24 right-4 overflow-hidden rounded-2xl shadow-2xl ring-2 ring-white/20 transition-all">
 					<video #localVideo autoplay playsinline muted class="h-36 w-24 object-cover sm:h-48 sm:w-32"></video>
@@ -43,7 +42,6 @@
 				</div>
 			}
 
-			<!-- Duration badge (top-left, video only) -->
 			@if (call().isVideo && store.isActive()) {
 				<div class="absolute left-4 top-4 flex items-center gap-2 rounded-full bg-black/50 px-4 py-2 text-sm font-black backdrop-blur">
 					<span class="size-2 rounded-full bg-red-500 animate-pulse"></span>
@@ -52,10 +50,8 @@
 			}
 		</div>
 
-		<!-- ── Controls bar ─────────────────────────────────────────────── -->
 		<div class="flex items-center justify-center gap-4 bg-gray-950/95 px-6 py-6 sm:gap-6">
 
-			<!-- Mute -->
 			<button
 				type="button"
 				class="grid size-14 place-items-center rounded-full transition active:scale-95"
@@ -71,7 +67,6 @@
 				</i>
 			</button>
 
-			<!-- Camera (only for video calls) -->
 			@if (call().isVideo) {
 				<button
 					type="button"
@@ -89,7 +84,6 @@
 				</button>
 			}
 
-			<!-- Hang up -->
 			<button
 				type="button"
 				class="grid size-20 place-items-center rounded-full bg-red-600 text-white shadow-lg shadow-red-600/50 transition hover:bg-red-700 active:scale-95"
@@ -99,7 +93,6 @@
 				<i class="pi pi-phone text-2xl" style="transform: rotate(135deg)"></i>
 			</button>
 
-			<!-- Speaker -->
 			<button
 				type="button"
 				class="grid size-14 place-items-center rounded-full bg-white/10 text-white transition hover:bg-white/20 active:scale-95"
@@ -108,7 +101,6 @@
 				<i class="pi pi-volume-up text-2xl"></i>
 			</button>
 
-			<!-- Spacer when no camera button (keeps hang-up centered) -->
 			@if (!call().isVideo) {
 				<div class="size-14"></div>
 			}

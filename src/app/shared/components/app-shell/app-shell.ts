@@ -5,6 +5,7 @@ import { NotificationsStore }                        from '@core/store/notificat
 import { GlobalSearchStore }                         from '@core/store/global-search.store'
 import { GlobalSearchPanel }                         from '@shared/components/global-search/global-search-panel'
 import { Topbar }                                    from '@shared/components/topbar/topbar'
+import { CallHost }                                  from '@shared/components/call-host/call-host'
 import { ShoppingListService }                       from '@features/shopping-list/shopping-list.service'
 
 interface ShellNavItem {
@@ -15,7 +16,7 @@ interface ShellNavItem {
 
 @Component({
 	selector: 'app-shell',
-	imports: [RouterLink, RouterLinkActive, GlobalSearchPanel, Topbar],
+	imports: [RouterLink, RouterLinkActive, GlobalSearchPanel, Topbar, CallHost],
 	templateUrl: './app-shell.html',
 	styles: [`
 		@keyframes logo-roll-in {

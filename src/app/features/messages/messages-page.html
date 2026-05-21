@@ -1,7 +1,4 @@
 <app-shell [showTopbar]="false">
-	<!-- Global overlays -->
-	<app-incoming-call />
-	<app-call-overlay />
 	@if (showCompose()) {
 		<app-new-conversation (close)="showCompose.set(false)" />
 	}
