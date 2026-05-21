@@ -8,6 +8,8 @@ import { Conversation, ConversationFilter } from '../../models/messages.models'
 	templateUrl: './conversation-list.html',
 })
 export class ConversationList {
+	private readonly fallbackAvatar = '/assets/icons/new_logo.png'
+
 	conversations = input.required<Conversation[]>()
 	activeId = input.required<string>()
 
@@ -47,5 +49,9 @@ export class ConversationList {
 
 	setFilter(filter: ConversationFilter): void {
 		this.filter.set(filter)
+	}
+
+	avatarUrl(conversation: Conversation): string {
+		return conversation.user.avatarUrl ?? this.fallbackAvatar
 	}
 }

@@ -44,6 +44,6 @@ export class MessagesPage {
 	onStartCall(type: 'audio' | 'video'): void {
 		const conv = this.store.activeConversation()
 		if (!conv) return
-		this.callStore.initiateCall(conv.id, conv.user.id, conv.user.name, conv.user.avatarUrl, type === 'video')
+		this.callStore.initiateCall(conv.id, conv.user.id, conv.user.name, conv.user.avatarUrl ?? '', type === 'video')
 	}
 }

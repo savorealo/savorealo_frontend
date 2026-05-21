@@ -55,7 +55,7 @@ jobs:
           ls -lh dist/cookeealo/browser/_worker.js
 
       - name: Deploy to Cloudflare Pages
-        run: npx wrangler pages deploy dist/cookeealo/browser --project-name savorealo-frontend --no-bundle
+        run: npx -y wrangler@4.93.0 pages deploy dist/cookeealo/browser --project-name savorealo-frontend --no-bundle
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

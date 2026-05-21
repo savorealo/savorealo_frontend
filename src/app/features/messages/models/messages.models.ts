@@ -2,7 +2,7 @@ export interface MessageUser {
 	id: string
 	name: string
 	username: string
-	avatarUrl: string
+	avatarUrl: string | null
 	online?: boolean
 	lastSeenAt?: string | null
 	statusText?: string

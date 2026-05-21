@@ -130,14 +130,16 @@ export class MessagesService {
 		const profile = Array.isArray(rawProfile) ? rawProfile[0] : rawProfile
 
 		const preview = this.conversationPreview(row.last_message_preview ?? '')
+		const username = profile?.username ?? ''
+		const name = isGroup ? (row.name ?? 'Grupo') : (profile?.full_name || username || 'Usuario')
 
 		return {
 			id: row.id,
 			user: {
 				id: other?.user_id ?? row.id,
-				name: isGroup ? (row.name ?? 'Grupo') : (profile?.full_name || profile?.username || 'Usuario'),
-				username: profile?.username ?? '',
-				avatarUrl: profile?.photo_url ?? '',
+				name,
+				username,
+				avatarUrl: profile?.photo_url || null,
 				online: false,
 				lastSeenAt: profile?.last_seen_at ?? null,
 				statusText: profile?.last_seen_at ? this.formatLastSeen(new Date(profile.last_seen_at)) : 'Desconectado',
@@ -248,7 +250,7 @@ export class MessagesService {
 			return { text: 'Perfil compartido', kind: 'profile' }
 		}
 
-		return { text: clean, kind: 'text' }
+		return { text: clean || 'Sin mensajes', kind: 'text' }
 	}
 
 	private buildSharedPostContent(postId: string, authorId?: string | null): string {
