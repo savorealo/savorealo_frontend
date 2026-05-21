@@ -62,7 +62,7 @@
 				(click)="selectConversation.emit(conversation.id)"
 			>
 				<span class="relative grid size-14 shrink-0 place-items-center overflow-hidden rounded-full bg-orange-100">
-					<img [src]="conversation.user.avatarUrl" [alt]="conversation.user.name" class="size-full object-cover" />
+					<img [src]="avatarUrl(conversation)" [alt]="conversation.user.name" class="size-full object-cover" />
 					@if (conversation.user.online) {
 						<span class="absolute bottom-0.5 right-0.5 size-3.5 rounded-full border-2 border-surface-container bg-green-500"></span>
 					}

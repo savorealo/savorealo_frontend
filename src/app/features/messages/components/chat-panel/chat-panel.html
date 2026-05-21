@@ -16,14 +16,22 @@
 					class="relative grid size-11 shrink-0 place-items-center overflow-hidden rounded-pill bg-primary-container transition duration-fast ease-standard hover:ring-2 hover:ring-primary/40 sm:size-16"
 					[attr.aria-label]="'Ver perfil de ' + conversation().user.name"
 				>
-					<img [src]="conversation().user.avatarUrl" [alt]="conversation().user.name" class="size-full object-cover" />
+					@if (conversation().user.avatarUrl) {
+						<img [src]="conversation().user.avatarUrl" [alt]="conversation().user.name" class="size-full object-cover" />
+					} @else {
+						<i class="pi pi-user text-xl text-primary sm:text-2xl"></i>
+					}
 					@if (conversation().user.online) {
 						<span class="absolute bottom-1 right-1 size-3 rounded-pill border-2 border-surface-container bg-green-500 sm:size-3.5"></span>
 					}
 				</a>
 			} @else {
 				<span class="relative grid size-11 shrink-0 place-items-center overflow-hidden rounded-pill bg-primary-container sm:size-16">
-					<img [src]="conversation().user.avatarUrl" [alt]="conversation().user.name" class="size-full object-cover" />
+					@if (conversation().user.avatarUrl) {
+						<img [src]="conversation().user.avatarUrl" [alt]="conversation().user.name" class="size-full object-cover" />
+					} @else {
+						<i class="pi pi-user text-xl text-primary sm:text-2xl"></i>
+					}
 					@if (conversation().user.online) {
 						<span class="absolute bottom-1 right-1 size-3 rounded-pill border-2 border-surface-container bg-green-500 sm:size-3.5"></span>
 					}
@@ -235,7 +243,13 @@
 				<!-- Typing indicator -->
 				@if (isTyping()) {
 					<div class="flex items-end gap-3">
-						<img [src]="conversation().user.avatarUrl" [alt]="conversation().user.name" class="mt-auto size-9 rounded-pill object-cover shadow-1" />
+						<span class="mt-auto grid size-9 shrink-0 place-items-center overflow-hidden rounded-pill bg-primary-container text-primary shadow-1">
+							@if (conversation().user.avatarUrl) {
+								<img [src]="conversation().user.avatarUrl" [alt]="conversation().user.name" class="size-full object-cover" />
+							} @else {
+								<i class="pi pi-user text-sm"></i>
+							}
+						</span>
 						<div class="rounded-2xl border border-outline bg-surface-container px-5 py-3 shadow-2">
 							<span class="flex items-center gap-1.5">
 								<span class="size-2 rounded-pill bg-on-surface-muted animate-bounce [animation-delay:0ms]"></span>

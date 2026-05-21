@@ -1,6 +1,12 @@
 <div class="flex w-full min-w-0 scroll-mt-24 gap-2 transition-shadow duration-normal sm:gap-3" [attr.data-message-id]="message().id" [ngClass]="isMine() ? 'justify-end' : 'justify-start'">
 	@if (!isMine()) {
-		<img [src]="conversation().user.avatarUrl" [alt]="conversation().user.name" class="mt-auto size-8 shrink-0 rounded-pill object-cover shadow-1 sm:size-9" />
+		<span class="mt-auto grid size-8 shrink-0 place-items-center overflow-hidden rounded-pill bg-primary-container text-primary shadow-1 sm:size-9">
+			@if (conversation().user.avatarUrl) {
+				<img [src]="conversation().user.avatarUrl" [alt]="conversation().user.name" class="size-full object-cover" />
+			} @else {
+				<i class="pi pi-user text-sm"></i>
+			}
+		</span>
 	}
 
 	@if (message().typing) {
