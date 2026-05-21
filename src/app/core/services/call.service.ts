@@ -1,9 +1,5 @@
 import { Injectable, signal } from '@angular/core'
 
-/**
- * Pure WebRTC service — manages the peer connection, media streams and
- * codec negotiation. All signalling is handled by CallStore.
- */
 @Injectable({ providedIn: 'root' })
 export class CallService {
 	readonly localStream  = signal<MediaStream | null>(null)
@@ -15,8 +11,6 @@ export class CallService {
 		iceServers: [
 			{ urls: 'stun:stun.l.google.com:19302' },
 			{ urls: 'stun:stun1.l.google.com:19302' },
-			// TURN gratis de OpenRelay (Metered) — necesario para NAT estrictos
-			// Sin TURN, los media streams no fluyen aunque la señalización funcione.
 			{
 				urls: [
 					'turn:openrelay.metered.ca:80',
@@ -30,8 +24,6 @@ export class CallService {
 		iceCandidatePoolSize: 10,
 	}
 
-	// ─── Media ───────────────────────────────────────────────────────────────
-
 	async getLocalStream(isVideo: boolean): Promise<MediaStream> {
 		const stream = await navigator.mediaDevices.getUserMedia({
 			audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true },
@@ -42,8 +34,6 @@ export class CallService {
 		this.localStream.set(stream)
 		return stream
 	}
-
-	// ─── Peer connection ─────────────────────────────────────────────────────
 
 	createPeerConnection(
 		onIceCandidate: (candidate: RTCIceCandidateInit) => void,
@@ -87,17 +77,12 @@ export class CallService {
 	}
 
 	async addIceCandidate(candidate: RTCIceCandidateInit): Promise<void> {
-		if (!this.pc) return
+		if (!this.pc || !this.pc.remoteDescription) throw new Error('Remote description not ready')
 		try {
 			await this.pc.addIceCandidate(new RTCIceCandidate(candidate))
-		} catch {
-			// ignore stale candidates
-		}
+		} catch {}
 	}
 
-	// ─── Controls ────────────────────────────────────────────────────────────
-
-	/** Returns true if now muted */
 	toggleMute(): boolean {
 		const track = this.localStream()?.getAudioTracks()[0]
 		if (!track) return false
@@ -105,15 +90,12 @@ export class CallService {
 		return !track.enabled
 	}
 
-	/** Returns true if camera is now off */
 	toggleCamera(): boolean {
 		const track = this.localStream()?.getVideoTracks()[0]
 		if (!track) return false
 		track.enabled = !track.enabled
 		return !track.enabled
 	}
-
-	// ─── Cleanup ─────────────────────────────────────────────────────────────
 
 	cleanup(): void {
 		this.localStream()?.getTracks().forEach(t => t.stop())

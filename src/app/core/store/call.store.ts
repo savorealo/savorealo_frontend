@@ -4,8 +4,6 @@ import { SupabaseService } from '@core/services/supabase.service'
 import { AuthStore } from '@core/store/auth.store'
 import { CallService } from '@core/services/call.service'
 
-// ─── Types ────────────────────────────────────────────────────────────────────
-
 export type CallStatus = 'idle' | 'calling' | 'incoming' | 'active'
 
 export interface CallState {
@@ -22,6 +20,7 @@ export interface CallSignalPayload {
 	type: 'offer' | 'answer' | 'ice-candidate' | 'hangup' | 'reject'
 	from: string
 	to: string
+	conversationId?: string
 	sdp?: RTCSessionDescriptionInit
 	candidate?: RTCIceCandidateInit
 	remoteName?: string
@@ -39,15 +38,11 @@ const IDLE: CallState = {
 	durationSeconds: 0,
 }
 
-// ─── Store ────────────────────────────────────────────────────────────────────
-
 @Injectable({ providedIn: 'root' })
 export class CallStore {
 	private readonly supabase   = inject(SupabaseService)
 	private readonly auth       = inject(AuthStore)
 	private readonly callSvc    = inject(CallService)
-
-	// ── State ──────────────────────────────────────────────────────────────
 
 	private readonly _call = signal<CallState>(IDLE)
 	readonly call          = this._call.asReadonly()
@@ -60,22 +55,33 @@ export class CallStore {
 	readonly isMuted     = signal(false)
 	readonly isCameraOff = signal(false)
 
-	// Expose streams from CallService directly
 	readonly localStream  = this.callSvc.localStream
 	readonly remoteStream = this.callSvc.remoteStream
 
-	// ── Internals ──────────────────────────────────────────────────────────
-
 	private readonly channels   = new Map<string, RealtimeChannel>()
+	private userChannel: RealtimeChannel | null = null
+	private subscribedUserId: string | null = null
 	private pendingOffer: RTCSessionDescriptionInit | null = null
+	private pendingCandidates: RTCIceCandidateInit[] = []
+	private answerHandled = false
 	private timer: ReturnType<typeof setInterval> | null = null
+	private incomingTimeout: ReturnType<typeof setTimeout> | null = null
 
-	// ── Subscription management ────────────────────────────────────────────
+	subscribeForCurrentUser(): void {
+		const myId = this.auth.currentUserId()
+		if (!myId || this.subscribedUserId === myId) return
 
-	/**
-	 * Call once per conversation when the messages page loads.
-	 * Keeps a Realtime broadcast channel open for incoming call signals.
-	 */
+		this.userChannel?.unsubscribe()
+		this.userChannel = this.supabase.client
+			.channel(`call-user:${myId}`)
+			.on('broadcast', { event: 'call-signal' }, ({ payload: p }: { payload: CallSignalPayload }) => {
+				if (p.to !== myId || !p.conversationId) return
+				this.handleSignal(p.conversationId, p)
+			})
+			.subscribe()
+		this.subscribedUserId = myId
+	}
+
 	subscribeForConversation(conversationId: string): void {
 		if (this.channels.has(conversationId)) return
 		this.ensureSubscribed(conversationId)
@@ -85,9 +91,10 @@ export class CallStore {
 		this.channels.forEach(ch => ch.unsubscribe())
 		this.channels.clear()
 		this.subscriptionReady.clear()
+		this.userChannel?.unsubscribe()
+		this.userChannel = null
+		this.subscribedUserId = null
 	}
-
-	// ── Initiate ──────────────────────────────────────────────────────────
 
 	async initiateCall(
 		conversationId: string,
@@ -100,11 +107,12 @@ export class CallStore {
 		const myProfile = this.auth.profile()
 		if (!myId) return
 
-		// Ensure we're subscribed to signal channel before sending
 		this.subscribeForConversation(conversationId)
 
 		try {
 			const stream = await this.callSvc.getLocalStream(isVideo)
+
+			await this.ensureSubscribed(conversationId)
 
 			this.callSvc.createPeerConnection(candidate =>
 				this.sendSignal(conversationId, { type: 'ice-candidate', from: myId, to: receiverId, candidate }),
@@ -112,6 +120,7 @@ export class CallStore {
 			this.callSvc.addLocalTracks(stream)
 
 			this._call.set({ status: 'calling', conversationId, remoteUserId: receiverId, remoteName: receiverName, remoteAvatar: receiverAvatar, isVideo, durationSeconds: 0 })
+			this.answerHandled = false
 
 			const offer = await this.callSvc.createOffer()
 
@@ -131,8 +140,6 @@ export class CallStore {
 		}
 	}
 
-	// ── Accept / Reject ────────────────────────────────────────────────────
-
 	async acceptCall(): Promise<void> {
 		const state = this._call()
 		if (state.status !== 'incoming' || !state.conversationId || !state.remoteUserId || !this.pendingOffer) return
@@ -143,6 +150,8 @@ export class CallStore {
 		try {
 			const stream = await this.callSvc.getLocalStream(state.isVideo)
 
+			await this.ensureSubscribed(state.conversationId)
+
 			this.callSvc.createPeerConnection(candidate =>
 				this.sendSignal(state.conversationId!, { type: 'ice-candidate', from: myId, to: state.remoteUserId!, candidate }),
 			)
@@ -150,9 +159,11 @@ export class CallStore {
 
 			const answer = await this.callSvc.createAnswer(this.pendingOffer)
 			this.pendingOffer = null
+			await this.flushPendingCandidates()
 
 			this.sendSignal(state.conversationId, { type: 'answer', from: myId, to: state.remoteUserId, sdp: answer })
 
+			this.clearIncomingTimeout()
 			this._call.update(c => ({ ...c, status: 'active' }))
 			this.startTimer()
 		} catch (err) {
@@ -168,12 +179,8 @@ export class CallStore {
 		if (myId && state.conversationId && state.remoteUserId) {
 			this.sendSignal(state.conversationId, { type: 'reject', from: myId, to: state.remoteUserId })
 		}
-		this.callSvc.cleanup()
-		this.pendingOffer = null
-		this._call.set(IDLE)
+		this.endCall()
 	}
-
-	// ── Hang up / Cancel ────────────────────────────────────────────────────
 
 	hangUp(): void {
 		const state = this._call()
@@ -185,12 +192,8 @@ export class CallStore {
 		this.endCall()
 	}
 
-	// ── Controls ───────────────────────────────────────────────────────────
-
 	toggleMute(): void    { this.isMuted.set(this.callSvc.toggleMute()) }
 	toggleCamera(): void  { this.isCameraOff.set(this.callSvc.toggleCamera()) }
-
-	// ── Signal handling ────────────────────────────────────────────────────
 
 	private handleSignal(conversationId: string, payload: CallSignalPayload): void {
 		const state = this._call()
@@ -198,12 +201,13 @@ export class CallStore {
 		switch (payload.type) {
 			case 'offer':
 				if (state.status !== 'idle') {
-					// Already in a call — auto-reject
 					const myId = this.auth.currentUserId()
 					if (myId) this.sendSignal(conversationId, { type: 'reject', from: myId, to: payload.from })
 					return
 				}
+				this.subscribeForConversation(conversationId)
 				this.pendingOffer = payload.sdp ?? null
+				this.pendingCandidates = []
 				this._call.set({
 					status: 'incoming',
 					conversationId,
@@ -213,19 +217,31 @@ export class CallStore {
 					isVideo: payload.isVideo ?? false,
 					durationSeconds: 0,
 				})
+				this.startIncomingTimeout()
 				break
 
 			case 'answer':
 				if (state.status !== 'calling') return
+				if (this.answerHandled) return
 				if (payload.sdp) {
-					this.callSvc.setRemoteAnswer(payload.sdp)
-					this._call.update(c => ({ ...c, status: 'active' }))
-					this.startTimer()
+					this.answerHandled = true
+					this.callSvc.setRemoteAnswer(payload.sdp).then(() => {
+						this.flushPendingCandidates()
+						this._call.update(c => ({ ...c, status: 'active' }))
+						this.startTimer()
+					}).catch(err => {
+						console.error('[CallStore] answer error:', err)
+						this.answerHandled = false
+					})
 				}
 				break
 
 			case 'ice-candidate':
-				if (payload.candidate) this.callSvc.addIceCandidate(payload.candidate)
+				if (payload.candidate) {
+					this.callSvc.addIceCandidate(payload.candidate).catch(() => {
+						this.pendingCandidates.push(payload.candidate!)
+					})
+				}
 				break
 
 			case 'hangup':
@@ -267,12 +283,35 @@ export class CallStore {
 
 	private async sendSignal(conversationId: string, payload: CallSignalPayload): Promise<void> {
 		await this.ensureSubscribed(conversationId)
+		const enriched = { ...payload, conversationId }
+
+		if (payload.type === 'offer') {
+			await this.sendToUserChannel(payload.to, enriched)
+			return
+		}
+
 		const ch = this.channels.get(conversationId)
-		if (!ch) return
-		await ch.send({ type: 'broadcast', event: 'call-signal', payload })
+		if (ch) await ch.send({ type: 'broadcast', event: 'call-signal', payload: enriched })
+
+		if (payload.type === 'answer' || payload.type === 'hangup' || payload.type === 'reject') {
+			await this.sendToUserChannel(payload.to, enriched)
+		}
 	}
 
-	// ── Timer ──────────────────────────────────────────────────────────────
+	private async sendToUserChannel(userId: string, payload: CallSignalPayload): Promise<void> {
+		const userChannel = this.supabase.client.channel(`call-user:${userId}`)
+		await new Promise<void>(resolve => {
+			userChannel.subscribe(status => {
+				if (status !== 'SUBSCRIBED') return
+				userChannel
+					.send({ type: 'broadcast', event: 'call-signal', payload })
+					.finally(() => {
+						userChannel.unsubscribe()
+						resolve()
+					})
+			})
+		})
+	}
 
 	private startTimer(): void {
 		this.stopTimer()
@@ -283,12 +322,35 @@ export class CallStore {
 		if (this.timer) { clearInterval(this.timer); this.timer = null }
 	}
 
+	private startIncomingTimeout(): void {
+		this.clearIncomingTimeout()
+		this.incomingTimeout = setTimeout(() => {
+			if (this._call().status === 'incoming') this.rejectCall()
+		}, 30000)
+	}
+
+	private clearIncomingTimeout(): void {
+		if (this.incomingTimeout) {
+			clearTimeout(this.incomingTimeout)
+			this.incomingTimeout = null
+		}
+	}
+
+	private async flushPendingCandidates(): Promise<void> {
+		const candidates = [...this.pendingCandidates]
+		this.pendingCandidates = []
+		await Promise.all(candidates.map(candidate => this.callSvc.addIceCandidate(candidate).catch(() => undefined)))
+	}
+
 	private endCall(): void {
 		this.stopTimer()
+		this.clearIncomingTimeout()
 		this.callSvc.cleanup()
 		this._call.set(IDLE)
 		this.isMuted.set(false)
 		this.isCameraOff.set(false)
 		this.pendingOffer = null
+		this.pendingCandidates = []
+		this.answerHandled = false
 	}
 }
