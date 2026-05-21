@@ -348,9 +348,15 @@ export class MessagesStore {
 	}
 
 	private updateConversationPreview(convId: string, text: string): void {
+		const lastMessageKind = text === 'Post compartido'
+			? 'post'
+			: text === 'Perfil compartido'
+				? 'profile'
+				: 'text'
+
 		this._conversations.update(convs =>
 			convs.map(c => c.id === convId
-				? { ...c, lastMessage: text, time: 'Ahora' }
+				? { ...c, lastMessage: text, lastMessageKind, time: 'Ahora' }
 				: c,
 			),
 		)
