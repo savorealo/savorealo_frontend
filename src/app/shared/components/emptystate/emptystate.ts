@@ -6,7 +6,7 @@ import { ButtonComponent } from '../button/button';
  * Uso:
  * <!-- Uso -->
 <app-empty-state
-  icon="🍽️"
+  icon="pi pi-book"
   title="Aún no hay recetas"
   description="Sé el primero en publicar algo delicioso."
   actionLabel="Crear receta"
@@ -14,13 +14,13 @@ import { ButtonComponent } from '../button/button';
 />
 
 <app-empty-state
-  icon="👥"
+  icon="pi pi-users"
   title="Sin seguidores todavía"
   description="Comparte tu perfil para que te descubran."
 />
 
 <app-empty-state
-  icon="🔍"
+  icon="pi pi-search"
   title="Sin resultados"
   description="Prueba con otro término de búsqueda."
 />
@@ -42,11 +42,11 @@ import { ButtonComponent } from '../button/button';
       </div>
 
       <div class="flex flex-col gap-1 max-w-xs">
-        <h3 class="text-base font-medium text-surface-900 dark:text-surface-100">
+        <h3 class="text-title-md font-bold text-on-surface">
           {{ title }}
         </h3>
         @if(description) {
-          <p class="text-sm text-surface-500">
+          <p class="text-body-sm text-on-surface-muted">
             {{ description }}
           </p>
         }
@@ -62,7 +62,7 @@ import { ButtonComponent } from '../button/button';
   `,
 })
 export class Emptystate {
-  @Input() icon = '📭';
+  @Input() icon = 'pi pi-inbox';
   @Input() title = 'Nada por aquí';
   @Input() description = '';
   @Input() actionLabel = '';

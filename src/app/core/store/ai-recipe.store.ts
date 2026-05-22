@@ -6,6 +6,7 @@ import {
 	AiRecipeService,
 	AiRecipeType,
 } from '@core/services/ai-recipe.service'
+import { toUserMessage } from '@core/utils/user-error'
 
 export interface AiIdea {
 	id: number
@@ -103,7 +104,7 @@ export class AiRecipeStore {
 			finalize(() => this._loading.set(false)),
 		).subscribe({
 			next: recipe => this._generatedRecipe.set(recipe),
-			error: err => this._error.set(err.message ?? 'No se pudo generar la receta'),
+			error: err => this._error.set(toUserMessage(err, 'No se pudo generar la receta')),
 		})
 	}
 

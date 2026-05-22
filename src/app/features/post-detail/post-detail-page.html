@@ -4,7 +4,7 @@
 		<!-- Back -->
 		<button
 			type="button"
-			class="mb-5 inline-flex items-center gap-2 text-sm font-bold text-black/50 hover:text-black transition"
+			class="mb-5 inline-flex min-h-11 items-center gap-2 rounded-pill px-3 text-body-sm font-bold text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container hover:text-on-surface"
 			(click)="goBack()"
 		>
 			<i class="pi pi-arrow-left"></i>
@@ -13,29 +13,15 @@
 
 		<!-- Loading -->
 		@if (loading()) {
-			<div class="grid gap-5">
-				<div class="flex items-center gap-3">
-					<div class="size-12 animate-pulse rounded-full bg-gray-200"></div>
-					<div class="grid gap-2">
-						<div class="h-4 w-32 animate-pulse rounded-full bg-gray-200"></div>
-						<div class="h-3 w-20 animate-pulse rounded-full bg-gray-200"></div>
-					</div>
-				</div>
-				<div class="aspect-square w-full animate-pulse rounded-2xl bg-gray-200"></div>
-				<div class="grid gap-2">
-					<div class="h-4 w-3/4 animate-pulse rounded-full bg-gray-200"></div>
-					<div class="h-4 w-full animate-pulse rounded-full bg-gray-200"></div>
-					<div class="h-4 w-2/3 animate-pulse rounded-full bg-gray-200"></div>
-				</div>
-			</div>
+			<app-savo-loader size="lg" message="Cargando receta..." />
 		}
 
 		<!-- Error -->
 		@if (error()) {
-			<div class="rounded-2xl bg-red-50 p-6 text-center">
-				<i class="pi pi-exclamation-triangle mb-2 text-3xl text-red-400"></i>
-				<p class="font-black text-red-700">{{ error() }}</p>
-				<button type="button" class="mt-3 text-sm font-bold text-red-600 underline" (click)="router.navigate(['/'])">Ir al feed</button>
+			<div class="rounded-2xl border border-error/30 bg-error-container p-6 text-center">
+				<i class="pi pi-exclamation-triangle mb-2 text-3xl text-error"></i>
+				<p class="font-bold text-on-error-container">{{ error() }}</p>
+				<button type="button" class="mt-3 text-body-sm font-bold text-error underline" (click)="router.navigate(['/'])">Ir al feed</button>
 			</div>
 		}
 
@@ -49,24 +35,46 @@
 						<app-avatar [src]="post.author.photoUrl" [name]="authorName()" size="lg" />
 					</a>
 					<div class="min-w-0 flex-1">
-						<a [routerLink]="profileLink()" class="text-base font-black hover:underline">{{ authorName() }}</a>
-						<div class="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-sm font-semibold text-black/45">
+						<a [routerLink]="profileLink()" class="text-body-md font-bold text-on-surface hover:underline">{{ authorName() }}</a>
+						<div class="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-body-sm font-medium text-on-surface-muted">
 							@if (authorHandle()) { <span>{{ authorHandle() }}</span><span>·</span> }
 							<span>{{ post.createdAt | timeAgo }}</span>
 						</div>
 					</div>
+					@if (!isOwnPost()) {
+						<button type="button"
+							class="ml-auto inline-flex h-9 items-center gap-1.5 rounded-full px-4 text-xs font-black transition disabled:opacity-60"
+							[class]="followStatus() === 'following'
+								? 'border border-black/10 text-black/60 hover:bg-black/5'
+								: 'bg-[#ff8f27] text-white hover:bg-[#f47f13]'"
+							[disabled]="followLoading()"
+							(click)="toggleFollow()">
+							@if (followLoading()) {
+								<i class="pi pi-spinner pi-spin"></i>
+							} @else if (followStatus() === 'following') {
+								<i class="pi pi-user-minus text-xs"></i>
+								<span>Siguiendo</span>
+							} @else if (followStatus() === 'requested') {
+								<i class="pi pi-clock text-xs"></i>
+								<span>Solicitado</span>
+							} @else {
+								<i class="pi pi-user-plus text-xs"></i>
+								<span>Seguir</span>
+							}
+						</button>
+					}
 				</header>
 
 				<!-- Title -->
 				@if (post.title) {
-					<h1 class="text-2xl font-black leading-tight text-black">{{ post.title }}</h1>
+					<h1 class="font-display text-headline-md text-on-surface">{{ post.title }}</h1>
 				}
 
 				<!-- Categories -->
 				@if (post.categories.length > 0) {
 					<div class="flex flex-wrap gap-2">
 						@for (cat of post.categories; track cat) {
-							<span class="rounded-full bg-orange-100 px-3 py-1 text-xs font-black text-orange-700">{{ cat }}</span>
+							<span class="rounded-pill bg-primary-container px-3 py-1 text-label-md font-bold text-on-primary-container">{{ cat }}</span>
 						}
 					</div>
 				}
@@ -74,7 +82,7 @@
 				<!-- Media carousel -->
 				@if (post.media.length > 0) {
 					<div class="grid gap-2">
-						<div class="relative aspect-square overflow-hidden rounded-2xl bg-gray-100">
+						<div class="relative aspect-square overflow-hidden rounded-2xl border border-outline bg-surface-container">
 							@if (primaryMedia()!.type === 'video') {
 								<video
 									class="size-full object-cover"
@@ -87,7 +95,7 @@
 									[ngSrc]="primaryMedia()!.url"
 									[alt]="post.title || 'Publicación culinaria'"
 									fill
-									sizes="(max-width: 768px) 100vw, 672px"
+									sizes="(max-width: 768px) 100vw, 50vw"
 									class="object-cover"
 								/>
 							}
@@ -98,8 +106,8 @@
 								@for (media of post.media; track media.id; let i = $index) {
 									<button
 										type="button"
-										class="relative aspect-square w-16 shrink-0 overflow-hidden rounded-lg transition"
-										[class]="activeMediaIdx() === i ? 'ring-2 ring-orange-500' : 'opacity-60 hover:opacity-100'"
+										class="relative aspect-square w-16 shrink-0 overflow-hidden rounded-lg transition-all duration-fast ease-standard"
+										[class]="activeMediaIdx() === i ? 'ring-2 ring-primary' : 'opacity-60 hover:opacity-100'"
 										(click)="activeMediaIdx.set(i)"
 									>
 										<img [ngSrc]="media.url" [alt]="'Imagen ' + (i + 1)" fill class="object-cover" />
@@ -112,39 +120,39 @@
 
 				<!-- Description -->
 				@if (post.description) {
-					<p class="text-sm font-semibold leading-7 text-black/75 whitespace-pre-line">{{ post.description }}</p>
+					<p class="text-body-md font-medium leading-base text-on-surface whitespace-pre-line">{{ post.description }}</p>
 				}
 
 				<!-- Recipe -->
 				@if (post.recipe; as recipe) {
-					<section class="grid gap-5 rounded-2xl border border-black/5 bg-[#fafafa] p-5">
+					<section class="grid gap-5 rounded-2xl border border-outline bg-surface-container p-5">
 						<div class="flex items-start justify-between gap-3">
-							<h2 class="text-lg font-black text-black">{{ recipe.name }}</h2>
+							<h2 class="text-title-lg font-bold text-on-surface">{{ recipe.name }}</h2>
 						</div>
 
 						@if (recipe.description) {
-							<p class="text-sm font-semibold leading-6 text-black/55">{{ recipe.description }}</p>
+							<p class="text-body-sm font-medium leading-base text-on-surface-muted">{{ recipe.description }}</p>
 						}
 
 						<!-- Meta chips -->
-						<div class="flex flex-wrap gap-2 text-xs font-bold">
+						<div class="flex flex-wrap gap-2 text-label-md font-bold">
 							@if (recipe.timeRequired) {
-								<span class="inline-flex items-center gap-1.5 rounded-full bg-orange-100 px-3 py-1.5 text-orange-700">
+								<span class="inline-flex items-center gap-1.5 rounded-pill bg-primary-container px-3 py-1.5 text-on-primary-container">
 									<i class="pi pi-clock"></i> {{ recipe.timeRequired }} min
 								</span>
 							}
 							@if (difficultyLabel()) {
-								<span class="inline-flex items-center gap-1.5 rounded-full bg-sky-100 px-3 py-1.5 text-sky-700">
+								<span class="inline-flex items-center gap-1.5 rounded-pill bg-tertiary-container px-3 py-1.5 text-on-tertiary-container">
 									<i class="pi pi-chart-bar"></i> {{ difficultyLabel() }}
 								</span>
 							}
 							@if (recipe.servings) {
-								<span class="inline-flex items-center gap-1.5 rounded-full bg-green-100 px-3 py-1.5 text-green-700">
+								<span class="inline-flex items-center gap-1.5 rounded-pill bg-secondary-container px-3 py-1.5 text-on-secondary-container">
 									<i class="pi pi-users"></i> {{ recipe.servings }} porciones
 								</span>
 							}
 							@if (recipe.estimatedCost) {
-								<span class="inline-flex items-center gap-1.5 rounded-full bg-purple-100 px-3 py-1.5 text-purple-700">
+								<span class="inline-flex items-center gap-1.5 rounded-pill bg-surface-container-high px-3 py-1.5 text-on-surface">
 									<i class="pi pi-dollar"></i> ~{{ recipe.estimatedCost }}€
 								</span>
 							}
@@ -153,15 +161,26 @@
 						<!-- Ingredients -->
 						@if (recipe.ingredients.length > 0) {
 							<div>
-								<h3 class="mb-3 text-xs font-black uppercase tracking-widest text-black/35">Ingredientes</h3>
+								<div class="mb-3 flex items-center justify-between gap-2">
+									<h3 class="text-label-md font-bold uppercase tracking-wide text-on-surface-muted">Ingredientes</h3>
+									<button type="button"
+										class="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-label-md font-bold transition active:scale-95"
+										[class]="shoppingList.hasRecipe(recipe.id)
+											? 'bg-[#22c55e]/15 text-[#16a34a]'
+											: 'bg-primary-container text-on-primary-container hover:opacity-80'"
+										(click)="addToShoppingList()">
+										<i [class]="shoppingList.hasRecipe(recipe.id) ? 'pi pi-check' : 'pi pi-shopping-cart'" class="text-xs"></i>
+										{{ shoppingList.hasRecipe(recipe.id) ? 'En tu lista' : 'Añadir a la compra' }}
+									</button>
+								</div>
 								<ul class="grid gap-2">
 									@for (ing of recipe.ingredients; track ing.ingredientId) {
-										<li class="flex items-center gap-3 rounded-xl bg-white px-4 py-3 text-sm font-semibold shadow-sm">
-											<span class="size-2 shrink-0 rounded-full bg-orange-400"></span>
-											<span class="flex-1 text-black">{{ ing.name }}</span>
-											<span class="text-black/45">{{ ing.quantity }} {{ ing.unit }}</span>
+										<li class="flex items-center gap-3 rounded-xl bg-surface px-4 py-3 text-body-sm font-medium shadow-1">
+											<span class="size-2 shrink-0 rounded-pill bg-primary"></span>
+											<span class="flex-1 text-on-surface">{{ ing.name }}</span>
+											<span class="text-on-surface-muted">{{ ing.quantity }} {{ ing.unit }}</span>
 											@if (ing.notes) {
-												<span class="text-black/30 text-xs">({{ ing.notes }})</span>
+												<span class="text-on-surface-muted text-label-md">({{ ing.notes }})</span>
 											}
 										</li>
 									}
@@ -172,14 +191,14 @@
 						<!-- Steps -->
 						@if (recipe.steps.length > 0) {
 							<div>
-								<h3 class="mb-3 text-xs font-black uppercase tracking-widest text-black/35">Preparación</h3>
+								<h3 class="mb-3 text-label-md font-bold uppercase tracking-wide text-on-surface-muted">Preparación</h3>
 								<ol class="grid gap-4">
 									@for (step of recipe.steps; track step.step) {
 										<li class="flex gap-4">
-											<span class="grid size-8 shrink-0 place-items-center rounded-full bg-orange-500 text-xs font-black text-white shadow-sm shadow-orange-500/30">
+											<span class="grid size-8 shrink-0 place-items-center rounded-pill bg-primary text-label-md font-bold text-on-primary shadow-1">
 												{{ step.step }}
 											</span>
-											<p class="flex-1 pt-1 text-sm font-semibold leading-6 text-black/70">{{ step.text }}</p>
+											<p class="flex-1 pt-1 text-body-sm font-medium leading-base text-on-surface">{{ step.text }}</p>
 										</li>
 									}
 								</ol>
@@ -192,53 +211,153 @@
 				@if (post.recipe && post.recipe.steps.length > 0) {
 					<a
 						[routerLink]="['/cook', post.id]"
-						class="flex w-full items-center justify-center gap-3 rounded-2xl bg-black px-6 py-4 font-black text-white transition hover:bg-orange-500 hover:shadow-lg hover:shadow-orange-500/25"
+						class="group flex w-full items-center justify-center gap-3 rounded-2xl bg-inverse-surface px-6 py-4 font-bold text-inverse-on-surface transition-all duration-fast ease-standard hover:bg-primary hover:text-on-primary hover:shadow-3"
 					>
-						<i class="pi pi-star-fill text-orange-400"></i>
+						<img src="/gorro-de-cocinero.png" class="size-6 shrink-0 object-contain transition-all group-hover:brightness-[100]" aria-hidden="true" alt="" />
 						Modo cocina
-						<span class="ml-auto rounded-full bg-white/10 px-3 py-1 text-xs font-bold">{{ post.recipe.steps.length }} pasos</span>
+						<span class="ml-auto rounded-pill bg-inverse-on-surface/10 px-3 py-1 text-label-md font-bold group-hover:bg-on-primary/10">{{ post.recipe.steps.length }} pasos</span>
 					</a>
 				}
 
 			<!-- Actions -->
-				<footer class="flex items-center gap-6 border-t border-black/5 pt-4">
+				<footer class="flex items-center gap-3 border-t border-outline pt-4 sm:gap-6">
 					<button
 						type="button"
-						class="inline-flex items-center gap-2 text-sm font-black transition"
-						[class]="post.liked ? 'text-red-500' : 'text-black/50 hover:text-red-500'"
+						class="inline-flex min-h-11 items-center gap-2 rounded-pill px-2 text-body-sm font-bold transition-colors duration-fast ease-standard hover:bg-surface-container active:scale-[0.98]"
+						[class]="liked() ? 'text-error' : 'text-on-surface-muted hover:text-error'"
 						(click)="toggleLike()"
 					>
-						<i [class]="post.liked ? 'pi pi-heart-fill' : 'pi pi-heart'"></i>
-						<span>{{ post.likesCount }}</span>
+						<i [class]="liked() ? 'pi pi-heart-fill' : 'pi pi-heart'"></i>
+						<span>{{ likesCount() }}</span>
 					</button>
 
 					<button
 						type="button"
-						class="inline-flex items-center gap-2 text-sm font-black text-black/50 transition hover:text-orange-500"
-						(click)="commentsVisible.set(true)"
+						class="inline-flex min-h-11 items-center gap-2 rounded-pill px-2 text-body-sm font-bold text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container hover:text-primary active:scale-[0.98]"
+						(click)="openComments()"
 					>
 						<i class="pi pi-comment"></i>
 						<span>{{ post.commentsCount }}</span>
 					</button>
 
-					<span class="inline-flex items-center gap-2 text-sm font-black text-black/30">
+					<span class="inline-flex items-center gap-2 text-body-sm font-bold text-on-surface-muted">
 						<i class="pi pi-eye"></i>
 						<span>{{ post.viewsCount }}</span>
 					</span>
 
 					<button
 						type="button"
-						class="ml-auto grid size-9 place-items-center rounded-full transition hover:bg-black/5"
-						[class]="post.saved ? 'text-orange-500' : 'text-black/40'"
+						class="ml-auto grid size-11 place-items-center rounded-pill transition-colors duration-fast ease-standard hover:bg-surface-container active:scale-[0.98]"
+						[class]="saved() ? 'text-primary' : 'text-on-surface-muted'"
 						(click)="toggleSave()"
 						aria-label="Guardar post"
 					>
-						<i [class]="post.saved ? 'pi pi-bookmark-fill' : 'pi pi-bookmark'"></i>
+						<i [class]="saved() ? 'pi pi-bookmark-fill' : 'pi pi-bookmark'"></i>
 					</button>
 				</footer>
 			</article>
+
+			<!-- ── Panel de comentarios ─────────────────────────────────────
+			     Mobile : ancho completo, slide-up desde el fondo
+			     Desktop: ancho del post (max-w-2xl), centrado, 75 vh
+			──────────────────────────────────────────────────────────────── -->
+			@if (commentsVisible()) {
+				<!-- Backdrop -->
+				<div
+					class="fixed inset-0 z-40 bg-black/50 backdrop-blur-[2px]"
+					(click)="closeComments()"
+				></div>
+
+				<!-- Sheet: full-width mobile / post-width desktop -->
+				<div class="fixed bottom-0 left-0 z-50 w-full lg:left-1/2 lg:max-w-2xl lg:-translate-x-1/2" style="height: 75vh;">
+					<div class="animate-slide-up-panel flex h-full flex-col overflow-hidden rounded-t-2xl border border-b-0 border-outline bg-surface shadow-4">
+
+						<!-- Cabecera -->
+						<div class="flex shrink-0 items-center justify-between border-b border-outline px-4 py-3">
+							<div>
+								<span class="text-body-sm font-bold text-on-surface">Comentarios</span>
+								<span class="ml-2 text-label-md font-semibold text-on-surface-muted">{{ post.commentsCount }}</span>
+							</div>
+							<button
+								type="button"
+								class="grid size-8 place-items-center rounded-full text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container hover:text-on-surface active:scale-95"
+								(click)="closeComments()"
+								aria-label="Cerrar comentarios"
+							>
+								<i class="pi pi-times text-sm"></i>
+							</button>
+						</div>
+
+						<!-- Lista -->
+						<section class="flex-1 overflow-y-auto px-3 py-3" (scroll)="onCommentScroll($event)">
+							@if (comments.error()) {
+								<p class="rounded-xl border border-error/30 bg-error-container p-3 text-body-sm font-semibold text-on-error-container">{{ comments.error() }}</p>
+							}
+							@if (comments.loading()) {
+								<div class="grid gap-2.5">
+									@for (s of [1,2,3]; track s) {
+										<div class="h-14 animate-pulse rounded-xl bg-surface-container-high"></div>
+									}
+								</div>
+							} @else if (comments.isEmpty()) {
+								<div class="grid place-items-center py-12 text-center">
+									<i class="pi pi-comment text-2xl text-on-surface-muted"></i>
+									<p class="mt-2 text-body-sm font-semibold text-on-surface-muted">Sé el primero en comentar</p>
+								</div>
+							} @else {
+								<div class="grid gap-2.5">
+									@for (comment of comments.comments(); track comment.id) {
+										<article class="flex gap-2.5 rounded-xl bg-surface px-3 py-2.5 shadow-1">
+											<app-avatar [src]="comment.author.photoUrl" [name]="commentAuthorName(comment)" size="sm" />
+											<div class="min-w-0 flex-1">
+												<div class="flex items-center gap-2">
+													<strong class="truncate text-label-md font-bold text-on-surface">{{ commentAuthorName(comment) }}</strong>
+													<span class="shrink-0 text-[0.65rem] font-semibold text-on-surface-muted">{{ comment.createdAt | timeAgo }}</span>
+												</div>
+												<p class="mt-0.5 whitespace-pre-line text-body-sm font-medium leading-snug text-on-surface">{{ comment.text }}</p>
+											</div>
+											@if (isOwnComment(comment)) {
+												<button
+													type="button"
+													class="grid size-7 shrink-0 place-items-center rounded-full text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-error/10 hover:text-error active:scale-95"
+													(click)="comments.deleteComment(comment)"
+													aria-label="Eliminar comentario"
+												>
+													<i class="pi pi-trash text-xs"></i>
+												</button>
+											}
+										</article>
+									}
+								</div>
+							}
+							@if (comments.loadingMore()) {
+								<div class="mt-2.5 h-12 animate-pulse rounded-xl bg-surface-container-high"></div>
+							}
+						</section>
+
+						<!-- Formulario -->
+						<form class="flex shrink-0 gap-2 border-t border-outline px-3 py-3" (ngSubmit)="submitComment()">
+							<textarea
+								name="commentInput"
+								rows="1"
+								maxlength="300"
+								class="min-h-10 flex-1 resize-none rounded-xl border border-outline bg-surface px-3 py-2.5 text-body-sm font-medium outline-none placeholder:text-on-surface-muted transition-colors duration-fast ease-standard focus:border-primary focus:ring-2 focus:ring-primary/20"
+								placeholder="Escribe un comentario..."
+								[ngModel]="commentDraft()"
+								(ngModelChange)="commentDraft.set($event)"
+							></textarea>
+							<button
+								type="submit"
+								class="grid size-10 shrink-0 place-items-center rounded-full bg-primary text-on-primary transition-colors duration-fast ease-standard hover:opacity-90 disabled:opacity-40 active:scale-95"
+								[disabled]="!canSubmitComment()"
+								aria-label="Enviar comentario"
+							>
+								<i class="pi pi-send text-sm"></i>
+							</button>
+						</form>
+					</div>
+				</div>
+			}
 		}
 	</div>
 </app-shell>
-
-<app-comments-sheet [(visible)]="commentsVisible" [post]="post()" />

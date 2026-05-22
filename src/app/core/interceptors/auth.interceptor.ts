@@ -1,27 +1,82 @@
-import { inject } from '@angular/core'
-import { type HttpInterceptorFn } from '@angular/common/http'
-import { from, switchMap } from 'rxjs'
-import { SupabaseService } from '@core/services/supabase.service'
+import { inject }                          from '@angular/core'
+import { type HttpInterceptorFn }           from '@angular/common/http'
+import { from, switchMap, catchError, throwError } from 'rxjs'
+import { Router }                           from '@angular/router'
+import { SupabaseService }                  from '@core/services/supabase.service'
+
+// Margen en segundos antes de expirar para hacer refresh proactivo
+const TOKEN_EXPIRY_MARGIN_S = 60
+
+// Promesa compartida: todas las peticiones concurrentes reutilizan el mismo refresh
+// en vuelo para evitar la rotación solapada del refresh token.
+let refreshInFlight: Promise<string | null> | null = null
+
+async function getValidToken(supabase: SupabaseService): Promise<string | null> {
+	const { data: { session } } = await supabase.client.auth.getSession()
+	if (!session) return null
+
+	const now = Math.floor(Date.now() / 1000)
+	const needsRefresh = session.expires_at != null
+		&& session.expires_at - now < TOKEN_EXPIRY_MARGIN_S
+
+	if (!needsRefresh) return session.access_token
+
+	// Token caducado o a punto de caducar — un único refresh compartido
+	if (!refreshInFlight) {
+		refreshInFlight = supabase.client.auth.refreshSession()
+			.then(({ data, error }) => {
+				refreshInFlight = null
+				return error ? null : (data.session?.access_token ?? null)
+			})
+			.catch(() => { refreshInFlight = null; return null })
+	}
+	return refreshInFlight
+}
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
 	const supabase = inject(SupabaseService)
+	const router   = inject(Router)
 
-	// getSession() devuelve una Promise — se convierte a Observable con from()
-	return from(supabase.client.auth.getSession()).pipe(
-		switchMap(({ data: { session } }) => {
+	return from(getValidToken(supabase)).pipe(
+		switchMap(token => {
+			if (!token) return next(req)
 
-			// Sin sesión — dejamos pasar la petición tal cual
-			if (!session) return next(req)
-
-			// Con sesión — clonamos la petición añadiendo los headers
 			const authReq = req.clone({
 				setHeaders: {
-					'Authorization': `Bearer ${session.access_token}`,
-					'apikey': supabase.apiKey,
+					'Authorization': `Bearer ${token}`,
+					'apikey':        supabase.apiKey,
 				},
 			})
 
-			return next(authReq)
-		}),
+			return next(authReq).pipe(
+				catchError(err => {
+					// Solo intentamos refresh en 401 (token inválido).
+					// 403 = RLS/permisos, no necesariamente token caducado.
+					if (err.status !== 401) return throwError(() => err)
+
+					return from(
+						supabase.client.auth.refreshSession().then(({ data, error }) => {
+							if (error || !data.session) {
+								// AuthApiError = refresh token inválido → sesión muerta
+								if (error?.name === 'AuthApiError') router.navigate(['/auth'])
+								return null
+							}
+							return data.session.access_token
+						})
+					).pipe(
+						switchMap(newToken => {
+							if (!newToken) return throwError(() => err)
+							const retryReq = req.clone({
+								setHeaders: {
+									'Authorization': `Bearer ${newToken}`,
+									'apikey':        supabase.apiKey,
+								},
+							})
+							return next(retryReq)
+						})
+					)
+				})
+			)
+		})
 	)
 }

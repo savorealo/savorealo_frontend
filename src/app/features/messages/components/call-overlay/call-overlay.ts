@@ -10,6 +10,7 @@ export class CallOverlay {
 	readonly call  = this.store.call
 
 	private readonly remoteVideoEl = viewChild<ElementRef<HTMLVideoElement>>('remoteVideo')
+	private readonly remoteAudioEl = viewChild<ElementRef<HTMLAudioElement>>('remoteAudio')
 	private readonly localVideoEl  = viewChild<ElementRef<HTMLVideoElement>>('localVideo')
 
 	readonly formattedDuration = computed(() => {
@@ -21,14 +22,21 @@ export class CallOverlay {
 
 	constructor() {
 		effect(() => {
-			const stream = this.store.remoteStream()
-			const el     = this.remoteVideoEl()?.nativeElement
-			if (el && stream) { el.srcObject = stream; el.play().catch(() => {}) }
+			this.attachStream(this.remoteVideoEl(), this.store.remoteStream())
 		})
 		effect(() => {
-			const stream = this.store.localStream()
-			const el     = this.localVideoEl()?.nativeElement
-			if (el && stream) { el.srcObject = stream; el.play().catch(() => {}) }
+			this.attachStream(this.remoteAudioEl(), this.store.remoteStream())
 		})
+		effect(() => {
+			this.attachStream(this.localVideoEl(), this.store.localStream())
+		})
+	}
+
+	private attachStream(ref: ElementRef<HTMLMediaElement> | undefined, stream: MediaStream | null): void {
+		const el = ref?.nativeElement
+		if (!el || !stream || el.srcObject === stream) return
+
+		el.srcObject = stream
+		void el.play().catch(() => undefined)
 	}
 }

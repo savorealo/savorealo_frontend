@@ -1,4 +1,5 @@
-export type NotificationType = 'LIKE' | 'COMMENT' | 'FOLLOW' | 'MENTION' | 'RECIPE_SAVE'
+export type NotificationType = 'LIKE' | 'COMMENT' | 'FOLLOW' | 'FOLLOW_REQUEST' | 'FOLLOW_ACCEPTED' | 'MENTION' | 'RECIPE_SAVE'
+export type NotificationTab = 'all' | 'unread' | 'mentions' | 'social'
 
 export interface NotificationActor {
 	id: string
@@ -13,8 +14,14 @@ export interface Notification {
 	actorId: string | null
 	actor: NotificationActor | null
 	targetId: string | null
+	targetImageUrl: string | null
 	type: NotificationType
 	content: string | null
 	isRead: boolean
 	createdAt: Date
+}
+
+export interface NotificationGroup {
+	label: string
+	notifications: Notification[]
 }

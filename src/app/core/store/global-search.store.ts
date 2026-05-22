@@ -1,7 +1,7 @@
 import { DestroyRef, inject, Injectable, signal } from '@angular/core'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { Router } from '@angular/router'
-import { debounceTime, distinctUntilChanged, Subject, switchMap, forkJoin, of } from 'rxjs'
+import { catchError, debounceTime, distinctUntilChanged, Subject, switchMap, forkJoin, of } from 'rxjs'
 import { SearchService, SearchPost, SearchUser } from '@core/services/search.service'
 
 @Injectable({ providedIn: 'root' })
@@ -38,9 +38,11 @@ export class GlobalSearchStore {
 					return of(null)
 				}
 				this._loading.set(true)
+				// Cada fuente con su propio catchError → si una falla
+				// (p.ej. searchPosts da 403) la otra sigue funcionando.
 				return forkJoin({
-					users: this.search.searchUsers(q),
-					posts: this.search.searchPosts(q),
+					users: this.search.searchUsers(q).pipe(catchError(() => of([] as SearchUser[]))),
+					posts: this.search.searchPosts(q).pipe(catchError(() => of([] as SearchPost[]))),
 				})
 			}),
 			takeUntilDestroyed(this.destroy),

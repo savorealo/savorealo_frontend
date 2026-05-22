@@ -1,43 +1,98 @@
-<cdk-virtual-scroll-viewport
-	itemSize="540"
-	class="h-full w-full"
-	(scrolledIndexChange)="onScrolledIndexChange()"
->
+<div #scrollContainer class="h-full w-full overflow-y-auto">
+	<!-- Pull-to-refresh indicator -->
+	@if (pullProgress() > 0 || refreshing()) {
+		<div
+			class="flex items-center justify-center overflow-hidden transition-[height] duration-fast ease-standard"
+			[style.height.px]="refreshing() ? 48 : pullProgress() * 48"
+		>
+			@if (refreshing()) {
+				<i class="pi pi-spin pi-spinner text-lg text-primary"></i>
+			} @else {
+				<i
+					class="pi pi-arrow-down text-lg text-primary transition-transform duration-fast"
+					[class.rotate-180]="pullTriggered()"
+				></i>
+			}
+		</div>
+	}
+
 	<div class="grid gap-7 pb-10">
-		@if (error()) {
-			<div class="mx-auto flex w-full max-w-[500px] items-center gap-3 rounded-lg bg-red-50 p-3 text-sm font-semibold text-red-700">
-				<i class="pi pi-exclamation-triangle"></i>
-				<span class="flex-1">{{ error() }}</span>
-				<button type="button" class="font-black text-red-800" (click)="retry.emit()">Reintentar</button>
+		<!-- Refresh button (visible when posts loaded) -->
+		@if (posts().length > 0 && !loading()) {
+			<div class="flex justify-center">
+				<button
+					type="button"
+					class="inline-flex h-10 items-center gap-2 rounded-pill border border-outline bg-surface-container px-5 text-body-sm font-bold text-on-surface-muted transition-all duration-fast ease-standard hover:bg-surface-container-high hover:text-on-surface active:scale-[0.98] disabled:opacity-50"
+					[disabled]="refreshing()"
+					(click)="refresh.emit()"
+				>
+					<i class="pi text-xs" [class]="refreshing() ? 'pi-spin pi-spinner' : 'pi-refresh'"></i>
+					{{ refreshing() ? 'Actualizando...' : 'Actualizar feed' }}
+				</button>
 			</div>
 		}
 
-		@if (loading() && posts().length === 0) {
+		@if (error()) {
+			<div class="mx-auto grid w-full max-w-[500px] place-items-center rounded-2xl border border-error/30 bg-error-container p-8 text-center text-on-error-container">
+				<div>
+					<i class="pi pi-exclamation-triangle text-3xl"></i>
+					<p class="mt-3 text-body-md font-bold">{{ error() }}</p>
+					<button
+						type="button"
+						class="mt-4 inline-flex h-11 items-center gap-2 rounded-pill bg-on-error-container px-5 text-body-sm font-bold text-error-container transition-transform duration-fast ease-standard hover:shadow-3 active:scale-[0.98]"
+						(click)="retry.emit()"
+					>
+						<i class="pi pi-refresh text-xs"></i>
+						Reintentar
+					</button>
+				</div>
+			</div>
+		} @else if (loading() && posts().length === 0) {
 			@for (i of [1, 2, 3]; track i) {
 				<app-skeleton-card />
 			}
-		}
-
-		<app-post-card
-			*cdkVirtualFor="let post of posts(); trackBy: trackById"
-			[post]="post"
-			(onLike)="like.emit($event)"
-			(onSave)="save.emit($event)"
-			(onComment)="comment.emit($event)"
-		/>
-
-		@if (loadingMore()) {
-			<app-skeleton-card />
-		}
-
-		@if (isEmpty()) {
-			<div class="mx-auto w-full max-w-[500px] rounded-lg bg-white">
+		} @else if (isEmpty()) {
+			<div class="mx-auto w-full max-w-[500px] rounded-2xl border border-outline bg-surface-container">
 				<app-emptystate
 					icon="pi pi-home"
-					title="Tu feed esta vacio"
+					title="Tu feed está vacío"
 					description="Sigue a otros cocineros para ver sus recetas"
 				/>
 			</div>
 		}
+
+		@for (post of posts(); track post.id) {
+			<app-post-card
+				[post]="post"
+				(comment)="comment.emit($event)"
+				(report)="report.emit($event)"
+				(share)="share.emit($event)"
+			/>
+		}
+
+		<!-- Spinner para "cargando más" — skeletons solo en carga inicial -->
+		@if (loadingMore()) {
+			<div class="flex justify-center py-6">
+				<app-spinner size="md" message="Cargando más recetas..." />
+			</div>
+		}
+
+		<!-- Fin del feed — aparece cuando no hay más páginas -->
+		@if (posts().length > 0 && !loadingMore() && !hasNextPage()) {
+			<div class="mx-auto w-full max-w-[500px] rounded-2xl border border-outline bg-surface-container">
+				<app-emptystate
+					icon="pi pi-check-circle"
+					title="¡Estás al día!"
+					description="Has visto todas las recetas. Descubre nuevos creadores en Explorar."
+					actionLabel="Ir a Explorar"
+					[onAction]="emitExplore"
+				/>
+			</div>
+		}
+
+		<!-- Sentinela para IntersectionObserver — activa nearEnd al entrar en viewport -->
+		@if (posts().length > 0 && !loadingMore() && hasNextPage()) {
+			<div #sentinel class="h-px w-full"></div>
+		}
 	</div>
-</cdk-virtual-scroll-viewport>
+</div>

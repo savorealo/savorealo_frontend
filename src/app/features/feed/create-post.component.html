@@ -1,0 +1,218 @@
+<form class="mx-auto grid w-full max-w-[560px] gap-0 overflow-hidden rounded-2xl border border-outline bg-surface shadow-2"
+	(ngSubmit)="publish()">
+
+	<!-- ── Cabecera con tabs ─────────────────────────────────────────── -->
+	<div class="flex border-b border-outline">
+		<button type="button"
+			class="flex flex-1 items-center justify-center gap-2 py-3 text-body-sm font-bold transition"
+			[class]="!isRecipe() ? 'border-b-2 border-primary text-primary' : 'text-on-surface-muted hover:bg-surface-container'"
+			(click)="isRecipe.set(false)">
+			<i class="pi pi-pencil text-sm"></i>
+			Post
+		</button>
+		<button type="button"
+			class="flex flex-1 items-center justify-center gap-2 py-3 text-body-sm font-bold transition"
+			[class]="isRecipe() ? 'border-b-2 border-primary text-primary' : 'text-on-surface-muted hover:bg-surface-container'"
+			(click)="isRecipe.set(true)">
+			<i class="pi pi-book text-sm"></i>
+			Receta
+		</button>
+	</div>
+
+	<div class="grid gap-4 p-4">
+
+		<!-- ── Descripción ──────────────────────────────────────────────── -->
+		<textarea
+			name="content"
+			[(ngModel)]="content"
+			maxlength="500"
+			rows="3"
+			class="w-full resize-none rounded-xl border border-outline bg-surface-container px-3 py-2.5 text-body-sm font-semibold text-on-surface outline-none placeholder:text-on-surface-muted focus:border-primary focus:ring-2 focus:ring-primary/20"
+			[placeholder]="isRecipe() ? 'Describe tu receta, trucos, historia...' : 'Comparte una receta, un antojo o tu último descubrimiento...'"
+		></textarea>
+		<div class="flex items-center justify-between text-label-md font-medium text-on-surface-muted -mt-2">
+			<span class="text-error text-label-md">{{ error() }}</span>
+			<span>{{ content().length }}/500</span>
+		</div>
+
+		<!-- ── Imagen ───────────────────────────────────────────────────── -->
+		@if (previewUrl(); as preview) {
+			<div class="relative overflow-hidden rounded-2xl border border-outline">
+				<img [src]="preview" alt="Preview" class="max-h-52 w-full object-cover" />
+				<button type="button"
+					class="absolute right-2 top-2 grid size-8 place-items-center rounded-full bg-surface/90 text-on-surface shadow-1 hover:bg-surface"
+					(click)="removeImage()">
+					<i class="pi pi-times text-xs"></i>
+				</button>
+			</div>
+		}
+		@if (uploading()) {
+			<div class="h-1.5 w-full overflow-hidden rounded-full bg-surface-container-high">
+				<div class="h-full rounded-full bg-primary transition-all duration-300" [style.width.%]="uploadProgress()"></div>
+			</div>
+		}
+
+		<!-- ════════════════════════════════════════════════════════════════ -->
+		<!-- SECCIÓN RECETA                                                  -->
+		<!-- ════════════════════════════════════════════════════════════════ -->
+		@if (isRecipe()) {
+			<div class="grid gap-4 border-t border-outline pt-4">
+
+				<!-- Nombre de la receta -->
+				<div>
+					<label class="mb-1.5 block text-label-md font-bold text-on-surface-muted">Nombre de la receta *</label>
+					<input type="text"
+						name="recipeName"
+						[(ngModel)]="recipeName"
+						maxlength="100"
+						placeholder="Ej: Tortilla de patata con cebolla"
+						class="w-full rounded-xl border border-outline bg-surface-container px-3 py-2.5 text-body-sm font-semibold text-on-surface outline-none placeholder:text-on-surface-muted focus:border-primary focus:ring-2 focus:ring-primary/20"
+					/>
+				</div>
+
+				<!-- Meta chips: dificultad, tiempo, raciones -->
+				<div class="grid grid-cols-3 gap-2">
+					<div>
+						<label class="mb-1.5 block text-label-md font-bold text-on-surface-muted">Dificultad</label>
+						<select name="difficulty"
+							[(ngModel)]="difficulty"
+							class="w-full rounded-xl border border-outline bg-surface-container px-3 py-2.5 text-body-sm font-semibold text-on-surface outline-none focus:border-primary focus:ring-2 focus:ring-primary/20">
+							<option value="">—</option>
+							<option value="EASY">Fácil</option>
+							<option value="MEDIUM">Media</option>
+							<option value="HARD">Difícil</option>
+						</select>
+					</div>
+					<div>
+						<label class="mb-1.5 block text-label-md font-bold text-on-surface-muted">Tiempo (min)</label>
+						<input type="number" name="recipeTime" min="1"
+							[(ngModel)]="recipeTime"
+							placeholder="30"
+							class="w-full rounded-xl border border-outline bg-surface-container px-3 py-2.5 text-body-sm font-semibold text-on-surface outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+						/>
+					</div>
+					<div>
+						<label class="mb-1.5 block text-label-md font-bold text-on-surface-muted">Raciones</label>
+						<input type="number" name="recipeServings" min="1"
+							[(ngModel)]="recipeServings"
+							placeholder="4"
+							class="w-full rounded-xl border border-outline bg-surface-container px-3 py-2.5 text-body-sm font-semibold text-on-surface outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+						/>
+					</div>
+				</div>
+
+				<!-- ── Ingredientes ───────────────────────────────────────── -->
+				<div>
+					<div class="mb-2 flex items-center justify-between">
+						<label class="text-label-md font-bold text-on-surface-muted">Ingredientes</label>
+						<button type="button"
+							class="inline-flex items-center gap-1 rounded-full bg-primary-container px-3 py-1 text-label-md font-bold text-on-primary-container transition hover:opacity-80"
+							(click)="addIngredient()">
+							<i class="pi pi-plus text-[0.6rem]"></i> Añadir
+						</button>
+					</div>
+
+					@if (ingredients().length === 0) {
+						<p class="rounded-xl border border-dashed border-outline py-4 text-center text-label-md text-on-surface-muted">
+							Sin ingredientes aún — pulsa "Añadir"
+						</p>
+					}
+
+					<div class="grid gap-2">
+						@for (ing of ingredients(); track $index; let i = $index) {
+							<div class="flex items-center gap-2">
+								<input type="text"
+									placeholder="Ingrediente *"
+									[ngModel]="ing.name"
+									(ngModelChange)="updateIngredient(i, 'name', $event)"
+									[name]="'ing_name_' + i"
+									class="min-w-0 flex-1 rounded-xl border border-outline bg-surface-container px-3 py-2 text-body-sm font-semibold text-on-surface outline-none placeholder:text-on-surface-muted focus:border-primary focus:ring-2 focus:ring-primary/20"
+								/>
+								<input type="number"
+									placeholder="Cant."
+									[ngModel]="ing.quantity"
+									(ngModelChange)="updateIngredient(i, 'quantity', $event)"
+									[name]="'ing_qty_' + i"
+									min="0"
+									class="w-16 rounded-xl border border-outline bg-surface-container px-2 py-2 text-body-sm font-semibold text-on-surface outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+								/>
+								<input type="text"
+									placeholder="Ud."
+									[ngModel]="ing.unit"
+									(ngModelChange)="updateIngredient(i, 'unit', $event)"
+									[name]="'ing_unit_' + i"
+									class="w-14 rounded-xl border border-outline bg-surface-container px-2 py-2 text-body-sm font-semibold text-on-surface outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+								/>
+								<button type="button"
+									class="grid size-8 shrink-0 place-items-center rounded-full text-on-surface-muted transition hover:bg-error/10 hover:text-error"
+									(click)="removeIngredient(i)">
+									<i class="pi pi-times text-xs"></i>
+								</button>
+							</div>
+						}
+					</div>
+				</div>
+
+				<!-- ── Pasos ──────────────────────────────────────────────── -->
+				<div>
+					<div class="mb-2 flex items-center justify-between">
+						<label class="text-label-md font-bold text-on-surface-muted">Pasos de preparación</label>
+						<button type="button"
+							class="inline-flex items-center gap-1 rounded-full bg-primary-container px-3 py-1 text-label-md font-bold text-on-primary-container transition hover:opacity-80"
+							(click)="addStep()">
+							<i class="pi pi-plus text-[0.6rem]"></i> Paso
+						</button>
+					</div>
+
+					@if (steps().length === 0) {
+						<p class="rounded-xl border border-dashed border-outline py-4 text-center text-label-md text-on-surface-muted">
+							Sin pasos aún — pulsa "Paso"
+						</p>
+					}
+
+					<div class="grid gap-2">
+						@for (step of steps(); track $index; let i = $index) {
+							<div class="flex items-start gap-2">
+								<span class="mt-2.5 grid size-6 shrink-0 place-items-center rounded-full bg-primary text-label-md font-black text-on-primary">
+									{{ i + 1 }}
+								</span>
+								<textarea
+									rows="2"
+									[placeholder]="'Describe el paso ' + (i + 1) + '...'"
+									[ngModel]="step"
+									(ngModelChange)="updateStep(i, $event)"
+									[name]="'step_' + i"
+									class="min-w-0 flex-1 resize-none rounded-xl border border-outline bg-surface-container px-3 py-2 text-body-sm font-semibold text-on-surface outline-none placeholder:text-on-surface-muted focus:border-primary focus:ring-2 focus:ring-primary/20"
+								></textarea>
+								<button type="button"
+									class="mt-2 grid size-8 shrink-0 place-items-center rounded-full text-on-surface-muted transition hover:bg-error/10 hover:text-error"
+									(click)="removeStep(i)">
+									<i class="pi pi-times text-xs"></i>
+								</button>
+							</div>
+						}
+					</div>
+				</div>
+			</div>
+		}
+
+		<!-- ── Acciones ──────────────────────────────────────────────────── -->
+		<div class="flex items-center gap-2 border-t border-outline pt-3">
+			<input #fileInput type="file" accept="image/*,video/*" class="hidden" (change)="selectImage($event)" />
+			<button type="button"
+				class="inline-flex min-h-9 items-center gap-1.5 rounded-full border border-outline px-3 text-body-sm font-bold text-on-surface-muted transition hover:bg-surface-container"
+				(click)="fileInput.click()">
+				<i class="pi pi-image text-sm"></i>
+				<span class="hidden sm:inline">Foto</span>
+			</button>
+
+			<button
+				type="submit"
+				class="ml-auto inline-flex min-h-9 items-center gap-2 rounded-full bg-primary px-5 text-body-sm font-black text-on-primary transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+				[disabled]="!canPublish()">
+				<i class="pi pi-send text-sm"></i>
+				{{ publishing() ? 'Publicando...' : 'Publicar' }}
+			</button>
+		</div>
+	</div>
+</form>

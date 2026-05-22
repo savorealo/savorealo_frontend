@@ -33,6 +33,8 @@ export class Body {
   submitEvent = output()
   goBackEvent = output()
 
+  readonly today = new Date()
+
   isInvalid(controlName: string): boolean {
     const control = this.registerForm().get(controlName)
     return !!(control?.invalid && control.touched)

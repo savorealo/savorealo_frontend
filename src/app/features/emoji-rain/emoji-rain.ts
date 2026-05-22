@@ -8,9 +8,9 @@ import { Component } from '@angular/core'
 })
 export class EmojiRain {
   emojis: any = [];
-  private emojiList = ['🍣', '🍱', '🥢', '🍙', '🍚', '🐟'];
+  private emojiList = ['🍳', '🥐', '🧁', '🍓', '🥑', '🍅', '🍋', '🌿'];
   ngOnInit(): void {
-    this.emojis = Array.from({ length: 5 }, () => ({
+    this.emojis = Array.from({ length: 6 }, () => ({
       char: this.emojiList[Math.floor(Math.random() * this.emojiList.length)],
       left: `${Math.random() * 99}%`,
       duration: `${3 + Math.random() * 5}s`,

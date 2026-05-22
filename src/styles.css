@@ -1,192 +1,257 @@
-/* 1. Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap');
+/* =============================================================
+   Savorealo · Hoja de estilos global
+   Orquestador mínimo: tokens → primeicons → tailwind → reset.
+   Toda la personalización vive en `src/styles/tokens.css`.
+   ============================================================= */
 
-/* 2. Primeicons PRIMERO (antes de todo, sin @layer) */
-@import "primeicons/primeicons.css";
+/* 1. Design tokens (única fuente de verdad) */
+@import './styles/tokens.css';
 
-/* 2. Tailwind */
+/* 2. Iconos PrimeIcons (antes de Tailwind, fuera de @layer) */
+@import 'primeicons/primeicons.css';
+
+/* 3. Tailwind */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* 3. Declarar el orden DESPUÉS de Tailwind */
+/* 4. Orden de capas declarado tras Tailwind */
 @layer base, primeng, theme, utilities;
 
-/* ─────────────────────────────────────────────
-   4. Variables globales — fuera de cualquier @layer
-   Paleta: Cookealo / Let Me Cook
-   Primary  → Naranja fuego
-   Secondary→ Cúrcuma
-   AI accent→ Albahaca fresca
-   Neutral  → Crema tostada (warm, no cold slate)
-───────────────────────────────────────────── */
-:root {
-  /* — Naranja fuego (primary) — */
-  --color-primary-50:  #fff0e6;
-  --color-primary-100: #ffd5b5;
-  --color-primary-200: #ffab7a;
-  --color-primary-300: #ff8040;
-  --color-primary-400: #ff6b2b;
-  --color-primary-500: #ff5e1a;   /* ← brand color principal */
-  --color-primary-600: #e04800;
-  --color-primary-700: #c03800;
-  --color-primary-800: #962b00;
-  --color-primary-900: #7a1f00;
-
-  /* — Cúrcuma (secondary / accent ratings & badges) — */
-  --color-secondary-50:  #fef9ec;
-  --color-secondary-100: #fde9b8;
-  --color-secondary-200: #fbd07a;
-  --color-secondary-300: #f7c36a;
-  --color-secondary-400: #f5b030;
-  --color-secondary-500: #f5a623;  /* ← secundario principal */
-  --color-secondary-600: #d48a0a;
-  --color-secondary-700: #b87810;
-  --color-secondary-800: #8c5a08;
-  --color-secondary-900: #5c3a04;
-
-  /* — Albahaca fresca (AI accent) — */
-  --color-ai-50:  #e6f7ef;
-  --color-ai-100: #c3ecda;
-  --color-ai-200: #a8e6c3;
-  --color-ai-300: #72cc9e;
-  --color-ai-400: #4caf7a;
-  --color-ai-500: #3a9966;  /* ← AI principal */
-  --color-ai-600: #2e7d52;
-  --color-ai-700: #22603e;
-  --color-ai-800: #1a5035;
-  --color-ai-900: #103320;
-
-  /* — Neutros cálidos (warm cream, no cold slate) — */
-  --color-surface-0:   #ffffff;
-  --color-surface-50:  #fffaf5;   /* fondo app light */
-  --color-surface-100: #f5ede0;   /* card light */
-  --color-surface-200: #e8d8c4;   /* borde light */
-  --color-surface-300: #d4bfa6;
-  --color-surface-400: #b89880;
-  --color-surface-500: #8c7260;
-  --color-surface-600: #6b5448;
-  --color-surface-700: #4a3828;
-  --color-surface-800: #3d2e1f;   /* borde dark */
-  --color-surface-900: #2c2018;   /* card dark */
-  --color-surface-950: #1a1410;   /* fondo app dark */
-
-  /* — Tipografía — */
-  --font-family-sans: 'Inter', system-ui, sans-serif;
-  --font-family-display: 'Playfair Display', Georgia, serif;
-
-  /* — PrimeNG tokens (light mode) — */
-  --p-primary-color:        var(--color-primary-500);
-  --p-primary-color-text:   #ffffff;
-  --p-primary-50:           var(--color-primary-50);
-  --p-primary-100:          var(--color-primary-100);
-  --p-primary-200:          var(--color-primary-200);
-  --p-primary-300:          var(--color-primary-300);
-  --p-primary-400:          var(--color-primary-400);
-  --p-primary-500:          var(--color-primary-500);
-  --p-primary-600:          var(--color-primary-600);
-  --p-primary-700:          var(--color-primary-700);
-  --p-primary-800:          var(--color-primary-800);
-  --p-primary-900:          var(--color-primary-900);
-
-  --p-border-radius:        8px;
-  --p-surface-0:            var(--color-surface-0);
-  --p-surface-ground:       var(--color-surface-50);
-  --p-text-color:           var(--color-surface-950);
-  --p-text-muted-color:     var(--color-surface-500);
-  --p-content-border-color: var(--color-surface-200);
-
-  /* — Semánticos globales (útiles en toda la app) — */
-  --color-brand:      var(--color-primary-500);
-  --color-brand-soft: var(--color-primary-50);
-  --color-ai:         var(--color-ai-500);
-  --color-ai-soft:    var(--color-ai-50);
-  --color-rating:     var(--color-secondary-500);
-}
-
-/* ─────────────────────────────────────────────
-   Dark mode
-───────────────────────────────────────────── */
-[data-theme="dark"] {
-  /* El naranja sube un tono para brillar sobre oscuro */
-  --p-primary-color:        var(--color-primary-400);
-  --p-primary-color-text:   #ffffff;
-
-  --p-surface-0:            var(--color-surface-900);
-  --p-surface-ground:       var(--color-surface-950);
-  --p-text-color:           var(--color-surface-50);
-  --p-text-muted-color:     var(--color-surface-400);
-  --p-content-border-color: var(--color-surface-800);
-
-  --color-brand:      var(--color-primary-400);
-  --color-brand-soft: var(--color-primary-900);
-  --color-ai:         var(--color-ai-400);
-  --color-ai-soft:    var(--color-ai-900);
-  --color-rating:     var(--color-secondary-400);
-}
-
-/* ─────────────────────────────────────────────
-   5. Reset dentro de @layer base
-───────────────────────────────────────────── */
+/* =============================================================
+   Reset · base global
+   ============================================================= */
 @layer base {
-  *, *::before, *::after { box-sizing: border-box; }
+	*, *::before, *::after { box-sizing: border-box; }
 
-  body {
-    font-family: var(--font-family-sans);
-    background: var(--p-surface-ground);
-    color: var(--p-text-color);
-    -webkit-font-smoothing: antialiased;
-  }
+	html {
+		font-family: var(--font-body);
+		font-size: 15px;
+		scroll-behavior: smooth;
+		-webkit-text-size-adjust: 100%;
+		text-rendering: optimizeLegibility;
+		color-scheme: light dark;
+	}
 
-  input, button, select, textarea {
-    font-family: inherit;
-    font-size: inherit;
-  }
+	@media (min-width: 640px) {
+		html { font-size: 16px; }
+	}
 
-  /* Scrollbar cálida — opcional, queda bonito */
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb {
-    background: var(--color-surface-300);
-    border-radius: 99px;
-  }
-  [data-theme="dark"] ::-webkit-scrollbar-thumb {
-    background: var(--color-surface-700);
-  }
+	body {
+		margin: 0;
+		min-height: 100dvh;
+		background: var(--color-surface);
+		color: var(--color-on-surface);
+		font-family: var(--font-body);
+		font-size: var(--text-body-md);
+		line-height: var(--leading-base);
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		transition:
+			background-color var(--duration-base) var(--ease-standard),
+			color var(--duration-base) var(--ease-standard);
+	}
+
+	h1, h2, h3, h4, h5, h6 {
+		font-family: var(--font-display);
+		font-weight: 400;
+		letter-spacing: var(--tracking-display);
+		line-height: var(--leading-tight);
+		margin: 0;
+	}
+
+	p { margin: 0; }
+
+	input, button, select, textarea {
+		font-family: inherit;
+		font-size: inherit;
+		color: inherit;
+	}
+
+	/* Previene que iOS Safari haga zoom automático al enfocar inputs */
+	@media (max-width: 767px) {
+		input[type="text"],
+		input[type="email"],
+		input[type="password"],
+		input[type="search"],
+		input[type="url"],
+		input[type="number"],
+		textarea,
+		select {
+			font-size: max(16px, 1em);
+		}
+	}
+
+	button { background: none; border: 0; padding: 0; cursor: pointer; }
+
+	button, a {
+		touch-action: manipulation;
+		-webkit-tap-highlight-color: transparent;
+	}
+
+	a {
+		color: inherit;
+		text-decoration: none;
+		transition: color var(--duration-fast) var(--ease-standard);
+	}
+
+	:focus-visible {
+		outline: 2px solid var(--color-focus-ring);
+		outline-offset: 2px;
+		border-radius: var(--radius-xs);
+	}
+
+	::selection {
+		background: var(--color-primary);
+		color: var(--color-on-primary);
+	}
+
+	::-webkit-scrollbar { width: 8px; height: 8px; }
+	::-webkit-scrollbar-track { background: transparent; }
+	::-webkit-scrollbar-thumb {
+		background: var(--color-outline-strong);
+		border-radius: var(--radius-pill);
+	}
+	::-webkit-scrollbar-thumb:hover { background: var(--color-on-surface-muted); }
+
+	@supports (view-transition-name: root) {
+		::view-transition-old(root),
+		::view-transition-new(root) {
+			animation-duration: 220ms;
+			animation-timing-function: var(--ease-decelerated);
+			mix-blend-mode: normal;
+		}
+
+		::view-transition-old(root) {
+			animation-name: savorealo-page-exit;
+		}
+
+		::view-transition-new(root) {
+			animation-name: savorealo-page-enter;
+		}
+	}
+
+	@keyframes savorealo-page-enter {
+		from { opacity: 0; transform: translateY(8px); }
+		to   { opacity: 1; transform: translateY(0); }
+	}
+
+	@keyframes savorealo-page-exit {
+		from { opacity: 1; transform: translateY(0); }
+		to   { opacity: 0; transform: translateY(-4px); }
+	}
+
+	/* Escala tipográfica progresiva */
+	@media (min-width: 1280px) { html { font-size: 15.5px; } }
+	@media (min-width: 1440px) { html { font-size: 16px; } }
+
+	/* Respetar usuarios con motion reducido */
+	@media (prefers-reduced-motion: reduce) {
+		*, *::before, *::after {
+			animation-duration: 0.01ms !important;
+			animation-iteration-count: 1 !important;
+			transition-duration: 0.01ms !important;
+			scroll-behavior: auto !important;
+		}
+
+		::view-transition-old(root),
+		::view-transition-new(root) {
+			animation: none !important;
+		}
+	}
 }
 
-/* ─────────────────────────────────────────────
-   6. Utilidades globales de marca
-───────────────────────────────────────────── */
+/* =============================================================
+   Utilidades de marca · helpers reutilizables
+   ============================================================= */
 @layer utilities {
-  .brand-gradient {
-    background: linear-gradient(145deg, var(--color-primary-500) 0%, var(--color-primary-700) 100%);
-  }
+	.font-display { font-family: var(--font-display); }
+	.font-body    { font-family: var(--font-body); }
 
-  .brand-gradient-soft {
-    background: linear-gradient(135deg, var(--color-primary-50) 0%, var(--color-secondary-50) 100%);
-  }
+	.text-display-lg { font-size: var(--text-display-lg); line-height: var(--leading-tight); letter-spacing: var(--tracking-display); }
+	.text-display-md { font-size: var(--text-display-md); line-height: var(--leading-tight); letter-spacing: var(--tracking-display); }
+	.text-display-sm { font-size: var(--text-display-sm); line-height: var(--leading-tight); letter-spacing: var(--tracking-display); }
+	.text-headline-lg { font-size: var(--text-headline-lg); line-height: var(--leading-snug); letter-spacing: var(--tracking-tight); }
+	.text-headline-md { font-size: var(--text-headline-md); line-height: var(--leading-snug); letter-spacing: var(--tracking-tight); }
+	.text-headline-sm { font-size: var(--text-headline-sm); line-height: var(--leading-snug); letter-spacing: var(--tracking-tight); }
+	.text-title-lg { font-size: var(--text-title-lg); line-height: var(--leading-snug); }
+	.text-title-md { font-size: var(--text-title-md); line-height: var(--leading-snug); }
+	.text-body-lg  { font-size: var(--text-body-lg); line-height: var(--leading-base); }
+	.text-body-md  { font-size: var(--text-body-md); line-height: var(--leading-base); }
+	.text-body-sm  { font-size: var(--text-body-sm); line-height: var(--leading-base); }
+	.text-label-lg { font-size: var(--text-label-lg); line-height: var(--leading-base); letter-spacing: var(--tracking-wide); text-transform: uppercase; }
+	.text-label-md { font-size: var(--text-label-md); line-height: var(--leading-base); letter-spacing: var(--tracking-wide); text-transform: uppercase; }
 
-  .text-brand { color: var(--color-brand); }
-  .text-muted  { color: var(--p-text-muted-color); }
+	/* Superficie en card por defecto */
+	.surface-card {
+		background: var(--color-surface-container);
+		color: var(--color-on-surface);
+		border: 1px solid var(--color-outline);
+		border-radius: var(--radius-lg);
+	}
 
-  .card {
-    background: var(--p-surface-0);
-    border: 1px solid var(--p-content-border-color);
-    border-radius: 16px;
-  }
+	/* ── Gradientes oficiales Savorealo ── */
+	.gradient-brand     { background: var(--gradient-brand);    color: #fff; }
+	.gradient-brand-h   { background: var(--gradient-brand-h);  color: #fff; }
+	.gradient-ai        { background: var(--gradient-ai);       color: #fff; }
+	.gradient-dark-ui   { background: var(--gradient-dark-ui);  color: #fff; }
+	.gradient-warm-glow { background: var(--gradient-warm-glow); }
+	.brand-gradient     { background: var(--gradient-brand);    color: #fff; }
 
-  .btn-brand {
-    background: var(--color-primary-500);
-    border-color: var(--color-primary-500);
-    color: #fff;
-    transition: background 150ms ease, border-color 150ms ease, transform 100ms ease;
+	/*
+	 * Sistema de botones — jerarquía de 3 niveles:
+	 *
+	 * 1. .btn-cta    → gradiente brand · UN solo CTA por pantalla
+	 * 2. bg-primary  → naranja sólido #FF7A18 · acciones importantes
+	 * 3. bg-primary-container → crema #FFF4EB · chips, badges, estados
+	 *
+	 * Los botones bg-primary usan texto blanco siempre.
+	 * font-weight mínimo 600 para compensar el contraste borderline.
+	 */
+	/*
+	 * Fuerza el color del token en botones primarios.
+	 * Light mode → oscuro cálido #1C0800 (5.9:1 sobre naranja ✓)
+	 * Dark mode  → blanco (token se sobreescribe en [data-theme='dark'])
+	 * El !important es necesario porque los templates usan text-white explícito.
+	 */
+	button.bg-primary,
+	a.bg-primary {
+		color: rgb(var(--rgb-on-primary)) !important;
+		font-weight: 600;
+	}
 
-    &:hover:not(:disabled) {
-      background: var(--color-primary-600);
-      border-color: var(--color-primary-600);
-    }
-    &:active:not(:disabled) { transform: scale(0.98); }
-    &:disabled { opacity: 0.55; cursor: not-allowed; }
-  }
+	button.bg-primary:hover,
+	a.bg-primary:hover {
+		filter: brightness(1.06);
+	}
+
+	/* CTA único → hereda el mismo sistema de color */
+	.btn-cta {
+		background: var(--gradient-brand);
+		color: rgb(var(--rgb-on-primary)) !important;
+		font-weight: 700;
+		box-shadow: 0 2px 16px rgba(255, 122, 24, 0.28);
+	}
+
+	.btn-cta:hover  { filter: brightness(1.07); }
+	.btn-cta:active { transform: scale(0.98); }
+
+	/* Slide-up para el panel de comentarios */
+	.animate-slide-up-panel {
+		animation: slide-up-panel 0.35s cubic-bezier(0.32, 0.72, 0, 1) both;
+	}
+	@keyframes slide-up-panel {
+		from { transform: translateY(100%); }
+		to   { transform: translateY(0); }
+	}
+
+	/* Animación de entrada compartida (fade + slide) */
+	.animate-rise-in {
+		animation: rise-in var(--duration-slow) var(--ease-decelerated) both;
+	}
+
+	@keyframes rise-in {
+		from { opacity: 0; transform: translateY(8px); }
+		to   { opacity: 1; transform: translateY(0); }
+	}
 }

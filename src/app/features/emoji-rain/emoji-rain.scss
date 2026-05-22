@@ -17,13 +17,22 @@
 .emoji {
   position: absolute;
   top: -20px;
+  opacity: 0.22;
   animation: fall linear infinite;
   user-select: none;
   pointer-events: none;
+  will-change: transform;
 }
 
 @keyframes fall {
   to {
-    transform: translateY(110vh);
+    transform: translateY(110vh) rotate(40deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .emoji {
+    animation: none;
+    display: none;
   }
 }

@@ -3,12 +3,13 @@ import { finalize } from 'rxjs'
 import { Comment } from '@core/models/post-actions/post-actions.model'
 import { CommentService } from '@core/services/comment.service'
 import { ToastService } from '@core/services/toast.service'
-import { FeedStore } from './feed.store'
+import { PostActionsService } from '@core/services/post-actions.service'
+import { toUserMessage } from '@core/utils/user-error'
 
 @Injectable({ providedIn: 'root' })
 export class CommentStore {
 	private readonly commentService = inject(CommentService)
-	private readonly feedStore      = inject(FeedStore)
+	private readonly postActions    = inject(PostActionsService)
 	private readonly toast          = inject(ToastService)
 
 	private readonly _postId = signal<string | null>(null)
@@ -52,7 +53,7 @@ export class CommentStore {
 				this._endCursor.set(page.endCursor)
 				this._hasNextPage.set(page.hasNextPage)
 			},
-			error: err => this._error.set(err.message ?? 'No se pudieron cargar mas comentarios'),
+			error: err => this._error.set(toUserMessage(err, 'No se pudieron cargar más comentarios')),
 		})
 	}
 
@@ -71,7 +72,7 @@ export class CommentStore {
 		}
 
 		this._comments.update(comments => [optimistic, ...comments])
-		this.feedStore.incrementComments(postId)
+		this.postActions.commentCountChanged$.next({ postId, delta: 1 })
 		this._submitting.set(true)
 		this._error.set(null)
 
@@ -82,12 +83,12 @@ export class CommentStore {
 				this._comments.update(comments =>
 					comments.map(item => item.id === optimistic.id ? comment : item),
 				)
-				this.toast.success('Comentario publicado 💬', '')
+				this.toast.success('Comentario publicado', '')
 			},
 			error: err => {
 				this._comments.update(comments => comments.filter(item => item.id !== optimistic.id))
-				this.feedStore.decrementComments(postId)
-				this._error.set(err.message ?? 'No se pudo comentar')
+				this.postActions.commentCountChanged$.next({ postId, delta: -1 })
+				this._error.set(toUserMessage(err, 'No se pudo comentar'))
 				this.toast.error('No se pudo publicar el comentario')
 			},
 		})
@@ -95,13 +96,13 @@ export class CommentStore {
 
 	deleteComment(comment: Comment): void {
 		this._comments.update(comments => comments.filter(item => item.id !== comment.id))
-		this.feedStore.decrementComments(comment.postId)
+		this.postActions.commentCountChanged$.next({ postId: comment.postId, delta: -1 })
 
 		this.commentService.deleteComment(comment.id).subscribe({
 			error: err => {
 				this._comments.update(comments => [comment, ...comments])
-				this.feedStore.incrementComments(comment.postId)
-				this._error.set(err.message ?? 'No se pudo eliminar el comentario')
+				this.postActions.commentCountChanged$.next({ postId: comment.postId, delta: 1 })
+				this._error.set(toUserMessage(err, 'No se pudo eliminar el comentario'))
 			},
 		})
 	}
@@ -118,7 +119,7 @@ export class CommentStore {
 				this._endCursor.set(page.endCursor)
 				this._hasNextPage.set(page.hasNextPage)
 			},
-			error: err => this._error.set(err.message ?? 'No se pudieron cargar los comentarios'),
+			error: err => this._error.set(toUserMessage(err, 'No se pudieron cargar los comentarios')),
 		})
 	}
 }

@@ -3,15 +3,21 @@ import { finalize } from 'rxjs'
 import { Post } from '@core/models/post/post.model'
 import { PostCategory } from '@core/models/post/post.dto'
 import { ExploreService } from '@core/services/explore.service'
+import { PostActionsService } from '@core/services/post-actions.service'
+import { toUserMessage } from '@core/utils/user-error'
 
 export type ExploreSort = 'relevant' | 'recent' | 'popular'
+
+const STALE_MS = 5 * 60_000
 
 @Injectable({ providedIn: 'root' })
 export class ExploreStore {
 	private readonly exploreService = inject(ExploreService)
+	private readonly postActions    = inject(PostActionsService)
 
 	private readonly _posts = signal<Post[]>([])
 	private readonly _loading = signal(false)
+	private readonly _refreshing = signal(false)
 	private readonly _loadingMore = signal(false)
 	private readonly _error = signal<string | null>(null)
 	private readonly _endCursor = signal<string | null>(null)
@@ -19,9 +25,12 @@ export class ExploreStore {
 	private readonly _totalCount = signal(0)
 	private readonly _selectedCategory = signal<PostCategory | null>(null)
 	private readonly _sort = signal<ExploreSort>('relevant')
+	private _lastFetchedAt = 0
+	private _scrollTop = 0
 
 	readonly posts = this._posts.asReadonly()
 	readonly loading = this._loading.asReadonly()
+	readonly refreshing = this._refreshing.asReadonly()
 	readonly loadingMore = this._loadingMore.asReadonly()
 	readonly error = this._error.asReadonly()
 	readonly hasNextPage = this._hasNextPage.asReadonly()
@@ -29,6 +38,30 @@ export class ExploreStore {
 	readonly selectedCategory = this._selectedCategory.asReadonly()
 	readonly sort = this._sort.asReadonly()
 	readonly isEmpty = computed(() => !this._loading() && this._posts().length === 0)
+
+	get scrollTop(): number { return this._scrollTop }
+	saveScroll(top: number): void { this._scrollTop = top }
+
+	constructor() {
+		this.postActions.likeChanged$.subscribe(e =>
+			this.updatePost(e.postId, { liked: e.liked, likesCount: e.likesCount }),
+		)
+		this.postActions.saveChanged$.subscribe(e =>
+			this.updatePost(e.postId, { saved: e.saved, savesCount: e.savesCount }),
+		)
+		this.postActions.commentCountChanged$.subscribe(e =>
+			this._posts.update(posts =>
+				posts.map(p => p.id === e.postId
+					? { ...p, commentsCount: Math.max(0, p.commentsCount + e.delta) }
+					: p,
+				),
+			),
+		)
+	}
+
+	isStale(): boolean {
+		return this._posts().length === 0 || Date.now() - this._lastFetchedAt > STALE_MS
+	}
 
 	loadExplore(): void {
 		this._loading.set(true)
@@ -43,8 +76,30 @@ export class ExploreStore {
 				this._endCursor.set(page.endCursor)
 				this._hasNextPage.set(page.hasNextPage)
 				this._totalCount.set(page.totalCount)
+				this._lastFetchedAt = Date.now()
 			},
-			error: err => this._error.set(err.message ?? 'No se pudo cargar explorar'),
+			error: err => this._error.set(toUserMessage(err, 'No se pudo cargar explorar')),
+		})
+	}
+
+	refresh(): void {
+		if (this._refreshing()) return
+		this._refreshing.set(true)
+		this._error.set(null)
+		this._endCursor.set(null)
+
+		this.exploreService.getExplorePosts(this.categoryVariable()).pipe(
+			finalize(() => this._refreshing.set(false)),
+		).subscribe({
+			next: page => {
+				this._posts.set(this.sortPosts(page.posts))
+				this._endCursor.set(page.endCursor)
+				this._hasNextPage.set(page.hasNextPage)
+				this._totalCount.set(page.totalCount)
+				this._lastFetchedAt = Date.now()
+				this._scrollTop = 0
+			},
+			error: err => this._error.set(toUserMessage(err, 'No se pudo refrescar explorar')),
 		})
 	}
 
@@ -63,8 +118,14 @@ export class ExploreStore {
 				this._hasNextPage.set(page.hasNextPage)
 				this._totalCount.set(page.totalCount)
 			},
-			error: err => this._error.set(err.message ?? 'No se pudieron cargar mas recetas'),
+			error: err => this._error.set(toUserMessage(err, 'No se pudieron cargar más recetas')),
 		})
+	}
+
+	private updatePost(postId: string, patch: Partial<Post>): void {
+		this._posts.update(posts =>
+			posts.map(p => p.id === postId ? { ...p, ...patch } : p),
+		)
 	}
 
 	setCategory(category: PostCategory | null): void {

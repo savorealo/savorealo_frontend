@@ -1,29 +1,29 @@
-<article class="mx-auto grid w-full max-w-[500px] gap-2 bg-transparent">
-	<header class="flex min-w-0 items-center gap-2 px-2">
-		<a [routerLink]="profileLink()" class="shrink-0 rounded-full focus:outline-none focus:ring-2 focus:ring-[#ff8f27]">
+<article class="mx-auto grid w-full max-w-[500px] gap-2 bg-transparent px-3 sm:px-0">
+	<header class="flex min-w-0 items-start gap-2 px-0 sm:px-2">
+		<a [routerLink]="profileLink()" class="shrink-0 rounded-pill focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
 			<app-avatar [src]="post().author.photoUrl" [name]="authorName()" size="md" />
 		</a>
 
-		<div class="min-w-0 flex-1 leading-none">
-			<div class="flex min-w-0 items-center gap-1">
-				<a [routerLink]="profileLink()" class="truncate text-sm font-black text-black hover:underline">
+		<div class="min-w-0 flex-1 pt-0.5 leading-none">
+			<div class="flex min-w-0 items-center gap-1 overflow-hidden">
+				<a [routerLink]="profileLink()" class="truncate text-body-sm font-bold text-on-surface hover:underline">
 					{{ authorName() }}
 				</a>
-				<i class="pi pi-check-circle text-[0.7rem] text-sky-500"></i>
-				<span class="truncate text-[0.68rem] font-semibold text-black/45">{{ authorHandle() }}</span>
-				<span class="text-[0.68rem] font-semibold text-black/45">{{ post().createdAt | timeAgo }}</span>
+				<i class="pi pi-check-circle shrink-0 text-[0.7rem] text-tertiary"></i>
+				<span class="hidden truncate text-label-md font-semibold text-on-surface-muted min-[380px]:inline">{{ authorHandle() }}</span>
+				<span class="shrink-0 text-label-md font-semibold text-on-surface-muted">{{ post().createdAt | timeAgo }}</span>
 			</div>
 
 			@if (content()) {
-				<p class="mt-1 truncate text-[0.72rem] font-bold text-black">
+				<p class="mt-1 text-body-sm font-semibold leading-snug text-on-surface" [class.line-clamp-2]="!expanded()">
 					{{ expanded() ? content() : (content() | truncate:96) }}
 					@if (hasLongContent()) {
 						<button
 							type="button"
-							class="font-black text-[#ff6d00]"
+							class="inline min-h-0 align-baseline font-bold text-primary hover:underline"
 							(click)="expanded.set(!expanded())"
 						>
-							{{ expanded() ? 'ver menos' : 'ver mas' }}
+							{{ expanded() ? 'ver menos' : 'ver más' }}
 						</button>
 					}
 				</p>
@@ -32,7 +32,7 @@
 
 		<button
 			type="button"
-			class="grid size-8 place-items-center rounded-full text-black/45 transition hover:bg-black/5 hover:text-black"
+			class="grid size-11 shrink-0 place-items-center rounded-pill text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container hover:text-on-surface active:scale-[0.98]"
 			(click)="toggleMenu($event)"
 			aria-label="Opciones del post"
 		>
@@ -43,79 +43,123 @@
 
 	@if (primaryMedia(); as media) {
 		@if (media.type === 'video') {
-			<video class="aspect-[1.7] w-full rounded-2xl bg-black object-cover" [src]="media.url" controls preload="metadata"></video>
+			<video class="aspect-[3/2] w-full rounded-2xl bg-black object-cover sm:aspect-[1.7]" [src]="media.url" controls preload="metadata"></video>
 		} @else {
 			<a [routerLink]="postLink()" class="block">
-				<div class="relative aspect-[1.7] overflow-hidden rounded-2xl bg-surface-100">
+				<div class="relative aspect-[3/2] overflow-hidden rounded-2xl border border-outline bg-surface-container sm:aspect-[1.7]">
 					<img
 						[ngSrc]="media.url"
-						[alt]="post().title || 'Publicacion culinaria'"
+						[alt]="post().title || 'Publicación culinaria'"
 						fill
-						sizes="(max-width: 768px) 100vw, 500px"
-						class="object-cover transition hover:scale-[1.02]"
+						appImgFallback
+						sizes="(max-width: 768px) 100vw, 50vw"
+						class="object-cover transition-transform duration-slow ease-decelerated hover:scale-[1.02]"
 					/>
 				</div>
 			</a>
 		}
 	} @else {
-		<a [routerLink]="postLink()" class="block rounded-2xl bg-white p-5 text-sm font-semibold leading-6 text-black shadow-sm hover:bg-surface-50">
+		<a [routerLink]="postLink()" class="block rounded-2xl border border-outline bg-surface-container p-4 text-body-sm font-medium leading-base text-on-surface transition-colors duration-fast ease-standard hover:bg-surface-container-high sm:p-5">
 			{{ content() }}
 		</a>
 	}
 
-	<footer class="flex items-center gap-5 px-4 pt-1 text-black">
+	<footer class="grid grid-cols-[auto_auto_auto_auto_1fr] items-center gap-2 px-0 pt-1 text-on-surface sm:flex sm:gap-5 sm:px-4">
 		<!-- Like -->
 		<button
 			type="button"
-			class="inline-flex items-center gap-1.5 text-sm font-black transition"
-			[class.text-[#d00000]]="post().liked"
-			[attr.aria-pressed]="post().liked"
+			class="inline-flex min-h-11 items-center gap-1.5 rounded-pill px-2 text-body-sm font-bold transition-colors duration-fast ease-standard hover:bg-surface-container hover:text-error active:scale-[0.98]"
+			[class.text-error]="liked()"
+			[attr.aria-pressed]="liked()"
 			(click)="triggerLike()"
 		>
 			<i
-				[class]="post().liked ? 'pi pi-heart-fill' : 'pi pi-heart'"
+				[class]="liked() ? 'pi pi-heart-fill' : 'pi pi-heart'"
 				[class.like-pop]="likeAnimating()"
 				class="text-base"
 			></i>
-			<span>{{ post().likesCount }}</span>
+			<span>{{ likesCount() }}</span>
 		</button>
 
 		<!-- Comment -->
 		<button
 			type="button"
-			class="inline-flex items-center gap-1.5 text-sm font-black transition hover:text-[#ff6d00]"
-			(click)="onComment.emit(post())"
+			class="inline-flex min-h-11 items-center gap-1.5 rounded-pill px-2 text-body-sm font-bold transition-colors duration-fast ease-standard hover:bg-surface-container hover:text-primary active:scale-[0.98]"
+			(click)="comment.emit(post())"
 		>
 			<i class="pi pi-comment text-base"></i>
 			<span>{{ post().commentsCount }}</span>
+		</button>
+
+		<!-- Share -->
+		<button
+			type="button"
+			class="inline-flex min-h-11 items-center gap-1.5 rounded-pill px-2 text-body-sm font-bold transition-colors duration-fast ease-standard hover:bg-surface-container hover:text-primary active:scale-[0.98]"
+			(click)="share.emit(post())"
+			aria-label="Enviar post"
+		>
+			<i class="pi pi-send text-base"></i>
+			<span class="hidden min-[390px]:inline">Enviar</span>
 		</button>
 
 		<!-- Cooking mode (solo si tiene receta) -->
 		@if (post().recipe) {
 			<button
 				type="button"
-				class="inline-flex items-center gap-1.5 rounded-full bg-orange-50 px-3 py-1 text-xs font-black text-orange-500 transition hover:bg-orange-100"
+				class="inline-flex min-h-11 items-center justify-center gap-1.5 rounded-pill px-3 text-label-md font-bold text-on-surface transition-all duration-fast ease-standard hover:bg-surface-container active:scale-[0.98]"
 				(click)="openCookingMode()"
 				aria-label="Modo cocina"
 			>
-				<i class="pi pi-play-circle text-sm"></i>
-				<span class="hidden sm:inline">Cocinar</span>
+				<img src="/gorro-de-cocinero.png" class="size-5 shrink-0 object-contain" aria-hidden="true" alt="" />
+			</button>
+		}
+
+		<!-- Botón vegano (solo en modo vegano) -->
+		@if (preferences.veganMode()) {
+			<button
+				type="button"
+				class="inline-flex min-h-11 items-center justify-center gap-1.5 rounded-pill px-2.5 text-label-md font-semibold transition-all duration-fast ease-standard active:scale-[0.98]"
+				style="color: #16a34a;"
+				(click)="veganModalOpen.set(true)"
+				aria-label="Convertir a versión vegana"
+				onmouseenter="this.style.background='rgba(34,197,94,0.1)'"
+				onmouseleave="this.style.background=''"
+			>
+				<img src="/vegano.png" class="size-4 shrink-0 object-contain" aria-hidden="true" alt="" />
+			</button>
+		}
+
+		@if (preferences.vegetarianMode()) {
+			<button
+				type="button"
+				class="inline-flex min-h-11 items-center justify-center gap-1.5 rounded-pill px-2.5 text-label-md font-semibold transition-all duration-fast ease-standard active:scale-[0.98]"
+				style="color: #16a34a;"
+				(click)="vegetarianModalOpen.set(true)"
+				aria-label="Convertir a versión vegetariana"
+				onmouseenter="this.style.background='rgba(34,197,94,0.1)'"
+				onmouseleave="this.style.background=''"
+			>
+				<img src="/vegetariano.png" class="size-4 shrink-0 object-contain" aria-hidden="true" alt="" />
 			</button>
 		}
 
 		<!-- Save -->
 		<button
 			type="button"
-			class="ml-auto grid size-8 place-items-center rounded-full text-sm transition hover:bg-black/5 hover:text-[#ff6d00]"
-			[class.text-[#ff6d00]]="post().saved"
-			[attr.aria-pressed]="post().saved"
-			(click)="onSave.emit(post())"
+			class="ml-auto grid size-11 place-items-center rounded-pill text-body-sm transition-colors duration-fast ease-standard hover:bg-surface-container hover:text-primary active:scale-[0.98]"
+			[class.text-primary]="saved()"
+			[attr.aria-pressed]="saved()"
+			(click)="triggerSave()"
 			aria-label="Guardar post"
 		>
-			<i [class]="post().saved ? 'pi pi-bookmark-fill' : 'pi pi-bookmark'" class="text-base"></i>
+			<i [class]="saved() ? 'pi pi-bookmark-fill' : 'pi pi-bookmark'" class="text-base"></i>
 		</button>
 	</footer>
 </article>
+
+@if (preferences.veganMode()) {
+	<app-vegan-convert-modal [post]="post()" [(visible)]="veganModalOpen" />
+}
 
 <style>
 .like-pop {

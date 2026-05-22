@@ -53,3 +53,6 @@ Thumbs.db
 
 # Claude Code worktrees (local tooling, not part of the repo)
 .claude/
+
+# Skills clonadas (uso local de Claude, no parte del repo)
+.skills/

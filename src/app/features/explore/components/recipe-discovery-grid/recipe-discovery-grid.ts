@@ -1,10 +1,11 @@
 import { Component, input, output } from '@angular/core'
 import { Post } from '@core/models/post/post.model'
 import { RecipeDiscoveryCard } from '../recipe-discovery-card/recipe-discovery-card'
+import { SavoLoader } from '@shared/components/savo-loader/savo-loader'
 
 @Component({
 	selector: 'app-recipe-discovery-grid',
-	imports: [RecipeDiscoveryCard],
+	imports: [RecipeDiscoveryCard, SavoLoader],
 	templateUrl: './recipe-discovery-grid.html',
 })
 export class RecipeDiscoveryGrid {
@@ -14,7 +15,6 @@ export class RecipeDiscoveryGrid {
 	isEmpty = input(false)
 	error = input<string | null>(null)
 
-	save = output<Post>()
 	retry = output<void>()
 	loadMore = output<void>()
 }

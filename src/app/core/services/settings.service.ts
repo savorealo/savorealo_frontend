@@ -1,7 +1,7 @@
-import { inject, Injectable, PLATFORM_ID } from '@angular/core'
-import { isPlatformBrowser } from '@angular/common'
-import { from, map, Observable, of, switchMap } from 'rxjs'
-import { SupabaseService } from '@core/services/supabase.service'
+import { inject, Injectable } from '@angular/core'
+import { map, Observable } from 'rxjs'
+import { ThemeService } from '@core/services/theme.service'
+import { SETTINGS_REPOSITORY } from '@core/repositories/tokens/repository.tokens'
 
 export interface UserSettings {
 	is_private: boolean
@@ -23,54 +23,35 @@ const DEFAULTS: UserSettings = {
 
 @Injectable({ providedIn: 'root' })
 export class SettingsService {
-	private readonly supabase = inject(SupabaseService)
-	private readonly platformId = inject(PLATFORM_ID)
+	private readonly repo = inject(SETTINGS_REPOSITORY)
+	private readonly theme = inject(ThemeService)
 
 	loadSettings(): Observable<UserSettings> {
-		return from(this.supabase.client.auth.getUser()).pipe(
-			switchMap(({ data }) => {
-				const userId = data.user?.id
-				if (!userId) return of({ ...DEFAULTS })
-				return from(
-					this.supabase.client
-						.from('user_settings')
-						.select('is_private, notify_likes, notify_comments, notify_follows, theme, language')
-						.eq('user_id', userId)
-						.maybeSingle(),
-				).pipe(
-					map(({ data: row }) => {
-						const settings: UserSettings = row ? { ...DEFAULTS, ...row } : { ...DEFAULTS }
-						this.applyTheme(settings.theme)
-						return settings
-					}),
-				)
+		return this.repo.loadSettings().pipe(
+			map(row => {
+				const settings: UserSettings = row ? this.normalize(row) : { ...DEFAULTS }
+				this.applyTheme(settings.theme)
+				return settings
 			}),
 		)
 	}
 
-	saveSettings(settings: Partial<UserSettings>): Observable<void> {
-		return from(this.supabase.client.auth.getUser()).pipe(
-			switchMap(({ data }) => {
-				const userId = data.user?.id
-				if (!userId) throw new Error('No hay sesión activa')
-				return from(
-					this.supabase.client
-						.from('user_settings')
-						.upsert({ user_id: userId, ...settings }, { onConflict: 'user_id' }),
-				)
-			}),
-			map(({ error }) => {
-				if (error) throw error
-			}),
-		)
+	saveSettings(patch: Partial<UserSettings>): Observable<void> {
+		return this.repo.saveSettings(patch)
 	}
 
 	applyTheme(theme: 'light' | 'dark'): void {
-		if (!isPlatformBrowser(this.platformId)) return
-		if (theme === 'dark') {
-			document.documentElement.setAttribute('data-theme', 'dark')
-		} else {
-			document.documentElement.removeAttribute('data-theme')
+		this.theme.setMode(theme)
+	}
+
+	private normalize(row: { is_private: boolean; language: string; theme: string; notify_likes: boolean; notify_comments: boolean; notify_follows: boolean }): UserSettings {
+		return {
+			is_private:       row.is_private,
+			language:         row.language || DEFAULTS.language,
+			theme:            row.theme === 'dark' ? 'dark' : 'light',
+			notify_likes:     row.notify_likes,
+			notify_comments:  row.notify_comments,
+			notify_follows:   row.notify_follows,
 		}
 	}
 }

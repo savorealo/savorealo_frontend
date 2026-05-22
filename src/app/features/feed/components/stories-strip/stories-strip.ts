@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, OnDestroy, OnInit, signal, viewChild } from '@angular/core'
+import { Component, ElementRef, inject, OnDestroy, signal, viewChild } from '@angular/core'
 import { StoriesStore } from '@core/store/stories.store'
 import { Avatar } from '@shared/components/avatar/avatar'
 
@@ -7,7 +7,7 @@ import { Avatar } from '@shared/components/avatar/avatar'
 	imports: [Avatar],
 	templateUrl: './stories-strip.html',
 })
-export class StoriesStrip implements OnInit, OnDestroy {
+export class StoriesStrip implements OnDestroy {
 	readonly store = inject(StoriesStore)
 
 	readonly menuOpen = signal(false)
@@ -21,17 +21,9 @@ export class StoriesStrip implements OnInit, OnDestroy {
 	private readonly videoEl = viewChild<ElementRef<HTMLVideoElement>>('cameraVideo')
 	private readonly canvasEl = viewChild<ElementRef<HTMLCanvasElement>>('cameraCanvas')
 
-	ngOnInit(): void {
-		this.store.load()
-	}
-
 	ngOnDestroy(): void {
 		this._revokePreview()
 		this._stopStream()
-	}
-
-	openStory(index: number): void {
-		this.store.openViewer(index)
 	}
 
 	onFileSelected(event: Event): void {

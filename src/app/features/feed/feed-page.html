@@ -1,28 +1,31 @@
-<app-shell>
-	<div class="grid h-dvh grid-rows-[auto_minmax(0,1fr)] overflow-hidden bg-[#f4f4f4]">
-		<app-feed-topbar (create)="composerOpen.set(!composerOpen())" />
-
-		<section class="mx-auto grid min-h-0 w-full max-w-[1040px] grid-cols-1 gap-8 px-4 lg:grid-cols-[minmax(0,500px)_242px] xl:gap-10">
-			<main class="grid min-h-0 grid-rows-[auto_auto_minmax(0,1fr)]">
+<app-shell (create)="composerOpen.set(!composerOpen())">
+	<div class="flex h-full flex-col overflow-hidden bg-surface text-on-surface">
+		<section class="mx-auto grid min-h-0 w-full flex-1 max-w-[1100px] grid-cols-1 grid-rows-[minmax(0,1fr)] gap-8 px-0 sm:px-4 lg:grid-cols-[minmax(0,560px)_300px] xl:gap-10">
+			<main class="flex h-full min-h-0 flex-col">
 				<app-stories-strip />
 
 				@if (composerOpen()) {
-					<div class="pb-4">
+					<div class="max-h-[70vh] overflow-y-auto pb-4">
 						<app-create-post (postCreated)="addCreatedPost($event)" />
 					</div>
 				}
 
 				<app-feed-post-list
+					class="min-h-0 flex-1"
 					[posts]="feed.posts()"
 					[loading]="feed.loading()"
 					[loadingMore]="feed.loadingMore()"
+					[refreshing]="feed.refreshing()"
 					[isEmpty]="feed.isEmpty()"
 					[error]="feed.error()"
-					(like)="feed.toggleLike($event)"
-					(save)="feed.toggleSave($event)"
+					[hasNextPage]="feed.hasNextPage()"
 					(comment)="openComments($event)"
+					(report)="openReport($event)"
+					(share)="openShare($event)"
 					(retry)="feed.loadHomeFeed()"
 					(nearEnd)="feed.loadMore()"
+					(explore)="navigateToExplore()"
+					(refresh)="feed.refresh()"
 				/>
 			</main>
 
@@ -33,6 +36,14 @@
 	</div>
 
 	<app-comments-sheet [(visible)]="commentsOpen" [post]="selectedPost()" />
+
+	@if (reportingPost(); as p) {
+		<app-report-sheet [post]="p" (close)="closeReport()" />
+	}
+
+	@if (sharingPost(); as p) {
+		<app-share-post-modal [post]="p" (close)="closeShare()" />
+	}
 </app-shell>
 
 <app-story-viewer />

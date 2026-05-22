@@ -1,16 +1,14 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core'
+import { afterNextRender, Component, computed, ElementRef, inject, OnDestroy, signal, viewChild } from '@angular/core'
 import { RouterLink } from '@angular/router'
 import { NgOptimizedImage } from '@angular/common'
 import { AppShell } from '@shared/components/app-shell/app-shell'
 import { Avatar } from '@shared/components/avatar/avatar'
 import { ExploreStore } from '@core/store/explore.store'
-import { FeedStore } from '@core/store/feed.store'
 import { SearchService, SearchPost, SearchUser } from '@core/services/search.service'
 import { ExploreCategoryTabs } from './components/explore-category-tabs/explore-category-tabs'
 import { ExploreHero } from './components/explore-hero/explore-hero'
 import { ExploreRightRail } from './components/explore-right-rail/explore-right-rail'
 import { ExploreToolbar } from './components/explore-toolbar/explore-toolbar'
-import { ExploreTopbar } from './components/explore-topbar/explore-topbar'
 import { RecipeDiscoveryGrid } from './components/recipe-discovery-grid/recipe-discovery-grid'
 
 @Component({
@@ -24,14 +22,14 @@ import { RecipeDiscoveryGrid } from './components/recipe-discovery-grid/recipe-d
 		ExploreHero,
 		ExploreRightRail,
 		ExploreToolbar,
-		ExploreTopbar,
 		RecipeDiscoveryGrid,
 	],
 	templateUrl: './explore-page.html',
 })
-export class ExplorePage implements OnInit {
+export class ExplorePage implements OnDestroy {
+	private readonly scrollContainer = viewChild<ElementRef<HTMLElement>>('exploreScroll')
+
 	readonly explore = inject(ExploreStore)
-	private readonly feed = inject(FeedStore)
 	private readonly searchService = inject(SearchService)
 
 	readonly searchQuery = signal('')
@@ -42,10 +40,65 @@ export class ExplorePage implements OnInit {
 
 	readonly isSearching = computed(() => this.searchQuery().trim().length >= 2)
 
-	ngOnInit(): void {
-		if (this.explore.posts().length === 0) {
-			this.explore.loadExplore()
-		}
+	readonly pullProgress = signal(0)
+	readonly pullTriggered = signal(false)
+	private pullStartY = 0
+	private pulling = false
+
+	constructor() {
+		afterNextRender(() => {
+			const saved = this.explore.scrollTop
+			if (saved > 0) {
+				this.scrollContainer()?.nativeElement.scrollTo({ top: saved })
+			}
+			this.setupPullToRefresh()
+			if (this.explore.isStale()) {
+				this.explore.loadExplore()
+			}
+		})
+	}
+
+	ngOnDestroy(): void {
+		const el = this.scrollContainer()?.nativeElement
+		this.explore.saveScroll(el?.scrollTop ?? 0)
+	}
+
+	private setupPullToRefresh(): void {
+		const el = this.scrollContainer()?.nativeElement
+		if (!el) return
+
+		el.addEventListener('touchstart', (e: TouchEvent) => {
+			if (el.scrollTop <= 0) {
+				this.pullStartY = e.touches[0].clientY
+				this.pulling = true
+			}
+		}, { passive: true })
+
+		el.addEventListener('touchmove', (e: TouchEvent) => {
+			if (!this.pulling || el.scrollTop > 0) {
+				this.pulling = false
+				this.pullProgress.set(0)
+				return
+			}
+			const dy = e.touches[0].clientY - this.pullStartY
+			if (dy > 0) {
+				this.pullProgress.set(Math.min(dy / 100, 1))
+				this.pullTriggered.set(dy >= 100)
+			}
+		}, { passive: true })
+
+		el.addEventListener('touchend', () => {
+			if (this.pullTriggered()) {
+				this.explore.refresh()
+			}
+			this.pulling = false
+			this.pullProgress.set(0)
+			this.pullTriggered.set(false)
+		}, { passive: true })
+	}
+
+	onInputSearch(event: Event): void {
+		this.onQueryChange((event.target as HTMLInputElement).value)
 	}
 
 	onQueryChange(q: string): void {
@@ -67,7 +120,4 @@ export class ExplorePage implements OnInit {
 		})
 	}
 
-	toggleSave(post: Parameters<FeedStore['toggleSave']>[0]): void {
-		this.feed.toggleSave(post)
-	}
 }

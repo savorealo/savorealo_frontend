@@ -1,6 +1,9 @@
-<section class="rounded-3xl bg-gradient-to-br from-[#f24d55] via-[#ff8841] to-[#ffd557] p-8 text-white shadow-[0_24px_60px_rgba(255,116,45,0.24)]">
-	<label class="grid gap-4">
-		<span class="text-lg font-black">Cuentanos que tienes en casa <i class="pi pi-info-circle text-white/70"></i></span>
+<section class="rounded-2xl border border-outline bg-secondary-container p-4 text-on-secondary-container shadow-2 sm:p-6 lg:p-8">
+	<label class="grid gap-3">
+		<span class="text-title-md font-bold">
+			Cuéntanos qué tienes en casa
+			<i class="pi pi-info-circle text-on-secondary-container/70 ml-1"></i>
+		</span>
 		<div class="relative">
 			<textarea
 				pTextarea
@@ -8,22 +11,23 @@
 				maxlength="120"
 				[ngModel]="store.ingredientsText()"
 				(ngModelChange)="updateIngredients($event)"
-				class="min-h-32 w-full resize-none rounded-2xl border-0 bg-white p-6 pr-16 text-lg font-semibold leading-7 text-black outline-none placeholder:text-black/30"
-				placeholder="Ej: pollo, arroz, brocoli, limon..."
+				class="min-h-32 w-full resize-none rounded-xl border border-outline bg-surface p-4 pr-14 text-body-md font-medium leading-snug text-on-surface outline-none placeholder:text-on-surface-muted focus:shadow-[0_0_0_2px_rgb(var(--rgb-primary)/0.4)] sm:p-5 sm:pr-16 sm:text-body-lg"
+				placeholder="Ej: pollo, arroz, brócoli, limón..."
 			></textarea>
-			<span class="absolute bottom-5 right-6 text-sm font-bold text-black/30">{{ store.ingredientsText().length }}/120</span>
+			<span class="absolute bottom-4 right-5 text-label-md font-bold text-on-surface-muted">{{ store.ingredientsText().length }}/120</span>
 		</div>
 	</label>
 
-	<div class="mt-8 grid gap-4">
-		<h2 class="text-lg font-black">O elige algunas sugerencias:</h2>
-		<div class="flex flex-wrap gap-3">
+	<div class="mt-7 grid gap-3">
+		<h2 class="text-title-sm font-bold">O elige algunas sugerencias:</h2>
+		<div class="flex flex-wrap gap-2">
 			@for (suggestion of store.suggestions; track suggestion) {
 				<button
 					type="button"
-					class="rounded-2xl border border-white/45 px-5 py-3 text-base font-black text-white transition hover:bg-white/15"
-					[class.bg-white]="store.selectedSuggestions().includes(suggestion)"
-					[class.text-orange-600]="store.selectedSuggestions().includes(suggestion)"
+					class="min-h-11 rounded-pill border border-on-secondary-container/30 px-4 text-body-sm font-bold transition-colors duration-fast ease-standard hover:bg-on-secondary-container/10 active:scale-[0.98]"
+					[class.bg-surface]="store.selectedSuggestions().includes(suggestion)"
+					[class.text-on-surface]="store.selectedSuggestions().includes(suggestion)"
+					[class.border-surface]="store.selectedSuggestions().includes(suggestion)"
 					(click)="store.toggleSuggestion(suggestion)"
 				>
 					{{ suggestion }}
@@ -32,24 +36,25 @@
 		</div>
 	</div>
 
-	<div class="mt-8 grid gap-4">
-		<h2 class="text-lg font-black">¿Que tipo de receta buscas?</h2>
+	<div class="mt-7 grid gap-3">
+		<h2 class="text-title-sm font-bold">¿Qué tipo de receta buscas?</h2>
 		<div class="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
 			@for (option of recipeTypes; track option.type) {
 				<button
 					type="button"
-					class="relative flex min-h-24 items-center gap-4 rounded-2xl bg-white p-5 text-left text-black shadow-sm transition hover:scale-[1.01]"
-					[class.ring-4]="store.selectedRecipeType() === option.type"
-					[class.ring-white]="store.selectedRecipeType() === option.type"
+					class="relative flex min-h-24 items-center gap-3 rounded-2xl bg-surface p-4 text-left text-on-surface shadow-1 transition-all duration-fast ease-standard hover:-translate-y-0.5 hover:shadow-2"
+					[class.outline]="store.selectedRecipeType() === option.type"
+					[class.outline-2]="store.selectedRecipeType() === option.type"
+					[class.outline-on-secondary-container]="store.selectedRecipeType() === option.type"
 					(click)="store.setRecipeType(option.type)"
 				>
-					<i [class]="option.icon" class="text-3xl text-orange-500"></i>
-					<span>
-						<strong class="block text-base font-black">{{ option.title }}</strong>
-						<span class="text-sm font-semibold text-black/45">{{ option.description }}</span>
+					<i [class]="option.icon" class="text-2xl text-secondary"></i>
+					<span class="min-w-0">
+						<strong class="block text-body-md font-bold truncate">{{ option.title }}</strong>
+						<span class="text-body-sm font-medium text-on-surface-muted line-clamp-2">{{ option.description }}</span>
 					</span>
 					@if (store.selectedRecipeType() === option.type) {
-						<span class="absolute right-4 top-4 grid size-6 place-items-center rounded-full bg-orange-500 text-xs text-white">
+						<span class="absolute right-3 top-3 grid size-6 place-items-center rounded-pill bg-on-secondary-container text-secondary text-label-md">
 							<i class="pi pi-check"></i>
 						</span>
 					}
@@ -58,26 +63,27 @@
 		</div>
 	</div>
 
-	<div class="mt-8 grid gap-4">
-		<h2 class="text-lg font-black">Numero de porciones</h2>
-		<div class="flex items-center gap-6">
-			<button type="button" class="grid size-14 place-items-center rounded-full bg-white/20 text-2xl font-black" (click)="store.decrementPortions()">−</button>
-			<span class="text-xl font-black">{{ store.portions() }} porciones</span>
-			<button type="button" class="grid size-14 place-items-center rounded-full bg-white/20 text-2xl font-black" (click)="store.incrementPortions()">+</button>
+	<div class="mt-7 grid gap-3">
+		<h2 class="text-title-sm font-bold">Número de porciones</h2>
+		<div class="flex items-center gap-5">
+			<button type="button" class="grid size-12 place-items-center rounded-pill bg-on-secondary-container/15 text-title-md font-bold transition-colors duration-fast ease-standard hover:bg-on-secondary-container/25" (click)="store.decrementPortions()">−</button>
+			<span class="text-title-md font-bold">{{ store.portions() }} porciones</span>
+			<button type="button" class="grid size-12 place-items-center rounded-pill bg-on-secondary-container/15 text-title-md font-bold transition-colors duration-fast ease-standard hover:bg-on-secondary-container/25" (click)="store.incrementPortions()">+</button>
 		</div>
 	</div>
 
 	@if (store.error()) {
-		<p class="mt-6 rounded-2xl bg-white/20 p-4 text-sm font-bold">{{ store.error() }}</p>
+		<p class="mt-6 rounded-xl bg-error-container p-4 text-body-sm font-bold text-on-error-container">{{ store.error() }}</p>
 	}
 
 	<button
 		type="button"
-		class="mt-8 flex h-20 w-full items-center justify-center gap-3 rounded-2xl bg-white text-2xl font-black text-orange-600 shadow-sm transition hover:scale-[1.01] disabled:cursor-not-allowed disabled:opacity-60"
+		class="mt-7 flex min-h-14 w-full items-center justify-center gap-3 rounded-2xl text-title-md font-bold text-white shadow-2 transition-all duration-fast ease-standard hover:shadow-4 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60 sm:min-h-16"
+	style="background: var(--gradient-ai); box-shadow: 0 4px 24px rgba(255,122,24,0.35)"
 		[disabled]="!store.canGenerate()"
 		(click)="store.generate()"
 	>
-		<span>✨</span>
+		<i class="pi pi-sparkles"></i>
 		<span>{{ store.loading() ? 'Creando receta...' : 'Generar receta' }}</span>
 	</button>
 </section>

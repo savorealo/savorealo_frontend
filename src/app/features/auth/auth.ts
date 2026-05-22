@@ -1,5 +1,4 @@
-import { Component, inject } from '@angular/core'
-import { BehaviorSubject } from 'rxjs';
+import { Component, inject, signal } from '@angular/core'
 import { NgClass } from "@angular/common";
 import { Login } from "./login/login";
 import { LoginUser, RegisterUser } from '@core/models/user/User';
@@ -22,18 +21,21 @@ export class Auth {
   private router = inject(Router)
   private route = inject(ActivatedRoute)
   authStore = inject(AuthStore)
-  isRegister = new BehaviorSubject(false)
+  isRegister = signal(false)
   readonly logoUrl = '/assets/icons/new_logo.png'
 
   toRegister($event: boolean) {
-    this.isRegister.next($event)
+    this.isRegister.set($event)
   }
 
   onRegisterSubmit($event: RegisterUser){
-    console.log("Hola:",$event)
     this.authStore.register($event).subscribe({
       next: ()=>{
         this.router.navigateByUrl(this.getSafeReturnUrl())
+      },
+      error: (err) => {
+        console.error('Register error:', err)
+        alert(err?.message ?? 'Error al registrarse, inténtalo de nuevo')
       }
     })
   }
@@ -42,6 +44,10 @@ export class Auth {
     this.authStore.login($event).subscribe({
       next: ()=>{
         this.router.navigateByUrl(this.getSafeReturnUrl())
+      },
+      error: (err) => {
+        console.error('Login error:', err)
+        alert(err?.message ?? 'Error al iniciar sesión')
       }
     })
   }

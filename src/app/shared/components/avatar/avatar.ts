@@ -11,7 +11,7 @@ export type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   template: `
     <div
       class="avatar"
-      [ngClass]="'avatar avatar--' + size"
+      [ngClass]="['avatar--' + size, fill ? 'avatar--fill' : '']"
       [attr.aria-label]="name || 'Avatar'"
       role="img"
     >
@@ -41,6 +41,7 @@ export class Avatar implements OnChanges {
   @Input() src?: string | null;
   @Input() name?: string;
   @Input() size: AvatarSize = "md"
+  @Input() fill = false;
   @Input() online?: boolean;
   @Input() offline?: boolean;
 

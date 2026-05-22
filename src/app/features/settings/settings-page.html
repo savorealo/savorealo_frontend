@@ -1,21 +1,22 @@
-<app-shell>
-	<main class="min-h-dvh bg-[#f6f6f6] px-4 py-5 sm:px-6 lg:px-8">
-		<div class="mx-auto grid max-w-[1180px] gap-6 xl:grid-cols-[minmax(0,1fr)_340px]">
+<app-shell [showTopbar]="false">
+	<main class="min-h-dvh bg-surface px-3 py-4 text-on-surface sm:px-6 sm:py-5 lg:px-8">
+
+<div class="mx-auto grid max-w-[1180px] gap-6 xl:grid-cols-[minmax(0,1fr)_340px]">
 			<section class="min-w-0">
 
 				<!-- Header -->
-				<div class="rounded-[2rem] border border-black/5 bg-white p-6 shadow-[0_18px_60px_rgba(20,20,20,0.08)] sm:p-8">
+				<div class="rounded-3xl border border-outline bg-surface-container p-4 shadow-2 sm:p-8">
 					<div class="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
 						<div>
-							<span class="inline-flex rounded-full bg-orange-50 px-4 py-2 text-sm font-black text-orange-600">Centro de control</span>
-							<h1 class="mt-4 text-4xl font-black tracking-tight text-black">Ajustes</h1>
-							<p class="mt-2 max-w-2xl text-base font-semibold leading-7 text-black/55">
+							<span class="inline-flex rounded-pill bg-primary-container px-4 py-2 text-label-md font-bold text-on-primary-container">Centro de control</span>
+							<h1 class="mt-4 font-display text-display-sm text-on-surface lg:text-display-md">Ajustes</h1>
+							<p class="mt-2 max-w-2xl text-body-md font-medium leading-base text-on-surface-muted">
 								Gestiona tu perfil, privacidad y notificaciones sin salir de Savorealo.
 							</p>
 						</div>
 						<a
 							routerLink="/profile"
-							class="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-black/10 bg-white px-5 text-sm font-black text-black transition hover:bg-orange-50"
+							class="inline-flex min-h-11 items-center justify-center gap-2 rounded-pill border border-outline bg-surface px-5 text-body-sm font-bold text-on-surface transition-colors duration-fast ease-standard hover:bg-surface-container-high"
 						>
 							<i class="pi pi-user"></i>
 							Ver perfil
@@ -26,43 +27,43 @@
 				<div class="mt-6 grid gap-6">
 
 					<!-- Cuenta -->
-					<section class="rounded-[1.75rem] border border-black/5 bg-white p-6 shadow-[0_14px_40px_rgba(20,20,20,0.06)]">
+					<section class="rounded-2xl border border-outline bg-surface-container p-4 shadow-1 sm:p-6">
 						<div class="flex items-center justify-between gap-4">
 							<div>
-								<h2 class="text-xl font-black text-black">Cuenta</h2>
-								<p class="mt-1 text-sm font-semibold text-black/45">Informacion basica de tu acceso.</p>
+								<h2 class="text-title-lg font-bold text-on-surface">Cuenta</h2>
+								<p class="mt-1 text-body-sm font-medium text-on-surface-muted">Información básica de tu acceso.</p>
 							</div>
-							<span class="grid size-11 place-items-center rounded-2xl bg-orange-50 text-orange-500">
+							<span class="grid size-11 place-items-center rounded-xl bg-primary-container text-on-primary-container">
 								<i class="pi pi-shield"></i>
 							</span>
 						</div>
 						<div class="mt-5 grid gap-4 sm:grid-cols-2">
 							<label class="grid gap-2">
-								<span class="text-xs font-black uppercase tracking-wide text-black/40">Nombre publico</span>
+								<span class="text-label-md font-bold uppercase tracking-wide text-on-surface-muted">Nombre público</span>
 								<input type="text" [value]="displayName()" readonly
-									class="h-12 rounded-2xl border border-black/10 bg-[#fafafa] px-4 text-sm font-bold text-black outline-none" />
+									class="h-12 rounded-xl border border-outline bg-surface px-4 text-body-sm font-bold text-on-surface outline-none" />
 							</label>
 							<label class="grid gap-2">
-								<span class="text-xs font-black uppercase tracking-wide text-black/40">Usuario</span>
+								<span class="text-label-md font-bold uppercase tracking-wide text-on-surface-muted">Usuario</span>
 								<input type="text" [value]="'@' + username()" readonly
-									class="h-12 rounded-2xl border border-black/10 bg-[#fafafa] px-4 text-sm font-bold text-black outline-none" />
+									class="h-12 rounded-xl border border-outline bg-surface px-4 text-body-sm font-bold text-on-surface outline-none" />
 							</label>
 							<label class="grid gap-2 sm:col-span-2">
-								<span class="text-xs font-black uppercase tracking-wide text-black/40">Email</span>
+								<span class="text-label-md font-bold uppercase tracking-wide text-on-surface-muted">Email</span>
 								<input type="email" [value]="email()" readonly
-									class="h-12 rounded-2xl border border-black/10 bg-[#fafafa] px-4 text-sm font-bold text-black outline-none" />
+									class="h-12 rounded-xl border border-outline bg-surface px-4 text-body-sm font-bold text-on-surface outline-none" />
 							</label>
 						</div>
 					</section>
 
 					<!-- Notificaciones -->
-					<section class="rounded-[1.75rem] border border-black/5 bg-white p-6 shadow-[0_14px_40px_rgba(20,20,20,0.06)]">
+					<section class="rounded-2xl border border-outline bg-surface-container p-4 shadow-1 sm:p-6">
 						<div class="flex items-center justify-between gap-4">
 							<div>
-								<h2 class="text-xl font-black text-black">Notificaciones</h2>
-								<p class="mt-1 text-sm font-semibold text-black/45">Se guardan automaticamente en tu cuenta.</p>
+								<h2 class="text-title-lg font-bold text-on-surface">Notificaciones</h2>
+								<p class="mt-1 text-body-sm font-medium text-on-surface-muted">Se guardan automáticamente en tu cuenta.</p>
 							</div>
-							<span class="grid size-11 place-items-center rounded-2xl bg-orange-50 text-orange-500">
+							<span class="grid size-11 place-items-center rounded-xl bg-primary-container text-on-primary-container">
 								@if (saving()) {
 									<i class="pi pi-spinner pi-spin"></i>
 								} @else {
@@ -70,25 +71,25 @@
 								}
 							</span>
 						</div>
-						<div class="mt-5 divide-y divide-black/5 overflow-hidden rounded-3xl border border-black/5">
+						<div class="mt-5 divide-y divide-outline overflow-hidden rounded-2xl border border-outline">
 							@for (item of notificationToggles; track item.key) {
 								<button
 									type="button"
-									class="flex w-full items-center justify-between gap-5 bg-white p-4 text-left transition hover:bg-orange-50"
+									class="flex min-h-[72px] w-full items-center justify-between gap-4 bg-surface p-4 text-left transition-colors duration-fast ease-standard hover:bg-surface-container-high"
 									(click)="toggle(item.key)"
 									[attr.aria-pressed]="settings()[item.key]"
 								>
 									<span>
-										<span class="block text-sm font-black text-black">{{ item.label }}</span>
-										<span class="mt-1 block text-sm font-semibold leading-5 text-black/45">{{ item.description }}</span>
+										<span class="block text-body-sm font-bold text-on-surface">{{ item.label }}</span>
+										<span class="mt-1 block text-body-sm font-medium leading-snug text-on-surface-muted">{{ item.description }}</span>
 									</span>
 									<span
-										class="relative h-7 w-12 shrink-0 rounded-full transition"
-										[class.bg-orange-500]="settings()[item.key]"
-										[class.bg-black/10]="!settings()[item.key]"
+										class="relative h-7 w-12 shrink-0 rounded-pill transition-colors duration-fast ease-standard"
+										[class.bg-primary]="settings()[item.key]"
+										[class.bg-outline-strong]="!settings()[item.key]"
 									>
 										<span
-											class="absolute top-1 size-5 rounded-full bg-white shadow transition"
+											class="absolute top-1 size-5 rounded-pill bg-surface shadow-1 transition-all duration-fast ease-standard"
 											[class.left-6]="settings()[item.key]"
 											[class.left-1]="!settings()[item.key]"
 										></span>
@@ -98,45 +99,123 @@
 						</div>
 					</section>
 
-					<!-- Apariencia + Privacidad -->
-					<section class="rounded-[1.75rem] border border-black/5 bg-white p-6 shadow-[0_14px_40px_rgba(20,20,20,0.06)]">
+					<!-- Preferencias alimentarias -->
+					<section class="rounded-2xl border border-outline bg-surface-container p-4 shadow-1 sm:p-6">
 						<div class="flex items-center justify-between gap-4">
 							<div>
-								<h2 class="text-xl font-black text-black">Apariencia y privacidad</h2>
-								<p class="mt-1 text-sm font-semibold text-black/45">Personaliza tu experiencia y visibilidad.</p>
+								<h2 class="text-title-lg font-bold text-on-surface">Preferencias alimentarias</h2>
+								<p class="mt-1 text-body-sm font-medium text-on-surface-muted">Adapta el contenido a tu estilo de vida.</p>
 							</div>
-							<span class="grid size-11 place-items-center rounded-2xl bg-orange-50 text-orange-500">
+							<span class="grid size-11 place-items-center rounded-xl bg-green-100 text-2xl text-green-700">
+								🌱
+							</span>
+						</div>
+						<div class="mt-5 divide-y divide-outline overflow-hidden rounded-2xl border border-outline">
+							<button
+								type="button"
+								class="flex min-h-[72px] w-full items-center justify-between gap-4 bg-surface p-4 text-left transition-colors duration-fast ease-standard hover:bg-surface-container-high"
+								(click)="preferences.toggleVeganMode()"
+								[attr.aria-pressed]="preferences.veganMode()"
+							>
+								<span class="flex items-center gap-3">
+									<span class="grid size-9 place-items-center rounded-xl text-lg"
+										[class]="preferences.veganMode() ? 'bg-green-100 text-green-700' : 'bg-surface-container-high text-on-surface-muted'">
+										🥦
+									</span>
+									<span>
+										<span class="block text-body-sm font-bold text-on-surface">Modo vegano</span>
+										<span class="mt-1 block text-body-sm font-medium leading-snug text-on-surface-muted">
+											{{ preferences.veganMode() ? 'Activo — aparece el botón Veganizar en cada post' : 'Inactivo — experiencia estándar' }}
+										</span>
+									</span>
+								</span>
+								<span
+									class="relative h-7 w-12 shrink-0 rounded-pill transition-colors duration-fast ease-standard"
+									[class.bg-green-500]="preferences.veganMode()"
+									[class.bg-outline-strong]="!preferences.veganMode()"
+								>
+									<span
+										class="absolute top-1 size-5 rounded-pill bg-surface shadow-1 transition-all duration-fast ease-standard"
+										[class.left-6]="preferences.veganMode()"
+										[class.left-1]="!preferences.veganMode()"
+									></span>
+								</span>
+							</button>
+						</div>
+
+						<div class="mt-5 divide-y divide-outline overflow-hidden rounded-2xl border border-outline">
+							<button
+								type="button"
+								class="flex min-h-[72px] w-full items-center justify-between gap-4 bg-surface p-4 text-left transition-colors duration-fast ease-standard hover:bg-surface-container-high"
+								(click)="preferences.toggleVegetarianMode()"
+								[attr.aria-pressed]="preferences.vegetarianMode()"
+							>
+								<span class="flex items-center gap-3">
+									<span class="grid size-9 place-items-center rounded-xl text-lg"
+										[class]="preferences.vegetarianMode() ? 'bg-green-100 text-green-700' : 'bg-surface-container-high text-on-surface-muted'">
+										🥕
+									</span>
+									<span>
+										<span class="block text-body-sm font-bold text-on-surface">Modo vegetariano</span>
+										<span class="mt-1 block text-body-sm font-medium leading-snug text-on-surface-muted">
+											{{ preferences.vegetarianMode() ? 'Activo — aparecen menos ingredientes de origen animal' : 'Inactivo — experiencia estándar' }}
+										</span>
+									</span>
+								</span>
+								<span
+									class="relative h-7 w-12 shrink-0 rounded-pill transition-colors duration-fast ease-standard"
+									[class.bg-green-500]="preferences.vegetarianMode()"
+									[class.bg-outline-strong]="!preferences.vegetarianMode()"
+								>
+									<span
+										class="absolute top-1 size-5 rounded-pill bg-surface shadow-1 transition-all duration-fast ease-standard"
+										[class.left-6]="preferences.vegetarianMode()"
+										[class.left-1]="!preferences.vegetarianMode()"
+									></span>
+								</span>
+							</button>
+						</div>
+					</section>
+
+					<!-- Apariencia + Privacidad -->
+					<section class="rounded-2xl border border-outline bg-surface-container p-4 shadow-1 sm:p-6">
+						<div class="flex items-center justify-between gap-4">
+							<div>
+								<h2 class="text-title-lg font-bold text-on-surface">Apariencia y privacidad</h2>
+								<p class="mt-1 text-body-sm font-medium text-on-surface-muted">Personaliza tu experiencia y visibilidad.</p>
+							</div>
+							<span class="grid size-11 place-items-center rounded-xl bg-tertiary-container text-on-tertiary-container">
 								<i class="pi pi-palette"></i>
 							</span>
 						</div>
-						<div class="mt-5 divide-y divide-black/5 overflow-hidden rounded-3xl border border-black/5">
+						<div class="mt-5 divide-y divide-outline overflow-hidden rounded-2xl border border-outline">
 
 							<!-- Dark mode -->
 							<button
 								type="button"
-								class="flex w-full items-center justify-between gap-5 bg-white p-4 text-left transition hover:bg-orange-50"
+								class="flex min-h-[72px] w-full items-center justify-between gap-4 bg-surface p-4 text-left transition-colors duration-fast ease-standard hover:bg-surface-container-high"
 								(click)="toggleTheme()"
 								[attr.aria-pressed]="isDark()"
 							>
 								<span class="flex items-center gap-3">
 									<span class="grid size-9 place-items-center rounded-xl text-lg"
-										[class]="isDark() ? 'bg-slate-800 text-yellow-300' : 'bg-orange-50 text-orange-500'">
+										[class]="isDark() ? 'bg-inverse-surface text-primary' : 'bg-primary-container text-on-primary-container'">
 										<i [class]="isDark() ? 'pi pi-moon' : 'pi pi-sun'"></i>
 									</span>
 									<span>
-										<span class="block text-sm font-black text-black">Modo oscuro</span>
-										<span class="mt-1 block text-sm font-semibold leading-5 text-black/45">
+										<span class="block text-body-sm font-bold text-on-surface">Modo oscuro</span>
+										<span class="mt-1 block text-body-sm font-medium leading-snug text-on-surface-muted">
 											{{ isDark() ? 'Activo — interfaz oscura' : 'Inactivo — interfaz clara' }}
 										</span>
 									</span>
 								</span>
 								<span
-									class="relative h-7 w-12 shrink-0 rounded-full transition"
-									[class.bg-orange-500]="isDark()"
-									[class.bg-black/10]="!isDark()"
+									class="relative h-7 w-12 shrink-0 rounded-pill transition-colors duration-fast ease-standard"
+									[class.bg-primary]="isDark()"
+									[class.bg-outline-strong]="!isDark()"
 								>
 									<span
-										class="absolute top-1 size-5 rounded-full bg-white shadow transition"
+										class="absolute top-1 size-5 rounded-pill bg-surface shadow-1 transition-all duration-fast ease-standard"
 										[class.left-6]="isDark()"
 										[class.left-1]="!isDark()"
 									></span>
@@ -146,28 +225,28 @@
 							<!-- Perfil privado -->
 							<button
 								type="button"
-								class="flex w-full items-center justify-between gap-5 bg-white p-4 text-left transition hover:bg-orange-50"
+								class="flex min-h-[72px] w-full items-center justify-between gap-4 bg-surface p-4 text-left transition-colors duration-fast ease-standard hover:bg-surface-container-high"
 								(click)="togglePrivacy()"
 								[attr.aria-pressed]="settings().is_private"
 							>
 								<span class="flex items-center gap-3">
-									<span class="grid size-9 place-items-center rounded-xl bg-orange-50 text-orange-500 text-lg">
+									<span class="grid size-9 place-items-center rounded-xl bg-secondary-container text-on-secondary-container text-lg">
 										<i class="pi pi-lock"></i>
 									</span>
 									<span>
-										<span class="block text-sm font-black text-black">Perfil privado</span>
-										<span class="mt-1 block text-sm font-semibold leading-5 text-black/45">
+										<span class="block text-body-sm font-bold text-on-surface">Perfil privado</span>
+										<span class="mt-1 block text-body-sm font-medium leading-snug text-on-surface-muted">
 											Limita la visibilidad de tus posts a tus seguidores.
 										</span>
 									</span>
 								</span>
 								<span
-									class="relative h-7 w-12 shrink-0 rounded-full transition"
-									[class.bg-orange-500]="settings().is_private"
-									[class.bg-black/10]="!settings().is_private"
+									class="relative h-7 w-12 shrink-0 rounded-pill transition-colors duration-fast ease-standard"
+									[class.bg-primary]="settings().is_private"
+									[class.bg-outline-strong]="!settings().is_private"
 								>
 									<span
-										class="absolute top-1 size-5 rounded-full bg-white shadow transition"
+										class="absolute top-1 size-5 rounded-pill bg-surface shadow-1 transition-all duration-fast ease-standard"
 										[class.left-6]="settings().is_private"
 										[class.left-1]="!settings().is_private"
 									></span>
@@ -177,20 +256,20 @@
 						</div>
 					</section>
 
-					<!-- Sesion -->
-					<section class="rounded-[1.75rem] border border-red-100 bg-white p-6 shadow-[0_14px_40px_rgba(20,20,20,0.06)]">
+					<!-- Sesión -->
+					<section class="rounded-2xl border border-error/30 bg-surface-container p-4 shadow-1 sm:p-6">
 						<div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
 							<div>
-								<h2 class="text-xl font-black text-black">Sesion</h2>
-								<p class="mt-1 text-sm font-semibold text-black/45">Puedes cerrar sesion en este dispositivo.</p>
+								<h2 class="text-title-lg font-bold text-on-surface">Sesión</h2>
+								<p class="mt-1 text-body-sm font-medium text-on-surface-muted">Puedes cerrar sesión en este dispositivo.</p>
 							</div>
 							<button
 								type="button"
-								class="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-red-500 px-5 text-sm font-black text-white transition hover:bg-red-600"
+								class="inline-flex min-h-11 items-center justify-center gap-2 rounded-pill bg-error px-5 text-body-sm font-bold text-on-error transition-all duration-fast ease-standard hover:shadow-2 active:scale-95"
 								(click)="logOut()"
 							>
 								<i class="pi pi-sign-out"></i>
-								Cerrar sesion
+								Cerrar sesión
 							</button>
 						</div>
 					</section>
@@ -200,9 +279,9 @@
 
 			<!-- Aside -->
 			<aside class="hidden gap-5 xl:grid">
-				<section class="rounded-[1.75rem] border border-black/5 bg-white p-5 shadow-[0_14px_40px_rgba(20,20,20,0.06)]">
+				<section class="rounded-2xl border border-outline bg-surface-container p-5 shadow-1">
 					<div class="flex items-center gap-3">
-						<span class="grid size-14 shrink-0 place-items-center overflow-hidden rounded-full bg-orange-500">
+						<span class="grid size-14 shrink-0 place-items-center overflow-hidden rounded-pill bg-primary">
 							<img
 								[src]="profile()?.photo_url || logoUrl"
 								[alt]="username()"
@@ -212,23 +291,23 @@
 							/>
 						</span>
 						<div class="min-w-0">
-							<h2 class="truncate text-base font-black text-black">{{ displayName() }}</h2>
-							<p class="truncate text-sm font-semibold text-black/45">@{{ username() }}</p>
+							<h2 class="truncate text-body-md font-bold text-on-surface">{{ displayName() }}</h2>
+							<p class="truncate text-body-sm font-medium text-on-surface-muted">@{{ username() }}</p>
 						</div>
 					</div>
-					<div class="mt-5 rounded-3xl bg-[#fafafa] p-4">
-						<p class="text-sm font-semibold leading-6 text-black/55">
-							Tus preferencias se guardan en tu cuenta y se restauran automaticamente al iniciar sesion.
+					<div class="mt-5 rounded-xl bg-surface-container-high p-4">
+						<p class="text-body-sm font-medium leading-base text-on-surface-muted">
+							Tus preferencias se guardan en tu cuenta y se restauran automáticamente al iniciar sesión.
 						</p>
 					</div>
 				</section>
 
-				<section class="rounded-[1.75rem] border border-black/5 bg-black p-5 text-white shadow-[0_14px_40px_rgba(20,20,20,0.10)]">
-					<span class="inline-flex rounded-full bg-white/10 px-3 py-1 text-xs font-black text-orange-200">Savorealo Pro</span>
-					<h2 class="mt-4 text-xl font-black">Mas control para creadores</h2>
-					<p class="mt-2 text-sm font-semibold leading-6 text-white/55">Estadisticas avanzadas, colecciones privadas y recetas destacadas.</p>
-					<button type="button" class="mt-5 h-11 w-full rounded-full bg-white text-sm font-black text-black transition hover:bg-orange-50">
-						Proximamente
+				<section class="rounded-2xl border border-outline bg-inverse-surface p-5 text-inverse-on-surface shadow-2">
+					<span class="inline-flex rounded-pill bg-primary px-3 py-1 text-label-md font-bold text-on-primary">Savorealo Pro</span>
+					<h2 class="mt-4 font-display text-title-lg">Más control para creadores</h2>
+					<p class="mt-2 text-body-sm font-medium leading-base text-inverse-on-surface/65">Estadísticas avanzadas, colecciones privadas y recetas destacadas.</p>
+					<button type="button" class="mt-5 min-h-11 w-full rounded-pill bg-surface text-body-sm font-bold text-on-surface transition-colors duration-fast ease-standard hover:bg-surface-container-high">
+						Próximamente
 					</button>
 				</section>
 			</aside>

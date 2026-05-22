@@ -1,11 +1,12 @@
-import { computed, DestroyRef, inject, Injectable } from '@angular/core'
+import { computed, DestroyRef, effect, inject, Injectable, untracked } from '@angular/core'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { signal } from '@angular/core'
 import { RealtimeChannel } from '@supabase/supabase-js'
 import { finalize } from 'rxjs'
 import { NotificationsService } from '@core/services/notifications.service'
 import { AuthStore } from '@core/store/auth.store'
-import { Notification } from '@core/models/notification/notification.model'
+import { Notification, NotificationTab } from '@core/models/notification/notification.model'
+import { toUserMessage } from '@core/utils/user-error'
 
 @Injectable({ providedIn: 'root' })
 export class NotificationsStore {
@@ -17,13 +18,38 @@ export class NotificationsStore {
 	private readonly _loading = signal(false)
 	private readonly _error = signal<string | null>(null)
 	private readonly _initialized = signal(false)
+	private readonly _activeTab = signal<NotificationTab>('all')
 	private channel: RealtimeChannel | null = null
 
 	readonly notifications = this._notifications.asReadonly()
 	readonly loading = this._loading.asReadonly()
 	readonly error = this._error.asReadonly()
+	readonly activeTab = this._activeTab.asReadonly()
+
 	readonly unreadCount = computed(() => this._notifications().filter(n => !n.isRead).length)
+	readonly mentionsCount = computed(() => this._notifications().filter(n => n.type === 'MENTION').length)
+	readonly socialCount = computed(() =>
+		this._notifications().filter(n => ['FOLLOW', 'FOLLOW_REQUEST', 'LIKE', 'RECIPE_SAVE'].includes(n.type)).length,
+	)
 	readonly isEmpty = computed(() => !this._loading() && this._notifications().length === 0)
+
+	readonly filteredNotifications = computed(() => {
+		const tab = this._activeTab()
+		const all = this._notifications()
+		switch (tab) {
+			case 'unread': return all.filter(n => !n.isRead)
+			case 'mentions': return all.filter(n => n.type === 'MENTION')
+			case 'social': return all.filter(n => ['FOLLOW', 'FOLLOW_REQUEST', 'LIKE', 'RECIPE_SAVE'].includes(n.type))
+			default: return all
+		}
+	})
+
+	constructor() {
+		effect(() => {
+			const userId = this.auth.currentUserId()
+			if (userId) untracked(() => this.load())
+		})
+	}
 
 	load(): void {
 		const userId = this.auth.currentUserId()
@@ -41,14 +67,21 @@ export class NotificationsStore {
 				this._notifications.set(notifications)
 				this.subscribeRealtime(userId)
 			},
-			error: err => this._error.set(err.message ?? 'No se pudieron cargar las notificaciones'),
+			error: err => {
+				this._initialized.set(false)
+				this._error.set(toUserMessage(err, 'No se pudieron cargar las notificaciones'))
+			},
 		})
+	}
+
+	setTab(tab: NotificationTab): void {
+		this._activeTab.set(tab)
 	}
 
 	markRead(notification: Notification): void {
 		if (notification.isRead) return
 		this._notifications.update(list =>
-			list.map(n => n.id === notification.id ? { ...n, isRead: true } : n),
+			list.filter(n => n.id !== notification.id),
 		)
 		this.service.markAsRead(notification.id).subscribe()
 	}
@@ -56,7 +89,7 @@ export class NotificationsStore {
 	markAllRead(): void {
 		const userId = this.auth.currentUserId()
 		if (!userId) return
-		this._notifications.update(list => list.map(n => ({ ...n, isRead: true })))
+		this._notifications.set([])
 		this.service.markAllAsRead(userId).subscribe()
 	}
 
