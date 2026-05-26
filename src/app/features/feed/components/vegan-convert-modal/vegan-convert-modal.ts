@@ -3,10 +3,11 @@ import { Post } from '@core/models/post/post.model'
 import { AiRecipeService, VeganRecipeResult } from '@core/services/ai-recipe.service'
 import { DialogModule } from 'primeng/dialog'
 import { SavoLoader } from '@shared/components/savo-loader/savo-loader'
+import { TranslatePipe } from '@shared/pipes/translate.pipe'
 
 @Component({
   selector: 'app-vegan-convert-modal',
-  imports: [DialogModule, SavoLoader],
+  imports: [DialogModule, SavoLoader, TranslatePipe],
   templateUrl: './vegan-convert-modal.html',
 })
 export class VeganConvertModal {

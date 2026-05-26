@@ -5,12 +5,10 @@
 			<!-- ── Header ── -->
 			<div class="mb-5 flex items-start justify-between gap-4">
 				<div>
-					<h1 class="font-display text-3xl font-bold tracking-tight text-on-surface">Actividad</h1>
+					<h1 class="font-display text-3xl font-bold tracking-tight text-on-surface">{{ 'notifications.title' | translate }}</h1>
 					@if (store.unreadCount() > 0) {
 						<p class="mt-1 text-sm text-on-surface-muted">
-							Tienes
-							<span class="font-semibold text-primary">{{ store.unreadCount() }} novedades</span>
-							esperándote
+							{{ 'notifications.unread_count' | translate }} ({{ store.unreadCount() }})
 						</p>
 					}
 				</div>
@@ -23,13 +21,13 @@
 							class="inline-flex items-center gap-1.5 rounded-xl border border-outline bg-surface px-3 py-2 text-sm font-medium text-on-surface shadow-1 transition-colors duration-fast ease-standard hover:bg-surface-container active:scale-[0.98]"
 						>
 							<i class="pi pi-check text-xs"></i>
-							Marcar todo como leído
+							{{ 'notifications.mark_all_read' | translate }}
 						</button>
 					}
 					<button
 						type="button"
 						class="grid size-10 place-items-center rounded-xl border border-outline bg-surface text-on-surface-muted shadow-1 transition-colors duration-fast ease-standard hover:bg-surface-container active:scale-[0.98]"
-						aria-label="Configuración de notificaciones"
+						[attr.aria-label]="'notifications.config_label' | translate"
 					>
 						<i class="pi pi-cog text-sm"></i>
 					</button>
@@ -49,7 +47,7 @@
 							[class.text-on-surface]="store.activeTab() === tab.key"
 							[class.text-on-surface-muted]="store.activeTab() !== tab.key"
 						>
-							{{ tab.label }}
+							{{ tab.label | translate }}
 							@if (tab.count > 0) {
 								<span
 									class="inline-flex h-5 min-w-5 items-center justify-center rounded-pill px-1.5 text-xs font-bold transition-colors duration-fast"
@@ -69,14 +67,14 @@
 
 			<!-- ── Loading ── -->
 			@if (store.loading()) {
-				<app-savo-loader message="Cargando notificaciones..." />
+				<app-savo-loader [message]="'notifications.loading' | translate" />
 			}
 
 			<!-- ── Error ── -->
 			@if (store.error()) {
 				<div class="rounded-2xl border border-error/30 bg-error-container p-6 text-center">
 					<i class="pi pi-exclamation-triangle mb-3 text-3xl text-on-error-container"></i>
-					<p class="font-semibold text-on-error-container">{{ store.error() }}</p>
+					<p class="font-semibold text-on-error-container">{{ store.error() | translate }}</p>
 				</div>
 			}
 
@@ -84,9 +82,9 @@
 			@if (!store.loading() && !store.error() && groups().length === 0) {
 				<div class="grid place-items-center rounded-2xl border border-outline bg-surface-container py-16 text-center shadow-1">
 					<app-savo-loader size="sm" [padded]="false" />
-					<h2 class="mt-4 text-lg font-bold text-on-surface">Todo tranquilo por aquí</h2>
+					<h2 class="mt-4 text-lg font-bold text-on-surface">{{ 'notifications.empty_title' | translate }}</h2>
 					<p class="mt-1 max-w-xs text-sm text-on-surface-muted">
-						Likes, comentarios y seguidores aparecerán aquí.
+						{{ 'notifications.empty_desc' | translate }}
 					</p>
 				</div>
 			}
@@ -96,7 +94,7 @@
 				<section class="mb-6">
 					<!-- Date label -->
 					<p class="mb-2.5 text-[0.7rem] font-bold uppercase tracking-widest text-on-surface-muted">
-						{{ group.label }}
+						{{ group.label | translate }}
 					</p>
 
 					<div class="grid gap-2">
@@ -143,7 +141,7 @@
 												[class.text-on-primary-container]="!n.isRead"
 											>{{ actorName(n) }}</a>
 											<span [class.text-on-primary-container]="!n.isRead">
-												{{ notificationText(n) }}
+												{{ notificationTextKey(n) | translate }}
 												@if (n.content && n.type !== 'COMMENT') {
 													<span class="font-semibold"> &laquo;{{ n.content }}&raquo;</span>
 												}
@@ -156,12 +154,12 @@
 											<span
 												class="inline-flex items-center rounded-pill px-2.5 py-0.5 text-xs font-medium"
 												[class]="chipClass(n.type)"
-											>{{ chipLabel(n.type) }}</span>
+											>{{ chipLabelKey(n.type) | translate }}</span>
 											@if (!n.isRead) {
 												<button
 													type="button"
 													class="ml-auto grid size-7 place-items-center rounded-pill text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container-high hover:text-primary active:scale-[0.98]"
-													aria-label="Marcar como leído"
+													[attr.aria-label]="'notifications.mark_as_read_label' | translate"
 													(click)="store.markRead(n)"
 												>
 													<i class="pi pi-check text-xs"></i>
@@ -183,7 +181,7 @@
 												(click)="store.markRead(n)"
 												class="mt-2 inline-flex items-center rounded-xl border border-outline bg-surface px-4 py-1.5 text-xs font-medium text-on-surface transition-colors duration-fast ease-standard hover:bg-surface-container-high active:scale-[0.98]"
 											>
-												Responder
+												{{ 'notifications.reply' | translate }}
 											</a>
 										}
 
@@ -194,7 +192,7 @@
 													@if (response === 'accepted') {
 														<span class="inline-flex items-center gap-1.5 rounded-pill bg-green-100 px-3 py-1 text-xs font-bold text-green-700 dark:bg-green-900/30 dark:text-green-400">
 															<i class="pi pi-check-circle text-xs"></i>
-															Aceptada
+															{{ 'notifications.accepted' | translate }}
 														</span>
 														@if (!getFollowState(n)) {
 															<button
@@ -206,18 +204,18 @@
 																@if (isLoadingFollow(n)) {
 																	<i class="pi pi-spin pi-spinner text-xs"></i>
 																}
-																Seguir de vuelta
+																{{ 'notifications.follow_back' | translate }}
 															</button>
 														} @else {
 															<span class="inline-flex items-center gap-1.5 rounded-pill border border-outline px-3 py-1 text-xs font-bold text-on-surface-muted">
 																<i class="pi pi-check text-xs"></i>
-																{{ followButtonLabel(n) }}
+																{{ followButtonLabelKey(n) | translate }}
 															</span>
 														}
 													} @else {
 														<span class="inline-flex items-center gap-1.5 rounded-pill bg-red-100 px-3 py-1 text-xs font-bold text-red-700 dark:bg-red-900/30 dark:text-red-400">
 															<i class="pi pi-times-circle text-xs"></i>
-															Rechazada
+															{{ 'notifications.rejected' | translate }}
 														</span>
 													}
 												} @else {
@@ -232,7 +230,7 @@
 														} @else {
 															<i class="pi pi-check text-xs"></i>
 														}
-														Aceptar
+														{{ 'notifications.accept' | translate }}
 													</button>
 													<button
 														type="button"
@@ -241,7 +239,7 @@
 														(click)="respondRequest(n, false)"
 													>
 														<i class="pi pi-times text-xs"></i>
-														Rechazar
+														{{ 'notifications.reject' | translate }}
 													</button>
 												}
 											</div>
@@ -262,12 +260,12 @@
 														} @else {
 															<i class="pi pi-user-plus text-xs"></i>
 														}
-														Seguir de vuelta
+														{{ 'notifications.follow_back' | translate }}
 													</button>
 												} @else {
 													<span class="inline-flex items-center gap-1.5 rounded-pill border border-outline px-3 py-1 text-xs font-bold text-on-surface-muted">
 														<i class="pi pi-check text-xs"></i>
-														{{ followButtonLabel(n) }}
+														{{ followButtonLabelKey(n) | translate }}
 													</span>
 												}
 											</div>
@@ -282,7 +280,7 @@
 										[routerLink]="targetLink(n)"
 										(click)="store.markRead(n)"
 										class="flex shrink-0 items-center py-4 pr-4"
-										aria-label="Ver publicación"
+										[attr.aria-label]="'notifications.view_post_label' | translate"
 									>
 										@if (n.targetImageUrl) {
 											<img

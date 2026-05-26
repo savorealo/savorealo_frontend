@@ -5,45 +5,47 @@ import { PlacesStore } from '@core/store/places.store'
 import { PlaceCard } from './components/place-card/place-card'
 import { PlaceFilter, PlaceType } from '@core/models/places/place.model'
 
+import { TranslatePipe } from '@shared/pipes/translate.pipe'
+
 interface TypeTab {
   value: PlaceType | null
-  label: string
+  labelKey: string
   icon: string
 }
 
 interface TagChip {
   value: PlaceFilter
-  label: string
+  labelKey: string
 }
 
 @Component({
   selector: 'app-places-page',
-  imports: [AppShell, FormsModule, PlaceCard],
+  imports: [AppShell, FormsModule, PlaceCard, TranslatePipe],
   templateUrl: './places-page.html',
 })
 export class PlacesPage implements OnInit {
   readonly store = inject(PlacesStore)
 
   readonly typeTabs: TypeTab[] = [
-    { value: null,         label: 'Todos',       icon: '🗺️' },
-    { value: 'RESTAURANT', label: 'Restaurantes', icon: '🍽️' },
-    { value: 'BAR',        label: 'Bares',        icon: '🍸' },
-    { value: 'CAFE',       label: 'Cafés',        icon: '☕' },
-    { value: 'BAKERY',     label: 'Panaderías',   icon: '🥐' },
-    { value: 'FOOD_TRUCK', label: 'Food Trucks',  icon: '🚚' },
+    { value: null,         labelKey: 'places.type.all',         icon: '🗺️' },
+    { value: 'RESTAURANT', labelKey: 'places.type.restaurants', icon: '🍽️' },
+    { value: 'BAR',        labelKey: 'places.type.bars',        icon: '🍸' },
+    { value: 'CAFE',       labelKey: 'places.type.cafes',       icon: '☕' },
+    { value: 'BAKERY',     labelKey: 'places.type.bakeries',    icon: '🥐' },
+    { value: 'FOOD_TRUCK', labelKey: 'places.type.food_trucks', icon: '🚚' },
   ]
 
   readonly tagChips: TagChip[] = [
-    { value: 'BURGER',     label: '🍔 Burgers' },
-    { value: 'SEAFOOD',    label: '🦞 Mariscos' },
-    { value: 'ITALIAN',    label: '🍝 Italiano' },
-    { value: 'MEXICAN',    label: '🌮 Mexicano' },
-    { value: 'CHINESE',    label: '🥢 Chino' },
-    { value: 'JAPANESE',   label: '🍣 Japonés' },
-    { value: 'COCKTAIL',   label: '🍹 Cócteles' },
-    { value: 'WINE',       label: '🍷 Vinos' },
-    { value: 'HAPPY_HOUR', label: '⏰ Happy Hour' },
-    { value: 'NIGHTLIFE',  label: '🎶 Noche' },
+    { value: 'BURGER',     labelKey: 'places.tag.burger' },
+    { value: 'SEAFOOD',    labelKey: 'places.tag.seafood' },
+    { value: 'ITALIAN',    labelKey: 'places.tag.italian' },
+    { value: 'MEXICAN',    labelKey: 'places.tag.mexican' },
+    { value: 'CHINESE',    labelKey: 'places.tag.chinese' },
+    { value: 'JAPANESE',   labelKey: 'places.tag.japanese' },
+    { value: 'COCKTAIL',   labelKey: 'places.tag.cocktail' },
+    { value: 'WINE',       labelKey: 'places.tag.wine' },
+    { value: 'HAPPY_HOUR', labelKey: 'places.tag.happy_hour' },
+    { value: 'NIGHTLIFE',  labelKey: 'places.tag.nightlife' },
   ]
 
   ngOnInit(): void {

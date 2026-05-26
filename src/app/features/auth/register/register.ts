@@ -16,6 +16,8 @@ import { Header as Header_Step_3 } from './steps/step3/header/header'
 import { Body as Body_Step_1 } from "./steps/step1/body/body"
 import { Body as Body_Step_2 } from "./steps/step2/body/body"
 import { Body as Body_Step_3 } from "./steps/step3/body/body"
+import { TranslationService } from '@core/services/translation.service'
+import { TranslatePipe } from '@shared/pipes/translate.pipe'
 
 function passwordMatchValidator(form: AbstractControl): ValidationErrors | null {
   const password        = form.get('password')?.value
@@ -40,6 +42,7 @@ function passwordMatchValidator(form: AbstractControl): ValidationErrors | null 
     Body_Step_1,
     Body_Step_2,
     Body_Step_3,
+    TranslatePipe,
   ],
   templateUrl: './register.html',
 })
@@ -51,13 +54,12 @@ export class Register {
   onGoogleRegister = output<void>()
   private formBuilder = inject(FormBuilder)
   private userService = inject(UserService)
-
-  
+  private translationService = inject(TranslationService)
 
   registerTitle = computed(() => {
-    if (this.activeStep() === 1) return 'Crea tu cuenta'
-    if (this.activeStep() === 2) return 'Completa tu perfil'
-    if (this.activeStep() === 3) return 'Anade una foto'
+    if (this.activeStep() === 1) return this.translationService.translate('auth.register.title_step1')
+    if (this.activeStep() === 2) return this.translationService.translate('auth.register.title_step2')
+    if (this.activeStep() === 3) return this.translationService.translate('auth.register.title_step3')
     return ''
   })
 

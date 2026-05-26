@@ -4,10 +4,11 @@ import { Emptystate }  from '@shared/components/emptystate/emptystate'
 import { PostCard }    from '@shared/components/post-card/post-card'
 import { SkeletonCard } from '@shared/components/skeleton-card/skeleton-card'
 import { Spinner }     from '@shared/components/spinner/spinner'
+import { TranslatePipe } from '@shared/pipes/translate.pipe'
 
 @Component({
 	selector: 'app-feed-post-list',
-	imports: [Emptystate, PostCard, SkeletonCard, Spinner],
+	imports: [Emptystate, PostCard, SkeletonCard, Spinner, TranslatePipe],
 	templateUrl: './feed-post-list.html',
 })
 export class FeedPostList implements OnDestroy {

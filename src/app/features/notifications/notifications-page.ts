@@ -10,6 +10,7 @@ import { AppShell } from '@shared/components/app-shell/app-shell'
 import { Avatar } from '@shared/components/avatar/avatar'
 import { TimeAgoPipe } from '@shared/pipes/time-ago.pipe'
 import { SavoLoader } from '@shared/components/savo-loader/savo-loader'
+import { TranslatePipe } from '@shared/pipes/translate.pipe'
 
 interface Tab {
 	key: NotificationTab
@@ -19,7 +20,7 @@ interface Tab {
 
 @Component({
 	selector: 'app-notifications-page',
-	imports: [AppShell, Avatar, RouterLink, TimeAgoPipe, SavoLoader],
+	imports: [AppShell, Avatar, RouterLink, TimeAgoPipe, SavoLoader, TranslatePipe],
 	templateUrl: './notifications-page.html',
 })
 export class NotificationsPage implements OnInit {
@@ -35,10 +36,10 @@ export class NotificationsPage implements OnInit {
 	readonly loadingFollows = signal<Record<string, boolean>>({})
 
 	readonly tabs = computed<Tab[]>(() => [
-		{ key: 'all', label: 'Todas', count: this.store.notifications().length },
-		{ key: 'unread', label: 'No leídas', count: this.store.unreadCount() },
-		{ key: 'mentions', label: 'Menciones', count: this.store.mentionsCount() },
-		{ key: 'social', label: 'Sociales', count: this.store.socialCount() },
+		{ key: 'all', label: 'notifications.tab.all', count: this.store.notifications().length },
+		{ key: 'unread', label: 'notifications.tab.unread', count: this.store.unreadCount() },
+		{ key: 'mentions', label: 'notifications.tab.mentions', count: this.store.mentionsCount() },
+		{ key: 'social', label: 'notifications.tab.social', count: this.store.socialCount() },
 	])
 
 	readonly groups = computed<NotificationGroup[]>(() =>
@@ -96,17 +97,18 @@ export class NotificationsPage implements OnInit {
 		return n.actor?.fullName || n.actor?.username || 'Alguien'
 	}
 
-	notificationText(n: Notification): string {
+	notificationTextKey(n: Notification): string {
+		if (n.content && n.type !== 'COMMENT') return n.content
 		const map: Record<NotificationType, string> = {
-			LIKE: 'le ha gustado tu receta',
-			COMMENT: 'ha comentado',
-			FOLLOW: 'ha empezado a seguirte',
-			FOLLOW_REQUEST: 'quiere seguirte',
-			FOLLOW_ACCEPTED: 'aceptó tu solicitud de seguimiento',
-			MENTION: 'te ha mencionado en un comentario',
-			RECIPE_SAVE: 'ha guardado tu receta',
+			LIKE: 'notifications.text.like',
+			COMMENT: 'notifications.text.comment',
+			FOLLOW: 'notifications.text.follow',
+			FOLLOW_REQUEST: 'notifications.text.follow_request',
+			FOLLOW_ACCEPTED: 'notifications.text.follow_accepted',
+			MENTION: 'notifications.text.mention',
+			RECIPE_SAVE: 'notifications.text.recipe_save',
 		}
-		return n.content ?? map[n.type] ?? 'interactuó con tu contenido'
+		return map[n.type] ?? 'notifications.text.default'
 	}
 
 	notificationIcon(type: NotificationType): string {
@@ -122,17 +124,17 @@ export class NotificationsPage implements OnInit {
 		return map[type]
 	}
 
-	chipLabel(type: NotificationType): string {
+	chipLabelKey(type: NotificationType): string {
 		const map: Record<NotificationType, string> = {
-			LIKE: 'Me gusta',
-			COMMENT: 'Comentario',
-			FOLLOW: 'Nuevo seguidor',
-			FOLLOW_REQUEST: 'Solicitud',
-			FOLLOW_ACCEPTED: 'Aceptada',
-			MENTION: 'Mención',
-			RECIPE_SAVE: 'Guardado',
+			LIKE: 'notifications.chip.like',
+			COMMENT: 'notifications.chip.comment',
+			FOLLOW: 'notifications.chip.follow',
+			FOLLOW_REQUEST: 'notifications.chip.follow_request',
+			FOLLOW_ACCEPTED: 'notifications.chip.follow_accepted',
+			MENTION: 'notifications.chip.mention',
+			RECIPE_SAVE: 'notifications.chip.recipe_save',
 		}
-		return map[type]
+		return map[type] ?? ''
 	}
 
 	chipClass(type: NotificationType): string {
@@ -226,11 +228,11 @@ export class NotificationsPage implements OnInit {
 		return actorId ? !!this.loadingFollows()[actorId] : false
 	}
 
-	followButtonLabel(n: Notification): string {
+	followButtonLabelKey(n: Notification): string {
 		const state = this.getFollowState(n)
-		if (state === 'following') return 'Siguiendo'
-		if (state === 'requested') return 'Solicitado'
-		return 'Seguir'
+		if (state === 'following') return 'notifications.state.following'
+		if (state === 'requested') return 'notifications.state.requested'
+		return 'notifications.state.follow'
 	}
 
 	private groupByDate(notifications: Notification[]): NotificationGroup[] {
@@ -247,10 +249,10 @@ export class NotificationsPage implements OnInit {
 		}
 
 		const groups: NotificationGroup[] = []
-		if (today.length) groups.push({ label: 'Hoy', notifications: today })
-		if (yesterday.length) groups.push({ label: 'Ayer', notifications: yesterday })
-		if (thisWeek.length) groups.push({ label: 'Esta semana', notifications: thisWeek })
-		if (older.length) groups.push({ label: 'Antes', notifications: older })
+		if (today.length) groups.push({ label: 'notifications.date.today', notifications: today })
+		if (yesterday.length) groups.push({ label: 'notifications.date.yesterday', notifications: yesterday })
+		if (thisWeek.length) groups.push({ label: 'notifications.date.this_week', notifications: thisWeek })
+		if (older.length) groups.push({ label: 'notifications.date.older', notifications: older })
 		return groups
 	}
 }

@@ -7,16 +7,17 @@ import { GlobalSearchPanel }                         from '@shared/components/gl
 import { Topbar }                                    from '@shared/components/topbar/topbar'
 import { CallHost }                                  from '@shared/components/call-host/call-host'
 import { ShoppingListService }                       from '@features/shopping-list/shopping-list.service'
+import { TranslatePipe }                             from '@shared/pipes/translate.pipe'
 
 interface ShellNavItem {
 	icon: string
-	label: string
+	labelKey: string
 	route: string
 }
 
 @Component({
 	selector: 'app-shell',
-	imports: [RouterLink, RouterLinkActive, GlobalSearchPanel, Topbar, CallHost],
+	imports: [RouterLink, RouterLinkActive, GlobalSearchPanel, Topbar, CallHost, TranslatePipe],
 	templateUrl: './app-shell.html',
 	styles: [`
 		@keyframes logo-roll-in {
@@ -42,23 +43,23 @@ export class AppShell implements OnInit {
 	readonly create     = output<void>()
 
 	readonly navItems: ShellNavItem[] = [
-		{ icon: 'pi pi-home',       label: 'Feed',          route: '/' },
-		{ icon: 'pi pi-search',     label: 'Explorar',      route: '/explore' },
-		{ icon: 'pi pi-map-marker', label: 'Lugares',       route: '/places' },
-		{ icon: 'pi pi-sparkles',   label: 'IA Recetas',    route: '/ai' },
-		{ icon: 'pi pi-bookmark',   label: 'Guardados',     route: '/saved' },
-		{ icon: 'pi pi-comments',   label: 'Mensajes',      route: '/chat' },
-		{ icon: 'pi pi-bell',       label: 'Notificaciones',route: '/notifications' },
-		{ icon: 'pi pi-shopping-cart', label: 'Compra',      route: '/shopping' },
-		{ icon: 'pi pi-cog',           label: 'Ajustes',     route: '/settings' },
+		{ icon: 'pi pi-home',          labelKey: 'shell.feed',          route: '/' },
+		{ icon: 'pi pi-search',        labelKey: 'shell.explore',       route: '/explore' },
+		{ icon: 'pi pi-map-marker',    labelKey: 'shell.places',        route: '/places' },
+		{ icon: 'pi pi-sparkles',      labelKey: 'shell.ai_recipes',    route: '/ai' },
+		{ icon: 'pi pi-bookmark',      labelKey: 'shell.saved',         route: '/saved' },
+		{ icon: 'pi pi-comments',      labelKey: 'shell.messages',      route: '/chat' },
+		{ icon: 'pi pi-bell',          labelKey: 'shell.notifications', route: '/notifications' },
+		{ icon: 'pi pi-shopping-cart', labelKey: 'shell.shopping',      route: '/shopping' },
+		{ icon: 'pi pi-cog',           labelKey: 'shell.settings',      route: '/settings' },
 	]
 
 	readonly mobileNavItems: ShellNavItem[] = [
-		{ icon: 'pi pi-home',       label: 'Feed',    route: '/' },
-		{ icon: 'pi pi-search',     label: 'Explorar',route: '/explore' },
-		{ icon: 'pi pi-map-marker', label: 'Lugares', route: '/places' },
-		{ icon: 'pi pi-comments',   label: 'Chats',   route: '/chat' },
-		{ icon: 'pi pi-user',       label: 'Perfil',  route: '/profile' },
+		{ icon: 'pi pi-home',          labelKey: 'shell.feed',     route: '/' },
+		{ icon: 'pi pi-search',        labelKey: 'shell.explore',  route: '/explore' },
+		{ icon: 'pi pi-map-marker',    labelKey: 'shell.places',   route: '/places' },
+		{ icon: 'pi pi-comments',      labelKey: 'shell.chats',    route: '/chat' },
+		{ icon: 'pi pi-user',          labelKey: 'shell.profile',  route: '/profile' },
 	]
 
 	ngOnInit(): void {

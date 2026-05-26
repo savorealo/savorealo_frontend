@@ -2,12 +2,12 @@
 
 	<!-- Header -->
 	<div class="flex shrink-0 items-center justify-between border-b border-black/8 px-6 py-4">
-		<h2 class="text-[17px] font-black tracking-tight text-black">Editar perfil</h2>
+		<h2 class="text-[17px] font-black tracking-tight text-black">{{ 'profile.edit_title' | translate }}</h2>
 		<button
 			type="button"
 			class="grid size-11 place-items-center rounded-full text-black/40 transition hover:bg-black/5 hover:text-black active:scale-[0.98]"
 			(click)="onClose()"
-			aria-label="Cerrar"
+			[attr.aria-label]="'messages.close' | translate"
 		>
 			<i class="pi pi-times text-sm"></i>
 		</button>
@@ -50,9 +50,9 @@
 			</div>
 
 			<div class="min-w-0">
-				<p class="truncate font-black text-black">{{ form().displayName || form().username || 'Tu nombre' }}</p>
+				<p class="truncate font-black text-black">{{ form().displayName || form().username || ('profile.your_name' | translate) }}</p>
 				<p class="truncate text-sm font-semibold text-black/45">@{{ form().username || 'usuario' }}</p>
-				<p class="mt-1 text-xs font-semibold text-orange-600">Toca la foto para cambiarla</p>
+				<p class="mt-1 text-xs font-semibold text-orange-600">{{ 'profile.tap_photo' | translate }}</p>
 			</div>
 		</div>
 
@@ -61,7 +61,7 @@
 
 			<!-- Username -->
 			<div class="grid gap-1.5">
-				<label class="text-[11px] font-black uppercase tracking-widest text-black/40">Nombre de usuario</label>
+				<label class="text-[11px] font-black uppercase tracking-widest text-black/40">{{ 'profile.username' | translate }}</label>
 				<div class="relative">
 					<span class="absolute left-3 top-1/2 -translate-y-1/2 font-mono text-sm text-black/35">@</span>
 					<input
@@ -76,7 +76,7 @@
 					/>
 				</div>
 				@if (usernameChecking()) {
-					<p class="text-xs font-semibold text-black/45">Comprobando disponibilidad…</p>
+					<p class="text-xs font-semibold text-black/45">{{ 'profile.checking_availability' | translate }}</p>
 				} @else if (usernameError()) {
 					<p class="text-xs font-semibold text-red-600">{{ usernameError() }}</p>
 				}
@@ -84,7 +84,7 @@
 
 			<!-- Display name -->
 			<div class="grid gap-1.5">
-				<label class="text-[11px] font-black uppercase tracking-widest text-black/40">Nombre completo</label>
+				<label class="text-[11px] font-black uppercase tracking-widest text-black/40">{{ 'profile.display_name' | translate }}</label>
 				<input
 					type="text"
 					name="displayName"
@@ -98,7 +98,7 @@
 			<!-- Bio -->
 			<div class="grid gap-1.5">
 				<div class="flex items-center justify-between">
-					<label class="text-[11px] font-black uppercase tracking-widest text-black/40">Bio</label>
+					<label class="text-[11px] font-black uppercase tracking-widest text-black/40">{{ 'profile.bio' | translate }}</label>
 					<span class="text-[11px] font-semibold" [class.text-red-500]="bioLength() > 140" [class.text-black/30]="bioLength() <= 140">
 						{{ bioLength() }}/160
 					</span>
@@ -110,13 +110,13 @@
 					class="w-full resize-none rounded-xl border border-black/10 bg-[#f6f6f6] px-3 py-2.5 text-sm font-semibold leading-6 text-black outline-none placeholder:text-black/25 focus:border-orange-400 focus:bg-white focus:ring-2 focus:ring-orange-100"
 					[ngModel]="form().bio"
 					(ngModelChange)="patch({ bio: $event })"
-					placeholder="Cuéntanos algo sobre ti..."
+					[placeholder]="'profile.bio_placeholder' | translate"
 				></textarea>
 			</div>
 
 			<!-- Location -->
 			<div class="grid gap-1.5">
-				<label class="text-[11px] font-black uppercase tracking-widest text-black/40">Ubicación</label>
+				<label class="text-[11px] font-black uppercase tracking-widest text-black/40">{{ 'profile.location' | translate }}</label>
 				<div class="relative">
 					<i class="pi pi-map-marker absolute left-3 top-1/2 -translate-y-1/2 text-sm text-black/30"></i>
 					<input
@@ -125,14 +125,14 @@
 						class="h-11 w-full rounded-xl border border-black/10 bg-[#f6f6f6] pl-8 pr-3 text-sm font-semibold text-black outline-none placeholder:text-black/25 focus:border-orange-400 focus:bg-white focus:ring-2 focus:ring-orange-100"
 						[ngModel]="form().location"
 						(ngModelChange)="patch({ location: $event })"
-						placeholder="Madrid, España"
+						[placeholder]="'profile.location_placeholder' | translate"
 					/>
 				</div>
 			</div>
 
 			<!-- Birth date -->
 			<div class="grid gap-1.5">
-				<label class="text-[11px] font-black uppercase tracking-widest text-black/40">Fecha de nacimiento</label>
+				<label class="text-[11px] font-black uppercase tracking-widest text-black/40">{{ 'profile.birth_date' | translate }}</label>
 				<input
 					type="date"
 					name="birthDate"
@@ -153,7 +153,7 @@
 			@if (success()) {
 				<div class="flex items-center gap-2 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm font-semibold text-green-700">
 					<i class="pi pi-check-circle shrink-0"></i>
-					¡Perfil actualizado correctamente!
+					{{ 'profile.success_msg' | translate }}
 				</div>
 			}
 		</form>
@@ -167,7 +167,7 @@
 			(click)="onClose()"
 			[disabled]="authStore.loading()"
 		>
-			Cancelar
+			{{ 'profile.cancel' | translate }}
 		</button>
 		<button
 			type="submit"
@@ -177,9 +177,9 @@
 		>
 			@if (authStore.loading()) {
 				<i class="pi pi-spin pi-spinner text-xs"></i>
-				Guardando...
+				{{ 'profile.saving' | translate }}
 			} @else {
-				Guardar cambios
+				{{ 'profile.save_changes' | translate }}
 			}
 		</button>
 	</div>

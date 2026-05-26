@@ -5,12 +5,13 @@ import { PostMediaService } from '@core/services/post-media.service'
 import { ToastService } from '@core/services/toast.service'
 import { Post } from '@core/models/post/post.model'
 import { finalize, switchMap } from 'rxjs'
+import { TranslatePipe } from '@shared/pipes/translate.pipe'
 
 interface IngredientRow { name: string; quantity: string; unit: string }
 
 @Component({
 	selector: 'app-create-post',
-	imports: [FormsModule],
+	imports: [FormsModule, TranslatePipe],
 	templateUrl: './create-post.component.html',
 })
 export class CreatePostComponent {

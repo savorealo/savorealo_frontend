@@ -20,15 +20,15 @@
           </svg>
         </span>
         <div>
-          <h2 class="text-title-sm font-bold text-on-surface">Versión vegana</h2>
-          <p class="text-label-md font-medium text-on-surface-muted">Generado con IA</p>
+          <h2 class="text-title-sm font-bold text-on-surface">{{ 'vegan.title' | translate }}</h2>
+          <p class="text-label-md font-medium text-on-surface-muted">{{ 'vegan.generated_ai' | translate }}</p>
         </div>
       </div>
       <button
         type="button"
         class="grid size-9 place-items-center rounded-xl text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container"
         (click)="close()"
-        aria-label="Cerrar"
+        [attr.aria-label]="'vegan.close' | translate"
       >
         <i class="pi pi-times text-sm"></i>
       </button>
@@ -41,8 +41,8 @@
       <div class="flex flex-col items-center gap-5 px-5 py-8 text-center">
         <app-savo-loader size="sm" [padded]="false" />
         <div>
-          <p class="text-body-sm font-bold text-on-surface">Veganizando la receta...</p>
-          <p class="mt-1 text-label-md font-medium text-on-surface-muted">Buscando los mejores sustitutos</p>
+          <p class="text-body-sm font-bold text-on-surface">{{ 'vegan.loading' | translate }}</p>
+          <p class="mt-1 text-label-md font-medium text-on-surface-muted">{{ 'vegan.searching_substitutes' | translate }}</p>
         </div>
       </div>
     }
@@ -54,7 +54,7 @@
           <i class="pi pi-exclamation-triangle text-xl text-error"></i>
         </span>
         <div>
-          <p class="text-body-sm font-bold text-on-surface">No se pudo generar</p>
+          <p class="text-body-sm font-bold text-on-surface">{{ 'vegan.failed_title' | translate }}</p>
           <p class="mt-1 text-label-md font-medium text-on-surface-muted">{{ error() }}</p>
         </div>
         <button
@@ -63,7 +63,7 @@
           (click)="retry()"
         >
           <i class="pi pi-refresh text-xs"></i>
-          Reintentar
+          {{ 'vegan.retry' | translate }}
         </button>
       </div>
     }
@@ -81,7 +81,7 @@
         <!-- Ingredientes -->
         @if (r.ingredients.length > 0) {
           <div class="px-5 pb-5">
-            <p class="mb-3 text-label-md font-bold uppercase tracking-wider text-on-surface-muted">Ingredientes</p>
+            <p class="mb-3 text-label-md font-bold uppercase tracking-wider text-on-surface-muted">{{ 'vegan.ingredients_header' | translate }}</p>
             <ul class="grid gap-2.5">
               @for (ing of r.ingredients; track $index) {
                 <li class="flex items-start gap-3">
@@ -99,7 +99,7 @@
                   </span>
                   <span class="flex-1 text-body-sm leading-snug text-on-surface">
                     @if (ing.quantity) {
-                      <span class="font-semibold text-on-surface-muted">{{ ing.quantity }}{{ ing.unit ? ' ' + ing.unit : '' }}</span><span class="text-on-surface-muted"> · </span>
+                      <span class="font-semibold text-on-surface-muted">{{ ing.quantity }}{{ ing.unit ? ' ' + ing.unit : '' }}</span><span class="text-on-surface-muted"> · </span>
                     }
                     <span [style]="ing.changed ? 'font-weight: 600; color: #15803d;' : ''">{{ ing.vegan }}</span>
                     @if (ing.changed) {
@@ -120,7 +120,7 @@
         <!-- Pasos -->
         @if (r.steps.length > 0) {
           <div class="px-5 pb-5">
-            <p class="mb-3 text-label-md font-bold uppercase tracking-wider text-on-surface-muted">Preparación</p>
+            <p class="mb-3 text-label-md font-bold uppercase tracking-wider text-on-surface-muted">{{ 'vegan.preparation_header' | translate }}</p>
             <ol class="grid gap-4">
               @for (s of r.steps; track s.step) {
                 <li class="flex gap-3">
@@ -143,7 +143,7 @@
                 <i class="pi pi-info-circle text-sm" style="color: #15803d;"></i>
               </span>
               <div>
-                <p class="text-label-md font-bold" style="color: #15803d;">Consejo</p>
+                <p class="text-label-md font-bold" style="color: #15803d;">{{ 'vegan.tip_header' | translate }}</p>
                 <p class="mt-0.5 text-body-sm font-medium leading-snug" style="color: #166534;">{{ r.tip }}</p>
               </div>
             </div>
@@ -160,7 +160,7 @@
           (click)="retry()"
         >
           <i class="pi pi-refresh text-xs"></i>
-          Regenerar
+          {{ 'vegan.regenerate' | translate }}
         </button>
 
         <button
@@ -170,7 +170,7 @@
           (click)="copyToClipboard()"
         >
           <i [class]="copied() ? 'pi pi-check' : 'pi pi-copy'" class="text-xs"></i>
-          {{ copied() ? 'Copiado' : 'Copiar receta' }}
+          {{ copied() ? ('vegan.copied' | translate) : ('vegan.copy_recipe' | translate) }}
         </button>
       </div>
     }

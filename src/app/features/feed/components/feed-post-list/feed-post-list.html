@@ -27,7 +27,7 @@
 					(click)="refresh.emit()"
 				>
 					<i class="pi text-xs" [class]="refreshing() ? 'pi-spin pi-spinner' : 'pi-refresh'"></i>
-					{{ refreshing() ? 'Actualizando...' : 'Actualizar feed' }}
+					{{ refreshing() ? ('feed.updating' | translate) : ('feed.refresh_feed' | translate) }}
 				</button>
 			</div>
 		}
@@ -43,7 +43,7 @@
 						(click)="retry.emit()"
 					>
 						<i class="pi pi-refresh text-xs"></i>
-						Reintentar
+						{{ 'places.retry' | translate }}
 					</button>
 				</div>
 			</div>
@@ -55,8 +55,8 @@
 			<div class="mx-auto w-full max-w-[500px] rounded-2xl border border-outline bg-surface-container">
 				<app-emptystate
 					icon="pi pi-home"
-					title="Tu feed está vacío"
-					description="Sigue a otros cocineros para ver sus recetas"
+					[title]="'feed.empty_title' | translate"
+					[description]="'feed.empty_desc' | translate"
 				/>
 			</div>
 		}
@@ -73,7 +73,7 @@
 		<!-- Spinner para "cargando más" — skeletons solo en carga inicial -->
 		@if (loadingMore()) {
 			<div class="flex justify-center py-6">
-				<app-spinner size="md" message="Cargando más recetas..." />
+				<app-spinner size="md" [message]="'feed.loading_more' | translate" />
 			</div>
 		}
 
@@ -82,9 +82,9 @@
 			<div class="mx-auto w-full max-w-[500px] rounded-2xl border border-outline bg-surface-container">
 				<app-emptystate
 					icon="pi pi-check-circle"
-					title="¡Estás al día!"
-					description="Has visto todas las recetas. Descubre nuevos creadores en Explorar."
-					actionLabel="Ir a Explorar"
+					[title]="'feed.up_to_date_title' | translate"
+					[description]="'feed.up_to_date_desc' | translate"
+					[actionLabel]="'feed.go_to_explore' | translate"
 					[onAction]="emitExplore"
 				/>
 			</div>

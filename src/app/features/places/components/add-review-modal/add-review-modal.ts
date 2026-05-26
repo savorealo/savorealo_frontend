@@ -3,10 +3,11 @@ import { FormsModule } from '@angular/forms'
 import { AuthStore } from '@core/store/auth.store'
 import { PlacesService } from '@core/services/places.service'
 import { DialogModule } from 'primeng/dialog'
+import { TranslatePipe } from '@shared/pipes/translate.pipe'
 
 @Component({
   selector: 'app-add-review-modal',
-  imports: [DialogModule, FormsModule],
+  imports: [DialogModule, FormsModule, TranslatePipe],
   templateUrl: './add-review-modal.html',
 })
 export class AddReviewModal {
@@ -30,7 +31,7 @@ export class AddReviewModal {
   }
 
   submit(): void {
-    if (this.rating() === 0) { this.error.set('Selecciona una valoración'); return }
+    if (this.rating() === 0) { this.error.set('places.review.error_select_rating'); return }
     const userId = this.auth.currentUserId()
     if (!userId) return
 
@@ -46,7 +47,7 @@ export class AddReviewModal {
         this.reviewed.emit()
       },
       error: () => {
-        this.error.set('No se pudo guardar la reseña. Inténtalo de nuevo.')
+        this.error.set('places.review.error_save')
         this.saving.set(false)
       },
     })

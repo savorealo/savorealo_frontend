@@ -26,10 +26,10 @@
 			type="button"
 			class="hidden w-full items-center gap-2 rounded-pill border border-outline bg-surface-container px-4 py-2.5 text-left text-body-sm font-medium text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container-low hover:text-on-surface lg:flex"
 			(click)="globalSearch.openPanel()"
-			aria-label="Buscar"
+			[attr.aria-label]="'shell.search_placeholder' | translate"
 		>
 			<i class="pi pi-search text-base"></i>
-			<span class="flex-1">Buscar...</span>
+			<span class="flex-1">{{ 'shell.search_placeholder' | translate }}</span>
 			<kbd class="rounded-sm border border-outline bg-surface px-1.5 py-0.5 text-[0.65rem] font-bold text-on-surface-muted">⌘K</kbd>
 		</button>
 
@@ -40,7 +40,7 @@
 					routerLinkActive="is-active"
 					[routerLinkActiveOptions]="{ exact: item.route === '/' }"
 					class="group relative flex min-h-12 items-center justify-center gap-3 rounded-pill px-3 text-body-md font-semibold text-on-surface-muted transition-all duration-fast ease-standard hover:bg-surface-container hover:text-on-surface lg:justify-start lg:px-4 [&.is-active]:bg-primary-container [&.is-active]:text-on-primary-container [&.is-active]:font-bold"
-					[attr.aria-label]="item.label"
+					[attr.aria-label]="item.labelKey | translate"
 				>
 					<span class="relative grid place-items-center">
 						<i [class]="item.icon" class="text-xl"></i>
@@ -61,7 +61,7 @@
 							</span>
 						}
 					</span>
-					<span class="hidden lg:inline">{{ item.label }}</span>
+					<span class="hidden lg:inline">{{ item.labelKey | translate }}</span>
 				</a>
 			}
 		</nav>
@@ -73,12 +73,12 @@
 					routerLinkActive="is-active"
 					[routerLinkActiveOptions]="{ exact: item.route === '/' }"
 					class="group flex min-h-[56px] min-w-0 flex-col items-center justify-center gap-1 rounded-xl px-1 text-[0.68rem] font-bold leading-none text-on-surface-muted transition-colors duration-fast ease-standard active:scale-[0.98] [&.is-active]:text-on-primary-container"
-					[attr.aria-label]="item.label"
+					[attr.aria-label]="item.labelKey | translate"
 				>
 					<span class="grid size-8 place-items-center rounded-pill transition-colors duration-fast ease-standard group-[.is-active]:bg-primary-container">
 						<i [class]="item.icon" class="text-[1.15rem]"></i>
 					</span>
-					<span class="max-w-full truncate">{{ item.label }}</span>
+					<span class="max-w-full truncate">{{ item.labelKey | translate }}</span>
 				</a>
 			}
 		</nav>
@@ -91,7 +91,7 @@
 				<span class="grid size-10 shrink-0 place-items-center overflow-hidden rounded-pill bg-primary">
 					<img
 						[src]="profile()?.photo_url || logoUrl"
-						[alt]="profile()?.username || 'Perfil'"
+						[alt]="profile()?.username || ('shell.profile' | translate)"
 						class="size-full"
 						[class.object-cover]="profile()?.photo_url"
 						[class.object-contain]="!profile()?.photo_url"
@@ -99,7 +99,7 @@
 				</span>
 				<span class="min-w-0">
 					<span class="block truncate text-body-sm font-bold text-on-surface">
-						{{ profile()?.fullName || profile()?.username || 'Tu perfil' }}
+						{{ profile()?.fullName || profile()?.username || ('shell.profile' | translate) }}
 					</span>
 					<span class="block truncate text-label-md font-medium text-on-surface-muted">
 						&#64;{{ profile()?.username || 'savorealo' }}
@@ -111,10 +111,10 @@
 				type="button"
 				class="flex min-h-11 items-center justify-center gap-2 rounded-pill text-body-sm font-semibold text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-error/10 hover:text-error"
 				(click)="logout()"
-				aria-label="Cerrar sesión"
+				[attr.aria-label]="'shell.logout' | translate"
 			>
 				<i class="pi pi-sign-out"></i>
-				<span>Cerrar sesión</span>
+				<span>{{ 'shell.logout' | translate }}</span>
 			</button>
 		</div>
 	</aside>

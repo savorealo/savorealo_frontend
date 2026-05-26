@@ -1,17 +1,17 @@
 <app-shell [showTopbar]="false">
 	<main class="min-h-dvh bg-surface px-3 py-4 text-on-surface sm:px-6 sm:py-5 lg:px-8">
 
-<div class="mx-auto grid max-w-[1180px] gap-6 xl:grid-cols-[minmax(0,1fr)_340px]">
+		<div class="mx-auto grid max-w-[1180px] gap-6 xl:grid-cols-[minmax(0,1fr)_340px]">
 			<section class="min-w-0">
 
 				<!-- Header -->
 				<div class="rounded-3xl border border-outline bg-surface-container p-4 shadow-2 sm:p-8">
 					<div class="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
 						<div>
-							<span class="inline-flex rounded-pill bg-primary-container px-4 py-2 text-label-md font-bold text-on-primary-container">Centro de control</span>
-							<h1 class="mt-4 font-display text-display-sm text-on-surface lg:text-display-md">Ajustes</h1>
+							<span class="inline-flex rounded-pill bg-primary-container px-4 py-2 text-label-md font-bold text-on-primary-container">{{ 'settings.control_center' | translate }}</span>
+							<h1 class="mt-4 font-display text-display-sm text-on-surface lg:text-display-md">{{ 'settings.title' | translate }}</h1>
 							<p class="mt-2 max-w-2xl text-body-md font-medium leading-base text-on-surface-muted">
-								Gestiona tu perfil, privacidad y notificaciones sin salir de Savorealo.
+								{{ 'settings.subtitle' | translate }}
 							</p>
 						</div>
 						<a
@@ -19,7 +19,7 @@
 							class="inline-flex min-h-11 items-center justify-center gap-2 rounded-pill border border-outline bg-surface px-5 text-body-sm font-bold text-on-surface transition-colors duration-fast ease-standard hover:bg-surface-container-high"
 						>
 							<i class="pi pi-user"></i>
-							Ver perfil
+							{{ 'settings.view_profile' | translate }}
 						</a>
 					</div>
 				</div>
@@ -30,8 +30,8 @@
 					<section class="rounded-2xl border border-outline bg-surface-container p-4 shadow-1 sm:p-6">
 						<div class="flex items-center justify-between gap-4">
 							<div>
-								<h2 class="text-title-lg font-bold text-on-surface">Cuenta</h2>
-								<p class="mt-1 text-body-sm font-medium text-on-surface-muted">Información básica de tu acceso.</p>
+								<h2 class="text-title-lg font-bold text-on-surface">{{ 'settings.account.title' | translate }}</h2>
+								<p class="mt-1 text-body-sm font-medium text-on-surface-muted">{{ 'settings.account.subtitle' | translate }}</p>
 							</div>
 							<span class="grid size-11 place-items-center rounded-xl bg-primary-container text-on-primary-container">
 								<i class="pi pi-shield"></i>
@@ -39,17 +39,17 @@
 						</div>
 						<div class="mt-5 grid gap-4 sm:grid-cols-2">
 							<label class="grid gap-2">
-								<span class="text-label-md font-bold uppercase tracking-wide text-on-surface-muted">Nombre público</span>
+								<span class="text-label-md font-bold uppercase tracking-wide text-on-surface-muted">{{ 'settings.account.display_name' | translate }}</span>
 								<input type="text" [value]="displayName()" readonly
 									class="h-12 rounded-xl border border-outline bg-surface px-4 text-body-sm font-bold text-on-surface outline-none" />
 							</label>
 							<label class="grid gap-2">
-								<span class="text-label-md font-bold uppercase tracking-wide text-on-surface-muted">Usuario</span>
+								<span class="text-label-md font-bold uppercase tracking-wide text-on-surface-muted">{{ 'settings.account.username' | translate }}</span>
 								<input type="text" [value]="'@' + username()" readonly
 									class="h-12 rounded-xl border border-outline bg-surface px-4 text-body-sm font-bold text-on-surface outline-none" />
 							</label>
 							<label class="grid gap-2 sm:col-span-2">
-								<span class="text-label-md font-bold uppercase tracking-wide text-on-surface-muted">Email</span>
+								<span class="text-label-md font-bold uppercase tracking-wide text-on-surface-muted">{{ 'settings.account.email' | translate }}</span>
 								<input type="email" [value]="email()" readonly
 									class="h-12 rounded-xl border border-outline bg-surface px-4 text-body-sm font-bold text-on-surface outline-none" />
 							</label>
@@ -60,8 +60,8 @@
 					<section class="rounded-2xl border border-outline bg-surface-container p-4 shadow-1 sm:p-6">
 						<div class="flex items-center justify-between gap-4">
 							<div>
-								<h2 class="text-title-lg font-bold text-on-surface">Notificaciones</h2>
-								<p class="mt-1 text-body-sm font-medium text-on-surface-muted">Se guardan automáticamente en tu cuenta.</p>
+								<h2 class="text-title-lg font-bold text-on-surface">{{ 'settings.notifications.title' | translate }}</h2>
+								<p class="mt-1 text-body-sm font-medium text-on-surface-muted">{{ 'settings.notifications.subtitle' | translate }}</p>
 							</div>
 							<span class="grid size-11 place-items-center rounded-xl bg-primary-container text-on-primary-container">
 								@if (saving()) {
@@ -80,8 +80,8 @@
 									[attr.aria-pressed]="settings()[item.key]"
 								>
 									<span>
-										<span class="block text-body-sm font-bold text-on-surface">{{ item.label }}</span>
-										<span class="mt-1 block text-body-sm font-medium leading-snug text-on-surface-muted">{{ item.description }}</span>
+										<span class="block text-body-sm font-bold text-on-surface">{{ item.labelKey | translate }}</span>
+										<span class="mt-1 block text-body-sm font-medium leading-snug text-on-surface-muted">{{ item.descKey | translate }}</span>
 									</span>
 									<span
 										class="relative h-7 w-12 shrink-0 rounded-pill transition-colors duration-fast ease-standard"
@@ -181,8 +181,8 @@
 					<section class="rounded-2xl border border-outline bg-surface-container p-4 shadow-1 sm:p-6">
 						<div class="flex items-center justify-between gap-4">
 							<div>
-								<h2 class="text-title-lg font-bold text-on-surface">Apariencia y privacidad</h2>
-								<p class="mt-1 text-body-sm font-medium text-on-surface-muted">Personaliza tu experiencia y visibilidad.</p>
+								<h2 class="text-title-lg font-bold text-on-surface">{{ 'settings.appearance_privacy.title' | translate }}</h2>
+								<p class="mt-1 text-body-sm font-medium text-on-surface-muted">{{ 'settings.appearance_privacy.subtitle' | translate }}</p>
 							</div>
 							<span class="grid size-11 place-items-center rounded-xl bg-tertiary-container text-on-tertiary-container">
 								<i class="pi pi-palette"></i>
@@ -203,9 +203,9 @@
 										<i [class]="isDark() ? 'pi pi-moon' : 'pi pi-sun'"></i>
 									</span>
 									<span>
-										<span class="block text-body-sm font-bold text-on-surface">Modo oscuro</span>
+										<span class="block text-body-sm font-bold text-on-surface">{{ 'settings.appearance_privacy.dark_mode.label' | translate }}</span>
 										<span class="mt-1 block text-body-sm font-medium leading-snug text-on-surface-muted">
-											{{ isDark() ? 'Activo — interfaz oscura' : 'Inactivo — interfaz clara' }}
+											{{ isDark() ? ('settings.appearance_privacy.dark_mode.active' | translate) : ('settings.appearance_privacy.dark_mode.inactive' | translate) }}
 										</span>
 									</span>
 								</span>
@@ -234,9 +234,9 @@
 										<i class="pi pi-lock"></i>
 									</span>
 									<span>
-										<span class="block text-body-sm font-bold text-on-surface">Perfil privado</span>
+										<span class="block text-body-sm font-bold text-on-surface">{{ 'settings.appearance_privacy.private.label' | translate }}</span>
 										<span class="mt-1 block text-body-sm font-medium leading-snug text-on-surface-muted">
-											Limita la visibilidad de tus posts a tus seguidores.
+											{{ 'settings.appearance_privacy.private.desc' | translate }}
 										</span>
 									</span>
 								</span>
@@ -256,12 +256,86 @@
 						</div>
 					</section>
 
+					<!-- Idioma -->
+					<section class="rounded-2xl border border-outline bg-surface-container p-4 shadow-1 sm:p-6">
+						<div class="flex items-center justify-between gap-4">
+							<div>
+								<h2 class="text-title-lg font-bold text-on-surface">{{ 'settings.language.title' | translate }}</h2>
+								<p class="mt-1 text-body-sm font-medium text-on-surface-muted">{{ 'settings.language.subtitle' | translate }}</p>
+							</div>
+							<span class="grid size-11 place-items-center rounded-xl bg-secondary-container text-on-secondary-container">
+								<i class="pi pi-language text-lg"></i>
+							</span>
+						</div>
+						<div class="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
+							<button
+								type="button"
+								(click)="changeLanguage('es')"
+								class="flex flex-col items-center justify-center gap-2 rounded-2xl border p-4 text-center transition-all duration-fast ease-standard hover:bg-surface-container-high active:scale-95"
+								[class.border-primary]="settings().language === 'es'"
+								[class.bg-primary-container]="settings().language === 'es'"
+								[class.text-on-primary-container]="settings().language === 'es'"
+								[class.border-outline]="settings().language !== 'es'"
+								[class.bg-surface]="settings().language !== 'es'"
+								[class.text-on-surface]="settings().language !== 'es'"
+							>
+								<span class="text-2xl">🇪🇸</span>
+								<span class="text-body-sm font-bold">{{ 'settings.language.es' | translate }}</span>
+							</button>
+
+							<button
+								type="button"
+								(click)="changeLanguage('en')"
+								class="flex flex-col items-center justify-center gap-2 rounded-2xl border p-4 text-center transition-all duration-fast ease-standard hover:bg-surface-container-high active:scale-95"
+								[class.border-primary]="settings().language === 'en'"
+								[class.bg-primary-container]="settings().language === 'en'"
+								[class.text-on-primary-container]="settings().language === 'en'"
+								[class.border-outline]="settings().language !== 'en'"
+								[class.bg-surface]="settings().language !== 'en'"
+								[class.text-on-surface]="settings().language !== 'en'"
+							>
+								<span class="text-2xl">🇬🇧</span>
+								<span class="text-body-sm font-bold">{{ 'settings.language.en' | translate }}</span>
+							</button>
+
+							<button
+								type="button"
+								(click)="changeLanguage('fr')"
+								class="flex flex-col items-center justify-center gap-2 rounded-2xl border p-4 text-center transition-all duration-fast ease-standard hover:bg-surface-container-high active:scale-95"
+								[class.border-primary]="settings().language === 'fr'"
+								[class.bg-primary-container]="settings().language === 'fr'"
+								[class.text-on-primary-container]="settings().language === 'fr'"
+								[class.border-outline]="settings().language !== 'fr'"
+								[class.bg-surface]="settings().language !== 'fr'"
+								[class.text-on-surface]="settings().language !== 'fr'"
+							>
+								<span class="text-2xl">🇫🇷</span>
+								<span class="text-body-sm font-bold">{{ 'settings.language.fr' | translate }}</span>
+							</button>
+
+							<button
+								type="button"
+								(click)="changeLanguage('de')"
+								class="flex flex-col items-center justify-center gap-2 rounded-2xl border p-4 text-center transition-all duration-fast ease-standard hover:bg-surface-container-high active:scale-95"
+								[class.border-primary]="settings().language === 'de'"
+								[class.bg-primary-container]="settings().language === 'de'"
+								[class.text-on-primary-container]="settings().language === 'de'"
+								[class.border-outline]="settings().language !== 'de'"
+								[class.bg-surface]="settings().language !== 'de'"
+								[class.text-on-surface]="settings().language !== 'de'"
+							>
+								<span class="text-2xl">🇩🇪</span>
+								<span class="text-body-sm font-bold">{{ 'settings.language.de' | translate }}</span>
+							</button>
+						</div>
+					</section>
+
 					<!-- Sesión -->
 					<section class="rounded-2xl border border-error/30 bg-surface-container p-4 shadow-1 sm:p-6">
 						<div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
 							<div>
-								<h2 class="text-title-lg font-bold text-on-surface">Sesión</h2>
-								<p class="mt-1 text-body-sm font-medium text-on-surface-muted">Puedes cerrar sesión en este dispositivo.</p>
+								<h2 class="text-title-lg font-bold text-on-surface">{{ 'settings.session.title' | translate }}</h2>
+								<p class="mt-1 text-body-sm font-medium text-on-surface-muted">{{ 'settings.session.subtitle' | translate }}</p>
 							</div>
 							<button
 								type="button"
@@ -269,7 +343,7 @@
 								(click)="logOut()"
 							>
 								<i class="pi pi-sign-out"></i>
-								Cerrar sesión
+								{{ 'settings.session.logout_btn' | translate }}
 							</button>
 						</div>
 					</section>
@@ -297,17 +371,17 @@
 					</div>
 					<div class="mt-5 rounded-xl bg-surface-container-high p-4">
 						<p class="text-body-sm font-medium leading-base text-on-surface-muted">
-							Tus preferencias se guardan en tu cuenta y se restauran automáticamente al iniciar sesión.
+							{{ 'settings.aside.desc' | translate }}
 						</p>
 					</div>
 				</section>
 
 				<section class="rounded-2xl border border-outline bg-inverse-surface p-5 text-inverse-on-surface shadow-2">
-					<span class="inline-flex rounded-pill bg-primary px-3 py-1 text-label-md font-bold text-on-primary">Savorealo Pro</span>
-					<h2 class="mt-4 font-display text-title-lg">Más control para creadores</h2>
-					<p class="mt-2 text-body-sm font-medium leading-base text-inverse-on-surface/65">Estadísticas avanzadas, colecciones privadas y recetas destacadas.</p>
+					<span class="inline-flex rounded-pill bg-primary px-3 py-1 text-label-md font-bold text-on-primary">{{ 'settings.aside.pro_badge' | translate }}</span>
+					<h2 class="mt-4 font-display text-title-lg">{{ 'settings.aside.pro_title' | translate }}</h2>
+					<p class="mt-2 text-body-sm font-medium leading-base text-inverse-on-surface/65">{{ 'settings.aside.pro_desc' | translate }}</p>
 					<button type="button" class="mt-5 min-h-11 w-full rounded-pill bg-surface text-body-sm font-bold text-on-surface transition-colors duration-fast ease-standard hover:bg-surface-container-high">
-						Próximamente
+						{{ 'settings.aside.pro_btn' | translate }}
 					</button>
 				</section>
 			</aside>

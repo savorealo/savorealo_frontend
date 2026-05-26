@@ -4,10 +4,10 @@
 		<!-- Header -->
 		<div class="mb-6 flex items-center justify-between gap-3">
 			<div>
-				<h1 class="font-display text-headline-md text-on-surface">Lista de la compra</h1>
+				<h1 class="font-display text-headline-md text-on-surface">{{ 'shopping.title' | translate }}</h1>
 				@if (list.totalCount() > 0) {
 					<p class="mt-0.5 text-body-sm font-medium text-on-surface-muted">
-						{{ list.uncheckedCount() }} pendientes · {{ checkedCount() }} listos
+						{{ list.uncheckedCount() }} {{ 'shopping.pending_status' | translate }} · {{ checkedCount() }} {{ 'shopping.ready_status' | translate }}
 					</p>
 				}
 			</div>
@@ -17,13 +17,13 @@
 					<button type="button"
 						class="grid size-10 place-items-center rounded-full border border-outline text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container hover:text-on-surface active:scale-95"
 						(click)="share()"
-						aria-label="Compartir lista">
+						[attr.aria-label]="'shopping.share_label' | translate">
 						<i class="pi pi-share-alt text-base"></i>
 					</button>
 					<button type="button"
 						class="grid size-10 place-items-center rounded-full border border-outline text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-error/10 hover:text-error active:scale-95"
 						(click)="confirmClear.set(true)"
-						aria-label="Vaciar lista">
+						[attr.aria-label]="'shopping.clear_label' | translate">
 						<i class="pi pi-trash text-base"></i>
 					</button>
 				</div>
@@ -33,14 +33,14 @@
 		<!-- Añadir ingrediente manualmente -->
 		<div class="mb-5 overflow-hidden rounded-2xl border border-outline bg-surface-container">
 			<div class="border-b border-outline px-4 py-2.5">
-				<p class="text-label-md font-bold text-on-surface-muted">Añadir ingrediente</p>
+				<p class="text-label-md font-bold text-on-surface-muted">{{ 'shopping.add_ingredient' | translate }}</p>
 			</div>
 			<form class="grid gap-2 p-3" (ngSubmit)="addManual()">
 				<!-- Nombre -->
 				<input
 					type="text"
 					class="min-h-10 w-full rounded-xl border border-outline bg-surface px-3 text-body-sm font-semibold text-on-surface outline-none placeholder:text-on-surface-muted transition-colors duration-fast ease-standard focus:border-primary focus:ring-2 focus:ring-primary/20"
-					placeholder="Ingrediente (ej: tomates, harina, leche…)"
+					[placeholder]="'shopping.placeholder_name' | translate"
 					[ngModel]="manualName()"
 					(ngModelChange)="manualName.set($event)"
 					name="manualName"
@@ -51,7 +51,7 @@
 					<input
 						type="number"
 						class="min-h-10 w-20 rounded-xl border border-outline bg-surface px-3 text-body-sm font-semibold text-on-surface outline-none placeholder:text-on-surface-muted transition-colors duration-fast ease-standard focus:border-primary focus:ring-2 focus:ring-primary/20"
-						placeholder="Cant."
+						[placeholder]="'shopping.placeholder_qty' | translate"
 						[ngModel]="manualQuantity()"
 						(ngModelChange)="manualQuantity.set($event)"
 						name="manualQty"
@@ -62,11 +62,11 @@
 						[ngModel]="manualUnit()"
 						(ngModelChange)="manualUnit.set($event)"
 						name="manualUnit">
-						<option value="">¿En qué cantidad?</option>
-						@for (group of unitGroups; track group.label) {
-							<optgroup [label]="group.label">
+						<option value="">{{ 'shopping.unit_select' | translate }}</option>
+						@for (group of unitGroups; track group.labelKey) {
+							<optgroup [label]="group.labelKey | translate">
 								@for (opt of group.options; track opt.value) {
-									<option [value]="opt.value">{{ opt.label }}</option>
+									<option [value]="opt.value">{{ opt.labelKey | translate }}</option>
 								}
 							</optgroup>
 						}
@@ -84,18 +84,18 @@
 		@if (confirmClear()) {
 			<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
 				<div class="w-full max-w-sm rounded-3xl bg-surface p-6 shadow-4">
-					<h3 class="mb-2 text-title-md font-bold text-on-surface">¿Vaciar la lista?</h3>
-					<p class="mb-5 text-body-sm text-on-surface-muted">Se eliminarán todos los ingredientes.</p>
+					<h3 class="mb-2 text-title-md font-bold text-on-surface">{{ 'shopping.clear_list_title' | translate }}</h3>
+					<p class="mb-5 text-body-sm text-on-surface-muted">{{ 'shopping.clear_list_desc' | translate }}</p>
 					<div class="flex gap-3">
 						<button type="button"
 							class="flex-1 rounded-2xl border border-outline py-3 text-body-sm font-bold text-on-surface transition-colors duration-fast ease-standard hover:bg-surface-container"
 							(click)="confirmClear.set(false)">
-							Cancelar
+							{{ 'shopping.cancel' | translate }}
 						</button>
 						<button type="button"
 							class="flex-1 rounded-2xl bg-error py-3 text-body-sm font-bold text-on-error transition-colors duration-fast ease-standard hover:opacity-90"
 							(click)="clearAll()">
-							Vaciar
+							{{ 'shopping.clear_confirm' | translate }}
 						</button>
 					</div>
 				</div>
@@ -112,15 +112,15 @@
 					<!-- Cabecera modal -->
 					<div class="mb-4 flex items-start justify-between gap-3">
 						<div>
-							<h3 class="text-title-md font-bold text-on-surface">¿Dónde quieres comprarlo?</h3>
+							<h3 class="text-title-md font-bold text-on-surface">{{ 'shopping.where_buy' | translate }}</h3>
 							<p class="mt-0.5 text-body-sm font-medium text-on-surface-muted">
-								Tiendas disponibles en tu zona
+								{{ 'shopping.stores_available' | translate }}
 							</p>
 						</div>
 						<button type="button"
 							class="grid size-8 shrink-0 place-items-center rounded-full text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container hover:text-on-surface active:scale-95"
 							(click)="closeStoreModal()"
-							aria-label="Cerrar">
+							[attr.aria-label]="'vegan.close' | translate">
 							<i class="pi pi-times text-sm"></i>
 						</button>
 					</div>
@@ -146,7 +146,7 @@
 					<button type="button"
 						class="mt-3 w-full rounded-2xl border border-outline py-3 text-body-sm font-bold text-on-surface transition-colors duration-fast ease-standard hover:bg-surface-container"
 						(click)="closeStoreModal()">
-						Cancelar
+						{{ 'shopping.cancel' | translate }}
 					</button>
 				</div>
 			</div>
@@ -159,13 +159,13 @@
 					<i class="pi pi-shopping-cart text-3xl text-on-surface-muted"></i>
 				</div>
 				<div>
-					<p class="text-title-md font-bold text-on-surface">Tu lista está vacía</p>
-					<p class="mt-1 text-body-sm text-on-surface-muted">Añade ingredientes desde cualquier receta</p>
+					<p class="text-title-md font-bold text-on-surface">{{ 'shopping.empty_title' | translate }}</p>
+					<p class="mt-1 text-body-sm text-on-surface-muted">{{ 'shopping.empty_desc' | translate }}</p>
 				</div>
 				<a routerLink="/explore"
 					class="inline-flex items-center gap-2 rounded-pill bg-primary px-5 py-2.5 text-body-sm font-bold text-on-primary transition-colors duration-fast ease-standard hover:opacity-90">
 					<i class="pi pi-search"></i>
-					Explorar recetas
+					{{ 'shopping.explore_recipes' | translate }}
 				</a>
 			</div>
 		}
@@ -174,12 +174,12 @@
 		@if (checkedCount() > 0) {
 			<div class="mb-4 flex items-center justify-between rounded-2xl bg-surface-container px-4 py-3">
 				<span class="text-body-sm font-medium text-on-surface-muted">
-					{{ checkedCount() }} ingrediente{{ checkedCount() !== 1 ? 's' : '' }} marcado{{ checkedCount() !== 1 ? 's' : '' }}
+					{{ checkedCount() }} {{ (checkedCount() === 1 ? 'shopping.checked_items_label' : 'shopping.checked_items_label_plural') | translate }}
 				</span>
 				<button type="button"
 					class="text-body-sm font-bold text-error transition-colors duration-fast ease-standard hover:underline"
 					(click)="clearChecked()">
-					Eliminar marcados
+					{{ 'shopping.clear_checked' | translate }}
 				</button>
 			</div>
 		}
@@ -196,14 +196,14 @@
 							<h2 class="truncate text-label-md font-bold text-on-surface">{{ group.recipeName }}</h2>
 							@if (group.allChecked) {
 								<span class="shrink-0 rounded-pill bg-[#22c55e]/15 px-2 py-0.5 text-[0.65rem] font-black text-[#16a34a]">
-									¡Completo!
+									{{ 'shopping.complete' | translate }}
 								</span>
 							}
 						</div>
 						<button type="button"
 							class="grid size-7 shrink-0 place-items-center rounded-full text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container-high hover:text-error active:scale-95"
 							(click)="removeGroup(group.recipeId)"
-							aria-label="Eliminar grupo">
+							[attr.aria-label]="'shopping.remove_group' | translate">
 							<i class="pi pi-times text-xs"></i>
 						</button>
 					</div>
@@ -237,12 +237,12 @@
 								<div class="flex items-center gap-2">
 									@if (item.quantity) {
 										<span class="text-label-md font-bold tabular-nums text-on-surface-muted">
-											{{ item.quantity }} {{ item.unit }}
+											{{ item.quantity }} {{ translateUnit(item.unit) }}
 										</span>
 									}
 									<button type="button"
 										class="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-label-md font-bold transition-all duration-fast ease-standard active:scale-95 bg-primary-container text-on-primary-container hover:opacity-80"
-										[attr.aria-label]="'Comprar ' + item.name"
+										[attr.aria-label]="item.name"
 										(click)="openStoreModal(item.name); $event.stopPropagation()">
 										<i class="pi pi-shopping-cart text-[0.65rem]"></i>
 									</button>
@@ -257,7 +257,7 @@
 							class="inline-flex w-full items-center justify-center gap-2 rounded-pill border border-outline py-2.5 text-label-md font-bold text-on-surface transition-colors duration-fast ease-standard hover:bg-surface-container-high active:scale-[0.98]"
 							(click)="openStoreModal(group.recipeName + ' ingredientes')">
 							<i class="pi pi-shopping-bag text-xs"></i>
-							Ver supermercados
+							{{ 'shopping.view_stores' | translate }}
 						</button>
 					</div>
 				</section>

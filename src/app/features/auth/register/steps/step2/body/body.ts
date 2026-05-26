@@ -8,6 +8,7 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { DatePickerModule } from 'primeng/datepicker';
 import { TextareaModule } from 'primeng/textarea';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-body-step2',
@@ -19,9 +20,9 @@ import { TextareaModule } from 'primeng/textarea';
     ReactiveFormsModule,
     ToastModule,
     DatePickerModule,
-    ReactiveFormsModule,
     TextareaModule,
-    ButtonDirective
+    ButtonDirective,
+    TranslatePipe
   ],
     providers: [MessageService],
   templateUrl: './body.html',

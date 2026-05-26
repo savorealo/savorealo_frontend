@@ -7,6 +7,7 @@ import {
 	AiRecipeType,
 } from '@core/services/ai-recipe.service'
 import { toUserMessage } from '@core/utils/user-error'
+import { TranslationService } from '@core/services/translation.service'
 
 export interface AiIdea {
 	id: number
@@ -25,6 +26,7 @@ export interface RecentAiRecipe {
 @Injectable({ providedIn: 'root' })
 export class AiRecipeStore {
 	private readonly aiRecipeService = inject(AiRecipeService)
+	private readonly t = inject(TranslationService)
 
 	private readonly _ingredientsText = signal('')
 	private readonly _selectedSuggestions = signal<string[]>([])
@@ -47,24 +49,33 @@ export class AiRecipeStore {
 		!this._loading(),
 	)
 
-	readonly suggestions = ['Pollo', 'Arroz', 'Brocoli', 'Tomate', 'Aguacate', 'Huevos', 'Champinones', 'Queso']
+	readonly suggestions = [
+		'ai.form.suggest.chicken',
+		'ai.form.suggest.rice',
+		'ai.form.suggest.broccoli',
+		'ai.form.suggest.tomato',
+		'ai.form.suggest.avocado',
+		'ai.form.suggest.eggs',
+		'ai.form.suggest.mushrooms',
+		'ai.form.suggest.cheese',
+	]
 
 	readonly ideas = computed(() => {
 		const allIdeas: AiIdea[] = [
-			{ id: 1, title: 'Pasta con pollo al limon', description: 'Con los ingredientes que tienes', imageUrl: '/prueba1.png' },
-			{ id: 2, title: 'Salteado de brocoli y pollo', description: 'Con los ingredientes que tienes', imageUrl: '/prueba1.png' },
-			{ id: 3, title: 'Arroz cremoso con champinones', description: 'Con los ingredientes que tienes', imageUrl: '/prueba1.png' },
-			{ id: 4, title: 'Tacos de pollo teriyaki', description: 'Con los ingredientes que tienes', imageUrl: '/prueba1.png' },
+			{ id: 1, title: this.t.translate('ai.ideas.pasta_title'), description: this.t.translate('ai.ideas.with_your_ingredients'), imageUrl: '/prueba1.png' },
+			{ id: 2, title: this.t.translate('ai.ideas.stir_fry_title'), description: this.t.translate('ai.ideas.with_your_ingredients'), imageUrl: '/prueba1.png' },
+			{ id: 3, title: this.t.translate('ai.ideas.creamy_rice_title'), description: this.t.translate('ai.ideas.with_your_ingredients'), imageUrl: '/prueba1.png' },
+			{ id: 4, title: this.t.translate('ai.ideas.teriyaki_tacos_title'), description: this.t.translate('ai.ideas.with_your_ingredients'), imageUrl: '/prueba1.png' },
 		]
 		const offset = this._ideasOffset() % allIdeas.length
 		return [...allIdeas.slice(offset), ...allIdeas.slice(0, offset)]
 	})
 
-	readonly recentRecipes: RecentAiRecipe[] = [
-		{ id: 1, title: 'Bowl de quinoa con pollo', createdLabel: 'Generada hace 2 dias', imageUrl: '/prueba1.png' },
-		{ id: 2, title: 'Sopa cremosa de calabaza', createdLabel: 'Generada hace 4 dias', imageUrl: '/prueba1.png' },
-		{ id: 3, title: 'Ensalada mediterranea', createdLabel: 'Generada hace 1 semana', imageUrl: '/prueba1.png' },
-	]
+	readonly recentRecipes = computed<RecentAiRecipe[]>(() => [
+		{ id: 1, title: this.t.translate('ai.recent.quinoa_bowl'), createdLabel: this.t.translate('ai.recent.2_days_ago'), imageUrl: '/prueba1.png' },
+		{ id: 2, title: this.t.translate('ai.recent.pumpkin_soup'), createdLabel: this.t.translate('ai.recent.4_days_ago'), imageUrl: '/prueba1.png' },
+		{ id: 3, title: this.t.translate('ai.recent.mediterranean_salad'), createdLabel: this.t.translate('ai.recent.1_week_ago'), imageUrl: '/prueba1.png' },
+	])
 
 	setIngredientsText(value: string): void {
 		this._ingredientsText.set(value.slice(0, 120))
@@ -114,8 +125,10 @@ export class AiRecipeStore {
 			.map(item => item.trim())
 			.filter(Boolean)
 
+		const translatedSuggestions = this._selectedSuggestions().map(key => this.t.translate(key))
+
 		return {
-			ingredients: [...typedIngredients, ...this._selectedSuggestions()],
+			ingredients: [...typedIngredients, ...translatedSuggestions],
 			recipeType: this._selectedRecipeType(),
 			portions: this._portions(),
 		}

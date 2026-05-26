@@ -5,6 +5,7 @@ import { Message } from "primeng/message";
 import { ButtonDirective} from "primeng/button";
 import { Password } from "primeng/password";
 import { InputTextModule } from 'primeng/inputtext';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-body-step1',
@@ -15,7 +16,8 @@ import { InputTextModule } from 'primeng/inputtext';
     InputTextModule,
     ɵInternalFormsSharedModule,
     ReactiveFormsModule,
-    ButtonDirective
+    ButtonDirective,
+    TranslatePipe
 ],
   templateUrl: './body.html',
   styleUrl: './body.scss',

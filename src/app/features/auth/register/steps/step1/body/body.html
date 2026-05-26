@@ -1,7 +1,7 @@
 <div [formGroup]="registerForm()" class="mx-auto grid w-full max-w-xl gap-5">
   <div class="grid gap-4 sm:grid-cols-2">
     <label class="grid gap-1.5">
-      <span class="text-xs font-black uppercase tracking-wide text-on-surface-muted">Email</span>
+      <span class="text-xs font-black uppercase tracking-wide text-on-surface-muted">{{ 'auth.email' | translate }}</span>
       <input
         pInputText
         formControlName="email"
@@ -14,16 +14,16 @@
       <div class="min-h-5 text-[0.75rem]">
         @if (isInvalid('email')) {
           @if (registerForm().get('email')?.errors?.['required']) {
-            <p-message severity="error" size="small" variant="simple">El email es obligatorio.</p-message>
+            <p-message severity="error" size="small" variant="simple">{{ 'auth.register.email_required' | translate }}</p-message>
           } @else if (registerForm().get('email')?.errors?.['email']) {
-            <p-message severity="error" size="small" variant="simple">Introduce un email válido.</p-message>
+            <p-message severity="error" size="small" variant="simple">{{ 'auth.register.email_invalid' | translate }}</p-message>
           }
         }
       </div>
     </label>
 
     <label class="grid gap-1.5">
-      <span class="text-xs font-black uppercase tracking-wide text-on-surface-muted">Usuario</span>
+      <span class="text-xs font-black uppercase tracking-wide text-on-surface-muted">{{ 'auth.register.username' | translate }}</span>
       <div class="relative">
         <span class="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-sm font-bold text-on-surface-muted">&#64;</span>
         <input
@@ -40,10 +40,10 @@
       </div>
       <div class="min-h-5 text-[0.75rem]">
         @if (registerForm().get('username')?.pending) {
-          <p-message severity="secondary" size="small" variant="simple">Comprobando disponibilidad…</p-message>
+          <p-message severity="secondary" size="small" variant="simple">{{ 'auth.register.checking_username' | translate }}</p-message>
         } @else if (isInvalid('username')) {
           @if (registerForm().get('username')?.errors?.['required']) {
-            <p-message severity="error" size="small" variant="simple">El usuario es obligatorio.</p-message>
+            <p-message severity="error" size="small" variant="simple">{{ 'auth.register.username_required' | translate }}</p-message>
           } @else if (registerForm().get('username')?.errors?.['usernameFormat']) {
             <p-message severity="error" size="small" variant="simple">{{ registerForm().get('username')?.errors?.['usernameFormat'] }}</p-message>
           } @else if (registerForm().get('username')?.errors?.['usernameUnavailable']) {
@@ -54,10 +54,10 @@
     </label>
 
     <label class="grid gap-1.5">
-      <span class="text-xs font-black uppercase tracking-wide text-on-surface-muted">Contraseña</span>
+      <span class="text-xs font-black uppercase tracking-wide text-on-surface-muted">{{ 'auth.password' | translate }}</span>
       <p-password
         formControlName="password"
-        placeholder="Mínimo 8 caracteres"
+        [placeholder]="'auth.register.password_minlength' | translate"
         [feedback]="true"
         [invalid]="isInvalid('password')"
         fluid
@@ -65,30 +65,30 @@
       <div class="min-h-5 text-[0.75rem]">
         @if (isInvalid('password')) {
           @if (registerForm().get('password')?.errors?.['required']) {
-            <p-message severity="error" size="small" variant="simple">La contraseña es obligatoria.</p-message>
+            <p-message severity="error" size="small" variant="simple">{{ 'auth.register.password_required' | translate }}</p-message>
           } @else if (registerForm().get('password')?.errors?.['minlength']) {
-            <p-message severity="error" size="small" variant="simple">Debe tener al menos 8 caracteres.</p-message>
+            <p-message severity="error" size="small" variant="simple">{{ 'auth.register.password_minlength' | translate }}</p-message>
           } @else if (registerForm().get('password')?.errors?.['pattern']) {
-            <p-message severity="error" size="small" variant="simple">Incluye mayúscula, número y símbolo.</p-message>
+            <p-message severity="error" size="small" variant="simple">{{ 'auth.register.password_pattern' | translate }}</p-message>
           }
         }
       </div>
     </label>
 
     <label class="grid gap-1.5">
-      <span class="text-xs font-black uppercase tracking-wide text-on-surface-muted">Confirmar</span>
+      <span class="text-xs font-black uppercase tracking-wide text-on-surface-muted">{{ 'auth.register.confirm_password' | translate }}</span>
       <p-password
         formControlName="confirmPassword"
-        placeholder="Repite tu contraseña"
+        [placeholder]="'auth.register.confirm_placeholder' | translate"
         [feedback]="false"
         [invalid]="isInvalid('confirmPassword') || registerForm().hasError('passwordMismatch')"
         fluid
       />
       <div class="min-h-5 text-[0.75rem]">
         @if (isInvalid('confirmPassword')) {
-          <p-message severity="error" size="small" variant="simple">Confirma tu contraseña.</p-message>
+          <p-message severity="error" size="small" variant="simple">{{ 'auth.register.confirm_required' | translate }}</p-message>
         } @else if (registerForm().hasError('passwordMismatch') && registerForm().get('confirmPassword')?.touched) {
-          <p-message severity="error" size="small" variant="simple">Las contraseñas no coinciden.</p-message>
+          <p-message severity="error" size="small" variant="simple">{{ 'auth.register.password_mismatch' | translate }}</p-message>
         }
       </div>
     </label>
@@ -100,7 +100,7 @@
     pButton
     type="button"
     (click)="onSubmit()"
-    label="Siguiente"
+    [label]="'auth.register.next' | translate"
     icon="pi pi-arrow-right"
     iconPos="right"
     class="h-12 rounded-2xl border-0 bg-primary px-6 text-sm font-black text-on-primary shadow-2 transition-transform duration-fast ease-standard hover:shadow-3 active:scale-[0.98]"

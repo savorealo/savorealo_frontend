@@ -1,7 +1,7 @@
 <section class="rounded-2xl border border-outline bg-secondary-container p-4 text-on-secondary-container shadow-2 sm:p-6 lg:p-8">
 	<label class="grid gap-3">
 		<span class="text-title-md font-bold">
-			Cuéntanos qué tienes en casa
+			{{ 'ai.form.title' | translate }}
 			<i class="pi pi-info-circle text-on-secondary-container/70 ml-1"></i>
 		</span>
 		<div class="relative">
@@ -12,14 +12,14 @@
 				[ngModel]="store.ingredientsText()"
 				(ngModelChange)="updateIngredients($event)"
 				class="min-h-32 w-full resize-none rounded-xl border border-outline bg-surface p-4 pr-14 text-body-md font-medium leading-snug text-on-surface outline-none placeholder:text-on-surface-muted focus:shadow-[0_0_0_2px_rgb(var(--rgb-primary)/0.4)] sm:p-5 sm:pr-16 sm:text-body-lg"
-				placeholder="Ej: pollo, arroz, brócoli, limón..."
+				[placeholder]="'ai.form.placeholder' | translate"
 			></textarea>
 			<span class="absolute bottom-4 right-5 text-label-md font-bold text-on-surface-muted">{{ store.ingredientsText().length }}/120</span>
 		</div>
 	</label>
 
 	<div class="mt-7 grid gap-3">
-		<h2 class="text-title-sm font-bold">O elige algunas sugerencias:</h2>
+		<h2 class="text-title-sm font-bold">{{ 'ai.form.suggestions' | translate }}</h2>
 		<div class="flex flex-wrap gap-2">
 			@for (suggestion of store.suggestions; track suggestion) {
 				<button
@@ -30,14 +30,14 @@
 					[class.border-surface]="store.selectedSuggestions().includes(suggestion)"
 					(click)="store.toggleSuggestion(suggestion)"
 				>
-					{{ suggestion }}
+					{{ suggestion | translate }}
 				</button>
 			}
 		</div>
 	</div>
 
 	<div class="mt-7 grid gap-3">
-		<h2 class="text-title-sm font-bold">¿Qué tipo de receta buscas?</h2>
+		<h2 class="text-title-sm font-bold">{{ 'ai.form.type_title' | translate }}</h2>
 		<div class="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
 			@for (option of recipeTypes; track option.type) {
 				<button
@@ -50,8 +50,8 @@
 				>
 					<i [class]="option.icon" class="text-2xl text-secondary"></i>
 					<span class="min-w-0">
-						<strong class="block text-body-md font-bold truncate">{{ option.title }}</strong>
-						<span class="text-body-sm font-medium text-on-surface-muted line-clamp-2">{{ option.description }}</span>
+						<strong class="block text-body-md font-bold truncate">{{ option.title | translate }}</strong>
+						<span class="text-body-sm font-medium text-on-surface-muted line-clamp-2">{{ option.description | translate }}</span>
 					</span>
 					@if (store.selectedRecipeType() === option.type) {
 						<span class="absolute right-3 top-3 grid size-6 place-items-center rounded-pill bg-on-secondary-container text-secondary text-label-md">
@@ -64,10 +64,10 @@
 	</div>
 
 	<div class="mt-7 grid gap-3">
-		<h2 class="text-title-sm font-bold">Número de porciones</h2>
+		<h2 class="text-title-sm font-bold">{{ 'ai.form.portions' | translate }}</h2>
 		<div class="flex items-center gap-5">
 			<button type="button" class="grid size-12 place-items-center rounded-pill bg-on-secondary-container/15 text-title-md font-bold transition-colors duration-fast ease-standard hover:bg-on-secondary-container/25" (click)="store.decrementPortions()">−</button>
-			<span class="text-title-md font-bold">{{ store.portions() }} porciones</span>
+			<span class="text-title-md font-bold">{{ store.portions() }} {{ 'ai.form.portions_label' | translate }}</span>
 			<button type="button" class="grid size-12 place-items-center rounded-pill bg-on-secondary-container/15 text-title-md font-bold transition-colors duration-fast ease-standard hover:bg-on-secondary-container/25" (click)="store.incrementPortions()">+</button>
 		</div>
 	</div>
@@ -84,6 +84,6 @@
 		(click)="store.generate()"
 	>
 		<i class="pi pi-sparkles"></i>
-		<span>{{ store.loading() ? 'Creando receta...' : 'Generar receta' }}</span>
+		<span>{{ store.loading() ? ('ai.form.generating' | translate) : ('ai.form.generate_btn' | translate) }}</span>
 	</button>
 </section>

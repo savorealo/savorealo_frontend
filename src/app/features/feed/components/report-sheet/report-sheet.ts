@@ -1,9 +1,11 @@
 import { Component, computed, inject, input, output, signal } from '@angular/core'
 import { Post } from '@core/models/post/post.model'
 import { REPORT_CATEGORIES, ReportCategory, ReportsService } from '@core/services/reports.service'
+import { TranslatePipe } from '@shared/pipes/translate.pipe'
 
 @Component({
 	selector: 'app-report-sheet',
+	imports: [TranslatePipe],
 	templateUrl: './report-sheet.html',
 })
 export class ReportSheet {

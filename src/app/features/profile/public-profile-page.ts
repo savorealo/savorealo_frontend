@@ -13,15 +13,18 @@ import { ImgFallbackDirective } from '@shared/directives/img-fallback.directive'
 import { TabsModule } from 'primeng/tabs'
 import { DialogModule } from 'primeng/dialog'
 import { ShareProfileModal, ShareableProfile } from '@features/messages/components/share-profile-modal/share-profile-modal'
+import { TranslationService } from '@core/services/translation.service'
+import { TranslatePipe } from '@shared/pipes/translate.pipe'
 
 @Component({
 	selector: 'app-public-profile-page',
-	imports: [AppShell, Avatar, RouterLink, TabsModule, DialogModule, ImgFallbackDirective, ShareProfileModal],
+	imports: [AppShell, Avatar, RouterLink, TabsModule, DialogModule, ImgFallbackDirective, ShareProfileModal, TranslatePipe],
 	templateUrl: './public-profile-page.html',
 })
 export class PublicProfilePage {
 	private readonly route = inject(ActivatedRoute)
 	readonly router = inject(Router)
+	private readonly t = inject(TranslationService)
 	private readonly userService = inject(UserService)
 	private readonly authStore   = inject(AuthStore)
 	private readonly toast       = inject(ToastService)
@@ -105,7 +108,7 @@ export class PublicProfilePage {
 		const user = this.user()
 		if (!user || !this.isViewable()) return
 
-		this.followListTitle.set(type === 'followers' ? 'Seguidores' : 'Siguiendo')
+		this.followListTitle.set(type === 'followers' ? this.t.translate('profile.followers') : this.t.translate('profile.following'))
 		this.followListUsers.set([])
 		this.followListLoading.set(true)
 		this.showFollowList.set(true)
@@ -189,13 +192,13 @@ export class PublicProfilePage {
 				})
 				const name = this.user()?.fullName || this.user()?.username || 'este usuario'
 				if (result.following) {
-					this.toast.success(`Ahora sigues a ${name}`, '')
+					this.toast.success(`${this.t.translate('public.now_following')} ${name}`, '')
 				} else if (result.requested) {
-					this.toast.success(`Solicitud enviada a ${name}`, '')
+					this.toast.success(`${this.t.translate('public.request_sent')} ${name}`, '')
 				} else if (wasStatus === 'requested') {
-					this.toast.success(`Solicitud cancelada`, '')
+					this.toast.success(this.t.translate('public.request_cancelled'), '')
 				} else {
-					this.toast.success(`Dejaste de seguir a ${name}`, '')
+					this.toast.success(`${this.t.translate('public.unfollowed')} ${name}`, '')
 				}
 			},
 			error: () => {
@@ -205,7 +208,7 @@ export class PublicProfilePage {
 					followStatus: wasStatus,
 					followersCount: wasFollowers,
 				} : u)
-				this.toast.error('No se pudo actualizar el seguimiento')
+				this.toast.error(this.t.translate('public.follow_error'))
 			},
 		})
 	}

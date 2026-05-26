@@ -13,6 +13,7 @@ import { SettingsService } from '@core/services/settings.service';
 import { ProfileService, UpdatePersonProfileInput } from '@core/services/profile-service';
 import { LoginUser, RegisterUser, User } from '@core/models/user/User';
 import { toUserMessage } from '@core/utils/user-error';
+import { TranslationService, LanguageCode } from '@core/services/translation.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthStore {
@@ -25,6 +26,7 @@ export class AuthStore {
   private settings       = inject(SettingsService);
   private router         = inject(Router);
   private messages       = inject(MessageService);
+  private translationService = inject(TranslationService);
 
   private readonly _user    = signal<UserSupabase | null>(null);
   private readonly _profile = signal<User | null>(null);
@@ -288,6 +290,11 @@ export class AuthStore {
     this.settings.loadSettings().pipe(
       takeUntilDestroyed(this.destroyRef)
     ).subscribe({
+      next: (s) => {
+        if (s.language) {
+          this.translationService.setLanguage(s.language as LanguageCode);
+        }
+      },
       error: err => console.error('Error cargando ajustes:', err)
     });
   }

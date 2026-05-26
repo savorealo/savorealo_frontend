@@ -10,6 +10,7 @@ import { ExploreHero } from './components/explore-hero/explore-hero'
 import { ExploreRightRail } from './components/explore-right-rail/explore-right-rail'
 import { ExploreToolbar } from './components/explore-toolbar/explore-toolbar'
 import { RecipeDiscoveryGrid } from './components/recipe-discovery-grid/recipe-discovery-grid'
+import { TranslatePipe } from '@shared/pipes/translate.pipe'
 
 @Component({
 	selector: 'app-explore-page',
@@ -23,6 +24,7 @@ import { RecipeDiscoveryGrid } from './components/recipe-discovery-grid/recipe-d
 		ExploreRightRail,
 		ExploreToolbar,
 		RecipeDiscoveryGrid,
+		TranslatePipe,
 	],
 	templateUrl: './explore-page.html',
 })

@@ -1,13 +1,17 @@
-import { Component, computed, input, output, signal } from '@angular/core'
+import { Component, computed, inject, input, output, signal } from '@angular/core'
 import { NgClass } from '@angular/common'
 import { Conversation, ConversationFilter } from '../../models/messages.models'
 
+import { TranslationService } from '@core/services/translation.service'
+import { TranslatePipe } from '@shared/pipes/translate.pipe'
+
 @Component({
 	selector: 'app-conversation-list',
-	imports: [NgClass],
+	imports: [NgClass, TranslatePipe],
 	templateUrl: './conversation-list.html',
 })
 export class ConversationList {
+	readonly t = inject(TranslationService)
 	private readonly fallbackAvatar = '/assets/icons/new_logo.png'
 
 	conversations = input.required<Conversation[]>()

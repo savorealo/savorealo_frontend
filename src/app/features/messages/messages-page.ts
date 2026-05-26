@@ -9,9 +9,11 @@ import { MessagesStore } from '@core/store/messages.store'
 import { CallStore } from '@core/store/call.store'
 import { AuthStore } from '@core/store/auth.store'
 
+import { TranslatePipe } from '@shared/pipes/translate.pipe'
+
 @Component({
 	selector: 'app-messages-page',
-	imports: [AppShell, ConversationList, ChatPanel, NewConversation, SavoLoader],
+	imports: [AppShell, ConversationList, ChatPanel, NewConversation, SavoLoader, TranslatePipe],
 	templateUrl: './messages-page.html',
 })
 export class MessagesPage {

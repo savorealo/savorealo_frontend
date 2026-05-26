@@ -5,6 +5,8 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
 import { ShoppingListService } from './shopping-list.service'
 import { ToastService } from '@core/services/toast.service'
 import { AppShell } from '@shared/components/app-shell/app-shell'
+import { TranslatePipe } from '@shared/pipes/translate.pipe'
+import { TranslationService } from '@core/services/translation.service'
 
 export interface StoreOption {
 	name: string
@@ -48,13 +50,14 @@ const SVG = {
 
 @Component({
 	selector: 'app-shopping-list-page',
-	imports: [AppShell, RouterLink, FormsModule],
+	imports: [AppShell, RouterLink, FormsModule, TranslatePipe],
 	templateUrl: './shopping-list-page.html',
 })
 export class ShoppingListPage {
 	private readonly toast     = inject(ToastService)
 	private readonly sanitizer = inject(DomSanitizer)
 	readonly list = inject(ShoppingListService)
+	private readonly translationService = inject(TranslationService)
 
 	readonly confirmClear = signal(false)
 	readonly checkedCount = computed(() => this.list.items().filter(i => i.checked).length)
@@ -66,35 +69,35 @@ export class ShoppingListPage {
 
 	readonly unitGroups = [
 		{
-			label: 'Peso — harina, carne, fruta…',
+			labelKey: 'shopping.unit.weight',
 			options: [
-				{ value: 'gramos',     label: 'gramos' },
-				{ value: 'kilogramos', label: 'kilogramos' },
+				{ value: 'gramos',     labelKey: 'shopping.unit.grams' },
+				{ value: 'kilogramos', labelKey: 'shopping.unit.kilograms' },
 			],
 		},
 		{
-			label: 'Volumen — leche, aceite, zumo…',
+			labelKey: 'shopping.unit.volume',
 			options: [
-				{ value: 'ml',     label: 'mililitros (ml)' },
-				{ value: 'litros', label: 'litros' },
+				{ value: 'ml',     labelKey: 'shopping.unit.ml' },
+				{ value: 'litros', labelKey: 'shopping.unit.liters' },
 			],
 		},
 		{
-			label: 'Unidades — huevos, botes, bolsas…',
+			labelKey: 'shopping.unit.units',
 			options: [
-				{ value: 'unidades',  label: 'unidades' },
-				{ value: 'paquetes',  label: 'paquetes' },
-				{ value: 'latas',     label: 'latas' },
-				{ value: 'bolsas',    label: 'bolsas' },
+				{ value: 'unidades',  labelKey: 'shopping.unit.units_val' },
+				{ value: 'paquetes',  labelKey: 'shopping.unit.packages' },
+				{ value: 'latas',     labelKey: 'shopping.unit.cans' },
+				{ value: 'bolsas',    labelKey: 'shopping.unit.bags' },
 			],
 		},
 		{
-			label: 'Medidas de cocina',
+			labelKey: 'shopping.unit.cooking',
 			options: [
-				{ value: 'cucharadas',   label: 'cucharadas' },
-				{ value: 'cucharaditas', label: 'cucharaditas' },
-				{ value: 'tazas',        label: 'tazas' },
-				{ value: 'pizcas',       label: 'pizcas' },
+				{ value: 'cucharadas',   labelKey: 'shopping.unit.tablespoons' },
+				{ value: 'cucharaditas', labelKey: 'shopping.unit.teaspoons' },
+				{ value: 'tazas',        labelKey: 'shopping.unit.cups' },
+				{ value: 'pizcas',       labelKey: 'shopping.unit.pinches' },
 			],
 		},
 	]
@@ -105,6 +108,12 @@ export class ShoppingListPage {
 
 	safeSvg(svg: string): SafeHtml {
 		return this.sanitizer.bypassSecurityTrustHtml(svg)
+	}
+
+	translateUnit(unit?: string): string {
+		if (!unit) return ''
+		const key = unit === 'unidades' ? 'shopping.unit.units_val' : `shopping.unit.${unit}`
+		return this.translationService.translate(key) || unit
 	}
 
 	addManual(): void {
@@ -123,18 +132,18 @@ export class ShoppingListPage {
 
 	removeGroup(recipeId: string): void {
 		this.list.removeRecipe(recipeId)
-		this.toast.info('Ingredientes eliminados de la lista')
+		this.toast.info(this.translationService.translate('shopping.toast.group_removed'))
 	}
 
 	clearChecked(): void {
 		this.list.clearChecked()
-		this.toast.info('Ingredientes marcados eliminados')
+		this.toast.info(this.translationService.translate('shopping.toast.checked_removed'))
 	}
 
 	clearAll(): void {
 		this.list.clearAll()
 		this.confirmClear.set(false)
-		this.toast.info('Lista vaciada')
+		this.toast.info(this.translationService.translate('shopping.toast.list_cleared'))
 	}
 
 	openStoreModal(searchTerm: string): void {
@@ -194,11 +203,12 @@ export class ShoppingListPage {
 		const text = this.list.buildShareText()
 		if (navigator.share) {
 			try {
-				await navigator.share({ title: 'Mi lista de la compra', text })
+				const shareTitle = this.translationService.translate('shopping.share_title')
+				await navigator.share({ title: shareTitle, text })
 			} catch { /* usuario canceló */ }
 		} else {
 			await navigator.clipboard.writeText(text)
-			this.toast.success('Lista copiada al portapapeles')
+			this.toast.success(this.translationService.translate('shopping.toast.list_copied'))
 		}
 	}
 }

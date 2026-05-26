@@ -7,6 +7,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { NgClass } from '@angular/common';
 import { PasswordModule } from 'primeng/password';
 import { LoginUser } from '@core/models/user/User';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,8 @@ import { LoginUser } from '@core/models/user/User';
     ReactiveFormsModule,
     InputTextModule,
     NgClass,
-    PasswordModule
+    PasswordModule,
+    TranslatePipe
   ],
 
   templateUrl: './login.html',

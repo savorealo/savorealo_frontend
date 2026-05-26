@@ -6,16 +6,18 @@ import { AuthStore } from '@core/store/auth.store'
 import { PreferencesService } from '@core/services/preferences.service'
 import { SettingsService, UserSettings } from '@core/services/settings.service'
 import { ToastService } from '@core/services/toast.service'
+import { TranslationService, LanguageCode } from '@core/services/translation.service'
+import { TranslatePipe } from '@shared/pipes/translate.pipe'
 
 interface SettingsToggle {
 	key: keyof Pick<UserSettings, 'notify_likes' | 'notify_comments' | 'notify_follows' | 'is_private'>
-	label: string
-	description: string
+	labelKey: string
+	descKey: string
 }
 
 @Component({
 	selector: 'app-settings-page',
-	imports: [AppShell, FormsModule, RouterLink],
+	imports: [AppShell, FormsModule, RouterLink, TranslatePipe],
 	templateUrl: './settings-page.html',
 })
 export class SettingsPage implements OnInit {
@@ -23,6 +25,7 @@ export class SettingsPage implements OnInit {
 	private readonly settingsService = inject(SettingsService)
 	private readonly toast = inject(ToastService)
 	readonly preferences = inject(PreferencesService)
+	readonly translationService = inject(TranslationService)
 
 	readonly profile = this.auth.profile
 	readonly logoUrl = '/assets/icons/new_logo.png'
@@ -46,24 +49,29 @@ export class SettingsPage implements OnInit {
 	readonly notificationToggles: SettingsToggle[] = [
 		{
 			key: 'notify_likes',
-			label: 'Likes',
-			description: 'Avisame cuando alguien le de like a tu receta o post.',
+			labelKey: 'settings.notifications.likes.label',
+			descKey: 'settings.notifications.likes.desc',
 		},
 		{
 			key: 'notify_comments',
-			label: 'Comentarios',
-			description: 'Avisame cuando alguien comente una receta o post.',
+			labelKey: 'settings.notifications.comments.label',
+			descKey: 'settings.notifications.comments.desc',
 		},
 		{
 			key: 'notify_follows',
-			label: 'Nuevos seguidores',
-			description: 'Muestra notificaciones cuando otros cocineros te sigan.',
+			labelKey: 'settings.notifications.follows.label',
+			descKey: 'settings.notifications.follows.desc',
 		},
 	]
 
 	ngOnInit(): void {
 		this.settingsService.loadSettings().subscribe({
-			next: s => this.settings.set(s),
+			next: s => {
+				this.settings.set(s)
+				if (s.language) {
+					this.translationService.setLanguage(s.language as LanguageCode)
+				}
+			},
 		})
 	}
 
@@ -81,6 +89,12 @@ export class SettingsPage implements OnInit {
 		this.persist({ is_private: !this.settings().is_private })
 	}
 
+	changeLanguage(lang: string): void {
+		const language = lang as LanguageCode
+		this.translationService.setLanguage(language)
+		this.persist({ language })
+	}
+
 	private persist(patch: Partial<UserSettings>): void {
 		this.settings.update(s => ({ ...s, ...patch }))
 		if (this.saving()) return
@@ -89,7 +103,7 @@ export class SettingsPage implements OnInit {
 			next: () => this.saving.set(false),
 			error: () => {
 				this.saving.set(false)
-				this.toast.error('No se pudieron guardar los ajustes')
+				this.toast.error(this.translationService.translate('settings.error_save'))
 			},
 		})
 	}

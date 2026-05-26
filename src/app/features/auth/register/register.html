@@ -1,7 +1,7 @@
 <div>
-  <span class="inline-flex rounded-pill bg-primary-container px-4 py-2 text-label-md font-bold text-on-primary-container">Nueva cuenta</span>
+  <span class="inline-flex rounded-pill bg-primary-container px-4 py-2 text-label-md font-bold text-on-primary-container">{{ 'auth.register.new_account' | translate }}</span>
   <h1 class="mt-4 font-display text-display-sm text-on-surface lg:text-display-md">{{ registerTitle() }}</h1>
-  <p class="mt-3 text-body-md font-medium leading-base text-on-surface-muted">Completa tu perfil y empieza a compartir lo que cocinas.</p>
+  <p class="mt-3 text-body-md font-medium leading-base text-on-surface-muted">{{ 'auth.register.subtitle' | translate }}</p>
 </div>
 
 <button
@@ -10,7 +10,7 @@
   (click)="registerWithGoogle()"
 >
   <img src="assets/google.svg" alt="" class="size-5" />
-  <span>Registrarse con Google</span>
+  <span>{{ 'auth.register.google_btn' | translate }}</span>
 </button>
 
 @if (submitError(); as err) {
@@ -68,10 +68,10 @@
 </form>
 
 <p class="mt-5 text-center text-body-sm font-medium text-on-surface-muted">
-  ¿Ya tienes cuenta?
+  {{ 'auth.register.have_account' | translate }}
   <button
     type="button"
     class="font-bold text-primary underline decoration-primary/40 underline-offset-4 hover:decoration-primary"
     (click)="toLogin()"
-  >Inicia sesión</button>
+  >{{ 'auth.register.login_link' | translate }}</button>
 </p>

@@ -15,18 +15,18 @@
 				<div class="mx-auto mb-4 grid size-14 place-items-center rounded-pill bg-primary-container">
 					<i class="pi pi-check-circle text-3xl text-on-primary-container"></i>
 				</div>
-				<h2 class="text-title-lg font-bold text-on-surface">Reporte enviado</h2>
+				<h2 class="text-title-lg font-bold text-on-surface">{{ 'report.submitted_title' | translate }}</h2>
 				<p class="mt-2 text-body-sm font-semibold text-on-surface-muted">
-					Gracias por avisarnos. Nuestro equipo revisará el contenido.
+					{{ 'report.submitted_desc' | translate }}
 				</p>
 			</div>
 		} @else {
 			<!-- Header -->
 			<header class="flex items-start justify-between gap-3 border-b border-outline px-5 py-4">
 				<div>
-					<h2 class="text-title-md font-bold text-on-surface">Reportar publicación</h2>
+					<h2 class="text-title-md font-bold text-on-surface">{{ 'report.title' | translate }}</h2>
 					<p class="mt-1 text-body-sm font-semibold text-on-surface-muted">
-						¿Por qué crees que esta publicación incumple las normas?
+						{{ 'report.subtitle' | translate }}
 					</p>
 				</div>
 				<button
@@ -34,7 +34,7 @@
 					class="grid size-11 shrink-0 place-items-center rounded-pill text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container-high hover:text-on-surface active:scale-[0.98]"
 					(click)="close.emit()"
 					[disabled]="submitting()"
-					aria-label="Cerrar"
+					[attr.aria-label]="'report.close' | translate"
 				>
 					<i class="pi pi-times text-base"></i>
 				</button>
@@ -66,8 +66,8 @@
 								></i>
 							</span>
 							<span class="min-w-0 flex-1">
-								<span class="block text-body-sm font-bold text-on-surface">{{ cat.label }}</span>
-								<span class="block text-label-md font-semibold normal-case tracking-normal text-on-surface-muted">{{ cat.description }}</span>
+								<span class="block text-body-sm font-bold text-on-surface">{{ cat.label | translate }}</span>
+								<span class="block text-label-md font-semibold normal-case tracking-normal text-on-surface-muted">{{ cat.description | translate }}</span>
 							</span>
 							@if (selectedCategory() === cat.value) {
 								<i class="pi pi-check-circle mt-1 text-lg text-primary"></i>
@@ -80,11 +80,11 @@
 				@if (selectedCategory()) {
 					<div class="mt-4 px-1">
 						<label class="block text-label-md font-bold text-on-surface-muted">
-							Más detalles (opcional)
+							{{ 'report.details_label' | translate }}
 						</label>
 						<textarea
 							class="mt-2 h-24 w-full resize-none rounded-2xl border border-outline bg-surface px-4 py-3 text-body-sm font-semibold text-on-surface outline-none placeholder:text-on-surface-muted focus:bg-surface-container focus:shadow-[0_0_0_2px_rgb(var(--rgb-primary)/0.45)]"
-							placeholder="Cuéntanos qué está pasando (máx. 500 caracteres)"
+							[placeholder]="'report.details_placeholder' | translate"
 							maxlength="500"
 							[value]="detail()"
 							(input)="onDetailInput($event)"
@@ -112,7 +112,7 @@
 					(click)="close.emit()"
 					[disabled]="submitting()"
 				>
-					Cancelar
+					{{ 'report.cancel' | translate }}
 				</button>
 				<button
 					type="button"
@@ -122,10 +122,10 @@
 				>
 					@if (submitting()) {
 						<span class="size-4 animate-spin rounded-full border-2 border-white/40 border-t-white"></span>
-						Enviando...
+						{{ 'report.submitting' | translate }}
 					} @else {
 						<i class="pi pi-flag text-sm"></i>
-						Enviar reporte
+						{{ 'report.submit' | translate }}
 					}
 				</button>
 			</footer>

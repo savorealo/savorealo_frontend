@@ -1,14 +1,17 @@
 import { Component, input, output } from '@angular/core'
 import { PostCategory } from '@core/models/post/post.dto'
 
+import { TranslatePipe } from '@shared/pipes/translate.pipe'
+
 interface ExploreCategoryTab {
-	label: string
+	labelKey: string
 	icon: string
 	value: PostCategory | null
 }
 
 @Component({
 	selector: 'app-explore-category-tabs',
+	imports: [TranslatePipe],
 	templateUrl: './explore-category-tabs.html',
 })
 export class ExploreCategoryTabs {
@@ -16,13 +19,13 @@ export class ExploreCategoryTabs {
 	categoryChange = output<PostCategory | null>()
 
 	readonly tabs: ExploreCategoryTab[] = [
-		{ label: 'Todo', icon: 'pi pi-th-large', value: null },
-		{ label: 'Italiana', icon: 'pi pi-map-marker', value: 'ITALIAN' },
-		{ label: 'Rapidas', icon: 'pi pi-clock', value: 'QUICK_EASY' },
-		{ label: 'Saludables', icon: 'pi pi-heart', value: 'HEALTHY' },
-		{ label: 'Vegana', icon: 'pi pi-sun', value: 'VEGAN' },
-		{ label: 'Postres', icon: 'pi pi-star', value: 'DESSERTS' },
-		{ label: 'Asiatica', icon: 'pi pi-globe', value: 'JAPANESE' },
-		{ label: 'Gourmet', icon: 'pi pi-sparkles', value: 'COMFORT_FOOD' },
+		{ labelKey: 'explore.cat.all', icon: 'pi pi-th-large', value: null },
+		{ labelKey: 'explore.cat.italian', icon: 'pi pi-map-marker', value: 'ITALIAN' },
+		{ labelKey: 'explore.cat.quick', icon: 'pi pi-clock', value: 'QUICK_EASY' },
+		{ labelKey: 'explore.cat.healthy', icon: 'pi pi-heart', value: 'HEALTHY' },
+		{ labelKey: 'explore.cat.vegan', icon: 'pi pi-sun', value: 'VEGAN' },
+		{ labelKey: 'explore.cat.dessert', icon: 'pi pi-star', value: 'DESSERTS' },
+		{ labelKey: 'explore.cat.asian', icon: 'pi pi-globe', value: 'JAPANESE' },
+		{ labelKey: 'explore.cat.gourmet', icon: 'pi pi-sparkles', value: 'COMFORT_FOOD' },
 	]
 }

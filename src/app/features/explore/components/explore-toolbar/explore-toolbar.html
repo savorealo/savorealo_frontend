@@ -1,15 +1,15 @@
 <div class="grid gap-3 py-3 sm:flex sm:items-center sm:justify-between sm:gap-4">
 	<label class="inline-flex min-h-12 items-center gap-3 rounded-2xl border border-outline bg-surface-container px-4 text-body-sm text-on-surface-muted sm:px-5">
-		<span>Ordenar por:</span>
+		<span>{{ 'explore.order_by' | translate }}</span>
 		<select class="bg-transparent font-bold text-on-surface outline-none" [value]="sort()" (change)="updateSort($event)">
-			<option class="bg-surface text-on-surface" value="relevant">Relevantes</option>
-			<option class="bg-surface text-on-surface" value="recent">Recientes</option>
-			<option class="bg-surface text-on-surface" value="popular">Populares</option>
+			<option class="bg-surface text-on-surface" value="relevant">{{ 'explore.sort.relevant' | translate }}</option>
+			<option class="bg-surface text-on-surface" value="recent">{{ 'explore.sort.recent' | translate }}</option>
+			<option class="bg-surface text-on-surface" value="popular">{{ 'explore.sort.popular' | translate }}</option>
 		</select>
 	</label>
 
 	<button type="button" class="inline-flex min-h-12 items-center justify-center gap-3 rounded-2xl border border-outline bg-surface-container px-6 text-body-sm font-bold text-on-surface transition-colors duration-fast ease-standard hover:bg-surface-container-high">
 		<i class="pi pi-sliders-h"></i>
-		<span>Filtros</span>
+		<span>{{ 'explore.filters' | translate }}</span>
 	</button>
 </div>
