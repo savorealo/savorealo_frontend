@@ -1,5 +1,5 @@
 <nav class="flex gap-2 overflow-x-auto py-3" aria-label="Categorias de recetas">
-	@for (tab of tabs; track tab.label) {
+	@for (tab of tabs; track tab.labelKey) {
 		<button
 			type="button"
 			class="inline-flex h-11 shrink-0 items-center gap-2 rounded-pill border border-outline px-4 text-body-sm font-bold transition-colors duration-fast ease-standard"
@@ -7,7 +7,7 @@
 			(click)="categoryChange.emit(tab.value)"
 		>
 			<i [class]="tab.icon"></i>
-			<span>{{ tab.label }}</span>
+			<span>{{ tab.labelKey | translate }}</span>
 		</button>
 	}
 	<button type="button" class="grid size-11 shrink-0 place-items-center rounded-pill bg-surface-container text-on-surface-muted hover:bg-surface-container-high">

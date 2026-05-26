@@ -4,6 +4,8 @@ import { RouterLink } from '@angular/router'
 import { MessageBubble } from '../message-bubble/message-bubble'
 import { ChatMessage, Conversation } from '../../models/messages.models'
 import { SavoLoader } from '@shared/components/savo-loader/savo-loader'
+import { TranslationService } from '@core/services/translation.service'
+import { TranslatePipe } from '@shared/pipes/translate.pipe'
 
 interface MessageDateGroup {
 	key: string
@@ -13,10 +15,11 @@ interface MessageDateGroup {
 
 @Component({
 	selector: 'app-chat-panel',
-	imports: [MessageBubble, NgClass, RouterLink, SavoLoader],
+	imports: [MessageBubble, NgClass, RouterLink, SavoLoader, TranslatePipe],
 	templateUrl: './chat-panel.html',
 })
 export class ChatPanel implements OnInit {
+	readonly t = inject(TranslationService)
 	private readonly injector = inject(Injector)
 
 	conversation = input.required<Conversation>()
@@ -289,11 +292,11 @@ export class ChatPanel implements OnInit {
 		const target = this.startOfDay(date)
 		const diffDays = Math.round((today.getTime() - target.getTime()) / 86400000)
 
-		if (diffDays === 0) return 'Hoy'
-		if (diffDays === 1) return 'Ayer'
-		if (diffDays === 2) return 'Antes de ayer'
+		if (diffDays === 0) return this.t.translate('messages.today')
+		if (diffDays === 1) return this.t.translate('messages.yesterday')
+		if (diffDays === 2) return this.t.translate('messages.day_before_yesterday')
 
-		return date.toLocaleDateString('es', {
+		return date.toLocaleDateString(this.t.currentLang(), {
 			day: '2-digit',
 			month: '2-digit',
 			year: 'numeric',

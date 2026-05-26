@@ -1,7 +1,7 @@
 <section class="rounded-2xl border border-outline bg-surface-container p-5 shadow-1">
 	<header class="mb-4 flex items-center justify-between">
-		<h2 class="text-title-sm font-bold text-on-surface">Sugerencias para ti</h2>
-		<a routerLink="/explore" class="inline-flex min-h-11 items-center rounded-pill px-3 text-label-md font-bold text-primary transition-colors duration-fast ease-standard hover:bg-primary-container">Ver todo</a>
+		<h2 class="text-title-sm font-bold text-on-surface">{{ 'feed.suggestions_title' | translate }}</h2>
+		<a routerLink="/explore" class="inline-flex min-h-11 items-center rounded-pill px-3 text-label-md font-bold text-primary transition-colors duration-fast ease-standard hover:bg-primary-container">{{ 'feed.view_all' | translate }}</a>
 	</header>
 
 	@if (loading()) {
@@ -18,7 +18,7 @@
 			}
 		</div>
 	} @else if (suggestions().length === 0) {
-		<p class="text-body-sm text-on-surface-muted">No hay sugerencias por ahora.</p>
+		<p class="text-body-sm text-on-surface-muted">{{ 'feed.no_suggestions' | translate }}</p>
 	} @else {
 		<div class="grid gap-3">
 			@for (user of suggestions(); track user.id) {
@@ -43,7 +43,7 @@
 							? 'border-outline text-on-surface-muted hover:border-error hover:text-error'
 							: 'border-outline text-primary hover:border-primary hover:bg-primary hover:text-on-primary'"
 					>
-						{{ user.isFollowing ? 'Siguiendo' : 'Seguir' }}
+						{{ user.isFollowing ? ('feed.following' | translate) : ('feed.follow' | translate) }}
 					</button>
 				</article>
 			}

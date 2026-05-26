@@ -1,15 +1,15 @@
 <section class="rounded-2xl border border-outline bg-surface-container p-5 shadow-1">
-	<h2 class="mb-5 text-title-md font-bold text-on-surface">Recetas generadas recientemente</h2>
+	<h2 class="mb-5 text-title-md font-bold text-on-surface">{{ 'ai.recent.title' | translate }}</h2>
 
 	<div class="grid gap-4">
-		@for (recipe of store.recentRecipes; track recipe.id) {
+		@for (recipe of store.recentRecipes(); track recipe.id) {
 			<article class="grid grid-cols-[64px_1fr_auto] items-center gap-3">
 				<img [src]="recipe.imageUrl" alt="" class="h-14 w-16 rounded-xl object-cover" />
 				<div class="min-w-0">
 					<h3 class="truncate text-body-md font-bold text-on-surface">{{ recipe.title }}</h3>
 					<p class="truncate text-body-sm font-medium text-on-surface-muted">{{ recipe.createdLabel }}</p>
 				</div>
-				<button type="button" class="grid size-10 place-items-center rounded-pill text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container-high hover:text-on-surface" aria-label="Guardar receta">
+				<button type="button" class="grid size-10 place-items-center rounded-pill text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container-high hover:text-on-surface" [attr.aria-label]="'ai.recent.save_recipe' | translate">
 					<i class="pi pi-bookmark text-lg"></i>
 				</button>
 			</article>

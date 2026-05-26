@@ -6,6 +6,7 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { DatePickerModule } from 'primeng/datepicker';
 import { TextareaModule } from 'primeng/textarea';
+import { TranslatePipe } from '@shared/pipes/translate.pipe';
 
 const MAX_SIZE_BYTES = 2 * 1024 * 1024;
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
@@ -20,6 +21,7 @@ const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
     DatePickerModule,
     TextareaModule,
     ButtonDirective,
+    TranslatePipe,
 ],
   providers: [MessageService],
   templateUrl: './body.html',

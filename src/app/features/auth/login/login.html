@@ -1,12 +1,12 @@
 <div>
-  <span class="inline-flex rounded-pill bg-primary-container px-4 py-2 text-label-md font-bold text-on-primary-container">Bienvenido de nuevo</span>
-  <h1 class="mt-4 font-display text-display-sm text-on-surface lg:text-display-md">Entra a tu cocina</h1>
-  <p class="mt-3 text-body-md font-medium leading-base text-on-surface-muted">Continúa descubriendo recetas, guardando ideas y compartiendo tus platos favoritos.</p>
+  <span class="inline-flex rounded-pill bg-primary-container px-4 py-2 text-label-md font-bold text-on-primary-container">{{ 'auth.welcome' | translate }}</span>
+  <h1 class="mt-4 font-display text-display-sm text-on-surface lg:text-display-md">{{ 'auth.enter_kitchen' | translate }}</h1>
+  <p class="mt-3 text-body-md font-medium leading-base text-on-surface-muted">{{ 'auth.subtitle' | translate }}</p>
 </div>
 
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="mt-8 grid gap-5">
   <label class="grid gap-2">
-    <span class="text-body-sm font-bold text-on-surface">Correo electrónico</span>
+    <span class="text-body-sm font-bold text-on-surface">{{ 'auth.email' | translate }}</span>
     <input
       pInputText
       type="email"
@@ -18,27 +18,27 @@
     />
     @if (isInvalid('email')) {
       @if (loginForm.get('email')?.errors?.['required']) {
-        <p-message severity="error" size="small" variant="simple">El email es obligatorio.</p-message>
+        <p-message severity="error" size="small" variant="simple">{{ 'auth.email_required' | translate }}</p-message>
       }
       @if (loginForm.get('email')?.errors?.['email']) {
-        <p-message severity="error" size="small" variant="simple">Introduce un email válido.</p-message>
+        <p-message severity="error" size="small" variant="simple">{{ 'auth.email_invalid' | translate }}</p-message>
       }
     }
   </label>
 
   <label class="grid gap-2">
-    <span class="text-body-sm font-bold text-on-surface">Contraseña</span>
+    <span class="text-body-sm font-bold text-on-surface">{{ 'auth.password' | translate }}</span>
     <p-password
       formControlName="password"
       [invalid]="isInvalid('password')"
       [toggleMask]="true"
       [feedback]="false"
       autocomplete="off"
-      placeholder="Tu contraseña"
+      [placeholder]="'auth.password_placeholder' | translate"
       fluid
     />
     @if (isInvalid('password')) {
-      <p-message severity="error" size="small" variant="simple">La contraseña es obligatoria.</p-message>
+      <p-message severity="error" size="small" variant="simple">{{ 'auth.password_required' | translate }}</p-message>
     }
   </label>
 
@@ -48,12 +48,12 @@
     [disabled]="loginForm.invalid"
     class="mt-1 flex h-12 w-full items-center justify-center rounded-xl border-0 bg-primary text-title-md font-bold text-on-primary shadow-2 transition-all duration-fast ease-standard hover:shadow-3 active:scale-[0.99] disabled:opacity-60"
   >
-    <span pButtonLabel>Entrar</span>
+    <span pButtonLabel>{{ 'auth.login_btn' | translate }}</span>
   </button>
 
   <div class="flex items-center gap-3">
     <hr class="flex-1 border-outline" />
-    <span class="text-label-md font-bold text-on-surface-muted">O CONTINÚA CON</span>
+    <span class="text-label-md font-bold text-on-surface-muted">{{ 'auth.or_continue' | translate }}</span>
     <hr class="flex-1 border-outline" />
   </div>
 
@@ -67,11 +67,11 @@
   </button>
 
   <p class="text-center text-body-sm font-medium text-on-surface-muted">
-    ¿No tienes cuenta?
+    {{ 'auth.no_account' | translate }}
     <button
       type="button"
       class="font-bold text-primary underline decoration-primary/40 underline-offset-4 hover:decoration-primary"
       (click)="toRegister(true)"
-    >Regístrate</button>
+    >{{ 'auth.register_link' | translate }}</button>
   </p>
 </form>

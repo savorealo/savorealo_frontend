@@ -3,8 +3,8 @@
 	<!-- Colecciones populares -->
 	<section class="rounded-2xl border border-outline bg-surface-container p-5 shadow-1">
 		<header class="mb-4 flex items-center justify-between">
-			<h2 class="text-title-sm font-bold text-on-surface">Colecciones populares</h2>
-			<a routerLink="/explore" class="text-body-sm font-bold text-primary hover:underline">Ver todas</a>
+			<h2 class="text-title-sm font-bold text-on-surface">{{ 'explore.popular_collections' | translate }}</h2>
+			<a routerLink="/explore" class="text-body-sm font-bold text-primary hover:underline">{{ 'explore.view_all' | translate }}</a>
 		</header>
 
 		@if (loadingContent()) {
@@ -20,7 +20,7 @@
 				}
 			</div>
 		} @else if (collections().length === 0) {
-			<p class="text-body-sm text-on-surface-muted">Sin colecciones disponibles.</p>
+			<p class="text-body-sm text-on-surface-muted">{{ 'explore.no_collections' | translate }}</p>
 		} @else {
 			<div class="grid gap-3">
 				@for (col of collections(); track col.key) {
@@ -34,7 +34,7 @@
 						}
 						<div class="flex flex-col justify-center px-3">
 							<strong class="truncate text-body-sm font-bold text-on-surface">{{ col.title }}</strong>
-							<span class="text-label-md font-medium text-on-surface-muted">{{ col.count }} receta{{ col.count !== 1 ? 's' : '' }}</span>
+							<span class="text-label-md font-medium text-on-surface-muted">{{ col.count }} {{ col.count === 1 ? ('explore.recipe.singular' | translate) : ('explore.recipe.plural' | translate) }}</span>
 						</div>
 					</a>
 				}
@@ -44,7 +44,7 @@
 
 	<!-- Chef destacado -->
 	<section class="overflow-hidden rounded-2xl border border-outline bg-surface-container p-5 shadow-1">
-		<h2 class="mb-4 text-title-sm font-bold text-on-surface">Chef destacado</h2>
+		<h2 class="mb-4 text-title-sm font-bold text-on-surface">{{ 'explore.featured_chef' | translate }}</h2>
 
 		@if (loadingChef()) {
 			<div class="flex flex-col items-center gap-3 animate-pulse">
@@ -77,11 +77,11 @@
 				<div class="mt-4 grid grid-cols-2 gap-2 text-center">
 					<div class="rounded-xl bg-surface-container-high p-2">
 						<strong class="block text-title-sm font-bold text-on-surface">{{ formatCount(chef.postsCount) }}</strong>
-						<span class="text-label-md font-medium text-on-surface-muted">Recetas</span>
+						<span class="text-label-md font-medium text-on-surface-muted">{{ 'explore.recipes_label' | translate }}</span>
 					</div>
 					<div class="rounded-xl bg-surface-container-high p-2">
 						<strong class="block text-title-sm font-bold text-on-surface">{{ formatCount(chef.followersCount) }}</strong>
-						<span class="text-label-md font-medium text-on-surface-muted">Seguidores</span>
+						<span class="text-label-md font-medium text-on-surface-muted">{{ 'explore.followers_label' | translate }}</span>
 					</div>
 				</div>
 
@@ -89,19 +89,19 @@
 					[routerLink]="['/profile', chef.username]"
 					class="mt-4 flex min-h-11 w-full items-center justify-center rounded-xl bg-primary text-body-sm font-bold transition-all duration-fast ease-standard hover:shadow-2 active:scale-[0.98]"
 				>
-					Ver perfil
+					{{ 'explore.view_profile' | translate }}
 				</a>
 			</div>
 		} @else {
-			<p class="text-body-sm text-on-surface-muted">Sin chef destacado.</p>
+			<p class="text-body-sm text-on-surface-muted">{{ 'explore.no_featured_chef' | translate }}</p>
 		}
 	</section>
 
 	<!-- Tendencias -->
 	<section class="rounded-2xl border border-outline bg-surface-container p-5 shadow-1">
 		<header class="mb-4 flex items-center justify-between">
-			<h2 class="text-title-sm font-bold text-on-surface">Tendencias</h2>
-			<a routerLink="/explore" class="text-body-sm font-bold text-primary hover:underline">Ver todo</a>
+			<h2 class="text-title-sm font-bold text-on-surface">{{ 'explore.trends_title' | translate }}</h2>
+			<a routerLink="/explore" class="text-body-sm font-bold text-primary hover:underline">{{ 'explore.view_all_trends' | translate }}</a>
 		</header>
 
 		@if (loadingContent()) {
@@ -118,7 +118,7 @@
 				}
 			</div>
 		} @else if (trends().length === 0) {
-			<p class="text-body-sm text-on-surface-muted">Sin tendencias.</p>
+			<p class="text-body-sm text-on-surface-muted">{{ 'explore.no_trends' | translate }}</p>
 		} @else {
 			<div class="grid gap-4">
 				@for (trend of trends(); track trend.rank) {
@@ -133,7 +133,7 @@
 						<span class="text-body-sm font-bold text-on-surface-muted text-center">{{ trend.rank }}</span>
 						<div class="min-w-0">
 							<strong class="block truncate text-body-sm font-bold text-on-surface">{{ trend.title }}</strong>
-							<span class="text-label-md font-medium text-on-surface-muted">{{ formatCount(trend.count) }} me gusta</span>
+							<span class="text-label-md font-medium text-on-surface-muted">{{ formatCount(trend.count) }} {{ trend.count === 1 ? ('explore.like.singular' | translate) : ('explore.like.plural' | translate) }}</span>
 						</div>
 					</a>
 				}

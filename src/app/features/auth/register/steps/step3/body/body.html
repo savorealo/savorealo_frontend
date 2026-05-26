@@ -3,14 +3,14 @@
     type="button"
     class="group relative grid size-36 place-items-center overflow-hidden rounded-pill border-2 border-dashed border-outline-strong bg-primary-container/40 transition-colors duration-fast ease-standard hover:border-primary hover:bg-primary-container/60"
     (click)="fileInput.click()"
-    aria-label="Elegir foto de perfil"
+    [attr.aria-label]="'auth.register.photo_label' | translate"
   >
     @if (previewUrl) {
-      <img [src]="previewUrl" class="size-full object-cover" alt="Vista previa de la foto de perfil" />
+      <img [src]="previewUrl" class="size-full object-cover" [alt]="'auth.register.photo_preview' | translate" />
     } @else {
       <span class="grid place-items-center gap-2 text-on-surface-muted">
         <i class="pi pi-camera text-3xl"></i>
-        <span class="text-xs font-black uppercase tracking-wide">Subir foto</span>
+        <span class="text-xs font-black uppercase tracking-wide">{{ 'auth.register.upload_photo' | translate }}</span>
       </span>
     }
     <span class="absolute inset-0 grid place-items-center bg-inverse-surface/50 text-inverse-on-surface opacity-0 transition-opacity duration-fast ease-standard group-hover:opacity-100">
@@ -27,7 +27,7 @@
   />
 
   <p class="max-w-sm text-center text-sm font-semibold leading-6 text-on-surface-muted">
-    Anade una foto para que otros cocineros te reconozcan. JPG, PNG o WEBP, maximo 2MB. Es opcional.
+    {{ 'auth.register.upload_photo_desc' | translate }}
   </p>
 
   @if (previewUrl) {
@@ -36,7 +36,7 @@
       class="rounded-pill border border-outline bg-surface px-4 py-2 text-xs font-black text-on-surface-muted transition-colors duration-fast ease-standard hover:text-error"
       (click)="clearPhoto()"
     >
-      Quitar imagen
+      {{ 'auth.register.remove_photo' | translate }}
     </button>
   }
 </div>
@@ -46,7 +46,7 @@
     pButton
     type="button"
     (click)="onGoBack()"
-    label="Atras"
+    [label]="'auth.register.back' | translate"
     icon="pi pi-arrow-left"
     class="h-12 rounded-2xl border border-outline bg-surface px-5 text-sm font-black text-on-surface shadow-1 transition-all duration-fast ease-standard hover:bg-surface-container active:scale-[0.98]"
   ></button>
@@ -54,7 +54,7 @@
     pButton
     type="button"
     (click)="onSubmit()"
-    label="Crear cuenta"
+    [label]="'auth.register.create_btn' | translate"
     icon="pi pi-check"
     iconPos="right"
     class="h-12 rounded-2xl border-0 bg-primary px-6 text-sm font-black text-on-primary shadow-2 transition-transform duration-fast ease-standard hover:shadow-3 active:scale-[0.98]"

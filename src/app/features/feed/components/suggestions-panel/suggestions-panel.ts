@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router'
 import { map } from 'rxjs'
 import { SUGGESTED_USERS_QUERY, TOGGLE_FOLLOW_MUTATION } from '@graphql/feed.mutations'
 import { AuthStore } from '@core/store/auth.store'
+import { TranslatePipe } from '@shared/pipes/translate.pipe'
 
 interface SuggestedUser {
 	id: string
@@ -16,7 +17,7 @@ interface SuggestedUser {
 
 @Component({
 	selector: 'app-suggestions-panel',
-	imports: [RouterLink],
+	imports: [RouterLink, TranslatePipe],
 	templateUrl: './suggestions-panel.html',
 })
 export class SuggestionsPanel implements OnInit {

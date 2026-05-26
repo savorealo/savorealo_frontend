@@ -8,14 +8,14 @@
 			[class]="!isRecipe() ? 'border-b-2 border-primary text-primary' : 'text-on-surface-muted hover:bg-surface-container'"
 			(click)="isRecipe.set(false)">
 			<i class="pi pi-pencil text-sm"></i>
-			Post
+			{{ 'feed.post_tab' | translate }}
 		</button>
 		<button type="button"
 			class="flex flex-1 items-center justify-center gap-2 py-3 text-body-sm font-bold transition"
 			[class]="isRecipe() ? 'border-b-2 border-primary text-primary' : 'text-on-surface-muted hover:bg-surface-container'"
 			(click)="isRecipe.set(true)">
 			<i class="pi pi-book text-sm"></i>
-			Receta
+			{{ 'feed.recipe_tab' | translate }}
 		</button>
 	</div>
 
@@ -28,7 +28,7 @@
 			maxlength="500"
 			rows="3"
 			class="w-full resize-none rounded-xl border border-outline bg-surface-container px-3 py-2.5 text-body-sm font-semibold text-on-surface outline-none placeholder:text-on-surface-muted focus:border-primary focus:ring-2 focus:ring-primary/20"
-			[placeholder]="isRecipe() ? 'Describe tu receta, trucos, historia...' : 'Comparte una receta, un antojo o tu último descubrimiento...'"
+			[placeholder]="isRecipe() ? ('feed.desc_placeholder_recipe' | translate) : ('feed.desc_placeholder_post' | translate)"
 		></textarea>
 		<div class="flex items-center justify-between text-label-md font-medium text-on-surface-muted -mt-2">
 			<span class="text-error text-label-md">{{ error() }}</span>
@@ -60,12 +60,12 @@
 
 				<!-- Nombre de la receta -->
 				<div>
-					<label class="mb-1.5 block text-label-md font-bold text-on-surface-muted">Nombre de la receta *</label>
+					<label class="mb-1.5 block text-label-md font-bold text-on-surface-muted">{{ 'feed.recipe_name' | translate }}</label>
 					<input type="text"
 						name="recipeName"
 						[(ngModel)]="recipeName"
 						maxlength="100"
-						placeholder="Ej: Tortilla de patata con cebolla"
+						[placeholder]="'feed.recipe_name_placeholder' | translate"
 						class="w-full rounded-xl border border-outline bg-surface-container px-3 py-2.5 text-body-sm font-semibold text-on-surface outline-none placeholder:text-on-surface-muted focus:border-primary focus:ring-2 focus:ring-primary/20"
 					/>
 				</div>
@@ -73,18 +73,18 @@
 				<!-- Meta chips: dificultad, tiempo, raciones -->
 				<div class="grid grid-cols-3 gap-2">
 					<div>
-						<label class="mb-1.5 block text-label-md font-bold text-on-surface-muted">Dificultad</label>
+						<label class="mb-1.5 block text-label-md font-bold text-on-surface-muted">{{ 'feed.difficulty' | translate }}</label>
 						<select name="difficulty"
 							[(ngModel)]="difficulty"
 							class="w-full rounded-xl border border-outline bg-surface-container px-3 py-2.5 text-body-sm font-semibold text-on-surface outline-none focus:border-primary focus:ring-2 focus:ring-primary/20">
 							<option value="">—</option>
-							<option value="EASY">Fácil</option>
-							<option value="MEDIUM">Media</option>
-							<option value="HARD">Difícil</option>
+							<option value="EASY">{{ 'feed.difficulty.easy' | translate }}</option>
+							<option value="MEDIUM">{{ 'feed.difficulty.medium' | translate }}</option>
+							<option value="HARD">{{ 'feed.difficulty.hard' | translate }}</option>
 						</select>
 					</div>
 					<div>
-						<label class="mb-1.5 block text-label-md font-bold text-on-surface-muted">Tiempo (min)</label>
+						<label class="mb-1.5 block text-label-md font-bold text-on-surface-muted">{{ 'feed.time' | translate }}</label>
 						<input type="number" name="recipeTime" min="1"
 							[(ngModel)]="recipeTime"
 							placeholder="30"
@@ -92,7 +92,7 @@
 						/>
 					</div>
 					<div>
-						<label class="mb-1.5 block text-label-md font-bold text-on-surface-muted">Raciones</label>
+						<label class="mb-1.5 block text-label-md font-bold text-on-surface-muted">{{ 'feed.servings' | translate }}</label>
 						<input type="number" name="recipeServings" min="1"
 							[(ngModel)]="recipeServings"
 							placeholder="4"
@@ -104,17 +104,17 @@
 				<!-- ── Ingredientes ───────────────────────────────────────── -->
 				<div>
 					<div class="mb-2 flex items-center justify-between">
-						<label class="text-label-md font-bold text-on-surface-muted">Ingredientes</label>
+						<label class="text-label-md font-bold text-on-surface-muted">{{ 'feed.ingredients' | translate }}</label>
 						<button type="button"
 							class="inline-flex items-center gap-1 rounded-full bg-primary-container px-3 py-1 text-label-md font-bold text-on-primary-container transition hover:opacity-80"
 							(click)="addIngredient()">
-							<i class="pi pi-plus text-[0.6rem]"></i> Añadir
+							<i class="pi pi-plus text-[0.6rem]"></i> {{ 'feed.add_btn' | translate }}
 						</button>
 					</div>
 
 					@if (ingredients().length === 0) {
 						<p class="rounded-xl border border-dashed border-outline py-4 text-center text-label-md text-on-surface-muted">
-							Sin ingredientes aún — pulsa "Añadir"
+							{{ 'feed.no_ingredients' | translate }}
 						</p>
 					}
 
@@ -122,14 +122,14 @@
 						@for (ing of ingredients(); track $index; let i = $index) {
 							<div class="flex items-center gap-2">
 								<input type="text"
-									placeholder="Ingrediente *"
+									[placeholder]="'feed.ingredients_placeholder' | translate"
 									[ngModel]="ing.name"
 									(ngModelChange)="updateIngredient(i, 'name', $event)"
 									[name]="'ing_name_' + i"
 									class="min-w-0 flex-1 rounded-xl border border-outline bg-surface-container px-3 py-2 text-body-sm font-semibold text-on-surface outline-none placeholder:text-on-surface-muted focus:border-primary focus:ring-2 focus:ring-primary/20"
 								/>
 								<input type="number"
-									placeholder="Cant."
+									[placeholder]="'feed.ingredients_qty' | translate"
 									[ngModel]="ing.quantity"
 									(ngModelChange)="updateIngredient(i, 'quantity', $event)"
 									[name]="'ing_qty_' + i"
@@ -137,7 +137,7 @@
 									class="w-16 rounded-xl border border-outline bg-surface-container px-2 py-2 text-body-sm font-semibold text-on-surface outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
 								/>
 								<input type="text"
-									placeholder="Ud."
+									[placeholder]="'feed.ingredients_unit' | translate"
 									[ngModel]="ing.unit"
 									(ngModelChange)="updateIngredient(i, 'unit', $event)"
 									[name]="'ing_unit_' + i"
@@ -156,17 +156,17 @@
 				<!-- ── Pasos ──────────────────────────────────────────────── -->
 				<div>
 					<div class="mb-2 flex items-center justify-between">
-						<label class="text-label-md font-bold text-on-surface-muted">Pasos de preparación</label>
+						<label class="text-label-md font-bold text-on-surface-muted">{{ 'feed.steps' | translate }}</label>
 						<button type="button"
 							class="inline-flex items-center gap-1 rounded-full bg-primary-container px-3 py-1 text-label-md font-bold text-on-primary-container transition hover:opacity-80"
 							(click)="addStep()">
-							<i class="pi pi-plus text-[0.6rem]"></i> Paso
+							<i class="pi pi-plus text-[0.6rem]"></i> {{ 'feed.add_step_btn' | translate }}
 						</button>
 					</div>
 
 					@if (steps().length === 0) {
 						<p class="rounded-xl border border-dashed border-outline py-4 text-center text-label-md text-on-surface-muted">
-							Sin pasos aún — pulsa "Paso"
+							{{ 'feed.no_steps' | translate }}
 						</p>
 					}
 
@@ -178,7 +178,7 @@
 								</span>
 								<textarea
 									rows="2"
-									[placeholder]="'Describe el paso ' + (i + 1) + '...'"
+									[placeholder]="'feed.step_placeholder' | translate"
 									[ngModel]="step"
 									(ngModelChange)="updateStep(i, $event)"
 									[name]="'step_' + i"
@@ -203,7 +203,7 @@
 				class="inline-flex min-h-9 items-center gap-1.5 rounded-full border border-outline px-3 text-body-sm font-bold text-on-surface-muted transition hover:bg-surface-container"
 				(click)="fileInput.click()">
 				<i class="pi pi-image text-sm"></i>
-				<span class="hidden sm:inline">Foto</span>
+				<span class="hidden sm:inline">{{ 'feed.photo_btn' | translate }}</span>
 			</button>
 
 			<button
@@ -211,7 +211,7 @@
 				class="ml-auto inline-flex min-h-9 items-center gap-2 rounded-full bg-primary px-5 text-body-sm font-black text-on-primary transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
 				[disabled]="!canPublish()">
 				<i class="pi pi-send text-sm"></i>
-				{{ publishing() ? 'Publicando...' : 'Publicar' }}
+				{{ publishing() ? ('feed.publishing' | translate) : ('feed.publish_btn' | translate) }}
 			</button>
 		</div>
 	</div>

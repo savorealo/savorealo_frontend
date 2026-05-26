@@ -7,6 +7,7 @@ import {
 	OnInit,
 } from '@angular/core'
 import { FormsModule } from '@angular/forms'
+import { TranslatePipe } from '@shared/pipes/translate.pipe'
 import { AuthStore } from '@core/store/auth.store'
 import { PostMediaService } from '@core/services/post-media.service'
 import { UserService } from '@core/services/user.service'
@@ -17,7 +18,7 @@ import { finalize } from 'rxjs'
 @Component({
 	selector: 'app-edit-profile',
 	standalone: true,
-	imports: [FormsModule],
+	imports: [FormsModule, TranslatePipe],
 	templateUrl: './edit-profile.html',
 })
 export class EditProfileComponent implements OnInit {

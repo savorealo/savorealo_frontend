@@ -26,7 +26,7 @@
 						type="search"
 						(input)="onInputSearch($event)"
 						class="h-11 w-full rounded-pill border border-outline bg-surface-container pl-12 pr-4 text-body-sm font-medium text-on-surface outline-none placeholder:text-on-surface-muted transition-colors duration-fast ease-standard focus:bg-surface-container-high focus:shadow-[0_0_0_2px_rgb(var(--rgb-primary)/0.35)]"
-						placeholder="Buscar recetas, ingredientes o usuarios..."
+						[placeholder]="'explore.search_placeholder' | translate"
 					/>
 				</label>
 			</div>
@@ -43,7 +43,7 @@
 						[class]="activeTab() === 'posts' ? 'bg-primary text-on-primary' : 'text-on-surface-muted hover:text-on-surface'"
 						(click)="activeTab.set('posts')"
 					>
-						Posts
+						{{ 'explore.posts_tab' | translate }}
 						@if (searchPosts().length > 0) {
 							<span class="ml-2 rounded-pill bg-primary px-2 py-0.5 text-label-md text-on-primary">{{ searchPosts().length }}</span>
 						}
@@ -54,7 +54,7 @@
 						[class]="activeTab() === 'users' ? 'bg-primary text-on-primary' : 'text-on-surface-muted hover:text-on-surface'"
 						(click)="activeTab.set('users')"
 					>
-						Usuarios
+						{{ 'explore.users_tab' | translate }}
 						@if (searchUsers().length > 0) {
 							<span class="ml-2 rounded-pill bg-primary px-2 py-0.5 text-label-md text-on-primary">{{ searchUsers().length }}</span>
 						}
@@ -112,8 +112,8 @@
 						<div class="grid min-h-52 place-items-center rounded-2xl border border-outline bg-surface-container p-8 text-center">
 							<div>
 								<i class="pi pi-search text-3xl text-on-surface-muted"></i>
-								<p class="mt-3 text-body-sm font-bold text-on-surface">Sin resultados para "{{ searchQuery() }}"</p>
-								<p class="mt-1 text-label-md font-semibold text-on-surface-muted">Prueba con otro término</p>
+								<p class="mt-3 text-body-sm font-bold text-on-surface">{{ 'explore.no_results' | translate }} "{{ searchQuery() }}"</p>
+								<p class="mt-1 text-label-md font-semibold text-on-surface-muted">{{ 'explore.try_another' | translate }}</p>
 							</div>
 						</div>
 					}
@@ -140,7 +140,7 @@
 						<div class="grid min-h-52 place-items-center rounded-2xl border border-outline bg-surface-container p-8 text-center">
 							<div>
 								<i class="pi pi-users text-3xl text-on-surface-muted"></i>
-								<p class="mt-3 text-body-sm font-bold text-on-surface">Sin usuarios para "{{ searchQuery() }}"</p>
+								<p class="mt-3 text-body-sm font-bold text-on-surface">{{ 'explore.no_users' | translate }} "{{ searchQuery() }}"</p>
 							</div>
 						</div>
 					}

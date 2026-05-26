@@ -7,8 +7,8 @@
 
         <div class="flex items-center gap-3">
           <div class="flex-1">
-            <h1 class="font-display text-headline-sm text-on-surface">Lugares</h1>
-            <p class="text-label-md font-medium text-on-surface-muted">Restaurantes y bares cerca de ti</p>
+            <h1 class="font-display text-headline-sm text-on-surface">{{ 'places.title' | translate }}</h1>
+            <p class="text-label-md font-medium text-on-surface-muted">{{ 'places.subtitle' | translate }}</p>
           </div>
 
           <!-- Botón ubicación -->
@@ -20,12 +20,12 @@
               (click)="store.requestLocation()"
             >
               <i class="pi pi-map-marker text-sm text-primary"></i>
-              <span class="hidden sm:inline">{{ store.locDenied() ? 'Sin acceso' : 'Ubicarme' }}</span>
+              <span class="hidden sm:inline">{{ store.locDenied() ? ('places.no_access' | translate) : ('places.locate_me' | translate) }}</span>
             </button>
           } @else {
             <span class="inline-flex items-center gap-1.5 rounded-pill bg-green-100 px-3 py-1.5 text-label-md font-bold text-green-700">
               <i class="pi pi-map-marker text-xs"></i>
-              Cerca de ti
+              {{ 'places.near_you' | translate }}
             </span>
           }
         </div>
@@ -37,7 +37,7 @@
             type="search"
             [ngModel]="store.search()"
             (ngModelChange)="store.setSearch($event)"
-            placeholder="Buscar por nombre, dirección o especialidad..."
+            [placeholder]="'places.search_placeholder' | translate"
             class="h-11 w-full rounded-xl border border-outline bg-surface-container pl-10 pr-4 text-body-sm font-medium text-on-surface outline-none transition-colors focus:border-primary"
           />
         </div>
@@ -54,7 +54,7 @@
               (click)="store.setType(tab.value)"
             >
               <span>{{ tab.icon }}</span>
-              <span>{{ tab.label }}</span>
+              <span>{{ tab.labelKey | translate }}</span>
             </button>
           }
         </div>
@@ -70,7 +70,7 @@
                 : 'bg-surface-container text-on-surface-muted hover:bg-surface-container-high'"
               (click)="store.setTag(store.tagFilter() === chip.value ? null : chip.value)"
             >
-              {{ chip.label }}
+              {{ chip.labelKey | translate }}
             </button>
           }
         </div>
@@ -82,13 +82,13 @@
     <div class="mx-auto max-w-[1100px] px-4 pt-4">
       <div class="flex items-center justify-between gap-4">
         <p class="text-body-sm font-medium text-on-surface-muted">
-          {{ store.filtered().length }} lugar{{ store.filtered().length !== 1 ? 'es' : '' }}
+          {{ store.filtered().length }} {{ store.filtered().length === 1 ? ('places.singular' | translate) : ('places.plural' | translate) }}
         </p>
         <div class="flex gap-1">
           @for (opt of [
-            { value: 'rating',   label: 'Valoración', icon: 'pi-star' },
-            { value: 'distance', label: 'Distancia',  icon: 'pi-map-marker' },
-            { value: 'name',     label: 'Nombre',     icon: 'pi-sort-alpha-down' }
+            { value: 'rating',   labelKey: 'places.sort.rating', icon: 'pi-star' },
+            { value: 'distance', labelKey: 'places.sort.distance',  icon: 'pi-map-marker' },
+            { value: 'name',     labelKey: 'places.sort.name',     icon: 'pi-sort-alpha-down' }
           ]; track opt.value) {
             <button
               type="button"
@@ -99,7 +99,7 @@
               (click)="store.setSort($any(opt.value))"
             >
               <i [class]="'pi ' + opt.icon + ' text-xs'"></i>
-              <span class="hidden sm:inline">{{ opt.label }}</span>
+              <span class="hidden sm:inline">{{ opt.labelKey | translate }}</span>
             </button>
           }
         </div>
@@ -125,14 +125,14 @@
             (click)="store.load()"
           >
             <i class="pi pi-refresh text-xs"></i>
-            Reintentar
+            {{ 'places.retry' | translate }}
           </button>
         </div>
       } @else if (store.isEmpty()) {
         <div class="flex flex-col items-center gap-3 py-16 text-center">
           <span class="text-5xl">🔍</span>
-          <p class="text-body-md font-bold text-on-surface">Sin resultados</p>
-          <p class="text-body-sm font-medium text-on-surface-muted">Prueba a cambiar los filtros o la búsqueda</p>
+          <p class="text-body-md font-bold text-on-surface">{{ 'places.no_results' | translate }}</p>
+          <p class="text-body-sm font-medium text-on-surface-muted">{{ 'places.change_filters' | translate }}</p>
         </div>
       } @else {
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">

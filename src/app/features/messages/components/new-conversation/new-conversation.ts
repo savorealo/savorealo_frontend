@@ -4,12 +4,16 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { SearchService, SearchUser } from '@core/services/search.service'
 import { MessagesStore } from '@core/store/messages.store'
 import { AuthStore } from '@core/store/auth.store'
+import { TranslationService } from '@core/services/translation.service'
+import { TranslatePipe } from '@shared/pipes/translate.pipe'
 
 @Component({
 	selector: 'app-new-conversation',
+	imports: [TranslatePipe],
 	templateUrl: './new-conversation.html',
 })
 export class NewConversation {
+	readonly t = inject(TranslationService)
 	private readonly search  = inject(SearchService)
 	private readonly store   = inject(MessagesStore)
 	private readonly auth    = inject(AuthStore)

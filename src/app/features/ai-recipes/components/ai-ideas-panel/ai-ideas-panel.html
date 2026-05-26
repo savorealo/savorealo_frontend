@@ -2,11 +2,11 @@
 	<header class="mb-5 flex items-center justify-between">
 		<h2 class="flex items-center gap-2 text-title-md font-bold text-on-surface">
 			<i class="pi pi-lightbulb text-secondary"></i>
-			<span>Ideas para ti</span>
+			<span>{{ 'ai.ideas.title' | translate }}</span>
 		</h2>
 		<button type="button" class="inline-flex items-center gap-1 text-body-sm font-bold text-primary hover:underline" (click)="store.refreshIdeas()">
 			<i class="pi pi-refresh"></i>
-			<span>Actualizar</span>
+			<span>{{ 'ai.ideas.refresh' | translate }}</span>
 		</button>
 	</header>
 
@@ -19,7 +19,7 @@
 					<p class="truncate text-body-sm font-medium text-on-surface-muted">{{ idea.description }}</p>
 				</div>
 				<button type="button" class="min-h-11 rounded-pill bg-primary-container px-4 text-body-sm font-bold text-on-primary-container transition-all duration-fast ease-standard hover:shadow-1">
-					Ver
+					{{ 'ai.ideas.view' | translate }}
 				</button>
 			</article>
 		}

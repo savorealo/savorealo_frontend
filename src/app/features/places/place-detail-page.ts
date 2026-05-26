@@ -8,15 +8,11 @@ import { Place } from '@core/models/places/place.model'
 import { PlacesService, ReviewWithUser } from '@core/services/places.service'
 import { AuthStore } from '@core/store/auth.store'
 import { AddReviewModal } from './components/add-review-modal/add-review-modal'
-
-const TYPE_LABELS: Record<string, string> = {
-  RESTAURANT: 'Restaurante', BAR: 'Bar', CAFE: 'Café',
-  BAKERY: 'Panadería', FOOD_TRUCK: 'Food Truck',
-}
+import { TranslatePipe } from '@shared/pipes/translate.pipe'
 
 @Component({
   selector: 'app-place-detail-page',
-  imports: [AppShell, RouterLink, Avatar, TimeAgoPipe, AddReviewModal, DecimalPipe],
+  imports: [AppShell, RouterLink, Avatar, TimeAgoPipe, AddReviewModal, DecimalPipe, TranslatePipe],
   templateUrl: './place-detail-page.html',
 })
 export class PlaceDetailPage implements OnInit {
@@ -31,9 +27,9 @@ export class PlaceDetailPage implements OnInit {
   error    = signal<string | null>(null)
   showReviewModal = signal(false)
 
-  readonly typeLabel = computed(() => {
+  readonly typeLabelKey = computed(() => {
     const p = this.place()
-    return p ? (TYPE_LABELS[p.placeType] ?? p.placeType) : ''
+    return p ? `places.type.${p.placeType.toLowerCase()}` : ''
   })
 
   readonly starsArray = computed(() =>

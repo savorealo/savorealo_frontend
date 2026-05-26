@@ -15,10 +15,12 @@ import { EditProfileComponent } from './edit-profile/edit-profile'
 import { NgOptimizedImage } from '@angular/common'
 import { ImgFallbackDirective } from '@shared/directives/img-fallback.directive'
 import { ShareProfileModal, ShareableProfile } from '@features/messages/components/share-profile-modal/share-profile-modal'
+import { TranslatePipe } from '@shared/pipes/translate.pipe'
+import { TranslationService } from '@core/services/translation.service'
 
 @Component({
   selector: 'app-profile',
-  imports: [AppShell, Avatar, TabsModule, DialogModule, RouterLink, EditProfileComponent, NgOptimizedImage, ImgFallbackDirective, ShareProfileModal],
+  imports: [AppShell, Avatar, TabsModule, DialogModule, RouterLink, EditProfileComponent, NgOptimizedImage, ImgFallbackDirective, ShareProfileModal, TranslatePipe],
   templateUrl: './profile.html',
 })
 export class Profile {
@@ -28,6 +30,7 @@ export class Profile {
   private readonly postActions = inject(PostActionsService)
   private readonly destroyRef = inject(DestroyRef)
   readonly router = inject(Router)
+  private readonly translationService = inject(TranslationService)
 
   readonly profile = this.authStore.profile
   readonly posts = signal<Post[]>([])
@@ -47,18 +50,22 @@ export class Profile {
 
   readonly displayName = computed(() => this.profile()?.fullName || this.profile()?.username || 'Chef Savorealo')
   readonly username = computed(() => this.profile()?.username || 'usuario')
-  readonly location = computed(() => this.profile()?.location || 'Sin ubicacion')
-  readonly bio = computed(() => this.profile()?.bio || 'Comparte tu bio para que la comunidad conozca tu estilo de cocina.')
+  readonly location = computed(() => this.profile()?.location || this.translationService.translate('profile.no_location'))
+  readonly bio = computed(() => this.profile()?.bio || this.translationService.translate('profile.bio_fallback'))
   readonly joinedLabel = computed(() => {
     const birthDate = this.profile()?.birth_date
-    return birthDate ? `Perfil completo desde ${new Date(birthDate).getFullYear()}` : 'Perfil en construccion'
+    if (birthDate) {
+      const joinedSince = this.translationService.translate('profile.joined_since')
+      return `${joinedSince} ${new Date(birthDate).getFullYear()}`
+    }
+    return this.translationService.translate('profile.in_construction')
   })
   readonly postsCount = computed(() => this.posts().length > 0 ? this.posts().length : (this.profile()?.postsCount ?? 0))
 
   readonly badges = [
-    { icon: 'pi pi-star-fill', label: 'Chef activo', description: 'Publica recetas con frecuencia' },
-    { icon: 'pi pi-heart-fill', label: 'Favoritos', description: 'Sus recetas reciben buen feedback' },
-    { icon: 'pi pi-bookmark-fill', label: 'Curador', description: 'Guarda ideas para cocinar mejor' },
+    { icon: 'pi pi-star-fill', labelKey: 'profile.badge.active_chef.label', descKey: 'profile.badge.active_chef.desc' },
+    { icon: 'pi pi-heart-fill', labelKey: 'profile.badge.favorites.label', descKey: 'profile.badge.favorites.desc' },
+    { icon: 'pi pi-bookmark-fill', labelKey: 'profile.badge.curator.label', descKey: 'profile.badge.curator.desc' },
   ]
 
   constructor() {

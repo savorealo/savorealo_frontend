@@ -4,7 +4,7 @@
 		class="fixed inset-0 z-[100] flex items-start justify-center bg-black/50 px-3 pt-[8vh] backdrop-blur-sm sm:px-4 sm:pt-[10vh]"
 		tabindex="-1"
 		role="button"
-		aria-label="Cerrar búsqueda"
+		[attr.aria-label]="'messages.close_search' | translate"
 		(click)="store.closePanel()"
 		(keydown.enter)="store.closePanel()"
 		(keydown.space)="store.closePanel()"
@@ -26,7 +26,7 @@
 					#searchInput
 					type="search"
 					class="min-w-0 flex-1 bg-transparent text-body-md font-semibold text-on-surface outline-none placeholder:text-on-surface-muted"
-					placeholder="Buscar recetas, usuarios..."
+					[placeholder]="t.translate('search.placeholder')"
 					autocomplete="off"
 					[value]="store.query()"
 					(input)="onInput($event)"
@@ -43,7 +43,7 @@
 			<!-- Tab bar (only when there are results) -->
 			@if (hasResults()) {
 				<div class="flex gap-1 border-b border-outline px-3 pb-0 pt-3 sm:px-4">
-					@for (tab of [{ key: 'all', label: 'Todo' }, { key: 'users', label: 'Usuarios' }, { key: 'posts', label: 'Recetas' }]; track tab.key) {
+					@for (tab of [{ key: 'all', label: t.translate('search.tab.all') }, { key: 'users', label: t.translate('search.tab.users') }, { key: 'posts', label: t.translate('search.tab.recipes') }]; track tab.key) {
 						<button
 							type="button"
 							class="min-h-11 rounded-t-xl px-4 pb-3 pt-2 text-body-sm font-bold transition-colors duration-fast ease-standard"
@@ -66,8 +66,8 @@
 					<div class="grid min-h-32 place-items-center text-center">
 						<div>
 							<i class="pi pi-search text-3xl text-primary"></i>
-							<p class="mt-2 text-body-sm font-bold text-on-surface-muted">Busca recetas o usuarios</p>
-							<p class="mt-1 text-label-md font-semibold text-on-surface-muted">Pulsa ⌘K o Ctrl+K para abrir/cerrar</p>
+							<p class="mt-2 text-body-sm font-bold text-on-surface-muted">{{ 'search.hint' | translate }}</p>
+							<p class="mt-1 text-label-md font-semibold text-on-surface-muted">{{ 'search.hint_shortcut' | translate }}</p>
 						</div>
 					</div>
 
@@ -90,8 +90,8 @@
 					<div class="grid min-h-32 place-items-center text-center">
 						<div>
 							<i class="pi pi-search text-2xl text-on-surface-muted"></i>
-							<p class="mt-2 text-body-sm font-bold text-on-surface-muted">Sin resultados para "{{ store.query() }}"</p>
-							<p class="text-label-md font-semibold text-on-surface-muted">Intenta con otro término</p>
+							<p class="mt-2 text-body-sm font-bold text-on-surface-muted">{{ 'search.no_results' | translate }} "{{ store.query() }}"</p>
+							<p class="text-label-md font-semibold text-on-surface-muted">{{ 'search.try_another' | translate }}</p>
 						</div>
 					</div>
 
@@ -99,7 +99,7 @@
 
 					<!-- Users section -->
 					@if (showUsers()) {
-						<p class="mb-1 px-3 pt-1 text-label-md font-bold text-on-surface-muted">Usuarios</p>
+						<p class="mb-1 px-3 pt-1 text-label-md font-bold text-on-surface-muted">{{ 'search.users_label' | translate }}</p>
 						@for (user of store.users(); track user.userId) {
 							<button
 								type="button"
@@ -128,7 +128,7 @@
 
 					<!-- Posts section -->
 					@if (showPosts()) {
-						<p class="mb-1 mt-2 px-3 pt-1 text-label-md font-bold text-on-surface-muted">Recetas</p>
+						<p class="mb-1 mt-2 px-3 pt-1 text-label-md font-bold text-on-surface-muted">{{ 'search.recipes_label' | translate }}</p>
 						@for (post of store.posts(); track post.id) {
 							<button
 								type="button"
@@ -145,7 +145,7 @@
 								</span>
 								<span class="min-w-0 flex-1">
 									<span class="block truncate text-body-sm font-bold text-on-surface">
-										{{ post.title || 'Sin título' }}
+										{{ post.title || ('search.no_title' | translate) }}
 									</span>
 									<span class="flex items-center gap-3 text-label-md font-semibold normal-case tracking-normal text-on-surface-muted">
 										<span><i class="pi pi-heart mr-1"></i>{{ post.likesCount }}</span>
@@ -165,7 +165,7 @@
 							(click)="store.goToExplore()"
 						>
 							<i class="pi pi-external-link"></i>
-							Ver todos los resultados en Explorar
+							{{ 'search.view_all' | translate }}
 						</button>
 					</div>
 				}

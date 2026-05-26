@@ -13,12 +13,12 @@ export interface ReportCategoryOption {
 }
 
 export const REPORT_CATEGORIES: ReportCategoryOption[] = [
-	{ value: 'SPAM',     label: 'Spam',                icon: 'pi pi-megaphone',           description: 'Publicidad engañosa o contenido repetitivo' },
-	{ value: 'HATE',     label: 'Odio o acoso',        icon: 'pi pi-ban',                 description: 'Discurso de odio, insultos o acoso a personas' },
-	{ value: 'VIOLENCE', label: 'Violencia',           icon: 'pi pi-exclamation-triangle', description: 'Contenido violento o amenazas' },
-	{ value: 'SEXUAL',   label: 'Contenido sexual',    icon: 'pi pi-eye-slash',           description: 'Desnudez o contenido sexual explícito' },
-	{ value: 'FRAUD',    label: 'Estafa o fraude',     icon: 'pi pi-shield',              description: 'Intento de estafa, phishing o engaño' },
-	{ value: 'OTHER',    label: 'Otro',                icon: 'pi pi-question-circle',     description: 'Otro motivo que no encaja arriba' },
+	{ value: 'SPAM',     label: 'report.cat.spam.label',     icon: 'pi pi-megaphone',            description: 'report.cat.spam.desc' },
+	{ value: 'HATE',     label: 'report.cat.hate.label',     icon: 'pi pi-ban',                  description: 'report.cat.hate.desc' },
+	{ value: 'VIOLENCE', label: 'report.cat.violence.label', icon: 'pi pi-exclamation-triangle', description: 'report.cat.violence.desc' },
+	{ value: 'SEXUAL',   label: 'report.cat.sexual.label',   icon: 'pi pi-eye-slash',            description: 'report.cat.sexual.desc' },
+	{ value: 'FRAUD',    label: 'report.cat.fraud.label',    icon: 'pi pi-shield',               description: 'report.cat.fraud.desc' },
+	{ value: 'OTHER',    label: 'report.cat.other.label',    icon: 'pi pi-question-circle',      description: 'report.cat.other.desc' },
 ]
 
 @Injectable({ providedIn: 'root' })

@@ -4,9 +4,11 @@ import { AuthStore }                from '@core/store/auth.store'
 import { GlobalSearchStore }        from '@core/store/global-search.store'
 import { NotificationsStore }       from '@core/store/notifications.store'
 
+import { TranslatePipe }              from '@shared/pipes/translate.pipe'
+
 @Component({
 	selector: 'app-topbar',
-	imports: [RouterLink],
+	imports: [RouterLink, TranslatePipe],
 	templateUrl: './topbar.html',
 })
 export class Topbar {

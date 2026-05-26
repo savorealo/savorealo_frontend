@@ -11,15 +11,18 @@ import {
 } from '@angular/core'
 import { isPlatformBrowser, NgClass } from '@angular/common'
 import { GlobalSearchStore } from '@core/store/global-search.store'
+import { TranslationService } from '@core/services/translation.service'
+import { TranslatePipe } from '@shared/pipes/translate.pipe'
 
 @Component({
 	selector: 'app-global-search-panel',
 	templateUrl: './global-search-panel.html',
 	styleUrls: ['./global-search-panel.css'],
-	imports: [NgClass],
+	imports: [NgClass, TranslatePipe],
 })
 export class GlobalSearchPanel implements OnInit, OnDestroy {
 	readonly store = inject(GlobalSearchStore)
+	readonly t = inject(TranslationService)
 	private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID))
 
 	private readonly inputEl = viewChild<ElementRef<HTMLInputElement>>('searchInput')

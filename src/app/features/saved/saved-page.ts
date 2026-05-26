@@ -7,12 +7,13 @@ import { SavedFilter } from './models/saved.models'
 import { FeedService } from '@core/services/feed.service'
 import { PostActionsService } from '@core/services/post-actions.service'
 import { Post } from '@core/models/post/post.model'
+import { TranslatePipe } from '@shared/pipes/translate.pipe'
 
 const PAGE_SIZE = 18
 
 @Component({
 	selector: 'app-saved-page',
-	imports: [NgClass, AppShell, SavedRecipeCard, Spinner],
+	imports: [NgClass, AppShell, SavedRecipeCard, Spinner, TranslatePipe],
 	templateUrl: './saved-page.html',
 })
 export class SavedPage {
@@ -29,10 +30,10 @@ export class SavedPage {
 	readonly hasNextPage = signal(false)
 	private nextCursor: string | null = null
 
-	readonly filterOptions: { value: SavedFilter; label: string; icon: string }[] = [
-		{ value: 'all', label: 'Todo', icon: 'pi pi-th-large' },
-		{ value: 'recipes', label: 'Recetas', icon: 'pi pi-book' },
-		{ value: 'posts', label: 'Posts', icon: 'pi pi-images' },
+	readonly filterOptions: { value: SavedFilter; labelKey: string; icon: string }[] = [
+		{ value: 'all', labelKey: 'saved.filter.all', icon: 'pi pi-th-large' },
+		{ value: 'recipes', labelKey: 'saved.filter.recipes', icon: 'pi pi-book' },
+		{ value: 'posts', labelKey: 'saved.filter.posts', icon: 'pi pi-images' },
 	]
 
 	readonly filteredItems = computed(() => {

@@ -41,9 +41,11 @@ const CATEGORY_LABELS: Record<string, string> = {
 	HEALTHY: 'Saludable', COMFORT_FOOD: 'Comfort Food', STREET_FOOD: 'Comida callejera',
 }
 
+import { TranslatePipe } from '@shared/pipes/translate.pipe'
+
 @Component({
 	selector: 'app-explore-right-rail',
-	imports: [RouterLink],
+	imports: [RouterLink, TranslatePipe],
 	templateUrl: './explore-right-rail.html',
 })
 export class ExploreRightRail implements OnInit {
