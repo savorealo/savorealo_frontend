@@ -1,0 +1,1068 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>cookeealo documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">cookeealo documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  Auth</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/features/auth/auth.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Clase de utilidad para la autenticación.</p>
+
+    </p>
+
+
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-auth</code></td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                                <code><a href="https://angular.io/api/common/NgClass" target="_blank" >NgClass</a></code>
+                                <code><a href="../components/Login.html" target="_self" >Login</a></code>
+                                <code><a href="../components/Register.html" target="_self" >Register</a></code>
+                                <code><a href="../components/EmojiRain.html" target="_self" >EmojiRain</a></code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./auth.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#authStore" >authStore</a>
+                            </li>
+                            <li>
+                                <a href="#isRegister" >isRegister</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#logoUrl" >logoUrl</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#route" >route</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#router" >router</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getSafeReturnUrl" >getSafeReturnUrl</a>
+                            </li>
+                            <li>
+                                <a href="#onGoogleAuth" >onGoogleAuth</a>
+                            </li>
+                            <li>
+                                <a href="#onLoginSubmit" >onLoginSubmit</a>
+                            </li>
+                            <li>
+                                <a href="#onRegisterSubmit" >onRegisterSubmit</a>
+                            </li>
+                            <li>
+                                <a href="#toRegister" >toRegister</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getSafeReturnUrl"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>getSafeReturnUrl</b></span>
+                        <a href="#getSafeReturnUrl"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getSafeReturnUrl()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="92"
+                                    class="link-to-prism">src/app/features/auth/auth.ts:92</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método para obtener safe return enlace.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onGoogleAuth"></a>
+                    <span class="name">
+                        <span ><b>onGoogleAuth</b></span>
+                        <a href="#onGoogleAuth"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onGoogleAuth()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="85"
+                                    class="link-to-prism">src/app/features/auth/auth.ts:85</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método para evento de google auth.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onLoginSubmit"></a>
+                    <span class="name">
+                        <span ><b>onLoginSubmit</b></span>
+                        <a href="#onLoginSubmit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onLoginSubmit($event: <a href="../interfaces/LoginUser.html" target="_self">LoginUser</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="70"
+                                    class="link-to-prism">src/app/features/auth/auth.ts:70</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método para evento de login enviar.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>$event</td>
+                                            <td>
+                                                            <code><a href="../interfaces/LoginUser.html" target="_self" >LoginUser</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onRegisterSubmit"></a>
+                    <span class="name">
+                        <span ><b>onRegisterSubmit</b></span>
+                        <a href="#onRegisterSubmit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onRegisterSubmit($event: <a href="../interfaces/RegisterUser.html" target="_self">RegisterUser</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="55"
+                                    class="link-to-prism">src/app/features/auth/auth.ts:55</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método para evento de register enviar.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>$event</td>
+                                            <td>
+                                                            <code><a href="../interfaces/RegisterUser.html" target="_self" >RegisterUser</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toRegister"></a>
+                    <span class="name">
+                        <span ><b>toRegister</b></span>
+                        <a href="#toRegister"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toRegister($event: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="48"
+                                    class="link-to-prism">src/app/features/auth/auth.ts:48</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método para to register.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>$event</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="authStore"></a>
+                    <span class="name">
+                        <span ><b>authStore</b></span>
+                        <a href="#authStore"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(AuthStore)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/features/auth/auth.ts:35</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar auth store.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isRegister"></a>
+                    <span class="name">
+                        <span ><b>isRegister</b></span>
+                        <a href="#isRegister"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/features/auth/auth.ts:39</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Indicador booleano para es o está register.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="logoUrl"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>logoUrl</b></span>
+                        <a href="#logoUrl"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;/assets/icons/new_logo.png&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/features/auth/auth.ts:43</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar logo enlace.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="route"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>route</b></span>
+                        <a href="#route"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(ActivatedRoute)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/app/features/auth/auth.ts:31</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar route.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="router"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>router</b></span>
+                        <a href="#router"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(Router)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/features/auth/auth.ts:27</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar router.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, inject, signal } from &#x27;@angular/core&#x27;
+import { NgClass } from &quot;@angular/common&quot;;
+import { Login } from &quot;./login/login&quot;;
+import { LoginUser, RegisterUser } from &#x27;@core/models/user/User&#x27;;
+import { Register } from &quot;./register/register&quot;;
+import { AuthStore } from &#x27;@core/store/auth.store&#x27;;
+import { ActivatedRoute, Router } from &#x27;@angular/router&#x27;;
+import { EmojiRain } from &quot;@features/emoji-rain/emoji-rain&quot;;
+
+/**
+ * Clase de utilidad para la autenticación.
+ */
+@Component({
+  selector: &#x27;app-auth&#x27;,
+  imports: [
+    NgClass,
+    Login,
+    Register,
+    EmojiRain
+  ],
+  templateUrl: &#x27;./auth.html&#x27;,
+})
+export class Auth {
+  /**
+   * Propiedad para gestionar router.
+   */
+  private router &#x3D; inject(Router)
+  /**
+   * Propiedad para gestionar route.
+   */
+  private route &#x3D; inject(ActivatedRoute)
+  /**
+   * Propiedad para gestionar auth store.
+   */
+  authStore &#x3D; inject(AuthStore)
+  /**
+   * Indicador booleano para es o está register.
+   */
+  isRegister &#x3D; signal(false)
+  /**
+   * Propiedad para gestionar logo enlace.
+   */
+  readonly logoUrl &#x3D; &#x27;/assets/icons/new_logo.png&#x27;
+
+  /**
+   * Método para to register.
+   */
+  toRegister($event: boolean) {
+    this.isRegister.set($event)
+  }
+
+  /**
+   * Método para evento de register enviar.
+   */
+  onRegisterSubmit($event: RegisterUser){
+    this.authStore.register($event).subscribe({
+      next: ()&#x3D;&gt;{
+        this.router.navigateByUrl(this.getSafeReturnUrl())
+      },
+      error: (err) &#x3D;&gt; {
+        console.error(&#x27;Register error:&#x27;, err)
+        alert(err?.message ?? &#x27;Error al registrarse, inténtalo de nuevo&#x27;)
+      }
+    })
+  }
+
+  /**
+   * Método para evento de login enviar.
+   */
+  onLoginSubmit($event: LoginUser){
+    this.authStore.login($event).subscribe({
+      next: ()&#x3D;&gt;{
+        this.router.navigateByUrl(this.getSafeReturnUrl())
+      },
+      error: (err) &#x3D;&gt; {
+        console.error(&#x27;Login error:&#x27;, err)
+        alert(err?.message ?? &#x27;Error al iniciar sesión&#x27;)
+      }
+    })
+  }
+
+  /**
+   * Método para evento de google auth.
+   */
+  onGoogleAuth() {
+    this.authStore.loginWithGoogle().subscribe();
+  }
+
+  /**
+   * Método para obtener safe return enlace.
+   */
+  private getSafeReturnUrl(): string {
+    const returnUrl &#x3D; this.route.snapshot.queryParamMap.get(&#x27;returnUrl&#x27;)
+    return returnUrl?.startsWith(&#x27;/&#x27;) ? returnUrl : &#x27;/&#x27;
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;app-emoji-rain /&gt;
+
+&lt;main class&#x3D;&quot;relative grid min-h-dvh place-items-center overflow-hidden bg-surface px-4 py-8&quot;&gt;
+  &lt;div class&#x3D;&quot;pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_15%,rgb(var(--rgb-primary)/0.18),transparent_24rem),radial-gradient(circle_at_86%_82%,rgb(var(--rgb-secondary)/0.18),transparent_22rem)]&quot;&gt;&lt;/div&gt;
+
+  &lt;section
+    class&#x3D;&quot;relative grid w-full max-w-6xl overflow-hidden rounded-3xl border border-outline bg-surface-container shadow-4 xl:grid-cols-[0.95fr_1.05fr]&quot;
+    [ngClass]&#x3D;&quot;isRegister() ? &#x27;xl:[&amp;&gt;.auth-brand-panel]:order-2 xl:[&amp;&gt;.auth-form-panel]:order-1&#x27; : &#x27;&#x27;&quot;
+  &gt;
+    &lt;aside class&#x3D;&quot;auth-brand-panel relative hidden min-h-[680px] overflow-hidden p-10 xl:grid bg-primary-container text-on-primary-container&quot;&gt;
+      &lt;div class&#x3D;&quot;absolute -right-24 -top-24 size-72 rounded-pill bg-primary/30 blur-3xl&quot;&gt;&lt;/div&gt;
+      &lt;div class&#x3D;&quot;absolute -bottom-24 -left-20 size-64 rounded-pill bg-secondary/30 blur-3xl&quot;&gt;&lt;/div&gt;
+
+      &lt;div class&#x3D;&quot;relative z-10 flex h-full flex-col&quot;&gt;
+        &lt;div class&#x3D;&quot;flex items-center gap-3&quot;&gt;
+          &lt;span class&#x3D;&quot;grid size-16 place-items-center overflow-hidden rounded-pill bg-primary shadow-2&quot;&gt;
+            &lt;img [src]&#x3D;&quot;logoUrl&quot; alt&#x3D;&quot;&quot; class&#x3D;&quot;size-full object-contain&quot; /&gt;
+          &lt;/span&gt;
+          &lt;span class&#x3D;&quot;font-display text-headline-md text-on-primary-container&quot;&gt;savorealo&lt;/span&gt;
+        &lt;/div&gt;
+
+        &lt;div class&#x3D;&quot;my-auto max-w-md&quot;&gt;
+          &lt;span class&#x3D;&quot;rounded-pill bg-on-primary-container/10 px-4 py-2 text-label-md font-bold&quot;&gt;Cook. Share. Repeat.&lt;/span&gt;
+          &lt;h1 class&#x3D;&quot;mt-8 font-display text-display-md leading-tight&quot;&gt;
+            Cocina mejor, comparte más.
+          &lt;/h1&gt;
+          &lt;p class&#x3D;&quot;mt-6 text-body-lg font-medium leading-base text-on-primary-container/75&quot;&gt;
+            Tu comunidad para descubrir recetas, publicar antojos y guardar ideas deliciosas para cualquier momento.
+          &lt;/p&gt;
+
+          &lt;div class&#x3D;&quot;mt-8 grid grid-cols-3 gap-3&quot;&gt;
+            &lt;div class&#x3D;&quot;rounded-2xl border border-on-primary-container/15 bg-on-primary-container/5 p-4&quot;&gt;
+              &lt;strong class&#x3D;&quot;block text-headline-sm&quot;&gt;12K&lt;/strong&gt;
+              &lt;span class&#x3D;&quot;text-label-md font-bold text-on-primary-container/65&quot;&gt;recetas&lt;/span&gt;
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;rounded-2xl border border-on-primary-container/15 bg-on-primary-container/5 p-4&quot;&gt;
+              &lt;strong class&#x3D;&quot;block text-headline-sm&quot;&gt;8K&lt;/strong&gt;
+              &lt;span class&#x3D;&quot;text-label-md font-bold text-on-primary-container/65&quot;&gt;cocineros&lt;/span&gt;
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;rounded-2xl border border-on-primary-container/15 bg-on-primary-container/5 p-4&quot;&gt;
+              &lt;strong class&#x3D;&quot;block text-headline-sm&quot;&gt;IA&lt;/strong&gt;
+              &lt;span class&#x3D;&quot;text-label-md font-bold text-on-primary-container/65&quot;&gt;recetas&lt;/span&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;p class&#x3D;&quot;text-body-sm font-semibold text-on-primary-container/55&quot;&gt;Savorealo convierte cada receta en una historia compartida.&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/aside&gt;
+
+    &lt;section class&#x3D;&quot;auth-form-panel grid min-h-[680px] content-center px-6 py-10 sm:px-10 lg:px-16 bg-surface-container&quot;&gt;
+      &lt;div class&#x3D;&quot;mx-auto w-full max-w-xl&quot;&gt;
+        &lt;div class&#x3D;&quot;mb-8 flex items-center gap-3 xl:hidden&quot;&gt;
+          &lt;span class&#x3D;&quot;grid size-12 place-items-center overflow-hidden rounded-pill bg-primary&quot;&gt;
+            &lt;img [src]&#x3D;&quot;logoUrl&quot; alt&#x3D;&quot;&quot; class&#x3D;&quot;size-full object-contain&quot; /&gt;
+          &lt;/span&gt;
+          &lt;span class&#x3D;&quot;font-display text-headline-sm text-on-surface&quot;&gt;savorealo&lt;/span&gt;
+        &lt;/div&gt;
+
+        @if (!isRegister()) {
+          &lt;app-login
+            (toRegistereEvent)&#x3D;&quot;toRegister($event)&quot;
+            (onLoginSubmit)&#x3D;&quot;onLoginSubmit($event)&quot;
+            (onGoogleLogin)&#x3D;&quot;onGoogleAuth()&quot;
+          /&gt;
+        } @else {
+          &lt;app-register
+            (onSubmitEvent)&#x3D;&quot;onRegisterSubmit($event)&quot;
+            (toLoginEvent)&#x3D;&quot;toRegister(false)&quot;
+            (onGoogleRegister)&#x3D;&quot;onGoogleAuth()&quot;
+          /&gt;
+        }
+      &lt;/div&gt;
+    &lt;/section&gt;
+  &lt;/section&gt;
+&lt;/main&gt;
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis-network.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><app-emoji-rain /><main class="relative grid min-h-dvh place-items-center overflow-hidden bg-surface px-4 py-8">  <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_15%,rgb(var(--rgb-primary)/0.18),transparent_24rem),radial-gradient(circle_at_86%_82%,rgb(var(--rgb-secondary)/0.18),transparent_22rem)]"></div>  <section    class="relative grid w-full max-w-6xl overflow-hidden rounded-3xl border border-outline bg-surface-container shadow-4 xl:grid-cols-[0.95fr_1.05fr]"    [ngClass]="isRegister() ? \'xl:[&>.auth-brand-panel]:order-2 xl:[&>.auth-form-panel]:order-1\' : \'\'"  >    <aside class="auth-brand-panel relative hidden min-h-[680px] overflow-hidden p-10 xl:grid bg-primary-container text-on-primary-container">      <div class="absolute -right-24 -top-24 size-72 rounded-pill bg-primary/30 blur-3xl"></div>      <div class="absolute -bottom-24 -left-20 size-64 rounded-pill bg-secondary/30 blur-3xl"></div>      <div class="relative z-10 flex h-full flex-col">        <div class="flex items-center gap-3">          <span class="grid size-16 place-items-center overflow-hidden rounded-pill bg-primary shadow-2">            <img [src]="logoUrl" alt="" class="size-full object-contain" />          </span>          <span class="font-display text-headline-md text-on-primary-container">savorealo</span>        </div>        <div class="my-auto max-w-md">          <span class="rounded-pill bg-on-primary-container/10 px-4 py-2 text-label-md font-bold">Cook. Share. Repeat.</span>          <h1 class="mt-8 font-display text-display-md leading-tight">            Cocina mejor, comparte más.          </h1>          <p class="mt-6 text-body-lg font-medium leading-base text-on-primary-container/75">            Tu comunidad para descubrir recetas, publicar antojos y guardar ideas deliciosas para cualquier momento.          </p>          <div class="mt-8 grid grid-cols-3 gap-3">            <div class="rounded-2xl border border-on-primary-container/15 bg-on-primary-container/5 p-4">              <strong class="block text-headline-sm">12K</strong>              <span class="text-label-md font-bold text-on-primary-container/65">recetas</span>            </div>            <div class="rounded-2xl border border-on-primary-container/15 bg-on-primary-container/5 p-4">              <strong class="block text-headline-sm">8K</strong>              <span class="text-label-md font-bold text-on-primary-container/65">cocineros</span>            </div>            <div class="rounded-2xl border border-on-primary-container/15 bg-on-primary-container/5 p-4">              <strong class="block text-headline-sm">IA</strong>              <span class="text-label-md font-bold text-on-primary-container/65">recetas</span>            </div>          </div>        </div>        <p class="text-body-sm font-semibold text-on-primary-container/55">Savorealo convierte cada receta en una historia compartida.</p>      </div>    </aside>    <section class="auth-form-panel grid min-h-[680px] content-center px-6 py-10 sm:px-10 lg:px-16 bg-surface-container">      <div class="mx-auto w-full max-w-xl">        <div class="mb-8 flex items-center gap-3 xl:hidden">          <span class="grid size-12 place-items-center overflow-hidden rounded-pill bg-primary">            <img [src]="logoUrl" alt="" class="size-full object-contain" />          </span>          <span class="font-display text-headline-sm text-on-surface">savorealo</span>        </div>        @if (!isRegister()) {          <app-login            (toRegistereEvent)="toRegister($event)"            (onLoginSubmit)="onLoginSubmit($event)"            (onGoogleLogin)="onGoogleAuth()"          />        } @else {          <app-register            (onSubmitEvent)="onRegisterSubmit($event)"            (toLoginEvent)="toRegister(false)"            (onGoogleRegister)="onGoogleAuth()"          />        }      </div>    </section>  </section></main></div>'
+    var COMPONENTS = [{'name': 'AddReviewModal', 'selector': 'app-add-review-modal'},{'name': 'AiIdeasPanel', 'selector': 'app-ai-ideas-panel'},{'name': 'AiRecipeForm', 'selector': 'app-ai-recipe-form'},{'name': 'AiRecipeResult', 'selector': 'app-ai-recipe-result'},{'name': 'AiRecipesHero', 'selector': 'app-ai-recipes-hero'},{'name': 'AiRecipesPage', 'selector': 'app-ai-recipes-page'},{'name': 'App', 'selector': 'app-root'},{'name': 'AppShell', 'selector': 'app-shell'},{'name': 'Auth', 'selector': 'app-auth'},{'name': 'Avatar', 'selector': 'app-avatar'},{'name': 'Body', 'selector': 'app-body-step1'},{'name': 'Body', 'selector': 'app-body-step3'},{'name': 'Body', 'selector': 'app-body-step2'},{'name': 'ButtonComponent', 'selector': 'app-button'},{'name': 'CallHost', 'selector': 'app-call-host'},{'name': 'CallOverlay', 'selector': 'app-call-overlay'},{'name': 'ChatPanel', 'selector': 'app-chat-panel'},{'name': 'CommentSection', 'selector': 'app-comment-section'},{'name': 'CommentsSheetComponent', 'selector': 'app-comments-sheet'},{'name': 'ConversationList', 'selector': 'app-conversation-list'},{'name': 'CookingModePage', 'selector': 'app-cooking-mode-page'},{'name': 'CreatePostComponent', 'selector': 'app-create-post'},{'name': 'EditProfileComponent', 'selector': 'app-edit-profile'},{'name': 'EmojiRain', 'selector': 'app-emoji-rain'},{'name': 'Emptystate', 'selector': 'app-emptystate'},{'name': 'ExploreCategoryTabs', 'selector': 'app-explore-category-tabs'},{'name': 'ExploreHero', 'selector': 'app-explore-hero'},{'name': 'ExplorePage', 'selector': 'app-explore-page'},{'name': 'ExploreRightRail', 'selector': 'app-explore-right-rail'},{'name': 'ExploreToolbar', 'selector': 'app-explore-toolbar'},{'name': 'FeedPage', 'selector': 'app-feed-page'},{'name': 'FeedPostList', 'selector': 'app-feed-post-list'},{'name': 'FeedRightRail', 'selector': 'app-feed-right-rail'},{'name': 'GlobalSearchPanel', 'selector': 'app-global-search-panel'},{'name': 'Header', 'selector': 'app-header-step1'},{'name': 'Header', 'selector': 'app-header-step3'},{'name': 'Header', 'selector': 'app-header-step2'},{'name': 'Home', 'selector': 'app-home'},{'name': 'IncomingCall', 'selector': 'app-incoming-call'},{'name': 'Login', 'selector': 'app-login'},{'name': 'MessageBubble', 'selector': 'app-message-bubble'},{'name': 'MessagesPage', 'selector': 'app-messages-page'},{'name': 'NewConversation', 'selector': 'app-new-conversation'},{'name': 'NotificationsPage', 'selector': 'app-notifications-page'},{'name': 'PlaceCard', 'selector': 'app-place-card'},{'name': 'PlaceDetailPage', 'selector': 'app-place-detail-page'},{'name': 'PlacesPage', 'selector': 'app-places-page'},{'name': 'PostCard', 'selector': 'app-post-card'},{'name': 'PostDetailPage', 'selector': 'app-post-detail-page'},{'name': 'Profile', 'selector': 'app-profile'},{'name': 'PublicProfilePage', 'selector': 'app-public-profile-page'},{'name': 'RecentAiRecipes', 'selector': 'app-recent-ai-recipes'},{'name': 'RecipeDiscoveryCard', 'selector': 'app-recipe-discovery-card'},{'name': 'RecipeDiscoveryGrid', 'selector': 'app-recipe-discovery-grid'},{'name': 'RecipeOfDayCard', 'selector': 'app-recipe-of-day-card'},{'name': 'Register', 'selector': 'app-register'},{'name': 'ReportSheet', 'selector': 'app-report-sheet'},{'name': 'SavedCollectionStrip', 'selector': 'app-saved-collection-strip'},{'name': 'SavedPage', 'selector': 'app-saved-page'},{'name': 'SavedRecipeCard', 'selector': 'app-saved-recipe-card'},{'name': 'SavoLoader', 'selector': 'app-savo-loader'},{'name': 'SettingsPage', 'selector': 'app-settings-page'},{'name': 'SharedPostCard', 'selector': 'app-shared-post-card'},{'name': 'SharedProfileCard', 'selector': 'app-shared-profile-card'},{'name': 'SharePostModal', 'selector': 'app-share-post-modal'},{'name': 'ShareProfileModal', 'selector': 'app-share-profile-modal'},{'name': 'ShoppingListPage', 'selector': 'app-shopping-list-page'},{'name': 'SkeletonCard', 'selector': 'app-skeleton-card'},{'name': 'Spinner', 'selector': 'app-spinner'},{'name': 'SpotlightBg', 'selector': 'app-spotlight-bg'},{'name': 'StoriesStrip', 'selector': 'app-stories-strip'},{'name': 'StoryViewer', 'selector': 'app-story-viewer'},{'name': 'SuggestionsPanel', 'selector': 'app-suggestions-panel'},{'name': 'Title', 'selector': 'app-title'},{'name': 'Topbar', 'selector': 'app-topbar'},{'name': 'TrendingList', 'selector': 'app-trending-list'},{'name': 'VeganConvertModal', 'selector': 'app-vegan-convert-modal'}];
+    var DIRECTIVES = [{'name': 'ClickOutsideDirective', 'selector': '[appClickOutside]'},{'name': 'ImgFallbackDirective', 'selector': 'img[appImgFallback]'}];
+    var ACTUAL_COMPONENT = {'name': 'Auth'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'Auth.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -5,6 +5,9 @@ import { inject } from '@angular/core'
 import { ENVIRONMENT } from '@core/tokens/environment.token'
 import { SupabaseService } from './supabase.service'
 
+/**
+ * Función de utilidad para apollo options factory.
+ */
 export function apolloOptionsFactory() {
 	const httpLink = inject(HttpLink)
 	const env = inject(ENVIRONMENT)

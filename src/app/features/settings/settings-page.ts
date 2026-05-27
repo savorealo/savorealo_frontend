@@ -9,32 +9,93 @@ import { ToastService } from '@core/services/toast.service'
 import { TranslationService, LanguageCode } from '@core/services/translation.service'
 import { TranslatePipe } from '@shared/pipes/translate.pipe'
 
+/**
+ * Estructura que define un interruptor de configuración (toggle) en la interfaz de ajustes.
+ */
 interface SettingsToggle {
+	/**
+	 * Clave del campo de la configuración del usuario a modificar.
+	 */
 	key: keyof Pick<UserSettings, 'notify_likes' | 'notify_comments' | 'notify_follows' | 'is_private'>
+	/**
+	 * Clave de traducción para la etiqueta visible de la opción.
+	 */
 	labelKey: string
+	/**
+	 * Clave de traducción para la descripción descriptiva debajo de la opción.
+	 */
 	descKey: string
 }
 
+/**
+ * Componente que representa la página de Ajustes y Configuración del usuario.
+ * Proporciona interruptores de notificaciones, opción de privacidad de la cuenta,
+ * cambio interactivo de idioma y tema (claro/oscuro), además de cierre de sesión.
+ */
 @Component({
 	selector: 'app-settings-page',
 	imports: [AppShell, FormsModule, RouterLink, TranslatePipe],
 	templateUrl: './settings-page.html',
 })
 export class SettingsPage implements OnInit {
+	/**
+	 * Almacén de estado de autenticación.
+	 */
 	private readonly auth = inject(AuthStore)
+
+	/**
+	 * Servicio para la consulta y persistencia de configuraciones de usuario.
+	 */
 	private readonly settingsService = inject(SettingsService)
+
+	/**
+	 * Servicio toast para retroalimentación visual al guardar.
+	 */
 	private readonly toast = inject(ToastService)
+
+	/**
+	 * Servicio de preferencias inyectado.
+	 */
 	readonly preferences = inject(PreferencesService)
+
+	/**
+	 * Servicio de traducción para internacionalizar la interfaz tras cambiar el idioma.
+	 */
 	readonly translationService = inject(TranslationService)
 
+	/**
+	 * Señal con la información del perfil del usuario autenticado.
+	 */
 	readonly profile = this.auth.profile
+
+	/**
+	 * URL de la imagen del logotipo corporativo de Savorealo.
+	 */
 	readonly logoUrl = '/assets/icons/new_logo.png'
+
+	/**
+	 * Señal reactiva que indica si hay una petición de persistencia en proceso.
+	 */
 	readonly saving = signal(false)
 
+	/**
+	 * Señal calculada con el nombre completo de usuario a mostrar.
+	 */
 	readonly displayName = computed(() => this.profile()?.fullName || this.profile()?.username || 'Chef Savorealo')
+
+	/**
+	 * Señal calculada con el nombre de usuario de perfil del chef.
+	 */
 	readonly username = computed(() => this.profile()?.username || 'usuario')
+
+	/**
+	 * Señal calculada con la dirección de correo registrada.
+	 */
 	readonly email = computed(() => this.profile()?.email || 'Sin email')
 
+	/**
+	 * Señal reactiva local que almacena la configuración de ajustes actual del usuario.
+	 */
 	readonly settings = signal<UserSettings>({
 		is_private: false,
 		notify_likes: true,
@@ -44,8 +105,14 @@ export class SettingsPage implements OnInit {
 		language: 'es',
 	})
 
+	/**
+	 * Señal calculada que determina si el tema oscuro de la aplicación está activo.
+	 */
 	readonly isDark = computed(() => this.settings().theme === 'dark')
 
+	/**
+	 * Colección de interruptores visuales de notificaciones configurables por el usuario.
+	 */
 	readonly notificationToggles: SettingsToggle[] = [
 		{
 			key: 'notify_likes',
@@ -64,6 +131,9 @@ export class SettingsPage implements OnInit {
 		},
 	]
 
+	/**
+	 * Al inicializar, recupera los ajustes de configuración guardados del usuario y los aplica.
+	 */
 	ngOnInit(): void {
 		this.settingsService.loadSettings().subscribe({
 			next: s => {
@@ -75,26 +145,44 @@ export class SettingsPage implements OnInit {
 		})
 	}
 
+	/**
+	 * Cambia el estado de un interruptor concreto (toggle) de notificaciones y persiste el cambio.
+	 * @param key Clave de la propiedad a alternar.
+	 */
 	toggle(key: SettingsToggle['key']): void {
 		this.persist({ [key]: !this.settings()[key] })
 	}
 
+	/**
+	 * Alterna el tema visual (claro u oscuro) de la aplicación y persiste la selección.
+	 */
 	toggleTheme(): void {
 		const next = this.isDark() ? 'light' : 'dark'
 		this.settingsService.applyTheme(next)
 		this.persist({ theme: next })
 	}
 
+	/**
+	 * Alterna el estado de privacidad de la cuenta (público o privado).
+	 */
 	togglePrivacy(): void {
 		this.persist({ is_private: !this.settings().is_private })
 	}
 
+	/**
+	 * Configura el nuevo idioma del usuario, actualizando el TranslationService local y persistiendo el cambio.
+	 * @param lang Identificador del código de idioma (es, en, fr, de).
+	 */
 	changeLanguage(lang: string): void {
 		const language = lang as LanguageCode
 		this.translationService.setLanguage(language)
 		this.persist({ language })
 	}
 
+	/**
+	 * Envía las modificaciones parciales de la configuración al servicio para su persistencia en el backend.
+	 * @param patch Modificaciones a aplicar en la configuración.
+	 */
 	private persist(patch: Partial<UserSettings>): void {
 		this.settings.update(s => ({ ...s, ...patch }))
 		if (this.saving()) return
@@ -108,6 +196,9 @@ export class SettingsPage implements OnInit {
 		})
 	}
 
+	/**
+	 * Cierra la sesión activa del usuario y borra los datos locales.
+	 */
 	logOut(): void {
 		this.auth.logout()
 	}

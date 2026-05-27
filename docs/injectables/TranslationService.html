@@ -1,0 +1,2956 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>cookeealo documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">cookeealo documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Injectables</li>
+  <li class="breadcrumb-item" >TranslationService</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/app/core/services/translation.service.ts</code>
+        </p>
+
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Servicio que provee la lógica de negocio para translation.</p>
+
+            </p>
+
+
+
+            <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#currentLang" >currentLang</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#platformId" >platformId</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#setLanguage" >setLanguage</a>
+                            </li>
+                            <li>
+                                <a href="#translate" >translate</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor()</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="2377" class="link-to-prism">src/app/core/services/translation.service.ts:2377</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div class="io-description"><p>Constructor de la clase o componente para inicializar dependencias.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setLanguage"></a>
+                    <span class="name">
+                        <span ><b>setLanguage</b></span>
+                        <a href="#setLanguage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setLanguage(lang: <a href="../miscellaneous/typealiases.html#LanguageCode" target="_self">LanguageCode</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="2394"
+                                    class="link-to-prism">src/app/core/services/translation.service.ts:2394</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método para establecer language.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>lang</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#LanguageCode" target="_self" >LanguageCode</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="translate"></a>
+                    <span class="name">
+                        <span ><b>translate</b></span>
+                        <a href="#translate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>translate(key: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="2406"
+                                    class="link-to-prism">src/app/core/services/translation.service.ts:2406</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método para translate.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>key</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+            <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="currentLang"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>currentLang</b></span>
+                        <a href="#currentLang"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;LanguageCode&gt;(&#x27;es&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="2377" class="link-to-prism">src/app/core/services/translation.service.ts:2377</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar current lang.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="platformId"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>platformId</b></span>
+                        <a href="#platformId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(PLATFORM_ID)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="2371" class="link-to-prism">src/app/core/services/translation.service.ts:2371</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar platform identificador.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { inject, Injectable, PLATFORM_ID, signal } from &#x27;@angular/core&#x27;
+import { isPlatformBrowser } from &#x27;@angular/common&#x27;
+
+/**
+ * Tipo de dato personalizado para languagecode.
+ */
+export type LanguageCode &#x3D; &#x27;es&#x27; | &#x27;en&#x27; | &#x27;fr&#x27; | &#x27;de&#x27;
+
+/**
+ * Variable o constante para t r a n s l a t i o n s.
+ */
+const TRANSLATIONS: Record&lt;LanguageCode, Record&lt;string, string&gt;&gt; &#x3D; {
+	es: {
+		// Shell / Navbar
+		&#x27;shell.feed&#x27;: &#x27;Feed&#x27;,
+		&#x27;shell.explore&#x27;: &#x27;Explorar&#x27;,
+		&#x27;shell.places&#x27;: &#x27;Lugares&#x27;,
+		&#x27;shell.ai_recipes&#x27;: &#x27;IA Recetas&#x27;,
+		&#x27;shell.saved&#x27;: &#x27;Guardados&#x27;,
+		&#x27;shell.messages&#x27;: &#x27;Mensajes&#x27;,
+		&#x27;shell.notifications&#x27;: &#x27;Notificaciones&#x27;,
+		&#x27;shell.shopping&#x27;: &#x27;Compra&#x27;,
+		&#x27;shell.settings&#x27;: &#x27;Ajustes&#x27;,
+		&#x27;shell.search_placeholder&#x27;: &#x27;Buscar...&#x27;,
+		&#x27;shell.profile&#x27;: &#x27;Tu perfil&#x27;,
+		&#x27;shell.logout&#x27;: &#x27;Cerrar sesión&#x27;,
+		&#x27;shell.chats&#x27;: &#x27;Chats&#x27;,
+
+		// Settings Header
+		&#x27;settings.control_center&#x27;: &#x27;Centro de control&#x27;,
+		&#x27;settings.title&#x27;: &#x27;Ajustes&#x27;,
+		&#x27;settings.subtitle&#x27;: &#x27;Gestiona tu perfil, privacidad y notificaciones sin salir de Savorealo.&#x27;,
+		&#x27;settings.view_profile&#x27;: &#x27;Ver perfil&#x27;,
+
+		// Settings Account
+		&#x27;settings.account.title&#x27;: &#x27;Cuenta&#x27;,
+		&#x27;settings.account.subtitle&#x27;: &#x27;Información básica de tu acceso.&#x27;,
+		&#x27;settings.account.display_name&#x27;: &#x27;Nombre público&#x27;,
+		&#x27;settings.account.username&#x27;: &#x27;Usuario&#x27;,
+		&#x27;settings.account.email&#x27;: &#x27;Email&#x27;,
+
+		// Settings Notifications
+		&#x27;settings.notifications.title&#x27;: &#x27;Notificaciones&#x27;,
+		&#x27;settings.notifications.subtitle&#x27;: &#x27;Se guardan automáticamente en tu cuenta.&#x27;,
+		&#x27;settings.notifications.likes.label&#x27;: &#x27;Likes&#x27;,
+		&#x27;settings.notifications.likes.desc&#x27;: &#x27;Avísame cuando alguien le dé like a tu receta o post.&#x27;,
+		&#x27;settings.notifications.comments.label&#x27;: &#x27;Comentarios&#x27;,
+		&#x27;settings.notifications.comments.desc&#x27;: &#x27;Avísame cuando alguien comente una receta o post.&#x27;,
+		&#x27;settings.notifications.follows.label&#x27;: &#x27;Nuevos seguidores&#x27;,
+		&#x27;settings.notifications.follows.desc&#x27;: &#x27;Muestra notificaciones cuando otros cocineros te sigan.&#x27;,
+
+		// Settings Appearance &amp; Privacy
+		&#x27;settings.appearance_privacy.title&#x27;: &#x27;Apariencia y privacidad&#x27;,
+		&#x27;settings.appearance_privacy.subtitle&#x27;: &#x27;Personaliza tu experiencia y visibilidad.&#x27;,
+		&#x27;settings.appearance_privacy.dark_mode.label&#x27;: &#x27;Modo oscuro&#x27;,
+		&#x27;settings.appearance_privacy.dark_mode.active&#x27;: &#x27;Activo — interfaz oscura&#x27;,
+		&#x27;settings.appearance_privacy.dark_mode.inactive&#x27;: &#x27;Inactivo — interfaz clara&#x27;,
+		&#x27;settings.appearance_privacy.private.label&#x27;: &#x27;Perfil privado&#x27;,
+		&#x27;settings.appearance_privacy.private.desc&#x27;: &#x27;Limita la visibilidad de tus posts a tus seguidores.&#x27;,
+
+		// Settings Language
+		&#x27;settings.language.title&#x27;: &#x27;Idioma&#x27;,
+		&#x27;settings.language.subtitle&#x27;: &#x27;Selecciona tu idioma preferido para la interfaz.&#x27;,
+		&#x27;settings.language.es&#x27;: &#x27;Español&#x27;,
+		&#x27;settings.language.en&#x27;: &#x27;Inglés (English)&#x27;,
+		&#x27;settings.language.fr&#x27;: &#x27;Francés (Français)&#x27;,
+		&#x27;settings.language.de&#x27;: &#x27;Alemán (Deutsch)&#x27;,
+
+		// Settings Session
+		&#x27;settings.session.title&#x27;: &#x27;Sesión&#x27;,
+		&#x27;settings.session.subtitle&#x27;: &#x27;Puedes cerrar sesión en este dispositivo.&#x27;,
+		&#x27;settings.session.logout_btn&#x27;: &#x27;Cerrar sesión&#x27;,
+
+		// Settings Aside
+		&#x27;settings.aside.desc&#x27;: &#x27;Tus preferencias se guardan en tu cuenta y se restauran automáticamente al iniciar sesión.&#x27;,
+		&#x27;settings.aside.pro_badge&#x27;: &#x27;Savorealo Pro&#x27;,
+		&#x27;settings.aside.pro_title&#x27;: &#x27;Más control para creadores&#x27;,
+		&#x27;settings.aside.pro_desc&#x27;: &#x27;Estadísticas avanzadas, colecciones privadas y recetas destacadas.&#x27;,
+		&#x27;settings.aside.pro_btn&#x27;: &#x27;Próximamente&#x27;,
+		&#x27;settings.error_save&#x27;: &#x27;No se pudieron guardar los ajustes&#x27;,
+
+		// Auth
+		&#x27;auth.welcome&#x27;: &#x27;Bienvenido de nuevo&#x27;,
+		&#x27;auth.enter_kitchen&#x27;: &#x27;Entra a tu cocina&#x27;,
+		&#x27;auth.subtitle&#x27;: &#x27;Continúa descubriendo recetas, guardando ideas y compartiendo tus platos favoritos.&#x27;,
+		&#x27;auth.email&#x27;: &#x27;Correo electrónico&#x27;,
+		&#x27;auth.email_required&#x27;: &#x27;El email es obligatorio.&#x27;,
+		&#x27;auth.email_invalid&#x27;: &#x27;Introduce un email válido.&#x27;,
+		&#x27;auth.password&#x27;: &#x27;Contraseña&#x27;,
+		&#x27;auth.password_placeholder&#x27;: &#x27;Tu contraseña&#x27;,
+		&#x27;auth.password_required&#x27;: &#x27;La contraseña es obligatoria.&#x27;,
+		&#x27;auth.login_btn&#x27;: &#x27;Entrar&#x27;,
+		&#x27;auth.or_continue&#x27;: &#x27;O CONTINÚA CON&#x27;,
+		&#x27;auth.no_account&#x27;: &#x27;¿No tienes cuenta?&#x27;,
+		&#x27;auth.register_link&#x27;: &#x27;Regístrate&#x27;,
+		&#x27;auth.register.new_account&#x27;: &#x27;Nueva cuenta&#x27;,
+		&#x27;auth.register.title_step1&#x27;: &#x27;Crea tu cuenta&#x27;,
+		&#x27;auth.register.title_step2&#x27;: &#x27;Completa tu perfil&#x27;,
+		&#x27;auth.register.title_step3&#x27;: &#x27;Añade una foto&#x27;,
+		&#x27;auth.register.subtitle&#x27;: &#x27;Completa tu perfil y empieza a compartir lo que cocinas.&#x27;,
+		&#x27;auth.register.google_btn&#x27;: &#x27;Registrarse con Google&#x27;,
+		&#x27;auth.register.have_account&#x27;: &#x27;¿Ya tienes cuenta?&#x27;,
+		&#x27;auth.register.login_link&#x27;: &#x27;Inicia sesión&#x27;,
+		&#x27;auth.register.back&#x27;: &#x27;Atrás&#x27;,
+		&#x27;auth.register.next&#x27;: &#x27;Siguiente&#x27;,
+		&#x27;auth.register.create_btn&#x27;: &#x27;Crear cuenta&#x27;,
+		&#x27;auth.register.username&#x27;: &#x27;Usuario&#x27;,
+		&#x27;auth.register.checking_username&#x27;: &#x27;Comprobando disponibilidad…&#x27;,
+		&#x27;auth.register.username_required&#x27;: &#x27;El usuario es obligatorio.&#x27;,
+		&#x27;auth.register.confirm_password&#x27;: &#x27;Confirmar&#x27;,
+		&#x27;auth.register.confirm_placeholder&#x27;: &#x27;Repite tu contraseña&#x27;,
+		&#x27;auth.register.confirm_required&#x27;: &#x27;Confirma tu contraseña.&#x27;,
+		&#x27;auth.register.password_mismatch&#x27;: &#x27;Las contraseñas no coinciden.&#x27;,
+		&#x27;auth.register.password_required&#x27;: &#x27;La contraseña es obligatoria.&#x27;,
+		&#x27;auth.register.password_minlength&#x27;: &#x27;Debe tener al menos 8 caracteres.&#x27;,
+		&#x27;auth.register.password_pattern&#x27;: &#x27;Incluye mayúscula, número y símbolo.&#x27;,
+		&#x27;auth.register.email_required&#x27;: &#x27;El email es obligatorio.&#x27;,
+		&#x27;auth.register.email_invalid&#x27;: &#x27;Introduce un email válido.&#x27;,
+		&#x27;auth.register.full_name&#x27;: &#x27;Nombre completo&#x27;,
+		&#x27;auth.register.full_name_required&#x27;: &#x27;El nombre es obligatorio.&#x27;,
+		&#x27;auth.register.birth_date&#x27;: &#x27;Fecha de nacimiento&#x27;,
+		&#x27;auth.register.birth_date_placeholder&#x27;: &#x27;Selecciona una fecha&#x27;,
+		&#x27;auth.register.birth_date_required&#x27;: &#x27;La fecha es obligatoria.&#x27;,
+		&#x27;auth.register.bio&#x27;: &#x27;Bio&#x27;,
+		&#x27;auth.register.bio_placeholder&#x27;: &#x27;Cuéntanos qué te gusta cocinar...&#x27;,
+		&#x27;auth.register.upload_photo&#x27;: &#x27;Subir foto&#x27;,
+		&#x27;auth.register.upload_photo_desc&#x27;: &#x27;Añade una foto para que otros cocineros te reconozcan. JPG, PNG o WEBP, máximo 2MB. Es opcional.&#x27;,
+		&#x27;auth.register.remove_photo&#x27;: &#x27;Quitar imagen&#x27;,
+		&#x27;auth.register.photo_label&#x27;: &#x27;Elegir foto de perfil&#x27;,
+		&#x27;auth.register.photo_preview&#x27;: &#x27;Vista previa de la foto de perfil&#x27;,
+
+		// Feed
+		&#x27;feed.post_tab&#x27;: &#x27;Post&#x27;,
+		&#x27;feed.recipe_tab&#x27;: &#x27;Receta&#x27;,
+		&#x27;feed.desc_placeholder_recipe&#x27;: &#x27;Describe tu receta, trucos, historia...&#x27;,
+		&#x27;feed.desc_placeholder_post&#x27;: &#x27;Comparte una receta, un antojo o tu último descubrimiento...&#x27;,
+		&#x27;feed.recipe_name&#x27;: &#x27;Nombre de la receta *&#x27;,
+		&#x27;feed.recipe_name_placeholder&#x27;: &#x27;Ej: Tortilla de patata con cebolla&#x27;,
+		&#x27;feed.difficulty&#x27;: &#x27;Dificultad&#x27;,
+		&#x27;feed.difficulty.easy&#x27;: &#x27;Fácil&#x27;,
+		&#x27;feed.difficulty.medium&#x27;: &#x27;Media&#x27;,
+		&#x27;feed.difficulty.hard&#x27;: &#x27;Difícil&#x27;,
+		&#x27;feed.time&#x27;: &#x27;Tiempo (min)&#x27;,
+		&#x27;feed.servings&#x27;: &#x27;Raciones&#x27;,
+		&#x27;feed.ingredients&#x27;: &#x27;Ingredientes&#x27;,
+		&#x27;feed.ingredients_placeholder&#x27;: &#x27;Ingrediente *&#x27;,
+		&#x27;feed.ingredients_qty&#x27;: &#x27;Cant.&#x27;,
+		&#x27;feed.ingredients_unit&#x27;: &#x27;Ud.&#x27;,
+		&#x27;feed.steps&#x27;: &#x27;Pasos de preparación&#x27;,
+		&#x27;feed.add_btn&#x27;: &#x27;Añadir&#x27;,
+		&#x27;feed.add_step_btn&#x27;: &#x27;Paso&#x27;,
+		&#x27;feed.no_ingredients&#x27;: &#x27;Sin ingredientes aún — pulsa &quot;Añadir&quot;&#x27;,
+		&#x27;feed.no_steps&#x27;: &#x27;Sin pasos aún — pulsa &quot;Paso&quot;&#x27;,
+		&#x27;feed.step_placeholder&#x27;: &#x27;Describe el paso...&#x27;,
+		&#x27;feed.photo_btn&#x27;: &#x27;Foto&#x27;,
+		&#x27;feed.publish_btn&#x27;: &#x27;Publicar&#x27;,
+		&#x27;feed.publishing&#x27;: &#x27;Publicando...&#x27;,
+		&#x27;feed.suggestions_title&#x27;: &#x27;Sugerencias para ti&#x27;,
+		&#x27;feed.view_all&#x27;: &#x27;Ver todo&#x27;,
+		&#x27;feed.following&#x27;: &#x27;Siguiendo&#x27;,
+		&#x27;feed.follow&#x27;: &#x27;Seguir&#x27;,
+		&#x27;feed.no_suggestions&#x27;: &#x27;No hay sugerencias por ahora.&#x27;,
+
+		// Explore
+		&#x27;explore.search_placeholder&#x27;: &#x27;Buscar recetas, ingredientes o usuarios...&#x27;,
+		&#x27;explore.posts_tab&#x27;: &#x27;Posts&#x27;,
+		&#x27;explore.users_tab&#x27;: &#x27;Usuarios&#x27;,
+		&#x27;explore.no_results&#x27;: &#x27;Sin resultados para&#x27;,
+		&#x27;explore.try_another&#x27;: &#x27;Prueba con otro término&#x27;,
+		&#x27;explore.no_users&#x27;: &#x27;Sin usuarios para&#x27;,
+		&#x27;explore.title&#x27;: &#x27;Explorar&#x27;,
+		&#x27;explore.subtitle&#x27;: &#x27;Descubre recetas increíbles de nuestra comunidad&#x27;,
+		&#x27;explore.order_by&#x27;: &#x27;Ordenar por:&#x27;,
+		&#x27;explore.sort.relevant&#x27;: &#x27;Relevantes&#x27;,
+		&#x27;explore.sort.recent&#x27;: &#x27;Recientes&#x27;,
+		&#x27;explore.sort.popular&#x27;: &#x27;Populares&#x27;,
+		&#x27;explore.filters&#x27;: &#x27;Filtros&#x27;,
+		&#x27;explore.cat.all&#x27;: &#x27;Todo&#x27;,
+		&#x27;explore.cat.italian&#x27;: &#x27;Italiana&#x27;,
+		&#x27;explore.cat.quick&#x27;: &#x27;Rápidas&#x27;,
+		&#x27;explore.cat.healthy&#x27;: &#x27;Saludables&#x27;,
+		&#x27;explore.cat.vegan&#x27;: &#x27;Vegana&#x27;,
+		&#x27;explore.cat.dessert&#x27;: &#x27;Postres&#x27;,
+		&#x27;explore.cat.asian&#x27;: &#x27;Asiática&#x27;,
+		&#x27;explore.cat.gourmet&#x27;: &#x27;Gourmet&#x27;,
+		&#x27;explore.popular_collections&#x27;: &#x27;Colecciones populares&#x27;,
+		&#x27;explore.view_all&#x27;: &#x27;Ver todas&#x27;,
+		&#x27;explore.no_collections&#x27;: &#x27;Sin colecciones disponibles.&#x27;,
+		&#x27;explore.recipe.singular&#x27;: &#x27;receta&#x27;,
+		&#x27;explore.recipe.plural&#x27;: &#x27;recetas&#x27;,
+		&#x27;explore.featured_chef&#x27;: &#x27;Chef destacado&#x27;,
+		&#x27;explore.view_profile&#x27;: &#x27;Ver perfil&#x27;,
+		&#x27;explore.no_featured_chef&#x27;: &#x27;Sin chef destacado.&#x27;,
+		&#x27;explore.recipes_label&#x27;: &#x27;Recetas&#x27;,
+		&#x27;explore.followers_label&#x27;: &#x27;Seguidores&#x27;,
+		&#x27;explore.trends_title&#x27;: &#x27;Tendencias&#x27;,
+		&#x27;explore.view_all_trends&#x27;: &#x27;Ver todo&#x27;,
+		&#x27;explore.no_trends&#x27;: &#x27;Sin tendencias.&#x27;,
+		&#x27;explore.like.singular&#x27;: &#x27;me gusta&#x27;,
+		&#x27;explore.like.plural&#x27;: &#x27;me gusta&#x27;,
+		&#x27;explore.retry&#x27;: &#x27;Reintentar&#x27;,
+		&#x27;explore.searching_recipes&#x27;: &#x27;Buscando recetas...&#x27;,
+		&#x27;explore.no_recipes_category&#x27;: &#x27;No hay recetas para esta categoría.&#x27;,
+		&#x27;explore.loading&#x27;: &#x27;Cargando...&#x27;,
+		&#x27;explore.load_more_recipes&#x27;: &#x27;Cargar más recetas&#x27;,
+
+		// Places
+		&#x27;places.title&#x27;: &#x27;Lugares&#x27;,
+		&#x27;places.subtitle&#x27;: &#x27;Restaurantes y bares cerca de ti&#x27;,
+		&#x27;places.locate_me&#x27;: &#x27;Ubicarme&#x27;,
+		&#x27;places.no_access&#x27;: &#x27;Sin acceso&#x27;,
+		&#x27;places.near_you&#x27;: &#x27;Cerca de ti&#x27;,
+		&#x27;places.search_placeholder&#x27;: &#x27;Buscar por nombre, dirección o especialidad...&#x27;,
+		&#x27;places.retry&#x27;: &#x27;Reintentar&#x27;,
+		&#x27;places.no_results&#x27;: &#x27;Sin resultados&#x27;,
+		&#x27;places.change_filters&#x27;: &#x27;Prueba a cambiar los filtros o la búsqueda&#x27;,
+		&#x27;places.type.all&#x27;: &#x27;Todos&#x27;,
+		&#x27;places.type.restaurants&#x27;: &#x27;Restaurantes&#x27;,
+		&#x27;places.type.bars&#x27;: &#x27;Bares&#x27;,
+		&#x27;places.type.cafes&#x27;: &#x27;Cafés&#x27;,
+		&#x27;places.type.bakeries&#x27;: &#x27;Panaderías&#x27;,
+		&#x27;places.type.food_trucks&#x27;: &#x27;Food Trucks&#x27;,
+		&#x27;places.tag.burger&#x27;: &#x27;🍔 Burgers&#x27;,
+		&#x27;places.tag.seafood&#x27;: &#x27;🦞 Mariscos&#x27;,
+		&#x27;places.tag.italian&#x27;: &#x27;🍝 Italiano&#x27;,
+		&#x27;places.tag.mexican&#x27;: &#x27;🌮 Mexicano&#x27;,
+		&#x27;places.tag.chinese&#x27;: &#x27;🥢 Chino&#x27;,
+		&#x27;places.tag.japanese&#x27;: &#x27;🍣 Japonés&#x27;,
+		&#x27;places.tag.cocktail&#x27;: &#x27;🍹 Cócteles&#x27;,
+		&#x27;places.tag.wine&#x27;: &#x27;🍷 Vinos&#x27;,
+		&#x27;places.tag.happy_hour&#x27;: &#x27;⏰ Happy Hour&#x27;,
+		&#x27;places.tag.nightlife&#x27;: &#x27;🎶 Noche&#x27;,
+		&#x27;places.sort.rating&#x27;: &#x27;Valoración&#x27;,
+		&#x27;places.sort.distance&#x27;: &#x27;Distancia&#x27;,
+		&#x27;places.sort.name&#x27;: &#x27;Nombre&#x27;,
+		&#x27;places.singular&#x27;: &#x27;lugar&#x27;,
+		&#x27;places.plural&#x27;: &#x27;lugares&#x27;,
+		&#x27;places.type.restaurant&#x27;: &#x27;Restaurante&#x27;,
+		&#x27;places.type.bar&#x27;: &#x27;Bar&#x27;,
+		&#x27;places.type.cafe&#x27;: &#x27;Café&#x27;,
+		&#x27;places.type.bakery&#x27;: &#x27;Panadería&#x27;,
+		&#x27;places.type.food_truck&#x27;: &#x27;Food Truck&#x27;,
+		&#x27;places.back&#x27;: &#x27;Volver&#x27;,
+		&#x27;places.reviews&#x27;: &#x27;Reseñas&#x27;,
+		&#x27;places.add_review&#x27;: &#x27;Añadir reseña&#x27;,
+		&#x27;places.first_review&#x27;: &#x27;Sé el primero en dejar una reseña&#x27;,
+		&#x27;places.open&#x27;: &#x27;Abierto&#x27;,
+		&#x27;places.closed&#x27;: &#x27;Cerrado&#x27;,
+		&#x27;places.view_web&#x27;: &#x27;Ver web&#x27;,
+		&#x27;places.view_maps&#x27;: &#x27;Ver en Google Maps&#x27;,
+		&#x27;places.reviews_count.singular&#x27;: &#x27;reseña&#x27;,
+		&#x27;places.reviews_count.plural&#x27;: &#x27;reseñas&#x27;,
+		&#x27;places.review.your_rating&#x27;: &#x27;Tu valoración&#x27;,
+		&#x27;places.review.rating.1&#x27;: &#x27;Muy malo&#x27;,
+		&#x27;places.review.rating.2&#x27;: &#x27;Malo&#x27;,
+		&#x27;places.review.rating.3&#x27;: &#x27;Regular&#x27;,
+		&#x27;places.review.rating.4&#x27;: &#x27;Bueno&#x27;,
+		&#x27;places.review.rating.5&#x27;: &#x27;Excelente&#x27;,
+		&#x27;places.review.comment&#x27;: &#x27;Comentario&#x27;,
+		&#x27;places.review.optional&#x27;: &#x27;(opcional)&#x27;,
+		&#x27;places.review.placeholder&#x27;: &#x27;Cuéntanos tu experiencia...&#x27;,
+		&#x27;places.review.cancel&#x27;: &#x27;Cancelar&#x27;,
+		&#x27;places.review.submit&#x27;: &#x27;Publicar reseña&#x27;,
+		&#x27;places.review.error_select_rating&#x27;: &#x27;Selecciona una valoración&#x27;,
+		&#x27;places.review.error_save&#x27;: &#x27;No se pudo guardar la reseña. Inténtalo de nuevo.&#x27;,
+
+		// Notifications
+		&#x27;notifications.title&#x27;: &#x27;Actividad&#x27;,
+		&#x27;notifications.unread_count&#x27;: &#x27;Tienes novedades esperándote&#x27;,
+		&#x27;notifications.mark_all_read&#x27;: &#x27;Marcar todo como leído&#x27;,
+		&#x27;notifications.loading&#x27;: &#x27;Cargando notificaciones...&#x27;,
+		&#x27;notifications.empty_title&#x27;: &#x27;Todo tranquilo por aquí&#x27;,
+		&#x27;notifications.empty_desc&#x27;: &#x27;Likes, comentarios y seguidores aparecerán aquí.&#x27;,
+		&#x27;notifications.accepted&#x27;: &#x27;Aceptada&#x27;,
+		&#x27;notifications.rejected&#x27;: &#x27;Rechazada&#x27;,
+		&#x27;notifications.accept&#x27;: &#x27;Aceptar&#x27;,
+		&#x27;notifications.reject&#x27;: &#x27;Rechazar&#x27;,
+		&#x27;notifications.follow_back&#x27;: &#x27;Seguir de vuelta&#x27;,
+		&#x27;notifications.reply&#x27;: &#x27;Responder&#x27;,
+		&#x27;notifications.config_label&#x27;: &#x27;Configuración de notificaciones&#x27;,
+		&#x27;notifications.mark_as_read_label&#x27;: &#x27;Marcar como leído&#x27;,
+		&#x27;notifications.view_post_label&#x27;: &#x27;Ver publicación&#x27;,
+		&#x27;notifications.tab.all&#x27;: &#x27;Todas&#x27;,
+		&#x27;notifications.tab.unread&#x27;: &#x27;No leídas&#x27;,
+		&#x27;notifications.tab.mentions&#x27;: &#x27;Menciones&#x27;,
+		&#x27;notifications.tab.social&#x27;: &#x27;Sociales&#x27;,
+		&#x27;notifications.date.today&#x27;: &#x27;Hoy&#x27;,
+		&#x27;notifications.date.yesterday&#x27;: &#x27;Ayer&#x27;,
+		&#x27;notifications.date.this_week&#x27;: &#x27;Esta semana&#x27;,
+		&#x27;notifications.date.older&#x27;: &#x27;Antes&#x27;,
+		&#x27;notifications.someone&#x27;: &#x27;Alguien&#x27;,
+		&#x27;notifications.text.like&#x27;: &#x27;le ha gustado tu receta&#x27;,
+		&#x27;notifications.text.comment&#x27;: &#x27;ha comentado&#x27;,
+		&#x27;notifications.text.follow&#x27;: &#x27;ha empezado a seguirte&#x27;,
+		&#x27;notifications.text.follow_request&#x27;: &#x27;quiere seguirte&#x27;,
+		&#x27;notifications.text.follow_accepted&#x27;: &#x27;aceptó tu solicitud de seguimiento&#x27;,
+		&#x27;notifications.text.mention&#x27;: &#x27;te ha mencionado en un comentario&#x27;,
+		&#x27;notifications.text.recipe_save&#x27;: &#x27;ha guardado tu receta&#x27;,
+		&#x27;notifications.text.default&#x27;: &#x27;interactuó con tu contenido&#x27;,
+		&#x27;notifications.chip.like&#x27;: &#x27;Me gusta&#x27;,
+		&#x27;notifications.chip.comment&#x27;: &#x27;Comentario&#x27;,
+		&#x27;notifications.chip.follow&#x27;: &#x27;Nuevo seguidor&#x27;,
+		&#x27;notifications.chip.follow_request&#x27;: &#x27;Solicitud&#x27;,
+		&#x27;notifications.chip.follow_accepted&#x27;: &#x27;Aceptada&#x27;,
+		&#x27;notifications.chip.mention&#x27;: &#x27;Mención&#x27;,
+		&#x27;notifications.chip.recipe_save&#x27;: &#x27;Guardado&#x27;,
+		&#x27;notifications.state.following&#x27;: &#x27;Siguiendo&#x27;,
+		&#x27;notifications.state.requested&#x27;: &#x27;Solicitado&#x27;,
+		&#x27;notifications.state.follow&#x27;: &#x27;Seguir&#x27;,
+
+		// Profile
+		&#x27;profile.kitchen_profile&#x27;: &#x27;Perfil de cocina&#x27;,
+		&#x27;profile.edit_profile&#x27;: &#x27;Editar perfil&#x27;,
+		&#x27;profile.share_profile&#x27;: &#x27;Enviar perfil&#x27;,
+		&#x27;profile.followers&#x27;: &#x27;Seguidores&#x27;,
+		&#x27;profile.following&#x27;: &#x27;Siguiendo&#x27;,
+		&#x27;profile.posts&#x27;: &#x27;Posts&#x27;,
+		&#x27;profile.boost_title&#x27;: &#x27;Impulsa tu perfil&#x27;,
+		&#x27;profile.boost_desc&#x27;: &#x27;Completa tu bio, sube foto y publica recetas para mejorar tu descubrimiento.&#x27;,
+		&#x27;profile.empty_posts_title&#x27;: &#x27;Aún no has publicado nada&#x27;,
+		&#x27;profile.empty_posts_desc&#x27;: &#x27;Comparte tu primera receta con la comunidad.&#x27;,
+		&#x27;profile.empty_saved_title&#x27;: &#x27;Tus recetas guardadas aparecerán aquí&#x27;,
+		&#x27;profile.empty_saved_desc&#x27;: &#x27;Guarda ideas desde el feed o Explorar para cocinarlas después.&#x27;,
+		&#x27;profile.empty_liked_title&#x27;: &#x27;Tus recetas con me gusta aparecerán aquí&#x27;,
+		&#x27;profile.empty_liked_desc&#x27;: &#x27;Da me gusta a recetas desde el feed para verlas aquí.&#x27;,
+		&#x27;profile.badges&#x27;: &#x27;Insignias&#x27;,
+		&#x27;profile.account&#x27;: &#x27;Cuenta&#x27;,
+		&#x27;profile.logout&#x27;: &#x27;Cerrar sesión&#x27;,
+		&#x27;profile.username&#x27;: &#x27;Nombre de usuario&#x27;,
+		&#x27;profile.display_name&#x27;: &#x27;Nombre completo&#x27;,
+		&#x27;profile.bio&#x27;: &#x27;Bio&#x27;,
+		&#x27;profile.location&#x27;: &#x27;Ubicación&#x27;,
+		&#x27;profile.birth_date&#x27;: &#x27;Fecha de nacimiento&#x27;,
+		&#x27;profile.cancel&#x27;: &#x27;Cancelar&#x27;,
+		&#x27;profile.save_changes&#x27;: &#x27;Guardar cambios&#x27;,
+		&#x27;profile.saving&#x27;: &#x27;Guardando...&#x27;,
+		&#x27;profile.joined_since&#x27;: &#x27;Perfil completo desde&#x27;,
+		&#x27;profile.in_construction&#x27;: &#x27;Perfil en construcción&#x27;,
+		&#x27;profile.no_location&#x27;: &#x27;Sin ubicación&#x27;,
+		&#x27;profile.bio_fallback&#x27;: &#x27;Comparte tu bio para que la comunidad conozca tu estilo de cocina.&#x27;,
+		&#x27;profile.badge.active_chef.label&#x27;: &#x27;Chef activo&#x27;,
+		&#x27;profile.badge.active_chef.desc&#x27;: &#x27;Publica recetas con frecuencia&#x27;,
+		&#x27;profile.badge.favorites.label&#x27;: &#x27;Favoritos&#x27;,
+		&#x27;profile.badge.favorites.desc&#x27;: &#x27;Sus recetas reciben buen feedback&#x27;,
+		&#x27;profile.badge.curator.label&#x27;: &#x27;Curador&#x27;,
+		&#x27;profile.badge.curator.desc&#x27;: &#x27;Guarda ideas para cocinar mejor&#x27;,
+
+		// Saved
+		&#x27;saved.personal_library&#x27;: &#x27;Biblioteca personal&#x27;,
+		&#x27;saved.title&#x27;: &#x27;Guardados&#x27;,
+		&#x27;saved.subtitle&#x27;: &#x27;Tus recetas y posts guardados para no perder ninguna buena idea.&#x27;,
+		&#x27;saved.search_placeholder&#x27;: &#x27;Buscar en tus guardados...&#x27;,
+		&#x27;saved.recents&#x27;: &#x27;Recientes&#x27;,
+		&#x27;saved.ordered_by&#x27;: &#x27;Ordenado por lo último que guardaste.&#x27;,
+		&#x27;saved.empty_title&#x27;: &#x27;No hay guardados aquí&#x27;,
+		&#x27;saved.empty_desc&#x27;: &#x27;Guarda recetas y posts desde el Feed o Explorar para construir tu biblioteca.&#x27;,
+		&#x27;saved.loading_more&#x27;: &#x27;Cargando más guardados...&#x27;,
+		&#x27;saved.filter.all&#x27;: &#x27;Todo&#x27;,
+		&#x27;saved.filter.recipes&#x27;: &#x27;Recetas&#x27;,
+		&#x27;saved.filter.posts&#x27;: &#x27;Posts&#x27;,
+
+		// Shopping List
+		&#x27;shopping.title&#x27;: &#x27;Lista de la compra&#x27;,
+		&#x27;shopping.pending_status&#x27;: &#x27;pendientes&#x27;,
+		&#x27;shopping.ready_status&#x27;: &#x27;listos&#x27;,
+		&#x27;shopping.toast.group_removed&#x27;: &#x27;Ingredientes eliminados de la lista&#x27;,
+		&#x27;shopping.toast.checked_removed&#x27;: &#x27;Ingredientes marcados eliminados&#x27;,
+		&#x27;shopping.toast.list_cleared&#x27;: &#x27;Lista vaciada&#x27;,
+		&#x27;shopping.toast.list_copied&#x27;: &#x27;Lista copiada al portapapeles&#x27;,
+		&#x27;shopping.share_title&#x27;: &#x27;Mi lista de la compra&#x27;,
+		&#x27;shopping.add_ingredient&#x27;: &#x27;Añadir ingrediente&#x27;,
+		&#x27;shopping.placeholder_name&#x27;: &#x27;Ingrediente (ej: tomates, harina, leche…)&#x27;,
+		&#x27;shopping.placeholder_qty&#x27;: &#x27;Cant.&#x27;,
+		&#x27;shopping.unit_select&#x27;: &#x27;¿En qué cantidad?&#x27;,
+		&#x27;shopping.empty_title&#x27;: &#x27;Tu lista está vacía&#x27;,
+		&#x27;shopping.empty_desc&#x27;: &#x27;Añade ingredientes desde cualquier receta&#x27;,
+		&#x27;shopping.explore_recipes&#x27;: &#x27;Explorar recetas&#x27;,
+		&#x27;shopping.clear_checked&#x27;: &#x27;Eliminar marcados&#x27;,
+		&#x27;shopping.complete&#x27;: &#x27;¡Completo!&#x27;,
+		&#x27;shopping.view_stores&#x27;: &#x27;Ver supermercados&#x27;,
+		&#x27;shopping.where_buy&#x27;: &#x27;¿Dónde quieres comprarlo?&#x27;,
+		&#x27;shopping.stores_available&#x27;: &#x27;Tiendas disponibles en tu zona&#x27;,
+		&#x27;shopping.cancel&#x27;: &#x27;Cancelar&#x27;,
+		&#x27;shopping.clear_list_title&#x27;: &#x27;¿Vaciar la lista?&#x27;,
+		&#x27;shopping.clear_list_desc&#x27;: &#x27;Se eliminarán todos los ingredientes.&#x27;,
+		&#x27;shopping.clear_confirm&#x27;: &#x27;Vaciar&#x27;,
+		&#x27;shopping.share_label&#x27;: &#x27;Compartir lista&#x27;,
+		&#x27;shopping.clear_label&#x27;: &#x27;Vaciar lista&#x27;,
+		&#x27;shopping.checked_items_label&#x27;: &#x27;ingrediente marcado&#x27;,
+		&#x27;shopping.checked_items_label_plural&#x27;: &#x27;ingredientes marcados&#x27;,
+		&#x27;shopping.remove_group&#x27;: &#x27;Eliminar grupo&#x27;,
+		&#x27;shopping.unit.weight&#x27;: &#x27;Peso — harina, carne, fruta…&#x27;,
+		&#x27;shopping.unit.volume&#x27;: &#x27;Volumen — leche, aceite, zumo…&#x27;,
+		&#x27;shopping.unit.units&#x27;: &#x27;Unidades — huevos, botes, bolsas…&#x27;,
+		&#x27;shopping.unit.cooking&#x27;: &#x27;Medidas de cocina&#x27;,
+		&#x27;shopping.unit.grams&#x27;: &#x27;gramos&#x27;,
+		&#x27;shopping.unit.kilograms&#x27;: &#x27;kilogramos&#x27;,
+		&#x27;shopping.unit.ml&#x27;: &#x27;mililitros (ml)&#x27;,
+		&#x27;shopping.unit.liters&#x27;: &#x27;litros&#x27;,
+		&#x27;shopping.unit.units_val&#x27;: &#x27;unidades&#x27;,
+		&#x27;shopping.unit.packages&#x27;: &#x27;paquetes&#x27;,
+		&#x27;shopping.unit.cans&#x27;: &#x27;latas&#x27;,
+		&#x27;shopping.unit.bags&#x27;: &#x27;bolsas&#x27;,
+		&#x27;shopping.unit.tablespoons&#x27;: &#x27;cucharadas&#x27;,
+		&#x27;shopping.unit.teaspoons&#x27;: &#x27;cucharaditas&#x27;,
+		&#x27;shopping.unit.cups&#x27;: &#x27;tazas&#x27;,
+		&#x27;shopping.unit.pinches&#x27;: &#x27;pizcas&#x27;,
+
+		// Vegan Convert
+		&#x27;vegan.title&#x27;: &#x27;Versión vegana&#x27;,
+		&#x27;vegan.generated_ai&#x27;: &#x27;Generado con IA&#x27;,
+		&#x27;vegan.loading&#x27;: &#x27;Veganizando la receta...&#x27;,
+		&#x27;vegan.searching_substitutes&#x27;: &#x27;Buscando los mejores sustitutos&#x27;,
+		&#x27;vegan.failed_title&#x27;: &#x27;No se pudo generar&#x27;,
+		&#x27;vegan.ingredients_header&#x27;: &#x27;Ingredientes&#x27;,
+		&#x27;vegan.preparation_header&#x27;: &#x27;Preparación&#x27;,
+		&#x27;vegan.tip_header&#x27;: &#x27;Consejo&#x27;,
+		&#x27;vegan.regenerate&#x27;: &#x27;Regenerar&#x27;,
+		&#x27;vegan.copy_recipe&#x27;: &#x27;Copiar receta&#x27;,
+		&#x27;vegan.copied&#x27;: &#x27;Copiado&#x27;,
+		&#x27;vegan.retry&#x27;: &#x27;Reintentar&#x27;,
+		&#x27;vegan.close&#x27;: &#x27;Cerrar&#x27;,
+
+		// Feed — estados extra
+		&#x27;feed.updating&#x27;: &#x27;Actualizando...&#x27;,
+		&#x27;feed.refresh_feed&#x27;: &#x27;Ver publicaciones nuevas&#x27;,
+		&#x27;feed.loading_more&#x27;: &#x27;Cargando más publicaciones...&#x27;,
+		&#x27;feed.empty_title&#x27;: &#x27;Tu feed está vacío&#x27;,
+		&#x27;feed.empty_desc&#x27;: &#x27;Sigue a otros cocineros para ver sus publicaciones aquí.&#x27;,
+		&#x27;feed.up_to_date_title&#x27;: &#x27;¡Estás al día!&#x27;,
+		&#x27;feed.up_to_date_desc&#x27;: &#x27;¿Buscas más inspiración? Explora nuevas recetas.&#x27;,
+		&#x27;feed.go_to_explore&#x27;: &#x27;Explorar&#x27;,
+
+		// Report
+		&#x27;report.title&#x27;: &#x27;Reportar publicación&#x27;,
+		&#x27;report.subtitle&#x27;: &#x27;¿Por qué crees que esta publicación incumple las normas?&#x27;,
+		&#x27;report.close&#x27;: &#x27;Cerrar&#x27;,
+		&#x27;report.details_label&#x27;: &#x27;Más detalles (opcional)&#x27;,
+		&#x27;report.details_placeholder&#x27;: &#x27;Cuéntanos qué está pasando (máx. 500 caracteres)&#x27;,
+		&#x27;report.cancel&#x27;: &#x27;Cancelar&#x27;,
+		&#x27;report.submitting&#x27;: &#x27;Enviando...&#x27;,
+		&#x27;report.submit&#x27;: &#x27;Enviar reporte&#x27;,
+		&#x27;report.submitted_title&#x27;: &#x27;Reporte enviado&#x27;,
+		&#x27;report.submitted_desc&#x27;: &#x27;Gracias por avisarnos. Nuestro equipo revisará el contenido.&#x27;,
+		&#x27;report.cat.spam.label&#x27;: &#x27;Spam&#x27;,
+		&#x27;report.cat.spam.desc&#x27;: &#x27;Publicidad engañosa o contenido repetitivo&#x27;,
+		&#x27;report.cat.hate.label&#x27;: &#x27;Odio o acoso&#x27;,
+		&#x27;report.cat.hate.desc&#x27;: &#x27;Discurso de odio, insultos o acoso a personas&#x27;,
+		&#x27;report.cat.violence.label&#x27;: &#x27;Violencia&#x27;,
+		&#x27;report.cat.violence.desc&#x27;: &#x27;Contenido violento o amenazas&#x27;,
+		&#x27;report.cat.sexual.label&#x27;: &#x27;Contenido sexual&#x27;,
+		&#x27;report.cat.sexual.desc&#x27;: &#x27;Desnudez o contenido sexual explícito&#x27;,
+		&#x27;report.cat.fraud.label&#x27;: &#x27;Estafa o fraude&#x27;,
+		&#x27;report.cat.fraud.desc&#x27;: &#x27;Intento de estafa, phishing o engaño&#x27;,
+		&#x27;report.cat.other.label&#x27;: &#x27;Otro&#x27;,
+		&#x27;report.cat.other.desc&#x27;: &#x27;Otro motivo que no encaja arriba&#x27;,
+
+		// Edit Profile
+		&#x27;profile.edit_title&#x27;: &#x27;Editar perfil&#x27;,
+		&#x27;profile.your_name&#x27;: &#x27;Tu nombre&#x27;,
+		&#x27;profile.tap_photo&#x27;: &#x27;Toca la foto para cambiarla&#x27;,
+		&#x27;profile.checking_availability&#x27;: &#x27;Comprobando disponibilidad…&#x27;,
+		&#x27;profile.bio_placeholder&#x27;: &#x27;Cuéntanos algo sobre ti...&#x27;,
+		&#x27;profile.location_placeholder&#x27;: &#x27;Madrid, España&#x27;,
+		&#x27;profile.success_msg&#x27;: &#x27;¡Perfil actualizado correctamente!&#x27;,
+
+		// Public Profile
+		&#x27;public.back&#x27;: &#x27;Volver&#x27;,
+		&#x27;public.go_feed&#x27;: &#x27;Ir al feed&#x27;,
+		&#x27;public.follows_you&#x27;: &#x27;Te sigue&#x27;,
+		&#x27;public.following_btn&#x27;: &#x27;Siguiendo&#x27;,
+		&#x27;public.requested_btn&#x27;: &#x27;Solicitado&#x27;,
+		&#x27;public.follow_back_btn&#x27;: &#x27;Seguir también&#x27;,
+		&#x27;public.follow_btn&#x27;: &#x27;Seguir&#x27;,
+		&#x27;public.message_btn&#x27;: &#x27;Mensaje&#x27;,
+		&#x27;public.share_btn&#x27;: &#x27;Enviar perfil&#x27;,
+		&#x27;public.no_posts&#x27;: &#x27;Todavía no hay posts&#x27;,
+		&#x27;public.about&#x27;: &#x27;Acerca de&#x27;,
+		&#x27;public.no_bio&#x27;: &#x27;Este chef todavía no ha escrito su bio.&#x27;,
+		&#x27;public.no_results&#x27;: &#x27;Sin resultados&#x27;,
+		&#x27;public.private_title&#x27;: &#x27;Esta cuenta es privada&#x27;,
+		&#x27;public.private_desc&#x27;: &#x27;Sigue a este chef para ver sus recetas y publicaciones.&#x27;,
+		&#x27;public.now_following&#x27;: &#x27;Ahora sigues a&#x27;,
+		&#x27;public.request_sent&#x27;: &#x27;Solicitud enviada a&#x27;,
+		&#x27;public.request_cancelled&#x27;: &#x27;Solicitud cancelada&#x27;,
+		&#x27;public.unfollowed&#x27;: &#x27;Dejaste de seguir a&#x27;,
+		&#x27;public.follow_error&#x27;: &#x27;No se pudo actualizar el seguimiento&#x27;,
+
+		// Topbar
+		&#x27;topbar.search_short&#x27;: &#x27;Buscar...&#x27;,
+		&#x27;topbar.search_long&#x27;: &#x27;Buscar recetas, ingredientes o usuarios...&#x27;,
+		&#x27;topbar.create&#x27;: &#x27;Crear&#x27;,
+
+		// Global Search
+		&#x27;search.placeholder&#x27;: &#x27;Buscar recetas, usuarios...&#x27;,
+		&#x27;search.tab.all&#x27;: &#x27;Todo&#x27;,
+		&#x27;search.tab.users&#x27;: &#x27;Usuarios&#x27;,
+		&#x27;search.tab.recipes&#x27;: &#x27;Recetas&#x27;,
+		&#x27;search.hint&#x27;: &#x27;Busca recetas o usuarios&#x27;,
+		&#x27;search.hint_shortcut&#x27;: &#x27;Pulsa ⌘K o Ctrl+K para abrir/cerrar&#x27;,
+		&#x27;search.no_results&#x27;: &#x27;Sin resultados para&#x27;,
+		&#x27;search.try_another&#x27;: &#x27;Intenta con otro término&#x27;,
+		&#x27;search.users_label&#x27;: &#x27;Usuarios&#x27;,
+		&#x27;search.recipes_label&#x27;: &#x27;Recetas&#x27;,
+		&#x27;search.no_title&#x27;: &#x27;Sin título&#x27;,
+		&#x27;search.view_all&#x27;: &#x27;Ver todos los resultados en Explorar&#x27;,
+
+		// AI Recipes
+		&#x27;ai.title&#x27;: &#x27;IA Recetas&#x27;,
+		&#x27;ai.hero_subtitle&#x27;: &#x27;Cuéntanos qué tienes o qué se te antoja y nuestra IA creará la receta perfecta para ti.&#x27;,
+		&#x27;ai.hero_hello&#x27;: &#x27;Hola, &#x27;,
+		&#x27;ai.hero_fallback_chef&#x27;: &#x27;chef&#x27;,
+		&#x27;ai.hero_ready&#x27;: &#x27;Estoy listo para crear una receta deliciosa especialmente para ti.&#x27;,
+		&#x27;ai.form.title&#x27;: &#x27;Cuéntanos qué tienes en casa&#x27;,
+		&#x27;ai.form.placeholder&#x27;: &#x27;Ej: pollo, arroz, brócoli, limón...&#x27;,
+		&#x27;ai.form.suggestions&#x27;: &#x27;O elige algunas sugerencias:&#x27;,
+		&#x27;ai.form.suggest.chicken&#x27;: &#x27;Pollo&#x27;,
+		&#x27;ai.form.suggest.rice&#x27;: &#x27;Arroz&#x27;,
+		&#x27;ai.form.suggest.broccoli&#x27;: &#x27;Brócoli&#x27;,
+		&#x27;ai.form.suggest.tomato&#x27;: &#x27;Tomate&#x27;,
+		&#x27;ai.form.suggest.avocado&#x27;: &#x27;Aguacate&#x27;,
+		&#x27;ai.form.suggest.eggs&#x27;: &#x27;Huevos&#x27;,
+		&#x27;ai.form.suggest.mushrooms&#x27;: &#x27;Champiñones&#x27;,
+		&#x27;ai.form.suggest.cheese&#x27;: &#x27;Queso&#x27;,
+		&#x27;ai.form.type_title&#x27;: &#x27;¿Qué tipo de receta buscas?&#x27;,
+		&#x27;ai.form.type.quick.title&#x27;: &#x27;Rápida&#x27;,
+		&#x27;ai.form.type.quick.desc&#x27;: &#x27;Menos de 30 min&#x27;,
+		&#x27;ai.form.type.healthy.title&#x27;: &#x27;Saludable&#x27;,
+		&#x27;ai.form.type.healthy.desc&#x27;: &#x27;Baja en calorías&#x27;,
+		&#x27;ai.form.type.vegetarian.title&#x27;: &#x27;Vegetariana&#x27;,
+		&#x27;ai.form.type.vegetarian.desc&#x27;: &#x27;Sin carne&#x27;,
+		&#x27;ai.form.type.gourmet.title&#x27;: &#x27;Gourmet&#x27;,
+		&#x27;ai.form.type.gourmet.desc&#x27;: &#x27;Para sorprender&#x27;,
+		&#x27;ai.form.portions&#x27;: &#x27;Número de porciones&#x27;,
+		&#x27;ai.form.portions_label&#x27;: &#x27;porciones&#x27;,
+		&#x27;ai.form.generating&#x27;: &#x27;Creando receta...&#x27;,
+		&#x27;ai.form.generate_btn&#x27;: &#x27;Generar receta&#x27;,
+		&#x27;ai.result.generated&#x27;: &#x27;Receta generada&#x27;,
+		&#x27;ai.result.ingredients&#x27;: &#x27;Ingredientes&#x27;,
+		&#x27;ai.result.steps&#x27;: &#x27;Pasos&#x27;,
+		&#x27;ai.result.info_banner&#x27;: &#x27;Nuestra IA utiliza ingredientes comunes para crear recetas deliciosas y personalizadas.&#x27;,
+		&#x27;ai.ideas.title&#x27;: &#x27;Ideas para ti&#x27;,
+		&#x27;ai.ideas.refresh&#x27;: &#x27;Actualizar&#x27;,
+		&#x27;ai.ideas.view&#x27;: &#x27;Ver&#x27;,
+		&#x27;ai.ideas.pasta_title&#x27;: &#x27;Pasta con pollo al limón&#x27;,
+		&#x27;ai.ideas.stir_fry_title&#x27;: &#x27;Salteado de brócoli y pollo&#x27;,
+		&#x27;ai.ideas.creamy_rice_title&#x27;: &#x27;Arroz cremoso con champiñones&#x27;,
+		&#x27;ai.ideas.teriyaki_tacos_title&#x27;: &#x27;Tacos de pollo teriyaki&#x27;,
+		&#x27;ai.ideas.with_your_ingredients&#x27;: &#x27;Con los ingredientes que tienes&#x27;,
+		&#x27;ai.recent.title&#x27;: &#x27;Recetas generadas recientemente&#x27;,
+		&#x27;ai.recent.quinoa_bowl&#x27;: &#x27;Bowl de quinoa con pollo&#x27;,
+		&#x27;ai.recent.pumpkin_soup&#x27;: &#x27;Sopa cremosa de calabaza&#x27;,
+		&#x27;ai.recent.mediterranean_salad&#x27;: &#x27;Ensalada mediterránea&#x27;,
+		&#x27;ai.recent.2_days_ago&#x27;: &#x27;Generada hace 2 días&#x27;,
+		&#x27;ai.recent.4_days_ago&#x27;: &#x27;Generada hace 4 días&#x27;,
+		&#x27;ai.recent.1_week_ago&#x27;: &#x27;Generada hace 1 semana&#x27;,
+		&#x27;ai.recent.save_recipe&#x27;: &#x27;Guardar receta&#x27;,
+
+		// Messages
+		&#x27;messages.title&#x27;: &#x27;Mensajes&#x27;,
+		&#x27;messages.select_conversation&#x27;: &#x27;Selecciona una conversación&#x27;,
+		&#x27;messages.new_conversation&#x27;: &#x27;Nueva conversación&#x27;,
+		&#x27;messages.search_placeholder&#x27;: &#x27;Buscar conversaciones...&#x27;,
+		&#x27;messages.tab.all&#x27;: &#x27;Todas&#x27;,
+		&#x27;messages.tab.unread&#x27;: &#x27;No leídas&#x27;,
+		&#x27;messages.tab.groups&#x27;: &#x27;Grupos&#x27;,
+		&#x27;messages.typing&#x27;: &#x27;escribiendo...&#x27;,
+		&#x27;messages.no_conversations&#x27;: &#x27;No hay conversaciones&#x27;,
+		&#x27;messages.try_another_search&#x27;: &#x27;Prueba con otra búsqueda.&#x27;,
+		&#x27;messages.back&#x27;: &#x27;Volver&#x27;,
+		&#x27;messages.view_profile&#x27;: &#x27;Ver perfil de&#x27;,
+		&#x27;messages.online&#x27;: &#x27;En línea&#x27;,
+		&#x27;messages.offline&#x27;: &#x27;Desconectado&#x27;,
+		&#x27;messages.search_chat&#x27;: &#x27;Buscar en el chat&#x27;,
+		&#x27;messages.audio_call&#x27;: &#x27;Llamada de voz&#x27;,
+		&#x27;messages.video_call&#x27;: &#x27;Videollamada&#x27;,
+		&#x27;messages.more_options&#x27;: &#x27;Más opciones&#x27;,
+		&#x27;messages.search_messages&#x27;: &#x27;Buscar mensajes&#x27;,
+		&#x27;messages.prev_match&#x27;: &#x27;Coincidencia anterior&#x27;,
+		&#x27;messages.next_match&#x27;: &#x27;Coincidencia siguiente&#x27;,
+		&#x27;messages.close_search&#x27;: &#x27;Cerrar búsqueda&#x27;,
+		&#x27;messages.be_first&#x27;: &#x27;Sé el primero en escribir&#x27;,
+		&#x27;messages.replying_to&#x27;: &#x27;Respondiendo a&#x27;,
+		&#x27;messages.you&#x27;: &#x27;ti&#x27;,
+		&#x27;messages.message&#x27;: &#x27;Mensaje&#x27;,
+		&#x27;messages.cancel_reply&#x27;: &#x27;Cancelar respuesta&#x27;,
+		&#x27;messages.attach&#x27;: &#x27;Adjuntar&#x27;,
+		&#x27;messages.write_message&#x27;: &#x27;Escribe un mensaje...&#x27;,
+		&#x27;messages.emoji&#x27;: &#x27;Emoji&#x27;,
+		&#x27;messages.insert_emoji&#x27;: &#x27;Insertar emoji&#x27;,
+		&#x27;messages.send&#x27;: &#x27;Enviar mensaje&#x27;,
+		&#x27;messages.today&#x27;: &#x27;Hoy&#x27;,
+		&#x27;messages.yesterday&#x27;: &#x27;Ayer&#x27;,
+		&#x27;messages.day_before_yesterday&#x27;: &#x27;Antes de ayer&#x27;,
+		&#x27;messages.close&#x27;: &#x27;Cerrar&#x27;,
+		&#x27;messages.search_user_placeholder&#x27;: &#x27;Buscar por nombre o usuario...&#x27;,
+		&#x27;messages.try_another_user&#x27;: &#x27;Prueba con otro nombre o usuario&#x27;,
+		&#x27;messages.type_to_search&#x27;: &#x27;Escribe para buscar&#x27;,
+	},
+	en: {
+		// Shell / Navbar
+		&#x27;shell.feed&#x27;: &#x27;Feed&#x27;,
+		&#x27;shell.explore&#x27;: &#x27;Explore&#x27;,
+		&#x27;shell.places&#x27;: &#x27;Places&#x27;,
+		&#x27;shell.ai_recipes&#x27;: &#x27;AI Recipes&#x27;,
+		&#x27;shell.saved&#x27;: &#x27;Saved&#x27;,
+		&#x27;shell.messages&#x27;: &#x27;Messages&#x27;,
+		&#x27;shell.notifications&#x27;: &#x27;Notifications&#x27;,
+		&#x27;shell.shopping&#x27;: &#x27;Shopping&#x27;,
+		&#x27;shell.settings&#x27;: &#x27;Settings&#x27;,
+		&#x27;shell.search_placeholder&#x27;: &#x27;Search...&#x27;,
+		&#x27;shell.profile&#x27;: &#x27;Your profile&#x27;,
+		&#x27;shell.logout&#x27;: &#x27;Log out&#x27;,
+		&#x27;shell.chats&#x27;: &#x27;Chats&#x27;,
+
+		// Settings Header
+		&#x27;settings.control_center&#x27;: &#x27;Control Center&#x27;,
+		&#x27;settings.title&#x27;: &#x27;Settings&#x27;,
+		&#x27;settings.subtitle&#x27;: &#x27;Manage your profile, privacy and notifications without leaving Savorealo.&#x27;,
+		&#x27;settings.view_profile&#x27;: &#x27;View profile&#x27;,
+
+		// Settings Account
+		&#x27;settings.account.title&#x27;: &#x27;Account&#x27;,
+		&#x27;settings.account.subtitle&#x27;: &#x27;Basic information about your access.&#x27;,
+		&#x27;settings.account.display_name&#x27;: &#x27;Display name&#x27;,
+		&#x27;settings.account.username&#x27;: &#x27;Username&#x27;,
+		&#x27;settings.account.email&#x27;: &#x27;Email&#x27;,
+
+		// Settings Notifications
+		&#x27;settings.notifications.title&#x27;: &#x27;Notifications&#x27;,
+		&#x27;settings.notifications.subtitle&#x27;: &#x27;They are saved automatically to your account.&#x27;,
+		&#x27;settings.notifications.likes.label&#x27;: &#x27;Likes&#x27;,
+		&#x27;settings.notifications.likes.desc&#x27;: &#x27;Notify me when someone likes your recipe or post.&#x27;,
+		&#x27;settings.notifications.comments.label&#x27;: &#x27;Comments&#x27;,
+		&#x27;settings.notifications.comments.desc&#x27;: &#x27;Notify me when someone comments on your recipe or post.&#x27;,
+		&#x27;settings.notifications.follows.label&#x27;: &#x27;New followers&#x27;,
+		&#x27;settings.notifications.follows.desc&#x27;: &#x27;Show notifications when other cooks follow you.&#x27;,
+
+		// Settings Appearance &amp; Privacy
+		&#x27;settings.appearance_privacy.title&#x27;: &#x27;Appearance and Privacy&#x27;,
+		&#x27;settings.appearance_privacy.subtitle&#x27;: &#x27;Personalize your experience and visibility.&#x27;,
+		&#x27;settings.appearance_privacy.dark_mode.label&#x27;: &#x27;Dark mode&#x27;,
+		&#x27;settings.appearance_privacy.dark_mode.active&#x27;: &#x27;Active — dark interface&#x27;,
+		&#x27;settings.appearance_privacy.dark_mode.inactive&#x27;: &#x27;Inactive — light interface&#x27;,
+		&#x27;settings.appearance_privacy.private.label&#x27;: &#x27;Private profile&#x27;,
+		&#x27;settings.appearance_privacy.private.desc&#x27;: &#x27;Limit the visibility of your posts to your followers.&#x27;,
+
+		// Settings Language
+		&#x27;settings.language.title&#x27;: &#x27;Language&#x27;,
+		&#x27;settings.language.subtitle&#x27;: &#x27;Select your preferred language for the interface.&#x27;,
+		&#x27;settings.language.es&#x27;: &#x27;Spanish (Español)&#x27;,
+		&#x27;settings.language.en&#x27;: &#x27;English&#x27;,
+		&#x27;settings.language.fr&#x27;: &#x27;French (Français)&#x27;,
+		&#x27;settings.language.de&#x27;: &#x27;German (Deutsch)&#x27;,
+
+		// Settings Session
+		&#x27;settings.session.title&#x27;: &#x27;Session&#x27;,
+		&#x27;settings.session.subtitle&#x27;: &#x27;You can log out on this device.&#x27;,
+		&#x27;settings.session.logout_btn&#x27;: &#x27;Log out&#x27;,
+
+		// Settings Aside
+		&#x27;settings.aside.desc&#x27;: &#x27;Your preferences are saved to your account and automatically restored when logging in.&#x27;,
+		&#x27;settings.aside.pro_badge&#x27;: &#x27;Savorealo Pro&#x27;,
+		&#x27;settings.aside.pro_title&#x27;: &#x27;More control for creators&#x27;,
+		&#x27;settings.aside.pro_desc&#x27;: &#x27;Advanced statistics, private collections, and featured recipes.&#x27;,
+		&#x27;settings.aside.pro_btn&#x27;: &#x27;Coming soon&#x27;,
+		&#x27;settings.error_save&#x27;: &#x27;Could not save settings&#x27;,
+
+		// Auth
+		&#x27;auth.welcome&#x27;: &#x27;Welcome back&#x27;,
+		&#x27;auth.enter_kitchen&#x27;: &#x27;Enter your kitchen&#x27;,
+		&#x27;auth.subtitle&#x27;: &#x27;Continue discovering recipes, saving ideas and sharing your favorite dishes.&#x27;,
+		&#x27;auth.email&#x27;: &#x27;Email address&#x27;,
+		&#x27;auth.email_required&#x27;: &#x27;Email is required.&#x27;,
+		&#x27;auth.email_invalid&#x27;: &#x27;Enter a valid email.&#x27;,
+		&#x27;auth.password&#x27;: &#x27;Password&#x27;,
+		&#x27;auth.password_placeholder&#x27;: &#x27;Your password&#x27;,
+		&#x27;auth.password_required&#x27;: &#x27;Password is required.&#x27;,
+		&#x27;auth.login_btn&#x27;: &#x27;Log in&#x27;,
+		&#x27;auth.or_continue&#x27;: &#x27;OR CONTINUE WITH&#x27;,
+		&#x27;auth.no_account&#x27;: &#x27;Don\&#x27;t have an account?&#x27;,
+		&#x27;auth.register_link&#x27;: &#x27;Register&#x27;,
+		&#x27;auth.register.new_account&#x27;: &#x27;New account&#x27;,
+		&#x27;auth.register.title_step1&#x27;: &#x27;Create your account&#x27;,
+		&#x27;auth.register.title_step2&#x27;: &#x27;Complete your profile&#x27;,
+		&#x27;auth.register.title_step3&#x27;: &#x27;Add a photo&#x27;,
+		&#x27;auth.register.subtitle&#x27;: &#x27;Complete your profile and start sharing what you cook.&#x27;,
+		&#x27;auth.register.google_btn&#x27;: &#x27;Register with Google&#x27;,
+		&#x27;auth.register.have_account&#x27;: &#x27;Already have an account?&#x27;,
+		&#x27;auth.register.login_link&#x27;: &#x27;Log in&#x27;,
+		&#x27;auth.register.back&#x27;: &#x27;Back&#x27;,
+		&#x27;auth.register.next&#x27;: &#x27;Next&#x27;,
+		&#x27;auth.register.create_btn&#x27;: &#x27;Create account&#x27;,
+		&#x27;auth.register.username&#x27;: &#x27;Username&#x27;,
+		&#x27;auth.register.checking_username&#x27;: &#x27;Checking availability…&#x27;,
+		&#x27;auth.register.username_required&#x27;: &#x27;Username is required.&#x27;,
+		&#x27;auth.register.confirm_password&#x27;: &#x27;Confirm&#x27;,
+		&#x27;auth.register.confirm_placeholder&#x27;: &#x27;Repeat your password&#x27;,
+		&#x27;auth.register.confirm_required&#x27;: &#x27;Confirm your password.&#x27;,
+		&#x27;auth.register.password_mismatch&#x27;: &#x27;Passwords do not match.&#x27;,
+		&#x27;auth.register.password_required&#x27;: &#x27;Password is required.&#x27;,
+		&#x27;auth.register.password_minlength&#x27;: &#x27;Must be at least 8 characters.&#x27;,
+		&#x27;auth.register.password_pattern&#x27;: &#x27;Include uppercase, number and symbol.&#x27;,
+		&#x27;auth.register.email_required&#x27;: &#x27;Email is required.&#x27;,
+		&#x27;auth.register.email_invalid&#x27;: &#x27;Enter a valid email.&#x27;,
+		&#x27;auth.register.full_name&#x27;: &#x27;Full name&#x27;,
+		&#x27;auth.register.full_name_required&#x27;: &#x27;Name is required.&#x27;,
+		&#x27;auth.register.birth_date&#x27;: &#x27;Birth date&#x27;,
+		&#x27;auth.register.birth_date_placeholder&#x27;: &#x27;Select a date&#x27;,
+		&#x27;auth.register.birth_date_required&#x27;: &#x27;Date is required.&#x27;,
+		&#x27;auth.register.bio&#x27;: &#x27;Bio&#x27;,
+		&#x27;auth.register.bio_placeholder&#x27;: &#x27;Tell us what you like to cook...&#x27;,
+		&#x27;auth.register.upload_photo&#x27;: &#x27;Upload photo&#x27;,
+		&#x27;auth.register.upload_photo_desc&#x27;: &#x27;Add a photo so other cooks recognize you. JPG, PNG or WEBP, maximum 2MB. It is optional.&#x27;,
+		&#x27;auth.register.remove_photo&#x27;: &#x27;Remove image&#x27;,
+		&#x27;auth.register.photo_label&#x27;: &#x27;Choose profile picture&#x27;,
+		&#x27;auth.register.photo_preview&#x27;: &#x27;Profile picture preview&#x27;,
+
+		// Feed
+		&#x27;feed.post_tab&#x27;: &#x27;Post&#x27;,
+		&#x27;feed.recipe_tab&#x27;: &#x27;Recipe&#x27;,
+		&#x27;feed.desc_placeholder_recipe&#x27;: &#x27;Describe your recipe, tricks, story...&#x27;,
+		&#x27;feed.desc_placeholder_post&#x27;: &#x27;Share a recipe, a craving or your latest discovery...&#x27;,
+		&#x27;feed.recipe_name&#x27;: &#x27;Recipe name *&#x27;,
+		&#x27;feed.recipe_name_placeholder&#x27;: &#x27;E.g.: Potato omelette with onion&#x27;,
+		&#x27;feed.difficulty&#x27;: &#x27;Difficulty&#x27;,
+		&#x27;feed.difficulty.easy&#x27;: &#x27;Easy&#x27;,
+		&#x27;feed.difficulty.medium&#x27;: &#x27;Medium&#x27;,
+		&#x27;feed.difficulty.hard&#x27;: &#x27;Hard&#x27;,
+		&#x27;feed.time&#x27;: &#x27;Time (min)&#x27;,
+		&#x27;feed.servings&#x27;: &#x27;Servings&#x27;,
+		&#x27;feed.ingredients&#x27;: &#x27;Ingredients&#x27;,
+		&#x27;feed.ingredients_placeholder&#x27;: &#x27;Ingredient *&#x27;,
+		&#x27;feed.ingredients_qty&#x27;: &#x27;Qty.&#x27;,
+		&#x27;feed.ingredients_unit&#x27;: &#x27;Unit&#x27;,
+		&#x27;feed.steps&#x27;: &#x27;Preparation steps&#x27;,
+		&#x27;feed.add_btn&#x27;: &#x27;Add&#x27;,
+		&#x27;feed.add_step_btn&#x27;: &#x27;Step&#x27;,
+		&#x27;feed.no_ingredients&#x27;: &#x27;No ingredients yet — click &quot;Add&quot;&#x27;,
+		&#x27;feed.no_steps&#x27;: &#x27;No steps yet — click &quot;Step&quot;&#x27;,
+		&#x27;feed.step_placeholder&#x27;: &#x27;Describe step...&#x27;,
+		&#x27;feed.photo_btn&#x27;: &#x27;Photo&#x27;,
+		&#x27;feed.publish_btn&#x27;: &#x27;Publish&#x27;,
+		&#x27;feed.publishing&#x27;: &#x27;Publishing...&#x27;,
+		&#x27;feed.suggestions_title&#x27;: &#x27;Suggestions for you&#x27;,
+		&#x27;feed.view_all&#x27;: &#x27;View all&#x27;,
+		&#x27;feed.following&#x27;: &#x27;Following&#x27;,
+		&#x27;feed.follow&#x27;: &#x27;Follow&#x27;,
+		&#x27;feed.no_suggestions&#x27;: &#x27;No suggestions for now.&#x27;,
+
+		// Explore
+		&#x27;explore.search_placeholder&#x27;: &#x27;Search recipes, ingredients or users...&#x27;,
+		&#x27;explore.posts_tab&#x27;: &#x27;Posts&#x27;,
+		&#x27;explore.users_tab&#x27;: &#x27;Users&#x27;,
+		&#x27;explore.no_results&#x27;: &#x27;No results for&#x27;,
+		&#x27;explore.try_another&#x27;: &#x27;Try another term&#x27;,
+		&#x27;explore.no_users&#x27;: &#x27;No users for&#x27;,
+		&#x27;explore.title&#x27;: &#x27;Explore&#x27;,
+		&#x27;explore.subtitle&#x27;: &#x27;Discover amazing recipes from our community&#x27;,
+		&#x27;explore.order_by&#x27;: &#x27;Sort by:&#x27;,
+		&#x27;explore.sort.relevant&#x27;: &#x27;Relevant&#x27;,
+		&#x27;explore.sort.recent&#x27;: &#x27;Recent&#x27;,
+		&#x27;explore.sort.popular&#x27;: &#x27;Popular&#x27;,
+		&#x27;explore.filters&#x27;: &#x27;Filters&#x27;,
+		&#x27;explore.cat.all&#x27;: &#x27;All&#x27;,
+		&#x27;explore.cat.italian&#x27;: &#x27;Italian&#x27;,
+		&#x27;explore.cat.quick&#x27;: &#x27;Quick&#x27;,
+		&#x27;explore.cat.healthy&#x27;: &#x27;Healthy&#x27;,
+		&#x27;explore.cat.vegan&#x27;: &#x27;Vegan&#x27;,
+		&#x27;explore.cat.dessert&#x27;: &#x27;Desserts&#x27;,
+		&#x27;explore.cat.asian&#x27;: &#x27;Asian&#x27;,
+		&#x27;explore.cat.gourmet&#x27;: &#x27;Gourmet&#x27;,
+		&#x27;explore.popular_collections&#x27;: &#x27;Popular collections&#x27;,
+		&#x27;explore.view_all&#x27;: &#x27;View all&#x27;,
+		&#x27;explore.no_collections&#x27;: &#x27;No collections available.&#x27;,
+		&#x27;explore.recipe.singular&#x27;: &#x27;recipe&#x27;,
+		&#x27;explore.recipe.plural&#x27;: &#x27;recipes&#x27;,
+		&#x27;explore.featured_chef&#x27;: &#x27;Featured chef&#x27;,
+		&#x27;explore.view_profile&#x27;: &#x27;View profile&#x27;,
+		&#x27;explore.no_featured_chef&#x27;: &#x27;No featured chef.&#x27;,
+		&#x27;explore.recipes_label&#x27;: &#x27;Recipes&#x27;,
+		&#x27;explore.followers_label&#x27;: &#x27;Followers&#x27;,
+		&#x27;explore.trends_title&#x27;: &#x27;Trending&#x27;,
+		&#x27;explore.view_all_trends&#x27;: &#x27;View all&#x27;,
+		&#x27;explore.no_trends&#x27;: &#x27;No trends.&#x27;,
+		&#x27;explore.like.singular&#x27;: &#x27;like&#x27;,
+		&#x27;explore.like.plural&#x27;: &#x27;likes&#x27;,
+		&#x27;explore.retry&#x27;: &#x27;Retry&#x27;,
+		&#x27;explore.searching_recipes&#x27;: &#x27;Searching recipes...&#x27;,
+		&#x27;explore.no_recipes_category&#x27;: &#x27;No recipes for this category.&#x27;,
+		&#x27;explore.loading&#x27;: &#x27;Loading...&#x27;,
+		&#x27;explore.load_more_recipes&#x27;: &#x27;Load more recipes&#x27;,
+
+		// Places
+		&#x27;places.title&#x27;: &#x27;Places&#x27;,
+		&#x27;places.subtitle&#x27;: &#x27;Restaurants and bars near you&#x27;,
+		&#x27;places.locate_me&#x27;: &#x27;Locate me&#x27;,
+		&#x27;places.no_access&#x27;: &#x27;No access&#x27;,
+		&#x27;places.near_you&#x27;: &#x27;Near you&#x27;,
+		&#x27;places.search_placeholder&#x27;: &#x27;Search by name, address or specialty...&#x27;,
+		&#x27;places.retry&#x27;: &#x27;Retry&#x27;,
+		&#x27;places.no_results&#x27;: &#x27;No results&#x27;,
+		&#x27;places.change_filters&#x27;: &#x27;Try changing filters or search&#x27;,
+		&#x27;places.type.all&#x27;: &#x27;All&#x27;,
+		&#x27;places.type.restaurants&#x27;: &#x27;Restaurants&#x27;,
+		&#x27;places.type.bars&#x27;: &#x27;Bars&#x27;,
+		&#x27;places.type.cafes&#x27;: &#x27;Cafes&#x27;,
+		&#x27;places.type.bakeries&#x27;: &#x27;Bakeries&#x27;,
+		&#x27;places.type.food_trucks&#x27;: &#x27;Food Trucks&#x27;,
+		&#x27;places.tag.burger&#x27;: &#x27;🍔 Burgers&#x27;,
+		&#x27;places.tag.seafood&#x27;: &#x27;🦞 Seafood&#x27;,
+		&#x27;places.tag.italian&#x27;: &#x27;🍝 Italian&#x27;,
+		&#x27;places.tag.mexican&#x27;: &#x27;🌮 Mexican&#x27;,
+		&#x27;places.tag.chinese&#x27;: &#x27;🥢 Chinese&#x27;,
+		&#x27;places.tag.japanese&#x27;: &#x27;🍣 Japanese&#x27;,
+		&#x27;places.tag.cocktail&#x27;: &#x27;🍹 Cocktails&#x27;,
+		&#x27;places.tag.wine&#x27;: &#x27;🍷 Wine&#x27;,
+		&#x27;places.tag.happy_hour&#x27;: &#x27;⏰ Happy Hour&#x27;,
+		&#x27;places.tag.nightlife&#x27;: &#x27;🎶 Nightlife&#x27;,
+		&#x27;places.sort.rating&#x27;: &#x27;Rating&#x27;,
+		&#x27;places.sort.distance&#x27;: &#x27;Distance&#x27;,
+		&#x27;places.sort.name&#x27;: &#x27;Name&#x27;,
+		&#x27;places.singular&#x27;: &#x27;place&#x27;,
+		&#x27;places.plural&#x27;: &#x27;places&#x27;,
+		&#x27;places.type.restaurant&#x27;: &#x27;Restaurant&#x27;,
+		&#x27;places.type.bar&#x27;: &#x27;Bar&#x27;,
+		&#x27;places.type.cafe&#x27;: &#x27;Cafe&#x27;,
+		&#x27;places.type.bakery&#x27;: &#x27;Bakery&#x27;,
+		&#x27;places.type.food_truck&#x27;: &#x27;Food Truck&#x27;,
+		&#x27;places.back&#x27;: &#x27;Back&#x27;,
+		&#x27;places.reviews&#x27;: &#x27;Reviews&#x27;,
+		&#x27;places.add_review&#x27;: &#x27;Add review&#x27;,
+		&#x27;places.first_review&#x27;: &#x27;Be the first to leave a review&#x27;,
+		&#x27;places.open&#x27;: &#x27;Open&#x27;,
+		&#x27;places.closed&#x27;: &#x27;Closed&#x27;,
+		&#x27;places.view_web&#x27;: &#x27;View website&#x27;,
+		&#x27;places.view_maps&#x27;: &#x27;View on Google Maps&#x27;,
+		&#x27;places.reviews_count.singular&#x27;: &#x27;review&#x27;,
+		&#x27;places.reviews_count.plural&#x27;: &#x27;reviews&#x27;,
+		&#x27;places.review.your_rating&#x27;: &#x27;Your rating&#x27;,
+		&#x27;places.review.rating.1&#x27;: &#x27;Very bad&#x27;,
+		&#x27;places.review.rating.2&#x27;: &#x27;Bad&#x27;,
+		&#x27;places.review.rating.3&#x27;: &#x27;Average&#x27;,
+		&#x27;places.review.rating.4&#x27;: &#x27;Good&#x27;,
+		&#x27;places.review.rating.5&#x27;: &#x27;Excellent&#x27;,
+		&#x27;places.review.comment&#x27;: &#x27;Comment&#x27;,
+		&#x27;places.review.optional&#x27;: &#x27;(optional)&#x27;,
+		&#x27;places.review.placeholder&#x27;: &#x27;Tell us about your experience...&#x27;,
+		&#x27;places.review.cancel&#x27;: &#x27;Cancel&#x27;,
+		&#x27;places.review.submit&#x27;: &#x27;Publish review&#x27;,
+		&#x27;places.review.error_select_rating&#x27;: &#x27;Please select a rating&#x27;,
+		&#x27;places.review.error_save&#x27;: &#x27;Could not save review. Please try again.&#x27;,
+
+		// Notifications
+		&#x27;notifications.title&#x27;: &#x27;Activity&#x27;,
+		&#x27;notifications.unread_count&#x27;: &#x27;You have new updates waiting&#x27;,
+		&#x27;notifications.mark_all_read&#x27;: &#x27;Mark all as read&#x27;,
+		&#x27;notifications.loading&#x27;: &#x27;Loading notifications...&#x27;,
+		&#x27;notifications.empty_title&#x27;: &#x27;All quiet here&#x27;,
+		&#x27;notifications.empty_desc&#x27;: &#x27;Likes, comments and followers will appear here.&#x27;,
+		&#x27;notifications.accepted&#x27;: &#x27;Accepted&#x27;,
+		&#x27;notifications.rejected&#x27;: &#x27;Rejected&#x27;,
+		&#x27;notifications.accept&#x27;: &#x27;Accept&#x27;,
+		&#x27;notifications.reject&#x27;: &#x27;Reject&#x27;,
+		&#x27;notifications.follow_back&#x27;: &#x27;Follow back&#x27;,
+		&#x27;notifications.reply&#x27;: &#x27;Reply&#x27;,
+		&#x27;notifications.config_label&#x27;: &#x27;Notification settings&#x27;,
+		&#x27;notifications.mark_as_read_label&#x27;: &#x27;Mark as read&#x27;,
+		&#x27;notifications.view_post_label&#x27;: &#x27;View post&#x27;,
+		&#x27;notifications.tab.all&#x27;: &#x27;All&#x27;,
+		&#x27;notifications.tab.unread&#x27;: &#x27;Unread&#x27;,
+		&#x27;notifications.tab.mentions&#x27;: &#x27;Mentions&#x27;,
+		&#x27;notifications.tab.social&#x27;: &#x27;Social&#x27;,
+		&#x27;notifications.date.today&#x27;: &#x27;Today&#x27;,
+		&#x27;notifications.date.yesterday&#x27;: &#x27;Yesterday&#x27;,
+		&#x27;notifications.date.this_week&#x27;: &#x27;This week&#x27;,
+		&#x27;notifications.date.older&#x27;: &#x27;Earlier&#x27;,
+		&#x27;notifications.someone&#x27;: &#x27;Someone&#x27;,
+		&#x27;notifications.text.like&#x27;: &#x27;liked your recipe&#x27;,
+		&#x27;notifications.text.comment&#x27;: &#x27;commented&#x27;,
+		&#x27;notifications.text.follow&#x27;: &#x27;started following you&#x27;,
+		&#x27;notifications.text.follow_request&#x27;: &#x27;wants to follow you&#x27;,
+		&#x27;notifications.text.follow_accepted&#x27;: &#x27;accepted your follow request&#x27;,
+		&#x27;notifications.text.mention&#x27;: &#x27;mentioned you in a comment&#x27;,
+		&#x27;notifications.text.recipe_save&#x27;: &#x27;saved your recipe&#x27;,
+		&#x27;notifications.text.default&#x27;: &#x27;interacted with your content&#x27;,
+		&#x27;notifications.chip.like&#x27;: &#x27;Like&#x27;,
+		&#x27;notifications.chip.comment&#x27;: &#x27;Comment&#x27;,
+		&#x27;notifications.chip.follow&#x27;: &#x27;New follower&#x27;,
+		&#x27;notifications.chip.follow_request&#x27;: &#x27;Request&#x27;,
+		&#x27;notifications.chip.follow_accepted&#x27;: &#x27;Accepted&#x27;,
+		&#x27;notifications.chip.mention&#x27;: &#x27;Mention&#x27;,
+		&#x27;notifications.chip.recipe_save&#x27;: &#x27;Saved&#x27;,
+		&#x27;notifications.state.following&#x27;: &#x27;Following&#x27;,
+		&#x27;notifications.state.requested&#x27;: &#x27;Requested&#x27;,
+		&#x27;notifications.state.follow&#x27;: &#x27;Follow&#x27;,
+
+		// Profile
+		&#x27;profile.kitchen_profile&#x27;: &#x27;Kitchen profile&#x27;,
+		&#x27;profile.edit_profile&#x27;: &#x27;Edit profile&#x27;,
+		&#x27;profile.share_profile&#x27;: &#x27;Share profile&#x27;,
+		&#x27;profile.followers&#x27;: &#x27;Followers&#x27;,
+		&#x27;profile.following&#x27;: &#x27;Following&#x27;,
+		&#x27;profile.posts&#x27;: &#x27;Posts&#x27;,
+		&#x27;profile.boost_title&#x27;: &#x27;Boost your profile&#x27;,
+		&#x27;profile.boost_desc&#x27;: &#x27;Complete your bio, upload a photo and publish recipes to improve discovery.&#x27;,
+		&#x27;profile.empty_posts_title&#x27;: &#x27;You haven\&#x27;t posted anything yet&#x27;,
+		&#x27;profile.empty_posts_desc&#x27;: &#x27;Share your first recipe with the community.&#x27;,
+		&#x27;profile.empty_saved_title&#x27;: &#x27;Your saved recipes will appear here&#x27;,
+		&#x27;profile.empty_saved_desc&#x27;: &#x27;Save ideas from the feed or Explore to cook them later.&#x27;,
+		&#x27;profile.empty_liked_title&#x27;: &#x27;Your liked recipes will appear here&#x27;,
+		&#x27;profile.empty_liked_desc&#x27;: &#x27;Like recipes from the feed to see them here.&#x27;,
+		&#x27;profile.badges&#x27;: &#x27;Badges&#x27;,
+		&#x27;profile.account&#x27;: &#x27;Account&#x27;,
+		&#x27;profile.logout&#x27;: &#x27;Log out&#x27;,
+		&#x27;profile.username&#x27;: &#x27;Username&#x27;,
+		&#x27;profile.display_name&#x27;: &#x27;Full name&#x27;,
+		&#x27;profile.bio&#x27;: &#x27;Bio&#x27;,
+		&#x27;profile.location&#x27;: &#x27;Location&#x27;,
+		&#x27;profile.birth_date&#x27;: &#x27;Birth date&#x27;,
+		&#x27;profile.cancel&#x27;: &#x27;Cancel&#x27;,
+		&#x27;profile.save_changes&#x27;: &#x27;Save changes&#x27;,
+		&#x27;profile.saving&#x27;: &#x27;Saving...&#x27;,
+		&#x27;profile.joined_since&#x27;: &#x27;Complete profile since&#x27;,
+		&#x27;profile.in_construction&#x27;: &#x27;Profile under construction&#x27;,
+		&#x27;profile.no_location&#x27;: &#x27;No location&#x27;,
+		&#x27;profile.bio_fallback&#x27;: &#x27;Share your bio so the community knows your cooking style.&#x27;,
+		&#x27;profile.badge.active_chef.label&#x27;: &#x27;Active Chef&#x27;,
+		&#x27;profile.badge.active_chef.desc&#x27;: &#x27;Publishes recipes frequently&#x27;,
+		&#x27;profile.badge.favorites.label&#x27;: &#x27;Favorites&#x27;,
+		&#x27;profile.badge.favorites.desc&#x27;: &#x27;Their recipes receive good feedback&#x27;,
+		&#x27;profile.badge.curator.label&#x27;: &#x27;Curator&#x27;,
+		&#x27;profile.badge.curator.desc&#x27;: &#x27;Saves ideas to cook better&#x27;,
+
+		// Saved
+		&#x27;saved.personal_library&#x27;: &#x27;Personal library&#x27;,
+		&#x27;saved.title&#x27;: &#x27;Saved&#x27;,
+		&#x27;saved.subtitle&#x27;: &#x27;Your saved recipes and posts so you don\&#x27;t lose any good ideas.&#x27;,
+		&#x27;saved.search_placeholder&#x27;: &#x27;Search your saved items...&#x27;,
+		&#x27;saved.recents&#x27;: &#x27;Recents&#x27;,
+		&#x27;saved.ordered_by&#x27;: &#x27;Ordered by the last thing you saved.&#x27;,
+		&#x27;saved.empty_title&#x27;: &#x27;No saved items here&#x27;,
+		&#x27;saved.empty_desc&#x27;: &#x27;Save recipes and posts from the Feed or Explore to build your library.&#x27;,
+		&#x27;saved.loading_more&#x27;: &#x27;Loading more saved items...&#x27;,
+		&#x27;saved.filter.all&#x27;: &#x27;All&#x27;,
+		&#x27;saved.filter.recipes&#x27;: &#x27;Recipes&#x27;,
+		&#x27;saved.filter.posts&#x27;: &#x27;Posts&#x27;,
+
+		// Shopping List
+		&#x27;shopping.title&#x27;: &#x27;Shopping list&#x27;,
+		&#x27;shopping.pending_status&#x27;: &#x27;pending&#x27;,
+		&#x27;shopping.ready_status&#x27;: &#x27;ready&#x27;,
+		&#x27;shopping.toast.group_removed&#x27;: &#x27;Ingredients removed from list&#x27;,
+		&#x27;shopping.toast.checked_removed&#x27;: &#x27;Checked ingredients removed&#x27;,
+		&#x27;shopping.toast.list_cleared&#x27;: &#x27;List cleared&#x27;,
+		&#x27;shopping.toast.list_copied&#x27;: &#x27;List copied to clipboard&#x27;,
+		&#x27;shopping.share_title&#x27;: &#x27;My shopping list&#x27;,
+		&#x27;shopping.add_ingredient&#x27;: &#x27;Add ingredient&#x27;,
+		&#x27;shopping.placeholder_name&#x27;: &#x27;Ingredient (e.g. tomatoes, flour, milk...)&#x27;,
+		&#x27;shopping.placeholder_qty&#x27;: &#x27;Qty.&#x27;,
+		&#x27;shopping.unit_select&#x27;: &#x27;In what quantity?&#x27;,
+		&#x27;shopping.empty_title&#x27;: &#x27;Your list is empty&#x27;,
+		&#x27;shopping.empty_desc&#x27;: &#x27;Add ingredients from any recipe&#x27;,
+		&#x27;shopping.explore_recipes&#x27;: &#x27;Explore recipes&#x27;,
+		&#x27;shopping.clear_checked&#x27;: &#x27;Delete checked&#x27;,
+		&#x27;shopping.complete&#x27;: &#x27;Complete!&#x27;,
+		&#x27;shopping.view_stores&#x27;: &#x27;View supermarkets&#x27;,
+		&#x27;shopping.where_buy&#x27;: &#x27;Where do you want to buy it?&#x27;,
+		&#x27;shopping.stores_available&#x27;: &#x27;Stores available in your area&#x27;,
+		&#x27;shopping.cancel&#x27;: &#x27;Cancel&#x27;,
+		&#x27;shopping.clear_list_title&#x27;: &#x27;Clear list?&#x27;,
+		&#x27;shopping.clear_list_desc&#x27;: &#x27;All ingredients will be removed.&#x27;,
+		&#x27;shopping.clear_confirm&#x27;: &#x27;Clear&#x27;,
+		&#x27;shopping.share_label&#x27;: &#x27;Share list&#x27;,
+		&#x27;shopping.clear_label&#x27;: &#x27;Clear list&#x27;,
+		&#x27;shopping.checked_items_label&#x27;: &#x27;checked item&#x27;,
+		&#x27;shopping.checked_items_label_plural&#x27;: &#x27;checked items&#x27;,
+		&#x27;shopping.remove_group&#x27;: &#x27;Remove group&#x27;,
+		&#x27;shopping.unit.weight&#x27;: &#x27;Weight — flour, meat, fruit…&#x27;,
+		&#x27;shopping.unit.volume&#x27;: &#x27;Volume — milk, oil, juice…&#x27;,
+		&#x27;shopping.unit.units&#x27;: &#x27;Units — eggs, jars, bags…&#x27;,
+		&#x27;shopping.unit.cooking&#x27;: &#x27;Kitchen measures&#x27;,
+		&#x27;shopping.unit.grams&#x27;: &#x27;grams&#x27;,
+		&#x27;shopping.unit.kilograms&#x27;: &#x27;kilograms&#x27;,
+		&#x27;shopping.unit.ml&#x27;: &#x27;milliliters (ml)&#x27;,
+		&#x27;shopping.unit.liters&#x27;: &#x27;liters&#x27;,
+		&#x27;shopping.unit.units_val&#x27;: &#x27;units&#x27;,
+		&#x27;shopping.unit.packages&#x27;: &#x27;packages&#x27;,
+		&#x27;shopping.unit.cans&#x27;: &#x27;cans&#x27;,
+		&#x27;shopping.unit.bags&#x27;: &#x27;bags&#x27;,
+		&#x27;shopping.unit.tablespoons&#x27;: &#x27;tablespoons&#x27;,
+		&#x27;shopping.unit.teaspoons&#x27;: &#x27;teaspoons&#x27;,
+		&#x27;shopping.unit.cups&#x27;: &#x27;cups&#x27;,
+		&#x27;shopping.unit.pinches&#x27;: &#x27;pinches&#x27;,
+
+		// Vegan Convert
+		&#x27;vegan.title&#x27;: &#x27;Vegan version&#x27;,
+		&#x27;vegan.generated_ai&#x27;: &#x27;AI Generated&#x27;,
+		&#x27;vegan.loading&#x27;: &#x27;Veganizing the recipe...&#x27;,
+		&#x27;vegan.searching_substitutes&#x27;: &#x27;Searching for the best substitutes&#x27;,
+		&#x27;vegan.failed_title&#x27;: &#x27;Could not generate&#x27;,
+		&#x27;vegan.ingredients_header&#x27;: &#x27;Ingredients&#x27;,
+		&#x27;vegan.preparation_header&#x27;: &#x27;Preparation&#x27;,
+		&#x27;vegan.tip_header&#x27;: &#x27;Tip&#x27;,
+		&#x27;vegan.regenerate&#x27;: &#x27;Regenerate&#x27;,
+		&#x27;vegan.copy_recipe&#x27;: &#x27;Copy recipe&#x27;,
+		&#x27;vegan.copied&#x27;: &#x27;Copied&#x27;,
+		&#x27;vegan.retry&#x27;: &#x27;Retry&#x27;,
+		&#x27;vegan.close&#x27;: &#x27;Close&#x27;,
+
+		// Feed — extra states
+		&#x27;feed.updating&#x27;: &#x27;Updating...&#x27;,
+		&#x27;feed.refresh_feed&#x27;: &#x27;See new posts&#x27;,
+		&#x27;feed.loading_more&#x27;: &#x27;Loading more posts...&#x27;,
+		&#x27;feed.empty_title&#x27;: &#x27;Your feed is empty&#x27;,
+		&#x27;feed.empty_desc&#x27;: &#x27;Follow other cooks to see their posts here.&#x27;,
+		&#x27;feed.up_to_date_title&#x27;: &#x27;You\&#x27;re up to date!&#x27;,
+		&#x27;feed.up_to_date_desc&#x27;: &#x27;Looking for more inspiration? Explore new recipes.&#x27;,
+		&#x27;feed.go_to_explore&#x27;: &#x27;Explore&#x27;,
+
+		// Report
+		&#x27;report.title&#x27;: &#x27;Report post&#x27;,
+		&#x27;report.subtitle&#x27;: &#x27;Why do you think this post violates the rules?&#x27;,
+		&#x27;report.close&#x27;: &#x27;Close&#x27;,
+		&#x27;report.details_label&#x27;: &#x27;More details (optional)&#x27;,
+		&#x27;report.details_placeholder&#x27;: &#x27;Tell us what\&#x27;s happening (max. 500 characters)&#x27;,
+		&#x27;report.cancel&#x27;: &#x27;Cancel&#x27;,
+		&#x27;report.submitting&#x27;: &#x27;Sending...&#x27;,
+		&#x27;report.submit&#x27;: &#x27;Send report&#x27;,
+		&#x27;report.submitted_title&#x27;: &#x27;Report sent&#x27;,
+		&#x27;report.submitted_desc&#x27;: &#x27;Thank you for letting us know. Our team will review the content.&#x27;,
+		&#x27;report.cat.spam.label&#x27;: &#x27;Spam&#x27;,
+		&#x27;report.cat.spam.desc&#x27;: &#x27;Misleading advertising or repetitive content&#x27;,
+		&#x27;report.cat.hate.label&#x27;: &#x27;Hate or harassment&#x27;,
+		&#x27;report.cat.hate.desc&#x27;: &#x27;Hate speech, insults or harassment of people&#x27;,
+		&#x27;report.cat.violence.label&#x27;: &#x27;Violence&#x27;,
+		&#x27;report.cat.violence.desc&#x27;: &#x27;Violent content or threats&#x27;,
+		&#x27;report.cat.sexual.label&#x27;: &#x27;Sexual content&#x27;,
+		&#x27;report.cat.sexual.desc&#x27;: &#x27;Nudity or explicit sexual content&#x27;,
+		&#x27;report.cat.fraud.label&#x27;: &#x27;Scam or fraud&#x27;,
+		&#x27;report.cat.fraud.desc&#x27;: &#x27;Attempt at scam, phishing or deception&#x27;,
+		&#x27;report.cat.other.label&#x27;: &#x27;Other&#x27;,
+		&#x27;report.cat.other.desc&#x27;: &#x27;Another reason that doesn\&#x27;t fit above&#x27;,
+
+		// Edit Profile
+		&#x27;profile.edit_title&#x27;: &#x27;Edit profile&#x27;,
+		&#x27;profile.your_name&#x27;: &#x27;Your name&#x27;,
+		&#x27;profile.tap_photo&#x27;: &#x27;Tap photo to change it&#x27;,
+		&#x27;profile.checking_availability&#x27;: &#x27;Checking availability…&#x27;,
+		&#x27;profile.bio_placeholder&#x27;: &#x27;Tell us something about you...&#x27;,
+		&#x27;profile.location_placeholder&#x27;: &#x27;London, UK&#x27;,
+		&#x27;profile.success_msg&#x27;: &#x27;Profile updated successfully!&#x27;,
+
+		// Public Profile
+		&#x27;public.back&#x27;: &#x27;Back&#x27;,
+		&#x27;public.go_feed&#x27;: &#x27;Go to feed&#x27;,
+		&#x27;public.follows_you&#x27;: &#x27;Follows you&#x27;,
+		&#x27;public.following_btn&#x27;: &#x27;Following&#x27;,
+		&#x27;public.requested_btn&#x27;: &#x27;Requested&#x27;,
+		&#x27;public.follow_back_btn&#x27;: &#x27;Follow back&#x27;,
+		&#x27;public.follow_btn&#x27;: &#x27;Follow&#x27;,
+		&#x27;public.message_btn&#x27;: &#x27;Message&#x27;,
+		&#x27;public.share_btn&#x27;: &#x27;Share profile&#x27;,
+		&#x27;public.no_posts&#x27;: &#x27;No posts yet&#x27;,
+		&#x27;public.about&#x27;: &#x27;About&#x27;,
+		&#x27;public.no_bio&#x27;: &#x27;This chef hasn\&#x27;t written a bio yet.&#x27;,
+		&#x27;public.no_results&#x27;: &#x27;No results&#x27;,
+		&#x27;public.private_title&#x27;: &#x27;This account is private&#x27;,
+		&#x27;public.private_desc&#x27;: &#x27;Follow this chef to see their recipes and posts.&#x27;,
+		&#x27;public.now_following&#x27;: &#x27;Now following&#x27;,
+		&#x27;public.request_sent&#x27;: &#x27;Request sent to&#x27;,
+		&#x27;public.request_cancelled&#x27;: &#x27;Request cancelled&#x27;,
+		&#x27;public.unfollowed&#x27;: &#x27;Unfollowed&#x27;,
+		&#x27;public.follow_error&#x27;: &#x27;Could not update follow status&#x27;,
+
+		// Topbar
+		&#x27;topbar.search_short&#x27;: &#x27;Search...&#x27;,
+		&#x27;topbar.search_long&#x27;: &#x27;Search recipes, ingredients or users...&#x27;,
+		&#x27;topbar.create&#x27;: &#x27;Create&#x27;,
+
+		// Global Search
+		&#x27;search.placeholder&#x27;: &#x27;Search recipes, users...&#x27;,
+		&#x27;search.tab.all&#x27;: &#x27;All&#x27;,
+		&#x27;search.tab.users&#x27;: &#x27;Users&#x27;,
+		&#x27;search.tab.recipes&#x27;: &#x27;Recipes&#x27;,
+		&#x27;search.hint&#x27;: &#x27;Search recipes or users&#x27;,
+		&#x27;search.hint_shortcut&#x27;: &#x27;Press ⌘K or Ctrl+K to open/close&#x27;,
+		&#x27;search.no_results&#x27;: &#x27;No results for&#x27;,
+		&#x27;search.try_another&#x27;: &#x27;Try another term&#x27;,
+		&#x27;search.users_label&#x27;: &#x27;Users&#x27;,
+		&#x27;search.recipes_label&#x27;: &#x27;Recipes&#x27;,
+		&#x27;search.no_title&#x27;: &#x27;Untitled&#x27;,
+		&#x27;search.view_all&#x27;: &#x27;View all results in Explore&#x27;,
+
+		// AI Recipes
+		&#x27;ai.title&#x27;: &#x27;AI Recipes&#x27;,
+		&#x27;ai.hero_subtitle&#x27;: &#x27;Tell us what you have or what you crave and our AI will create the perfect recipe for you.&#x27;,
+		&#x27;ai.hero_hello&#x27;: &#x27;Hello, &#x27;,
+		&#x27;ai.hero_fallback_chef&#x27;: &#x27;chef&#x27;,
+		&#x27;ai.hero_ready&#x27;: &#x27;I\&#x27;m ready to create a delicious recipe especially for you.&#x27;,
+		&#x27;ai.form.title&#x27;: &#x27;Tell us what you have at home&#x27;,
+		&#x27;ai.form.placeholder&#x27;: &#x27;E.g.: chicken, rice, broccoli, lemon...&#x27;,
+		&#x27;ai.form.suggestions&#x27;: &#x27;Or choose some suggestions:&#x27;,
+		&#x27;ai.form.suggest.chicken&#x27;: &#x27;Chicken&#x27;,
+		&#x27;ai.form.suggest.rice&#x27;: &#x27;Rice&#x27;,
+		&#x27;ai.form.suggest.broccoli&#x27;: &#x27;Broccoli&#x27;,
+		&#x27;ai.form.suggest.tomato&#x27;: &#x27;Tomato&#x27;,
+		&#x27;ai.form.suggest.avocado&#x27;: &#x27;Avocado&#x27;,
+		&#x27;ai.form.suggest.eggs&#x27;: &#x27;Eggs&#x27;,
+		&#x27;ai.form.suggest.mushrooms&#x27;: &#x27;Mushrooms&#x27;,
+		&#x27;ai.form.suggest.cheese&#x27;: &#x27;Cheese&#x27;,
+		&#x27;ai.form.type_title&#x27;: &#x27;What type of recipe are you looking for?&#x27;,
+		&#x27;ai.form.type.quick.title&#x27;: &#x27;Quick&#x27;,
+		&#x27;ai.form.type.quick.desc&#x27;: &#x27;Less than 30 min&#x27;,
+		&#x27;ai.form.type.healthy.title&#x27;: &#x27;Healthy&#x27;,
+		&#x27;ai.form.type.healthy.desc&#x27;: &#x27;Low calorie&#x27;,
+		&#x27;ai.form.type.vegetarian.title&#x27;: &#x27;Vegetarian&#x27;,
+		&#x27;ai.form.type.vegetarian.desc&#x27;: &#x27;Meatless&#x27;,
+		&#x27;ai.form.type.gourmet.title&#x27;: &#x27;Gourmet&#x27;,
+		&#x27;ai.form.type.gourmet.desc&#x27;: &#x27;To impress&#x27;,
+		&#x27;ai.form.portions&#x27;: &#x27;Number of portions&#x27;,
+		&#x27;ai.form.portions_label&#x27;: &#x27;portions&#x27;,
+		&#x27;ai.form.generating&#x27;: &#x27;Creating recipe...&#x27;,
+		&#x27;ai.form.generate_btn&#x27;: &#x27;Generate recipe&#x27;,
+		&#x27;ai.result.generated&#x27;: &#x27;Generated recipe&#x27;,
+		&#x27;ai.result.ingredients&#x27;: &#x27;Ingredients&#x27;,
+		&#x27;ai.result.steps&#x27;: &#x27;Steps&#x27;,
+		&#x27;ai.result.info_banner&#x27;: &#x27;Our AI uses common ingredients to create delicious and personalized recipes.&#x27;,
+		&#x27;ai.ideas.title&#x27;: &#x27;Ideas for you&#x27;,
+		&#x27;ai.ideas.refresh&#x27;: &#x27;Refresh&#x27;,
+		&#x27;ai.ideas.view&#x27;: &#x27;View&#x27;,
+		&#x27;ai.ideas.pasta_title&#x27;: &#x27;Lemon chicken pasta&#x27;,
+		&#x27;ai.ideas.stir_fry_title&#x27;: &#x27;Broccoli and chicken stir fry&#x27;,
+		&#x27;ai.ideas.creamy_rice_title&#x27;: &#x27;Creamy mushroom rice&#x27;,
+		&#x27;ai.ideas.teriyaki_tacos_title&#x27;: &#x27;Teriyaki chicken tacos&#x27;,
+		&#x27;ai.ideas.with_your_ingredients&#x27;: &#x27;With your ingredients&#x27;,
+		&#x27;ai.recent.title&#x27;: &#x27;Recently generated recipes&#x27;,
+		&#x27;ai.recent.quinoa_bowl&#x27;: &#x27;Quinoa chicken bowl&#x27;,
+		&#x27;ai.recent.pumpkin_soup&#x27;: &#x27;Creamy pumpkin soup&#x27;,
+		&#x27;ai.recent.mediterranean_salad&#x27;: &#x27;Mediterranean salad&#x27;,
+		&#x27;ai.recent.2_days_ago&#x27;: &#x27;Generated 2 days ago&#x27;,
+		&#x27;ai.recent.4_days_ago&#x27;: &#x27;Generated 4 days ago&#x27;,
+		&#x27;ai.recent.1_week_ago&#x27;: &#x27;Generated 1 week ago&#x27;,
+		&#x27;ai.recent.save_recipe&#x27;: &#x27;Save recipe&#x27;,
+
+		// Messages
+		&#x27;messages.title&#x27;: &#x27;Messages&#x27;,
+		&#x27;messages.select_conversation&#x27;: &#x27;Select a conversation&#x27;,
+		&#x27;messages.new_conversation&#x27;: &#x27;New conversation&#x27;,
+		&#x27;messages.search_placeholder&#x27;: &#x27;Search conversations...&#x27;,
+		&#x27;messages.tab.all&#x27;: &#x27;All&#x27;,
+		&#x27;messages.tab.unread&#x27;: &#x27;Unread&#x27;,
+		&#x27;messages.tab.groups&#x27;: &#x27;Groups&#x27;,
+		&#x27;messages.typing&#x27;: &#x27;typing...&#x27;,
+		&#x27;messages.no_conversations&#x27;: &#x27;No conversations&#x27;,
+		&#x27;messages.try_another_search&#x27;: &#x27;Try another search.&#x27;,
+		&#x27;messages.back&#x27;: &#x27;Back&#x27;,
+		&#x27;messages.view_profile&#x27;: &#x27;View profile of&#x27;,
+		&#x27;messages.online&#x27;: &#x27;Online&#x27;,
+		&#x27;messages.offline&#x27;: &#x27;Offline&#x27;,
+		&#x27;messages.search_chat&#x27;: &#x27;Search in chat&#x27;,
+		&#x27;messages.audio_call&#x27;: &#x27;Voice call&#x27;,
+		&#x27;messages.video_call&#x27;: &#x27;Video call&#x27;,
+		&#x27;messages.more_options&#x27;: &#x27;More options&#x27;,
+		&#x27;messages.search_messages&#x27;: &#x27;Search messages&#x27;,
+		&#x27;messages.prev_match&#x27;: &#x27;Previous match&#x27;,
+		&#x27;messages.next_match&#x27;: &#x27;Next match&#x27;,
+		&#x27;messages.close_search&#x27;: &#x27;Close search&#x27;,
+		&#x27;messages.be_first&#x27;: &#x27;Be the first to write&#x27;,
+		&#x27;messages.replying_to&#x27;: &#x27;Replying to&#x27;,
+		&#x27;messages.you&#x27;: &#x27;you&#x27;,
+		&#x27;messages.message&#x27;: &#x27;Message&#x27;,
+		&#x27;messages.cancel_reply&#x27;: &#x27;Cancel reply&#x27;,
+		&#x27;messages.attach&#x27;: &#x27;Attach&#x27;,
+		&#x27;messages.write_message&#x27;: &#x27;Write a message...&#x27;,
+		&#x27;messages.emoji&#x27;: &#x27;Emoji&#x27;,
+		&#x27;messages.insert_emoji&#x27;: &#x27;Insert emoji&#x27;,
+		&#x27;messages.send&#x27;: &#x27;Send message&#x27;,
+		&#x27;messages.today&#x27;: &#x27;Today&#x27;,
+		&#x27;messages.yesterday&#x27;: &#x27;Yesterday&#x27;,
+		&#x27;messages.day_before_yesterday&#x27;: &#x27;Day before yesterday&#x27;,
+		&#x27;messages.close&#x27;: &#x27;Close&#x27;,
+		&#x27;messages.search_user_placeholder&#x27;: &#x27;Search by name or username...&#x27;,
+		&#x27;messages.try_another_user&#x27;: &#x27;Try another name or username&#x27;,
+		&#x27;messages.type_to_search&#x27;: &#x27;Type to search&#x27;,
+	},
+	fr: {
+		// Shell / Navbar
+		&#x27;shell.feed&#x27;: &#x27;Flux&#x27;,
+		&#x27;shell.explore&#x27;: &#x27;Explorer&#x27;,
+		&#x27;shell.places&#x27;: &#x27;Lieux&#x27;,
+		&#x27;shell.ai_recipes&#x27;: &#x27;Recettes IA&#x27;,
+		&#x27;shell.saved&#x27;: &#x27;Enregistrés&#x27;,
+		&#x27;shell.messages&#x27;: &#x27;Messages&#x27;,
+		&#x27;shell.notifications&#x27;: &#x27;Notifications&#x27;,
+		&#x27;shell.shopping&#x27;: &#x27;Courses&#x27;,
+		&#x27;shell.settings&#x27;: &#x27;Paramètres&#x27;,
+		&#x27;shell.search_placeholder&#x27;: &#x27;Rechercher...&#x27;,
+		&#x27;shell.profile&#x27;: &#x27;Votre profil&#x27;,
+		&#x27;shell.logout&#x27;: &#x27;Se déconnecter&#x27;,
+		&#x27;shell.chats&#x27;: &#x27;Chats&#x27;,
+
+		// Settings Header
+		&#x27;settings.control_center&#x27;: &#x27;Centre de contrôle&#x27;,
+		&#x27;settings.title&#x27;: &#x27;Paramètres&#x27;,
+		&#x27;settings.subtitle&#x27;: &#x27;Gerez votre profil, votre confidentialité et vos notifications sans quitter Savorealo.&#x27;,
+		&#x27;settings.view_profile&#x27;: &#x27;Voir le profil&#x27;,
+
+		// Settings Account
+		&#x27;settings.account.title&#x27;: &#x27;Compte&#x27;,
+		&#x27;settings.account.subtitle&#x27;: &#x27;Informations de base sur votre accès.&#x27;,
+		&#x27;settings.account.display_name&#x27;: &#x27;Nom public&#x27;,
+		&#x27;settings.account.username&#x27;: &#x27;Nom d\&#x27;utilisateur&#x27;,
+		&#x27;settings.account.email&#x27;: &#x27;Email&#x27;,
+
+		// Settings Notifications
+		&#x27;settings.notifications.title&#x27;: &#x27;Notifications&#x27;,
+		&#x27;settings.notifications.subtitle&#x27;: &#x27;Elles sont enregistrées automatiquement sur votre compte.&#x27;,
+		&#x27;settings.notifications.likes.label&#x27;: &#x27;Mentions J\&#x27;aime&#x27;,
+		&#x27;settings.notifications.likes.desc&#x27;: &#x27;M\&#x27;avertir quand quelqu\&#x27;un aime ma recette ou mon post.&#x27;,
+		&#x27;settings.notifications.comments.label&#x27;: &#x27;Commentaires&#x27;,
+		&#x27;settings.notifications.comments.desc&#x27;: &#x27;M\&#x27;avertir quand quelqu\&#x27;un comente ma recette ou mon post.&#x27;,
+		&#x27;settings.notifications.follows.label&#x27;: &#x27;Nouveaux abonnés&#x27;,
+		&#x27;settings.notifications.follows.desc&#x27;: &#x27;Afficher des notifications quand d\&#x27;autres cuisiniers me suivent.&#x27;,
+
+		// Settings Appearance &amp; Privacy
+		&#x27;settings.appearance_privacy.title&#x27;: &#x27;Apparence et confidentialité&#x27;,
+		&#x27;settings.appearance_privacy.subtitle&#x27;: &#x27;Personnalisez votre expérience et votre visibilité.&#x27;,
+		&#x27;settings.appearance_privacy.dark_mode.label&#x27;: &#x27;Mode sombre&#x27;,
+		&#x27;settings.appearance_privacy.dark_mode.active&#x27;: &#x27;Actif — interface sombre&#x27;,
+		&#x27;settings.appearance_privacy.dark_mode.inactive&#x27;: &#x27;Inactif — interface claire&#x27;,
+		&#x27;settings.appearance_privacy.private.label&#x27;: &#x27;Profil privé&#x27;,
+		&#x27;settings.appearance_privacy.private.desc&#x27;: &#x27;Limitez la visibilité de vos publications à vos abonnés.&#x27;,
+
+		// Settings Language
+		&#x27;settings.language.title&#x27;: &#x27;Langue&#x27;,
+		&#x27;settings.language.subtitle&#x27;: &#x27;Sélectionnez votre langue préférée pour l\&#x27;interface.&#x27;,
+		&#x27;settings.language.es&#x27;: &#x27;Espagnol (Español)&#x27;,
+		&#x27;settings.language.en&#x27;: &#x27;Anglais (English)&#x27;,
+		&#x27;settings.language.fr&#x27;: &#x27;Français&#x27;,
+		&#x27;settings.language.de&#x27;: &#x27;Allemand (Deutsch)&#x27;,
+
+		// Settings Session
+		&#x27;settings.session.title&#x27;: &#x27;Session&#x27;,
+		&#x27;settings.session.subtitle&#x27;: &#x27;Vous pouvez vous déconnecter sur cet appareil.&#x27;,
+		&#x27;settings.session.logout_btn&#x27;: &#x27;Se déconnecter&#x27;,
+
+		// Settings Aside
+		&#x27;settings.aside.desc&#x27;: &#x27;Vos préférences sont enregistrées sur votre compte et restaurées automatiquement lors de la connexion.&#x27;,
+		&#x27;settings.aside.pro_badge&#x27;: &#x27;Savorealo Pro&#x27;,
+		&#x27;settings.aside.pro_title&#x27;: &#x27;Plus de contrôle pour les créateurs&#x27;,
+		&#x27;settings.aside.pro_desc&#x27;: &#x27;Statistiques avancées, collections privées et recettes vedettes.&#x27;,
+		&#x27;settings.aside.pro_btn&#x27;: &#x27;Bientôt disponible&#x27;,
+		&#x27;settings.error_save&#x27;: &#x27;Impossible d\&#x27;enregistrer les paramètres&#x27;,
+
+		// Auth
+		&#x27;auth.welcome&#x27;: &#x27;Bon retour&#x27;,
+		&#x27;auth.enter_kitchen&#x27;: &#x27;Entrez dans votre cuisine&#x27;,
+		&#x27;auth.subtitle&#x27;: &#x27;Continuez à découvrir des recettes, à enregistrer des idées et à partager vos plats préférés.&#x27;,
+		&#x27;auth.email&#x27;: &#x27;Adresse e-mail&#x27;,
+		&#x27;auth.email_required&#x27;: &#x27;L\&#x27;e-mail est obligatoire.&#x27;,
+		&#x27;auth.email_invalid&#x27;: &#x27;Entrez un e-mail valide.&#x27;,
+		&#x27;auth.password&#x27;: &#x27;Mot de passe&#x27;,
+		&#x27;auth.password_placeholder&#x27;: &#x27;Votre mot de passe&#x27;,
+		&#x27;auth.password_required&#x27;: &#x27;Le mot de passe est obligatoire.&#x27;,
+		&#x27;auth.login_btn&#x27;: &#x27;Se connecter&#x27;,
+		&#x27;auth.or_continue&#x27;: &#x27;OU CONTINUER AVEC&#x27;,
+		&#x27;auth.no_account&#x27;: &#x27;Vous n\&#x27;avez pas de compte ?&#x27;,
+		&#x27;auth.register_link&#x27;: &#x27;Inscrivez-vous&#x27;,
+		&#x27;auth.register.new_account&#x27;: &#x27;Nouveau compte&#x27;,
+		&#x27;auth.register.title_step1&#x27;: &#x27;Créez votre compte&#x27;,
+		&#x27;auth.register.title_step2&#x27;: &#x27;Complétez votre profil&#x27;,
+		&#x27;auth.register.title_step3&#x27;: &#x27;Ajoutez une photo&#x27;,
+		&#x27;auth.register.subtitle&#x27;: &#x27;Complétez votre profil et commencez à partager ce que vous cuisinez.&#x27;,
+		&#x27;auth.register.google_btn&#x27;: &#x27;S\&#x27;inscrire avec Google&#x27;,
+		&#x27;auth.register.have_account&#x27;: &#x27;Vous avez déjà un compte ?&#x27;,
+		&#x27;auth.register.login_link&#x27;: &#x27;Se connecter&#x27;,
+		&#x27;auth.register.back&#x27;: &#x27;Retour&#x27;,
+		&#x27;auth.register.next&#x27;: &#x27;Suivant&#x27;,
+		&#x27;auth.register.create_btn&#x27;: &#x27;Créer un compte&#x27;,
+		&#x27;auth.register.username&#x27;: &#x27;Nom d\&#x27;utilisateur&#x27;,
+		&#x27;auth.register.checking_username&#x27;: &#x27;Vérification de la disponibilité…&#x27;,
+		&#x27;auth.register.username_required&#x27;: &#x27;Le nom d\&#x27;utilisateur est obligatoire.&#x27;,
+		&#x27;auth.register.confirm_password&#x27;: &#x27;Confirmer&#x27;,
+		&#x27;auth.register.confirm_placeholder&#x27;: &#x27;Répétez votre mot de passe&#x27;,
+		&#x27;auth.register.confirm_required&#x27;: &#x27;Confirmez votre mot de passe.&#x27;,
+		&#x27;auth.register.password_mismatch&#x27;: &#x27;Les mots de passe ne correspondent pas.&#x27;,
+		&#x27;auth.register.password_required&#x27;: &#x27;Le mot de passe est obligatoire.&#x27;,
+		&#x27;auth.register.password_minlength&#x27;: &#x27;Doit contenir au moins 8 caractères.&#x27;,
+		&#x27;auth.register.password_pattern&#x27;: &#x27;Inclure une majuscule, un chiffre et un symbole.&#x27;,
+		&#x27;auth.register.email_required&#x27;: &#x27;L\&#x27;e-mail est obligatoire.&#x27;,
+		&#x27;auth.register.email_invalid&#x27;: &#x27;Entrez un e-mail valide.&#x27;,
+		&#x27;auth.register.full_name&#x27;: &#x27;Nom complet&#x27;,
+		&#x27;auth.register.full_name_required&#x27;: &#x27;Le nom est obligatoire.&#x27;,
+		&#x27;auth.register.birth_date&#x27;: &#x27;Date de naissance&#x27;,
+		&#x27;auth.register.birth_date_placeholder&#x27;: &#x27;Sélectionnez une date&#x27;,
+		&#x27;auth.register.birth_date_required&#x27;: &#x27;La date est obligatoire.&#x27;,
+		&#x27;auth.register.bio&#x27;: &#x27;Bio&#x27;,
+		&#x27;auth.register.bio_placeholder&#x27;: &#x27;Dites-nous ce que vous aimez cuisiner...&#x27;,
+		&#x27;auth.register.upload_photo&#x27;: &#x27;Importer une photo&#x27;,
+		&#x27;auth.register.upload_photo_desc&#x27;: &#x27;Ajoutez une photo pour que les autres cuisiniers vous reconnaissent. JPG, PNG ou WEBP, maximum 2MB. C\&#x27;est facultatif.&#x27;,
+		&#x27;auth.register.remove_photo&#x27;: &#x27;Retirer l\&#x27;image&#x27;,
+		&#x27;auth.register.photo_label&#x27;: &#x27;Choisir une photo de profil&#x27;,
+		&#x27;auth.register.photo_preview&#x27;: &#x27;Aperçu de la photo de profil&#x27;,
+
+		// Feed
+		&#x27;feed.post_tab&#x27;: &#x27;Post&#x27;,
+		&#x27;feed.recipe_tab&#x27;: &#x27;Recette&#x27;,
+		&#x27;feed.desc_placeholder_recipe&#x27;: &#x27;Décrivez votre recette, astuces, histoire...&#x27;,
+		&#x27;feed.desc_placeholder_post&#x27;: &#x27;Partagez une recette, une envie ou votre dernière découverte...&#x27;,
+		&#x27;feed.recipe_name&#x27;: &#x27;Nom de la recette *&#x27;,
+		&#x27;feed.recipe_name_placeholder&#x27;: &#x27;Ex : Omelette aux pommes de terre&#x27;,
+		&#x27;feed.difficulty&#x27;: &#x27;Difficulté&#x27;,
+		&#x27;feed.difficulty.easy&#x27;: &#x27;Facile&#x27;,
+		&#x27;feed.difficulty.medium&#x27;: &#x27;Moyenne&#x27;,
+		&#x27;feed.difficulty.hard&#x27;: &#x27;Difficile&#x27;,
+		&#x27;feed.time&#x27;: &#x27;Temps (min)&#x27;,
+		&#x27;feed.servings&#x27;: &#x27;Portions&#x27;,
+		&#x27;feed.ingredients&#x27;: &#x27;Ingrédients&#x27;,
+		&#x27;feed.ingredients_placeholder&#x27;: &#x27;Ingrédient *&#x27;,
+		&#x27;feed.ingredients_qty&#x27;: &#x27;Qté.&#x27;,
+		&#x27;feed.ingredients_unit&#x27;: &#x27;Unité&#x27;,
+		&#x27;feed.steps&#x27;: &#x27;Étapes de préparation&#x27;,
+		&#x27;feed.add_btn&#x27;: &#x27;Ajouter&#x27;,
+		&#x27;feed.add_step_btn&#x27;: &#x27;Étape&#x27;,
+		&#x27;feed.no_ingredients&#x27;: &#x27;Pas d\&#x27;ingrédients encore — cliquez sur &quot;Ajouter&quot;&#x27;,
+		&#x27;feed.no_steps&#x27;: &#x27;Pas d\&#x27;étapes encore — cliquez sur &quot;Étape&quot;&#x27;,
+		&#x27;feed.step_placeholder&#x27;: &#x27;Décrivez l\&#x27;étape...&#x27;,
+		&#x27;feed.photo_btn&#x27;: &#x27;Photo&#x27;,
+		&#x27;feed.publish_btn&#x27;: &#x27;Publier&#x27;,
+		&#x27;feed.publishing&#x27;: &#x27;Publication...&#x27;,
+		&#x27;feed.suggestions_title&#x27;: &#x27;Suggestions pour vous&#x27;,
+		&#x27;feed.view_all&#x27;: &#x27;Voir tout&#x27;,
+		&#x27;feed.following&#x27;: &#x27;Abonné&#x27;,
+		&#x27;feed.follow&#x27;: &#x27;S\&#x27;abonner&#x27;,
+		&#x27;feed.no_suggestions&#x27;: &#x27;Aucune suggestion pour le moment.&#x27;,
+
+		// Explore
+		&#x27;explore.search_placeholder&#x27;: &#x27;Rechercher des recettes, ingrédients ou utilisateurs...&#x27;,
+		&#x27;explore.posts_tab&#x27;: &#x27;Posts&#x27;,
+		&#x27;explore.users_tab&#x27;: &#x27;Utilisateurs&#x27;,
+		&#x27;explore.no_results&#x27;: &#x27;Aucun résultat pour&#x27;,
+		&#x27;explore.try_another&#x27;: &#x27;Essayez un autre terme&#x27;,
+		&#x27;explore.no_users&#x27;: &#x27;Aucun utilisateur pour&#x27;,
+		&#x27;explore.title&#x27;: &#x27;Explorer&#x27;,
+		&#x27;explore.subtitle&#x27;: &#x27;Découvrez des recettes incroyables de notre communauté&#x27;,
+		&#x27;explore.order_by&#x27;: &#x27;Trier par :&#x27;,
+		&#x27;explore.sort.relevant&#x27;: &#x27;Pertinents&#x27;,
+		&#x27;explore.sort.recent&#x27;: &#x27;Récents&#x27;,
+		&#x27;explore.sort.popular&#x27;: &#x27;Populaires&#x27;,
+		&#x27;explore.filters&#x27;: &#x27;Filtres&#x27;,
+		&#x27;explore.cat.all&#x27;: &#x27;Tout&#x27;,
+		&#x27;explore.cat.italian&#x27;: &#x27;Italienne&#x27;,
+		&#x27;explore.cat.quick&#x27;: &#x27;Rapides&#x27;,
+		&#x27;explore.cat.healthy&#x27;: &#x27;Saines&#x27;,
+		&#x27;explore.cat.vegan&#x27;: &#x27;Vegan&#x27;,
+		&#x27;explore.cat.dessert&#x27;: &#x27;Desserts&#x27;,
+		&#x27;explore.cat.asian&#x27;: &#x27;Asiatique&#x27;,
+		&#x27;explore.cat.gourmet&#x27;: &#x27;Gourmet&#x27;,
+		&#x27;explore.popular_collections&#x27;: &#x27;Collections populaires&#x27;,
+		&#x27;explore.view_all&#x27;: &#x27;Voir tout&#x27;,
+		&#x27;explore.no_collections&#x27;: &#x27;Aucune collection disponible.&#x27;,
+		&#x27;explore.recipe.singular&#x27;: &#x27;recette&#x27;,
+		&#x27;explore.recipe.plural&#x27;: &#x27;recettes&#x27;,
+		&#x27;explore.featured_chef&#x27;: &#x27;Chef en vedette&#x27;,
+		&#x27;explore.view_profile&#x27;: &#x27;Voir le profil&#x27;,
+		&#x27;explore.no_featured_chef&#x27;: &#x27;Aucun chef en vedette.&#x27;,
+		&#x27;explore.recipes_label&#x27;: &#x27;Recettes&#x27;,
+		&#x27;explore.followers_label&#x27;: &#x27;Abonnés&#x27;,
+		&#x27;explore.trends_title&#x27;: &#x27;Tendances&#x27;,
+		&#x27;explore.view_all_trends&#x27;: &#x27;Voir tout&#x27;,
+		&#x27;explore.no_trends&#x27;: &#x27;Aucune tendance.&#x27;,
+		&#x27;explore.like.singular&#x27;: &#x27;j\&#x27;aime&#x27;,
+		&#x27;explore.like.plural&#x27;: &#x27;j\&#x27;aime&#x27;,
+		&#x27;explore.retry&#x27;: &#x27;Réessayer&#x27;,
+		&#x27;explore.searching_recipes&#x27;: &#x27;Recherche de recettes...&#x27;,
+		&#x27;explore.no_recipes_category&#x27;: &#x27;Aucune recette pour cette catégorie.&#x27;,
+		&#x27;explore.loading&#x27;: &#x27;Chargement...&#x27;,
+		&#x27;explore.load_more_recipes&#x27;: &#x27;Charger plus de recettes&#x27;,
+
+		// Places
+		&#x27;places.title&#x27;: &#x27;Lieux&#x27;,
+		&#x27;places.subtitle&#x27;: &#x27;Restaurants et bars près de chez vous&#x27;,
+		&#x27;places.locate_me&#x27;: &#x27;Me localiser&#x27;,
+		&#x27;places.no_access&#x27;: &#x27;Pas d\&#x27;accès&#x27;,
+		&#x27;places.near_you&#x27;: &#x27;Proche de vous&#x27;,
+		&#x27;places.search_placeholder&#x27;: &#x27;Rechercher par nom, adresse ou spécialité...&#x27;,
+		&#x27;places.retry&#x27;: &#x27;Réessayer&#x27;,
+		&#x27;places.no_results&#x27;: &#x27;Aucun résultat&#x27;,
+		&#x27;places.change_filters&#x27;: &#x27;Essayez de modifier les filtres ou la recherche&#x27;,
+		&#x27;places.type.all&#x27;: &#x27;Tous&#x27;,
+		&#x27;places.type.restaurants&#x27;: &#x27;Restaurants&#x27;,
+		&#x27;places.type.bars&#x27;: &#x27;Bars&#x27;,
+		&#x27;places.type.cafes&#x27;: &#x27;Cafés&#x27;,
+		&#x27;places.type.bakeries&#x27;: &#x27;Boulangeries&#x27;,
+		&#x27;places.type.food_trucks&#x27;: &#x27;Food Trucks&#x27;,
+		&#x27;places.tag.burger&#x27;: &#x27;🍔 Burgers&#x27;,
+		&#x27;places.tag.seafood&#x27;: &#x27;🦞 Fruits de mer&#x27;,
+		&#x27;places.tag.italian&#x27;: &#x27;🍝 Italien&#x27;,
+		&#x27;places.tag.mexican&#x27;: &#x27;🌮 Mexicain&#x27;,
+		&#x27;places.tag.chinese&#x27;: &#x27;🥢 Chinois&#x27;,
+		&#x27;places.tag.japanese&#x27;: &#x27;🍣 Japonais&#x27;,
+		&#x27;places.tag.cocktail&#x27;: &#x27;🍹 Cocktails&#x27;,
+		&#x27;places.tag.wine&#x27;: &#x27;🍷 Vins&#x27;,
+		&#x27;places.tag.happy_hour&#x27;: &#x27;⏰ Happy Hour&#x27;,
+		&#x27;places.tag.nightlife&#x27;: &#x27;🎶 Vie nocturne&#x27;,
+		&#x27;places.sort.rating&#x27;: &#x27;Évaluation&#x27;,
+		&#x27;places.sort.distance&#x27;: &#x27;Distance&#x27;,
+		&#x27;places.sort.name&#x27;: &#x27;Nom&#x27;,
+		&#x27;places.singular&#x27;: &#x27;lieu&#x27;,
+		&#x27;places.plural&#x27;: &#x27;lieux&#x27;,
+		&#x27;places.type.restaurant&#x27;: &#x27;Restaurant&#x27;,
+		&#x27;places.type.bar&#x27;: &#x27;Bar&#x27;,
+		&#x27;places.type.cafe&#x27;: &#x27;Café&#x27;,
+		&#x27;places.type.bakery&#x27;: &#x27;Boulangerie&#x27;,
+		&#x27;places.type.food_truck&#x27;: &#x27;Food Truck&#x27;,
+		&#x27;places.back&#x27;: &#x27;Retour&#x27;,
+		&#x27;places.reviews&#x27;: &#x27;Avis&#x27;,
+		&#x27;places.add_review&#x27;: &#x27;Ajouter un avis&#x27;,
+		&#x27;places.first_review&#x27;: &#x27;Soyez le premier à laisser un avis&#x27;,
+		&#x27;places.open&#x27;: &#x27;Ouvert&#x27;,
+		&#x27;places.closed&#x27;: &#x27;Fermé&#x27;,
+		&#x27;places.view_web&#x27;: &#x27;Voir le site&#x27;,
+		&#x27;places.view_maps&#x27;: &#x27;Voir sur Google Maps&#x27;,
+		&#x27;places.reviews_count.singular&#x27;: &#x27;avis&#x27;,
+		&#x27;places.reviews_count.plural&#x27;: &#x27;avis&#x27;,
+		&#x27;places.review.your_rating&#x27;: &#x27;Votre évaluation&#x27;,
+		&#x27;places.review.rating.1&#x27;: &#x27;Très mauvais&#x27;,
+		&#x27;places.review.rating.2&#x27;: &#x27;Mauvais&#x27;,
+		&#x27;places.review.rating.3&#x27;: &#x27;Moyen&#x27;,
+		&#x27;places.review.rating.4&#x27;: &#x27;Bon&#x27;,
+		&#x27;places.review.rating.5&#x27;: &#x27;Excellent&#x27;,
+		&#x27;places.review.comment&#x27;: &#x27;Commentaire&#x27;,
+		&#x27;places.review.optional&#x27;: &#x27;(facultatif)&#x27;,
+		&#x27;places.review.placeholder&#x27;: &#x27;Racontez-nous votre expérience...&#x27;,
+		&#x27;places.review.cancel&#x27;: &#x27;Annuler&#x27;,
+		&#x27;places.review.submit&#x27;: &#x27;Publier l\&#x27;avis&#x27;,
+		&#x27;places.review.error_select_rating&#x27;: &#x27;Veuillez sélectionner une évaluation&#x27;,
+		&#x27;places.review.error_save&#x27;: &#x27;Impossible d\&#x27;enregistrer l\&#x27;avis. Veuillez réessayer.&#x27;,
+
+		// Notifications
+		&#x27;notifications.title&#x27;: &#x27;Activité&#x27;,
+		&#x27;notifications.unread_count&#x27;: &#x27;Vous avez des nouveautés en attente&#x27;,
+		&#x27;notifications.mark_all_read&#x27;: &#x27;Tout marquer comme lu&#x27;,
+		&#x27;notifications.loading&#x27;: &#x27;Chargement des notifications...&#x27;,
+		&#x27;notifications.empty_title&#x27;: &#x27;Tout est calme ici&#x27;,
+		&#x27;notifications.empty_desc&#x27;: &#x27;Les J\&#x27;aime, commentaires et abonnés apparaîtront ici.&#x27;,
+		&#x27;notifications.accepted&#x27;: &#x27;Acceptée&#x27;,
+		&#x27;notifications.rejected&#x27;: &#x27;Refusée&#x27;,
+		&#x27;notifications.accept&#x27;: &#x27;Accepter&#x27;,
+		&#x27;notifications.reject&#x27;: &#x27;Refuser&#x27;,
+		&#x27;notifications.follow_back&#x27;: &#x27;S\&#x27;abonner en retour&#x27;,
+		&#x27;notifications.reply&#x27;: &#x27;Répondre&#x27;,
+		&#x27;notifications.config_label&#x27;: &#x27;Paramètres de notifications&#x27;,
+		&#x27;notifications.mark_as_read_label&#x27;: &#x27;Marquer comme lu&#x27;,
+		&#x27;notifications.view_post_label&#x27;: &#x27;Voir la publication&#x27;,
+		&#x27;notifications.tab.all&#x27;: &#x27;Toutes&#x27;,
+		&#x27;notifications.tab.unread&#x27;: &#x27;Non lues&#x27;,
+		&#x27;notifications.tab.mentions&#x27;: &#x27;Mentions&#x27;,
+		&#x27;notifications.tab.social&#x27;: &#x27;Sociales&#x27;,
+		&#x27;notifications.date.today&#x27;: &#x27;Aujourd\&#x27;hui&#x27;,
+		&#x27;notifications.date.yesterday&#x27;: &#x27;Hier&#x27;,
+		&#x27;notifications.date.this_week&#x27;: &#x27;Cette semaine&#x27;,
+		&#x27;notifications.date.older&#x27;: &#x27;Avant&#x27;,
+		&#x27;notifications.someone&#x27;: &#x27;Quelqu\&#x27;un&#x27;,
+		&#x27;notifications.text.like&#x27;: &#x27;a aimé votre recette&#x27;,
+		&#x27;notifications.text.comment&#x27;: &#x27;a commenté&#x27;,
+		&#x27;notifications.text.follow&#x27;: &#x27;a commencé à vous suivre&#x27;,
+		&#x27;notifications.text.follow_request&#x27;: &#x27;veut vous suivre&#x27;,
+		&#x27;notifications.text.follow_accepted&#x27;: &#x27;a accepté votre demande d\&#x27;abonnement&#x27;,
+		&#x27;notifications.text.mention&#x27;: &#x27;vous a mentionné dans un commentaire&#x27;,
+		&#x27;notifications.text.recipe_save&#x27;: &#x27;a enregistré votre recette&#x27;,
+		&#x27;notifications.text.default&#x27;: &#x27;a interagi avec votre contenu&#x27;,
+		&#x27;notifications.chip.like&#x27;: &#x27;J\&#x27;aime&#x27;,
+		&#x27;notifications.chip.comment&#x27;: &#x27;Commentaire&#x27;,
+		&#x27;notifications.chip.follow&#x27;: &#x27;Nouvel abonné&#x27;,
+		&#x27;notifications.chip.follow_request&#x27;: &#x27;Demande&#x27;,
+		&#x27;notifications.chip.follow_accepted&#x27;: &#x27;Acceptée&#x27;,
+		&#x27;notifications.chip.mention&#x27;: &#x27;Mention&#x27;,
+		&#x27;notifications.chip.recipe_save&#x27;: &#x27;Enregistré&#x27;,
+		&#x27;notifications.state.following&#x27;: &#x27;Abonné&#x27;,
+		&#x27;notifications.state.requested&#x27;: &#x27;Demandé&#x27;,
+		&#x27;notifications.state.follow&#x27;: &#x27;S\&#x27;abonner&#x27;,
+
+		// Profile
+		&#x27;profile.kitchen_profile&#x27;: &#x27;Profil de cuisine&#x27;,
+		&#x27;profile.edit_profile&#x27;: &#x27;Modifier le profil&#x27;,
+		&#x27;profile.share_profile&#x27;: &#x27;Partager le profil&#x27;,
+		&#x27;profile.followers&#x27;: &#x27;Abonnés&#x27;,
+		&#x27;profile.following&#x27;: &#x27;Abonnements&#x27;,
+		&#x27;profile.posts&#x27;: &#x27;Posts&#x27;,
+		&#x27;profile.boost_title&#x27;: &#x27;Boostez votre profil&#x27;,
+		&#x27;profile.boost_desc&#x27;: &#x27;Complétez votre bio, importez une photo et publiez des recettes pour améliorer la visibilité.&#x27;,
+		&#x27;profile.empty_posts_title&#x27;: &#x27;Vous n\&#x27;avez encore rien publié&#x27;,
+		&#x27;profile.empty_posts_desc&#x27;: &#x27;Partagez votre première recette avec la communauté.&#x27;,
+		&#x27;profile.empty_saved_title&#x27;: &#x27;Vos recettes enregistrées apparaîtront ici&#x27;,
+		&#x27;profile.empty_saved_desc&#x27;: &#x27;Enregistrez des idées du flux ou d\&#x27;Explorer pour les cuisiner plus tard.&#x27;,
+		&#x27;profile.empty_liked_title&#x27;: &#x27;Vos recettes aimées apparaîtront ici&#x27;,
+		&#x27;profile.empty_liked_desc&#x27;: &#x27;Aimez des recettes du flux pour les voir ici.&#x27;,
+		&#x27;profile.badges&#x27;: &#x27;Badges&#x27;,
+		&#x27;profile.account&#x27;: &#x27;Compte&#x27;,
+		&#x27;profile.logout&#x27;: &#x27;Se déconnecter&#x27;,
+		&#x27;profile.username&#x27;: &#x27;Nom d\&#x27;utilisateur&#x27;,
+		&#x27;profile.display_name&#x27;: &#x27;Nom complet&#x27;,
+		&#x27;profile.bio&#x27;: &#x27;Bio&#x27;,
+		&#x27;profile.location&#x27;: &#x27;Emplacement&#x27;,
+		&#x27;profile.birth_date&#x27;: &#x27;Date de naissance&#x27;,
+		&#x27;profile.cancel&#x27;: &#x27;Annuler&#x27;,
+		&#x27;profile.save_changes&#x27;: &#x27;Sauvegarder&#x27;,
+		&#x27;profile.saving&#x27;: &#x27;Enregistrement...&#x27;,
+		&#x27;profile.joined_since&#x27;: &#x27;Profil complet depuis&#x27;,
+		&#x27;profile.in_construction&#x27;: &#x27;Profil en construction&#x27;,
+		&#x27;profile.no_location&#x27;: &#x27;Aucun emplacement&#x27;,
+		&#x27;profile.bio_fallback&#x27;: &#x27;Partagez votre bio pour que la communauté connaisse votre style de cuisine.&#x27;,
+		&#x27;profile.badge.active_chef.label&#x27;: &#x27;Chef actif&#x27;,
+		&#x27;profile.badge.active_chef.desc&#x27;: &#x27;Publie des recettes fréquemment&#x27;,
+		&#x27;profile.badge.favorites.label&#x27;: &#x27;Favoris&#x27;,
+		&#x27;profile.badge.favorites.desc&#x27;: &#x27;Ses recettes reçoivent des bons retours&#x27;,
+		&#x27;profile.badge.curator.label&#x27;: &#x27;Conservateur&#x27;,
+		&#x27;profile.badge.curator.desc&#x27;: &#x27;Enregistre des idées pour mieux cuisiner&#x27;,
+
+		// Saved
+		&#x27;saved.personal_library&#x27;: &#x27;Bibliothèque&#x27;,
+		&#x27;saved.title&#x27;: &#x27;Enregistrés&#x27;,
+		&#x27;saved.subtitle&#x27;: &#x27;Vos recettes et posts enregistrés pour ne perdre aucune bonne idée.&#x27;,
+		&#x27;saved.search_placeholder&#x27;: &#x27;Rechercher dans vos enregistrements...&#x27;,
+		&#x27;saved.recents&#x27;: &#x27;Récents&#x27;,
+		&#x27;saved.ordered_by&#x27;: &#x27;Trié par le dernier enregistré.&#x27;,
+		&#x27;saved.empty_title&#x27;: &#x27;Rien d\&#x27;enregistré ici&#x27;,
+		&#x27;saved.empty_desc&#x27;: &#x27;Enregistrez des recettes et posts depuis le flux ou d\&#x27;Explorer pour construire votre bibliothèque.&#x27;,
+		&#x27;saved.loading_more&#x27;: &#x27;Chargement d\&#x27;autres éléments...&#x27;,
+		&#x27;saved.filter.all&#x27;: &#x27;Tout&#x27;,
+		&#x27;saved.filter.recipes&#x27;: &#x27;Recettes&#x27;,
+		&#x27;saved.filter.posts&#x27;: &#x27;Posts&#x27;,
+
+		// Shopping List
+		&#x27;shopping.title&#x27;: &#x27;Liste de courses&#x27;,
+		&#x27;shopping.pending_status&#x27;: &#x27;en attente&#x27;,
+		&#x27;shopping.ready_status&#x27;: &#x27;prêts&#x27;,
+		&#x27;shopping.toast.group_removed&#x27;: &#x27;Ingrédients retirés de la liste&#x27;,
+		&#x27;shopping.toast.checked_removed&#x27;: &#x27;Ingrédients cochés retirés&#x27;,
+		&#x27;shopping.toast.list_cleared&#x27;: &#x27;Liste vidée&#x27;,
+		&#x27;shopping.toast.list_copied&#x27;: &#x27;Liste copiée dans le presse-papiers&#x27;,
+		&#x27;shopping.share_title&#x27;: &#x27;Ma liste de courses&#x27;,
+		&#x27;shopping.add_ingredient&#x27;: &#x27;Ajouter un ingrédient&#x27;,
+		&#x27;shopping.placeholder_name&#x27;: &#x27;Ingrédient (ex : tomates, farine, lait...)&#x27;,
+		&#x27;shopping.placeholder_qty&#x27;: &#x27;Qté.&#x27;,
+		&#x27;shopping.unit_select&#x27;: &#x27;En quelle quantité ?&#x27;,
+		&#x27;shopping.empty_title&#x27;: &#x27;Votre liste est vide&#x27;,
+		&#x27;shopping.empty_desc&#x27;: &#x27;Ajoutez des ingrédients depuis n\&#x27;importe quelle recette&#x27;,
+		&#x27;shopping.explore_recipes&#x27;: &#x27;Explorer des recettes&#x27;,
+		&#x27;shopping.clear_checked&#x27;: &#x27;Supprimer cochés&#x27;,
+		&#x27;shopping.complete&#x27;: &#x27;Complet !&#x27;,
+		&#x27;shopping.view_stores&#x27;: &#x27;Voir les supermarchés&#x27;,
+		&#x27;shopping.where_buy&#x27;: &#x27;Où voulez-vous l\&#x27;acheter ?&#x27;,
+		&#x27;shopping.stores_available&#x27;: &#x27;Magasins disponibles dans votre zone&#x27;,
+		&#x27;shopping.cancel&#x27;: &#x27;Annuler&#x27;,
+		&#x27;shopping.clear_list_title&#x27;: &#x27;Vider la liste ?&#x27;,
+		&#x27;shopping.clear_list_desc&#x27;: &#x27;Tous les ingrédients seront supprimés.&#x27;,
+		&#x27;shopping.clear_confirm&#x27;: &#x27;Vider&#x27;,
+		&#x27;shopping.share_label&#x27;: &#x27;Partager la liste&#x27;,
+		&#x27;shopping.clear_label&#x27;: &#x27;Vider la liste&#x27;,
+		&#x27;shopping.checked_items_label&#x27;: &#x27;ingrédient coché&#x27;,
+		&#x27;shopping.checked_items_label_plural&#x27;: &#x27;ingrédients cochés&#x27;,
+		&#x27;shopping.remove_group&#x27;: &#x27;Supprimer le groupe&#x27;,
+		&#x27;shopping.unit.weight&#x27;: &#x27;Poids — farine, viande, fruits…&#x27;,
+		&#x27;shopping.unit.volume&#x27;: &#x27;Volume — lait, huile, jus…&#x27;,
+		&#x27;shopping.unit.units&#x27;: &#x27;Unités — œufs, bocaux, sachets…&#x27;,
+		&#x27;shopping.unit.cooking&#x27;: &#x27;Mesures de cuisine&#x27;,
+		&#x27;shopping.unit.grams&#x27;: &#x27;grammes&#x27;,
+		&#x27;shopping.unit.kilograms&#x27;: &#x27;kilogrammes&#x27;,
+		&#x27;shopping.unit.ml&#x27;: &#x27;millilitres (ml)&#x27;,
+		&#x27;shopping.unit.liters&#x27;: &#x27;litres&#x27;,
+		&#x27;shopping.unit.units_val&#x27;: &#x27;unités&#x27;,
+		&#x27;shopping.unit.packages&#x27;: &#x27;paquets&#x27;,
+		&#x27;shopping.unit.cans&#x27;: &#x27;boîtes&#x27;,
+		&#x27;shopping.unit.bags&#x27;: &#x27;sachets&#x27;,
+		&#x27;shopping.unit.tablespoons&#x27;: &#x27;cuillères à soupe&#x27;,
+		&#x27;shopping.unit.teaspoons&#x27;: &#x27;cuillères à café&#x27;,
+		&#x27;shopping.unit.cups&#x27;: &#x27;tasses&#x27;,
+		&#x27;shopping.unit.pinches&#x27;: &#x27;pincées&#x27;,
+
+		// Vegan Convert
+		&#x27;vegan.title&#x27;: &#x27;Version végétalienne&#x27;,
+		&#x27;vegan.generated_ai&#x27;: &#x27;Généré par IA&#x27;,
+		&#x27;vegan.loading&#x27;: &#x27;Végétalisation de la recette...&#x27;,
+		&#x27;vegan.searching_substitutes&#x27;: &#x27;Recherche des meilleurs substituts&#x27;,
+		&#x27;vegan.failed_title&#x27;: &#x27;Impossible de générer&#x27;,
+		&#x27;vegan.ingredients_header&#x27;: &#x27;Ingrédients&#x27;,
+		&#x27;vegan.preparation_header&#x27;: &#x27;Préparation&#x27;,
+		&#x27;vegan.tip_header&#x27;: &#x27;Conseil&#x27;,
+		&#x27;vegan.regenerate&#x27;: &#x27;Régénérer&#x27;,
+		&#x27;vegan.copy_recipe&#x27;: &#x27;Copier la recette&#x27;,
+		&#x27;vegan.copied&#x27;: &#x27;Copié&#x27;,
+		&#x27;vegan.retry&#x27;: &#x27;Réessayer&#x27;,
+		&#x27;vegan.close&#x27;: &#x27;Fermer&#x27;,
+
+		// Feed — états supplémentaires
+		&#x27;feed.updating&#x27;: &#x27;Mise à jour...&#x27;,
+		&#x27;feed.refresh_feed&#x27;: &#x27;Voir les nouvelles publications&#x27;,
+		&#x27;feed.loading_more&#x27;: &#x27;Chargement de plus de publications...&#x27;,
+		&#x27;feed.empty_title&#x27;: &#x27;Votre flux est vide&#x27;,
+		&#x27;feed.empty_desc&#x27;: &#x27;Suivez d\&#x27;autres cuisiniers pour voir leurs publications ici.&#x27;,
+		&#x27;feed.up_to_date_title&#x27;: &#x27;Vous êtes à jour !&#x27;,
+		&#x27;feed.up_to_date_desc&#x27;: &#x27;Vous cherchez plus d\&#x27;inspiration ? Explorez de nouvelles recettes.&#x27;,
+		&#x27;feed.go_to_explore&#x27;: &#x27;Explorer&#x27;,
+
+		// Report
+		&#x27;report.title&#x27;: &#x27;Signaler une publication&#x27;,
+		&#x27;report.subtitle&#x27;: &#x27;Pourquoi pensez-vous que cette publication enfreint les règles ?&#x27;,
+		&#x27;report.close&#x27;: &#x27;Fermer&#x27;,
+		&#x27;report.details_label&#x27;: &#x27;Plus de détails (facultatif)&#x27;,
+		&#x27;report.details_placeholder&#x27;: &#x27;Dites-nous ce qui se passe (max. 500 caractères)&#x27;,
+		&#x27;report.cancel&#x27;: &#x27;Annuler&#x27;,
+		&#x27;report.submitting&#x27;: &#x27;Envoi...&#x27;,
+		&#x27;report.submit&#x27;: &#x27;Envoyer le signalement&#x27;,
+		&#x27;report.submitted_title&#x27;: &#x27;Signalement envoyé&#x27;,
+		&#x27;report.submitted_desc&#x27;: &#x27;Merci de nous l\&#x27;avoir signalé. Notre équipe examinera le contenu.&#x27;,
+		&#x27;report.cat.spam.label&#x27;: &#x27;Spam&#x27;,
+		&#x27;report.cat.spam.desc&#x27;: &#x27;Publicité trompeuse ou contenu répétitif&#x27;,
+		&#x27;report.cat.hate.label&#x27;: &#x27;Haine ou harcèlement&#x27;,
+		&#x27;report.cat.hate.desc&#x27;: &#x27;Discours haineux, insultes ou harcèlement de personnes&#x27;,
+		&#x27;report.cat.violence.label&#x27;: &#x27;Violence&#x27;,
+		&#x27;report.cat.violence.desc&#x27;: &#x27;Contenu violent ou menaces&#x27;,
+		&#x27;report.cat.sexual.label&#x27;: &#x27;Contenu sexuel&#x27;,
+		&#x27;report.cat.sexual.desc&#x27;: &#x27;Nudité ou contenu sexuel explicite&#x27;,
+		&#x27;report.cat.fraud.label&#x27;: &#x27;Arnaque ou fraude&#x27;,
+		&#x27;report.cat.fraud.desc&#x27;: &#x27;Tentative d\&#x27;arnaque, hameçonnage ou tromperie&#x27;,
+		&#x27;report.cat.other.label&#x27;: &#x27;Autre&#x27;,
+		&#x27;report.cat.other.desc&#x27;: &#x27;Une autre raison qui ne correspond pas ci-dessus&#x27;,
+
+		// Edit Profile
+		&#x27;profile.edit_title&#x27;: &#x27;Modifier le profil&#x27;,
+		&#x27;profile.your_name&#x27;: &#x27;Votre nom&#x27;,
+		&#x27;profile.tap_photo&#x27;: &#x27;Touchez la photo pour la modifier&#x27;,
+		&#x27;profile.checking_availability&#x27;: &#x27;Vérification de la disponibilité…&#x27;,
+		&#x27;profile.bio_placeholder&#x27;: &#x27;Parlez-nous de vous...&#x27;,
+		&#x27;profile.location_placeholder&#x27;: &#x27;Paris, France&#x27;,
+		&#x27;profile.success_msg&#x27;: &#x27;Profil mis à jour avec succès !&#x27;,
+
+		// Public Profile
+		&#x27;public.back&#x27;: &#x27;Retour&#x27;,
+		&#x27;public.go_feed&#x27;: &#x27;Aller au flux&#x27;,
+		&#x27;public.follows_you&#x27;: &#x27;Vous suit&#x27;,
+		&#x27;public.following_btn&#x27;: &#x27;Abonné&#x27;,
+		&#x27;public.requested_btn&#x27;: &#x27;Demandé&#x27;,
+		&#x27;public.follow_back_btn&#x27;: &#x27;Suivre aussi&#x27;,
+		&#x27;public.follow_btn&#x27;: &#x27;Suivre&#x27;,
+		&#x27;public.message_btn&#x27;: &#x27;Message&#x27;,
+		&#x27;public.share_btn&#x27;: &#x27;Partager le profil&#x27;,
+		&#x27;public.no_posts&#x27;: &#x27;Pas encore de posts&#x27;,
+		&#x27;public.about&#x27;: &#x27;À propos&#x27;,
+		&#x27;public.no_bio&#x27;: &#x27;Ce chef n\&#x27;a pas encore écrit sa bio.&#x27;,
+		&#x27;public.no_results&#x27;: &#x27;Aucun résultat&#x27;,
+		&#x27;public.private_title&#x27;: &#x27;Ce compte est privé&#x27;,
+		&#x27;public.private_desc&#x27;: &#x27;Suivez ce chef pour voir ses recettes et publications.&#x27;,
+		&#x27;public.now_following&#x27;: &#x27;Vous suivez maintenant&#x27;,
+		&#x27;public.request_sent&#x27;: &#x27;Demande envoyée à&#x27;,
+		&#x27;public.request_cancelled&#x27;: &#x27;Demande annulée&#x27;,
+		&#x27;public.unfollowed&#x27;: &#x27;Désabonné de&#x27;,
+		&#x27;public.follow_error&#x27;: &#x27;Impossible de mettre à jour le suivi&#x27;,
+
+		// Topbar
+		&#x27;topbar.search_short&#x27;: &#x27;Rechercher...&#x27;,
+		&#x27;topbar.search_long&#x27;: &#x27;Rechercher recettes, ingrédients ou utilisateurs...&#x27;,
+		&#x27;topbar.create&#x27;: &#x27;Créer&#x27;,
+
+		// Global Search
+		&#x27;search.placeholder&#x27;: &#x27;Rechercher recettes, utilisateurs...&#x27;,
+		&#x27;search.tab.all&#x27;: &#x27;Tout&#x27;,
+		&#x27;search.tab.users&#x27;: &#x27;Utilisateurs&#x27;,
+		&#x27;search.tab.recipes&#x27;: &#x27;Recettes&#x27;,
+		&#x27;search.hint&#x27;: &#x27;Rechercher des recettes ou des utilisateurs&#x27;,
+		&#x27;search.hint_shortcut&#x27;: &#x27;Appuyez sur ⌘K ou Ctrl+K pour ouvrir/fermer&#x27;,
+		&#x27;search.no_results&#x27;: &#x27;Aucun résultat pour&#x27;,
+		&#x27;search.try_another&#x27;: &#x27;Essayez un autre terme&#x27;,
+		&#x27;search.users_label&#x27;: &#x27;Utilisateurs&#x27;,
+		&#x27;search.recipes_label&#x27;: &#x27;Recettes&#x27;,
+		&#x27;search.no_title&#x27;: &#x27;Sans titre&#x27;,
+		&#x27;search.view_all&#x27;: &#x27;Voir tous les résultats dans Explorer&#x27;,
+
+		// AI Recipes
+		&#x27;ai.title&#x27;: &#x27;IA Recettes&#x27;,
+		&#x27;ai.hero_subtitle&#x27;: &#x27;Dites-nous ce que vous avez ou ce dont vous avez envie et notre IA créera la recette parfaite pour vous.&#x27;,
+		&#x27;ai.hero_hello&#x27;: &#x27;Bonjour, &#x27;,
+		&#x27;ai.hero_fallback_chef&#x27;: &#x27;chef&#x27;,
+		&#x27;ai.hero_ready&#x27;: &#x27;Je suis prêt à créer une recette délicieuse spécialement pour vous.&#x27;,
+		&#x27;ai.form.title&#x27;: &#x27;Dites-nous ce que vous avez à la maison&#x27;,
+		&#x27;ai.form.placeholder&#x27;: &#x27;Ex : poulet, riz, brocoli, citron...&#x27;,
+		&#x27;ai.form.suggestions&#x27;: &#x27;Ou choisissez quelques suggestions :&#x27;,
+		&#x27;ai.form.suggest.chicken&#x27;: &#x27;Poulet&#x27;,
+		&#x27;ai.form.suggest.rice&#x27;: &#x27;Riz&#x27;,
+		&#x27;ai.form.suggest.broccoli&#x27;: &#x27;Brocoli&#x27;,
+		&#x27;ai.form.suggest.tomato&#x27;: &#x27;Tomate&#x27;,
+		&#x27;ai.form.suggest.avocado&#x27;: &#x27;Avocat&#x27;,
+		&#x27;ai.form.suggest.eggs&#x27;: &#x27;Œufs&#x27;,
+		&#x27;ai.form.suggest.mushrooms&#x27;: &#x27;Champignons&#x27;,
+		&#x27;ai.form.suggest.cheese&#x27;: &#x27;Fromage&#x27;,
+		&#x27;ai.form.type_title&#x27;: &#x27;Quel type de recette recherchez-vous ?&#x27;,
+		&#x27;ai.form.type.quick.title&#x27;: &#x27;Rapide&#x27;,
+		&#x27;ai.form.type.quick.desc&#x27;: &#x27;Moins de 30 min&#x27;,
+		&#x27;ai.form.type.healthy.title&#x27;: &#x27;Sain&#x27;,
+		&#x27;ai.form.type.healthy.desc&#x27;: &#x27;Faible en calories&#x27;,
+		&#x27;ai.form.type.vegetarian.title&#x27;: &#x27;Végétarienne&#x27;,
+		&#x27;ai.form.type.vegetarian.desc&#x27;: &#x27;Sans viande&#x27;,
+		&#x27;ai.form.type.gourmet.title&#x27;: &#x27;Gourmet&#x27;,
+		&#x27;ai.form.type.gourmet.desc&#x27;: &#x27;Pour impressionner&#x27;,
+		&#x27;ai.form.portions&#x27;: &#x27;Nombre de portions&#x27;,
+		&#x27;ai.form.portions_label&#x27;: &#x27;portions&#x27;,
+		&#x27;ai.form.generating&#x27;: &#x27;Création de la recette...&#x27;,
+		&#x27;ai.form.generate_btn&#x27;: &#x27;Générer la recette&#x27;,
+		&#x27;ai.result.generated&#x27;: &#x27;Recette générée&#x27;,
+		&#x27;ai.result.ingredients&#x27;: &#x27;Ingrédients&#x27;,
+		&#x27;ai.result.steps&#x27;: &#x27;Étapes&#x27;,
+		&#x27;ai.result.info_banner&#x27;: &#x27;Notre IA utilise des ingrédients courants pour créer des recettes délicieuses et personnalisées.&#x27;,
+		&#x27;ai.ideas.title&#x27;: &#x27;Des idées pour vous&#x27;,
+		&#x27;ai.ideas.refresh&#x27;: &#x27;Actualiser&#x27;,
+		&#x27;ai.ideas.view&#x27;: &#x27;Voir&#x27;,
+		&#x27;ai.ideas.pasta_title&#x27;: &#x27;Pâtes au poulet et citron&#x27;,
+		&#x27;ai.ideas.stir_fry_title&#x27;: &#x27;Sauté de brocoli et poulet&#x27;,
+		&#x27;ai.ideas.creamy_rice_title&#x27;: &#x27;Riz crémeux aux champignons&#x27;,
+		&#x27;ai.ideas.teriyaki_tacos_title&#x27;: &#x27;Tacos au poulet teriyaki&#x27;,
+		&#x27;ai.ideas.with_your_ingredients&#x27;: &#x27;Avec vos ingrédients&#x27;,
+		&#x27;ai.recent.title&#x27;: &#x27;Recettes générées récemment&#x27;,
+		&#x27;ai.recent.quinoa_bowl&#x27;: &#x27;Bol de quinoa au poulet&#x27;,
+		&#x27;ai.recent.pumpkin_soup&#x27;: &#x27;Soupe crémeuse au potiron&#x27;,
+		&#x27;ai.recent.mediterranean_salad&#x27;: &#x27;Salade méditerranéenne&#x27;,
+		&#x27;ai.recent.2_days_ago&#x27;: &#x27;Générée il y a 2 jours&#x27;,
+		&#x27;ai.recent.4_days_ago&#x27;: &#x27;Générée il y a 4 jours&#x27;,
+		&#x27;ai.recent.1_week_ago&#x27;: &#x27;Générée il y a 1 semaine&#x27;,
+		&#x27;ai.recent.save_recipe&#x27;: &#x27;Enregistrer la recette&#x27;,
+
+		// Messages
+		&#x27;messages.title&#x27;: &#x27;Messages&#x27;,
+		&#x27;messages.select_conversation&#x27;: &#x27;Sélectionnez une conversation&#x27;,
+		&#x27;messages.new_conversation&#x27;: &#x27;Nouvelle conversation&#x27;,
+		&#x27;messages.search_placeholder&#x27;: &#x27;Rechercher des conversations...&#x27;,
+		&#x27;messages.tab.all&#x27;: &#x27;Toutes&#x27;,
+		&#x27;messages.tab.unread&#x27;: &#x27;Non lues&#x27;,
+		&#x27;messages.tab.groups&#x27;: &#x27;Groupes&#x27;,
+		&#x27;messages.typing&#x27;: &#x27;écrit...&#x27;,
+		&#x27;messages.no_conversations&#x27;: &#x27;Pas de conversations&#x27;,
+		&#x27;messages.try_another_search&#x27;: &#x27;Essayez une autre recherche.&#x27;,
+		&#x27;messages.back&#x27;: &#x27;Retour&#x27;,
+		&#x27;messages.view_profile&#x27;: &#x27;Voir le profil de&#x27;,
+		&#x27;messages.online&#x27;: &#x27;En ligne&#x27;,
+		&#x27;messages.offline&#x27;: &#x27;Déconnecté&#x27;,
+		&#x27;messages.search_chat&#x27;: &#x27;Rechercher dans le chat&#x27;,
+		&#x27;messages.audio_call&#x27;: &#x27;Appel vocal&#x27;,
+		&#x27;messages.video_call&#x27;: &#x27;Appel vidéo&#x27;,
+		&#x27;messages.more_options&#x27;: &#x27;Plus d’options&#x27;,
+		&#x27;messages.search_messages&#x27;: &#x27;Rechercher des messages&#x27;,
+		&#x27;messages.prev_match&#x27;: &#x27;Coïncidence précédente&#x27;,
+		&#x27;messages.next_match&#x27;: &#x27;Coïncidence suivante&#x27;,
+		&#x27;messages.close_search&#x27;: &#x27;Fermer la recherche&#x27;,
+		&#x27;messages.be_first&#x27;: &#x27;Soyez le premier à écrire&#x27;,
+		&#x27;messages.replying_to&#x27;: &#x27;Réponse à&#x27;,
+		&#x27;messages.you&#x27;: &#x27;vous&#x27;,
+		&#x27;messages.message&#x27;: &#x27;Message&#x27;,
+		&#x27;messages.cancel_reply&#x27;: &#x27;Annuler la réponse&#x27;,
+		&#x27;messages.attach&#x27;: &#x27;Joindre&#x27;,
+		&#x27;messages.write_message&#x27;: &#x27;Écrivez un message...&#x27;,
+		&#x27;messages.emoji&#x27;: &#x27;Emoji&#x27;,
+		&#x27;messages.insert_emoji&#x27;: &#x27;Insérer un emoji&#x27;,
+		&#x27;messages.send&#x27;: &#x27;Envoyer le message&#x27;,
+		&#x27;messages.today&#x27;: &#x27;Aujourd’hui&#x27;,
+		&#x27;messages.yesterday&#x27;: &#x27;Hier&#x27;,
+		&#x27;messages.day_before_yesterday&#x27;: &#x27;Avant-hier&#x27;,
+		&#x27;messages.close&#x27;: &#x27;Fermer&#x27;,
+		&#x27;messages.search_user_placeholder&#x27;: &#x27;Rechercher par nom ou nom d’utilisateur...&#x27;,
+		&#x27;messages.try_another_user&#x27;: &#x27;Essayez un autre nom ou nom d’utilisateur&#x27;,
+		&#x27;messages.type_to_search&#x27;: &#x27;Écrivez pour rechercher&#x27;,
+	},
+	de: {
+		// Shell / Navbar
+		&#x27;shell.feed&#x27;: &#x27;Feed&#x27;,
+		&#x27;shell.explore&#x27;: &#x27;Entdecken&#x27;,
+		&#x27;shell.places&#x27;: &#x27;Orte&#x27;,
+		&#x27;shell.ai_recipes&#x27;: &#x27;KI-Rezepte&#x27;,
+		&#x27;shell.saved&#x27;: &#x27;Gespeichert&#x27;,
+		&#x27;shell.messages&#x27;: &#x27;Nachrichten&#x27;,
+		&#x27;shell.notifications&#x27;: &#x27;Benachrichtigungen&#x27;,
+		&#x27;shell.shopping&#x27;: &#x27;Einkauf&#x27;,
+		&#x27;shell.settings&#x27;: &#x27;Einstellungen&#x27;,
+		&#x27;shell.search_placeholder&#x27;: &#x27;Suchen...&#x27;,
+		&#x27;shell.profile&#x27;: &#x27;Dein Profil&#x27;,
+		&#x27;shell.logout&#x27;: &#x27;Abmelden&#x27;,
+		&#x27;shell.chats&#x27;: &#x27;Chats&#x27;,
+
+		// Settings Header
+		&#x27;settings.control_center&#x27;: &#x27;Kontrollzentrum&#x27;,
+		&#x27;settings.title&#x27;: &#x27;Einstellungen&#x27;,
+		&#x27;settings.subtitle&#x27;: &#x27;Verwalte dein Profil, deine Privatsphäre und deine Benachrichtigungen, ohne Savorealo zu verlassen.&#x27;,
+		&#x27;settings.view_profile&#x27;: &#x27;Profil anzeigen&#x27;,
+
+		// Settings Account
+		&#x27;settings.account.title&#x27;: &#x27;Konto&#x27;,
+		&#x27;settings.account.subtitle&#x27;: &#x27;Basisinformationen zu deinem Zugang.&#x27;,
+		&#x27;settings.account.display_name&#x27;: &#x27;Öffentlicher Name&#x27;,
+		&#x27;settings.account.username&#x27;: &#x27;Benutzername&#x27;,
+		&#x27;settings.account.email&#x27;: &#x27;E-Mail&#x27;,
+
+		// Settings Notifications
+		&#x27;settings.notifications.title&#x27;: &#x27;Benachrichtigungen&#x27;,
+		&#x27;settings.notifications.subtitle&#x27;: &#x27;Sie werden automatisch in deinem Konto gespeichert.&#x27;,
+		&#x27;settings.notifications.likes.label&#x27;: &#x27;Gefällt mir&#x27;,
+		&#x27;settings.notifications.likes.desc&#x27;: &#x27;Benachrichtige mich, wenn jemand mein Rezept oder meinen Beitrag mag.&#x27;,
+		&#x27;settings.notifications.comments.label&#x27;: &#x27;Kommentare&#x27;,
+		&#x27;settings.notifications.comments.desc&#x27;: &#x27;Benachrichtige mich, wenn jemand mein Rezept oder meinen Beitrag kommentiert.&#x27;,
+		&#x27;settings.notifications.follows.label&#x27;: &#x27;Neue Follower&#x27;,
+		&#x27;settings.notifications.follows.desc&#x27;: &#x27;Zeige Benachrichtigungen, wenn andere Köche dir folgen.&#x27;,
+
+		// Settings Appearance &amp; Privacy
+		&#x27;settings.appearance_privacy.title&#x27;: &#x27;Erscheinungsbild &amp; Privatsphäre&#x27;,
+		&#x27;settings.appearance_privacy.subtitle&#x27;: &#x27;Passe dein Erlebnis und deine Sichtbarkeit an.&#x27;,
+		&#x27;settings.appearance_privacy.dark_mode.label&#x27;: &#x27;Dunkler Modus&#x27;,
+		&#x27;settings.appearance_privacy.dark_mode.active&#x27;: &#x27;Aktiv — dunkle Benutzeroberfläche&#x27;,
+		&#x27;settings.appearance_privacy.dark_mode.inactive&#x27;: &#x27;Inaktiv — helle Benutzeroberfläche&#x27;,
+		&#x27;settings.appearance_privacy.private.label&#x27;: &#x27;Privates Profil&#x27;,
+		&#x27;settings.appearance_privacy.private.desc&#x27;: &#x27;Beschränke die Sichtbarkeit deiner Beiträge auf deine Follower.&#x27;,
+
+		// Settings Language
+		&#x27;settings.language.title&#x27;: &#x27;Sprache&#x27;,
+		&#x27;settings.language.subtitle&#x27;: &#x27;Wähle deine bevorzugte Sprache für die Benutzeroberfläche.&#x27;,
+		&#x27;settings.language.es&#x27;: &#x27;Spanisch (Español)&#x27;,
+		&#x27;settings.language.en&#x27;: &#x27;Englisch (English)&#x27;,
+		&#x27;settings.language.fr&#x27;: &#x27;Französisch (Français)&#x27;,
+		&#x27;settings.language.de&#x27;: &#x27;Deutsch&#x27;,
+
+		// Settings Session
+		&#x27;settings.session.title&#x27;: &#x27;Sitzung&#x27;,
+		&#x27;settings.session.subtitle&#x27;: &#x27;Du kannst dich auf diesem Gerät abmelden.&#x27;,
+		&#x27;settings.session.logout_btn&#x27;: &#x27;Abmelden&#x27;,
+
+		// Settings Aside
+		&#x27;settings.aside.desc&#x27;: &#x27;Deine Einstellungen werden in deinem Konto gespeichert und bei der Anmeldung automatisch wiederhergestellt.&#x27;,
+		&#x27;settings.aside.pro_badge&#x27;: &#x27;Savorealo Pro&#x27;,
+		&#x27;settings.aside.pro_title&#x27;: &#x27;Mehr Kontrolle für Entwickler&#x27;,
+		&#x27;settings.aside.pro_desc&#x27;: &#x27;Erweiterte Statistiken, private Sammlungen und hervorgehobene Rezepte.&#x27;,
+		&#x27;settings.aside.pro_btn&#x27;: &#x27;Demnächst&#x27;,
+		&#x27;settings.error_save&#x27;: &#x27;Einstellungen konnten nicht gespeichert werden&#x27;,
+
+		// Auth
+		&#x27;auth.welcome&#x27;: &#x27;Willkommen zurück&#x27;,
+		&#x27;auth.enter_kitchen&#x27;: &#x27;Betreten Sie Ihre Küche&#x27;,
+		&#x27;auth.subtitle&#x27;: &#x27;Entdecken Sie weiterhin Rezepte, speichern Sie Ideen und teilen Sie Ihre Lieblingsgerichte.&#x27;,
+		&#x27;auth.email&#x27;: &#x27;E-Mail-Adresse&#x27;,
+		&#x27;auth.email_required&#x27;: &#x27;E-Mail ist erforderlich.&#x27;,
+		&#x27;auth.email_invalid&#x27;: &#x27;Geben Sie eine gültige E-Mail-Adresse ein.&#x27;,
+		&#x27;auth.password&#x27;: &#x27;Passwort&#x27;,
+		&#x27;auth.password_placeholder&#x27;: &#x27;Dein Passwort&#x27;,
+		&#x27;auth.password_required&#x27;: &#x27;Passwort ist erforderlich.&#x27;,
+		&#x27;auth.login_btn&#x27;: &#x27;Einloggen&#x27;,
+		&#x27;auth.or_continue&#x27;: &#x27;ODER WEITER MIT&#x27;,
+		&#x27;auth.no_account&#x27;: &#x27;Haben Sie kein Konto?&#x27;,
+		&#x27;auth.register_link&#x27;: &#x27;Registrieren&#x27;,
+		&#x27;auth.register.new_account&#x27;: &#x27;Neues Konto&#x27;,
+		&#x27;auth.register.title_step1&#x27;: &#x27;Erstelle dein Konto&#x27;,
+		&#x27;auth.register.title_step2&#x27;: &#x27;Vervollständige dein Profil&#x27;,
+		&#x27;auth.register.title_step3&#x27;: &#x27;Füge ein Foto hinzu&#x27;,
+		&#x27;auth.register.subtitle&#x27;: &#x27;Vervollständige dein Profil und fange an zu teilen, was du kochst.&#x27;,
+		&#x27;auth.register.google_btn&#x27;: &#x27;Mit Google registrieren&#x27;,
+		&#x27;auth.register.have_account&#x27;: &#x27;Hast du bereits ein Konto?&#x27;,
+		&#x27;auth.register.login_link&#x27;: &#x27;Einloggen&#x27;,
+		&#x27;auth.register.back&#x27;: &#x27;Zurück&#x27;,
+		&#x27;auth.register.next&#x27;: &#x27;Weiter&#x27;,
+		&#x27;auth.register.create_btn&#x27;: &#x27;Konto erstellen&#x27;,
+		&#x27;auth.register.username&#x27;: &#x27;Benutzername&#x27;,
+		&#x27;auth.register.checking_username&#x27;: &#x27;Verfügbarkeit wird geprüft…&#x27;,
+		&#x27;auth.register.username_required&#x27;: &#x27;Der Benutzername ist erforderlich.&#x27;,
+		&#x27;auth.register.confirm_password&#x27;: &#x27;Bestätigen&#x27;,
+		&#x27;auth.register.confirm_placeholder&#x27;: &#x27;Wiederhole dein Passwort&#x27;,
+		&#x27;auth.register.confirm_required&#x27;: &#x27;Bestätige dein Passwort.&#x27;,
+		&#x27;auth.register.password_mismatch&#x27;: &#x27;Die Passwörter stimmen nicht überein.&#x27;,
+		&#x27;auth.register.password_required&#x27;: &#x27;Passwort ist erforderlich.&#x27;,
+		&#x27;auth.register.password_minlength&#x27;: &#x27;Muss mindestens 8 Zeichen lang sein.&#x27;,
+		&#x27;auth.register.password_pattern&#x27;: &#x27;Großbuchstabe, Zahl und Symbol erforderlich.&#x27;,
+		&#x27;auth.register.email_required&#x27;: &#x27;E-Mail ist erforderlich.&#x27;,
+		&#x27;auth.register.email_invalid&#x27;: &#x27;Geben Sie eine gültige E-Mail-Adresse ein.&#x27;,
+		&#x27;auth.register.full_name&#x27;: &#x27;Vollständiger Name&#x27;,
+		&#x27;auth.register.full_name_required&#x27;: &#x27;Der Name ist erforderlich.&#x27;,
+		&#x27;auth.register.birth_date&#x27;: &#x27;Geburtsdatum&#x27;,
+		&#x27;auth.register.birth_date_placeholder&#x27;: &#x27;Datum auswählen&#x27;,
+		&#x27;auth.register.birth_date_required&#x27;: &#x27;Das Datum ist erforderlich.&#x27;,
+		&#x27;auth.register.bio&#x27;: &#x27;Bio&#x27;,
+		&#x27;auth.register.bio_placeholder&#x27;: &#x27;Erzähle uns, was du gerne kochst...&#x27;,
+		&#x27;auth.register.upload_photo&#x27;: &#x27;Foto hochladen&#x27;,
+		&#x27;auth.register.upload_photo_desc&#x27;: &#x27;Füge ein Foto hinzu, damit andere Köche dich erkennen. JPG, PNG oder WEBP, maximal 2MB. Dies ist optional.&#x27;,
+		&#x27;auth.register.remove_photo&#x27;: &#x27;Bild entfernen&#x27;,
+		&#x27;auth.register.photo_label&#x27;: &#x27;Profilbild auswählen&#x27;,
+		&#x27;auth.register.photo_preview&#x27;: &#x27;Vorschau des Profilbilds&#x27;,
+
+		// Feed
+		&#x27;feed.post_tab&#x27;: &#x27;Beitrag&#x27;,
+		&#x27;feed.recipe_tab&#x27;: &#x27;Rezept&#x27;,
+		&#x27;feed.desc_placeholder_recipe&#x27;: &#x27;Beschreibe dein Rezept, deine Tricks, deine Geschichte...&#x27;,
+		&#x27;feed.desc_placeholder_post&#x27;: &#x27;Teile ein Rezept, einen Heißhunger oder deine neueste Entdeckung...&#x27;,
+		&#x27;feed.recipe_name&#x27;: &#x27;Rezeptname *&#x27;,
+		&#x27;feed.recipe_name_placeholder&#x27;: &#x27;Z. B.: Kartoffel-Omelett mit Zwiebeln&#x27;,
+		&#x27;feed.difficulty&#x27;: &#x27;Schwierigkeitsgrad&#x27;,
+		&#x27;feed.difficulty.easy&#x27;: &#x27;Einfach&#x27;,
+		&#x27;feed.difficulty.medium&#x27;: &#x27;Mittel&#x27;,
+		&#x27;feed.difficulty.hard&#x27;: &#x27;Schwer&#x27;,
+		&#x27;feed.time&#x27;: &#x27;Zeit (Min.)&#x27;,
+		&#x27;feed.servings&#x27;: &#x27;Portionen&#x27;,
+		&#x27;feed.ingredients&#x27;: &#x27;Zutaten&#x27;,
+		&#x27;feed.ingredients_placeholder&#x27;: &#x27;Zutat *&#x27;,
+		&#x27;feed.ingredients_qty&#x27;: &#x27;Menge&#x27;,
+		&#x27;feed.ingredients_unit&#x27;: &#x27;Einheit&#x27;,
+		&#x27;feed.steps&#x27;: &#x27;Zubereitungsschritte&#x27;,
+		&#x27;feed.add_btn&#x27;: &#x27;Hinzufügen&#x27;,
+		&#x27;feed.add_step_btn&#x27;: &#x27;Schritt&#x27;,
+		&#x27;feed.no_ingredients&#x27;: &#x27;Noch keine Zutaten — klicke auf &quot;Hinzufügen&quot;&#x27;,
+		&#x27;feed.no_steps&#x27;: &#x27;Noch keine Schritte — klicke auf &quot;Schritt&quot;&#x27;,
+		&#x27;feed.step_placeholder&#x27;: &#x27;Beschreibe den Schritt...&#x27;,
+		&#x27;feed.photo_btn&#x27;: &#x27;Foto&#x27;,
+		&#x27;feed.publish_btn&#x27;: &#x27;Veröffentlichen&#x27;,
+		&#x27;feed.publishing&#x27;: &#x27;Veröffentlichen...&#x27;,
+		&#x27;feed.suggestions_title&#x27;: &#x27;Vorschläge für dich&#x27;,
+		&#x27;feed.view_all&#x27;: &#x27;Alle ansehen&#x27;,
+		&#x27;feed.following&#x27;: &#x27;Folge ich&#x27;,
+		&#x27;feed.follow&#x27;: &#x27;Folgen&#x27;,
+		&#x27;feed.no_suggestions&#x27;: &#x27;Derzeit keine Vorschläge.&#x27;,
+
+		// Explore
+		&#x27;explore.search_placeholder&#x27;: &#x27;Rezepte, Zutaten oder Benutzer suchen...&#x27;,
+		&#x27;explore.posts_tab&#x27;: &#x27;Beiträge&#x27;,
+		&#x27;explore.users_tab&#x27;: &#x27;Benutzer&#x27;,
+		&#x27;explore.no_results&#x27;: &#x27;Keine Ergebnisse für&#x27;,
+		&#x27;explore.try_another&#x27;: &#x27;Versuchen Sie es mit einem anderen Begriff&#x27;,
+		&#x27;explore.no_users&#x27;: &#x27;Keine Benutzer für&#x27;,
+		&#x27;explore.title&#x27;: &#x27;Entdecken&#x27;,
+		&#x27;explore.subtitle&#x27;: &#x27;Entdecke tolle Rezepte aus unserer Community&#x27;,
+		&#x27;explore.order_by&#x27;: &#x27;Sortieren nach:&#x27;,
+		&#x27;explore.sort.relevant&#x27;: &#x27;Relevant&#x27;,
+		&#x27;explore.sort.recent&#x27;: &#x27;Neueste&#x27;,
+		&#x27;explore.sort.popular&#x27;: &#x27;Beliebt&#x27;,
+		&#x27;explore.filters&#x27;: &#x27;Filter&#x27;,
+		&#x27;explore.cat.all&#x27;: &#x27;Alle&#x27;,
+		&#x27;explore.cat.italian&#x27;: &#x27;Italienisch&#x27;,
+		&#x27;explore.cat.quick&#x27;: &#x27;Schnell&#x27;,
+		&#x27;explore.cat.healthy&#x27;: &#x27;Gesund&#x27;,
+		&#x27;explore.cat.vegan&#x27;: &#x27;Vegan&#x27;,
+		&#x27;explore.cat.dessert&#x27;: &#x27;Desserts&#x27;,
+		&#x27;explore.cat.asian&#x27;: &#x27;Asiatisch&#x27;,
+		&#x27;explore.cat.gourmet&#x27;: &#x27;Gourmet&#x27;,
+		&#x27;explore.popular_collections&#x27;: &#x27;Beliebte Sammlungen&#x27;,
+		&#x27;explore.view_all&#x27;: &#x27;Alle anzeigen&#x27;,
+		&#x27;explore.no_collections&#x27;: &#x27;Keine Sammlungen verfügbar.&#x27;,
+		&#x27;explore.recipe.singular&#x27;: &#x27;Rezept&#x27;,
+		&#x27;explore.recipe.plural&#x27;: &#x27;Rezepte&#x27;,
+		&#x27;explore.featured_chef&#x27;: &#x27;Ausgewählter Koch&#x27;,
+		&#x27;explore.view_profile&#x27;: &#x27;Profil anzeigen&#x27;,
+		&#x27;explore.no_featured_chef&#x27;: &#x27;Kein ausgewählter Koch.&#x27;,
+		&#x27;explore.recipes_label&#x27;: &#x27;Rezepte&#x27;,
+		&#x27;explore.followers_label&#x27;: &#x27;Follower&#x27;,
+		&#x27;explore.trends_title&#x27;: &#x27;Trends&#x27;,
+		&#x27;explore.view_all_trends&#x27;: &#x27;Alle anzeigen&#x27;,
+		&#x27;explore.no_trends&#x27;: &#x27;Keine Trends.&#x27;,
+		&#x27;explore.like.singular&#x27;: &#x27;Like&#x27;,
+		&#x27;explore.like.plural&#x27;: &#x27;Likes&#x27;,
+		&#x27;explore.retry&#x27;: &#x27;Nochmal versuchen&#x27;,
+		&#x27;explore.searching_recipes&#x27;: &#x27;Rezepte werden gesucht...&#x27;,
+		&#x27;explore.no_recipes_category&#x27;: &#x27;Keine Rezepte für diese Kategorie.&#x27;,
+		&#x27;explore.loading&#x27;: &#x27;Laden...&#x27;,
+		&#x27;explore.load_more_recipes&#x27;: &#x27;Mehr Rezepte laden&#x27;,
+
+		// Places
+		&#x27;places.title&#x27;: &#x27;Orte&#x27;,
+		&#x27;places.subtitle&#x27;: &#x27;Restaurants und Bars in deiner Nähe&#x27;,
+		&#x27;places.locate_me&#x27;: &#x27;Ortung&#x27;,
+		&#x27;places.no_access&#x27;: &#x27;Kein Zugriff&#x27;,
+		&#x27;places.near_you&#x27;: &#x27;In deiner Nähe&#x27;,
+		&#x27;places.search_placeholder&#x27;: &#x27;Suche nach Name, Adresse oder Spezialität...&#x27;,
+		&#x27;places.retry&#x27;: &#x27;Wiederholen&#x27;,
+		&#x27;places.no_results&#x27;: &#x27;Keine Ergebnisse&#x27;,
+		&#x27;places.change_filters&#x27;: &#x27;Ändern Sie die Filter oder die Suche&#x27;,
+		&#x27;places.type.all&#x27;: &#x27;Alle&#x27;,
+		&#x27;places.type.restaurants&#x27;: &#x27;Restaurants&#x27;,
+		&#x27;places.type.bars&#x27;: &#x27;Bars&#x27;,
+		&#x27;places.type.cafes&#x27;: &#x27;Cafés&#x27;,
+		&#x27;places.type.bakeries&#x27;: &#x27;Bäckereien&#x27;,
+		&#x27;places.type.food_trucks&#x27;: &#x27;Foodtrucks&#x27;,
+		&#x27;places.tag.burger&#x27;: &#x27;🍔 Burgers&#x27;,
+		&#x27;places.tag.seafood&#x27;: &#x27;🦞 Meeresfrüchte&#x27;,
+		&#x27;places.tag.italian&#x27;: &#x27;🍝 Italienisch&#x27;,
+		&#x27;places.tag.mexican&#x27;: &#x27;🌮 Mexikanisch&#x27;,
+		&#x27;places.tag.chinese&#x27;: &#x27;🥢 Chinesisch&#x27;,
+		&#x27;places.tag.japanese&#x27;: &#x27;🍣 Japanisch&#x27;,
+		&#x27;places.tag.cocktail&#x27;: &#x27;🍹 Cocktails&#x27;,
+		&#x27;places.tag.wine&#x27;: &#x27;🍷 Weine&#x27;,
+		&#x27;places.tag.happy_hour&#x27;: &#x27;⏰ Happy Hour&#x27;,
+		&#x27;places.tag.nightlife&#x27;: &#x27;🎶 Nachtleben&#x27;,
+		&#x27;places.sort.rating&#x27;: &#x27;Bewertung&#x27;,
+		&#x27;places.sort.distance&#x27;: &#x27;Entfernung&#x27;,
+		&#x27;places.sort.name&#x27;: &#x27;Name&#x27;,
+		&#x27;places.singular&#x27;: &#x27;Ort&#x27;,
+		&#x27;places.plural&#x27;: &#x27;Orte&#x27;,
+		&#x27;places.type.restaurant&#x27;: &#x27;Restaurant&#x27;,
+		&#x27;places.type.bar&#x27;: &#x27;Bar&#x27;,
+		&#x27;places.type.cafe&#x27;: &#x27;Café&#x27;,
+		&#x27;places.type.bakery&#x27;: &#x27;Bäckerei&#x27;,
+		&#x27;places.type.food_truck&#x27;: &#x27;Foodtruck&#x27;,
+		&#x27;places.back&#x27;: &#x27;Zurück&#x27;,
+		&#x27;places.reviews&#x27;: &#x27;Bewertungen&#x27;,
+		&#x27;places.add_review&#x27;: &#x27;Bewertung hinzufügen&#x27;,
+		&#x27;places.first_review&#x27;: &#x27;Schreibe die erste Bewertung&#x27;,
+		&#x27;places.open&#x27;: &#x27;Geöffnet&#x27;,
+		&#x27;places.closed&#x27;: &#x27;Geschlossen&#x27;,
+		&#x27;places.view_web&#x27;: &#x27;Website anzeigen&#x27;,
+		&#x27;places.view_maps&#x27;: &#x27;Auf Google Maps anzeigen&#x27;,
+		&#x27;places.reviews_count.singular&#x27;: &#x27;Bewertung&#x27;,
+		&#x27;places.reviews_count.plural&#x27;: &#x27;Bewertungen&#x27;,
+		&#x27;places.review.your_rating&#x27;: &#x27;Deine Bewertung&#x27;,
+		&#x27;places.review.rating.1&#x27;: &#x27;Sehr schlecht&#x27;,
+		&#x27;places.review.rating.2&#x27;: &#x27;Schlecht&#x27;,
+		&#x27;places.review.rating.3&#x27;: &#x27;Mittelmäßig&#x27;,
+		&#x27;places.review.rating.4&#x27;: &#x27;Gut&#x27;,
+		&#x27;places.review.rating.5&#x27;: &#x27;Hervorragend&#x27;,
+		&#x27;places.review.comment&#x27;: &#x27;Kommentar&#x27;,
+		&#x27;places.review.optional&#x27;: &#x27;(optional)&#x27;,
+		&#x27;places.review.placeholder&#x27;: &#x27;Erzähle uns von deiner Erfahrung...&#x27;,
+		&#x27;places.review.cancel&#x27;: &#x27;Abbrechen&#x27;,
+		&#x27;places.review.submit&#x27;: &#x27;Bewertung veröffentlichen&#x27;,
+		&#x27;places.review.error_select_rating&#x27;: &#x27;Bitte wähle eine Bewertung aus&#x27;,
+		&#x27;places.review.error_save&#x27;: &#x27;Bewertung konnte nicht gespeichert werden. Bitte versuche es erneut.&#x27;,
+
+		// Notifications
+		&#x27;notifications.title&#x27;: &#x27;Aktivität&#x27;,
+		&#x27;notifications.unread_count&#x27;: &#x27;Du hast neue Benachrichtigungen&#x27;,
+		&#x27;notifications.mark_all_read&#x27;: &#x27;Alle als gelesen markieren&#x27;,
+		&#x27;notifications.loading&#x27;: &#x27;Lade Benachrichtigungen...&#x27;,
+		&#x27;notifications.empty_title&#x27;: &#x27;Alles ruhig hier&#x27;,
+		&#x27;notifications.empty_desc&#x27;: &#x27;Likes, Kommentare und Follower werden hier angezeigt.&#x27;,
+		&#x27;notifications.accepted&#x27;: &#x27;Angenommen&#x27;,
+		&#x27;notifications.rejected&#x27;: &#x27;Abgelehnt&#x27;,
+		&#x27;notifications.accept&#x27;: &#x27;Annehmen&#x27;,
+		&#x27;notifications.reject&#x27;: &#x27;Ablehnen&#x27;,
+		&#x27;notifications.follow_back&#x27;: &#x27;Zurückfolgen&#x27;,
+		&#x27;notifications.reply&#x27;: &#x27;Antworten&#x27;,
+		&#x27;notifications.config_label&#x27;: &#x27;Benachrichtigungseinstellungen&#x27;,
+		&#x27;notifications.mark_as_read_label&#x27;: &#x27;Als gelesen markieren&#x27;,
+		&#x27;notifications.view_post_label&#x27;: &#x27;Beitrag ansehen&#x27;,
+		&#x27;notifications.tab.all&#x27;: &#x27;Alle&#x27;,
+		&#x27;notifications.tab.unread&#x27;: &#x27;Ungelesen&#x27;,
+		&#x27;notifications.tab.mentions&#x27;: &#x27;Erwähnungen&#x27;,
+		&#x27;notifications.tab.social&#x27;: &#x27;Soziales&#x27;,
+		&#x27;notifications.date.today&#x27;: &#x27;Heute&#x27;,
+		&#x27;notifications.date.yesterday&#x27;: &#x27;Gestern&#x27;,
+		&#x27;notifications.date.this_week&#x27;: &#x27;Diese Woche&#x27;,
+		&#x27;notifications.date.older&#x27;: &#x27;Früher&#x27;,
+		&#x27;notifications.someone&#x27;: &#x27;Jemand&#x27;,
+		&#x27;notifications.text.like&#x27;: &#x27;gefällt dein Rezept&#x27;,
+		&#x27;notifications.text.comment&#x27;: &#x27;hat kommentiert&#x27;,
+		&#x27;notifications.text.follow&#x27;: &#x27;folgt dir jetzt&#x27;,
+		&#x27;notifications.text.follow_request&#x27;: &#x27;möchte dir folgen&#x27;,
+		&#x27;notifications.text.follow_accepted&#x27;: &#x27;hat deine Folgeanfrage angenommen&#x27;,
+		&#x27;notifications.text.mention&#x27;: &#x27;hat dich in einem Kommentar erwähnt&#x27;,
+		&#x27;notifications.text.recipe_save&#x27;: &#x27;hat dein Rezept gespeichert&#x27;,
+		&#x27;notifications.text.default&#x27;: &#x27;hat mit deinem Inhalt interagiert&#x27;,
+		&#x27;notifications.chip.like&#x27;: &#x27;Gefällt mir&#x27;,
+		&#x27;notifications.chip.comment&#x27;: &#x27;Kommentar&#x27;,
+		&#x27;notifications.chip.follow&#x27;: &#x27;Neuer Follower&#x27;,
+		&#x27;notifications.chip.follow_request&#x27;: &#x27;Anfrage&#x27;,
+		&#x27;notifications.chip.follow_accepted&#x27;: &#x27;Angenommen&#x27;,
+		&#x27;notifications.chip.mention&#x27;: &#x27;Erwähnung&#x27;,
+		&#x27;notifications.chip.recipe_save&#x27;: &#x27;Gespeichert&#x27;,
+		&#x27;notifications.state.following&#x27;: &#x27;Gefolgt&#x27;,
+		&#x27;notifications.state.requested&#x27;: &#x27;Angefragt&#x27;,
+		&#x27;notifications.state.follow&#x27;: &#x27;Folgen&#x27;,
+
+		// Profile
+		&#x27;profile.kitchen_profile&#x27;: &#x27;Kochprofil&#x27;,
+		&#x27;profile.edit_profile&#x27;: &#x27;Profil bearbeiten&#x27;,
+		&#x27;profile.share_profile&#x27;: &#x27;Profil teilen&#x27;,
+		&#x27;profile.followers&#x27;: &#x27;Follower&#x27;,
+		&#x27;profile.following&#x27;: &#x27;Gefolgt&#x27;,
+		&#x27;profile.posts&#x27;: &#x27;Beiträge&#x27;,
+		&#x27;profile.boost_title&#x27;: &#x27;Optimiere dein Profil&#x27;,
+		&#x27;profile.boost_desc&#x27;: &#x27;Vervollständige deine Bio, lade ein Foto hoch und poste Rezepte, um besser gefunden zu werden.&#x27;,
+		&#x27;profile.empty_posts_title&#x27;: &#x27;Du hast noch nichts gepostet&#x27;,
+		&#x27;profile.empty_posts_desc&#x27;: &#x27;Teile dein erstes Rezept mit der Community.&#x27;,
+		&#x27;profile.empty_saved_title&#x27;: &#x27;Deine gespeicherten Rezepte werden hier angezeigt&#x27;,
+		&#x27;profile.empty_saved_desc&#x27;: &#x27;Speichere Ideen aus dem Feed oder Entdecken, um sie später zu kochen.&#x27;,
+		&#x27;profile.empty_liked_title&#x27;: &#x27;Deine gelikten Rezepte werden hier angezeigt&#x27;,
+		&#x27;profile.empty_liked_desc&#x27;: &#x27;Like Rezepte im Feed, um sie hier zu sehen.&#x27;,
+		&#x27;profile.badges&#x27;: &#x27;Abzeichen&#x27;,
+		&#x27;profile.account&#x27;: &#x27;Konto&#x27;,
+		&#x27;profile.logout&#x27;: &#x27;Abmelden&#x27;,
+		&#x27;profile.username&#x27;: &#x27;Benutzername&#x27;,
+		&#x27;profile.display_name&#x27;: &#x27;Vollständiger Name&#x27;,
+		&#x27;profile.bio&#x27;: &#x27;Bio&#x27;,
+		&#x27;profile.location&#x27;: &#x27;Ort&#x27;,
+		&#x27;profile.birth_date&#x27;: &#x27;Geburtsdatum&#x27;,
+		&#x27;profile.cancel&#x27;: &#x27;Abbrechen&#x27;,
+		&#x27;profile.save_changes&#x27;: &#x27;Änderungen speichern&#x27;,
+		&#x27;profile.saving&#x27;: &#x27;Speichern...&#x27;,
+		&#x27;profile.joined_since&#x27;: &#x27;Vollständiges Profil seit&#x27;,
+		&#x27;profile.in_construction&#x27;: &#x27;Profil im Aufbau&#x27;,
+		&#x27;profile.no_location&#x27;: &#x27;Kein Ort&#x27;,
+		&#x27;profile.bio_fallback&#x27;: &#x27;Teile deine Bio, damit die Community deinen Kochstil kennenlernt.&#x27;,
+		&#x27;profile.badge.active_chef.label&#x27;: &#x27;Aktiver Chefkoch&#x27;,
+		&#x27;profile.badge.active_chef.desc&#x27;: &#x27;Veröffentlicht häufig Rezepte&#x27;,
+		&#x27;profile.badge.favorites.label&#x27;: &#x27;Favoriten&#x27;,
+		&#x27;profile.badge.favorites.desc&#x27;: &#x27;Rezepte erhalten gutes Feedback&#x27;,
+		&#x27;profile.badge.curator.label&#x27;: &#x27;Kurator&#x27;,
+		&#x27;profile.badge.curator.desc&#x27;: &#x27;Speichert Ideen zum besseren Kochen&#x27;,
+
+		// Saved
+		&#x27;saved.personal_library&#x27;: &#x27;Bibliothek&#x27;,
+		&#x27;saved.title&#x27;: &#x27;Gespeichert&#x27;,
+		&#x27;saved.subtitle&#x27;: &#x27;Deine gespeicherten Rezepte und Beiträge, damit du keine guten Ideen verpasst.&#x27;,
+		&#x27;saved.search_placeholder&#x27;: &#x27;Gespeichertes suchen...&#x27;,
+		&#x27;saved.recents&#x27;: &#x27;Kürzlich&#x27;,
+		&#x27;saved.ordered_by&#x27;: &#x27;Sortiert nach dem zuletzt Gespeicherten.&#x27;,
+		&#x27;saved.empty_title&#x27;: &#x27;Nichts hier gespeichert&#x27;,
+		&#x27;saved.empty_desc&#x27;: &#x27;Speichere Rezepte und Beiträge aus dem Feed oder Entdecken, um deine Bibliothek aufzubauen.&#x27;,
+		&#x27;saved.loading_more&#x27;: &#x27;Lade weitere gespeicherte Elemente...&#x27;,
+		&#x27;saved.filter.all&#x27;: &#x27;Alle&#x27;,
+		&#x27;saved.filter.recipes&#x27;: &#x27;Rezepte&#x27;,
+		&#x27;saved.filter.posts&#x27;: &#x27;Beiträge&#x27;,
+
+		// Shopping List
+		&#x27;shopping.title&#x27;: &#x27;Einkaufsliste&#x27;,
+		&#x27;shopping.pending_status&#x27;: &#x27;ausstehend&#x27;,
+		&#x27;shopping.ready_status&#x27;: &#x27;bereit&#x27;,
+		&#x27;shopping.toast.group_removed&#x27;: &#x27;Zutaten aus der Liste entfernt&#x27;,
+		&#x27;shopping.toast.checked_removed&#x27;: &#x27;Markierte Zutaten entfernt&#x27;,
+		&#x27;shopping.toast.list_cleared&#x27;: &#x27;Liste geleert&#x27;,
+		&#x27;shopping.toast.list_copied&#x27;: &#x27;Liste in die Zwischenablage kopiert&#x27;,
+		&#x27;shopping.share_title&#x27;: &#x27;Meine Einkaufsliste&#x27;,
+		&#x27;shopping.add_ingredient&#x27;: &#x27;Zutat hinzufügen&#x27;,
+		&#x27;shopping.placeholder_name&#x27;: &#x27;Zutat (z. B. Tomaten, Mehl, Milch...)&#x27;,
+		&#x27;shopping.placeholder_qty&#x27;: &#x27;Menge&#x27;,
+		&#x27;shopping.unit_select&#x27;: &#x27;In welcher Menge?&#x27;,
+		&#x27;shopping.empty_title&#x27;: &#x27;Deine Liste ist leer&#x27;,
+		&#x27;shopping.empty_desc&#x27;: &#x27;Zutaten aus beliebigen Rezepten hinzufügen&#x27;,
+		&#x27;shopping.explore_recipes&#x27;: &#x27;Rezepte entdecken&#x27;,
+		&#x27;shopping.clear_checked&#x27;: &#x27;Markierte löschen&#x27;,
+		&#x27;shopping.complete&#x27;: &#x27;Fertig!&#x27;,
+		&#x27;shopping.view_stores&#x27;: &#x27;Supermärkte ansehen&#x27;,
+		&#x27;shopping.where_buy&#x27;: &#x27;Wo möchtest du einkaufen?&#x27;,
+		&#x27;shopping.stores_available&#x27;: &#x27;Verfügbare Geschäfte in deiner Nähe&#x27;,
+		&#x27;shopping.cancel&#x27;: &#x27;Abbrechen&#x27;,
+		&#x27;shopping.clear_list_title&#x27;: &#x27;Liste leeren?&#x27;,
+		&#x27;shopping.clear_list_desc&#x27;: &#x27;Alle Zutaten werden gelöscht.&#x27;,
+		&#x27;shopping.clear_confirm&#x27;: &#x27;Leeren&#x27;,
+		&#x27;shopping.share_label&#x27;: &#x27;Liste teilen&#x27;,
+		&#x27;shopping.clear_label&#x27;: &#x27;Liste leeren&#x27;,
+		&#x27;shopping.checked_items_label&#x27;: &#x27;markierte Zutat&#x27;,
+		&#x27;shopping.checked_items_label_plural&#x27;: &#x27;markierte Zutaten&#x27;,
+		&#x27;shopping.remove_group&#x27;: &#x27;Gruppe entfernen&#x27;,
+		&#x27;shopping.unit.weight&#x27;: &#x27;Gewicht — Mehl, Fleisch, Obst…&#x27;,
+		&#x27;shopping.unit.volume&#x27;: &#x27;Volumen — Milch, Öl, Saft…&#x27;,
+		&#x27;shopping.unit.units&#x27;: &#x27;Einheiten — Eier, Gläser, Beutel…&#x27;,
+		&#x27;shopping.unit.cooking&#x27;: &#x27;Küchenmaße&#x27;,
+		&#x27;shopping.unit.grams&#x27;: &#x27;Gramm&#x27;,
+		&#x27;shopping.unit.kilograms&#x27;: &#x27;Kilogramm&#x27;,
+		&#x27;shopping.unit.ml&#x27;: &#x27;Milliliter (ml)&#x27;,
+		&#x27;shopping.unit.liters&#x27;: &#x27;Liter&#x27;,
+		&#x27;shopping.unit.units_val&#x27;: &#x27;Stück&#x27;,
+		&#x27;shopping.unit.packages&#x27;: &#x27;Packungen&#x27;,
+		&#x27;shopping.unit.cans&#x27;: &#x27;Dosen&#x27;,
+		&#x27;shopping.unit.bags&#x27;: &#x27;Beutel&#x27;,
+		&#x27;shopping.unit.tablespoons&#x27;: &#x27;Esslöffel&#x27;,
+		&#x27;shopping.unit.teaspoons&#x27;: &#x27;Teelöffel&#x27;,
+		&#x27;shopping.unit.cups&#x27;: &#x27;Tassen&#x27;,
+		&#x27;shopping.unit.pinches&#x27;: &#x27;Prisen&#x27;,
+
+		// Vegan Convert
+		&#x27;vegan.title&#x27;: &#x27;Vegane Version&#x27;,
+		&#x27;vegan.generated_ai&#x27;: &#x27;KI-generiert&#x27;,
+		&#x27;vegan.loading&#x27;: &#x27;Rezept wird veganisiert...&#x27;,
+		&#x27;vegan.searching_substitutes&#x27;: &#x27;Suche nach den besten Alternativen&#x27;,
+		&#x27;vegan.failed_title&#x27;: &#x27;Konnte nicht generiert werden&#x27;,
+		&#x27;vegan.ingredients_header&#x27;: &#x27;Zutaten&#x27;,
+		&#x27;vegan.preparation_header&#x27;: &#x27;Zubereitung&#x27;,
+		&#x27;vegan.tip_header&#x27;: &#x27;Tipp&#x27;,
+		&#x27;vegan.regenerate&#x27;: &#x27;Regenerieren&#x27;,
+		&#x27;vegan.copy_recipe&#x27;: &#x27;Rezept kopieren&#x27;,
+		&#x27;vegan.copied&#x27;: &#x27;Kopiert&#x27;,
+		&#x27;vegan.retry&#x27;: &#x27;Nochmal versuchen&#x27;,
+		&#x27;vegan.close&#x27;: &#x27;Schließen&#x27;,
+
+		// Feed — Zusätzliche Zustände
+		&#x27;feed.updating&#x27;: &#x27;Aktualisierung...&#x27;,
+		&#x27;feed.refresh_feed&#x27;: &#x27;Neue Beiträge sehen&#x27;,
+		&#x27;feed.loading_more&#x27;: &#x27;Weitere Beiträge laden...&#x27;,
+		&#x27;feed.empty_title&#x27;: &#x27;Dein Feed ist leer&#x27;,
+		&#x27;feed.empty_desc&#x27;: &#x27;Folge anderen Köchen, um ihre Beiträge hier zu sehen.&#x27;,
+		&#x27;feed.up_to_date_title&#x27;: &#x27;Du bist auf dem neuesten Stand!&#x27;,
+		&#x27;feed.up_to_date_desc&#x27;: &#x27;Suchst du nach mehr Inspiration? Entdecke neue Rezepte.&#x27;,
+		&#x27;feed.go_to_explore&#x27;: &#x27;Entdecken&#x27;,
+
+		// Report
+		&#x27;report.title&#x27;: &#x27;Beitrag melden&#x27;,
+		&#x27;report.subtitle&#x27;: &#x27;Warum glaubst du, dass dieser Beitrag gegen die Regeln verstößt?&#x27;,
+		&#x27;report.close&#x27;: &#x27;Schließen&#x27;,
+		&#x27;report.details_label&#x27;: &#x27;Weitere Details (optional)&#x27;,
+		&#x27;report.details_placeholder&#x27;: &#x27;Erzähle uns, was passiert (max. 500 Zeichen)&#x27;,
+		&#x27;report.cancel&#x27;: &#x27;Abbrechen&#x27;,
+		&#x27;report.submitting&#x27;: &#x27;Wird gesendet...&#x27;,
+		&#x27;report.submit&#x27;: &#x27;Meldung senden&#x27;,
+		&#x27;report.submitted_title&#x27;: &#x27;Meldung gesendet&#x27;,
+		&#x27;report.submitted_desc&#x27;: &#x27;Danke, dass du uns informiert hast. Unser Team wird den Inhalt überprüfen.&#x27;,
+		&#x27;report.cat.spam.label&#x27;: &#x27;Spam&#x27;,
+		&#x27;report.cat.spam.desc&#x27;: &#x27;Irreführende Werbung oder sich wiederholende Inhalte&#x27;,
+		&#x27;report.cat.hate.label&#x27;: &#x27;Hass oder Belästigung&#x27;,
+		&#x27;report.cat.hate.desc&#x27;: &#x27;Hassrede, Beleidigungen oder Belästigung von Personen&#x27;,
+		&#x27;report.cat.violence.label&#x27;: &#x27;Gewalt&#x27;,
+		&#x27;report.cat.violence.desc&#x27;: &#x27;Gewalttätige Inhalte oder Drohungen&#x27;,
+		&#x27;report.cat.sexual.label&#x27;: &#x27;Sexuelle Inhalte&#x27;,
+		&#x27;report.cat.sexual.desc&#x27;: &#x27;Nacktheit oder explizite sexuelle Inhalte&#x27;,
+		&#x27;report.cat.fraud.label&#x27;: &#x27;Betrug oder Schwindel&#x27;,
+		&#x27;report.cat.fraud.desc&#x27;: &#x27;Betrugsversuch, Phishing oder Täuschung&#x27;,
+		&#x27;report.cat.other.label&#x27;: &#x27;Sonstiges&#x27;,
+		&#x27;report.cat.other.desc&#x27;: &#x27;Ein anderer Grund, der oben nicht passt&#x27;,
+
+		// Edit Profile
+		&#x27;profile.edit_title&#x27;: &#x27;Profil bearbeiten&#x27;,
+		&#x27;profile.your_name&#x27;: &#x27;Dein Name&#x27;,
+		&#x27;profile.tap_photo&#x27;: &#x27;Foto antippen zum Ändern&#x27;,
+		&#x27;profile.checking_availability&#x27;: &#x27;Verfügbarkeit wird geprüft…&#x27;,
+		&#x27;profile.bio_placeholder&#x27;: &#x27;Erzähle uns etwas über dich...&#x27;,
+		&#x27;profile.location_placeholder&#x27;: &#x27;Berlin, Deutschland&#x27;,
+		&#x27;profile.success_msg&#x27;: &#x27;Profil erfolgreich aktualisiert!&#x27;,
+
+		// Public Profile
+		&#x27;public.back&#x27;: &#x27;Zurück&#x27;,
+		&#x27;public.go_feed&#x27;: &#x27;Zum Feed&#x27;,
+		&#x27;public.follows_you&#x27;: &#x27;Folgt dir&#x27;,
+		&#x27;public.following_btn&#x27;: &#x27;Gefolgt&#x27;,
+		&#x27;public.requested_btn&#x27;: &#x27;Angefragt&#x27;,
+		&#x27;public.follow_back_btn&#x27;: &#x27;Auch folgen&#x27;,
+		&#x27;public.follow_btn&#x27;: &#x27;Folgen&#x27;,
+		&#x27;public.message_btn&#x27;: &#x27;Nachricht&#x27;,
+		&#x27;public.share_btn&#x27;: &#x27;Profil teilen&#x27;,
+		&#x27;public.no_posts&#x27;: &#x27;Noch keine Beiträge&#x27;,
+		&#x27;public.about&#x27;: &#x27;Über&#x27;,
+		&#x27;public.no_bio&#x27;: &#x27;Dieser Koch hat noch keine Bio geschrieben.&#x27;,
+		&#x27;public.no_results&#x27;: &#x27;Keine Ergebnisse&#x27;,
+		&#x27;public.private_title&#x27;: &#x27;Dieses Konto ist privat&#x27;,
+		&#x27;public.private_desc&#x27;: &#x27;Folge diesem Koch, um seine Rezepte und Beiträge zu sehen.&#x27;,
+		&#x27;public.now_following&#x27;: &#x27;Du folgst jetzt&#x27;,
+		&#x27;public.request_sent&#x27;: &#x27;Anfrage gesendet an&#x27;,
+		&#x27;public.request_cancelled&#x27;: &#x27;Anfrage abgebrochen&#x27;,
+		&#x27;public.unfollowed&#x27;: &#x27;Entfolgt&#x27;,
+		&#x27;public.follow_error&#x27;: &#x27;Folgestatus konnte nicht aktualisiert werden&#x27;,
+
+		// Topbar
+		&#x27;topbar.search_short&#x27;: &#x27;Suchen...&#x27;,
+		&#x27;topbar.search_long&#x27;: &#x27;Rezepte, Zutaten oder Benutzer suchen...&#x27;,
+		&#x27;topbar.create&#x27;: &#x27;Erstellen&#x27;,
+
+		// Global Search
+		&#x27;search.placeholder&#x27;: &#x27;Rezepte, Benutzer suchen...&#x27;,
+		&#x27;search.tab.all&#x27;: &#x27;Alles&#x27;,
+		&#x27;search.tab.users&#x27;: &#x27;Benutzer&#x27;,
+		&#x27;search.tab.recipes&#x27;: &#x27;Rezepte&#x27;,
+		&#x27;search.hint&#x27;: &#x27;Rezepte oder Benutzer suchen&#x27;,
+		&#x27;search.hint_shortcut&#x27;: &#x27;Drücke ⌘K oder Strg+K zum Öffnen/Schließen&#x27;,
+		&#x27;search.no_results&#x27;: &#x27;Keine Ergebnisse für&#x27;,
+		&#x27;search.try_another&#x27;: &#x27;Versuche einen anderen Begriff&#x27;,
+		&#x27;search.users_label&#x27;: &#x27;Benutzer&#x27;,
+		&#x27;search.recipes_label&#x27;: &#x27;Rezepte&#x27;,
+		&#x27;search.no_title&#x27;: &#x27;Ohne Titel&#x27;,
+		&#x27;search.view_all&#x27;: &#x27;Alle Ergebnisse in Entdecken anzeigen&#x27;,
+
+		// AI Recipes
+		&#x27;ai.title&#x27;: &#x27;KI Rezepte&#x27;,
+		&#x27;ai.hero_subtitle&#x27;: &#x27;Sag uns, was du hast oder worauf du Lust hast, und unsere KI kreiert das perfekte Rezept für dich.&#x27;,
+		&#x27;ai.hero_hello&#x27;: &#x27;Hallo, &#x27;,
+		&#x27;ai.hero_fallback_chef&#x27;: &#x27;Koch&#x27;,
+		&#x27;ai.hero_ready&#x27;: &#x27;Ich bin bereit, ein köstliches Rezept speziell für dich zu kreieren.&#x27;,
+		&#x27;ai.form.title&#x27;: &#x27;Sag uns, was du zu Hause hast&#x27;,
+		&#x27;ai.form.placeholder&#x27;: &#x27;Z.B.: Hähnchen, Reis, Brokkoli, Zitrone...&#x27;,
+		&#x27;ai.form.suggestions&#x27;: &#x27;Oder wähle einige Vorschläge:&#x27;,
+		&#x27;ai.form.suggest.chicken&#x27;: &#x27;Hähnchen&#x27;,
+		&#x27;ai.form.suggest.rice&#x27;: &#x27;Reis&#x27;,
+		&#x27;ai.form.suggest.broccoli&#x27;: &#x27;Brokkoli&#x27;,
+		&#x27;ai.form.suggest.tomato&#x27;: &#x27;Tomate&#x27;,
+		&#x27;ai.form.suggest.avocado&#x27;: &#x27;Avocado&#x27;,
+		&#x27;ai.form.suggest.eggs&#x27;: &#x27;Eier&#x27;,
+		&#x27;ai.form.suggest.mushrooms&#x27;: &#x27;Pilze&#x27;,
+		&#x27;ai.form.suggest.cheese&#x27;: &#x27;Käse&#x27;,
+		&#x27;ai.form.type_title&#x27;: &#x27;Nach welcher Art von Rezept suchst du?&#x27;,
+		&#x27;ai.form.type.quick.title&#x27;: &#x27;Schnell&#x27;,
+		&#x27;ai.form.type.quick.desc&#x27;: &#x27;Weniger als 30 Min.&#x27;,
+		&#x27;ai.form.type.healthy.title&#x27;: &#x27;Gesund&#x27;,
+		&#x27;ai.form.type.healthy.desc&#x27;: &#x27;Kalorienarm&#x27;,
+		&#x27;ai.form.type.vegetarian.title&#x27;: &#x27;Vegetarisch&#x27;,
+		&#x27;ai.form.type.vegetarian.desc&#x27;: &#x27;Fleischlos&#x27;,
+		&#x27;ai.form.type.gourmet.title&#x27;: &#x27;Gourmet&#x27;,
+		&#x27;ai.form.type.gourmet.desc&#x27;: &#x27;Zum Beeindrucken&#x27;,
+		&#x27;ai.form.portions&#x27;: &#x27;Anzahl der Portionen&#x27;,
+		&#x27;ai.form.portions_label&#x27;: &#x27;Portionen&#x27;,
+		&#x27;ai.form.generating&#x27;: &#x27;Rezept wird erstellt...&#x27;,
+		&#x27;ai.form.generate_btn&#x27;: &#x27;Rezept generieren&#x27;,
+		&#x27;ai.result.generated&#x27;: &#x27;Generiertes Rezept&#x27;,
+		&#x27;ai.result.ingredients&#x27;: &#x27;Zutaten&#x27;,
+		&#x27;ai.result.steps&#x27;: &#x27;Schritte&#x27;,
+		&#x27;ai.result.info_banner&#x27;: &#x27;Unsere KI verwendet gängige Zutaten, um köstliche und personalisierte Rezepte zu erstellen.&#x27;,
+		&#x27;ai.ideas.title&#x27;: &#x27;Ideen für dich&#x27;,
+		&#x27;ai.ideas.refresh&#x27;: &#x27;Aktualisieren&#x27;,
+		&#x27;ai.ideas.view&#x27;: &#x27;Ansehen&#x27;,
+		&#x27;ai.ideas.pasta_title&#x27;: &#x27;Zitronen-Hähnchen-Pasta&#x27;,
+		&#x27;ai.ideas.stir_fry_title&#x27;: &#x27;Brokkoli-Hähnchen-Pfanne&#x27;,
+		&#x27;ai.ideas.creamy_rice_title&#x27;: &#x27;Cremiger Pilzreis&#x27;,
+		&#x27;ai.ideas.teriyaki_tacos_title&#x27;: &#x27;Teriyaki-Hähnchen-Tacos&#x27;,
+		&#x27;ai.ideas.with_your_ingredients&#x27;: &#x27;Mit deinen Zutaten&#x27;,
+		&#x27;ai.recent.title&#x27;: &#x27;Kürzlich generierte Rezepte&#x27;,
+		&#x27;ai.recent.quinoa_bowl&#x27;: &#x27;Quinoa-Hähnchen-Bowl&#x27;,
+		&#x27;ai.recent.pumpkin_soup&#x27;: &#x27;Cremige Kürbissuppe&#x27;,
+		&#x27;ai.recent.mediterranean_salad&#x27;: &#x27;Mediterraner Salat&#x27;,
+		&#x27;ai.recent.2_days_ago&#x27;: &#x27;Vor 2 Tagen generiert&#x27;,
+		&#x27;ai.recent.4_days_ago&#x27;: &#x27;Vor 4 Tagen generiert&#x27;,
+		&#x27;ai.recent.1_week_ago&#x27;: &#x27;Vor 1 Woche generiert&#x27;,
+		&#x27;ai.recent.save_recipe&#x27;: &#x27;Rezept speichern&#x27;,
+
+		// Messages
+		&#x27;messages.title&#x27;: &#x27;Nachrichten&#x27;,
+		&#x27;messages.select_conversation&#x27;: &#x27;Wähle eine Unterhaltung aus&#x27;,
+		&#x27;messages.new_conversation&#x27;: &#x27;Neue Unterhaltung&#x27;,
+		&#x27;messages.search_placeholder&#x27;: &#x27;Unterhaltungen suchen...&#x27;,
+		&#x27;messages.tab.all&#x27;: &#x27;Alle&#x27;,
+		&#x27;messages.tab.unread&#x27;: &#x27;Ungelesen&#x27;,
+		&#x27;messages.tab.groups&#x27;: &#x27;Gruppen&#x27;,
+		&#x27;messages.typing&#x27;: &#x27;schreibt...&#x27;,
+		&#x27;messages.no_conversations&#x27;: &#x27;Keine Unterhaltungen&#x27;,
+		&#x27;messages.try_another_search&#x27;: &#x27;Versuche eine andere Suche.&#x27;,
+		&#x27;messages.back&#x27;: &#x27;Zurück&#x27;,
+		&#x27;messages.view_profile&#x27;: &#x27;Profil anzeigen von&#x27;,
+		&#x27;messages.online&#x27;: &#x27;Online&#x27;,
+		&#x27;messages.offline&#x27;: &#x27;Offline&#x27;,
+		&#x27;messages.search_chat&#x27;: &#x27;Im Chat suchen&#x27;,
+		&#x27;messages.audio_call&#x27;: &#x27;Sprachanruf&#x27;,
+		&#x27;messages.video_call&#x27;: &#x27;Videoanruf&#x27;,
+		&#x27;messages.more_options&#x27;: &#x27;Weitere Optionen&#x27;,
+		&#x27;messages.search_messages&#x27;: &#x27;Nachrichten suchen&#x27;,
+		&#x27;messages.prev_match&#x27;: &#x27;Vorheriger Treffer&#x27;,
+		&#x27;messages.next_match&#x27;: &#x27;Nächster Treffer&#x27;,
+		&#x27;messages.close_search&#x27;: &#x27;Suche schließen&#x27;,
+		&#x27;messages.be_first&#x27;: &#x27;Schreibe als Erster&#x27;,
+		&#x27;messages.replying_to&#x27;: &#x27;Antworten an&#x27;,
+		&#x27;messages.you&#x27;: &#x27;dir&#x27;,
+		&#x27;messages.message&#x27;: &#x27;Nachricht&#x27;,
+		&#x27;messages.cancel_reply&#x27;: &#x27;Antwort abbrechen&#x27;,
+		&#x27;messages.attach&#x27;: &#x27;Anhängen&#x27;,
+		&#x27;messages.write_message&#x27;: &#x27;Schreibe eine Nachricht...&#x27;,
+		&#x27;messages.emoji&#x27;: &#x27;Emoji&#x27;,
+		&#x27;messages.insert_emoji&#x27;: &#x27;Emoji einfügen&#x27;,
+		&#x27;messages.send&#x27;: &#x27;Nachricht senden&#x27;,
+		&#x27;messages.today&#x27;: &#x27;Heute&#x27;,
+		&#x27;messages.yesterday&#x27;: &#x27;Gestern&#x27;,
+		&#x27;messages.day_before_yesterday&#x27;: &#x27;Vorgestern&#x27;,
+		&#x27;messages.close&#x27;: &#x27;Schließen&#x27;,
+		&#x27;messages.search_user_placeholder&#x27;: &#x27;Nach Name oder Benutzername suchen...&#x27;,
+		&#x27;messages.try_another_user&#x27;: &#x27;Versuche einen anderen Namen oder Benutzernamen&#x27;,
+		&#x27;messages.type_to_search&#x27;: &#x27;Schreiben zum Suchen&#x27;,
+	},
+}
+
+/**
+ * Servicio que provee la lógica de negocio para translation.
+ */
+@Injectable({ providedIn: &#x27;root&#x27; })
+export class TranslationService {
+	/**
+	 * Propiedad para gestionar platform identificador.
+	 */
+	private readonly platformId &#x3D; inject(PLATFORM_ID)
+	
+	// Default language is Spanish
+	/**
+	 * Propiedad para gestionar current lang.
+	 */
+	readonly currentLang &#x3D; signal&lt;LanguageCode&gt;(&#x27;es&#x27;)
+
+	/**
+	 * Constructor de la clase o componente para inicializar dependencias.
+	 */
+	constructor() {
+		if (isPlatformBrowser(this.platformId)) {
+			const saved &#x3D; localStorage.getItem(&#x27;savorealo_lang&#x27;) as LanguageCode
+			if (saved &amp;&amp; [&#x27;es&#x27;, &#x27;en&#x27;, &#x27;fr&#x27;, &#x27;de&#x27;].includes(saved)) {
+				this.currentLang.set(saved)
+			}
+		}
+	}
+
+	/**
+	 * Método para establecer language.
+	 */
+	setLanguage(lang: LanguageCode): void {
+		if ([&#x27;es&#x27;, &#x27;en&#x27;, &#x27;fr&#x27;, &#x27;de&#x27;].includes(lang)) {
+			this.currentLang.set(lang)
+			if (isPlatformBrowser(this.platformId)) {
+				localStorage.setItem(&#x27;savorealo_lang&#x27;, lang)
+			}
+		}
+	}
+
+	/**
+	 * Método para translate.
+	 */
+	translate(key: string): string {
+		const lang &#x3D; this.currentLang()
+		const dict &#x3D; TRANSLATIONS[lang] || TRANSLATIONS[&#x27;es&#x27;]
+		return dict[key] || key
+	}
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'TranslationService.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

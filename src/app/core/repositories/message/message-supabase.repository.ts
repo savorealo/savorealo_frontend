@@ -4,10 +4,19 @@ import { RealtimeChannel } from '@supabase/supabase-js'
 import { SupabaseService } from '@core/services/supabase.service'
 import type { ConversationRow, IMessageRepository, MessageRow } from './message-repository'
 
+/**
+ * Repositorio de datos para messagesupabase.
+ */
 @Injectable({ providedIn: 'root' })
 export class MessageSupabaseRepository implements IMessageRepository {
+	/**
+	 * Propiedad para gestionar supabase.
+	 */
 	private readonly supabase = inject(SupabaseService)
 
+	/**
+	 * Método para obtener participations.
+	 */
 	getParticipations(userId: string): Observable<{ conversation_id: string; last_read_at: string | null }[]> {
 		return from(
 			this.supabase.client
@@ -22,6 +31,9 @@ export class MessageSupabaseRepository implements IMessageRepository {
 		)
 	}
 
+	/**
+	 * Método para obtener conversations.
+	 */
 	getConversations(ids: string[]): Observable<ConversationRow[]> {
 		return from(
 			this.supabase.client
@@ -42,6 +54,9 @@ export class MessageSupabaseRepository implements IMessageRepository {
 		)
 	}
 
+	/**
+	 * Método para obtener unread message rows.
+	 */
 	getUnreadMessageRows(conversationIds: string[], userId: string): Observable<{ conversation_id: string }[]> {
 		return from(
 			this.supabase.client
@@ -58,6 +73,9 @@ export class MessageSupabaseRepository implements IMessageRepository {
 		)
 	}
 
+	/**
+	 * Método para obtener messages.
+	 */
 	getMessages(conversationId: string, limit: number, beforeCreatedAt?: string | null): Observable<MessageRow[]> {
 		let query = this.supabase.client
 			.from('direct_messages')
@@ -78,6 +96,9 @@ export class MessageSupabaseRepository implements IMessageRepository {
 		)
 	}
 
+	/**
+	 * Método para enviar message.
+	 */
 	sendMessage(conversationId: string, senderId: string, receiverId: string, content: string, replyToMessageId?: string | null, sharedPostId?: string | null, sharedPostAuthorId?: string | null): Observable<MessageRow> {
 		return from(
 			this.supabase.client
@@ -101,6 +122,9 @@ export class MessageSupabaseRepository implements IMessageRepository {
 		)
 	}
 
+	/**
+	 * Método para actualizar conversation preview.
+	 */
 	updateConversationPreview(conversationId: string, content: string): Observable<void> {
 		return from(
 			this.supabase.client
@@ -110,6 +134,9 @@ export class MessageSupabaseRepository implements IMessageRepository {
 		).pipe(map(({ error }) => { if (error) throw error }))
 	}
 
+	/**
+	 * Método para mark read.
+	 */
 	markRead(conversationId: string, userId: string): Observable<void> {
 		const readAt = new Date().toISOString()
 		return from(Promise.all([
@@ -132,6 +159,9 @@ export class MessageSupabaseRepository implements IMessageRepository {
 		)
 	}
 
+	/**
+	 * Método para subscribe to conversation.
+	 */
 	subscribeToConversation(conversationId: string, onInsert: (row: MessageRow) => void, onUpdate: (row: MessageRow) => void): RealtimeChannel {
 		return this.supabase.client
 			.channel(`conv:${conversationId}`)
@@ -148,6 +178,9 @@ export class MessageSupabaseRepository implements IMessageRepository {
 			.subscribe()
 	}
 
+	/**
+	 * Método para subscribe to typing.
+	 */
 	subscribeToTyping(conversationId: string, onTyping: (payload: { userId: string; conversationId: string }) => void): RealtimeChannel {
 		return this.supabase.client
 			.channel(`typing:${conversationId}`)
@@ -157,6 +190,9 @@ export class MessageSupabaseRepository implements IMessageRepository {
 			.subscribe()
 	}
 
+	/**
+	 * Método para enviar typing.
+	 */
 	sendTyping(conversationId: string, userId: string): void {
 		const channel = this.supabase.client.channel(`typing:${conversationId}`)
 		channel.subscribe(status => {
@@ -167,6 +203,9 @@ export class MessageSupabaseRepository implements IMessageRepository {
 		})
 	}
 
+	/**
+	 * Método para find or crear conversation.
+	 */
 	findOrCreateConversation(otherId: string): Observable<string> {
 		return from(
 			this.supabase.client.rpc('create_direct_conversation', { other_user_id: otherId }),

@@ -8,6 +8,9 @@ import { RecentAiRecipes } from './components/recent-ai-recipes/recent-ai-recipe
 import { AiRecipeStore } from '@core/store/ai-recipe.store'
 import { inject } from '@angular/core'
 
+/**
+ * Componente principal para la vista o página de airecipes.
+ */
 @Component({
 	selector: 'app-ai-recipes-page',
 	imports: [
@@ -21,5 +24,8 @@ import { inject } from '@angular/core'
 	templateUrl: './ai-recipes-page.html',
 })
 export class AiRecipesPage {
+	/**
+	 * Propiedad para gestionar store.
+	 */
 	readonly store = inject(AiRecipeStore)
 }

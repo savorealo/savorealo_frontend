@@ -4,30 +4,90 @@ import { SupabaseService } from '@core/services/supabase.service'
 import { AuthStore } from '@core/store/auth.store'
 import { CallService } from '@core/services/call.service'
 
+/**
+ * Tipo de dato personalizado para callstatus.
+ */
 export type CallStatus = 'idle' | 'calling' | 'incoming' | 'active'
 
+/**
+ * Interfaz que define la estructura o contrato de datos para callstate.
+ */
 export interface CallState {
+	/**
+	 * Propiedad para gestionar status.
+	 */
 	status: CallStatus
+	/**
+	 * Propiedad para gestionar conversation identificador.
+	 */
 	conversationId: string | null
+	/**
+	 * Propiedad para gestionar remote user identificador.
+	 */
 	remoteUserId: string | null
+	/**
+	 * Propiedad para gestionar remote nombre.
+	 */
 	remoteName: string
+	/**
+	 * Propiedad para gestionar remote avatar.
+	 */
 	remoteAvatar: string
+	/**
+	 * Indicador booleano para es o está video.
+	 */
 	isVideo: boolean
+	/**
+	 * Propiedad para gestionar duración seconds.
+	 */
 	durationSeconds: number
 }
 
+/**
+ * Interfaz que define la estructura o contrato de datos para callsignalpayload.
+ */
 export interface CallSignalPayload {
+	/**
+	 * Propiedad para gestionar type.
+	 */
 	type: 'offer' | 'answer' | 'ice-candidate' | 'hangup' | 'reject'
+	/**
+	 * Propiedad para gestionar from.
+	 */
 	from: string
+	/**
+	 * Propiedad para gestionar to.
+	 */
 	to: string
+	/**
+	 * Propiedad para gestionar conversation identificador.
+	 */
 	conversationId?: string
+	/**
+	 * Propiedad para gestionar sdp.
+	 */
 	sdp?: RTCSessionDescriptionInit
+	/**
+	 * Indicador booleano para candidate.
+	 */
 	candidate?: RTCIceCandidateInit
+	/**
+	 * Propiedad para gestionar remote nombre.
+	 */
 	remoteName?: string
+	/**
+	 * Propiedad para gestionar remote avatar.
+	 */
 	remoteAvatar?: string
+	/**
+	 * Indicador booleano para es o está video.
+	 */
 	isVideo?: boolean
 }
 
+/**
+ * Interfaz que representa la estructura de dle.
+ */
 const IDLE: CallState = {
 	status: 'idle',
 	conversationId: null,
@@ -38,35 +98,104 @@ const IDLE: CallState = {
 	durationSeconds: 0,
 }
 
+/**
+ * Almacén de estado reactivo para gestionar la lógica de las llamadas de voz/video.
+ */
 @Injectable({ providedIn: 'root' })
 export class CallStore {
+	/**
+	 * Propiedad para gestionar supabase.
+	 */
 	private readonly supabase   = inject(SupabaseService)
+	/**
+	 * Propiedad para gestionar auth.
+	 */
 	private readonly auth       = inject(AuthStore)
+	/**
+	 * Propiedad para gestionar call svc.
+	 */
 	private readonly callSvc    = inject(CallService)
 
+	/**
+	 * Propiedad para gestionar call.
+	 */
 	private readonly _call = signal<CallState>(IDLE)
+	/**
+	 * Propiedad para gestionar call.
+	 */
 	readonly call          = this._call.asReadonly()
 
+	/**
+	 * Indicador booleano para es o está en call.
+	 */
 	readonly isInCall  = computed(() => this._call().status !== 'idle')
+	/**
+	 * Indicador booleano para es o está calling.
+	 */
 	readonly isCalling = computed(() => this._call().status === 'calling')
+	/**
+	 * Indicador booleano para es o está incoming.
+	 */
 	readonly isIncoming = computed(() => this._call().status === 'incoming')
+	/**
+	 * Indicador booleano para es o está active.
+	 */
 	readonly isActive  = computed(() => this._call().status === 'active')
 
+	/**
+	 * Indicador booleano para es o está muted.
+	 */
 	readonly isMuted     = signal(false)
+	/**
+	 * Indicador booleano para es o está camera off.
+	 */
 	readonly isCameraOff = signal(false)
 
+	/**
+	 * Propiedad para gestionar local stream.
+	 */
 	readonly localStream  = this.callSvc.localStream
+	/**
+	 * Propiedad para gestionar remote stream.
+	 */
 	readonly remoteStream = this.callSvc.remoteStream
 
+	/**
+	 * Propiedad para gestionar channels.
+	 */
 	private readonly channels   = new Map<string, RealtimeChannel>()
+	/**
+	 * Propiedad para gestionar user channel.
+	 */
 	private userChannel: RealtimeChannel | null = null
+	/**
+	 * Propiedad para gestionar subscribed user identificador.
+	 */
 	private subscribedUserId: string | null = null
+	/**
+	 * Propiedad para gestionar pending offer.
+	 */
 	private pendingOffer: RTCSessionDescriptionInit | null = null
+	/**
+	 * Propiedad para gestionar pending candidates.
+	 */
 	private pendingCandidates: RTCIceCandidateInit[] = []
+	/**
+	 * Propiedad para gestionar answer handled.
+	 */
 	private answerHandled = false
+	/**
+	 * Propiedad para gestionar timer.
+	 */
 	private timer: ReturnType<typeof setInterval> | null = null
+	/**
+	 * Propiedad para gestionar incoming timeout.
+	 */
 	private incomingTimeout: ReturnType<typeof setTimeout> | null = null
 
+	/**
+	 * Método para subscribe for current user.
+	 */
 	subscribeForCurrentUser(): void {
 		const myId = this.auth.currentUserId()
 		if (!myId || this.subscribedUserId === myId) return
@@ -82,11 +211,17 @@ export class CallStore {
 		this.subscribedUserId = myId
 	}
 
+	/**
+	 * Método para subscribe for conversation.
+	 */
 	subscribeForConversation(conversationId: string): void {
 		if (this.channels.has(conversationId)) return
 		this.ensureSubscribed(conversationId)
 	}
 
+	/**
+	 * Método para unsubscribe todos.
+	 */
 	unsubscribeAll(): void {
 		this.channels.forEach(ch => ch.unsubscribe())
 		this.channels.clear()
@@ -96,6 +231,9 @@ export class CallStore {
 		this.subscribedUserId = null
 	}
 
+	/**
+	 * Método para initiate call.
+	 */
 	async initiateCall(
 		conversationId: string,
 		receiverId: string,
@@ -140,6 +278,9 @@ export class CallStore {
 		}
 	}
 
+	/**
+	 * Método para accept call.
+	 */
 	async acceptCall(): Promise<void> {
 		const state = this._call()
 		if (state.status !== 'incoming' || !state.conversationId || !state.remoteUserId || !this.pendingOffer) return
@@ -172,6 +313,9 @@ export class CallStore {
 		}
 	}
 
+	/**
+	 * Método para reject call.
+	 */
 	rejectCall(): void {
 		const state = this._call()
 		if (state.status !== 'incoming') return
@@ -182,6 +326,9 @@ export class CallStore {
 		this.endCall()
 	}
 
+	/**
+	 * Método para hang up.
+	 */
 	hangUp(): void {
 		const state = this._call()
 		if (state.status === 'idle') return
@@ -192,9 +339,18 @@ export class CallStore {
 		this.endCall()
 	}
 
+	/**
+	 * Método para alternar mute.
+	 */
 	toggleMute(): void    { this.isMuted.set(this.callSvc.toggleMute()) }
+	/**
+	 * Método para alternar camera.
+	 */
 	toggleCamera(): void  { this.isCameraOff.set(this.callSvc.toggleCamera()) }
 
+	/**
+	 * Método para gestionar signal.
+	 */
 	private handleSignal(conversationId: string, payload: CallSignalPayload): void {
 		const state = this._call()
 
@@ -255,8 +411,14 @@ export class CallStore {
 		}
 	}
 
+	/**
+	 * Propiedad para gestionar subscription ready.
+	 */
 	private subscriptionReady = new Map<string, Promise<void>>()
 
+	/**
+	 * Método para ensure subscribed.
+	 */
 	private ensureSubscribed(conversationId: string): Promise<void> {
 		const existing = this.subscriptionReady.get(conversationId)
 		if (existing) return existing
@@ -281,6 +443,9 @@ export class CallStore {
 		return ready
 	}
 
+	/**
+	 * Método para enviar signal.
+	 */
 	private async sendSignal(conversationId: string, payload: CallSignalPayload): Promise<void> {
 		await this.ensureSubscribed(conversationId)
 		const enriched = { ...payload, conversationId }
@@ -298,6 +463,9 @@ export class CallStore {
 		}
 	}
 
+	/**
+	 * Método para enviar to user channel.
+	 */
 	private async sendToUserChannel(userId: string, payload: CallSignalPayload): Promise<void> {
 		const userChannel = this.supabase.client.channel(`call-user:${userId}`)
 		await new Promise<void>(resolve => {
@@ -313,15 +481,24 @@ export class CallStore {
 		})
 	}
 
+	/**
+	 * Método para start timer.
+	 */
 	private startTimer(): void {
 		this.stopTimer()
 		this.timer = setInterval(() => this._call.update(c => ({ ...c, durationSeconds: c.durationSeconds + 1 })), 1000)
 	}
 
+	/**
+	 * Método para stop timer.
+	 */
 	private stopTimer(): void {
 		if (this.timer) { clearInterval(this.timer); this.timer = null }
 	}
 
+	/**
+	 * Método para start incoming timeout.
+	 */
 	private startIncomingTimeout(): void {
 		this.clearIncomingTimeout()
 		this.incomingTimeout = setTimeout(() => {
@@ -329,6 +506,9 @@ export class CallStore {
 		}, 30000)
 	}
 
+	/**
+	 * Método para limpiar incoming timeout.
+	 */
 	private clearIncomingTimeout(): void {
 		if (this.incomingTimeout) {
 			clearTimeout(this.incomingTimeout)
@@ -336,12 +516,18 @@ export class CallStore {
 		}
 	}
 
+	/**
+	 * Método para flush pending candidates.
+	 */
 	private async flushPendingCandidates(): Promise<void> {
 		const candidates = [...this.pendingCandidates]
 		this.pendingCandidates = []
 		await Promise.all(candidates.map(candidate => this.callSvc.addIceCandidate(candidate).catch(() => undefined)))
 	}
 
+	/**
+	 * Método para end call.
+	 */
 	private endCall(): void {
 		this.stopTimer()
 		this.clearIncomingTimeout()

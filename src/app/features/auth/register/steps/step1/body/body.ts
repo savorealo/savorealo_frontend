@@ -7,6 +7,9 @@ import { Password } from "primeng/password";
 import { InputTextModule } from 'primeng/inputtext';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
 
+/**
+ * Clase de utilidad para body.
+ */
 @Component({
   selector: 'app-body-step1',
   imports: [
@@ -24,9 +27,18 @@ import { TranslatePipe } from '@shared/pipes/translate.pipe';
 })
 export class Body {
 
+  /**
+   * Propiedad para gestionar register form.
+   */
   registerForm = input.required<FormGroup>()
+  /**
+   * Propiedad para gestionar enviar event.
+   */
   submitEvent = output()
 
+  /**
+   * Método para evento de enviar.
+   */
   onSubmit() {
     if(this.isStepValid()){
       this.submitEvent.emit() 
@@ -35,11 +47,17 @@ export class Body {
     }
   }
 
+  /**
+   * Método para es o está invalid.
+   */
   isInvalid(controlName: string): boolean {
     const control = this.registerForm().get(controlName)
     return !!(control?.invalid && control.touched)
   }
 
+  /**
+   * Método para es o está step valid.
+   */
   isStepValid(){
     if(
       this.registerForm().get('email')?.valid &&

@@ -8,11 +8,23 @@ import {
 } from '@graphql/feed.mutations'
 import type { GqlFollowUser, GqlUser, IUserRepository, RespondFollowRequestResult, ToggleFollowResult } from './user-repository'
 
+/**
+ * Repositorio de datos para usergraphql.
+ */
 @Injectable({ providedIn: 'root' })
 export class UserGraphqlRepository implements IUserRepository {
+	/**
+	 * Propiedad para gestionar apollo.
+	 */
 	private readonly apollo = inject(Apollo)
+	/**
+	 * Propiedad para gestionar supabase.
+	 */
 	private readonly supabase = inject(SupabaseService)
 
+	/**
+	 * Método para obtener user por identificador.
+	 */
 	getUserById(id: string): Observable<GqlUser | null> {
 		return from(firstValueFrom(
 			this.apollo.query<{ user: GqlUser | null }>({
@@ -23,6 +35,9 @@ export class UserGraphqlRepository implements IUserRepository {
 		)).pipe(map(res => res?.data?.user ?? null))
 	}
 
+	/**
+	 * Método para find user identificador por nombre de usuario.
+	 */
 	findUserIdByUsername(username: string): Observable<string | null> {
 		return from(
 			this.supabase.client
@@ -36,6 +51,9 @@ export class UserGraphqlRepository implements IUserRepository {
 		}))
 	}
 
+	/**
+	 * Método para check nombre de usuario.
+	 */
 	checkUsername(username: string): Observable<{ valid: boolean; available: boolean; reason: string | null }> {
 		return this.apollo.query<{ checkUsername: { valid: boolean; available: boolean; reason: string | null } }>({
 			query: CHECK_USERNAME_QUERY,
@@ -46,6 +64,9 @@ export class UserGraphqlRepository implements IUserRepository {
 		)
 	}
 
+	/**
+	 * Método para alternar follow.
+	 */
 	toggleFollow(targetUserId: string): Observable<ToggleFollowResult> {
 		return from(firstValueFrom(
 			this.apollo.mutate<{ toggleFollow: ToggleFollowResult }>({
@@ -74,6 +95,9 @@ export class UserGraphqlRepository implements IUserRepository {
 		})))
 	}
 
+	/**
+	 * Método para respond follow request.
+	 */
 	respondFollowRequest(actorId: string, accept: boolean): Observable<RespondFollowRequestResult> {
 		return from(firstValueFrom(
 			this.apollo.mutate<{ respondFollowRequest: RespondFollowRequestResult }>({
@@ -86,14 +110,23 @@ export class UserGraphqlRepository implements IUserRepository {
 		})))
 	}
 
+	/**
+	 * Método para obtener followers.
+	 */
 	getFollowers(userId: string, limit: number): Observable<GqlFollowUser[]> {
 		return this.fetchFollowList(FOLLOWERS_QUERY, 'followers', userId, limit)
 	}
 
+	/**
+	 * Método para obtener following.
+	 */
 	getFollowing(userId: string, limit: number): Observable<GqlFollowUser[]> {
 		return this.fetchFollowList(FOLLOWING_QUERY, 'following', userId, limit)
 	}
 
+	/**
+	 * Método para fetch follow lista.
+	 */
 	private fetchFollowList(query: any, key: string, userId: string, limit: number): Observable<GqlFollowUser[]> {
 		return from(firstValueFrom(
 			this.apollo.query<Record<string, GqlFollowUser[]>>({

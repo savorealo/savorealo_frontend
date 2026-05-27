@@ -1,0 +1,990 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>cookeealo documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">cookeealo documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Interfaces</li>
+  <li class="breadcrumb-item"
+  >
+  ShoppingItem</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/app/features/shopping-list/shopping-list.service.ts</code>
+        </p>
+
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Estructura de datos que representa a un ingrediente o artículo dentro de la lista de compras del usuario.</p>
+
+            </p>
+
+
+        <section data-compodoc="block-index">
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                        <a href="#addedAt" 
+>
+                                            addedAt
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#checked" 
+>
+                                            checked
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#ingredientId" 
+>
+                                            ingredientId
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#key" 
+>
+                                            key
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#name" 
+>
+                                            name
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#notes" 
+>
+                                            notes
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#quantity" 
+>
+                                            quantity
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#recipeId" 
+>
+                                            recipeId
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#recipeName" 
+>
+                                            recipeName
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#unit" 
+>
+                                            unit
+                                        </a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+            <section data-compodoc="block-properties">
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="addedAt"></a>
+                                        <span class="name "><b>addedAt</b>
+                                            <a href="#addedAt">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>addedAt:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Marca de tiempo milisegundos que registra la fecha en que se añadió.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="checked"></a>
+                                        <span class="name "><b>checked</b>
+                                            <a href="#checked">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>checked:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Indica si el artículo ha sido tachado o comprado.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="ingredientId"></a>
+                                        <span class="name "><b>ingredientId</b>
+                                            <a href="#ingredientId">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>ingredientId:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Identificador del ingrediente relacionado en el sistema.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="key"></a>
+                                        <span class="name "><b>key</b>
+                                            <a href="#key">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>key:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Clave identificadora única del artículo en la lista.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="name"></a>
+                                        <span class="name "><b>name</b>
+                                            <a href="#name">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>name:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Nombre o descripción legible del ingrediente.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="notes"></a>
+                                        <span class="name "><b>notes</b>
+                                            <a href="#notes">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>notes:     <code>string | null</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>string | null</code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Anotaciones o detalles adicionales sobre el ingrediente.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="quantity"></a>
+                                        <span class="name "><b>quantity</b>
+                                            <a href="#quantity">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>quantity:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Cantidad requerida del ingrediente.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="recipeId"></a>
+                                        <span class="name "><b>recipeId</b>
+                                            <a href="#recipeId">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>recipeId:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Identificador de la receta a la que pertenece este artículo (&#39;manual&#39; para artículos añadidos por el usuario).</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="recipeName"></a>
+                                        <span class="name "><b>recipeName</b>
+                                            <a href="#recipeName">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>recipeName:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Título legible de la receta origen.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="unit"></a>
+                                        <span class="name "><b>unit</b>
+                                            <a href="#unit">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>unit:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Unidad de medida del ingrediente (ej. g, ml, unidades).</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { computed, Injectable, signal } from &#x27;@angular/core&#x27;
+import { Recipe } from &#x27;@core/models/post/post.model&#x27;
+
+/**
+ * Estructura de datos que representa a un ingrediente o artículo dentro de la lista de compras del usuario.
+ */
+export interface ShoppingItem {
+	/**
+	 * Clave identificadora única del artículo en la lista.
+	 */
+	key: string
+
+	/**
+	 * Identificador del ingrediente relacionado en el sistema.
+	 */
+	ingredientId: string
+
+	/**
+	 * Nombre o descripción legible del ingrediente.
+	 */
+	name: string
+
+	/**
+	 * Cantidad requerida del ingrediente.
+	 */
+	quantity: number
+
+	/**
+	 * Unidad de medida del ingrediente (ej. g, ml, unidades).
+	 */
+	unit: string
+
+	/**
+	 * Anotaciones o detalles adicionales sobre el ingrediente.
+	 */
+	notes: string | null
+
+	/**
+	 * Identificador de la receta a la que pertenece este artículo (&#x27;manual&#x27; para artículos añadidos por el usuario).
+	 */
+	recipeId: string
+
+	/**
+	 * Título legible de la receta origen.
+	 */
+	recipeName: string
+
+	/**
+	 * Indica si el artículo ha sido tachado o comprado.
+	 */
+	checked: boolean
+
+	/**
+	 * Marca de tiempo milisegundos que registra la fecha en que se añadió.
+	 */
+	addedAt: number
+}
+
+/**
+ * Agrupación de artículos de compra bajo una misma receta origen.
+ */
+export interface ShoppingGroup {
+	/**
+	 * Identificador único de la receta origen.
+	 */
+	recipeId: string
+
+	/**
+	 * Nombre legible de la receta origen.
+	 */
+	recipeName: string
+
+	/**
+	 * Conjunto de artículos asociados a esta agrupación.
+	 */
+	items: ShoppingItem[]
+
+	/**
+	 * Indica si todos los artículos de esta agrupación han sido comprados.
+	 */
+	allChecked: boolean
+}
+
+/**
+ * Clave utilizada para persistir el estado de la lista de compras en localStorage.
+ */
+const STORAGE_KEY &#x3D; &#x27;savorealo:shoppingList&#x27;
+
+/**
+ * Servicio inyectable global para gestionar de forma reactiva la lista de la compra del usuario.
+ * Proporciona persistencia en localStorage, adición por recetas, tachado y generación de texto para compartir.
+ */
+@Injectable({ providedIn: &#x27;root&#x27; })
+export class ShoppingListService {
+	/**
+	 * Señal reactiva que contiene todos los artículos de la lista de compras.
+	 */
+	readonly items &#x3D; signal&lt;ShoppingItem[]&gt;(this.load())
+
+	/**
+	 * Señal calculada que estructura y agrupa los artículos según su receta original.
+	 */
+	readonly groups &#x3D; computed&lt;ShoppingGroup[]&gt;(() &#x3D;&gt; {
+		const map &#x3D; new Map&lt;string, ShoppingGroup&gt;()
+		for (const item of this.items()) {
+			if (!map.has(item.recipeId)) {
+				map.set(item.recipeId, { recipeId: item.recipeId, recipeName: item.recipeName, items: [], allChecked: false })
+			}
+			map.get(item.recipeId)!.items.push(item)
+		}
+		for (const group of map.values()) {
+			group.allChecked &#x3D; group.items.every(i &#x3D;&gt; i.checked)
+		}
+		return [...map.values()]
+	})
+
+	/**
+	 * Señal calculada con el número total de artículos en la lista de compras.
+	 */
+	readonly totalCount    &#x3D; computed(() &#x3D;&gt; this.items().length)
+
+	/**
+	 * Señal calculada con el número de artículos pendientes por comprar.
+	 */
+	readonly uncheckedCount &#x3D; computed(() &#x3D;&gt; this.items().filter(i &#x3D;&gt; !i.checked).length)
+
+	/**
+	 * Agrega de manera manual un ingrediente personalizado a la sección Mis Ingredientes.
+	 * @param name Nombre del artículo.
+	 * @param quantity Cantidad opcional.
+	 * @param unit Unidad opcional.
+	 */
+	addManual(name: string, quantity?: number, unit?: string): void {
+		const key &#x3D; &#x60;manual_${Date.now()}_${Math.random().toString(36).slice(2)}&#x60;
+		const item: ShoppingItem &#x3D; {
+			key,
+			ingredientId: key,
+			name: name.trim(),
+			quantity: quantity ?? 0,
+			unit: unit?.trim() ?? &#x27;&#x27;,
+			notes: null,
+			recipeId: &#x27;manual&#x27;,
+			recipeName: &#x27;Mis ingredientes&#x27;,
+			checked: false,
+			addedAt: Date.now(),
+		}
+		this.items.update(curr &#x3D;&gt; [...curr, item])
+		this.save()
+	}
+
+	/**
+	 * Añade de golpe a la lista todos los ingredientes que pertenezcan a una receta dada.
+	 * @param recipe La receta que contiene los ingredientes.
+	 * @param postTitle El título opcional del post.
+	 * @returns El número de artículos nuevos que han sido insertados.
+	 */
+	addFromRecipe(recipe: Recipe, postTitle: string): number {
+		const recipeName &#x3D; recipe.name || postTitle || &#x27;Receta&#x27;
+		const existing &#x3D; new Set(this.items().map(i &#x3D;&gt; i.key))
+		const now &#x3D; Date.now()
+		const toAdd: ShoppingItem[] &#x3D; []
+
+		for (const ing of recipe.ingredients) {
+			const key &#x3D; &#x60;${recipe.id}_${ing.ingredientId}&#x60;
+			if (!existing.has(key)) {
+				toAdd.push({
+					key,
+					ingredientId: ing.ingredientId,
+					name: ing.name,
+					quantity: ing.quantity,
+					unit: ing.unit,
+					notes: ing.notes,
+					recipeId: recipe.id,
+					recipeName,
+					checked: false,
+					addedAt: now,
+				})
+			}
+		}
+
+		if (toAdd.length &gt; 0) {
+			this.items.update(curr &#x3D;&gt; [...curr, ...toAdd])
+			this.save()
+		}
+		return toAdd.length
+	}
+
+	/**
+	 * Comprueba si ya existen ingredientes en la lista pertenecientes a una determinada receta.
+	 * @param recipeId El identificador de la receta.
+	 */
+	hasRecipe(recipeId: string): boolean {
+		return this.items().some(i &#x3D;&gt; i.recipeId &#x3D;&#x3D;&#x3D; recipeId)
+	}
+
+	/**
+	 * Alterna el estado tachado (checked) de un artículo individual según su clave única.
+	 * @param key Clave única del artículo.
+	 */
+	toggleItem(key: string): void {
+		this.items.update(curr &#x3D;&gt; curr.map(i &#x3D;&gt; i.key &#x3D;&#x3D;&#x3D; key ? { ...i, checked: !i.checked } : i))
+		this.save()
+	}
+
+	/**
+	 * Elimina un artículo individual de la lista de compras según su clave.
+	 * @param key Clave única del artículo.
+	 */
+	removeItem(key: string): void {
+		this.items.update(curr &#x3D;&gt; curr.filter(i &#x3D;&gt; i.key !&#x3D;&#x3D; key))
+		this.save()
+	}
+
+	/**
+	 * Quita de la lista de compras todos los ingredientes asociados a una receta origen en concreto.
+	 * @param recipeId El identificador de la receta origen.
+	 */
+	removeRecipe(recipeId: string): void {
+		this.items.update(curr &#x3D;&gt; curr.filter(i &#x3D;&gt; i.recipeId !&#x3D;&#x3D; recipeId))
+		this.save()
+	}
+
+	/**
+	 * Purga todos los artículos tachados de la lista de la compra.
+	 */
+	clearChecked(): void {
+		this.items.update(curr &#x3D;&gt; curr.filter(i &#x3D;&gt; !i.checked))
+		this.save()
+	}
+
+	/**
+	 * Elimina de manera completa todos los artículos de la lista de compras.
+	 */
+	clearAll(): void {
+		this.items.set([])
+		this.save()
+	}
+
+	/**
+	 * Genera un bloque de texto formateado listo para ser compartido por portapapeles o redes sociales.
+	 */
+	buildShareText(): string {
+		const lines: string[] &#x3D; [&#x27;🛒 Mi lista de la compra — Savorealo&#x27;, &#x27;&#x27;]
+		for (const group of this.groups()) {
+			lines.push(&#x60;📋 ${group.recipeName}&#x60;)
+			for (const item of group.items) {
+				const check &#x3D; item.checked ? &#x27;✅&#x27; : &#x27;◻️&#x27;
+				const qty &#x3D; item.quantity ? &#x60;${item.quantity} ${item.unit}&#x60; : &#x27;&#x27;
+				lines.push(&#x60;  ${check} ${item.name}${qty ? &#x27;  (&#x27; + qty + &#x27;)&#x27; : &#x27;&#x27;}&#x60;)
+			}
+			lines.push(&#x27;&#x27;)
+		}
+		return lines.join(&#x27;\n&#x27;).trim()
+	}
+
+	/**
+	 * Guarda de manera persistente los artículos actuales en el almacenamiento local (localStorage).
+	 */
+	private save(): void {
+		try {
+			localStorage.setItem(STORAGE_KEY, JSON.stringify(this.items()))
+		} catch { /* ignorar */ }
+	}
+
+	/**
+	 * Recupera el listado serializado de artículos de compra desde localStorage si existe.
+	 */
+	private load(): ShoppingItem[] {
+		try {
+			if (typeof localStorage &#x3D;&#x3D;&#x3D; &#x27;undefined&#x27;) return []
+			const raw &#x3D; localStorage.getItem(STORAGE_KEY)
+			return raw ? (JSON.parse(raw) as ShoppingItem[]) : []
+		} catch { return [] }
+	}
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'ShoppingItem.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

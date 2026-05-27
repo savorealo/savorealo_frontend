@@ -1,0 +1,730 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>cookeealo documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">cookeealo documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  Topbar</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/shared/components/topbar/topbar.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Componente de barra superior de navegación global de la aplicación.
+Muestra el logotipo de la marca, los accesos directos de búsqueda, accesos de notificaciones y perfil de usuario.</p>
+
+    </p>
+
+
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-topbar</code></td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                                <code><a href="https://angular.io/api/router/RouterLink" target="_blank" >RouterLink</a></code>
+                            <code>TranslatePipe</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./topbar.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#auth" >auth</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#globalSearch" >globalSearch</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#logoUrl" >logoUrl</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#notifications" >notifications</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#profile" >profile</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#create" >create</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+    <section data-compodoc="block-outputs">
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="create"></a>
+                        <b>create</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/shared/components/topbar/topbar.ts:47</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Emisor de evento que se dispara al solicitar crear un nuevo elemento/receta.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="auth"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>auth</b></span>
+                        <a href="#auth"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(AuthStore)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/shared/components/topbar/topbar.ts:22</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Almacén de estado de autenticación.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="globalSearch"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>globalSearch</b></span>
+                        <a href="#globalSearch"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(GlobalSearchStore)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/shared/components/topbar/topbar.ts:27</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Almacén de estado de búsqueda global.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="logoUrl"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>logoUrl</b></span>
+                        <a href="#logoUrl"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;/assets/icons/new_logo.png&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/shared/components/topbar/topbar.ts:42</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>URL estática que apunta al recurso del logotipo de la aplicación.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="notifications"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>notifications</b></span>
+                        <a href="#notifications"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(NotificationsStore)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/shared/components/topbar/topbar.ts:32</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Almacén de estado de notificaciones.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="profile"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>profile</b></span>
+                        <a href="#profile"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.auth.profile</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/shared/components/topbar/topbar.ts:37</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal del perfil de usuario autenticado.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, inject, output } from &#x27;@angular/core&#x27;
+import { RouterLink }               from &#x27;@angular/router&#x27;
+import { AuthStore }                from &#x27;@core/store/auth.store&#x27;
+import { GlobalSearchStore }        from &#x27;@core/store/global-search.store&#x27;
+import { NotificationsStore }       from &#x27;@core/store/notifications.store&#x27;
+
+import { TranslatePipe }              from &#x27;@shared/pipes/translate.pipe&#x27;
+
+/**
+ * Componente de barra superior de navegación global de la aplicación.
+ * Muestra el logotipo de la marca, los accesos directos de búsqueda, accesos de notificaciones y perfil de usuario.
+ */
+@Component({
+	selector: &#x27;app-topbar&#x27;,
+	imports: [RouterLink, TranslatePipe],
+	templateUrl: &#x27;./topbar.html&#x27;,
+})
+export class Topbar {
+	/**
+	 * Almacén de estado de autenticación.
+	 */
+	private readonly auth  &#x3D; inject(AuthStore)
+
+	/**
+	 * Almacén de estado de búsqueda global.
+	 */
+	readonly globalSearch  &#x3D; inject(GlobalSearchStore)
+
+	/**
+	 * Almacén de estado de notificaciones.
+	 */
+	readonly notifications &#x3D; inject(NotificationsStore)
+
+	/**
+	 * Señal del perfil de usuario autenticado.
+	 */
+	readonly profile &#x3D; this.auth.profile
+
+	/**
+	 * URL estática que apunta al recurso del logotipo de la aplicación.
+	 */
+	readonly logoUrl &#x3D; &#x27;/assets/icons/new_logo.png&#x27;
+
+	/**
+	 * Emisor de evento que se dispara al solicitar crear un nuevo elemento/receta.
+	 */
+	create &#x3D; output&lt;void&gt;()
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;header class&#x3D;&quot;sticky top-0 z-30 border-b border-outline bg-surface/90 px-3 py-2.5 backdrop-blur sm:px-4 sm:py-3&quot;&gt;
+	&lt;div class&#x3D;&quot;mx-auto grid max-w-[1100px] grid-cols-[1fr_auto_auto] items-center gap-2 sm:gap-3&quot;&gt;
+		&lt;!-- Search trigger — opens global panel --&gt;
+		&lt;button
+			type&#x3D;&quot;button&quot;
+			class&#x3D;&quot;relative flex h-11 min-w-0 items-center gap-3 rounded-pill border border-outline bg-surface-container pl-11 pr-3 text-left text-body-sm font-semibold text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container-high hover:text-on-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:pl-12 sm:pr-4&quot;
+			(click)&#x3D;&quot;globalSearch.openPanel()&quot;
+			[attr.aria-label]&#x3D;&quot;&#x27;topbar.search_short&#x27; | translate&quot;
+		&gt;
+			&lt;i class&#x3D;&quot;pi pi-search absolute left-4 top-1/2 -translate-y-1/2 text-base sm:text-lg&quot;&gt;&lt;/i&gt;
+			&lt;span class&#x3D;&quot;truncate sm:hidden&quot;&gt;{{ &#x27;topbar.search_short&#x27; | translate }}&lt;/span&gt;
+			&lt;span class&#x3D;&quot;hidden truncate sm:inline&quot;&gt;{{ &#x27;topbar.search_long&#x27; | translate }}&lt;/span&gt;
+			&lt;kbd class&#x3D;&quot;ml-auto hidden rounded-sm border border-outline bg-surface px-1.5 py-0.5 text-[0.65rem] font-bold text-on-surface-muted sm:block&quot;&gt;⌘K&lt;/kbd&gt;
+		&lt;/button&gt;
+
+		&lt;button
+			type&#x3D;&quot;button&quot;
+			class&#x3D;&quot;inline-grid size-11 place-items-center rounded-pill bg-primary text-body-sm font-bold text-on-primary shadow-1 transition-all duration-fast ease-standard hover:shadow-2 active:scale-95 sm:inline-flex sm:w-auto sm:gap-2 sm:px-5&quot;
+			(click)&#x3D;&quot;create.emit()&quot;
+			[attr.aria-label]&#x3D;&quot;&#x27;topbar.create&#x27; | translate&quot;
+		&gt;
+			&lt;i class&#x3D;&quot;pi pi-plus text-sm&quot;&gt;&lt;/i&gt;
+			&lt;span class&#x3D;&quot;hidden sm:inline&quot;&gt;{{ &#x27;topbar.create&#x27; | translate }}&lt;/span&gt;
+		&lt;/button&gt;
+
+		&lt;div class&#x3D;&quot;flex items-center gap-2&quot;&gt;
+			&lt;a
+				routerLink&#x3D;&quot;/notifications&quot;
+				class&#x3D;&quot;relative grid size-11 place-items-center rounded-pill text-on-surface transition-colors duration-fast ease-standard hover:bg-surface-container&quot;
+				[attr.aria-label]&#x3D;&quot;&#x27;shell.notifications&#x27; | translate&quot;
+			&gt;
+				&lt;i class&#x3D;&quot;pi pi-bell text-xl&quot;&gt;&lt;/i&gt;
+				@if (notifications.unreadCount() &gt; 0) {
+					&lt;span class&#x3D;&quot;absolute right-1 top-1 grid h-[16px] min-w-[16px] place-items-center rounded-pill bg-error px-1 text-[0.6rem] font-black text-on-error&quot;&gt;
+						{{ notifications.unreadCount() &gt; 9 ? &#x27;9+&#x27; : notifications.unreadCount() }}
+					&lt;/span&gt;
+				}
+			&lt;/a&gt;
+
+			&lt;a
+				routerLink&#x3D;&quot;/profile&quot;
+				class&#x3D;&quot;hidden items-center gap-2 rounded-pill focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:flex&quot;
+			&gt;
+				&lt;span class&#x3D;&quot;grid size-10 shrink-0 place-items-center overflow-hidden rounded-pill bg-primary&quot;&gt;
+					&lt;img
+						[src]&#x3D;&quot;profile()?.photo_url || logoUrl&quot;
+						[alt]&#x3D;&quot;profile()?.username || &#x27;Perfil&#x27;&quot;
+						class&#x3D;&quot;size-full&quot;
+						[class.object-cover]&#x3D;&quot;profile()?.photo_url&quot;
+						[class.object-contain]&#x3D;&quot;!profile()?.photo_url&quot;
+					/&gt;
+				&lt;/span&gt;
+				&lt;i class&#x3D;&quot;pi pi-chevron-down hidden text-sm text-on-surface-muted sm:inline&quot;&gt;&lt;/i&gt;
+			&lt;/a&gt;
+		&lt;/div&gt;
+	&lt;/div&gt;
+&lt;/header&gt;
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis-network.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><header class="sticky top-0 z-30 border-b border-outline bg-surface/90 px-3 py-2.5 backdrop-blur sm:px-4 sm:py-3">	<div class="mx-auto grid max-w-[1100px] grid-cols-[1fr_auto_auto] items-center gap-2 sm:gap-3">		<!-- Search trigger — opens global panel -->		<button			type="button"			class="relative flex h-11 min-w-0 items-center gap-3 rounded-pill border border-outline bg-surface-container pl-11 pr-3 text-left text-body-sm font-semibold text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container-high hover:text-on-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:pl-12 sm:pr-4"			(click)="globalSearch.openPanel()"			[attr.aria-label]="\'topbar.search_short\' | translate"		>			<i class="pi pi-search absolute left-4 top-1/2 -translate-y-1/2 text-base sm:text-lg"></i>			<span class="truncate sm:hidden">{{ \'topbar.search_short\' | translate }}</span>			<span class="hidden truncate sm:inline">{{ \'topbar.search_long\' | translate }}</span>			<kbd class="ml-auto hidden rounded-sm border border-outline bg-surface px-1.5 py-0.5 text-[0.65rem] font-bold text-on-surface-muted sm:block">⌘K</kbd>		</button>		<button			type="button"			class="inline-grid size-11 place-items-center rounded-pill bg-primary text-body-sm font-bold text-on-primary shadow-1 transition-all duration-fast ease-standard hover:shadow-2 active:scale-95 sm:inline-flex sm:w-auto sm:gap-2 sm:px-5"			(click)="create.emit()"			[attr.aria-label]="\'topbar.create\' | translate"		>			<i class="pi pi-plus text-sm"></i>			<span class="hidden sm:inline">{{ \'topbar.create\' | translate }}</span>		</button>		<div class="flex items-center gap-2">			<a				routerLink="/notifications"				class="relative grid size-11 place-items-center rounded-pill text-on-surface transition-colors duration-fast ease-standard hover:bg-surface-container"				[attr.aria-label]="\'shell.notifications\' | translate"			>				<i class="pi pi-bell text-xl"></i>				@if (notifications.unreadCount() > 0) {					<span class="absolute right-1 top-1 grid h-[16px] min-w-[16px] place-items-center rounded-pill bg-error px-1 text-[0.6rem] font-black text-on-error">						{{ notifications.unreadCount() > 9 ? \'9+\' : notifications.unreadCount() }}					</span>				}			</a>			<a				routerLink="/profile"				class="hidden items-center gap-2 rounded-pill focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:flex"			>				<span class="grid size-10 shrink-0 place-items-center overflow-hidden rounded-pill bg-primary">					<img						[src]="profile()?.photo_url || logoUrl"						[alt]="profile()?.username || \'Perfil\'"						class="size-full"						[class.object-cover]="profile()?.photo_url"						[class.object-contain]="!profile()?.photo_url"					/>				</span>				<i class="pi pi-chevron-down hidden text-sm text-on-surface-muted sm:inline"></i>			</a>		</div>	</div></header></div>'
+    var COMPONENTS = [{'name': 'AddReviewModal', 'selector': 'app-add-review-modal'},{'name': 'AiIdeasPanel', 'selector': 'app-ai-ideas-panel'},{'name': 'AiRecipeForm', 'selector': 'app-ai-recipe-form'},{'name': 'AiRecipeResult', 'selector': 'app-ai-recipe-result'},{'name': 'AiRecipesHero', 'selector': 'app-ai-recipes-hero'},{'name': 'AiRecipesPage', 'selector': 'app-ai-recipes-page'},{'name': 'App', 'selector': 'app-root'},{'name': 'AppShell', 'selector': 'app-shell'},{'name': 'Auth', 'selector': 'app-auth'},{'name': 'Avatar', 'selector': 'app-avatar'},{'name': 'Body', 'selector': 'app-body-step1'},{'name': 'Body', 'selector': 'app-body-step3'},{'name': 'Body', 'selector': 'app-body-step2'},{'name': 'ButtonComponent', 'selector': 'app-button'},{'name': 'CallHost', 'selector': 'app-call-host'},{'name': 'CallOverlay', 'selector': 'app-call-overlay'},{'name': 'ChatPanel', 'selector': 'app-chat-panel'},{'name': 'CommentSection', 'selector': 'app-comment-section'},{'name': 'CommentsSheetComponent', 'selector': 'app-comments-sheet'},{'name': 'ConversationList', 'selector': 'app-conversation-list'},{'name': 'CookingModePage', 'selector': 'app-cooking-mode-page'},{'name': 'CreatePostComponent', 'selector': 'app-create-post'},{'name': 'EditProfileComponent', 'selector': 'app-edit-profile'},{'name': 'EmojiRain', 'selector': 'app-emoji-rain'},{'name': 'Emptystate', 'selector': 'app-emptystate'},{'name': 'ExploreCategoryTabs', 'selector': 'app-explore-category-tabs'},{'name': 'ExploreHero', 'selector': 'app-explore-hero'},{'name': 'ExplorePage', 'selector': 'app-explore-page'},{'name': 'ExploreRightRail', 'selector': 'app-explore-right-rail'},{'name': 'ExploreToolbar', 'selector': 'app-explore-toolbar'},{'name': 'FeedPage', 'selector': 'app-feed-page'},{'name': 'FeedPostList', 'selector': 'app-feed-post-list'},{'name': 'FeedRightRail', 'selector': 'app-feed-right-rail'},{'name': 'GlobalSearchPanel', 'selector': 'app-global-search-panel'},{'name': 'Header', 'selector': 'app-header-step1'},{'name': 'Header', 'selector': 'app-header-step3'},{'name': 'Header', 'selector': 'app-header-step2'},{'name': 'Home', 'selector': 'app-home'},{'name': 'IncomingCall', 'selector': 'app-incoming-call'},{'name': 'Login', 'selector': 'app-login'},{'name': 'MessageBubble', 'selector': 'app-message-bubble'},{'name': 'MessagesPage', 'selector': 'app-messages-page'},{'name': 'NewConversation', 'selector': 'app-new-conversation'},{'name': 'NotificationsPage', 'selector': 'app-notifications-page'},{'name': 'PlaceCard', 'selector': 'app-place-card'},{'name': 'PlaceDetailPage', 'selector': 'app-place-detail-page'},{'name': 'PlacesPage', 'selector': 'app-places-page'},{'name': 'PostCard', 'selector': 'app-post-card'},{'name': 'PostDetailPage', 'selector': 'app-post-detail-page'},{'name': 'Profile', 'selector': 'app-profile'},{'name': 'PublicProfilePage', 'selector': 'app-public-profile-page'},{'name': 'RecentAiRecipes', 'selector': 'app-recent-ai-recipes'},{'name': 'RecipeDiscoveryCard', 'selector': 'app-recipe-discovery-card'},{'name': 'RecipeDiscoveryGrid', 'selector': 'app-recipe-discovery-grid'},{'name': 'RecipeOfDayCard', 'selector': 'app-recipe-of-day-card'},{'name': 'Register', 'selector': 'app-register'},{'name': 'ReportSheet', 'selector': 'app-report-sheet'},{'name': 'SavedCollectionStrip', 'selector': 'app-saved-collection-strip'},{'name': 'SavedPage', 'selector': 'app-saved-page'},{'name': 'SavedRecipeCard', 'selector': 'app-saved-recipe-card'},{'name': 'SavoLoader', 'selector': 'app-savo-loader'},{'name': 'SettingsPage', 'selector': 'app-settings-page'},{'name': 'SharedPostCard', 'selector': 'app-shared-post-card'},{'name': 'SharedProfileCard', 'selector': 'app-shared-profile-card'},{'name': 'SharePostModal', 'selector': 'app-share-post-modal'},{'name': 'ShareProfileModal', 'selector': 'app-share-profile-modal'},{'name': 'ShoppingListPage', 'selector': 'app-shopping-list-page'},{'name': 'SkeletonCard', 'selector': 'app-skeleton-card'},{'name': 'Spinner', 'selector': 'app-spinner'},{'name': 'SpotlightBg', 'selector': 'app-spotlight-bg'},{'name': 'StoriesStrip', 'selector': 'app-stories-strip'},{'name': 'StoryViewer', 'selector': 'app-story-viewer'},{'name': 'SuggestionsPanel', 'selector': 'app-suggestions-panel'},{'name': 'Title', 'selector': 'app-title'},{'name': 'Topbar', 'selector': 'app-topbar'},{'name': 'TrendingList', 'selector': 'app-trending-list'},{'name': 'VeganConvertModal', 'selector': 'app-vegan-convert-modal'}];
+    var DIRECTIVES = [{'name': 'ClickOutsideDirective', 'selector': '[appClickOutside]'},{'name': 'ImgFallbackDirective', 'selector': 'img[appImgFallback]'}];
+    var ACTUAL_COMPONENT = {'name': 'Topbar'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'Topbar.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -5,16 +5,43 @@ import { StoriesService } from '@core/services/stories.service'
 import { AuthStore } from '@core/store/auth.store'
 import { StoryGroup } from '@core/models/story/story.model'
 
+/**
+ * Almacén de estado reactivo para gestionar la lógica de las historias (stories).
+ */
 @Injectable({ providedIn: 'root' })
 export class StoriesStore {
+	/**
+	 * Propiedad para gestionar stories service.
+	 */
 	private readonly storiesService = inject(StoriesService)
+	/**
+	 * Propiedad para gestionar auth store.
+	 */
 	private readonly authStore = inject(AuthStore)
+	/**
+	 * Propiedad para gestionar initialized.
+	 */
 	private readonly _initialized = signal(false)
 
+	/**
+	 * Propiedad para gestionar groups.
+	 */
 	readonly groups = signal<StoryGroup[]>([])
+	/**
+	 * Propiedad para gestionar cargando.
+	 */
 	readonly loading = signal(false)
+	/**
+	 * Propiedad para gestionar viewer abrir.
+	 */
 	readonly viewerOpen = signal(false)
+	/**
+	 * Propiedad para gestionar active group idx.
+	 */
 	readonly activeGroupIdx = signal(0)  // índice relativo a viewerGroups, no a groups
+	/**
+	 * Propiedad para gestionar active story idx.
+	 */
 	readonly activeStoryIdx = signal(0)
 
 	/** Tu propio grupo de historias (va en el botón "Tu historia", no en la fila). */
@@ -30,6 +57,9 @@ export class StoriesStore {
 	})
 
 	// 'others' = navegar dentro de otherGroups; 'mine' = solo mi propio grupo
+	/**
+	 * Propiedad para gestionar viewer scope.
+	 */
 	private readonly viewerScope = signal<'others' | 'mine'>('others')
 
 	/** Lista sobre la que navega el visor (depende del scope). */
@@ -39,9 +69,18 @@ export class StoriesStore {
 			: this.otherGroups()
 	)
 
+	/**
+	 * Propiedad para gestionar active group.
+	 */
 	readonly activeGroup = computed(() => this.viewerGroups()[this.activeGroupIdx()] ?? null)
+	/**
+	 * Propiedad para gestionar active story.
+	 */
 	readonly activeStory = computed(() => this.activeGroup()?.stories[this.activeStoryIdx()] ?? null)
 
+	/**
+	 * Constructor de la clase o componente para inicializar dependencias.
+	 */
 	constructor() {
 		// La sesión Supabase se restaura de forma asíncrona: `currentUserId()`
 		// arranca null y se rellena después. Reaccionamos a ese cambio para
@@ -53,6 +92,9 @@ export class StoriesStore {
 		})
 	}
 
+	/**
+	 * Método para cargar.
+	 */
 	load(): void {
 		const userId = this.authStore.currentUserId()
 		if (!userId || this._initialized()) return
@@ -79,6 +121,9 @@ export class StoriesStore {
 		if (idx >= 0) this.openViewer(idx)
 	}
 
+	/**
+	 * Método para abrir viewer.
+	 */
 	openViewer(groupIdx: number): void {
 		this.activeGroupIdx.set(groupIdx)
 		this.activeStoryIdx.set(0)
@@ -86,10 +131,16 @@ export class StoriesStore {
 		this._markCurrentViewed()
 	}
 
+	/**
+	 * Método para cerrar viewer.
+	 */
 	closeViewer(): void {
 		this.viewerOpen.set(false)
 	}
 
+	/**
+	 * Método para next story.
+	 */
 	nextStory(): void {
 		const group = this.activeGroup()
 		if (!group) return
@@ -106,6 +157,9 @@ export class StoriesStore {
 		}
 	}
 
+	/**
+	 * Método para prev story.
+	 */
 	prevStory(): void {
 		if (this.activeStoryIdx() > 0) {
 			this.activeStoryIdx.update(i => i - 1)
@@ -118,6 +172,9 @@ export class StoriesStore {
 		}
 	}
 
+	/**
+	 * Método para añadir story.
+	 */
 	addStory(file: File): Observable<void> {
 		const userId = this.authStore.currentUserId()
 		if (!userId) return throwError(() => new Error('No hay sesión'))
@@ -129,6 +186,9 @@ export class StoriesStore {
 		)
 	}
 
+	/**
+	 * Método para mark current viewed.
+	 */
 	private _markCurrentViewed(): void {
 		const story = this.activeStory()
 		const userId = this.authStore.currentUserId()

@@ -1,11 +1,26 @@
 import { computed, effect, inject, Injectable, PLATFORM_ID, signal } from '@angular/core'
 import { isPlatformBrowser } from '@angular/common'
 
+/**
+ * Tipo de dato personalizado para thememode.
+ */
 export type ThemeMode = 'light' | 'dark' | 'auto'
+/**
+ * Tipo de dato personalizado para resolvedtheme.
+ */
 export type ResolvedTheme = 'light' | 'dark'
 
+/**
+ * Variable o constante para s t o r a g e k e y.
+ */
 const STORAGE_KEY = 'savorealo:theme'
+/**
+ * Variable o constante para d a r k a t t r.
+ */
 const DARK_ATTR = 'dark'
+/**
+ * Variable o constante para l i g h t a t t r.
+ */
 const LIGHT_ATTR = 'light'
 
 /**
@@ -20,10 +35,22 @@ const LIGHT_ATTR = 'light'
  */
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
+	/**
+	 * Propiedad para gestionar platform identificador.
+	 */
 	private readonly platformId = inject(PLATFORM_ID)
+	/**
+	 * Indicador booleano para es o está browser.
+	 */
 	private readonly isBrowser = isPlatformBrowser(this.platformId)
 
+	/**
+	 * Propiedad para gestionar mode.
+	 */
 	private readonly _mode = signal<ThemeMode>('auto')
+	/**
+	 * Propiedad para gestionar system prefers dark.
+	 */
 	private readonly _systemPrefersDark = signal<boolean>(false)
 
 	/** Modo elegido por el usuario (puede ser `auto`). */
@@ -39,6 +66,9 @@ export class ThemeService {
 	/** Helper rápido para botones tipo toggle. */
 	readonly isDark = computed(() => this.resolvedTheme() === 'dark')
 
+	/**
+	 * Constructor de la clase o componente para inicializar dependencias.
+	 */
 	constructor() {
 		if (this.isBrowser) {
 			this.hydrateFromStorage()
@@ -63,6 +93,9 @@ export class ThemeService {
 		this.setMode(this.isDark() ? 'light' : 'dark')
 	}
 
+	/**
+	 * Método para hydrate from storage.
+	 */
 	private hydrateFromStorage(): void {
 		const stored = localStorage.getItem(STORAGE_KEY)
 		if (stored === 'light' || stored === 'dark') {
@@ -72,12 +105,18 @@ export class ThemeService {
 		}
 	}
 
+	/**
+	 * Método para observe system preference.
+	 */
 	private observeSystemPreference(): void {
 		const query = window.matchMedia('(prefers-color-scheme: dark)')
 		this._systemPrefersDark.set(query.matches)
 		query.addEventListener('change', event => this._systemPrefersDark.set(event.matches))
 	}
 
+	/**
+	 * Método para apply to document.
+	 */
 	private applyToDocument(resolved: ResolvedTheme, mode: ThemeMode): void {
 		const root = document.documentElement
 		if (mode === 'auto') {

@@ -13,6 +13,9 @@ const FRIENDLY_AUTH_MESSAGES: Record<string, string> = {
 	'password should be at least 6 characters': 'La contraseña debe tener al menos 6 caracteres.',
 }
 
+/**
+ * Función de utilidad para to user message.
+ */
 export function toUserMessage(err: unknown, fallback: string): string {
 	if (typeof console !== 'undefined') console.error('[savorealo]', err)
 

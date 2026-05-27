@@ -5,11 +5,23 @@ import { SupabaseService } from '@core/services/supabase.service'
 import { SEARCH_USERS_QUERY } from '@graphql/feed.mutations'
 import type { GqlSearchUser, ISearchRepository, SearchPostRow } from './search-repository'
 
+/**
+ * Repositorio de datos para searchhybrid.
+ */
 @Injectable({ providedIn: 'root' })
 export class SearchHybridRepository implements ISearchRepository {
+	/**
+	 * Propiedad para gestionar supabase.
+	 */
 	private readonly supabase = inject(SupabaseService)
+	/**
+	 * Propiedad para gestionar apollo.
+	 */
 	private readonly apollo   = inject(Apollo)
 
+	/**
+	 * Método para buscar posts.
+	 */
 	searchPosts(query: string, limit: number): Observable<SearchPostRow[]> {
 		return from(
 			this.supabase.client
@@ -26,6 +38,9 @@ export class SearchHybridRepository implements ISearchRepository {
 		)
 	}
 
+	/**
+	 * Método para buscar users.
+	 */
 	searchUsers(query: string, limit: number, offset: number): Observable<GqlSearchUser[]> {
 		return this.apollo.query<{ searchUsers: GqlSearchUser[] }>({
 			query: SEARCH_USERS_QUERY,

@@ -4,10 +4,19 @@ import { from, map, Observable } from 'rxjs'
 import { MY_SETTINGS_QUERY, UPDATE_SETTINGS_MUTATION } from '@graphql/feed.mutations'
 import type { GqlUserSettings, ISettingsRepository } from './settings-repository'
 
+/**
+ * Repositorio de datos para settingsgraphql.
+ */
 @Injectable({ providedIn: 'root' })
 export class SettingsGraphqlRepository implements ISettingsRepository {
+	/**
+	 * Propiedad para gestionar apollo.
+	 */
 	private readonly apollo = inject(Apollo)
 
+	/**
+	 * Método para cargar settings.
+	 */
 	loadSettings(): Observable<GqlUserSettings | null> {
 		return from(
 			this.apollo.query<{ mySettings: GqlUserSettings | null }>({
@@ -19,6 +28,9 @@ export class SettingsGraphqlRepository implements ISettingsRepository {
 		)
 	}
 
+	/**
+	 * Método para guardar settings.
+	 */
 	saveSettings(patch: Partial<GqlUserSettings>): Observable<void> {
 		return from(
 			this.apollo.mutate<{ updateSettings: GqlUserSettings }>({

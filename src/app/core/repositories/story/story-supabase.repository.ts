@@ -4,10 +4,19 @@ import { SupabaseService } from '@core/services/supabase.service'
 import { StoryType } from '@core/models/story/story.model'
 import type { IStoryRepository, StoryRow, StoryUserRow } from './story-repository'
 
+/**
+ * Repositorio de datos para storysupabase.
+ */
 @Injectable({ providedIn: 'root' })
 export class StorySupabaseRepository implements IStoryRepository {
+	/**
+	 * Propiedad para gestionar supabase.
+	 */
 	private readonly supabase = inject(SupabaseService)
 
+	/**
+	 * Método para obtener followed user ids.
+	 */
 	getFollowedUserIds(currentUserId: string): Observable<string[]> {
 		return from(
 			this.supabase.client
@@ -22,6 +31,9 @@ export class StorySupabaseRepository implements IStoryRepository {
 		)
 	}
 
+	/**
+	 * Método para obtener active stories.
+	 */
 	getActiveStories(userIds: string[], now: string): Observable<StoryRow[]> {
 		return from(
 			this.supabase.client
@@ -38,6 +50,9 @@ export class StorySupabaseRepository implements IStoryRepository {
 		)
 	}
 
+	/**
+	 * Método para obtener user profiles.
+	 */
 	getUserProfiles(userIds: string[]): Observable<StoryUserRow[]> {
 		return from(
 			this.supabase.client
@@ -57,6 +72,9 @@ export class StorySupabaseRepository implements IStoryRepository {
 		)
 	}
 
+	/**
+	 * Método para mark viewed.
+	 */
 	markViewed(storyId: string, userId: string): Observable<void> {
 		return from(
 			this.supabase.client
@@ -65,6 +83,9 @@ export class StorySupabaseRepository implements IStoryRepository {
 		).pipe(map(({ error }) => { if (error) throw error }))
 	}
 
+	/**
+	 * Método para upload story media.
+	 */
 	uploadStoryMedia(path: string, file: File): Observable<string> {
 		return from(
 			this.supabase.client.storage
@@ -81,6 +102,9 @@ export class StorySupabaseRepository implements IStoryRepository {
 		)
 	}
 
+	/**
+	 * Método para insert story.
+	 */
 	insertStory(userId: string, storyType: StoryType, mediaUrl: string, expiresAt: string): Observable<void> {
 		return from(
 			this.supabase.client

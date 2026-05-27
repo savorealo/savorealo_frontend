@@ -5,6 +5,9 @@
  */
 export const USERNAME_REGEX = /^(?![_.])(?!.*[_.]{2})[a-z0-9_.]{3,20}(?<![_.])$/
 
+/**
+ * Variable o constante para r e s e r v e d u s e r n a m e s.
+ */
 export const RESERVED_USERNAMES = [
 	'admin', 'root', 'system', 'support', 'help', 'api',
 	'me', 'null', 'undefined', 'savorealo', 'official',

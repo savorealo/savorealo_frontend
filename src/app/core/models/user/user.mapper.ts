@@ -3,6 +3,9 @@
 import { UserDto } from './user.dto'
 import { User }    from './user.model'
 
+/**
+ * Función de utilidad para mapear y transformar datos.
+ */
 export function mapUserDtoToUser(dto: UserDto): User {
   const isPerson   = dto.user_type === 'PERSON'
   const profile    = dto.person_profiles

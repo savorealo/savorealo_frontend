@@ -1,9 +1,21 @@
 import { AngularAppEngine } from '@angular/ssr';
 
+/**
+ * Instancia del motor de renderizado SSR de Angular para entornos Cloudflare.
+ */
 const angularApp = new AngularAppEngine();
 
+/**
+ * Interfaz que define las variables de entorno y recursos disponibles en Cloudflare Workers/Pages.
+ */
 interface CloudflareEnv {
-  ASSETS: { fetch(request: Request): Promise<Response> };
+  /**
+   * Binding de activos estáticos de Cloudflare Pages para recuperar y servir archivos estáticos.
+   */
+  ASSETS: { /**
+   * Método para fetch.
+   */
+  fetch(request: Request): Promise<Response> };
 }
 
 /**
@@ -13,6 +25,9 @@ interface CloudflareEnv {
  */
 export default {
   async fetch(request: Request, env: CloudflareEnv): Promise<Response> {
+    /**
+     * Variable o constante para { pathname }.
+     */
     const { pathname } = new URL(request.url);
 
     // Static assets (JS, CSS, images, fonts, manifests, etc.) go directly
@@ -22,6 +37,9 @@ export default {
     }
 
     // All other requests (app routes) go through Angular SSR.
+    /**
+     * Variable o constante para response.
+     */
     const response = await angularApp.handle(request);
 
     // If Angular can't handle it (e.g. unknown route with no fallback),

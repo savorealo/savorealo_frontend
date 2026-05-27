@@ -19,12 +19,18 @@ import { Body as Body_Step_3 } from "./steps/step3/body/body"
 import { TranslationService } from '@core/services/translation.service'
 import { TranslatePipe } from '@shared/pipes/translate.pipe'
 
+/**
+ * Función de utilidad para contraseña match validator.
+ */
 function passwordMatchValidator(form: AbstractControl): ValidationErrors | null {
   const password        = form.get('password')?.value
   const confirmPassword = form.get('confirmPassword')?.value
   return password === confirmPassword ? null : { passwordMismatch: true }
 }
 
+/**
+ * Clase de utilidad para register.
+ */
 @Component({
   selector: 'app-register',
   imports: [
@@ -48,14 +54,38 @@ function passwordMatchValidator(form: AbstractControl): ValidationErrors | null 
 })
 export class Register {
 
+  /**
+   * Propiedad para gestionar to login event.
+   */
   toLoginEvent     = output()
+  /**
+   * Propiedad para gestionar active step.
+   */
   activeStep       = signal<number>(1)
+  /**
+   * Propiedad para gestionar evento de enviar event.
+   */
   onSubmitEvent    = output<RegisterUser>()
+  /**
+   * Propiedad para gestionar evento de google register.
+   */
   onGoogleRegister = output<void>()
+  /**
+   * Propiedad para gestionar form builder.
+   */
   private formBuilder = inject(FormBuilder)
+  /**
+   * Propiedad para gestionar user service.
+   */
   private userService = inject(UserService)
+  /**
+   * Propiedad para gestionar translation service.
+   */
   private translationService = inject(TranslationService)
 
+  /**
+   * Propiedad para gestionar register título.
+   */
   registerTitle = computed(() => {
     if (this.activeStep() === 1) return this.translationService.translate('auth.register.title_step1')
     if (this.activeStep() === 2) return this.translationService.translate('auth.register.title_step2')
@@ -64,6 +94,9 @@ export class Register {
   })
 
   /* Definde si el usuario debe poder pasar al paso 2 */
+  /**
+   * Indicador booleano para es o está valid step2.
+   */
   isValidStep2 = computed(()=>{
     if(
      this.registerForm.get('email')?.valid &&
@@ -77,6 +110,9 @@ export class Register {
   })
 
   /* Define si el usuario puede pasar al paso 3 */
+  /**
+   * Indicador booleano para es o está valid step3.
+   */
   isValidStep3 = computed(()=>{
     if(
       this.isValidStep2() &&
@@ -90,6 +126,9 @@ export class Register {
     }
   })
 
+  /**
+   * Propiedad para gestionar register form.
+   */
   registerForm: FormGroup = this.formBuilder.group({
     // Step 1
     email:           ['', [Validators.required, Validators.email]],
@@ -108,11 +147,17 @@ export class Register {
     photo: [null]
   }, { validators: passwordMatchValidator })
 
+  /**
+   * Método para es o está invalid.
+   */
   isInvalid(controlName: string): boolean {
     const control = this.registerForm.get(controlName)
     return !!(control?.invalid && control.touched)
   }
 
+  /**
+   * Método para evento de foto selected.
+   */
   onPhotoSelected(event: Event) {
     const file = (event.target as HTMLInputElement).files?.[0]
     if (file) {
@@ -120,8 +165,14 @@ export class Register {
     }
   }
 
+  /**
+   * Propiedad para gestionar enviar error.
+   */
   submitError = signal<string | null>(null)
 
+  /**
+   * Método para evento de enviar.
+   */
   onSubmit() {
     if (this.registerForm.valid) {
       this.submitError.set(null)
@@ -157,25 +208,40 @@ export class Register {
     else if (!this.isValidStep3()) this.activeStep.set(2)
   }
 
+  /**
+   * Método para es o está valid.
+   */
   isValid(formControlName: string):boolean{
     return this.registerForm.get(formControlName)?.valid || false
   }
 
+  /**
+   * Método para activate second step.
+   */
   activateSecondStep(){
     if(this.isValidStep2()){
       this.activeStep.set(2);
     }
   }
+  /**
+   * Método para activate third step.
+   */
   activateThirdStep(){
     if(this.isValidStep2() && this.isValidStep3()){
       this.activeStep.set(3);
     }
   }
 
+  /**
+   * Método para to login.
+   */
   toLogin(){
     this.toLoginEvent.emit()
   }
 
+  /**
+   * Método para register with google.
+   */
   registerWithGoogle() {
     this.onGoogleRegister.emit()
   }

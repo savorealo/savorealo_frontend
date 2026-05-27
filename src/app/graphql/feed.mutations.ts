@@ -1,5 +1,7 @@
 import { gql } from 'apollo-angular'
-
+/**
+ * Fragmento GraphQL para post card fragment.
+ */
 export const POST_CARD_FRAGMENT = gql`
   fragment PostCardFields on posts {
     id
@@ -37,7 +39,9 @@ export const POST_CARD_FRAGMENT = gql`
     }
   }
 `
-
+/**
+ * Consulta GraphQL para home feed query.
+ */
 export const HOME_FEED_QUERY = gql`
   query Feed($limit: Int, $offset: Int) {
     feed(limit: $limit, offset: $offset) {
@@ -46,7 +50,9 @@ export const HOME_FEED_QUERY = gql`
   }
   ${POST_CARD_FRAGMENT}
 `
-
+/**
+ * Consulta GraphQL para discover feed query.
+ */
 export const DISCOVER_FEED_QUERY = gql`
   query DiscoverFeed($category: String, $limit: Int, $offset: Int) {
     discoverFeed(category: $category, limit: $limit, offset: $offset) {
@@ -55,7 +61,9 @@ export const DISCOVER_FEED_QUERY = gql`
   }
   ${POST_CARD_FRAGMENT}
 `
-
+/**
+ * Consulta GraphQL para user posts query.
+ */
 export const USER_POSTS_QUERY = gql`
   query UserPosts($userId: ID!, $limit: Int, $offset: Int) {
     userPosts(userId: $userId, limit: $limit, offset: $offset) {
@@ -64,7 +72,9 @@ export const USER_POSTS_QUERY = gql`
   }
   ${POST_CARD_FRAGMENT}
 `
-
+/**
+ * Consulta GraphQL para saved posts query.
+ */
 export const SAVED_POSTS_QUERY = gql`
   query SavedPosts($limit: Int, $cursor: String) {
     savedPosts(limit: $limit, cursor: $cursor) {
@@ -77,7 +87,9 @@ export const SAVED_POSTS_QUERY = gql`
   }
   ${POST_CARD_FRAGMENT}
 `
-
+/**
+ * Mutación GraphQL para toggle like mutation.
+ */
 export const TOGGLE_LIKE_MUTATION = gql`
   mutation ToggleLike($postId: ID!) {
     toggleLike(postId: $postId) {
@@ -87,7 +99,9 @@ export const TOGGLE_LIKE_MUTATION = gql`
     }
   }
 `
-
+/**
+ * Mutación GraphQL para toggle save mutation.
+ */
 export const TOGGLE_SAVE_MUTATION = gql`
   mutation ToggleSave($postId: ID!) {
     toggleSave(postId: $postId) {
@@ -97,7 +111,9 @@ export const TOGGLE_SAVE_MUTATION = gql`
     }
   }
 `
-
+/**
+ * Mutación GraphQL para toggle follow mutation.
+ */
 export const TOGGLE_FOLLOW_MUTATION = gql`
   mutation ToggleFollow($userId: ID!) {
     toggleFollow(userId: $userId) {
@@ -107,7 +123,9 @@ export const TOGGLE_FOLLOW_MUTATION = gql`
     }
   }
 `
-
+/**
+ * Mutación GraphQL para create post mutation.
+ */
 export const CREATE_POST_MUTATION = gql`
   mutation CreatePost($content: String, $title: String, $imageUrl: String) {
     createPost(content: $content, title: $title, imageUrl: $imageUrl) {
@@ -116,7 +134,9 @@ export const CREATE_POST_MUTATION = gql`
   }
   ${POST_CARD_FRAGMENT}
 `
-
+/**
+ * Mutación GraphQL para create recipe post mutation.
+ */
 export const CREATE_RECIPE_POST_MUTATION = gql`
   mutation CreateRecipePost(
     $content: String!
@@ -143,7 +163,9 @@ export const CREATE_RECIPE_POST_MUTATION = gql`
   }
   ${POST_CARD_FRAGMENT}
 `
-
+/**
+ * Consulta GraphQL para post comments query.
+ */
 export const POST_COMMENTS_QUERY = gql`
   query Comments($postId: ID!) {
     comments(postId: $postId) {
@@ -159,7 +181,9 @@ export const POST_COMMENTS_QUERY = gql`
     }
   }
 `
-
+/**
+ * Mutación GraphQL para add comment mutation.
+ */
 export const ADD_COMMENT_MUTATION = gql`
   mutation AddComment($postId: ID!, $text: String!) {
     addComment(postId: $postId, text: $text) {
@@ -175,13 +199,17 @@ export const ADD_COMMENT_MUTATION = gql`
     }
   }
 `
-
+/**
+ * Mutación GraphQL para delete comment mutation.
+ */
 export const DELETE_COMMENT_MUTATION = gql`
   mutation DeleteComment($commentId: ID!) {
     deleteComment(commentId: $commentId)
   }
 `
-
+/**
+ * Consulta GraphQL para get user query.
+ */
 export const GET_USER_QUERY = gql`
   query GetUser($id: ID!) {
     user(id: $id) {
@@ -202,7 +230,9 @@ export const GET_USER_QUERY = gql`
     }
   }
 `
-
+/**
+ * Consulta GraphQL para search users query.
+ */
 export const SEARCH_USERS_QUERY = gql`
   query SearchUsers($q: String!, $limit: Int = 20, $offset: Int = 0) {
     searchUsers(query: $q, limit: $limit, offset: $offset) {
@@ -215,7 +245,9 @@ export const SEARCH_USERS_QUERY = gql`
     }
   }
 `
-
+/**
+ * Consulta GraphQL para check username query.
+ */
 export const CHECK_USERNAME_QUERY = gql`
   query CheckUsername($username: String!) {
     checkUsername(username: $username) {
@@ -225,7 +257,9 @@ export const CHECK_USERNAME_QUERY = gql`
     }
   }
 `
-
+/**
+ * Consulta GraphQL para suggested users query.
+ */
 export const SUGGESTED_USERS_QUERY = gql`
   query SuggestedUsers($preferenceIds: [ID!]!, $limit: Int) {
     suggestedUsers(preferenceIds: $preferenceIds, limit: $limit) {
@@ -237,7 +271,9 @@ export const SUGGESTED_USERS_QUERY = gql`
     }
   }
 `
-
+/**
+ * Consulta GraphQL para my settings query.
+ */
 export const MY_SETTINGS_QUERY = gql`
   query MySettings {
     mySettings {
@@ -250,7 +286,9 @@ export const MY_SETTINGS_QUERY = gql`
     }
   }
 `
-
+/**
+ * Mutación GraphQL para update settings mutation.
+ */
 export const UPDATE_SETTINGS_MUTATION = gql`
   mutation UpdateSettings(
     $is_private: Boolean
@@ -277,7 +315,9 @@ export const UPDATE_SETTINGS_MUTATION = gql`
     }
   }
 `
-
+/**
+ * Mutación GraphQL para update profile mutation.
+ */
 export const UPDATE_PROFILE_MUTATION = gql`
   mutation UpdateProfile(
     $username: String
@@ -310,7 +350,9 @@ export const UPDATE_PROFILE_MUTATION = gql`
     }
   }
 `
-
+/**
+ * Consulta GraphQL para followers query.
+ */
 export const FOLLOWERS_QUERY = gql`
   query Followers($userId: ID!, $limit: Int, $offset: Int) {
     followers(userId: $userId, limit: $limit, offset: $offset) {
@@ -323,7 +365,9 @@ export const FOLLOWERS_QUERY = gql`
     }
   }
 `
-
+/**
+ * Consulta GraphQL para following query.
+ */
 export const FOLLOWING_QUERY = gql`
   query Following($userId: ID!, $limit: Int, $offset: Int) {
     following(userId: $userId, limit: $limit, offset: $offset) {
@@ -336,7 +380,9 @@ export const FOLLOWING_QUERY = gql`
     }
   }
 `
-
+/**
+ * Consulta GraphQL para notifications query.
+ */
 export const NOTIFICATIONS_QUERY = gql`
   query Notifications($limit: Int, $offset: Int) {
     notifications(limit: $limit, offset: $offset) {
@@ -355,25 +401,33 @@ export const NOTIFICATIONS_QUERY = gql`
     }
   }
 `
-
+/**
+ * Consulta GraphQL para unread notifications count query.
+ */
 export const UNREAD_NOTIFICATIONS_COUNT_QUERY = gql`
   query UnreadNotificationsCount {
     unreadNotificationsCount
   }
 `
-
+/**
+ * Mutación GraphQL para mark notification read mutation.
+ */
 export const MARK_NOTIFICATION_READ_MUTATION = gql`
   mutation MarkNotificationRead($id: ID!) {
     markNotificationRead(id: $id)
   }
 `
-
+/**
+ * Mutación GraphQL para mark all notifications read mutation.
+ */
 export const MARK_ALL_NOTIFICATIONS_READ_MUTATION = gql`
   mutation MarkAllNotificationsRead {
     markAllNotificationsRead
   }
 `
-
+/**
+ * Mutación GraphQL para respond follow request mutation.
+ */
 export const RESPOND_FOLLOW_REQUEST_MUTATION = gql`
   mutation RespondFollowRequest($actorId: ID!, $accept: Boolean!) {
     respondFollowRequest(actorId: $actorId, accept: $accept) {
@@ -382,7 +436,9 @@ export const RESPOND_FOLLOW_REQUEST_MUTATION = gql`
     }
   }
 `
-
+/**
+ * Consulta GraphQL para pending follow requests query.
+ */
 export const PENDING_FOLLOW_REQUESTS_QUERY = gql`
   query PendingFollowRequests($limit: Int, $offset: Int) {
     pendingFollowRequests(limit: $limit, offset: $offset) {
@@ -398,7 +454,9 @@ export const PENDING_FOLLOW_REQUESTS_QUERY = gql`
     }
   }
 `
-
+/**
+ * Consulta GraphQL para liked posts query.
+ */
 export const LIKED_POSTS_QUERY = gql`
   query LikedPosts($limit: Int, $offset: Int) {
     likedPosts(limit: $limit, offset: $offset) {

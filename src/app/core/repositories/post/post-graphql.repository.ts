@@ -8,10 +8,19 @@ import {
 } from '@graphql/feed.mutations'
 import type { GqlPostNode, IPostRepository, SavedPostsResult, ToggleLikeResult, ToggleSaveResult } from './post-repository'
 
+/**
+ * Repositorio de datos para postgraphql.
+ */
 @Injectable({ providedIn: 'root' })
 export class PostGraphqlRepository implements IPostRepository {
+	/**
+	 * Propiedad para gestionar apollo.
+	 */
 	private readonly apollo = inject(Apollo)
 
+	/**
+	 * Método para fetch home feed.
+	 */
 	fetchHomeFeed(limit: number, offset: number): Observable<GqlPostNode[]> {
 		return from(firstValueFrom(
 			this.apollo.query<{ feed: GqlPostNode[] }>({
@@ -22,6 +31,9 @@ export class PostGraphqlRepository implements IPostRepository {
 		)).pipe(map(res => res.data?.feed ?? []))
 	}
 
+	/**
+	 * Método para fetch discover feed.
+	 */
 	fetchDiscoverFeed(limit: number, offset: number, category: string | null): Observable<GqlPostNode[]> {
 		return from(firstValueFrom(
 			this.apollo.query<{ discoverFeed: GqlPostNode[] }>({
@@ -32,6 +44,9 @@ export class PostGraphqlRepository implements IPostRepository {
 		)).pipe(map(res => res.data?.discoverFeed ?? []))
 	}
 
+	/**
+	 * Método para fetch saved posts.
+	 */
 	fetchSavedPosts(limit: number, cursor: string | null): Observable<SavedPostsResult> {
 		return from(firstValueFrom(
 			this.apollo.query<{ savedPosts: { posts: GqlPostNode[]; nextCursor: string | null; hasNextPage: boolean } }>({
@@ -49,6 +64,9 @@ export class PostGraphqlRepository implements IPostRepository {
 		}))
 	}
 
+	/**
+	 * Método para fetch liked posts.
+	 */
 	fetchLikedPosts(limit: number, offset: number): Observable<GqlPostNode[]> {
 		return from(firstValueFrom(
 			this.apollo.query<{ likedPosts: GqlPostNode[] }>({
@@ -59,6 +77,9 @@ export class PostGraphqlRepository implements IPostRepository {
 		)).pipe(map(res => res.data?.likedPosts ?? []))
 	}
 
+	/**
+	 * Método para fetch user posts.
+	 */
 	fetchUserPosts(userId: string, limit: number, offset: number): Observable<GqlPostNode[]> {
 		return from(firstValueFrom(
 			this.apollo.query<{ userPosts: GqlPostNode[] }>({
@@ -69,6 +90,9 @@ export class PostGraphqlRepository implements IPostRepository {
 		)).pipe(map(res => res.data?.userPosts ?? []))
 	}
 
+	/**
+	 * Método para read post from cache.
+	 */
 	readPostFromCache(id: string): GqlPostNode | null {
 		try {
 			const node = this.apollo.client.cache.readFragment<GqlPostNode>({
@@ -82,6 +106,9 @@ export class PostGraphqlRepository implements IPostRepository {
 		}
 	}
 
+	/**
+	 * Método para alternar like.
+	 */
 	toggleLike(postId: string): Observable<ToggleLikeResult> {
 		return from(firstValueFrom(
 			this.apollo.mutate<{ toggleLike: ToggleLikeResult }>({
@@ -105,6 +132,9 @@ export class PostGraphqlRepository implements IPostRepository {
 		}))
 	}
 
+	/**
+	 * Método para alternar guardar.
+	 */
 	toggleSave(postId: string): Observable<ToggleSaveResult> {
 		return from(firstValueFrom(
 			this.apollo.mutate<{ toggleSave: ToggleSaveResult }>({
@@ -125,6 +155,9 @@ export class PostGraphqlRepository implements IPostRepository {
 		)).pipe(map(res => ({ postId, saved: !!res.data?.toggleSave?.saved, saves: res.data?.toggleSave?.saves ?? 0 })))
 	}
 
+	/**
+	 * Método para crear recipe post.
+	 */
 	createRecipePost(input: {
 		content: string
 		imageUrl?: string | null
@@ -156,6 +189,9 @@ export class PostGraphqlRepository implements IPostRepository {
 		}))
 	}
 
+	/**
+	 * Método para crear post.
+	 */
 	createPost(input: { content: string; title?: string | null; imageUrl?: string | null }): Observable<GqlPostNode> {
 		return from(firstValueFrom(
 			this.apollo.mutate<{ createPost: GqlPostNode }>({

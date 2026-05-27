@@ -8,31 +8,88 @@ import { AuthStore } from '@core/store/auth.store'
 import { Notification, NotificationTab } from '@core/models/notification/notification.model'
 import { toUserMessage } from '@core/utils/user-error'
 
+/**
+ * Almacén de estado reactivo para gestionar la lógica de las notificaciones.
+ */
 @Injectable({ providedIn: 'root' })
 export class NotificationsStore {
+	/**
+	 * Propiedad para gestionar service.
+	 */
 	private readonly service = inject(NotificationsService)
+	/**
+	 * Propiedad para gestionar auth.
+	 */
 	private readonly auth = inject(AuthStore)
+	/**
+	 * Propiedad para gestionar destroy ref.
+	 */
 	private readonly destroyRef = inject(DestroyRef)
 
+	/**
+	 * Propiedad para gestionar notifications.
+	 */
 	private readonly _notifications = signal<Notification[]>([])
+	/**
+	 * Propiedad para gestionar cargando.
+	 */
 	private readonly _loading = signal(false)
+	/**
+	 * Propiedad para gestionar error.
+	 */
 	private readonly _error = signal<string | null>(null)
+	/**
+	 * Propiedad para gestionar initialized.
+	 */
 	private readonly _initialized = signal(false)
+	/**
+	 * Propiedad para gestionar active tab.
+	 */
 	private readonly _activeTab = signal<NotificationTab>('all')
+	/**
+	 * Propiedad para gestionar channel.
+	 */
 	private channel: RealtimeChannel | null = null
 
+	/**
+	 * Propiedad para gestionar notifications.
+	 */
 	readonly notifications = this._notifications.asReadonly()
+	/**
+	 * Propiedad para gestionar cargando.
+	 */
 	readonly loading = this._loading.asReadonly()
+	/**
+	 * Propiedad para gestionar error.
+	 */
 	readonly error = this._error.asReadonly()
+	/**
+	 * Propiedad para gestionar active tab.
+	 */
 	readonly activeTab = this._activeTab.asReadonly()
 
+	/**
+	 * Propiedad para gestionar unread cantidad.
+	 */
 	readonly unreadCount = computed(() => this._notifications().filter(n => !n.isRead).length)
+	/**
+	 * Propiedad para gestionar mentions cantidad.
+	 */
 	readonly mentionsCount = computed(() => this._notifications().filter(n => n.type === 'MENTION').length)
+	/**
+	 * Propiedad para gestionar social cantidad.
+	 */
 	readonly socialCount = computed(() =>
 		this._notifications().filter(n => ['FOLLOW', 'FOLLOW_REQUEST', 'LIKE', 'RECIPE_SAVE'].includes(n.type)).length,
 	)
+	/**
+	 * Indicador booleano para es o está empty.
+	 */
 	readonly isEmpty = computed(() => !this._loading() && this._notifications().length === 0)
 
+	/**
+	 * Propiedad para gestionar filtered notifications.
+	 */
 	readonly filteredNotifications = computed(() => {
 		const tab = this._activeTab()
 		const all = this._notifications()
@@ -44,6 +101,9 @@ export class NotificationsStore {
 		}
 	})
 
+	/**
+	 * Constructor de la clase o componente para inicializar dependencias.
+	 */
 	constructor() {
 		effect(() => {
 			const userId = this.auth.currentUserId()
@@ -51,6 +111,9 @@ export class NotificationsStore {
 		})
 	}
 
+	/**
+	 * Método para cargar.
+	 */
 	load(): void {
 		const userId = this.auth.currentUserId()
 		if (!userId || this._initialized()) return
@@ -74,10 +137,16 @@ export class NotificationsStore {
 		})
 	}
 
+	/**
+	 * Método para establecer tab.
+	 */
 	setTab(tab: NotificationTab): void {
 		this._activeTab.set(tab)
 	}
 
+	/**
+	 * Método para mark read.
+	 */
 	markRead(notification: Notification): void {
 		if (notification.isRead) return
 		this._notifications.update(list =>
@@ -86,6 +155,9 @@ export class NotificationsStore {
 		this.service.markAsRead(notification.id).subscribe()
 	}
 
+	/**
+	 * Método para mark todos read.
+	 */
 	markAllRead(): void {
 		const userId = this.auth.currentUserId()
 		if (!userId) return
@@ -93,6 +165,9 @@ export class NotificationsStore {
 		this.service.markAllAsRead(userId).subscribe()
 	}
 
+	/**
+	 * Método para subscribe realtime.
+	 */
 	private subscribeRealtime(userId: string): void {
 		this.channel?.unsubscribe()
 		this.channel = this.service.subscribeToNew(userId, notification => {
@@ -100,6 +175,9 @@ export class NotificationsStore {
 		})
 	}
 
+	/**
+	 * Método de ciclo de vida de Angular que se ejecuta al destruir el componente para liberar recursos.
+	 */
 	ngOnDestroy(): void {
 		this.channel?.unsubscribe()
 	}

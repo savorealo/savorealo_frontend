@@ -7,38 +7,114 @@ import { Post } from '@core/models/post/post.model'
 import { finalize, switchMap } from 'rxjs'
 import { TranslatePipe } from '@shared/pipes/translate.pipe'
 
-interface IngredientRow { name: string; quantity: string; unit: string }
+/**
+ * Interfaz que define la estructura o contrato de datos para ingredientrow.
+ */
+interface IngredientRow {
+	/**
+	 * Propiedad para gestionar el nombre.
+	 */
+	name: string;
+	/**
+	 * Propiedad para gestionar la cantidad.
+	 */
+	quantity: string;
+	/**
+	 * Propiedad para gestionar la unidad.
+	 */
+	unit: string;
+}
 
+/**
+ * Componente principal para la vista o página de createpost.
+ */
 @Component({
 	selector: 'app-create-post',
 	imports: [FormsModule, TranslatePipe],
 	templateUrl: './create-post.component.html',
 })
 export class CreatePostComponent {
+	/**
+	 * Propiedad para gestionar feed service.
+	 */
 	private readonly feedService  = inject(FeedService)
+	/**
+	 * Propiedad para gestionar media service.
+	 */
 	private readonly mediaService = inject(PostMediaService)
+	/**
+	 * Propiedad para gestionar toast.
+	 */
 	private readonly toast        = inject(ToastService)
 
+	/**
+	 * Propiedad para gestionar post created.
+	 */
 	postCreated = output<Post>()
 
 	// ─── Post base ───────────────────────────────────────────────────
+	/**
+	 * Propiedad para gestionar content.
+	 */
 	readonly content      = signal('')
+	/**
+	 * Propiedad para gestionar selected file.
+	 */
 	readonly selectedFile = signal<File | null>(null)
+	/**
+	 * Propiedad para gestionar preview enlace.
+	 */
 	readonly previewUrl   = signal<string | null>(null)
+	/**
+	 * Propiedad para gestionar upload progress.
+	 */
 	readonly uploadProgress = signal(0)
+	/**
+	 * Propiedad para gestionar uploading.
+	 */
 	readonly uploading    = signal(false)
+	/**
+	 * Propiedad para gestionar publishing.
+	 */
 	readonly publishing   = signal(false)
+	/**
+	 * Propiedad para gestionar error.
+	 */
 	readonly error        = signal('')
 
 	// ─── Modo receta ─────────────────────────────────────────────────
+	/**
+	 * Indicador booleano para es o está recipe.
+	 */
 	readonly isRecipe      = signal(false)
+	/**
+	 * Propiedad para gestionar recipe nombre.
+	 */
 	readonly recipeName    = signal('')
+	/**
+	 * Propiedad para gestionar difficulty.
+	 */
 	readonly difficulty    = signal('')
+	/**
+	 * Propiedad para gestionar recipe tiempo.
+	 */
 	readonly recipeTime    = signal<number | null>(null)
+	/**
+	 * Propiedad para gestionar recipe servings.
+	 */
 	readonly recipeServings = signal<number | null>(null)
+	/**
+	 * Propiedad para gestionar ingredients.
+	 */
 	readonly ingredients   = signal<IngredientRow[]>([])
+	/**
+	 * Propiedad para gestionar steps.
+	 */
 	readonly steps         = signal<string[]>([])
 
+	/**
+	 * Indicador booleano para puede publish.
+	 */
 	readonly canPublish = computed(() => {
 		if (this.publishing()) return false
 		if (!this.content().trim()) return false
@@ -51,6 +127,9 @@ export class CreatePostComponent {
 	})
 
 	// ─── Imagen ──────────────────────────────────────────────────────
+	/**
+	 * Método para seleccionar imagen.
+	 */
 	selectImage(event: Event): void {
 		const file = (event.target as HTMLInputElement).files?.[0] ?? null
 		if (!file) return
@@ -59,6 +138,9 @@ export class CreatePostComponent {
 		;(event.target as HTMLInputElement).value = ''
 	}
 
+	/**
+	 * Método para eliminar imagen.
+	 */
 	removeImage(): void {
 		const url = this.previewUrl()
 		if (url) URL.revokeObjectURL(url)
@@ -67,14 +149,23 @@ export class CreatePostComponent {
 	}
 
 	// ─── Ingredientes ────────────────────────────────────────────────
+	/**
+	 * Método para añadir ingredient.
+	 */
 	addIngredient(): void {
 		this.ingredients.update(list => [...list, { name: '', quantity: '', unit: '' }])
 	}
 
+	/**
+	 * Método para eliminar ingredient.
+	 */
 	removeIngredient(index: number): void {
 		this.ingredients.update(list => list.filter((_, i) => i !== index))
 	}
 
+	/**
+	 * Método para actualizar ingredient.
+	 */
 	updateIngredient(index: number, field: keyof IngredientRow, value: string): void {
 		this.ingredients.update(list =>
 			list.map((row, i) => i === index ? { ...row, [field]: value } : row),
@@ -82,19 +173,31 @@ export class CreatePostComponent {
 	}
 
 	// ─── Pasos ───────────────────────────────────────────────────────
+	/**
+	 * Método para añadir step.
+	 */
 	addStep(): void {
 		this.steps.update(list => [...list, ''])
 	}
 
+	/**
+	 * Método para eliminar step.
+	 */
 	removeStep(index: number): void {
 		this.steps.update(list => list.filter((_, i) => i !== index))
 	}
 
+	/**
+	 * Método para actualizar step.
+	 */
 	updateStep(index: number, value: string): void {
 		this.steps.update(list => list.map((s, i) => i === index ? value : s))
 	}
 
 	// ─── Publicar ────────────────────────────────────────────────────
+	/**
+	 * Método para publish.
+	 */
 	publish(): void {
 		if (!this.canPublish()) return
 

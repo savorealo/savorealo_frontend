@@ -1,0 +1,1188 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>cookeealo documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">cookeealo documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  AddReviewModal</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/features/places/components/add-review-modal/add-review-modal.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Clase de utilidad para addreviewmodal.</p>
+
+    </p>
+
+
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-add-review-modal</code></td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>DialogModule</code>
+                                <code><a href="https://angular.io/api/forms/FormsModule" target="_blank" >FormsModule</a></code>
+                            <code>TranslatePipe</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./add-review-modal.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#auth" >auth</a>
+                            </li>
+                            <li>
+                                <a href="#comment" >comment</a>
+                            </li>
+                            <li>
+                                <a href="#error" >error</a>
+                            </li>
+                            <li>
+                                <a href="#hovered" >hovered</a>
+                            </li>
+                            <li>
+                                <a href="#rating" >rating</a>
+                            </li>
+                            <li>
+                                <a href="#saving" >saving</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#service" >service</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#stars" >stars</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#starActive" >starActive</a>
+                            </li>
+                            <li>
+                                <a href="#submit" >submit</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#placeId" >placeId</a>
+                            </li>
+                            <li>
+                                <a href="#visible" >visible</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#reviewed" >reviewed</a>
+                            </li>
+                            <li>
+                                <a href="#visible" >visible</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+    <section data-compodoc="block-inputs">
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="placeId"></a>
+                        <b>placeId</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Required : </i>&nbsp;<b>true</b>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/features/places/components/add-review-modal/add-review-modal.ts:34</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Identificador del establecimiento al cual se le va a añadir la opinión.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="visible"></a>
+                        <b>visible</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/features/places/components/add-review-modal/add-review-modal.ts:39</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Modelo bidireccional (two-way binding) que gestiona la visibilidad del diálogo modal.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+    <section data-compodoc="block-outputs">
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="reviewed"></a>
+                        <b>reviewed</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/app/features/places/components/add-review-modal/add-review-modal.ts:44</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Emisor de evento que notifica al componente padre cuando la reseña se ha insertado con éxito.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="visible"></a>
+                        <b>visible</b>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/features/places/components/add-review-modal/add-review-modal.ts:39</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Modelo bidireccional (two-way binding) que gestiona la visibilidad del diálogo modal.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="starActive"></a>
+                    <span class="name">
+                        <span ><b>starActive</b></span>
+                        <a href="#starActive"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>starActive(n: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="80"
+                                    class="link-to-prism">src/app/features/places/components/add-review-modal/add-review-modal.ts:80</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Comprueba si una estrella concreta debe mostrarse con el estado activo (rellena) según el hover o rating actual.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>n</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Número de la estrella.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="submit"></a>
+                    <span class="name">
+                        <span ><b>submit</b></span>
+                        <a href="#submit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>submit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="87"
+                                    class="link-to-prism">src/app/features/places/components/add-review-modal/add-review-modal.ts:87</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Envía la reseña al servidor validando previamente que la valoración en estrellas sea mayor que cero.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="auth"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>auth</b></span>
+                        <a href="#auth"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(AuthStore)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/features/places/components/add-review-modal/add-review-modal.ts:29</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Almacén de estado de autenticación inyectado.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="comment"></a>
+                    <span class="name">
+                        <span ><b>comment</b></span>
+                        <a href="#comment"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(&#x27;&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">src/app/features/places/components/add-review-modal/add-review-modal.ts:64</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal que almacena el comentario de texto del usuario.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="error"></a>
+                    <span class="name">
+                        <span ><b>error</b></span>
+                        <a href="#error"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;string | null&gt;(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">src/app/features/places/components/add-review-modal/add-review-modal.ts:74</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal reactiva que contiene el mensaje de error si ocurriera un fallo al enviar.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hovered"></a>
+                    <span class="name">
+                        <span ><b>hovered</b></span>
+                        <a href="#hovered"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(0)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/app/features/places/components/add-review-modal/add-review-modal.ts:59</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal con la puntuación en estrellas sobre la que el cursor del ratón está suspendido (hover).</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="rating"></a>
+                    <span class="name">
+                        <span ><b>rating</b></span>
+                        <a href="#rating"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(0)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/app/features/places/components/add-review-modal/add-review-modal.ts:54</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal con la puntuación en estrellas actualmente seleccionada.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="saving"></a>
+                    <span class="name">
+                        <span ><b>saving</b></span>
+                        <a href="#saving"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">src/app/features/places/components/add-review-modal/add-review-modal.ts:69</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal reactiva que indica si la petición de guardado está en proceso.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="service"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>service</b></span>
+                        <a href="#service"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(PlacesService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/features/places/components/add-review-modal/add-review-modal.ts:24</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Servicio de comunicación de lugares gastronómicos inyectado.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="stars"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>stars</b></span>
+                        <a href="#stars"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[1, 2, 3, 4, 5]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/app/features/places/components/add-review-modal/add-review-modal.ts:49</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Valores fijos de puntuaciones en estrellas (1 a 5).</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, inject, input, model, output, signal } from &#x27;@angular/core&#x27;
+import { FormsModule } from &#x27;@angular/forms&#x27;
+import { AuthStore } from &#x27;@core/store/auth.store&#x27;
+import { PlacesService } from &#x27;@core/services/places.service&#x27;
+import { DialogModule } from &#x27;primeng/dialog&#x27;
+import { TranslatePipe } from &#x27;@shared/pipes/translate.pipe&#x27;
+
+/**
+ * Clase de utilidad para addreviewmodal.
+ */
+@Component({
+  selector: &#x27;app-add-review-modal&#x27;,
+  imports: [DialogModule, FormsModule, TranslatePipe],
+  templateUrl: &#x27;./add-review-modal.html&#x27;,
+})
+/**
+ * Componente que representa el diálogo modal para que el usuario añada una reseña y valoración de estrellas a un establecimiento.
+ * Permite seleccionar de 1 a 5 estrellas, redactar un comentario y enviar los datos al servidor.
+ */
+export class AddReviewModal {
+  /**
+   * Servicio de comunicación de lugares gastronómicos inyectado.
+   */
+  private readonly service &#x3D; inject(PlacesService)
+
+  /**
+   * Almacén de estado de autenticación inyectado.
+   */
+  private readonly auth    &#x3D; inject(AuthStore)
+
+  /**
+   * Identificador del establecimiento al cual se le va a añadir la opinión.
+   */
+  placeId  &#x3D; input.required&lt;string&gt;()
+
+  /**
+   * Modelo bidireccional (two-way binding) que gestiona la visibilidad del diálogo modal.
+   */
+  visible  &#x3D; model(false)
+
+  /**
+   * Emisor de evento que notifica al componente padre cuando la reseña se ha insertado con éxito.
+   */
+  reviewed &#x3D; output&lt;void&gt;()
+
+  /**
+   * Valores fijos de puntuaciones en estrellas (1 a 5).
+   */
+  readonly stars &#x3D; [1, 2, 3, 4, 5]
+
+  /**
+   * Señal con la puntuación en estrellas actualmente seleccionada.
+   */
+  rating  &#x3D; signal(0)
+
+  /**
+   * Señal con la puntuación en estrellas sobre la que el cursor del ratón está suspendido (hover).
+   */
+  hovered &#x3D; signal(0)
+
+  /**
+   * Señal que almacena el comentario de texto del usuario.
+   */
+  comment &#x3D; signal(&#x27;&#x27;)
+
+  /**
+   * Señal reactiva que indica si la petición de guardado está en proceso.
+   */
+  saving  &#x3D; signal(false)
+
+  /**
+   * Señal reactiva que contiene el mensaje de error si ocurriera un fallo al enviar.
+   */
+  error   &#x3D; signal&lt;string | null&gt;(null)
+
+  /**
+   * Comprueba si una estrella concreta debe mostrarse con el estado activo (rellena) según el hover o rating actual.
+   * @param n Número de la estrella.
+   */
+  starActive(n: number): boolean {
+    return n &lt;&#x3D; (this.hovered() || this.rating())
+  }
+
+  /**
+   * Envía la reseña al servidor validando previamente que la valoración en estrellas sea mayor que cero.
+   */
+  submit(): void {
+    if (this.rating() &#x3D;&#x3D;&#x3D; 0) { this.error.set(&#x27;places.review.error_select_rating&#x27;); return }
+    const userId &#x3D; this.auth.currentUserId()
+    if (!userId) return
+
+    this.saving.set(true)
+    this.error.set(null)
+
+    this.service.addReview(this.placeId(), userId, this.rating(), this.comment()).subscribe({
+      next: () &#x3D;&gt; {
+        this.saving.set(false)
+        this.visible.set(false)
+        this.rating.set(0)
+        this.comment.set(&#x27;&#x27;)
+        this.reviewed.emit()
+      },
+      error: () &#x3D;&gt; {
+        this.error.set(&#x27;places.review.error_save&#x27;)
+        this.saving.set(false)
+      },
+    })
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;p-dialog
+  [visible]&#x3D;&quot;visible()&quot;
+  (visibleChange)&#x3D;&quot;visible.set($event)&quot;
+  [modal]&#x3D;&quot;true&quot;
+  [dismissableMask]&#x3D;&quot;true&quot;
+  [style]&#x3D;&quot;{ width: &#x27;min(95vw, 480px)&#x27; }&quot;
+  [showHeader]&#x3D;&quot;false&quot;
+  appendTo&#x3D;&quot;body&quot;
+ &gt;
+  &lt;div class&#x3D;&quot;grid gap-0&quot;&gt;
+
+    &lt;!-- Header --&gt;
+    &lt;div class&#x3D;&quot;flex items-center justify-between gap-3 border-b border-outline px-5 pb-4 pt-5&quot;&gt;
+      &lt;h2 class&#x3D;&quot;text-title-md font-bold text-on-surface&quot;&gt;{{ &#x27;places.add_review&#x27; | translate }}&lt;/h2&gt;
+      &lt;button
+        type&#x3D;&quot;button&quot;
+        class&#x3D;&quot;grid size-9 place-items-center rounded-xl text-on-surface-muted transition-colors hover:bg-surface-container&quot;
+        (click)&#x3D;&quot;visible.set(false)&quot;
+        [attr.aria-label]&#x3D;&quot;&#x27;report.close&#x27; | translate&quot;
+      &gt;
+        &lt;i class&#x3D;&quot;pi pi-times text-sm&quot;&gt;&lt;/i&gt;
+      &lt;/button&gt;
+    &lt;/div&gt;
+
+    &lt;div class&#x3D;&quot;grid gap-5 px-5 py-5&quot;&gt;
+
+      &lt;!-- Estrellas interactivas --&gt;
+      &lt;div&gt;
+        &lt;p class&#x3D;&quot;mb-2 text-label-md font-bold uppercase tracking-wide text-on-surface-muted&quot;&gt;{{ &#x27;places.review.your_rating&#x27; | translate }}&lt;/p&gt;
+        &lt;div class&#x3D;&quot;flex gap-2&quot;
+          (mouseleave)&#x3D;&quot;hovered.set(0)&quot;
+        &gt;
+          @for (n of stars; track n) {
+            &lt;button
+              type&#x3D;&quot;button&quot;
+              class&#x3D;&quot;text-3xl transition-transform duration-fast hover:scale-110 active:scale-95&quot;
+              (mouseenter)&#x3D;&quot;hovered.set(n)&quot;
+              (click)&#x3D;&quot;rating.set(n)&quot;
+              [attr.aria-label]&#x3D;&quot;n&quot;
+            &gt;
+              &lt;i
+                [class]&#x3D;&quot;starActive(n) ? &#x27;pi pi-star-fill text-primary&#x27; : &#x27;pi pi-star text-outline-strong&#x27;&quot;
+              &gt;&lt;/i&gt;
+            &lt;/button&gt;
+          }
+        &lt;/div&gt;
+        @if (rating() &gt; 0) {
+          &lt;p class&#x3D;&quot;mt-1 text-label-md font-semibold text-on-surface-muted&quot;&gt;
+            {{ (&#x27;places.review.rating.&#x27; + rating()) | translate }}
+          &lt;/p&gt;
+        }
+      &lt;/div&gt;
+
+      &lt;!-- Comentario --&gt;
+      &lt;label class&#x3D;&quot;grid gap-1.5&quot;&gt;
+        &lt;span class&#x3D;&quot;text-label-md font-bold uppercase tracking-wide text-on-surface-muted&quot;&gt;{{ &#x27;places.review.comment&#x27; | translate }} &lt;span class&#x3D;&quot;normal-case font-normal&quot;&gt;{{ &#x27;places.review.optional&#x27; | translate }}&lt;/span&gt;&lt;/span&gt;
+        &lt;textarea
+          [ngModel]&#x3D;&quot;comment()&quot;
+          (ngModelChange)&#x3D;&quot;comment.set($event)&quot;
+          rows&#x3D;&quot;4&quot;
+          maxlength&#x3D;&quot;500&quot;
+          [placeholder]&#x3D;&quot;&#x27;places.review.placeholder&#x27; | translate&quot;
+          class&#x3D;&quot;resize-none rounded-xl border border-outline bg-surface px-4 py-3 text-body-sm font-medium text-on-surface outline-none transition-colors focus:border-primary&quot;
+        &gt;&lt;/textarea&gt;
+        &lt;span class&#x3D;&quot;text-right text-label-md text-on-surface-muted&quot;&gt;{{ comment().length }}/500&lt;/span&gt;
+      &lt;/label&gt;
+
+      &lt;!-- Error --&gt;
+      @if (error()) {
+        &lt;p class&#x3D;&quot;rounded-xl bg-error-container px-4 py-3 text-body-sm font-semibold text-on-error-container&quot;&gt;
+          {{ error() | translate }}
+        &lt;/p&gt;
+      }
+
+    &lt;/div&gt;
+
+    &lt;!-- Footer --&gt;
+    &lt;div class&#x3D;&quot;flex items-center justify-end gap-3 border-t border-outline px-5 py-4&quot;&gt;
+      &lt;button
+        type&#x3D;&quot;button&quot;
+        class&#x3D;&quot;inline-flex min-h-10 items-center gap-2 rounded-pill border border-outline px-4 text-body-sm font-bold text-on-surface transition-colors hover:bg-surface-container&quot;
+        (click)&#x3D;&quot;visible.set(false)&quot;
+      &gt;
+        {{ &#x27;places.review.cancel&#x27; | translate }}
+      &lt;/button&gt;
+      &lt;button
+        type&#x3D;&quot;button&quot;
+        class&#x3D;&quot;inline-flex min-h-10 items-center gap-2 rounded-pill bg-primary px-5 text-body-sm font-bold text-on-primary transition-all hover:shadow-2 active:scale-[0.98] disabled:opacity-50&quot;
+        [disabled]&#x3D;&quot;saving() || rating() &#x3D;&#x3D;&#x3D; 0&quot;
+        (click)&#x3D;&quot;submit()&quot;
+      &gt;
+        @if (saving()) {
+          &lt;i class&#x3D;&quot;pi pi-spinner pi-spin text-xs&quot;&gt;&lt;/i&gt;
+        }
+        {{ &#x27;places.review.submit&#x27; | translate }}
+      &lt;/button&gt;
+    &lt;/div&gt;
+
+  &lt;/div&gt;
+&lt;/p-dialog&gt;
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis-network.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><p-dialog  [visible]="visible()"  (visibleChange)="visible.set($event)"  [modal]="true"  [dismissableMask]="true"  [style]="{ width: \'min(95vw, 480px)\' }"  [showHeader]="false"  appendTo="body" >  <div class="grid gap-0">    <!-- Header -->    <div class="flex items-center justify-between gap-3 border-b border-outline px-5 pb-4 pt-5">      <h2 class="text-title-md font-bold text-on-surface">{{ \'places.add_review\' | translate }}</h2>      <button        type="button"        class="grid size-9 place-items-center rounded-xl text-on-surface-muted transition-colors hover:bg-surface-container"        (click)="visible.set(false)"        [attr.aria-label]="\'report.close\' | translate"      >        <i class="pi pi-times text-sm"></i>      </button>    </div>    <div class="grid gap-5 px-5 py-5">      <!-- Estrellas interactivas -->      <div>        <p class="mb-2 text-label-md font-bold uppercase tracking-wide text-on-surface-muted">{{ \'places.review.your_rating\' | translate }}</p>        <div class="flex gap-2"          (mouseleave)="hovered.set(0)"        >          @for (n of stars; track n) {            <button              type="button"              class="text-3xl transition-transform duration-fast hover:scale-110 active:scale-95"              (mouseenter)="hovered.set(n)"              (click)="rating.set(n)"              [attr.aria-label]="n"            >              <i                [class]="starActive(n) ? \'pi pi-star-fill text-primary\' : \'pi pi-star text-outline-strong\'"              ></i>            </button>          }        </div>        @if (rating() > 0) {          <p class="mt-1 text-label-md font-semibold text-on-surface-muted">            {{ (\'places.review.rating.\' + rating()) | translate }}          </p>        }      </div>      <!-- Comentario -->      <label class="grid gap-1.5">        <span class="text-label-md font-bold uppercase tracking-wide text-on-surface-muted">{{ \'places.review.comment\' | translate }} <span class="normal-case font-normal">{{ \'places.review.optional\' | translate }}</span></span>        <textarea          [ngModel]="comment()"          (ngModelChange)="comment.set($event)"          rows="4"          maxlength="500"          [placeholder]="\'places.review.placeholder\' | translate"          class="resize-none rounded-xl border border-outline bg-surface px-4 py-3 text-body-sm font-medium text-on-surface outline-none transition-colors focus:border-primary"        ></textarea>        <span class="text-right text-label-md text-on-surface-muted">{{ comment().length }}/500</span>      </label>      <!-- Error -->      @if (error()) {        <p class="rounded-xl bg-error-container px-4 py-3 text-body-sm font-semibold text-on-error-container">          {{ error() | translate }}        </p>      }    </div>    <!-- Footer -->    <div class="flex items-center justify-end gap-3 border-t border-outline px-5 py-4">      <button        type="button"        class="inline-flex min-h-10 items-center gap-2 rounded-pill border border-outline px-4 text-body-sm font-bold text-on-surface transition-colors hover:bg-surface-container"        (click)="visible.set(false)"      >        {{ \'places.review.cancel\' | translate }}      </button>      <button        type="button"        class="inline-flex min-h-10 items-center gap-2 rounded-pill bg-primary px-5 text-body-sm font-bold text-on-primary transition-all hover:shadow-2 active:scale-[0.98] disabled:opacity-50"        [disabled]="saving() || rating() === 0"        (click)="submit()"      >        @if (saving()) {          <i class="pi pi-spinner pi-spin text-xs"></i>        }        {{ \'places.review.submit\' | translate }}      </button>    </div>  </div></p-dialog></div>'
+    var COMPONENTS = [{'name': 'AddReviewModal', 'selector': 'app-add-review-modal'},{'name': 'AiIdeasPanel', 'selector': 'app-ai-ideas-panel'},{'name': 'AiRecipeForm', 'selector': 'app-ai-recipe-form'},{'name': 'AiRecipeResult', 'selector': 'app-ai-recipe-result'},{'name': 'AiRecipesHero', 'selector': 'app-ai-recipes-hero'},{'name': 'AiRecipesPage', 'selector': 'app-ai-recipes-page'},{'name': 'App', 'selector': 'app-root'},{'name': 'AppShell', 'selector': 'app-shell'},{'name': 'Auth', 'selector': 'app-auth'},{'name': 'Avatar', 'selector': 'app-avatar'},{'name': 'Body', 'selector': 'app-body-step1'},{'name': 'Body', 'selector': 'app-body-step3'},{'name': 'Body', 'selector': 'app-body-step2'},{'name': 'ButtonComponent', 'selector': 'app-button'},{'name': 'CallHost', 'selector': 'app-call-host'},{'name': 'CallOverlay', 'selector': 'app-call-overlay'},{'name': 'ChatPanel', 'selector': 'app-chat-panel'},{'name': 'CommentSection', 'selector': 'app-comment-section'},{'name': 'CommentsSheetComponent', 'selector': 'app-comments-sheet'},{'name': 'ConversationList', 'selector': 'app-conversation-list'},{'name': 'CookingModePage', 'selector': 'app-cooking-mode-page'},{'name': 'CreatePostComponent', 'selector': 'app-create-post'},{'name': 'EditProfileComponent', 'selector': 'app-edit-profile'},{'name': 'EmojiRain', 'selector': 'app-emoji-rain'},{'name': 'Emptystate', 'selector': 'app-emptystate'},{'name': 'ExploreCategoryTabs', 'selector': 'app-explore-category-tabs'},{'name': 'ExploreHero', 'selector': 'app-explore-hero'},{'name': 'ExplorePage', 'selector': 'app-explore-page'},{'name': 'ExploreRightRail', 'selector': 'app-explore-right-rail'},{'name': 'ExploreToolbar', 'selector': 'app-explore-toolbar'},{'name': 'FeedPage', 'selector': 'app-feed-page'},{'name': 'FeedPostList', 'selector': 'app-feed-post-list'},{'name': 'FeedRightRail', 'selector': 'app-feed-right-rail'},{'name': 'GlobalSearchPanel', 'selector': 'app-global-search-panel'},{'name': 'Header', 'selector': 'app-header-step1'},{'name': 'Header', 'selector': 'app-header-step3'},{'name': 'Header', 'selector': 'app-header-step2'},{'name': 'Home', 'selector': 'app-home'},{'name': 'IncomingCall', 'selector': 'app-incoming-call'},{'name': 'Login', 'selector': 'app-login'},{'name': 'MessageBubble', 'selector': 'app-message-bubble'},{'name': 'MessagesPage', 'selector': 'app-messages-page'},{'name': 'NewConversation', 'selector': 'app-new-conversation'},{'name': 'NotificationsPage', 'selector': 'app-notifications-page'},{'name': 'PlaceCard', 'selector': 'app-place-card'},{'name': 'PlaceDetailPage', 'selector': 'app-place-detail-page'},{'name': 'PlacesPage', 'selector': 'app-places-page'},{'name': 'PostCard', 'selector': 'app-post-card'},{'name': 'PostDetailPage', 'selector': 'app-post-detail-page'},{'name': 'Profile', 'selector': 'app-profile'},{'name': 'PublicProfilePage', 'selector': 'app-public-profile-page'},{'name': 'RecentAiRecipes', 'selector': 'app-recent-ai-recipes'},{'name': 'RecipeDiscoveryCard', 'selector': 'app-recipe-discovery-card'},{'name': 'RecipeDiscoveryGrid', 'selector': 'app-recipe-discovery-grid'},{'name': 'RecipeOfDayCard', 'selector': 'app-recipe-of-day-card'},{'name': 'Register', 'selector': 'app-register'},{'name': 'ReportSheet', 'selector': 'app-report-sheet'},{'name': 'SavedCollectionStrip', 'selector': 'app-saved-collection-strip'},{'name': 'SavedPage', 'selector': 'app-saved-page'},{'name': 'SavedRecipeCard', 'selector': 'app-saved-recipe-card'},{'name': 'SavoLoader', 'selector': 'app-savo-loader'},{'name': 'SettingsPage', 'selector': 'app-settings-page'},{'name': 'SharedPostCard', 'selector': 'app-shared-post-card'},{'name': 'SharedProfileCard', 'selector': 'app-shared-profile-card'},{'name': 'SharePostModal', 'selector': 'app-share-post-modal'},{'name': 'ShareProfileModal', 'selector': 'app-share-profile-modal'},{'name': 'ShoppingListPage', 'selector': 'app-shopping-list-page'},{'name': 'SkeletonCard', 'selector': 'app-skeleton-card'},{'name': 'Spinner', 'selector': 'app-spinner'},{'name': 'SpotlightBg', 'selector': 'app-spotlight-bg'},{'name': 'StoriesStrip', 'selector': 'app-stories-strip'},{'name': 'StoryViewer', 'selector': 'app-story-viewer'},{'name': 'SuggestionsPanel', 'selector': 'app-suggestions-panel'},{'name': 'Title', 'selector': 'app-title'},{'name': 'Topbar', 'selector': 'app-topbar'},{'name': 'TrendingList', 'selector': 'app-trending-list'},{'name': 'VeganConvertModal', 'selector': 'app-vegan-convert-modal'}];
+    var DIRECTIVES = [{'name': 'ClickOutsideDirective', 'selector': '[appClickOutside]'},{'name': 'ImgFallbackDirective', 'selector': 'img[appImgFallback]'}];
+    var ACTUAL_COMPONENT = {'name': 'AddReviewModal'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'AddReviewModal.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -12,6 +12,9 @@ import { ExploreToolbar } from './components/explore-toolbar/explore-toolbar'
 import { RecipeDiscoveryGrid } from './components/recipe-discovery-grid/recipe-discovery-grid'
 import { TranslatePipe } from '@shared/pipes/translate.pipe'
 
+/**
+ * Componente principal para la vista o página de explore.
+ */
 @Component({
 	selector: 'app-explore-page',
 	imports: [
@@ -29,24 +32,66 @@ import { TranslatePipe } from '@shared/pipes/translate.pipe'
 	templateUrl: './explore-page.html',
 })
 export class ExplorePage implements OnDestroy {
+	/**
+	 * Propiedad para gestionar scroll container.
+	 */
 	private readonly scrollContainer = viewChild<ElementRef<HTMLElement>>('exploreScroll')
 
+	/**
+	 * Propiedad para gestionar explore.
+	 */
 	readonly explore = inject(ExploreStore)
+	/**
+	 * Propiedad para gestionar buscar service.
+	 */
 	private readonly searchService = inject(SearchService)
 
+	/**
+	 * Propiedad para gestionar buscar query.
+	 */
 	readonly searchQuery = signal('')
+	/**
+	 * Propiedad para gestionar buscar posts.
+	 */
 	readonly searchPosts = signal<SearchPost[]>([])
+	/**
+	 * Propiedad para gestionar buscar users.
+	 */
 	readonly searchUsers = signal<SearchUser[]>([])
+	/**
+	 * Propiedad para gestionar buscar cargando.
+	 */
 	readonly searchLoading = signal(false)
+	/**
+	 * Propiedad para gestionar active tab.
+	 */
 	readonly activeTab = signal<'posts' | 'users'>('posts')
 
+	/**
+	 * Indicador booleano para es o está searching.
+	 */
 	readonly isSearching = computed(() => this.searchQuery().trim().length >= 2)
 
+	/**
+	 * Propiedad para gestionar pull progress.
+	 */
 	readonly pullProgress = signal(0)
+	/**
+	 * Propiedad para gestionar pull triggered.
+	 */
 	readonly pullTriggered = signal(false)
+	/**
+	 * Propiedad para gestionar pull start y.
+	 */
 	private pullStartY = 0
+	/**
+	 * Propiedad para gestionar pulling.
+	 */
 	private pulling = false
 
+	/**
+	 * Constructor de la clase o componente para inicializar dependencias.
+	 */
 	constructor() {
 		afterNextRender(() => {
 			const saved = this.explore.scrollTop
@@ -60,11 +105,17 @@ export class ExplorePage implements OnDestroy {
 		})
 	}
 
+	/**
+	 * Método de ciclo de vida de Angular que se ejecuta al destruir el componente para liberar recursos.
+	 */
 	ngOnDestroy(): void {
 		const el = this.scrollContainer()?.nativeElement
 		this.explore.saveScroll(el?.scrollTop ?? 0)
 	}
 
+	/**
+	 * Método para setup pull to refrescar.
+	 */
 	private setupPullToRefresh(): void {
 		const el = this.scrollContainer()?.nativeElement
 		if (!el) return
@@ -99,10 +150,16 @@ export class ExplorePage implements OnDestroy {
 		}, { passive: true })
 	}
 
+	/**
+	 * Método para evento de input buscar.
+	 */
 	onInputSearch(event: Event): void {
 		this.onQueryChange((event.target as HTMLInputElement).value)
 	}
 
+	/**
+	 * Método para evento de query cambiar.
+	 */
 	onQueryChange(q: string): void {
 		this.searchQuery.set(q)
 		if (q.trim().length < 2) {

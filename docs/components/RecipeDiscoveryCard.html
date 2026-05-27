@@ -1,0 +1,1060 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>cookeealo documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">cookeealo documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  RecipeDiscoveryCard</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/features/explore/components/recipe-discovery-card/recipe-discovery-card.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Clase de utilidad para recipediscoverycard.</p>
+
+    </p>
+
+
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-recipe-discovery-card</code></td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>NgOptimizedImage</code>
+                                <code><a href="https://angular.io/api/router/RouterLink" target="_blank" >RouterLink</a></code>
+                                <code><a href="../directives/ImgFallbackDirective.html" target="_self" >ImgFallbackDirective</a></code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./recipe-discovery-card.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#authorName" >authorName</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#fallbackImage" >fallbackImage</a>
+                            </li>
+                            <li>
+                                <a href="#imageUrl" >imageUrl</a>
+                            </li>
+                            <li>
+                                <a href="#isVideo" >isVideo</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#likesCount" >likesCount</a>
+                            </li>
+                            <li>
+                                <a href="#media" >media</a>
+                            </li>
+                            <li>
+                                <a href="#minutes" >minutes</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#postActions" >postActions</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#saved" >saved</a>
+                            </li>
+                            <li>
+                                <a href="#tag" >tag</a>
+                            </li>
+                            <li>
+                                <a href="#title" >title</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#triggerSave" >triggerSave</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#post" >post</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+    <section data-compodoc="block-inputs">
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="post"></a>
+                        <b>post</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Post.html" target="_self" >Post</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Required : </i>&nbsp;<b>true</b>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/features/explore/components/recipe-discovery-card/recipe-discovery-card.ts:25</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Propiedad para gestionar post.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="triggerSave"></a>
+                    <span class="name">
+                        <span ><b>triggerSave</b></span>
+                        <a href="#triggerSave"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>triggerSave()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="73"
+                                    class="link-to-prism">src/app/features/explore/components/recipe-discovery-card/recipe-discovery-card.ts:73</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método para trigger guardar.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="authorName"></a>
+                    <span class="name">
+                        <span ><b>authorName</b></span>
+                        <a href="#authorName"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; this.post().author.name || this.post().author.username || &#x27;Chef Savorealo&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">src/app/features/explore/components/recipe-discovery-card/recipe-discovery-card.ts:56</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar author nombre.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fallbackImage"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>fallbackImage</b></span>
+                        <a href="#fallbackImage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;/prueba1.png&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/features/explore/components/recipe-discovery-card/recipe-discovery-card.ts:30</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar fallback imagen.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="imageUrl"></a>
+                    <span class="name">
+                        <span ><b>imageUrl</b></span>
+                        <a href="#imageUrl"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; this.media()?.url || this.fallbackImage)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/features/explore/components/recipe-discovery-card/recipe-discovery-card.ts:48</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar imagen enlace.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isVideo"></a>
+                    <span class="name">
+                        <span ><b>isVideo</b></span>
+                        <a href="#isVideo"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; this.media()?.type &#x3D;&#x3D;&#x3D; &#x27;video&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/app/features/explore/components/recipe-discovery-card/recipe-discovery-card.ts:52</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Indicador booleano para es o está video.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="likesCount"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>likesCount</b></span>
+                        <a href="#likesCount"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; this.postActions.likesCount(this.post().id, this.post().likesCount))</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/features/explore/components/recipe-discovery-card/recipe-discovery-card.ts:39</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar likes cantidad.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="media"></a>
+                    <span class="name">
+                        <span ><b>media</b></span>
+                        <a href="#media"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; this.post().media[0] ?? null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/app/features/explore/components/recipe-discovery-card/recipe-discovery-card.ts:44</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar media.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="minutes"></a>
+                    <span class="name">
+                        <span ><b>minutes</b></span>
+                        <a href="#minutes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; this.post().recipe?.timeRequired || 30)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">src/app/features/explore/components/recipe-discovery-card/recipe-discovery-card.ts:68</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar minutes.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="postActions"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>postActions</b></span>
+                        <a href="#postActions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(PostActionsService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/features/explore/components/recipe-discovery-card/recipe-discovery-card.ts:20</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar post actions.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="saved"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>saved</b></span>
+                        <a href="#saved"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; this.postActions.isSaved(this.post().id, this.post().saved))</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/features/explore/components/recipe-discovery-card/recipe-discovery-card.ts:35</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar saved.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="tag"></a>
+                    <span class="name">
+                        <span ><b>tag</b></span>
+                        <a href="#tag"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; this.post().categories[0]?.toLowerCase().replaceAll(&#x27;_&#x27;, &#x27;&#x27;) || &#x27;receta&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">src/app/features/explore/components/recipe-discovery-card/recipe-discovery-card.ts:64</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar tag.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="title"></a>
+                    <span class="name">
+                        <span ><b>title</b></span>
+                        <a href="#title"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; this.post().title || this.post().recipe?.name || this.post().description || &#x27;Receta de la comunidad&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/app/features/explore/components/recipe-discovery-card/recipe-discovery-card.ts:60</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar título.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { NgOptimizedImage } from &#x27;@angular/common&#x27;
+import { Component, computed, inject, input } from &#x27;@angular/core&#x27;
+import { RouterLink } from &#x27;@angular/router&#x27;
+import { Post } from &#x27;@core/models/post/post.model&#x27;
+import { PostActionsService } from &#x27;@core/services/post-actions.service&#x27;
+import { ImgFallbackDirective } from &#x27;@shared/directives/img-fallback.directive&#x27;
+
+/**
+ * Clase de utilidad para recipediscoverycard.
+ */
+@Component({
+	selector: &#x27;app-recipe-discovery-card&#x27;,
+	imports: [NgOptimizedImage, RouterLink, ImgFallbackDirective],
+	templateUrl: &#x27;./recipe-discovery-card.html&#x27;,
+})
+export class RecipeDiscoveryCard {
+	/**
+	 * Propiedad para gestionar post actions.
+	 */
+	private readonly postActions &#x3D; inject(PostActionsService)
+
+	/**
+	 * Propiedad para gestionar post.
+	 */
+	post &#x3D; input.required&lt;Post&gt;()
+
+	/**
+	 * Propiedad para gestionar fallback imagen.
+	 */
+	readonly fallbackImage &#x3D; &#x27;/prueba1.png&#x27;
+
+	/**
+	 * Propiedad para gestionar saved.
+	 */
+	readonly saved &#x3D; computed(() &#x3D;&gt; this.postActions.isSaved(this.post().id, this.post().saved))
+	/**
+	 * Propiedad para gestionar likes cantidad.
+	 */
+	readonly likesCount &#x3D; computed(() &#x3D;&gt; this.postActions.likesCount(this.post().id, this.post().likesCount))
+
+	/**
+	 * Propiedad para gestionar media.
+	 */
+	media &#x3D; computed(() &#x3D;&gt; this.post().media[0] ?? null)
+	/**
+	 * Propiedad para gestionar imagen enlace.
+	 */
+	imageUrl &#x3D; computed(() &#x3D;&gt; this.media()?.url || this.fallbackImage)
+	/**
+	 * Indicador booleano para es o está video.
+	 */
+	isVideo &#x3D; computed(() &#x3D;&gt; this.media()?.type &#x3D;&#x3D;&#x3D; &#x27;video&#x27;)
+	/**
+	 * Propiedad para gestionar author nombre.
+	 */
+	authorName &#x3D; computed(() &#x3D;&gt; this.post().author.name || this.post().author.username || &#x27;Chef Savorealo&#x27;)
+	/**
+	 * Propiedad para gestionar título.
+	 */
+	title &#x3D; computed(() &#x3D;&gt; this.post().title || this.post().recipe?.name || this.post().description || &#x27;Receta de la comunidad&#x27;)
+	/**
+	 * Propiedad para gestionar tag.
+	 */
+	tag &#x3D; computed(() &#x3D;&gt; this.post().categories[0]?.toLowerCase().replaceAll(&#x27;_&#x27;, &#x27;&#x27;) || &#x27;receta&#x27;)
+	/**
+	 * Propiedad para gestionar minutes.
+	 */
+	minutes &#x3D; computed(() &#x3D;&gt; this.post().recipe?.timeRequired || 30)
+
+	/**
+	 * Método para trigger guardar.
+	 */
+	triggerSave(): void {
+		this.postActions.toggleSave(this.post().id, this.saved(), this.postActions.savesCount(this.post().id, this.post().savesCount))
+	}
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;article class&#x3D;&quot;group relative min-h-[280px] overflow-hidden rounded-2xl border border-outline bg-surface-container shadow-2 transition-all duration-fast ease-standard hover:-translate-y-0.5 hover:shadow-3&quot;&gt;
+	&lt;img
+		[ngSrc]&#x3D;&quot;imageUrl()&quot;
+		[alt]&#x3D;&quot;title()&quot;
+		fill
+		appImgFallback
+		sizes&#x3D;&quot;(max-width: 768px) 100vw, 33vw&quot;
+		class&#x3D;&quot;object-cover transition-transform duration-slow ease-decelerated group-hover:scale-105&quot;
+	/&gt;
+	&lt;div class&#x3D;&quot;absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent&quot;&gt;&lt;/div&gt;
+
+	&lt;a
+		[routerLink]&#x3D;&quot;[&#x27;/post&#x27;, post().id]&quot;
+		class&#x3D;&quot;absolute inset-0 z-[1]&quot;
+		[attr.aria-label]&#x3D;&quot;title()&quot;
+	&gt;&lt;/a&gt;
+
+	@if (isVideo()) {
+		&lt;div class&#x3D;&quot;absolute left-4 top-4 grid size-11 place-items-center rounded-pill bg-black/60 text-white backdrop-blur&quot;&gt;
+			&lt;i class&#x3D;&quot;pi pi-play&quot;&gt;&lt;/i&gt;
+		&lt;/div&gt;
+		&lt;span class&#x3D;&quot;absolute right-4 top-4 rounded-pill bg-black/70 px-2 py-1 text-label-md font-bold text-white&quot;&gt;1:25&lt;/span&gt;
+	} @else {
+		&lt;button
+			type&#x3D;&quot;button&quot;
+			class&#x3D;&quot;absolute right-4 top-4 z-[2] grid size-11 place-items-center rounded-pill bg-black/45 text-white backdrop-blur transition-all duration-fast ease-standard hover:bg-primary hover:text-on-primary active:scale-[0.98]&quot;
+			[class.text-primary]&#x3D;&quot;saved()&quot;
+			(click)&#x3D;&quot;triggerSave()&quot;
+			aria-label&#x3D;&quot;Guardar receta&quot;
+		&gt;
+			&lt;i [class]&#x3D;&quot;saved() ? &#x27;pi pi-bookmark-fill&#x27; : &#x27;pi pi-bookmark&#x27;&quot;&gt;&lt;/i&gt;
+		&lt;/button&gt;
+	}
+
+	&lt;div class&#x3D;&quot;absolute inset-x-0 bottom-0 grid gap-3 p-4&quot;&gt;
+		&lt;div class&#x3D;&quot;flex items-center justify-between gap-3&quot;&gt;
+			&lt;div class&#x3D;&quot;flex min-w-0 items-center gap-2&quot;&gt;
+				&lt;img
+					[src]&#x3D;&quot;post().author.photoUrl || &#x27;/assets/icons/new_logo.png&#x27;&quot;
+					alt&#x3D;&quot;&quot;
+					appImgFallback
+					class&#x3D;&quot;size-7 rounded-pill border border-white/25 object-cover&quot;
+				/&gt;
+				&lt;span class&#x3D;&quot;truncate text-label-md font-bold text-white&quot;&gt;{{ authorName() }}&lt;/span&gt;
+				&lt;i class&#x3D;&quot;pi pi-check-circle text-[0.7rem] text-tertiary&quot;&gt;&lt;/i&gt;
+			&lt;/div&gt;
+			&lt;span class&#x3D;&quot;rounded-pill bg-black/70 px-3 py-1 text-label-md font-bold text-white&quot;&gt;{{ minutes() }} min&lt;/span&gt;
+		&lt;/div&gt;
+
+		&lt;h2 class&#x3D;&quot;line-clamp-3 text-body-lg font-bold leading-tight text-white&quot;&gt;{{ title() }}&lt;/h2&gt;
+
+		&lt;footer class&#x3D;&quot;flex items-center gap-4 text-label-md font-bold text-white/90&quot;&gt;
+			&lt;span class&#x3D;&quot;inline-flex items-center gap-1&quot;&gt;&lt;i class&#x3D;&quot;pi pi-heart-fill text-error&quot;&gt;&lt;/i&gt;{{ likesCount() }}&lt;/span&gt;
+			&lt;span class&#x3D;&quot;inline-flex items-center gap-1&quot;&gt;&lt;i class&#x3D;&quot;pi pi-comment&quot;&gt;&lt;/i&gt;{{ post().commentsCount }}&lt;/span&gt;
+			&lt;span class&#x3D;&quot;ml-auto rounded-pill bg-white/15 px-3 py-1 text-primary&quot;&gt;#{{ tag() }}&lt;/span&gt;
+		&lt;/footer&gt;
+	&lt;/div&gt;
+&lt;/article&gt;
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis-network.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><article class="group relative min-h-[280px] overflow-hidden rounded-2xl border border-outline bg-surface-container shadow-2 transition-all duration-fast ease-standard hover:-translate-y-0.5 hover:shadow-3">	<img		[ngSrc]="imageUrl()"		[alt]="title()"		fill		appImgFallback		sizes="(max-width: 768px) 100vw, 33vw"		class="object-cover transition-transform duration-slow ease-decelerated group-hover:scale-105"	/>	<div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent"></div>	<a		[routerLink]="[\'/post\', post().id]"		class="absolute inset-0 z-[1]"		[attr.aria-label]="title()"	></a>	@if (isVideo()) {		<div class="absolute left-4 top-4 grid size-11 place-items-center rounded-pill bg-black/60 text-white backdrop-blur">			<i class="pi pi-play"></i>		</div>		<span class="absolute right-4 top-4 rounded-pill bg-black/70 px-2 py-1 text-label-md font-bold text-white">1:25</span>	} @else {		<button			type="button"			class="absolute right-4 top-4 z-[2] grid size-11 place-items-center rounded-pill bg-black/45 text-white backdrop-blur transition-all duration-fast ease-standard hover:bg-primary hover:text-on-primary active:scale-[0.98]"			[class.text-primary]="saved()"			(click)="triggerSave()"			aria-label="Guardar receta"		>			<i [class]="saved() ? \'pi pi-bookmark-fill\' : \'pi pi-bookmark\'"></i>		</button>	}	<div class="absolute inset-x-0 bottom-0 grid gap-3 p-4">		<div class="flex items-center justify-between gap-3">			<div class="flex min-w-0 items-center gap-2">				<img					[src]="post().author.photoUrl || \'/assets/icons/new_logo.png\'"					alt=""					appImgFallback					class="size-7 rounded-pill border border-white/25 object-cover"				/>				<span class="truncate text-label-md font-bold text-white">{{ authorName() }}</span>				<i class="pi pi-check-circle text-[0.7rem] text-tertiary"></i>			</div>			<span class="rounded-pill bg-black/70 px-3 py-1 text-label-md font-bold text-white">{{ minutes() }} min</span>		</div>		<h2 class="line-clamp-3 text-body-lg font-bold leading-tight text-white">{{ title() }}</h2>		<footer class="flex items-center gap-4 text-label-md font-bold text-white/90">			<span class="inline-flex items-center gap-1"><i class="pi pi-heart-fill text-error"></i>{{ likesCount() }}</span>			<span class="inline-flex items-center gap-1"><i class="pi pi-comment"></i>{{ post().commentsCount }}</span>			<span class="ml-auto rounded-pill bg-white/15 px-3 py-1 text-primary">#{{ tag() }}</span>		</footer>	</div></article></div>'
+    var COMPONENTS = [{'name': 'AddReviewModal', 'selector': 'app-add-review-modal'},{'name': 'AiIdeasPanel', 'selector': 'app-ai-ideas-panel'},{'name': 'AiRecipeForm', 'selector': 'app-ai-recipe-form'},{'name': 'AiRecipeResult', 'selector': 'app-ai-recipe-result'},{'name': 'AiRecipesHero', 'selector': 'app-ai-recipes-hero'},{'name': 'AiRecipesPage', 'selector': 'app-ai-recipes-page'},{'name': 'App', 'selector': 'app-root'},{'name': 'AppShell', 'selector': 'app-shell'},{'name': 'Auth', 'selector': 'app-auth'},{'name': 'Avatar', 'selector': 'app-avatar'},{'name': 'Body', 'selector': 'app-body-step1'},{'name': 'Body', 'selector': 'app-body-step3'},{'name': 'Body', 'selector': 'app-body-step2'},{'name': 'ButtonComponent', 'selector': 'app-button'},{'name': 'CallHost', 'selector': 'app-call-host'},{'name': 'CallOverlay', 'selector': 'app-call-overlay'},{'name': 'ChatPanel', 'selector': 'app-chat-panel'},{'name': 'CommentSection', 'selector': 'app-comment-section'},{'name': 'CommentsSheetComponent', 'selector': 'app-comments-sheet'},{'name': 'ConversationList', 'selector': 'app-conversation-list'},{'name': 'CookingModePage', 'selector': 'app-cooking-mode-page'},{'name': 'CreatePostComponent', 'selector': 'app-create-post'},{'name': 'EditProfileComponent', 'selector': 'app-edit-profile'},{'name': 'EmojiRain', 'selector': 'app-emoji-rain'},{'name': 'Emptystate', 'selector': 'app-emptystate'},{'name': 'ExploreCategoryTabs', 'selector': 'app-explore-category-tabs'},{'name': 'ExploreHero', 'selector': 'app-explore-hero'},{'name': 'ExplorePage', 'selector': 'app-explore-page'},{'name': 'ExploreRightRail', 'selector': 'app-explore-right-rail'},{'name': 'ExploreToolbar', 'selector': 'app-explore-toolbar'},{'name': 'FeedPage', 'selector': 'app-feed-page'},{'name': 'FeedPostList', 'selector': 'app-feed-post-list'},{'name': 'FeedRightRail', 'selector': 'app-feed-right-rail'},{'name': 'GlobalSearchPanel', 'selector': 'app-global-search-panel'},{'name': 'Header', 'selector': 'app-header-step1'},{'name': 'Header', 'selector': 'app-header-step3'},{'name': 'Header', 'selector': 'app-header-step2'},{'name': 'Home', 'selector': 'app-home'},{'name': 'IncomingCall', 'selector': 'app-incoming-call'},{'name': 'Login', 'selector': 'app-login'},{'name': 'MessageBubble', 'selector': 'app-message-bubble'},{'name': 'MessagesPage', 'selector': 'app-messages-page'},{'name': 'NewConversation', 'selector': 'app-new-conversation'},{'name': 'NotificationsPage', 'selector': 'app-notifications-page'},{'name': 'PlaceCard', 'selector': 'app-place-card'},{'name': 'PlaceDetailPage', 'selector': 'app-place-detail-page'},{'name': 'PlacesPage', 'selector': 'app-places-page'},{'name': 'PostCard', 'selector': 'app-post-card'},{'name': 'PostDetailPage', 'selector': 'app-post-detail-page'},{'name': 'Profile', 'selector': 'app-profile'},{'name': 'PublicProfilePage', 'selector': 'app-public-profile-page'},{'name': 'RecentAiRecipes', 'selector': 'app-recent-ai-recipes'},{'name': 'RecipeDiscoveryCard', 'selector': 'app-recipe-discovery-card'},{'name': 'RecipeDiscoveryGrid', 'selector': 'app-recipe-discovery-grid'},{'name': 'RecipeOfDayCard', 'selector': 'app-recipe-of-day-card'},{'name': 'Register', 'selector': 'app-register'},{'name': 'ReportSheet', 'selector': 'app-report-sheet'},{'name': 'SavedCollectionStrip', 'selector': 'app-saved-collection-strip'},{'name': 'SavedPage', 'selector': 'app-saved-page'},{'name': 'SavedRecipeCard', 'selector': 'app-saved-recipe-card'},{'name': 'SavoLoader', 'selector': 'app-savo-loader'},{'name': 'SettingsPage', 'selector': 'app-settings-page'},{'name': 'SharedPostCard', 'selector': 'app-shared-post-card'},{'name': 'SharedProfileCard', 'selector': 'app-shared-profile-card'},{'name': 'SharePostModal', 'selector': 'app-share-post-modal'},{'name': 'ShareProfileModal', 'selector': 'app-share-profile-modal'},{'name': 'ShoppingListPage', 'selector': 'app-shopping-list-page'},{'name': 'SkeletonCard', 'selector': 'app-skeleton-card'},{'name': 'Spinner', 'selector': 'app-spinner'},{'name': 'SpotlightBg', 'selector': 'app-spotlight-bg'},{'name': 'StoriesStrip', 'selector': 'app-stories-strip'},{'name': 'StoryViewer', 'selector': 'app-story-viewer'},{'name': 'SuggestionsPanel', 'selector': 'app-suggestions-panel'},{'name': 'Title', 'selector': 'app-title'},{'name': 'Topbar', 'selector': 'app-topbar'},{'name': 'TrendingList', 'selector': 'app-trending-list'},{'name': 'VeganConvertModal', 'selector': 'app-vegan-convert-modal'}];
+    var DIRECTIVES = [{'name': 'ClickOutsideDirective', 'selector': '[appClickOutside]'},{'name': 'ImgFallbackDirective', 'selector': 'img[appImgFallback]'}];
+    var ACTUAL_COMPONENT = {'name': 'RecipeDiscoveryCard'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'RecipeDiscoveryCard.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

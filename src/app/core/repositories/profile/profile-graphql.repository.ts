@@ -4,10 +4,19 @@ import { from, map, Observable } from 'rxjs'
 import { UPDATE_PROFILE_MUTATION } from '@graphql/feed.mutations'
 import type { GqlUpdateProfileResult, IProfileRepository } from './profile-repository'
 
+/**
+ * Repositorio de datos para profilegraphql.
+ */
 @Injectable({ providedIn: 'root' })
 export class ProfileGraphqlRepository implements IProfileRepository {
+	/**
+	 * Propiedad para gestionar apollo.
+	 */
 	private readonly apollo = inject(Apollo)
 
+	/**
+	 * Método para actualizar profile.
+	 */
 	updateProfile(variables: Record<string, unknown>): Observable<GqlUpdateProfileResult> {
 		return from(
 			this.apollo.mutate<{ updateProfile: GqlUpdateProfileResult }>({
@@ -23,6 +32,9 @@ export class ProfileGraphqlRepository implements IProfileRepository {
 		)
 	}
 
+	/**
+	 * Método para evict user from cache.
+	 */
 	evictUserFromCache(userId: string): void {
 		try {
 			const cache = this.apollo.client.cache

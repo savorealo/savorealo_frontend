@@ -1,0 +1,861 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>cookeealo documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">cookeealo documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Interfaces</li>
+  <li class="breadcrumb-item"
+  >
+  CreatePostInput</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/app/core/services/feed.service.ts</code>
+        </p>
+
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Interfaz que define la estructura o contrato de datos para createpostinput.</p>
+
+            </p>
+
+
+        <section data-compodoc="block-index">
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                        <a href="#description" 
+>
+                                            description
+                                        </a>
+                                </li>
+                                <li>
+                                            <span class="modifier">Optional</span>
+                                        <a href="#mediaType" 
+>
+                                            mediaType
+                                        </a>
+                                </li>
+                                <li>
+                                            <span class="modifier">Optional</span>
+                                        <a href="#mediaUrl" 
+>
+                                            mediaUrl
+                                        </a>
+                                </li>
+                                <li>
+                                            <span class="modifier">Optional</span>
+                                        <a href="#recipe" 
+>
+                                            recipe
+                                        </a>
+                                </li>
+                                <li>
+                                            <span class="modifier">Optional</span>
+                                        <a href="#title" 
+>
+                                            title
+                                        </a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+            <section data-compodoc="block-properties">
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="description"></a>
+                                        <span class="name "><b>description</b>
+                                            <a href="#description">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>description:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Propiedad para gestionar descripción.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="mediaType"></a>
+                                        <span class="name "><b>mediaType</b>
+                                            <a href="#mediaType">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>mediaType:     <code>string | null</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>string | null</code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Propiedad para gestionar media type.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="mediaUrl"></a>
+                                        <span class="name "><b>mediaUrl</b>
+                                            <a href="#mediaUrl">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>mediaUrl:     <code>string | null</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>string | null</code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Propiedad para gestionar media enlace.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="recipe"></a>
+                                        <span class="name "><b>recipe</b>
+                                            <a href="#recipe">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>recipe:     <code>CreatePostRecipeInput | null</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>CreatePostRecipeInput | null</code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Propiedad para gestionar recipe.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="title"></a>
+                                        <span class="name "><b>title</b>
+                                            <a href="#title">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>title:     <code>string | null</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>string | null</code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Propiedad para gestionar título.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { inject, Injectable } from &#x27;@angular/core&#x27;
+import { from, map, Observable } from &#x27;rxjs&#x27;
+import { Post, PostCategory, Recipe, RecipeStep } from &#x27;@core/models/post/post.model&#x27;
+import { POST_REPOSITORY } from &#x27;@core/repositories/tokens/repository.tokens&#x27;
+import type { GqlPostNode } from &#x27;@core/repositories/post/post-repository&#x27;
+
+export type { GqlPostNode } from &#x27;@core/repositories/post/post-repository&#x27;
+
+/**
+ * Interfaz que define la estructura o contrato de datos para createpostrecipeinput.
+ */
+export interface CreatePostRecipeInput {
+	/**
+	 * Propiedad para gestionar nombre.
+	 */
+	name: string
+	/**
+	 * Propiedad para gestionar difficulty.
+	 */
+	difficulty?: string | null
+	/**
+	 * Propiedad para gestionar tiempo required.
+	 */
+	timeRequired?: number | null
+	/**
+	 * Propiedad para gestionar servings.
+	 */
+	servings?: number | null
+	/**
+	 * Propiedad para gestionar ingredients.
+	 */
+	ingredients: { /**
+	 * Propiedad para gestionar nombre.
+	 */
+	/**
+	 * Propiedad para gestionar nombre.
+	 */
+	name: string; /**
+	 * Propiedad para gestionar quantity.
+	 */
+	/**
+	 * Propiedad para gestionar quantity.
+	 */
+	quantity: number; /**
+	 * Propiedad para gestionar unit.
+	 */
+	/**
+	 * Propiedad para gestionar unit.
+	 */
+	unit: string }[]
+	/**
+	 * Propiedad para gestionar steps.
+	 */
+	steps: { /**
+	 * Propiedad para gestionar order.
+	 */
+	/**
+	 * Propiedad para gestionar order.
+	 */
+	order: number; /**
+	 * Propiedad para gestionar text.
+	 */
+	/**
+	 * Propiedad para gestionar text.
+	 */
+	text: string }[]
+}
+
+/**
+ * Interfaz que define la estructura o contrato de datos para createpostinput.
+ */
+export interface CreatePostInput {
+	/**
+	 * Propiedad para gestionar título.
+	 */
+	title?: string | null
+	/**
+	 * Propiedad para gestionar descripción.
+	 */
+	description: string
+	/**
+	 * Propiedad para gestionar media enlace.
+	 */
+	mediaUrl?: string | null
+	/**
+	 * Propiedad para gestionar media type.
+	 */
+	mediaType?: string | null
+	/**
+	 * Propiedad para gestionar recipe.
+	 */
+	recipe?: CreatePostRecipeInput | null
+}
+
+/**
+ * Componente principal para la vista o página de el feed de publicaciones.
+ */
+export interface FeedPage {
+	/**
+	 * Propiedad para gestionar posts.
+	 */
+	posts: Post[]
+	/**
+	 * Propiedad para gestionar end cursor.
+	 */
+	endCursor: string | null
+	/**
+	 * Indicador booleano para tiene next page.
+	 */
+	hasNextPage: boolean
+	/**
+	 * Propiedad para gestionar total cantidad.
+	 */
+	totalCount: number
+}
+
+/**
+ * Interfaz que define la estructura o contrato de datos para toggleresult.
+ */
+export interface ToggleResult {
+	/**
+	 * Propiedad para gestionar active.
+	 */
+	active: boolean
+	/**
+	 * Propiedad para gestionar cantidad.
+	 */
+	count: number
+}
+
+/**
+ * Servicio que provee la lógica de negocio para el feed de publicaciones.
+ */
+@Injectable({ providedIn: &#x27;root&#x27; })
+export class FeedService {
+	/**
+	 * Propiedad para gestionar repo.
+	 */
+	private readonly repo &#x3D; inject(POST_REPOSITORY)
+
+	// ── Feed ────────────────────────────────────────────────────────────────
+
+	/**
+	 * Método para obtener home feed.
+	 */
+	getHomeFeed(limit &#x3D; 12, after?: string | null): Observable&lt;FeedPage&gt; {
+		const offset &#x3D; after ? Number(after) || 0 : 0
+		return this.repo.fetchHomeFeed(limit, offset).pipe(
+			map(nodes &#x3D;&gt; {
+				const posts &#x3D; nodes.map(n &#x3D;&gt; this.mapGqlPost(n))
+				const hasNextPage &#x3D; posts.length &#x3D;&#x3D;&#x3D; limit
+				const endCursor &#x3D; hasNextPage ? String(offset + limit) : null
+				return { posts, endCursor, hasNextPage, totalCount: posts.length }
+			}),
+		)
+	}
+
+	/**
+	 * Método para obtener post por identificador.
+	 */
+	getPostById(id: string): Observable&lt;Post&gt; {
+		return from(this.fetchPostById(id))
+	}
+
+	/**
+	 * Método para obtener saved posts.
+	 */
+	getSavedPosts(limit &#x3D; 24, cursor?: string | null): Observable&lt;FeedPage&gt; {
+		return this.repo.fetchSavedPosts(limit, cursor ?? null).pipe(
+			map(result &#x3D;&gt; ({
+				posts: result.posts.map(n &#x3D;&gt; this.mapGqlPost(n)),
+				endCursor: result.nextCursor,
+				hasNextPage: result.hasNextPage,
+				totalCount: result.posts.length,
+			})),
+		)
+	}
+
+	/**
+	 * Método para obtener liked posts.
+	 */
+	getLikedPosts(limit &#x3D; 24): Observable&lt;FeedPage&gt; {
+		return this.repo.fetchLikedPosts(limit, 0).pipe(
+			map(nodes &#x3D;&gt; ({
+				posts: nodes.map(n &#x3D;&gt; this.mapGqlPost(n)),
+				endCursor: null,
+				hasNextPage: false,
+				totalCount: nodes.length,
+			})),
+		)
+	}
+
+	/** Lee posts del backend GraphQL (discover). */
+	async fetchDiscoverGql(limit: number, offset &#x3D; 0, category: string | null &#x3D; null): Promise&lt;Post[]&gt; {
+		return new Promise((resolve, reject) &#x3D;&gt; {
+			this.repo.fetchDiscoverFeed(limit, offset, category).subscribe({
+				next: nodes &#x3D;&gt; resolve(nodes.map(n &#x3D;&gt; this.mapGqlPost(n))),
+				error: reject,
+			})
+		})
+	}
+
+	/** Lee guardados del usuario actual vía GraphQL (cursor-based). */
+	async fetchSavedGql(limit &#x3D; 24, cursor?: string | null): Promise&lt;{ posts: Post[]; nextCursor: string | null; hasNextPage: boolean }&gt; {
+		return new Promise((resolve, reject) &#x3D;&gt; {
+			this.repo.fetchSavedPosts(limit, cursor ?? null).subscribe({
+				next: result &#x3D;&gt; resolve({
+					posts: result.posts.map(n &#x3D;&gt; this.mapGqlPost(n)),
+					nextCursor: result.nextCursor,
+					hasNextPage: result.hasNextPage,
+				}),
+				error: reject,
+			})
+		})
+	}
+
+	/** Lee los posts que le gustan al usuario actual vía GraphQL. */
+	async fetchLikedGql(limit &#x3D; 24, offset &#x3D; 0): Promise&lt;Post[]&gt; {
+		return new Promise((resolve, reject) &#x3D;&gt; {
+			this.repo.fetchLikedPosts(limit, offset).subscribe({
+				next: nodes &#x3D;&gt; resolve(nodes.map(n &#x3D;&gt; this.mapGqlPost(n))),
+				error: reject,
+			})
+		})
+	}
+
+	// ── Interactions ─────────────────────────────────────────────────────────
+
+	/**
+	 * Método para alternar like.
+	 */
+	toggleLike(postId: string): Observable&lt;ToggleResult&gt; {
+		return this.repo.toggleLike(postId).pipe(
+			map(data &#x3D;&gt; ({ active: data.liked, count: data.likes })),
+		)
+	}
+
+	/**
+	 * Método para alternar guardar.
+	 */
+	toggleSave(postId: string): Observable&lt;ToggleResult&gt; {
+		return this.repo.toggleSave(postId).pipe(
+			map(data &#x3D;&gt; ({ active: data.saved, count: data.saves })),
+		)
+	}
+
+	// ── Create ───────────────────────────────────────────────────────────────
+
+	/**
+	 * Método para crear post.
+	 */
+	createPost(input: CreatePostInput): Observable&lt;Post&gt; {
+		if (input.recipe) {
+			return this.repo.createRecipePost({
+				content:      input.description,
+				imageUrl:     input.mediaUrl ?? null,
+				recipeName:   input.recipe.name,
+				difficulty:   input.recipe.difficulty ?? null,
+				timeRequired: input.recipe.timeRequired ?? null,
+				servings:     input.recipe.servings ?? null,
+				ingredients:  input.recipe.ingredients,
+				steps:        input.recipe.steps,
+			}).pipe(map(node &#x3D;&gt; this.mapGqlPost(node)))
+		}
+
+		return this.repo.createPost({
+			content:  input.description,
+			title:    input.title ?? null,
+			imageUrl: input.mediaUrl ?? null,
+		}).pipe(map(node &#x3D;&gt; this.mapGqlPost(node)))
+	}
+
+	// ── Mapping ──────────────────────────────────────────────────────────────
+
+	/**
+	 * Método para map gql post.
+	 */
+	mapGqlPost(n: GqlPostNode): Post {
+		const media &#x3D; (n.post_media ?? [])
+			.slice()
+			.sort((a, b) &#x3D;&gt; a.position - b.position)
+			.map(m &#x3D;&gt; ({ id: m.id, url: m.media_url, type: m.media_type, position: m.position }))
+
+		let recipe: Recipe | null &#x3D; null
+		if (n.recipe) {
+			let steps: RecipeStep[] &#x3D; []
+			try {
+				const parsed &#x3D; JSON.parse(n.recipe.steps ?? &#x27;[]&#x27;)
+				if (Array.isArray(parsed)) {
+					steps &#x3D; parsed.map((s: { step?: number; order?: number; text?: string; description?: string }, i: number) &#x3D;&gt; ({
+						step: s.step ?? s.order ?? i + 1,
+						text: s.text ?? s.description ?? &#x27;&#x27;,
+					}))
+				}
+			} catch { steps &#x3D; [] }
+
+			recipe &#x3D; {
+				id: n.recipe.id, name: n.recipe.name, description: n.recipe.description ?? null,
+				steps, timeRequired: n.recipe.time_required ?? null,
+				estimatedCost: n.recipe.estimated_cost ?? null, servings: n.recipe.servings ?? null,
+				difficulty: (n.recipe.difficulty as &#x27;EASY&#x27; | &#x27;MEDIUM&#x27; | &#x27;HARD&#x27; | null) ?? null,
+				ingredients: [],
+			}
+		}
+
+		return {
+			id: n.id, authorId: n.author?.id ?? &#x27;&#x27;,
+			author: {
+				id:       n.author?.id ?? &#x27;&#x27;,
+				name:     n.author?.display_name ?? null,
+				username: n.author?.username ?? null,
+				photoUrl: n.author?.avatar_url ?? null,
+			},
+			postType:     n.post_type as Post[&#x27;postType&#x27;],
+			title:        n.title ?? null,
+			description:  n.description ?? null,
+			categories:   (n.categories ?? []) as PostCategory[],
+			media, recipe,
+			likesCount:    n.likes_count    ?? 0,
+			commentsCount: n.comments_count ?? 0,
+			viewsCount:    0,
+			savesCount:    n.saves_count    ?? 0,
+			liked: n.liked ?? false,
+			saved: n.saved ?? false,
+			createdAt: new Date(n.created_at),
+			updatedAt: new Date(n.created_at),
+		}
+	}
+
+	// ── Private helpers ───────────────────────────────────────────────────────
+
+	/**
+	 * Método para fetch post por identificador.
+	 */
+	private async fetchPostById(id: string): Promise&lt;Post&gt; {
+		const cached &#x3D; this.repo.readPostFromCache(id)
+		if (cached) return this.mapGqlPost(cached)
+
+		const discoverHit &#x3D; await this.fetchDiscoverGql(20).then(posts &#x3D;&gt; posts.find(p &#x3D;&gt; p.id &#x3D;&#x3D;&#x3D; id))
+		if (discoverHit) return discoverHit
+
+		const savedHit &#x3D; await this.fetchSavedGql(20).then(r &#x3D;&gt; r.posts.find(p &#x3D;&gt; p.id &#x3D;&#x3D;&#x3D; id)).catch(() &#x3D;&gt; null)
+		if (savedHit) return savedHit
+
+		throw new Error(&#x27;No se encontró el post&#x27;)
+	}
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'CreatePostInput.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

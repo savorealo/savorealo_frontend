@@ -1,6 +1,10 @@
 import { Component } from '@angular/core'
 import { Skeleton } from 'primeng/skeleton'
 
+/**
+ * Componente que representa un marcador de posición de carga (skeleton card) con estructura de tarjeta de publicación.
+ * Utilizado para simular la disposición visual de una publicación real mientras se obtienen los datos.
+ */
 @Component({
 	selector: 'app-skeleton-card',
 	imports: [Skeleton],

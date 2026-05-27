@@ -1,0 +1,1795 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>cookeealo documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">cookeealo documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  EditProfileComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/features/profile/edit-profile/edit-profile.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Componente principal para la vista o página de editprofile.</p>
+
+    </p>
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-edit-profile</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                                <code><a href="https://angular.io/api/forms/FormsModule" target="_blank" >FormsModule</a></code>
+                            <code>TranslatePipe</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./edit-profile.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#authStore" >authStore</a>
+                            </li>
+                            <li>
+                                <a href="#bioLength" >bioLength</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#canSave" >canSave</a>
+                            </li>
+                            <li>
+                                <a href="#form" >form</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#initial" >initial</a>
+                            </li>
+                            <li>
+                                <a href="#isDirty" >isDirty</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#media" >media</a>
+                            </li>
+                            <li>
+                                <a href="#photoPreview" >photoPreview</a>
+                            </li>
+                            <li>
+                                <a href="#success" >success</a>
+                            </li>
+                            <li>
+                                <a href="#uploadingPhoto" >uploadingPhoto</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#usernameChecking" >usernameChecking</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#usernameError" >usernameError</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#usernameTimer" >usernameTimer</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#userService" >userService</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#onAvatarFile" >onAvatarFile</a>
+                            </li>
+                            <li>
+                                <a href="#onClose" >onClose</a>
+                            </li>
+                            <li>
+                                <a href="#patch" >patch</a>
+                            </li>
+                            <li>
+                                <a href="#submit" >submit</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#validateUsername" >validateUsername</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#visibleChange" >visibleChange</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+    <section data-compodoc="block-outputs">
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="visibleChange"></a>
+                        <b>visibleChange</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/features/profile/edit-profile/edit-profile.ts:29</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Emite false cuando el usuario cierra o guarda — el padre cierra el dialog</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="105"
+                                    class="link-to-prism">src/app/features/profile/edit-profile/edit-profile.ts:105</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método de ciclo de vida de Angular que se ejecuta al inicializar el componente.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onAvatarFile"></a>
+                    <span class="name">
+                        <span ><b>onAvatarFile</b></span>
+                        <a href="#onAvatarFile"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onAvatarFile(event: <a href="https://angular.io/api/router/Event" target="_blank">Event</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="170"
+                                    class="link-to-prism">src/app/features/profile/edit-profile/edit-profile.ts:170</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método para evento de avatar file.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                            <code><a href="https://angular.io/api/router/Event" target="_blank" >Event</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onClose"></a>
+                    <span class="name">
+                        <span ><b>onClose</b></span>
+                        <a href="#onClose"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onClose()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="229"
+                                    class="link-to-prism">src/app/features/profile/edit-profile/edit-profile.ts:229</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método para evento de cerrar.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="patch"></a>
+                    <span class="name">
+                        <span ><b>patch</b></span>
+                        <a href="#patch"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>patch(partial: <a href="../interfaces/UpdatePersonProfileInput.html" target="_self">Partial&lt;UpdatePersonProfileInput&gt;</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="128"
+                                    class="link-to-prism">src/app/features/profile/edit-profile/edit-profile.ts:128</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método para patch.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>partial</td>
+                                            <td>
+                                                            <code><a href="../interfaces/UpdatePersonProfileInput.html" target="_self" >Partial&lt;UpdatePersonProfileInput&gt;</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="submit"></a>
+                    <span class="name">
+                        <span ><b>submit</b></span>
+                        <a href="#submit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>submit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="205"
+                                    class="link-to-prism">src/app/features/profile/edit-profile/edit-profile.ts:205</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método para enviar.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="validateUsername"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>validateUsername</b></span>
+                        <a href="#validateUsername"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>validateUsername(value: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="137"
+                                    class="link-to-prism">src/app/features/profile/edit-profile/edit-profile.ts:137</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método para validate nombre de usuario.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>value</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="authStore"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>authStore</b></span>
+                        <a href="#authStore"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(AuthStore)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/features/profile/edit-profile/edit-profile.ts:34</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar auth store.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="bioLength"></a>
+                    <span class="name">
+                        <span ><b>bioLength</b></span>
+                        <a href="#bioLength"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; (this.form().bio ?? &#x27;&#x27;).length)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="90" class="link-to-prism">src/app/features/profile/edit-profile/edit-profile.ts:90</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar biografía length.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="canSave"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>canSave</b></span>
+                        <a href="#canSave"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt;
+		this.isDirty() &amp;&amp; !this.usernameError() &amp;&amp; !this.usernameChecking(),
+	)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="198" class="link-to-prism">src/app/features/profile/edit-profile/edit-profile.ts:198</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Indicador booleano para puede guardar.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="form"></a>
+                    <span class="name">
+                        <span ><b>form</b></span>
+                        <a href="#form"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;UpdatePersonProfileInput&gt;({
+		username:    &#x27;&#x27;,
+		displayName: &#x27;&#x27;,
+		avatarUrl:   &#x27;&#x27;,
+		bio:         &#x27;&#x27;,
+		location:    &#x27;&#x27;,
+		birthDate:   &#x27;&#x27;,
+	})</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/app/features/profile/edit-profile/edit-profile.ts:60</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar form.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initial"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>initial</b></span>
+                        <a href="#initial"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;UpdatePersonProfileInput&gt;({})</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">src/app/features/profile/edit-profile/edit-profile.ts:72</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar initial.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isDirty"></a>
+                    <span class="name">
+                        <span ><b>isDirty</b></span>
+                        <a href="#isDirty"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; {
+		const f &#x3D; this.form()
+		const i &#x3D; this.initial()
+		return (Object.keys(f) as (keyof UpdatePersonProfileInput)[])
+			.some(key &#x3D;&gt; f[key] !&#x3D;&#x3D; i[key])
+	})</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="95" class="link-to-prism">src/app/features/profile/edit-profile/edit-profile.ts:95</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Indicador booleano para es o está dirty.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="media"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>media</b></span>
+                        <a href="#media"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(PostMediaService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/features/profile/edit-profile/edit-profile.ts:38</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar media.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="photoPreview"></a>
+                    <span class="name">
+                        <span ><b>photoPreview</b></span>
+                        <a href="#photoPreview"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;string | null&gt;(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">src/app/features/profile/edit-profile/edit-profile.ts:85</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar foto preview.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="success"></a>
+                    <span class="name">
+                        <span ><b>success</b></span>
+                        <a href="#success"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">src/app/features/profile/edit-profile/edit-profile.ts:77</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar éxito.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="uploadingPhoto"></a>
+                    <span class="name">
+                        <span ><b>uploadingPhoto</b></span>
+                        <a href="#uploadingPhoto"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="81" class="link-to-prism">src/app/features/profile/edit-profile/edit-profile.ts:81</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar uploading foto.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="usernameChecking"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>usernameChecking</b></span>
+                        <a href="#usernameChecking"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/features/profile/edit-profile/edit-profile.ts:51</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar nombre de usuario checking.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="usernameError"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>usernameError</b></span>
+                        <a href="#usernameError"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;string | null&gt;(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/features/profile/edit-profile/edit-profile.ts:47</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar nombre de usuario error.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="usernameTimer"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>usernameTimer</b></span>
+                        <a href="#usernameTimer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ReturnType&lt;unknown&gt; | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/app/features/profile/edit-profile/edit-profile.ts:55</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar nombre de usuario timer.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="userService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>userService</b></span>
+                        <a href="#userService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(UserService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/features/profile/edit-profile/edit-profile.ts:42</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar user service.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+	Component,
+	inject,
+	signal,
+	computed,
+	output,
+	OnInit,
+} from &#x27;@angular/core&#x27;
+import { FormsModule } from &#x27;@angular/forms&#x27;
+import { TranslatePipe } from &#x27;@shared/pipes/translate.pipe&#x27;
+import { AuthStore } from &#x27;@core/store/auth.store&#x27;
+import { PostMediaService } from &#x27;@core/services/post-media.service&#x27;
+import { UserService } from &#x27;@core/services/user.service&#x27;
+import { UpdatePersonProfileInput } from &#x27;@core/services/profile-service&#x27;
+import { validateUsernameFormat } from &#x27;@core/utils/username&#x27;
+import { finalize } from &#x27;rxjs&#x27;
+
+/**
+ * Componente principal para la vista o página de editprofile.
+ */
+@Component({
+	selector: &#x27;app-edit-profile&#x27;,
+	standalone: true,
+	imports: [FormsModule, TranslatePipe],
+	templateUrl: &#x27;./edit-profile.html&#x27;,
+})
+export class EditProfileComponent implements OnInit {
+	/** Emite false cuando el usuario cierra o guarda — el padre cierra el dialog */
+	readonly visibleChange &#x3D; output&lt;boolean&gt;()
+
+	/**
+	 * Propiedad para gestionar auth store.
+	 */
+	readonly authStore    &#x3D; inject(AuthStore)
+	/**
+	 * Propiedad para gestionar media.
+	 */
+	private readonly media &#x3D; inject(PostMediaService)
+	/**
+	 * Propiedad para gestionar user service.
+	 */
+	private readonly userService &#x3D; inject(UserService)
+
+	/**
+	 * Propiedad para gestionar nombre de usuario error.
+	 */
+	readonly usernameError &#x3D; signal&lt;string | null&gt;(null)
+	/**
+	 * Propiedad para gestionar nombre de usuario checking.
+	 */
+	readonly usernameChecking &#x3D; signal(false)
+	/**
+	 * Propiedad para gestionar nombre de usuario timer.
+	 */
+	private usernameTimer: ReturnType&lt;typeof setTimeout&gt; | null &#x3D; null
+
+	/**
+	 * Propiedad para gestionar form.
+	 */
+	form &#x3D; signal&lt;UpdatePersonProfileInput&gt;({
+		username:    &#x27;&#x27;,
+		displayName: &#x27;&#x27;,
+		avatarUrl:   &#x27;&#x27;,
+		bio:         &#x27;&#x27;,
+		location:    &#x27;&#x27;,
+		birthDate:   &#x27;&#x27;,
+	})
+
+	/**
+	 * Propiedad para gestionar initial.
+	 */
+	private initial &#x3D; signal&lt;UpdatePersonProfileInput&gt;({})
+
+	/**
+	 * Propiedad para gestionar éxito.
+	 */
+	success       &#x3D; signal(false)
+	/**
+	 * Propiedad para gestionar uploading foto.
+	 */
+	uploadingPhoto &#x3D; signal(false)
+	/**
+	 * Propiedad para gestionar foto preview.
+	 */
+	photoPreview   &#x3D; signal&lt;string | null&gt;(null)
+
+	/**
+	 * Propiedad para gestionar biografía length.
+	 */
+	bioLength &#x3D; computed(() &#x3D;&gt; (this.form().bio ?? &#x27;&#x27;).length)
+
+	/**
+	 * Indicador booleano para es o está dirty.
+	 */
+	isDirty &#x3D; computed(() &#x3D;&gt; {
+		const f &#x3D; this.form()
+		const i &#x3D; this.initial()
+		return (Object.keys(f) as (keyof UpdatePersonProfileInput)[])
+			.some(key &#x3D;&gt; f[key] !&#x3D;&#x3D; i[key])
+	})
+
+	/**
+	 * Método de ciclo de vida de Angular que se ejecuta al inicializar el componente.
+	 */
+	ngOnInit(): void {
+		const p &#x3D; this.authStore.profile()
+		if (!p) return
+
+		const initial: UpdatePersonProfileInput &#x3D; {
+			username:    p.username   ?? &#x27;&#x27;,
+			displayName: p.fullName   ?? &#x27;&#x27;,
+			avatarUrl:   p.photo_url  ?? &#x27;&#x27;,
+			bio:         p.bio        ?? &#x27;&#x27;,
+			location:    p.location   ?? &#x27;&#x27;,
+			birthDate:   p.birth_date
+				? new Date(p.birth_date).toISOString().split(&#x27;T&#x27;)[0]
+				: &#x27;&#x27;,
+		}
+
+		this.form.set({ ...initial })
+		this.initial.set({ ...initial })
+		this.photoPreview.set(p.photo_url ?? null)
+	}
+
+	/**
+	 * Método para patch.
+	 */
+	patch(partial: Partial&lt;UpdatePersonProfileInput&gt;): void {
+		this.form.update(f &#x3D;&gt; ({ ...f, ...partial }))
+		this.success.set(false)
+		if (&#x27;username&#x27; in partial) this.validateUsername((partial.username ?? &#x27;&#x27;).trim())
+	}
+
+	/**
+	 * Método para validate nombre de usuario.
+	 */
+	private validateUsername(value: string): void {
+		if (this.usernameTimer) { clearTimeout(this.usernameTimer); this.usernameTimer &#x3D; null }
+
+		// Sin cambios respecto al original → nada que validar
+		if (value &#x3D;&#x3D;&#x3D; (this.initial().username ?? &#x27;&#x27;)) {
+			this.usernameError.set(null)
+			this.usernameChecking.set(false)
+			return
+		}
+
+		const localErr &#x3D; validateUsernameFormat(value)
+		if (localErr) {
+			this.usernameError.set(localErr)
+			this.usernameChecking.set(false)
+			return
+		}
+
+		this.usernameError.set(null)
+		this.usernameChecking.set(true)
+		this.usernameTimer &#x3D; setTimeout(() &#x3D;&gt; {
+			this.userService.checkUsername(value).subscribe({
+				next: res &#x3D;&gt; {
+					this.usernameChecking.set(false)
+					this.usernameError.set(res.valid &amp;&amp; res.available ? null : (res.reason ?? &#x27;Ese usuario no está disponible.&#x27;))
+				},
+				error: () &#x3D;&gt; this.usernameChecking.set(false),
+			})
+		}, 400)
+	}
+
+	/**
+	 * Método para evento de avatar file.
+	 */
+	onAvatarFile(event: Event): void {
+		const input &#x3D; event.target as HTMLInputElement
+		const file &#x3D; input.files?.[0]
+		if (!file) return
+
+		// Show local preview immediately
+		this.photoPreview.set(URL.createObjectURL(file))
+		this.uploadingPhoto.set(true)
+
+		this.media.uploadPostImage(file).pipe(
+			finalize(() &#x3D;&gt; this.uploadingPhoto.set(false)),
+		).subscribe({
+			next: url &#x3D;&gt; {
+				this.patch({ avatarUrl: url })
+				this.photoPreview.set(url)
+			},
+			error: () &#x3D;&gt; {
+				// revert preview on failure
+				this.photoPreview.set(this.form().avatarUrl || null)
+			},
+		})
+
+		input.value &#x3D; &#x27;&#x27;
+	}
+
+	/**
+	 * Indicador booleano para puede guardar.
+	 */
+	readonly canSave &#x3D; computed(() &#x3D;&gt;
+		this.isDirty() &amp;&amp; !this.usernameError() &amp;&amp; !this.usernameChecking(),
+	)
+
+	/**
+	 * Método para enviar.
+	 */
+	submit(): void {
+		if (!this.canSave()) return
+
+		const diff: UpdatePersonProfileInput &#x3D; {}
+		const f &#x3D; this.form()
+		const i &#x3D; this.initial()
+
+		;(Object.keys(f) as (keyof UpdatePersonProfileInput)[]).forEach(key &#x3D;&gt; {
+			if (f[key] !&#x3D;&#x3D; i[key]) (diff as Record&lt;string, unknown&gt;)[key] &#x3D; f[key] || undefined
+		})
+
+		this.authStore.updateProfile(diff).subscribe({
+			next: () &#x3D;&gt; {
+				this.success.set(true)
+				this.initial.set({ ...this.form() })
+				setTimeout(() &#x3D;&gt; this.visibleChange.emit(false), 1000)
+			},
+			error: () &#x3D;&gt; {},
+		})
+	}
+
+	/**
+	 * Método para evento de cerrar.
+	 */
+	onClose(): void {
+		this.visibleChange.emit(false)
+	}
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;flex flex-col bg-white&quot; style&#x3D;&quot;min-width: min(92vw, 480px); max-height: 90dvh; overflow: hidden&quot;&gt;
+
+	&lt;!-- Header --&gt;
+	&lt;div class&#x3D;&quot;flex shrink-0 items-center justify-between border-b border-black/8 px-6 py-4&quot;&gt;
+		&lt;h2 class&#x3D;&quot;text-[17px] font-black tracking-tight text-black&quot;&gt;{{ &#x27;profile.edit_title&#x27; | translate }}&lt;/h2&gt;
+		&lt;button
+			type&#x3D;&quot;button&quot;
+			class&#x3D;&quot;grid size-11 place-items-center rounded-full text-black/40 transition hover:bg-black/5 hover:text-black active:scale-[0.98]&quot;
+			(click)&#x3D;&quot;onClose()&quot;
+			[attr.aria-label]&#x3D;&quot;&#x27;messages.close&#x27; | translate&quot;
+		&gt;
+			&lt;i class&#x3D;&quot;pi pi-times text-sm&quot;&gt;&lt;/i&gt;
+		&lt;/button&gt;
+	&lt;/div&gt;
+
+	&lt;!-- Scrollable body --&gt;
+	&lt;div class&#x3D;&quot;flex-1 overflow-y-auto&quot;&gt;
+
+		&lt;!-- Avatar strip --&gt;
+		&lt;div class&#x3D;&quot;flex items-center gap-4 border-b border-black/5 bg-orange-50/60 px-6 py-5&quot;&gt;
+			&lt;div class&#x3D;&quot;relative shrink-0&quot;&gt;
+				&lt;div class&#x3D;&quot;size-16 overflow-hidden rounded-full border-2 border-white shadow-md&quot;&gt;
+					@if (photoPreview()) {
+						&lt;img [src]&#x3D;&quot;photoPreview()!&quot; alt&#x3D;&quot;Avatar&quot; class&#x3D;&quot;size-full object-cover&quot; /&gt;
+					} @else {
+						&lt;span class&#x3D;&quot;grid size-full place-items-center bg-orange-100 text-2xl font-black text-orange-500&quot;&gt;
+							{{ (form().displayName || form().username || &#x27;?&#x27;)[0].toUpperCase() }}
+						&lt;/span&gt;
+					}
+				&lt;/div&gt;
+
+				&lt;!-- Upload overlay --&gt;
+				&lt;label
+					class&#x3D;&quot;absolute inset-0 flex cursor-pointer items-center justify-center rounded-full bg-black/40 opacity-0 transition hover:opacity-100&quot;
+					[class.opacity-100]&#x3D;&quot;uploadingPhoto()&quot;
+				&gt;
+					@if (uploadingPhoto()) {
+						&lt;i class&#x3D;&quot;pi pi-spin pi-spinner text-sm text-white&quot;&gt;&lt;/i&gt;
+					} @else {
+						&lt;i class&#x3D;&quot;pi pi-camera text-sm text-white&quot;&gt;&lt;/i&gt;
+					}
+					&lt;input
+						type&#x3D;&quot;file&quot;
+						accept&#x3D;&quot;image/*&quot;
+						class&#x3D;&quot;hidden&quot;
+						(change)&#x3D;&quot;onAvatarFile($event)&quot;
+						[disabled]&#x3D;&quot;uploadingPhoto()&quot;
+					/&gt;
+				&lt;/label&gt;
+			&lt;/div&gt;
+
+			&lt;div class&#x3D;&quot;min-w-0&quot;&gt;
+				&lt;p class&#x3D;&quot;truncate font-black text-black&quot;&gt;{{ form().displayName || form().username || (&#x27;profile.your_name&#x27; | translate) }}&lt;/p&gt;
+				&lt;p class&#x3D;&quot;truncate text-sm font-semibold text-black/45&quot;&gt;@{{ form().username || &#x27;usuario&#x27; }}&lt;/p&gt;
+				&lt;p class&#x3D;&quot;mt-1 text-xs font-semibold text-orange-600&quot;&gt;{{ &#x27;profile.tap_photo&#x27; | translate }}&lt;/p&gt;
+			&lt;/div&gt;
+		&lt;/div&gt;
+
+		&lt;!-- Form fields --&gt;
+		&lt;form (ngSubmit)&#x3D;&quot;submit()&quot; id&#x3D;&quot;edit-profile-form&quot; class&#x3D;&quot;grid gap-5 px-6 py-5&quot;&gt;
+
+			&lt;!-- Username --&gt;
+			&lt;div class&#x3D;&quot;grid gap-1.5&quot;&gt;
+				&lt;label class&#x3D;&quot;text-[11px] font-black uppercase tracking-widest text-black/40&quot;&gt;{{ &#x27;profile.username&#x27; | translate }}&lt;/label&gt;
+				&lt;div class&#x3D;&quot;relative&quot;&gt;
+					&lt;span class&#x3D;&quot;absolute left-3 top-1/2 -translate-y-1/2 font-mono text-sm text-black/35&quot;&gt;@&lt;/span&gt;
+					&lt;input
+						type&#x3D;&quot;text&quot;
+						name&#x3D;&quot;username&quot;
+						class&#x3D;&quot;h-11 w-full rounded-xl border border-black/10 bg-[#f6f6f6] pl-7 pr-3 text-sm font-semibold text-black outline-none placeholder:text-black/25 focus:border-orange-400 focus:bg-white focus:ring-2 focus:ring-orange-100&quot;
+						[ngModel]&#x3D;&quot;form().username&quot;
+						(ngModelChange)&#x3D;&quot;patch({ username: $event })&quot;
+						placeholder&#x3D;&quot;tu_usuario&quot;
+						autocomplete&#x3D;&quot;off&quot;
+						autocapitalize&#x3D;&quot;none&quot;
+					/&gt;
+				&lt;/div&gt;
+				@if (usernameChecking()) {
+					&lt;p class&#x3D;&quot;text-xs font-semibold text-black/45&quot;&gt;{{ &#x27;profile.checking_availability&#x27; | translate }}&lt;/p&gt;
+				} @else if (usernameError()) {
+					&lt;p class&#x3D;&quot;text-xs font-semibold text-red-600&quot;&gt;{{ usernameError() }}&lt;/p&gt;
+				}
+			&lt;/div&gt;
+
+			&lt;!-- Display name --&gt;
+			&lt;div class&#x3D;&quot;grid gap-1.5&quot;&gt;
+				&lt;label class&#x3D;&quot;text-[11px] font-black uppercase tracking-widest text-black/40&quot;&gt;{{ &#x27;profile.display_name&#x27; | translate }}&lt;/label&gt;
+				&lt;input
+					type&#x3D;&quot;text&quot;
+					name&#x3D;&quot;displayName&quot;
+					class&#x3D;&quot;h-11 w-full rounded-xl border border-black/10 bg-[#f6f6f6] px-3 text-sm font-semibold text-black outline-none placeholder:text-black/25 focus:border-orange-400 focus:bg-white focus:ring-2 focus:ring-orange-100&quot;
+					[ngModel]&#x3D;&quot;form().displayName&quot;
+					(ngModelChange)&#x3D;&quot;patch({ displayName: $event })&quot;
+					placeholder&#x3D;&quot;Juan García&quot;
+				/&gt;
+			&lt;/div&gt;
+
+			&lt;!-- Bio --&gt;
+			&lt;div class&#x3D;&quot;grid gap-1.5&quot;&gt;
+				&lt;div class&#x3D;&quot;flex items-center justify-between&quot;&gt;
+					&lt;label class&#x3D;&quot;text-[11px] font-black uppercase tracking-widest text-black/40&quot;&gt;{{ &#x27;profile.bio&#x27; | translate }}&lt;/label&gt;
+					&lt;span class&#x3D;&quot;text-[11px] font-semibold&quot; [class.text-red-500]&#x3D;&quot;bioLength() &gt; 140&quot; [class.text-black/30]&#x3D;&quot;bioLength() &lt;&#x3D; 140&quot;&gt;
+						{{ bioLength() }}/160
+					&lt;/span&gt;
+				&lt;/div&gt;
+				&lt;textarea
+					name&#x3D;&quot;bio&quot;
+					rows&#x3D;&quot;3&quot;
+					maxlength&#x3D;&quot;160&quot;
+					class&#x3D;&quot;w-full resize-none rounded-xl border border-black/10 bg-[#f6f6f6] px-3 py-2.5 text-sm font-semibold leading-6 text-black outline-none placeholder:text-black/25 focus:border-orange-400 focus:bg-white focus:ring-2 focus:ring-orange-100&quot;
+					[ngModel]&#x3D;&quot;form().bio&quot;
+					(ngModelChange)&#x3D;&quot;patch({ bio: $event })&quot;
+					[placeholder]&#x3D;&quot;&#x27;profile.bio_placeholder&#x27; | translate&quot;
+				&gt;&lt;/textarea&gt;
+			&lt;/div&gt;
+
+			&lt;!-- Location --&gt;
+			&lt;div class&#x3D;&quot;grid gap-1.5&quot;&gt;
+				&lt;label class&#x3D;&quot;text-[11px] font-black uppercase tracking-widest text-black/40&quot;&gt;{{ &#x27;profile.location&#x27; | translate }}&lt;/label&gt;
+				&lt;div class&#x3D;&quot;relative&quot;&gt;
+					&lt;i class&#x3D;&quot;pi pi-map-marker absolute left-3 top-1/2 -translate-y-1/2 text-sm text-black/30&quot;&gt;&lt;/i&gt;
+					&lt;input
+						type&#x3D;&quot;text&quot;
+						name&#x3D;&quot;location&quot;
+						class&#x3D;&quot;h-11 w-full rounded-xl border border-black/10 bg-[#f6f6f6] pl-8 pr-3 text-sm font-semibold text-black outline-none placeholder:text-black/25 focus:border-orange-400 focus:bg-white focus:ring-2 focus:ring-orange-100&quot;
+						[ngModel]&#x3D;&quot;form().location&quot;
+						(ngModelChange)&#x3D;&quot;patch({ location: $event })&quot;
+						[placeholder]&#x3D;&quot;&#x27;profile.location_placeholder&#x27; | translate&quot;
+					/&gt;
+				&lt;/div&gt;
+			&lt;/div&gt;
+
+			&lt;!-- Birth date --&gt;
+			&lt;div class&#x3D;&quot;grid gap-1.5&quot;&gt;
+				&lt;label class&#x3D;&quot;text-[11px] font-black uppercase tracking-widest text-black/40&quot;&gt;{{ &#x27;profile.birth_date&#x27; | translate }}&lt;/label&gt;
+				&lt;input
+					type&#x3D;&quot;date&quot;
+					name&#x3D;&quot;birthDate&quot;
+					class&#x3D;&quot;h-11 w-full rounded-xl border border-black/10 bg-[#f6f6f6] px-3 text-sm font-semibold text-black outline-none focus:border-orange-400 focus:bg-white focus:ring-2 focus:ring-orange-100&quot;
+					[ngModel]&#x3D;&quot;form().birthDate&quot;
+					(ngModelChange)&#x3D;&quot;patch({ birthDate: $event })&quot;
+				/&gt;
+			&lt;/div&gt;
+
+			&lt;!-- Feedback --&gt;
+			@if (authStore.error()) {
+				&lt;div class&#x3D;&quot;flex items-center gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700&quot;&gt;
+					&lt;i class&#x3D;&quot;pi pi-exclamation-circle shrink-0&quot;&gt;&lt;/i&gt;
+					{{ authStore.error() }}
+				&lt;/div&gt;
+			}
+
+			@if (success()) {
+				&lt;div class&#x3D;&quot;flex items-center gap-2 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm font-semibold text-green-700&quot;&gt;
+					&lt;i class&#x3D;&quot;pi pi-check-circle shrink-0&quot;&gt;&lt;/i&gt;
+					{{ &#x27;profile.success_msg&#x27; | translate }}
+				&lt;/div&gt;
+			}
+		&lt;/form&gt;
+	&lt;/div&gt;
+
+	&lt;!-- Footer --&gt;
+	&lt;div class&#x3D;&quot;flex shrink-0 items-center justify-end gap-3 border-t border-black/8 px-6 py-4&quot;&gt;
+		&lt;button
+			type&#x3D;&quot;button&quot;
+			class&#x3D;&quot;min-h-11 rounded-full border border-black/10 px-5 text-sm font-black text-black/60 transition hover:bg-black/5 disabled:opacity-50&quot;
+			(click)&#x3D;&quot;onClose()&quot;
+			[disabled]&#x3D;&quot;authStore.loading()&quot;
+		&gt;
+			{{ &#x27;profile.cancel&#x27; | translate }}
+		&lt;/button&gt;
+		&lt;button
+			type&#x3D;&quot;submit&quot;
+			form&#x3D;&quot;edit-profile-form&quot;
+			class&#x3D;&quot;inline-flex min-h-11 items-center gap-2 rounded-full bg-[#ff8f27] px-5 text-sm font-black text-white transition hover:bg-[#f47f13] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50&quot;
+			[disabled]&#x3D;&quot;authStore.loading() || !canSave()&quot;
+		&gt;
+			@if (authStore.loading()) {
+				&lt;i class&#x3D;&quot;pi pi-spin pi-spinner text-xs&quot;&gt;&lt;/i&gt;
+				{{ &#x27;profile.saving&#x27; | translate }}
+			} @else {
+				{{ &#x27;profile.save_changes&#x27; | translate }}
+			}
+		&lt;/button&gt;
+	&lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis-network.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="flex flex-col bg-white" style="min-width: min(92vw, 480px); max-height: 90dvh; overflow: hidden">	<!-- Header -->	<div class="flex shrink-0 items-center justify-between border-b border-black/8 px-6 py-4">		<h2 class="text-[17px] font-black tracking-tight text-black">{{ \'profile.edit_title\' | translate }}</h2>		<button			type="button"			class="grid size-11 place-items-center rounded-full text-black/40 transition hover:bg-black/5 hover:text-black active:scale-[0.98]"			(click)="onClose()"			[attr.aria-label]="\'messages.close\' | translate"		>			<i class="pi pi-times text-sm"></i>		</button>	</div>	<!-- Scrollable body -->	<div class="flex-1 overflow-y-auto">		<!-- Avatar strip -->		<div class="flex items-center gap-4 border-b border-black/5 bg-orange-50/60 px-6 py-5">			<div class="relative shrink-0">				<div class="size-16 overflow-hidden rounded-full border-2 border-white shadow-md">					@if (photoPreview()) {						<img [src]="photoPreview()!" alt="Avatar" class="size-full object-cover" />					} @else {						<span class="grid size-full place-items-center bg-orange-100 text-2xl font-black text-orange-500">							{{ (form().displayName || form().username || \'?\')[0].toUpperCase() }}						</span>					}				</div>				<!-- Upload overlay -->				<label					class="absolute inset-0 flex cursor-pointer items-center justify-center rounded-full bg-black/40 opacity-0 transition hover:opacity-100"					[class.opacity-100]="uploadingPhoto()"				>					@if (uploadingPhoto()) {						<i class="pi pi-spin pi-spinner text-sm text-white"></i>					} @else {						<i class="pi pi-camera text-sm text-white"></i>					}					<input						type="file"						accept="image/*"						class="hidden"						(change)="onAvatarFile($event)"						[disabled]="uploadingPhoto()"					/>				</label>			</div>			<div class="min-w-0">				<p class="truncate font-black text-black">{{ form().displayName || form().username || (\'profile.your_name\' | translate) }}</p>				<p class="truncate text-sm font-semibold text-black/45">@{{ form().username || \'usuario\' }}</p>				<p class="mt-1 text-xs font-semibold text-orange-600">{{ \'profile.tap_photo\' | translate }}</p>			</div>		</div>		<!-- Form fields -->		<form (ngSubmit)="submit()" id="edit-profile-form" class="grid gap-5 px-6 py-5">			<!-- Username -->			<div class="grid gap-1.5">				<label class="text-[11px] font-black uppercase tracking-widest text-black/40">{{ \'profile.username\' | translate }}</label>				<div class="relative">					<span class="absolute left-3 top-1/2 -translate-y-1/2 font-mono text-sm text-black/35">@</span>					<input						type="text"						name="username"						class="h-11 w-full rounded-xl border border-black/10 bg-[#f6f6f6] pl-7 pr-3 text-sm font-semibold text-black outline-none placeholder:text-black/25 focus:border-orange-400 focus:bg-white focus:ring-2 focus:ring-orange-100"						[ngModel]="form().username"						(ngModelChange)="patch({ username: $event })"						placeholder="tu_usuario"						autocomplete="off"						autocapitalize="none"					/>				</div>				@if (usernameChecking()) {					<p class="text-xs font-semibold text-black/45">{{ \'profile.checking_availability\' | translate }}</p>				} @else if (usernameError()) {					<p class="text-xs font-semibold text-red-600">{{ usernameError() }}</p>				}			</div>			<!-- Display name -->			<div class="grid gap-1.5">				<label class="text-[11px] font-black uppercase tracking-widest text-black/40">{{ \'profile.display_name\' | translate }}</label>				<input					type="text"					name="displayName"					class="h-11 w-full rounded-xl border border-black/10 bg-[#f6f6f6] px-3 text-sm font-semibold text-black outline-none placeholder:text-black/25 focus:border-orange-400 focus:bg-white focus:ring-2 focus:ring-orange-100"					[ngModel]="form().displayName"					(ngModelChange)="patch({ displayName: $event })"					placeholder="Juan García"				/>			</div>			<!-- Bio -->			<div class="grid gap-1.5">				<div class="flex items-center justify-between">					<label class="text-[11px] font-black uppercase tracking-widest text-black/40">{{ \'profile.bio\' | translate }}</label>					<span class="text-[11px] font-semibold" [class.text-red-500]="bioLength() > 140" [class.text-black/30]="bioLength() <= 140">						{{ bioLength() }}/160					</span>				</div>				<textarea					name="bio"					rows="3"					maxlength="160"					class="w-full resize-none rounded-xl border border-black/10 bg-[#f6f6f6] px-3 py-2.5 text-sm font-semibold leading-6 text-black outline-none placeholder:text-black/25 focus:border-orange-400 focus:bg-white focus:ring-2 focus:ring-orange-100"					[ngModel]="form().bio"					(ngModelChange)="patch({ bio: $event })"					[placeholder]="\'profile.bio_placeholder\' | translate"				></textarea>			</div>			<!-- Location -->			<div class="grid gap-1.5">				<label class="text-[11px] font-black uppercase tracking-widest text-black/40">{{ \'profile.location\' | translate }}</label>				<div class="relative">					<i class="pi pi-map-marker absolute left-3 top-1/2 -translate-y-1/2 text-sm text-black/30"></i>					<input						type="text"						name="location"						class="h-11 w-full rounded-xl border border-black/10 bg-[#f6f6f6] pl-8 pr-3 text-sm font-semibold text-black outline-none placeholder:text-black/25 focus:border-orange-400 focus:bg-white focus:ring-2 focus:ring-orange-100"						[ngModel]="form().location"						(ngModelChange)="patch({ location: $event })"						[placeholder]="\'profile.location_placeholder\' | translate"					/>				</div>			</div>			<!-- Birth date -->			<div class="grid gap-1.5">				<label class="text-[11px] font-black uppercase tracking-widest text-black/40">{{ \'profile.birth_date\' | translate }}</label>				<input					type="date"					name="birthDate"					class="h-11 w-full rounded-xl border border-black/10 bg-[#f6f6f6] px-3 text-sm font-semibold text-black outline-none focus:border-orange-400 focus:bg-white focus:ring-2 focus:ring-orange-100"					[ngModel]="form().birthDate"					(ngModelChange)="patch({ birthDate: $event })"				/>			</div>			<!-- Feedback -->			@if (authStore.error()) {				<div class="flex items-center gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700">					<i class="pi pi-exclamation-circle shrink-0"></i>					{{ authStore.error() }}				</div>			}			@if (success()) {				<div class="flex items-center gap-2 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm font-semibold text-green-700">					<i class="pi pi-check-circle shrink-0"></i>					{{ \'profile.success_msg\' | translate }}				</div>			}		</form>	</div>	<!-- Footer -->	<div class="flex shrink-0 items-center justify-end gap-3 border-t border-black/8 px-6 py-4">		<button			type="button"			class="min-h-11 rounded-full border border-black/10 px-5 text-sm font-black text-black/60 transition hover:bg-black/5 disabled:opacity-50"			(click)="onClose()"			[disabled]="authStore.loading()"		>			{{ \'profile.cancel\' | translate }}		</button>		<button			type="submit"			form="edit-profile-form"			class="inline-flex min-h-11 items-center gap-2 rounded-full bg-[#ff8f27] px-5 text-sm font-black text-white transition hover:bg-[#f47f13] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"			[disabled]="authStore.loading() || !canSave()"		>			@if (authStore.loading()) {				<i class="pi pi-spin pi-spinner text-xs"></i>				{{ \'profile.saving\' | translate }}			} @else {				{{ \'profile.save_changes\' | translate }}			}		</button>	</div></div></div>'
+    var COMPONENTS = [{'name': 'AddReviewModal', 'selector': 'app-add-review-modal'},{'name': 'AiIdeasPanel', 'selector': 'app-ai-ideas-panel'},{'name': 'AiRecipeForm', 'selector': 'app-ai-recipe-form'},{'name': 'AiRecipeResult', 'selector': 'app-ai-recipe-result'},{'name': 'AiRecipesHero', 'selector': 'app-ai-recipes-hero'},{'name': 'AiRecipesPage', 'selector': 'app-ai-recipes-page'},{'name': 'App', 'selector': 'app-root'},{'name': 'AppShell', 'selector': 'app-shell'},{'name': 'Auth', 'selector': 'app-auth'},{'name': 'Avatar', 'selector': 'app-avatar'},{'name': 'Body', 'selector': 'app-body-step1'},{'name': 'Body', 'selector': 'app-body-step3'},{'name': 'Body', 'selector': 'app-body-step2'},{'name': 'ButtonComponent', 'selector': 'app-button'},{'name': 'CallHost', 'selector': 'app-call-host'},{'name': 'CallOverlay', 'selector': 'app-call-overlay'},{'name': 'ChatPanel', 'selector': 'app-chat-panel'},{'name': 'CommentSection', 'selector': 'app-comment-section'},{'name': 'CommentsSheetComponent', 'selector': 'app-comments-sheet'},{'name': 'ConversationList', 'selector': 'app-conversation-list'},{'name': 'CookingModePage', 'selector': 'app-cooking-mode-page'},{'name': 'CreatePostComponent', 'selector': 'app-create-post'},{'name': 'EditProfileComponent', 'selector': 'app-edit-profile'},{'name': 'EmojiRain', 'selector': 'app-emoji-rain'},{'name': 'Emptystate', 'selector': 'app-emptystate'},{'name': 'ExploreCategoryTabs', 'selector': 'app-explore-category-tabs'},{'name': 'ExploreHero', 'selector': 'app-explore-hero'},{'name': 'ExplorePage', 'selector': 'app-explore-page'},{'name': 'ExploreRightRail', 'selector': 'app-explore-right-rail'},{'name': 'ExploreToolbar', 'selector': 'app-explore-toolbar'},{'name': 'FeedPage', 'selector': 'app-feed-page'},{'name': 'FeedPostList', 'selector': 'app-feed-post-list'},{'name': 'FeedRightRail', 'selector': 'app-feed-right-rail'},{'name': 'GlobalSearchPanel', 'selector': 'app-global-search-panel'},{'name': 'Header', 'selector': 'app-header-step1'},{'name': 'Header', 'selector': 'app-header-step3'},{'name': 'Header', 'selector': 'app-header-step2'},{'name': 'Home', 'selector': 'app-home'},{'name': 'IncomingCall', 'selector': 'app-incoming-call'},{'name': 'Login', 'selector': 'app-login'},{'name': 'MessageBubble', 'selector': 'app-message-bubble'},{'name': 'MessagesPage', 'selector': 'app-messages-page'},{'name': 'NewConversation', 'selector': 'app-new-conversation'},{'name': 'NotificationsPage', 'selector': 'app-notifications-page'},{'name': 'PlaceCard', 'selector': 'app-place-card'},{'name': 'PlaceDetailPage', 'selector': 'app-place-detail-page'},{'name': 'PlacesPage', 'selector': 'app-places-page'},{'name': 'PostCard', 'selector': 'app-post-card'},{'name': 'PostDetailPage', 'selector': 'app-post-detail-page'},{'name': 'Profile', 'selector': 'app-profile'},{'name': 'PublicProfilePage', 'selector': 'app-public-profile-page'},{'name': 'RecentAiRecipes', 'selector': 'app-recent-ai-recipes'},{'name': 'RecipeDiscoveryCard', 'selector': 'app-recipe-discovery-card'},{'name': 'RecipeDiscoveryGrid', 'selector': 'app-recipe-discovery-grid'},{'name': 'RecipeOfDayCard', 'selector': 'app-recipe-of-day-card'},{'name': 'Register', 'selector': 'app-register'},{'name': 'ReportSheet', 'selector': 'app-report-sheet'},{'name': 'SavedCollectionStrip', 'selector': 'app-saved-collection-strip'},{'name': 'SavedPage', 'selector': 'app-saved-page'},{'name': 'SavedRecipeCard', 'selector': 'app-saved-recipe-card'},{'name': 'SavoLoader', 'selector': 'app-savo-loader'},{'name': 'SettingsPage', 'selector': 'app-settings-page'},{'name': 'SharedPostCard', 'selector': 'app-shared-post-card'},{'name': 'SharedProfileCard', 'selector': 'app-shared-profile-card'},{'name': 'SharePostModal', 'selector': 'app-share-post-modal'},{'name': 'ShareProfileModal', 'selector': 'app-share-profile-modal'},{'name': 'ShoppingListPage', 'selector': 'app-shopping-list-page'},{'name': 'SkeletonCard', 'selector': 'app-skeleton-card'},{'name': 'Spinner', 'selector': 'app-spinner'},{'name': 'SpotlightBg', 'selector': 'app-spotlight-bg'},{'name': 'StoriesStrip', 'selector': 'app-stories-strip'},{'name': 'StoryViewer', 'selector': 'app-story-viewer'},{'name': 'SuggestionsPanel', 'selector': 'app-suggestions-panel'},{'name': 'Title', 'selector': 'app-title'},{'name': 'Topbar', 'selector': 'app-topbar'},{'name': 'TrendingList', 'selector': 'app-trending-list'},{'name': 'VeganConvertModal', 'selector': 'app-vegan-convert-modal'}];
+    var DIRECTIVES = [{'name': 'ClickOutsideDirective', 'selector': '[appClickOutside]'},{'name': 'ImgFallbackDirective', 'selector': 'img[appImgFallback]'}];
+    var ACTUAL_COMPONENT = {'name': 'EditProfileComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'EditProfileComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

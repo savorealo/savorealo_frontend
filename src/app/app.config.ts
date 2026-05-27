@@ -59,6 +59,9 @@ const SavorealoPreset = definePreset(Aura, {
   },
 })
 
+/**
+ * Configuración del proveedor de servicios global de la aplicación Angular.
+ */
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZonelessChangeDetection(),

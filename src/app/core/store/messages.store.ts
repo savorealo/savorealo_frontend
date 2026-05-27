@@ -8,47 +8,140 @@ import { AuthStore } from '@core/store/auth.store'
 import { ChatMessage, Conversation } from '@features/messages/models/messages.models'
 import { toUserMessage } from '@core/utils/user-error'
 
+/**
+ * Almacén de estado reactivo para gestionar la lógica de los mensajes del chat.
+ */
 @Injectable({ providedIn: 'root' })
 export class MessagesStore {
+	/**
+	 * Propiedad para gestionar service.
+	 */
 	private readonly service = inject(MessagesService)
+	/**
+	 * Propiedad para gestionar presence.
+	 */
 	private readonly presence = inject(PresenceService)
+	/**
+	 * Propiedad para gestionar auth.
+	 */
 	private readonly auth = inject(AuthStore)
+	/**
+	 * Propiedad para gestionar destroy ref.
+	 */
 	private readonly destroyRef = inject(DestroyRef)
+	/**
+	 * Propiedad para gestionar page tamaño.
+	 */
 	private readonly pageSize = 30
 
+	/**
+	 * Propiedad para gestionar conversations.
+	 */
 	private readonly _conversations = signal<Conversation[]>([])
+	/**
+	 * Propiedad para gestionar messages.
+	 */
 	private readonly _messages = signal<ChatMessage[]>([])
+	/**
+	 * Propiedad para gestionar active identificador.
+	 */
 	private readonly _activeId = signal<string | null>(null)
+	/**
+	 * Propiedad para gestionar cargando conversations.
+	 */
 	private readonly _loadingConversations = signal(false)
+	/**
+	 * Propiedad para gestionar cargando messages.
+	 */
 	private readonly _loadingMessages = signal(false)
+	/**
+	 * Propiedad para gestionar cargando more messages.
+	 */
 	private readonly _loadingMoreMessages = signal(false)
+	/**
+	 * Propiedad para gestionar tiene more messages.
+	 */
 	private readonly _hasMoreMessages = signal(false)
+	/**
+	 * Propiedad para gestionar error.
+	 */
 	private readonly _error = signal<string | null>(null)
+	/**
+	 * Propiedad para gestionar es o está typing.
+	 */
 	private readonly _isTyping = signal(false)
+	/**
+	 * Propiedad para gestionar channel.
+	 */
 	private channel: RealtimeChannel | null = null
+	/**
+	 * Propiedad para gestionar typing channels.
+	 */
 	private readonly typingChannels = new Map<string, RealtimeChannel>()
+	/**
+	 * Propiedad para gestionar typing timers.
+	 */
 	private readonly typingTimers = new Map<string, ReturnType<typeof setTimeout>>()
+	/**
+	 * Propiedad para gestionar typing timer.
+	 */
 	private typingTimer: ReturnType<typeof setTimeout> | null = null
 
+	/**
+	 * Propiedad para gestionar conversations.
+	 */
 	readonly conversations = this._conversations.asReadonly()
+	/**
+	 * Propiedad para gestionar messages.
+	 */
 	readonly messages = this._messages.asReadonly()
+	/**
+	 * Propiedad para gestionar active identificador.
+	 */
 	readonly activeId = this._activeId.asReadonly()
+	/**
+	 * Propiedad para gestionar cargando conversations.
+	 */
 	readonly loadingConversations = this._loadingConversations.asReadonly()
+	/**
+	 * Propiedad para gestionar cargando messages.
+	 */
 	readonly loadingMessages = this._loadingMessages.asReadonly()
+	/**
+	 * Propiedad para gestionar cargando more messages.
+	 */
 	readonly loadingMoreMessages = this._loadingMoreMessages.asReadonly()
+	/**
+	 * Indicador booleano para tiene more messages.
+	 */
 	readonly hasMoreMessages = this._hasMoreMessages.asReadonly()
+	/**
+	 * Propiedad para gestionar error.
+	 */
 	readonly error = this._error.asReadonly()
+	/**
+	 * Indicador booleano para es o está typing.
+	 */
 	readonly isTyping = this._isTyping.asReadonly()
 
+	/**
+	 * Propiedad para gestionar active conversation.
+	 */
 	readonly activeConversation = computed(() =>
 		this._conversations().find(c => c.id === this._activeId()) ?? null,
 	)
 
+	/**
+	 * Propiedad para gestionar other user identificador.
+	 */
 	readonly otherUserId = computed(() => {
 		const conv = this.activeConversation()
 		return conv?.user.id ?? null
 	})
 
+	/**
+	 * Constructor de la clase o componente para inicializar dependencias.
+	 */
 	constructor() {
 		effect(() => {
 			const userId = this.auth.currentUserId()
@@ -70,6 +163,9 @@ export class MessagesStore {
 		})
 	}
 
+	/**
+	 * Método para cargar conversations.
+	 */
 	loadConversations(): void {
 		const userId = this.auth.currentUserId()
 		if (!userId) return
@@ -98,6 +194,9 @@ export class MessagesStore {
 		})
 	}
 
+	/**
+	 * Método para seleccionar conversation.
+	 */
 	selectConversation(id: string): void {
 		if (this._activeId() === id) {
 			this.markConversationRead(id)
@@ -111,6 +210,9 @@ export class MessagesStore {
 		this.markConversationRead(id)
 	}
 
+	/**
+	 * Método para limpiar active.
+	 */
 	clearActive(): void {
 		this._activeId.set(null)
 		this._messages.set([])
@@ -119,6 +221,9 @@ export class MessagesStore {
 		this.channel = null
 	}
 
+	/**
+	 * Método para enviar message.
+	 */
 	sendMessage(text: string, replyTo: ChatMessage | null = null): void {
 		const userId = this.auth.currentUserId()
 		const convId = this._activeId()
@@ -155,6 +260,9 @@ export class MessagesStore {
 		})
 	}
 
+	/**
+	 * Método para cargar messages.
+	 */
 	private loadMessages(conversationId: string): void {
 		const userId = this.auth.currentUserId()
 		if (!userId) return
@@ -175,6 +283,9 @@ export class MessagesStore {
 		})
 	}
 
+	/**
+	 * Método para cargar older messages.
+	 */
 	loadOlderMessages(): void {
 		const userId = this.auth.currentUserId()
 		const convId = this._activeId()
@@ -225,6 +336,9 @@ export class MessagesStore {
 		})
 	}
 
+	/**
+	 * Método para evento de typing.
+	 */
 	onTyping(): void {
 		const convId = this._activeId()
 		const userId = this.auth.currentUserId()
@@ -232,6 +346,9 @@ export class MessagesStore {
 		this.service.sendTyping(convId, userId)
 	}
 
+	/**
+	 * Método para subscribe realtime.
+	 */
 	private subscribeRealtime(conversationId: string, userId: string): void {
 		this.channel = this.service.subscribeToConversation(conversationId, userId, {
 			onMessage: msg => {
@@ -262,6 +379,9 @@ export class MessagesStore {
 		})
 	}
 
+	/**
+	 * Método para with presence.
+	 */
 	private withPresence(conversations: Conversation[]): Conversation[] {
 		const onlineUserIds = this.presence.onlineUserIds()
 		return conversations.map(conversation => ({
@@ -283,6 +403,9 @@ export class MessagesStore {
 		}))
 	}
 
+	/**
+	 * Método para subscribe typing channels.
+	 */
 	private subscribeTypingChannels(conversations: Conversation[]): void {
 		const userId = this.auth.currentUserId()
 		if (!userId) return
@@ -301,6 +424,9 @@ export class MessagesStore {
 		}
 	}
 
+	/**
+	 * Método para unsubscribe typing channels.
+	 */
 	private unsubscribeTypingChannels(): void {
 		this.typingChannels.forEach(channel => channel.unsubscribe())
 		this.typingChannels.clear()
@@ -308,6 +434,9 @@ export class MessagesStore {
 		this.typingTimers.clear()
 	}
 
+	/**
+	 * Método para establecer conversation typing.
+	 */
 	private setConversationTyping(conversationId: string): void {
 		this._conversations.update(conversations =>
 			conversations.map(conversation => conversation.id === conversationId
@@ -336,6 +465,9 @@ export class MessagesStore {
 		this.typingTimers.set(conversationId, timer)
 	}
 
+	/**
+	 * Método para mark conversation read.
+	 */
 	private markConversationRead(conversationId: string): void {
 		const userId = this.auth.currentUserId()
 		if (!userId) return
@@ -347,6 +479,9 @@ export class MessagesStore {
 		).subscribe()
 	}
 
+	/**
+	 * Método para actualizar conversation preview.
+	 */
 	private updateConversationPreview(convId: string, text: string): void {
 		const lastMessageKind = text === 'Post compartido'
 			? 'post'
@@ -362,11 +497,17 @@ export class MessagesStore {
 		)
 	}
 
+	/**
+	 * Método para hydrate reply previews.
+	 */
 	private hydrateReplyPreviews(messages: ChatMessage[], userId: string): ChatMessage[] {
 		const otherUserName = this.activeConversation()?.user.name ?? 'Usuario'
 		return messages.map(message => this.service.buildReplyPreview(message, messages, userId, otherUserName))
 	}
 
+	/**
+	 * Método para to reply preview.
+	 */
 	private toReplyPreview(message: ChatMessage, userId: string) {
 		return {
 			id: message.id,
@@ -376,11 +517,17 @@ export class MessagesStore {
 		}
 	}
 
+	/**
+	 * Método para preview text.
+	 */
 	private previewText(text?: string): string {
 		const clean = (text ?? 'Mensaje').replace(/\s+/g, ' ').trim()
 		return clean.length > 120 ? `${clean.slice(0, 117)}...` : clean
 	}
 
+	/**
+	 * Método para sanitize outgoing message.
+	 */
 	private sanitizeOutgoingMessage(text: string): string {
 		return text
 			.replace(/\r\n/g, '\n')

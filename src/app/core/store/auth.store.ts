@@ -15,35 +15,107 @@ import { LoginUser, RegisterUser, User } from '@core/models/user/User';
 import { toUserMessage } from '@core/utils/user-error';
 import { TranslationService, LanguageCode } from '@core/services/translation.service';
 
+/**
+ * Almacén de estado reactivo para gestionar la lógica de la autenticación.
+ */
 @Injectable({ providedIn: 'root' })
 export class AuthStore {
+  /**
+   * Propiedad para gestionar auth service.
+   */
   private authService    = inject(AuthService);
+  /**
+   * Propiedad para gestionar user service.
+   */
   private userService    = inject(UserService);
+  /**
+   * Propiedad para gestionar storage service.
+   */
   private storageService = inject(StorageService);
+  /**
+   * Propiedad para gestionar profile service.
+   */
   private profileService = inject(ProfileService);
+  /**
+   * Propiedad para gestionar supabase.
+   */
   private supabase       = inject(SupabaseService);
+  /**
+   * Propiedad para gestionar presence.
+   */
   private presence       = inject(PresenceService);
+  /**
+   * Propiedad para gestionar settings.
+   */
   private settings       = inject(SettingsService);
+  /**
+   * Propiedad para gestionar router.
+   */
   private router         = inject(Router);
+  /**
+   * Propiedad para gestionar messages.
+   */
   private messages       = inject(MessageService);
+  /**
+   * Propiedad para gestionar translation service.
+   */
   private translationService = inject(TranslationService);
 
+  /**
+   * Propiedad para gestionar user.
+   */
   private readonly _user    = signal<UserSupabase | null>(null);
+  /**
+   * Propiedad para gestionar profile.
+   */
   private readonly _profile = signal<User | null>(null);
+  /**
+   * Propiedad para gestionar cargando.
+   */
   private readonly _loading = signal(false);
+  /**
+   * Propiedad para gestionar error.
+   */
   private readonly _error   = signal<string | null>(null);
 
   // Flag para distinguir logout voluntario de sesión expirada
+  /**
+   * Propiedad para gestionar logging out.
+   */
   private _loggingOut = false;
+  /**
+   * Propiedad para gestionar settings loaded for user identificador.
+   */
   private _settingsLoadedForUserId: string | null = null;
 
+  /**
+   * Propiedad para gestionar user.
+   */
   readonly user            = this._user.asReadonly();
+  /**
+   * Propiedad para gestionar profile.
+   */
   readonly profile         = this._profile.asReadonly();
+  /**
+   * Propiedad para gestionar cargando.
+   */
   readonly loading         = this._loading.asReadonly();
+  /**
+   * Propiedad para gestionar error.
+   */
   readonly error           = this._error.asReadonly();
+  /**
+   * Indicador booleano para es o está authenticated.
+   */
   readonly isAuthenticated = computed(() => this._user() !== null);
+  /**
+   * Propiedad para gestionar current user identificador.
+   */
   readonly currentUserId   = computed(() => this._user()?.id ?? null);
 
+  /**
+   * Constructor de la clase o componente para inicializar dependencias.
+   */
   constructor(private destroyRef: DestroyRef) {
     let lastProfileUserId: string | null = null;
 
@@ -90,6 +162,9 @@ export class AuthStore {
 
   // ─── Auth ────────────────────────────────────────────────────────────────────
 
+  /**
+   * Método para login.
+   */
   login(user: LoginUser): Observable<void> {
     this._loading.set(true);
     this._error.set(null);
@@ -111,6 +186,9 @@ export class AuthStore {
     );
   }
 
+  /**
+   * Método para login with google.
+   */
   loginWithGoogle(): Observable<void> {
     this._loading.set(true);
     this._error.set(null);
@@ -128,6 +206,9 @@ export class AuthStore {
     );
   }
 
+  /**
+   * Método para register.
+   */
   register(userData: RegisterUser): Observable<void> {
     this._loading.set(true);
     this._error.set(null);
@@ -174,6 +255,9 @@ export class AuthStore {
     );
   }
 
+  /**
+   * Método para logout.
+   */
   logout(): void {
     this._loggingOut = true;
     this.authService.logout().subscribe({
@@ -242,6 +326,9 @@ export class AuthStore {
 
   // ─── Helpers ─────────────────────────────────────────────────────────────────
 
+  /**
+   * Método para map meta to profile.
+   */
   private mapMetaToProfile(user: UserSupabase): User {
     const meta = user.user_metadata ?? {};
     return {
@@ -286,6 +373,9 @@ export class AuthStore {
     });
   }
 
+  /**
+   * Método para cargar user settings.
+   */
   private loadUserSettings(): void {
     this.settings.loadSettings().pipe(
       takeUntilDestroyed(this.destroyRef)

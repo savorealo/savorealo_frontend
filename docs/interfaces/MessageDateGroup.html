@@ -1,0 +1,892 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>cookeealo documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">cookeealo documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Interfaces</li>
+  <li class="breadcrumb-item"
+  >
+  MessageDateGroup</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/app/features/messages/components/chat-panel/chat-panel.ts</code>
+        </p>
+
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Interfaz que define la estructura o contrato de datos para messagedategroup.</p>
+
+            </p>
+
+
+        <section data-compodoc="block-index">
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                        <a href="#key" 
+>
+                                            key
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#label" 
+>
+                                            label
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#messages" 
+>
+                                            messages
+                                        </a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+            <section data-compodoc="block-properties">
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="key"></a>
+                                        <span class="name "><b>key</b>
+                                            <a href="#key">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>key:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Propiedad para gestionar clave.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="label"></a>
+                                        <span class="name "><b>label</b>
+                                            <a href="#label">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>label:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Propiedad para gestionar label.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="messages"></a>
+                                        <span class="name "><b>messages</b>
+                                            <a href="#messages">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>messages:         <code><a href="../interfaces/ChatMessage.html" target="_self" >ChatMessage[]</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="../interfaces/ChatMessage.html" target="_self" >ChatMessage[]</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Propiedad para gestionar messages.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, ElementRef, HostListener, Injector, OnInit, ViewChild, computed, effect, inject, input, output, signal } from &#x27;@angular/core&#x27;
+import { NgClass } from &#x27;@angular/common&#x27;
+import { RouterLink } from &#x27;@angular/router&#x27;
+import { MessageBubble } from &#x27;../message-bubble/message-bubble&#x27;
+import { ChatMessage, Conversation } from &#x27;../../models/messages.models&#x27;
+import { SavoLoader } from &#x27;@shared/components/savo-loader/savo-loader&#x27;
+import { TranslationService } from &#x27;@core/services/translation.service&#x27;
+import { TranslatePipe } from &#x27;@shared/pipes/translate.pipe&#x27;
+
+/**
+ * Interfaz que define la estructura o contrato de datos para messagedategroup.
+ */
+interface MessageDateGroup {
+	/**
+	 * Propiedad para gestionar clave.
+	 */
+	key: string
+	/**
+	 * Propiedad para gestionar label.
+	 */
+	label: string
+	/**
+	 * Propiedad para gestionar messages.
+	 */
+	messages: ChatMessage[]
+}
+
+/**
+ * Clase de utilidad para chatpanel.
+ */
+@Component({
+	selector: &#x27;app-chat-panel&#x27;,
+	imports: [MessageBubble, NgClass, RouterLink, SavoLoader, TranslatePipe],
+	templateUrl: &#x27;./chat-panel.html&#x27;,
+})
+export class ChatPanel implements OnInit {
+	/**
+	 * Propiedad para gestionar t.
+	 */
+	readonly t &#x3D; inject(TranslationService)
+	/**
+	 * Propiedad para gestionar injector.
+	 */
+	private readonly injector &#x3D; inject(Injector)
+
+	/**
+	 * Propiedad para gestionar conversation.
+	 */
+	conversation &#x3D; input.required&lt;Conversation&gt;()
+	/**
+	 * Propiedad para gestionar messages.
+	 */
+	messages     &#x3D; input.required&lt;ChatMessage[]&gt;()
+	/**
+	 * Propiedad para gestionar cargando.
+	 */
+	loading      &#x3D; input(false)
+	/**
+	 * Indicador booleano para es o está typing.
+	 */
+	isTyping     &#x3D; input(false)
+	/**
+	 * Propiedad para gestionar cargando more.
+	 */
+	loadingMore  &#x3D; input(false)
+	/**
+	 * Indicador booleano para tiene more.
+	 */
+	hasMore      &#x3D; input(false)
+
+	/**
+	 * Propiedad para gestionar enviar message.
+	 */
+	sendMessage &#x3D; output&lt;{ text: string; replyTo: ChatMessage | null }&gt;()
+	/**
+	 * Propiedad para gestionar cargar older messages.
+	 */
+	loadOlderMessages &#x3D; output&lt;void&gt;()
+	/**
+	 * Propiedad para gestionar typing.
+	 */
+	typing      &#x3D; output&lt;void&gt;()
+	/**
+	 * Propiedad para gestionar start call.
+	 */
+	startCall   &#x3D; output&lt;&#x27;audio&#x27; | &#x27;video&#x27;&gt;()
+	/**
+	 * Propiedad para gestionar back.
+	 */
+	back        &#x3D; output&lt;void&gt;()
+
+	/**
+	 * Propiedad para gestionar messages viewport.
+	 */
+	@ViewChild(&#x27;messagesViewport&#x27;) private messagesViewport?: ElementRef&lt;HTMLElement&gt;
+	/**
+	 * Propiedad para gestionar buscar input.
+	 */
+	@ViewChild(&#x27;searchInput&#x27;) private searchInput?: ElementRef&lt;HTMLInputElement&gt;
+	/**
+	 * Propiedad para gestionar message input.
+	 */
+	@ViewChild(&#x27;messageInput&#x27;) private messageInput?: ElementRef&lt;HTMLInputElement&gt;
+
+	/**
+	 * Propiedad para gestionar draft.
+	 */
+	readonly draft &#x3D; signal(&#x27;&#x27;)
+	/**
+	 * Propiedad para gestionar menu abrir.
+	 */
+	readonly menuOpen &#x3D; signal(false)
+	/**
+	 * Propiedad para gestionar emoji abrir.
+	 */
+	readonly emojiOpen &#x3D; signal(false)
+	/**
+	 * Propiedad para gestionar buscar abrir.
+	 */
+	readonly searchOpen &#x3D; signal(false)
+	/**
+	 * Propiedad para gestionar buscar query.
+	 */
+	readonly searchQuery &#x3D; signal(&#x27;&#x27;)
+	/**
+	 * Propiedad para gestionar active buscar index.
+	 */
+	readonly activeSearchIndex &#x3D; signal(0)
+	/**
+	 * Propiedad para gestionar replying to.
+	 */
+	readonly replyingTo &#x3D; signal&lt;ChatMessage | null&gt;(null)
+	/**
+	 * Propiedad para gestionar emojis.
+	 */
+	readonly emojis &#x3D; [&#x27;😀&#x27;, &#x27;😂&#x27;, &#x27;😍&#x27;, &#x27;😋&#x27;, &#x27;🤤&#x27;, &#x27;🥰&#x27;, &#x27;😭&#x27;, &#x27;😅&#x27;, &#x27;🙌&#x27;, &#x27;👏&#x27;, &#x27;🔥&#x27;, &#x27;✨&#x27;, &#x27;❤️&#x27;, &#x27;💚&#x27;, &#x27;👍&#x27;, &#x27;👀&#x27;, &#x27;🍕&#x27;, &#x27;🍔&#x27;, &#x27;🍟&#x27;, &#x27;🌮&#x27;, &#x27;🍣&#x27;, &#x27;🍰&#x27;, &#x27;☕&#x27;, &#x27;🍷&#x27;]
+	/**
+	 * Propiedad para gestionar pending prepend.
+	 */
+	private pendingPrepend &#x3D; false
+	/**
+	 * Propiedad para gestionar previous scroll alto.
+	 */
+	private previousScrollHeight &#x3D; 0
+	/**
+	 * Propiedad para gestionar initial scrolled conversation identificador.
+	 */
+	private initialScrolledConversationId: string | null &#x3D; null
+	/**
+	 * Propiedad para gestionar pending scroll to message identificador.
+	 */
+	private pendingScrollToMessageId: string | null &#x3D; null
+
+	/**
+	 * Propiedad para gestionar buscar matches.
+	 */
+	readonly searchMatches &#x3D; computed(() &#x3D;&gt; {
+		const query &#x3D; this.normalize(this.searchQuery())
+		if (!query) return []
+
+		return [...this.messages()].reverse().filter(message &#x3D;&gt;
+			this.normalize(message.text ?? &#x27;&#x27;).includes(query),
+		)
+	})
+
+	/**
+	 * Propiedad para gestionar active buscar message identificador.
+	 */
+	readonly activeSearchMessageId &#x3D; computed(() &#x3D;&gt; {
+		const matches &#x3D; this.searchMatches()
+		if (!matches.length) return null
+		return matches[Math.min(this.activeSearchIndex(), matches.length - 1)]?.id ?? null
+	})
+
+	/**
+	 * Propiedad para gestionar message groups.
+	 */
+	readonly messageGroups &#x3D; computed&lt;MessageDateGroup[]&gt;(() &#x3D;&gt; {
+		const groups: MessageDateGroup[] &#x3D; []
+		for (const message of this.messages()) {
+			const date &#x3D; this.messageDate(message)
+			const key &#x3D; this.dateKey(date)
+			const lastGroup &#x3D; groups[groups.length - 1]
+
+			if (lastGroup?.key &#x3D;&#x3D;&#x3D; key) {
+				lastGroup.messages.push(message)
+			} else {
+				groups.push({
+					key,
+					label: this.dateLabel(date),
+					messages: [message],
+				})
+			}
+		}
+
+		return groups
+	})
+
+	/**
+	 * Método de ciclo de vida de Angular que se ejecuta al inicializar el componente.
+	 */
+	ngOnInit(): void {
+		effect(() &#x3D;&gt; {
+			const conversationId &#x3D; this.conversation().id
+			const messagesLength &#x3D; this.messages().length
+			const loading &#x3D; this.loading()
+			const loadingMore &#x3D; this.loadingMore()
+			const activeSearchMessageId &#x3D; this.activeSearchMessageId()
+
+			if (this.initialScrolledConversationId !&#x3D;&#x3D; conversationId) {
+				this.initialScrolledConversationId &#x3D; null
+				this.pendingPrepend &#x3D; false
+				this.pendingScrollToMessageId &#x3D; null
+				this.searchOpen.set(false)
+				this.searchQuery.set(&#x27;&#x27;)
+				this.activeSearchIndex.set(0)
+				this.emojiOpen.set(false)
+			}
+
+			setTimeout(() &#x3D;&gt; {
+				if (this.pendingPrepend &amp;&amp; !loadingMore) {
+					this.restoreScrollAfterPrepend()
+				}
+
+				if (this.pendingScrollToMessageId &amp;&amp; !loadingMore) {
+					this.tryScrollToMessage(this.pendingScrollToMessageId)
+				}
+
+				if (activeSearchMessageId &amp;&amp; this.searchOpen()) {
+					this.scrollToMessage(activeSearchMessageId)
+				}
+
+				if (!loading &amp;&amp; messagesLength &gt; 0 &amp;&amp; this.initialScrolledConversationId !&#x3D;&#x3D; conversationId &amp;&amp; !this.pendingPrepend) {
+					this.scrollToBottom()
+					this.initialScrolledConversationId &#x3D; conversationId
+				}
+			})
+		}, { injector: this.injector })
+	}
+
+	/**
+	 * Método para establecer draft.
+	 */
+	setDraft(event: Event): void {
+		const value &#x3D; (event.target as HTMLInputElement).value
+		this.draft.set(value)
+		if (value.trim()) this.typing.emit()
+	}
+
+	/**
+	 * Método para enviar.
+	 */
+	send(): void {
+		const text &#x3D; this.draft().trim()
+		if (!text) return
+		this.sendMessage.emit({ text, replyTo: this.replyingTo() })
+		this.draft.set(&#x27;&#x27;)
+		this.replyingTo.set(null)
+		this.emojiOpen.set(false)
+	}
+
+	/**
+	 * Método para alternar menu.
+	 */
+	toggleMenu(): void {
+		this.menuOpen.update(v &#x3D;&gt; !v)
+	}
+
+	/**
+	 * Método para call from menu.
+	 */
+	callFromMenu(type: &#x27;audio&#x27; | &#x27;video&#x27;): void {
+		this.menuOpen.set(false)
+		this.startCall.emit(type)
+	}
+
+	/**
+	 * Método para abrir buscar.
+	 */
+	openSearch(): void {
+		this.menuOpen.set(false)
+		this.searchOpen.set(true)
+		setTimeout(() &#x3D;&gt; this.searchInput?.nativeElement.focus())
+	}
+
+	/**
+	 * Método para cerrar buscar.
+	 */
+	closeSearch(): void {
+		this.searchOpen.set(false)
+		this.searchQuery.set(&#x27;&#x27;)
+		this.activeSearchIndex.set(0)
+	}
+
+	/**
+	 * Método para establecer buscar query.
+	 */
+	setSearchQuery(event: Event): void {
+		this.searchQuery.set((event.target as HTMLInputElement).value)
+		this.activeSearchIndex.set(0)
+	}
+
+	/**
+	 * Método para next buscar match.
+	 */
+	nextSearchMatch(): void {
+		this.moveSearch(1)
+	}
+
+	/**
+	 * Método para previous buscar match.
+	 */
+	previousSearchMatch(): void {
+		this.moveSearch(-1)
+	}
+
+	/**
+	 * Método para evento de document keydown.
+	 */
+	@HostListener(&#x27;document:keydown&#x27;, [&#x27;$event&#x27;])
+	onDocumentKeydown(event: KeyboardEvent): void {
+		if ((event.ctrlKey || event.metaKey) &amp;&amp; event.key.toLowerCase() &#x3D;&#x3D;&#x3D; &#x27;f&#x27;) {
+			event.preventDefault()
+			this.openSearch()
+		}
+	}
+
+	/**
+	 * Método para reply to.
+	 */
+	replyTo(message: ChatMessage): void {
+		if (message.typing) return
+		this.replyingTo.set(message)
+	}
+
+	/**
+	 * Método para alternar emoji picker.
+	 */
+	toggleEmojiPicker(): void {
+		this.emojiOpen.update(value &#x3D;&gt; !value)
+		setTimeout(() &#x3D;&gt; this.messageInput?.nativeElement.focus())
+	}
+
+	/**
+	 * Método para insert emoji.
+	 */
+	insertEmoji(emoji: string): void {
+		const input &#x3D; this.messageInput?.nativeElement
+		const current &#x3D; this.draft()
+		const start &#x3D; input?.selectionStart ?? current.length
+		const end &#x3D; input?.selectionEnd ?? current.length
+		const next &#x3D; &#x60;${current.slice(0, start)}${emoji}${current.slice(end)}&#x60;
+
+		this.draft.set(next)
+		if (next.trim()) this.typing.emit()
+
+		setTimeout(() &#x3D;&gt; {
+			const cursor &#x3D; start + emoji.length
+			input?.focus()
+			input?.setSelectionRange(cursor, cursor)
+		})
+	}
+
+	/**
+	 * Método para evento de messages scroll.
+	 */
+	onMessagesScroll(event: Event): void {
+		const viewport &#x3D; event.target as HTMLElement
+		if (viewport.scrollTop &gt; 96 || this.loadingMore() || !this.hasMore()) return
+
+		this.previousScrollHeight &#x3D; viewport.scrollHeight
+		this.pendingPrepend &#x3D; true
+		this.loadOlderMessages.emit()
+	}
+
+	/**
+	 * Método para scroll to message.
+	 */
+	scrollToMessage(messageId: string): void {
+		this.pendingScrollToMessageId &#x3D; messageId
+		this.tryScrollToMessage(messageId)
+	}
+
+	/**
+	 * Método para move buscar.
+	 */
+	private moveSearch(delta: 1 | -1): void {
+		const matches &#x3D; this.searchMatches()
+		if (!matches.length) return
+
+		const nextIndex &#x3D; (this.activeSearchIndex() + delta + matches.length) % matches.length
+		this.activeSearchIndex.set(nextIndex)
+		this.scrollToMessage(matches[nextIndex].id)
+	}
+
+	/**
+	 * Método para try scroll to message.
+	 */
+	private tryScrollToMessage(messageId: string): void {
+		const viewport &#x3D; this.messagesViewport?.nativeElement
+		const target &#x3D; viewport?.querySelector&lt;HTMLElement&gt;(&#x60;[data-message-id&#x3D;&quot;${CSS.escape(messageId)}&quot;]&#x60;)
+
+		if (target) {
+			target.scrollIntoView({ behavior: &#x27;smooth&#x27;, block: &#x27;center&#x27; })
+			this.pendingScrollToMessageId &#x3D; null
+			return
+		}
+
+		if (this.hasMore() &amp;&amp; !this.loadingMore()) {
+			const currentViewport &#x3D; this.messagesViewport?.nativeElement
+			this.previousScrollHeight &#x3D; currentViewport?.scrollHeight ?? 0
+			this.pendingPrepend &#x3D; true
+			this.loadOlderMessages.emit()
+		}
+	}
+
+	/**
+	 * Método para restore scroll after prepend.
+	 */
+	private restoreScrollAfterPrepend(): void {
+		const viewport &#x3D; this.messagesViewport?.nativeElement
+		if (!viewport) return
+
+		viewport.scrollTop &#x3D; viewport.scrollHeight - this.previousScrollHeight
+		this.pendingPrepend &#x3D; false
+		this.previousScrollHeight &#x3D; 0
+	}
+
+	/**
+	 * Método para scroll to bottom.
+	 */
+	private scrollToBottom(): void {
+		const viewport &#x3D; this.messagesViewport?.nativeElement
+		if (!viewport) return
+		viewport.scrollTop &#x3D; viewport.scrollHeight
+	}
+
+	/**
+	 * Método para normalize.
+	 */
+	private normalize(value: string): string {
+		return value
+			.toLocaleLowerCase(&#x27;es&#x27;)
+			.normalize(&#x27;NFD&#x27;)
+			.replace(/[\u0300-\u036f]/g, &#x27;&#x27;)
+			.trim()
+	}
+
+	/**
+	 * Método para message fecha.
+	 */
+	private messageDate(message: ChatMessage): Date {
+		const date &#x3D; message.createdAt ? new Date(message.createdAt) : new Date()
+		return Number.isNaN(date.getTime()) ? new Date() : date
+	}
+
+	/**
+	 * Método para fecha clave.
+	 */
+	private dateKey(date: Date): string {
+		const year &#x3D; date.getFullYear()
+		const month &#x3D; String(date.getMonth() + 1).padStart(2, &#x27;0&#x27;)
+		const day &#x3D; String(date.getDate()).padStart(2, &#x27;0&#x27;)
+		return &#x60;${year}-${month}-${day}&#x60;
+	}
+
+	/**
+	 * Método para fecha label.
+	 */
+	private dateLabel(date: Date): string {
+		const today &#x3D; this.startOfDay(new Date())
+		const target &#x3D; this.startOfDay(date)
+		const diffDays &#x3D; Math.round((today.getTime() - target.getTime()) / 86400000)
+
+		if (diffDays &#x3D;&#x3D;&#x3D; 0) return this.t.translate(&#x27;messages.today&#x27;)
+		if (diffDays &#x3D;&#x3D;&#x3D; 1) return this.t.translate(&#x27;messages.yesterday&#x27;)
+		if (diffDays &#x3D;&#x3D;&#x3D; 2) return this.t.translate(&#x27;messages.day_before_yesterday&#x27;)
+
+		return date.toLocaleDateString(this.t.currentLang(), {
+			day: &#x27;2-digit&#x27;,
+			month: &#x27;2-digit&#x27;,
+			year: &#x27;numeric&#x27;,
+		})
+	}
+
+	/**
+	 * Método para start of day.
+	 */
+	private startOfDay(date: Date): Date {
+		return new Date(date.getFullYear(), date.getMonth(), date.getDate())
+	}
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'MessageDateGroup.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -2,11 +2,20 @@ import { inject, Injectable } from '@angular/core';
 import { SupabaseService } from './supabase.service';
 import { from, switchMap, throwError } from 'rxjs';
 
+/**
+ * Servicio que provee la lógica de negocio para storage.
+ */
 @Injectable({ providedIn: 'root' })
 export class StorageService {
+  /**
+   * Propiedad para gestionar supabase.
+   */
   private supabase = inject(SupabaseService);
 
   // userId eliminado — la foto se sube antes del signUp con path profile/{timestamp}
+  /**
+   * Método para upload avatar.
+   */
   uploadAvatar(file: File) {
     const ext = file.name.split('.').pop();
     const path = `profile/${Date.now()}.${ext}`;

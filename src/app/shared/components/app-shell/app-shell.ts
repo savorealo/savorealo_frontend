@@ -9,12 +9,31 @@ import { CallHost }                                  from '@shared/components/ca
 import { ShoppingListService }                       from '@features/shopping-list/shopping-list.service'
 import { TranslatePipe }                             from '@shared/pipes/translate.pipe'
 
+/**
+ * Estructura que define cada elemento individual dentro del sistema de navegación del AppShell.
+ */
 interface ShellNavItem {
+	/**
+	 * Nombre de la clase del icono de PrimeIcons para renderizar visualmente la opción.
+	 */
 	icon: string
+
+	/**
+	 * Clave de traducción que mapea el texto descriptivo en diferentes idiomas.
+	 */
 	labelKey: string
+
+	/**
+	 * Enlace o ruta de navegación interna de Angular.
+	 */
 	route: string
 }
 
+/**
+ * Componente contenedor estructural (App Shell) de la aplicación.
+ * Proporciona el layout base con barra de navegación lateral para escritorio, barra inferior para móviles,
+ * barra de búsqueda y soporte de recepción de notificaciones y videollamadas globales.
+ */
 @Component({
 	selector: 'app-shell',
 	imports: [RouterLink, RouterLinkActive, GlobalSearchPanel, Topbar, CallHost, TranslatePipe],
@@ -32,16 +51,49 @@ interface ShellNavItem {
 	`],
 })
 export class AppShell implements OnInit {
+	/**
+	 * Almacén de estado de autenticación de la aplicación.
+	 */
 	private readonly authStore = inject(AuthStore)
+
+	/**
+	 * Almacén de estado de notificaciones.
+	 */
 	readonly notifications = inject(NotificationsStore)
+
+	/**
+	 * Almacén de estado de la búsqueda global interactiva.
+	 */
 	readonly globalSearch   = inject(GlobalSearchStore)
+
+	/**
+	 * Servicio para la lista de compras local y remota.
+	 */
 	readonly shoppingList   = inject(ShoppingListService)
 
+	/**
+	 * Señal derivada con los datos de perfil del usuario en línea.
+	 */
 	readonly profile    = this.authStore.profile
+
+	/**
+	 * Dirección URL de la imagen del logotipo corporativo de Savorealo.
+	 */
 	readonly logoUrl    = '/assets/icons/new_logo.png'
+
+	/**
+	 * Entrada que controla si se debe renderizar la barra superior global. Por defecto es true.
+	 */
 	readonly showTopbar = input(true)
+
+	/**
+	 * Emisor de evento que notifica cuando se pulsa el botón flotante de creación.
+	 */
 	readonly create     = output<void>()
 
+	/**
+	 * Configuración del menú de navegación lateral en pantallas de escritorio.
+	 */
 	readonly navItems: ShellNavItem[] = [
 		{ icon: 'pi pi-home',          labelKey: 'shell.feed',          route: '/' },
 		{ icon: 'pi pi-search',        labelKey: 'shell.explore',       route: '/explore' },
@@ -54,6 +106,9 @@ export class AppShell implements OnInit {
 		{ icon: 'pi pi-cog',           labelKey: 'shell.settings',      route: '/settings' },
 	]
 
+	/**
+	 * Configuración simplificada de navegación para la barra inferior (tabbar) en pantallas de móviles.
+	 */
 	readonly mobileNavItems: ShellNavItem[] = [
 		{ icon: 'pi pi-home',          labelKey: 'shell.feed',     route: '/' },
 		{ icon: 'pi pi-search',        labelKey: 'shell.explore',  route: '/explore' },
@@ -62,10 +117,16 @@ export class AppShell implements OnInit {
 		{ icon: 'pi pi-user',          labelKey: 'shell.profile',  route: '/profile' },
 	]
 
+	/**
+	 * Al inicializar el componente, activa la carga asíncrona de las notificaciones actuales del usuario.
+	 */
 	ngOnInit(): void {
 		this.notifications.load()
 	}
 
+	/**
+	 * Ejecuta el proceso de cierre de sesión del usuario en el almacén de autenticación.
+	 */
 	logout(): void {
 		this.authStore.logout()
 	}

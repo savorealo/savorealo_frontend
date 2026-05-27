@@ -5,30 +5,51 @@ import { Notification, NotificationActor, NotificationType } from '@core/models/
 import { NOTIFICATION_REPOSITORY } from '@core/repositories/tokens/repository.tokens'
 import type { RawNotificationRow } from '@core/repositories/notification/notification-repository'
 
+/**
+ * Servicio que provee la lógica de negocio para las notificaciones.
+ */
 @Injectable({ providedIn: 'root' })
 export class NotificationsService {
+	/**
+	 * Propiedad para gestionar repo.
+	 */
 	private readonly repo = inject(NOTIFICATION_REPOSITORY)
 
+	/**
+	 * Método para obtener notifications.
+	 */
 	getNotifications(userId: string, limit = 30): Observable<Notification[]> {
 		return this.repo.getNotifications(userId, limit).pipe(
 			map(rows => rows.map(row => this.mapRow(row))),
 		)
 	}
 
+	/**
+	 * Método para obtener notification.
+	 */
 	getNotification(notificationId: string): Observable<Notification | null> {
 		return this.repo.getNotification(notificationId).pipe(
 			map(row => row ? this.mapRow(row) : null),
 		)
 	}
 
+	/**
+	 * Método para mark as read.
+	 */
 	markAsRead(notificationId: string): Observable<void> {
 		return this.repo.markAsRead(notificationId)
 	}
 
+	/**
+	 * Método para mark todos as read.
+	 */
 	markAllAsRead(userId: string): Observable<void> {
 		return this.repo.markAllAsRead(userId)
 	}
 
+	/**
+	 * Método para subscribe to new.
+	 */
 	subscribeToNew(userId: string, onNew: (notification: Notification) => void): RealtimeChannel {
 		return this.repo.subscribeToNew(userId, row => {
 			this.getNotification(row['id'] as string).subscribe({
@@ -38,6 +59,9 @@ export class NotificationsService {
 		})
 	}
 
+	/**
+	 * Método para map row.
+	 */
 	mapRow(row: RawNotificationRow | Record<string, unknown>): Notification {
 		type PersonProfile = { username: string | null; full_name: string | null; photo_url: string | null }
 		const actorRaw = (row as Record<string, unknown>)['actor'] as {

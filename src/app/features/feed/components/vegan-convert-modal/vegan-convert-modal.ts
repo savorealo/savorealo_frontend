@@ -5,22 +5,49 @@ import { DialogModule } from 'primeng/dialog'
 import { SavoLoader } from '@shared/components/savo-loader/savo-loader'
 import { TranslatePipe } from '@shared/pipes/translate.pipe'
 
+/**
+ * Clase de utilidad para veganconvertmodal.
+ */
 @Component({
   selector: 'app-vegan-convert-modal',
   imports: [DialogModule, SavoLoader, TranslatePipe],
   templateUrl: './vegan-convert-modal.html',
 })
 export class VeganConvertModal {
+  /**
+   * Propiedad para gestionar ai.
+   */
   private readonly ai = inject(AiRecipeService)
 
+  /**
+   * Propiedad para gestionar post.
+   */
   post    = input.required<Post>()
+  /**
+   * Propiedad para gestionar visible.
+   */
   visible = model(false)
 
+  /**
+   * Propiedad para gestionar cargando.
+   */
   loading = signal(false)
+  /**
+   * Propiedad para gestionar error.
+   */
   error   = signal<string | null>(null)
+  /**
+   * Propiedad para gestionar result.
+   */
   result  = signal<VeganRecipeResult | null>(null)
+  /**
+   * Propiedad para gestionar copied.
+   */
   copied  = signal(false)
 
+  /**
+   * Constructor de la clase o componente para inicializar dependencias.
+   */
   constructor() {
     effect(() => {
       if (this.visible()) {
@@ -33,6 +60,9 @@ export class VeganConvertModal {
     })
   }
 
+  /**
+   * Método para generate.
+   */
   private generate(): void {
     this.loading.set(true)
     this.error.set(null)
@@ -50,10 +80,16 @@ export class VeganConvertModal {
     })
   }
 
+  /**
+   * Método para retry.
+   */
   retry(): void {
     this.generate()
   }
 
+  /**
+   * Método para copy to clipboard.
+   */
   copyToClipboard(): void {
     const r = this.result()
     if (!r) return
@@ -82,6 +118,9 @@ export class VeganConvertModal {
     })
   }
 
+  /**
+   * Método para cerrar.
+   */
   close(): void {
     this.visible.set(false)
   }

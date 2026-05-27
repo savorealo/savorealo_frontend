@@ -4,21 +4,45 @@ import { StoryGroup, StoryItem, StoryType } from '@core/models/story/story.model
 import { STORY_REPOSITORY } from '@core/repositories/tokens/repository.tokens'
 import type { StoryRow, StoryUserRow } from '@core/repositories/story/story-repository'
 
+/**
+ * Interfaz que define la estructura o contrato de datos para resolvedprofile.
+ */
 interface ResolvedProfile {
+	/**
+	 * Propiedad para gestionar nombre de usuario.
+	 */
 	username: string
+	/**
+	 * Propiedad para gestionar display nombre.
+	 */
 	displayName: string
+	/**
+	 * Propiedad para gestionar avatar enlace.
+	 */
 	avatarUrl: string | null
 }
 
+/**
+ * Función de utilidad para first or self.
+ */
 function firstOrSelf<T>(v: T | T[] | null | undefined): T | null {
 	if (v == null) return null
 	return Array.isArray(v) ? v[0] ?? null : v
 }
 
+/**
+ * Servicio que provee la lógica de negocio para las historias (stories).
+ */
 @Injectable({ providedIn: 'root' })
 export class StoriesService {
+	/**
+	 * Propiedad para gestionar repo.
+	 */
 	private readonly repo = inject(STORY_REPOSITORY)
 
+	/**
+	 * Método para obtener stories.
+	 */
 	getStories(currentUserId: string): Observable<StoryGroup[]> {
 		const now = new Date().toISOString()
 
@@ -39,10 +63,16 @@ export class StoriesService {
 		)
 	}
 
+	/**
+	 * Método para mark viewed.
+	 */
 	markViewed(storyId: string, userId: string): Observable<void> {
 		return this.repo.markViewed(storyId, userId)
 	}
 
+	/**
+	 * Método para crear story.
+	 */
 	createStory(userId: string, file: File): Observable<void> {
 		const ext = file.name.split('.').pop() ?? 'jpg'
 		const path = `${userId}/${Date.now()}.${ext}`
@@ -54,6 +84,9 @@ export class StoriesService {
 		)
 	}
 
+	/**
+	 * Método para build groups.
+	 */
 	private buildGroups(rows: StoryRow[], profileData: StoryUserRow[], currentUserId: string): StoryGroup[] {
 		const profileMap = new Map<string, ResolvedProfile>(
 			profileData.map(user => [user.id, this.resolveProfile(user)]),
@@ -95,6 +128,9 @@ export class StoriesService {
 		})
 	}
 
+	/**
+	 * Método para resolve profile.
+	 */
 	private resolveProfile(user: StoryUserRow): ResolvedProfile {
 		const person = firstOrSelf(user.person_profiles as { username: string; full_name: string | null; photo_url: string | null } | { username: string; full_name: string | null; photo_url: string | null }[] | null)
 		const business = firstOrSelf(user.business_profiles as { business_name: string; photo_url: string | null } | { business_name: string; photo_url: string | null }[] | null)

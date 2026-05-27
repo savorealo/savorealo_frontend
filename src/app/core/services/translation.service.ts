@@ -1,8 +1,14 @@
 import { inject, Injectable, PLATFORM_ID, signal } from '@angular/core'
 import { isPlatformBrowser } from '@angular/common'
 
+/**
+ * Tipo de dato personalizado para languagecode.
+ */
 export type LanguageCode = 'es' | 'en' | 'fr' | 'de'
 
+/**
+ * Variable o constante para t r a n s l a t i o n s.
+ */
 const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
 	es: {
 		// Shell / Navbar
@@ -2354,13 +2360,25 @@ const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
 	},
 }
 
+/**
+ * Servicio que provee la lógica de negocio para translation.
+ */
 @Injectable({ providedIn: 'root' })
 export class TranslationService {
+	/**
+	 * Propiedad para gestionar platform identificador.
+	 */
 	private readonly platformId = inject(PLATFORM_ID)
 	
 	// Default language is Spanish
+	/**
+	 * Propiedad para gestionar current lang.
+	 */
 	readonly currentLang = signal<LanguageCode>('es')
 
+	/**
+	 * Constructor de la clase o componente para inicializar dependencias.
+	 */
 	constructor() {
 		if (isPlatformBrowser(this.platformId)) {
 			const saved = localStorage.getItem('savorealo_lang') as LanguageCode
@@ -2370,6 +2388,9 @@ export class TranslationService {
 		}
 	}
 
+	/**
+	 * Método para establecer language.
+	 */
 	setLanguage(lang: LanguageCode): void {
 		if (['es', 'en', 'fr', 'de'].includes(lang)) {
 			this.currentLang.set(lang)
@@ -2379,6 +2400,9 @@ export class TranslationService {
 		}
 	}
 
+	/**
+	 * Método para translate.
+	 */
 	translate(key: string): string {
 		const lang = this.currentLang()
 		const dict = TRANSLATIONS[lang] || TRANSLATIONS['es']

@@ -1,10 +1,17 @@
 import { Pipe, PipeTransform } from '@angular/core'
 
+/**
+ * Pipe para transformar y renderizar sintaxis Markdown básica (negrita, cursiva, listas, bloques de código inline) a HTML seguro.
+ * Escapa las etiquetas HTML de forma preventiva para mitigar ataques XSS.
+ */
 @Pipe({
 	name: 'messageMarkdown',
 	standalone: true,
 })
 export class MessageMarkdownPipe implements PipeTransform {
+	/**
+	 * Método para transform.
+	 */
 	transform(value: string | null | undefined): string {
 		if (!value) return ''
 
@@ -49,6 +56,9 @@ export class MessageMarkdownPipe implements PipeTransform {
 		return rendered.join('')
 	}
 
+	/**
+	 * Método para render line.
+	 */
 	private renderLine(line: string): string {
 		const escaped = this.escapeHtml(line)
 		if (!escaped.trim()) return '<br>'
@@ -68,6 +78,9 @@ export class MessageMarkdownPipe implements PipeTransform {
 		return `<span class="block">${this.renderInline(escaped)}</span>`
 	}
 
+	/**
+	 * Método para render inline.
+	 */
 	private renderInline(value: string): string {
 		const codeParts: string[] = []
 		let rendered = value.replace(/`([^`]+)`/g, (_match, code: string) => {
@@ -88,16 +101,25 @@ export class MessageMarkdownPipe implements PipeTransform {
 		return rendered
 	}
 
+	/**
+	 * Método para obtener unordered item.
+	 */
 	private getUnorderedItem(line: string): string | null {
 		const match = line.match(/^\s*[-+*]\s+(.+)$/)
 		return match?.[1] ?? null
 	}
 
+	/**
+	 * Método para obtener ordered item.
+	 */
 	private getOrderedItem(line: string): string | null {
 		const match = line.match(/^\s*\d+[.)]\s+(.+)$/)
 		return match?.[1] ?? null
 	}
 
+	/**
+	 * Método para escape html.
+	 */
 	private escapeHtml(value: string): string {
 		return value
 			.replace(/&/g, '&amp;')

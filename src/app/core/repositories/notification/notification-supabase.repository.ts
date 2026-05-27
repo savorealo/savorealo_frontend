@@ -4,6 +4,9 @@ import { RealtimeChannel } from '@supabase/supabase-js'
 import { SupabaseService } from '@core/services/supabase.service'
 import type { INotificationRepository, RawNotificationRow } from './notification-repository'
 
+/**
+ * Variable o constante para n o t i f i c a t i o n s e l e c t.
+ */
 const NOTIFICATION_SELECT = `
 	id, user_id, actor_id, target_id, type, content, is_read, created_at,
 	actor:users!actor_id(
@@ -12,10 +15,19 @@ const NOTIFICATION_SELECT = `
 	)
 `
 
+/**
+ * Repositorio de datos para notificationsupabase.
+ */
 @Injectable({ providedIn: 'root' })
 export class NotificationSupabaseRepository implements INotificationRepository {
+	/**
+	 * Propiedad para gestionar supabase.
+	 */
 	private readonly supabase = inject(SupabaseService)
 
+	/**
+	 * Método para obtener notifications.
+	 */
 	getNotifications(userId: string, limit: number): Observable<RawNotificationRow[]> {
 		return from(
 			this.supabase.client
@@ -32,6 +44,9 @@ export class NotificationSupabaseRepository implements INotificationRepository {
 		)
 	}
 
+	/**
+	 * Método para obtener notification.
+	 */
 	getNotification(notificationId: string): Observable<RawNotificationRow | null> {
 		return from(
 			this.supabase.client
@@ -47,6 +62,9 @@ export class NotificationSupabaseRepository implements INotificationRepository {
 		)
 	}
 
+	/**
+	 * Método para mark as read.
+	 */
 	markAsRead(notificationId: string): Observable<void> {
 		return from(
 			this.supabase.client
@@ -56,6 +74,9 @@ export class NotificationSupabaseRepository implements INotificationRepository {
 		).pipe(map(({ error }) => { if (error) throw error }))
 	}
 
+	/**
+	 * Método para mark todos as read.
+	 */
 	markAllAsRead(userId: string): Observable<void> {
 		return from(
 			this.supabase.client
@@ -66,6 +87,9 @@ export class NotificationSupabaseRepository implements INotificationRepository {
 		).pipe(map(({ error }) => { if (error) throw error }))
 	}
 
+	/**
+	 * Método para subscribe to new.
+	 */
 	subscribeToNew(userId: string, onInsert: (row: Record<string, unknown>) => void): RealtimeChannel {
 		return this.supabase.client
 			.channel(`notifications:${userId}`)

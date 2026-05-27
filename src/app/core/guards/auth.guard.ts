@@ -8,6 +8,9 @@ import {
 } from '@angular/router'
 import { SupabaseService } from '@core/services/supabase.service'
 
+/**
+ * Variable o constante para require session.
+ */
 const requireSession = async (returnUrl?: string) => {
   const supabase = inject(SupabaseService)
   const router = inject(Router)
@@ -22,8 +25,14 @@ const requireSession = async (returnUrl?: string) => {
   })
 }
 
+/**
+ * Guardia de seguridad (guard) para controlar el acceso a la sección de la autenticación.
+ */
 export const authGuard: CanActivateFn = async () => requireSession()
 
+/**
+ * Guardia de seguridad (guard) para controlar el acceso a la sección de authmatch.
+ */
 export const authMatchGuard: CanMatchFn = async (_route: Route, segments: UrlSegment[]) => {
   const returnUrl = `/${segments.map(segment => segment.path).join('/')}`
   return requireSession(returnUrl === '/' ? undefined : returnUrl)

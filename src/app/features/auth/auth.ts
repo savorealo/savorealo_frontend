@@ -7,6 +7,9 @@ import { AuthStore } from '@core/store/auth.store';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EmojiRain } from "@features/emoji-rain/emoji-rain";
 
+/**
+ * Clase de utilidad para la autenticación.
+ */
 @Component({
   selector: 'app-auth',
   imports: [
@@ -18,16 +21,37 @@ import { EmojiRain } from "@features/emoji-rain/emoji-rain";
   templateUrl: './auth.html',
 })
 export class Auth {
+  /**
+   * Propiedad para gestionar router.
+   */
   private router = inject(Router)
+  /**
+   * Propiedad para gestionar route.
+   */
   private route = inject(ActivatedRoute)
+  /**
+   * Propiedad para gestionar auth store.
+   */
   authStore = inject(AuthStore)
+  /**
+   * Indicador booleano para es o está register.
+   */
   isRegister = signal(false)
+  /**
+   * Propiedad para gestionar logo enlace.
+   */
   readonly logoUrl = '/assets/icons/new_logo.png'
 
+  /**
+   * Método para to register.
+   */
   toRegister($event: boolean) {
     this.isRegister.set($event)
   }
 
+  /**
+   * Método para evento de register enviar.
+   */
   onRegisterSubmit($event: RegisterUser){
     this.authStore.register($event).subscribe({
       next: ()=>{
@@ -40,6 +64,9 @@ export class Auth {
     })
   }
 
+  /**
+   * Método para evento de login enviar.
+   */
   onLoginSubmit($event: LoginUser){
     this.authStore.login($event).subscribe({
       next: ()=>{
@@ -52,10 +79,16 @@ export class Auth {
     })
   }
 
+  /**
+   * Método para evento de google auth.
+   */
   onGoogleAuth() {
     this.authStore.loginWithGoogle().subscribe();
   }
 
+  /**
+   * Método para obtener safe return enlace.
+   */
   private getSafeReturnUrl(): string {
     const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl')
     return returnUrl?.startsWith('/') ? returnUrl : '/'

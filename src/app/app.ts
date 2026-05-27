@@ -4,6 +4,9 @@ import { RouterOutlet }                            from '@angular/router';
 import { ThemeService }                            from '@core/services/theme.service';
 import { SupabaseService }                         from '@core/services/supabase.service';
 
+/**
+ * Componente principal que actúa como contenedor raíz de toda la aplicación.
+ */
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet],
@@ -11,8 +14,14 @@ import { SupabaseService }                         from '@core/services/supabase
   styleUrl: './app.scss'
 })
 export class App {
+  /**
+   * Propiedad para gestionar título.
+   */
   protected readonly title = signal('Savorealo');
 
+  /**
+   * Constructor de la clase o componente para inicializar dependencias.
+   */
   constructor() {
     inject(ThemeService);
 

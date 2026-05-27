@@ -6,41 +6,143 @@ import type { GqlPostNode } from '@core/repositories/post/post-repository'
 
 export type { GqlPostNode } from '@core/repositories/post/post-repository'
 
+/**
+ * Interfaz que define la estructura o contrato de datos para createpostrecipeinput.
+ */
 export interface CreatePostRecipeInput {
+	/**
+	 * Propiedad para gestionar nombre.
+	 */
 	name: string
+	/**
+	 * Propiedad para gestionar difficulty.
+	 */
 	difficulty?: string | null
+	/**
+	 * Propiedad para gestionar tiempo required.
+	 */
 	timeRequired?: number | null
+	/**
+	 * Propiedad para gestionar servings.
+	 */
 	servings?: number | null
-	ingredients: { name: string; quantity: number; unit: string }[]
-	steps: { order: number; text: string }[]
+	/**
+	 * Propiedad para gestionar ingredients.
+	 */
+	ingredients: { /**
+	 * Propiedad para gestionar nombre.
+	 */
+	/**
+	 * Propiedad para gestionar nombre.
+	 */
+	name: string; /**
+	 * Propiedad para gestionar quantity.
+	 */
+	/**
+	 * Propiedad para gestionar quantity.
+	 */
+	quantity: number; /**
+	 * Propiedad para gestionar unit.
+	 */
+	/**
+	 * Propiedad para gestionar unit.
+	 */
+	unit: string }[]
+	/**
+	 * Propiedad para gestionar steps.
+	 */
+	steps: { /**
+	 * Propiedad para gestionar order.
+	 */
+	/**
+	 * Propiedad para gestionar order.
+	 */
+	order: number; /**
+	 * Propiedad para gestionar text.
+	 */
+	/**
+	 * Propiedad para gestionar text.
+	 */
+	text: string }[]
 }
 
+/**
+ * Interfaz que define la estructura o contrato de datos para createpostinput.
+ */
 export interface CreatePostInput {
+	/**
+	 * Propiedad para gestionar título.
+	 */
 	title?: string | null
+	/**
+	 * Propiedad para gestionar descripción.
+	 */
 	description: string
+	/**
+	 * Propiedad para gestionar media enlace.
+	 */
 	mediaUrl?: string | null
+	/**
+	 * Propiedad para gestionar media type.
+	 */
 	mediaType?: string | null
+	/**
+	 * Propiedad para gestionar recipe.
+	 */
 	recipe?: CreatePostRecipeInput | null
 }
 
+/**
+ * Componente principal para la vista o página de el feed de publicaciones.
+ */
 export interface FeedPage {
+	/**
+	 * Propiedad para gestionar posts.
+	 */
 	posts: Post[]
+	/**
+	 * Propiedad para gestionar end cursor.
+	 */
 	endCursor: string | null
+	/**
+	 * Indicador booleano para tiene next page.
+	 */
 	hasNextPage: boolean
+	/**
+	 * Propiedad para gestionar total cantidad.
+	 */
 	totalCount: number
 }
 
+/**
+ * Interfaz que define la estructura o contrato de datos para toggleresult.
+ */
 export interface ToggleResult {
+	/**
+	 * Propiedad para gestionar active.
+	 */
 	active: boolean
+	/**
+	 * Propiedad para gestionar cantidad.
+	 */
 	count: number
 }
 
+/**
+ * Servicio que provee la lógica de negocio para el feed de publicaciones.
+ */
 @Injectable({ providedIn: 'root' })
 export class FeedService {
+	/**
+	 * Propiedad para gestionar repo.
+	 */
 	private readonly repo = inject(POST_REPOSITORY)
 
 	// ── Feed ────────────────────────────────────────────────────────────────
 
+	/**
+	 * Método para obtener home feed.
+	 */
 	getHomeFeed(limit = 12, after?: string | null): Observable<FeedPage> {
 		const offset = after ? Number(after) || 0 : 0
 		return this.repo.fetchHomeFeed(limit, offset).pipe(
@@ -53,10 +155,16 @@ export class FeedService {
 		)
 	}
 
+	/**
+	 * Método para obtener post por identificador.
+	 */
 	getPostById(id: string): Observable<Post> {
 		return from(this.fetchPostById(id))
 	}
 
+	/**
+	 * Método para obtener saved posts.
+	 */
 	getSavedPosts(limit = 24, cursor?: string | null): Observable<FeedPage> {
 		return this.repo.fetchSavedPosts(limit, cursor ?? null).pipe(
 			map(result => ({
@@ -68,6 +176,9 @@ export class FeedService {
 		)
 	}
 
+	/**
+	 * Método para obtener liked posts.
+	 */
 	getLikedPosts(limit = 24): Observable<FeedPage> {
 		return this.repo.fetchLikedPosts(limit, 0).pipe(
 			map(nodes => ({
@@ -115,12 +226,18 @@ export class FeedService {
 
 	// ── Interactions ─────────────────────────────────────────────────────────
 
+	/**
+	 * Método para alternar like.
+	 */
 	toggleLike(postId: string): Observable<ToggleResult> {
 		return this.repo.toggleLike(postId).pipe(
 			map(data => ({ active: data.liked, count: data.likes })),
 		)
 	}
 
+	/**
+	 * Método para alternar guardar.
+	 */
 	toggleSave(postId: string): Observable<ToggleResult> {
 		return this.repo.toggleSave(postId).pipe(
 			map(data => ({ active: data.saved, count: data.saves })),
@@ -129,6 +246,9 @@ export class FeedService {
 
 	// ── Create ───────────────────────────────────────────────────────────────
 
+	/**
+	 * Método para crear post.
+	 */
 	createPost(input: CreatePostInput): Observable<Post> {
 		if (input.recipe) {
 			return this.repo.createRecipePost({
@@ -152,6 +272,9 @@ export class FeedService {
 
 	// ── Mapping ──────────────────────────────────────────────────────────────
 
+	/**
+	 * Método para map gql post.
+	 */
 	mapGqlPost(n: GqlPostNode): Post {
 		const media = (n.post_media ?? [])
 			.slice()
@@ -206,6 +329,9 @@ export class FeedService {
 
 	// ── Private helpers ───────────────────────────────────────────────────────
 
+	/**
+	 * Método para fetch post por identificador.
+	 */
 	private async fetchPostById(id: string): Promise<Post> {
 		const cached = this.repo.readPostFromCache(id)
 		if (cached) return this.mapGqlPost(cached)

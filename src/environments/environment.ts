@@ -3,6 +3,9 @@
 // con los valores correctos para staging o producción.
 // NO uses este archivo para valores de producción.
 
+/**
+ * Objeto de configuración de variables de entorno de la aplicación para desarrollo local.
+ */
 export const environment = {
   production: false,
   supabaseUrl: 'https://onveiokuaetylptwwsjh.supabase.co',

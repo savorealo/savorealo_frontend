@@ -12,29 +12,83 @@ import { TimeAgoPipe } from '@shared/pipes/time-ago.pipe'
 import { SavoLoader } from '@shared/components/savo-loader/savo-loader'
 import { TranslatePipe } from '@shared/pipes/translate.pipe'
 
+/**
+ * Interfaz que representa una pestaña de filtro en la página de notificaciones.
+ */
 interface Tab {
+	/**
+	 * Categoría o tipo de pestaña de notificaciones.
+	 */
 	key: NotificationTab
+	/**
+	 * Clave de traducción de la etiqueta visible.
+	 */
 	label: string
+	/**
+	 * Número de notificaciones contabilizadas en esta pestaña.
+	 */
 	count: number
 }
 
+/**
+ * Componente que representa la página del Centro de Notificaciones.
+ * Muestra alertas agrupadas cronológicamente (likes, comentarios, seguimientos, menciones)
+ * y permite gestionar solicitudes de seguimiento interactuando con Supabase y el UserService.
+ */
 @Component({
 	selector: 'app-notifications-page',
 	imports: [AppShell, Avatar, RouterLink, TimeAgoPipe, SavoLoader, TranslatePipe],
 	templateUrl: './notifications-page.html',
 })
 export class NotificationsPage implements OnInit {
+	/**
+	 * Almacén de estado reactivo de las notificaciones.
+	 */
 	readonly store = inject(NotificationsStore)
+
+	/**
+	 * Servicio inyectado para gestionar solicitudes de seguimiento y usuarios.
+	 */
 	private readonly userService = inject(UserService)
+
+	/**
+	 * Servicio Supabase inyectado para realizar pre-consultas optimizadas de seguimiento.
+	 */
 	private readonly supabase = inject(SupabaseService)
+
+	/**
+	 * Almacén de estado de autenticación de usuario.
+	 */
 	private readonly authStore = inject(AuthStore)
+
+	/**
+	 * Servicio de enrutador inyectado para la navegación interna.
+	 */
 	private readonly router = inject(Router)
 
+	/**
+	 * Registro de respuestas guardadas localmente ante solicitudes de seguimiento (aceptadas/rechazadas) en la vista actual.
+	 */
 	readonly requestResponses = signal<Record<string, 'accepted' | 'rejected'>>({})
+
+	/**
+	 * Registro local reactivo del estado de seguimiento recíproco con los autores de las notificaciones.
+	 */
 	readonly followStates = signal<Record<string, 'following' | 'requested'>>({})
+
+	/**
+	 * Estado de carga (spinner) de las solicitudes de seguimiento en proceso de respuesta.
+	 */
 	readonly loadingRequests = signal<Record<string, boolean>>({})
+
+	/**
+	 * Estado de carga (spinner) asíncrono para las acciones de seguimiento optimista.
+	 */
 	readonly loadingFollows = signal<Record<string, boolean>>({})
 
+	/**
+	 * Señal calculada con las pestañas disponibles de filtrado de notificaciones (todas, no leídas, menciones, social).
+	 */
 	readonly tabs = computed<Tab[]>(() => [
 		{ key: 'all', label: 'notifications.tab.all', count: this.store.notifications().length },
 		{ key: 'unread', label: 'notifications.tab.unread', count: this.store.unreadCount() },
@@ -42,10 +96,17 @@ export class NotificationsPage implements OnInit {
 		{ key: 'social', label: 'notifications.tab.social', count: this.store.socialCount() },
 	])
 
+	/**
+	 * Señal calculada que agrupa la colección filtrada de notificaciones por su antigüedad temporal.
+	 */
 	readonly groups = computed<NotificationGroup[]>(() =>
 		this.groupByDate(this.store.filteredNotifications()),
 	)
 
+	/**
+	 * Inicializa el componente.
+	 * Registra un efecto reactivo para pre-cargar el estado de seguimiento recíproco con los autores de las notificaciones cargadas.
+	 */
 	constructor() {
 		// When notifications load, check which FOLLOW/FOLLOW_REQUEST actors we already follow
 		effect(() => {
@@ -61,10 +122,16 @@ export class NotificationsPage implements OnInit {
 		})
 	}
 
+	/**
+	 * Método de ciclo de vida de Angular para disparar la carga asíncrona inicial de notificaciones.
+	 */
 	ngOnInit(): void {
 		this.store.load()
 	}
 
+	/**
+	 * Pre-carga desde base de datos de forma paralela los estados de seguimiento para evitar desincronizaciones visuales.
+	 */
 	private async preloadFollowStates(currentUserId: string, actorIds: string[]): Promise<void> {
 		const [followsRes, requestsRes] = await Promise.all([
 			this.supabase.client
@@ -93,10 +160,18 @@ export class NotificationsPage implements OnInit {
 		}
 	}
 
+	/**
+	 * Devuelve el nombre del usuario o actor que generó la notificación.
+	 * @param n Notificación a analizar.
+	 */
 	actorName(n: Notification): string {
 		return n.actor?.fullName || n.actor?.username || 'Alguien'
 	}
 
+	/**
+	 * Devuelve la clave de traducción correspondiente para el texto de la notificación según su tipología.
+	 * @param n Notificación.
+	 */
 	notificationTextKey(n: Notification): string {
 		if (n.content && n.type !== 'COMMENT') return n.content
 		const map: Record<NotificationType, string> = {
@@ -111,6 +186,10 @@ export class NotificationsPage implements OnInit {
 		return map[n.type] ?? 'notifications.text.default'
 	}
 
+	/**
+	 * Devuelve las clases de PrimeIcons e indicaciones de color en base al tipo de la notificación.
+	 * @param type Tipo de notificación.
+	 */
 	notificationIcon(type: NotificationType): string {
 		const map: Record<NotificationType, string> = {
 			LIKE: 'pi pi-heart-fill text-rose-500',
@@ -124,6 +203,10 @@ export class NotificationsPage implements OnInit {
 		return map[type]
 	}
 
+	/**
+	 * Devuelve la clave de traducción de la etiqueta representativa (chip) de categoría.
+	 * @param type Tipo de la notificación.
+	 */
 	chipLabelKey(type: NotificationType): string {
 		const map: Record<NotificationType, string> = {
 			LIKE: 'notifications.chip.like',
@@ -137,6 +220,10 @@ export class NotificationsPage implements OnInit {
 		return map[type] ?? ''
 	}
 
+	/**
+	 * Devuelve la clase CSS de estilos visuales para pintar el chip de la categoría correspondiente.
+	 * @param type Tipo de notificación.
+	 */
 	chipClass(type: NotificationType): string {
 		const map: Record<NotificationType, string> = {
 			LIKE: 'bg-rose-100 text-rose-600',
@@ -150,10 +237,18 @@ export class NotificationsPage implements OnInit {
 		return map[type]
 	}
 
+	/**
+	 * Determina si la notificación está relacionada con una publicación y por ende admite miniatura gráfica.
+	 * @param n Notificación.
+	 */
 	hasPostThumbnail(n: Notification): boolean {
 		return ['LIKE', 'COMMENT', 'MENTION', 'RECIPE_SAVE'].includes(n.type) && !!n.targetId
 	}
 
+	/**
+	 * Devuelve los parámetros del routerLink para navegar al elemento origen de la notificación.
+	 * @param n Notificación.
+	 */
 	targetLink(n: Notification): string[] | null {
 		if (n.type === 'FOLLOW' || n.type === 'FOLLOW_REQUEST' || n.type === 'FOLLOW_ACCEPTED')
 			return n.actor?.username ? ['/profile', n.actor.username] : null
@@ -161,12 +256,21 @@ export class NotificationsPage implements OnInit {
 		return ['/post', n.targetId]
 	}
 
+	/**
+	 * Navega al perfil de usuario del actor que originó la acción.
+	 * @param n Notificación.
+	 */
 	goToProfile(n: Notification): void {
 		if (n.actor?.username) {
 			this.router.navigate(['/profile', n.actor.username])
 		}
 	}
 
+	/**
+	 * Acepta o rechaza una solicitud de seguimiento asíncrona.
+	 * @param n Notificación de tipo solicitud de seguimiento.
+	 * @param accept True para aceptar, false para declinar.
+	 */
 	respondRequest(n: Notification, accept: boolean): void {
 		const actorId = n.actor?.id ?? n.actorId
 		if (!actorId || this.loadingRequests()[n.id]) return
@@ -187,6 +291,10 @@ export class NotificationsPage implements OnInit {
 		})
 	}
 
+	/**
+	 * Envía una solicitud de seguimiento directo al actor que originó la notificación.
+	 * @param n Notificación.
+	 */
 	followActor(n: Notification): void {
 		const actorId = n.actor?.id ?? n.actorId
 		if (!actorId || this.loadingFollows()[actorId]) return
@@ -209,25 +317,45 @@ export class NotificationsPage implements OnInit {
 		})
 	}
 
+	/**
+	 * Recupera el estado de resolución de una solicitud de seguimiento en la sesión actual.
+	 * @param notificationId Identificador de la notificación.
+	 */
 	getRequestResponse(notificationId: string): 'accepted' | 'rejected' | null {
 		return this.requestResponses()[notificationId] ?? null
 	}
 
+	/**
+	 * Recupera el estado del seguimiento bidireccional respecto al actor de la notificación.
+	 * @param n Notificación.
+	 */
 	getFollowState(n: Notification): 'following' | 'requested' | null {
 		const actorId = n.actor?.id ?? n.actorId
 		if (!actorId) return null
 		return this.followStates()[actorId] ?? null
 	}
 
+	/**
+	 * Indica si se está respondiendo la solicitud de seguimiento actual en segundo plano.
+	 * @param notificationId Identificador de la notificación.
+	 */
 	isLoadingRequest(notificationId: string): boolean {
 		return !!this.loadingRequests()[notificationId]
 	}
 
+	/**
+	 * Indica si se está ejecutando la acción de seguir al actor de la notificación actual.
+	 * @param n Notificación.
+	 */
 	isLoadingFollow(n: Notification): boolean {
 		const actorId = n.actor?.id ?? n.actorId
 		return actorId ? !!this.loadingFollows()[actorId] : false
 	}
 
+	/**
+	 * Devuelve la clave de traducción correspondiente a la etiqueta del botón de seguimiento según su estado actual.
+	 * @param n Notificación.
+	 */
 	followButtonLabelKey(n: Notification): string {
 		const state = this.getFollowState(n)
 		if (state === 'following') return 'notifications.state.following'
@@ -235,6 +363,10 @@ export class NotificationsPage implements OnInit {
 		return 'notifications.state.follow'
 	}
 
+	/**
+	 * Agrupa las notificaciones cronológicamente bajo etiquetas descriptivas (hoy, ayer, esta semana, antiguas).
+	 * @param notifications Colección de notificaciones.
+	 */
 	private groupByDate(notifications: Notification[]): NotificationGroup[] {
 		const today: Notification[] = []
 		const yesterday: Notification[] = []

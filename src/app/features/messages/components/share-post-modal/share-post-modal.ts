@@ -7,30 +7,81 @@ import { SearchService, SearchUser } from '@core/services/search.service'
 import { AuthStore } from '@core/store/auth.store'
 import { Conversation } from '../../models/messages.models'
 
+/**
+ * Tipo de dato personalizado para sendtarget.
+ */
 type SendTarget = { type: 'conversation'; id: string; receiverId: string } | { type: 'user'; receiverId: string }
 
+/**
+ * Clase de utilidad para sharepostmodal.
+ */
 @Component({
 	selector: 'app-share-post-modal',
 	templateUrl: './share-post-modal.html',
 })
 export class SharePostModal {
+	/**
+	 * Propiedad para gestionar auth.
+	 */
 	private readonly auth = inject(AuthStore)
+	/**
+	 * Propiedad para gestionar messages.
+	 */
 	private readonly messages = inject(MessagesService)
+	/**
+	 * Propiedad para gestionar buscar.
+	 */
 	private readonly search = inject(SearchService)
+	/**
+	 * Propiedad para gestionar query$.
+	 */
 	private readonly query$ = new Subject<string>()
 
+	/**
+	 * Propiedad para gestionar post.
+	 */
 	post = input<Post | null>(null)
+	/**
+	 * Propiedad para gestionar cerrar.
+	 */
 	close = output<void>()
 
+	/**
+	 * Propiedad para gestionar conversations.
+	 */
 	readonly conversations = signal<Conversation[]>([])
+	/**
+	 * Propiedad para gestionar results.
+	 */
 	readonly results = signal<SearchUser[]>([])
+	/**
+	 * Propiedad para gestionar query.
+	 */
 	readonly query = signal('')
+	/**
+	 * Propiedad para gestionar cargando conversations.
+	 */
 	readonly loadingConversations = signal(false)
+	/**
+	 * Propiedad para gestionar cargando buscar.
+	 */
 	readonly loadingSearch = signal(false)
+	/**
+	 * Propiedad para gestionar sending to.
+	 */
 	readonly sendingTo = signal<string | null>(null)
+	/**
+	 * Propiedad para gestionar sent to.
+	 */
 	readonly sentTo = signal<Set<string>>(new Set())
+	/**
+	 * Propiedad para gestionar error.
+	 */
 	readonly error = signal<string | null>(null)
 
+	/**
+	 * Constructor de la clase o componente para inicializar dependencias.
+	 */
 	constructor() {
 		effect(() => {
 			if (!this.post()) return
@@ -64,20 +115,32 @@ export class SharePostModal {
 		})
 	}
 
+	/**
+	 * Método para evento de input.
+	 */
 	onInput(event: Event): void {
 		const value = (event.target as HTMLInputElement).value
 		this.query.set(value)
 		this.query$.next(value)
 	}
 
+	/**
+	 * Método para enviar to conversation.
+	 */
 	sendToConversation(conversation: Conversation): void {
 		this.send({ type: 'conversation', id: conversation.id, receiverId: conversation.user.id }, conversation.id)
 	}
 
+	/**
+	 * Método para enviar to user.
+	 */
 	sendToUser(user: SearchUser): void {
 		this.send({ type: 'user', receiverId: user.userId }, user.userId)
 	}
 
+	/**
+	 * Método para cargar conversations.
+	 */
 	private loadConversations(): void {
 		const myId = this.auth.currentUserId()
 		if (!myId) return
@@ -95,6 +158,9 @@ export class SharePostModal {
 		})
 	}
 
+	/**
+	 * Método para enviar.
+	 */
 	private send(target: SendTarget, targetKey: string): void {
 		const post = this.post()
 		const myId = this.auth.currentUserId()

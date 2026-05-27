@@ -1,0 +1,1961 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>cookeealo documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">cookeealo documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  PostCard</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/shared/components/post-card/post-card.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Componente que representa la tarjeta visual para mostrar una receta o publicación en el feed.
+Soporta interactividad como likes, guardado, compartir, reporte y navegación al modo cocina.</p>
+
+    </p>
+
+
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-post-card</code></td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                                <code><a href="../components/Avatar.html" target="_self" >Avatar</a></code>
+                            <code>Menu</code>
+                            <code>NgOptimizedImage</code>
+                                <code><a href="https://angular.io/api/router/RouterLink" target="_blank" >RouterLink</a></code>
+                            <code>TimeAgoPipe</code>
+                            <code>TruncateTextPipe</code>
+                                <code><a href="../components/VeganConvertModal.html" target="_self" >VeganConvertModal</a></code>
+                                <code><a href="../directives/ImgFallbackDirective.html" target="_self" >ImgFallbackDirective</a></code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./post-card.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#authorHandle" >authorHandle</a>
+                            </li>
+                            <li>
+                                <a href="#authorName" >authorName</a>
+                            </li>
+                            <li>
+                                <a href="#content" >content</a>
+                            </li>
+                            <li>
+                                <a href="#expanded" >expanded</a>
+                            </li>
+                            <li>
+                                <a href="#hasLongContent" >hasLongContent</a>
+                            </li>
+                            <li>
+                                <a href="#likeAnimating" >likeAnimating</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#liked" >liked</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#likesCount" >likesCount</a>
+                            </li>
+                            <li>
+                                <a href="#menuItems" >menuItems</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#optionsMenu" >optionsMenu</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#postActions" >postActions</a>
+                            </li>
+                            <li>
+                                <a href="#postLink" >postLink</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#preferences" >preferences</a>
+                            </li>
+                            <li>
+                                <a href="#primaryMedia" >primaryMedia</a>
+                            </li>
+                            <li>
+                                <a href="#profileLink" >profileLink</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#router" >router</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#saved" >saved</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#savesCount" >savesCount</a>
+                            </li>
+                            <li>
+                                <a href="#veganModalOpen" >veganModalOpen</a>
+                            </li>
+                            <li>
+                                <a href="#vegetarianModalOpen" >vegetarianModalOpen</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#openCookingMode" >openCookingMode</a>
+                            </li>
+                            <li>
+                                <a href="#toggleMenu" >toggleMenu</a>
+                            </li>
+                            <li>
+                                <a href="#triggerLike" >triggerLike</a>
+                            </li>
+                            <li>
+                                <a href="#triggerSave" >triggerSave</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#post" >post</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#comment" >comment</a>
+                            </li>
+                            <li>
+                                <a href="#report" >report</a>
+                            </li>
+                            <li>
+                                <a href="#share" >share</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+    <section data-compodoc="block-inputs">
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="post"></a>
+                        <b>post</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Post.html" target="_self" >Post</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Required : </i>&nbsp;<b>true</b>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/shared/components/post-card/post-card.ts:48</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Publicación o receta de entrada requerida para rellenar la tarjeta.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+    <section data-compodoc="block-outputs">
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="comment"></a>
+                        <b>comment</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Post.html" target="_self" >Post</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/app/shared/components/post-card/post-card.ts:53</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Evento emitido al hacer clic en la acción de comentar la publicación.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="report"></a>
+                        <b>report</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Post.html" target="_self" >Post</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">src/app/shared/components/post-card/post-card.ts:58</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Evento emitido para abrir el modal de reporte de la publicación.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="share"></a>
+                        <b>share</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Post.html" target="_self" >Post</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">src/app/shared/components/post-card/post-card.ts:63</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Evento emitido al hacer clic en compartir la publicación.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openCookingMode"></a>
+                    <span class="name">
+                        <span ><b>openCookingMode</b></span>
+                        <a href="#openCookingMode"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>openCookingMode()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="191"
+                                    class="link-to-prism">src/app/shared/components/post-card/post-card.ts:191</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Redirecciona al usuario al modo de cocina guiada para preparar la receta de la tarjeta.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleMenu"></a>
+                    <span class="name">
+                        <span ><b>toggleMenu</b></span>
+                        <a href="#toggleMenu"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleMenu(event: <a href="https://angular.io/api/router/Event" target="_blank">Event</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="168"
+                                    class="link-to-prism">src/app/shared/components/post-card/post-card.ts:168</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Alterna el estado de visibilidad del menú contextual de opciones adicionales de la tarjeta.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                            <code><a href="https://angular.io/api/router/Event" target="_blank" >Event</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Evento desencadenante de la interacción.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="triggerLike"></a>
+                    <span class="name">
+                        <span ><b>triggerLike</b></span>
+                        <a href="#triggerLike"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>triggerLike()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="175"
+                                    class="link-to-prism">src/app/shared/components/post-card/post-card.ts:175</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Dispara la acción de dar/quitar &#39;Me gusta&#39; y gestiona el lanzamiento de la animación visual.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="triggerSave"></a>
+                    <span class="name">
+                        <span ><b>triggerSave</b></span>
+                        <a href="#triggerSave"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>triggerSave()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="184"
+                                    class="link-to-prism">src/app/shared/components/post-card/post-card.ts:184</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Dispara la acción de guardar/quitar de guardados la publicación actual.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="authorHandle"></a>
+                    <span class="name">
+                        <span ><b>authorHandle</b></span>
+                        <a href="#authorHandle"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt;
+		this.post().author.username ? &#x60;@${this.post().author.username}&#x60; : &#x27;savorealo&#x27;,
+	)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="120" class="link-to-prism">src/app/shared/components/post-card/post-card.ts:120</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal calculada que resuelve el identificador público o handle del autor precedido por &#39;@&#39;.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="authorName"></a>
+                    <span class="name">
+                        <span ><b>authorName</b></span>
+                        <a href="#authorName"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt;
+		this.post().author.name || this.post().author.username || &#x27;Chef anonimo&#x27;,
+	)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="113" class="link-to-prism">src/app/shared/components/post-card/post-card.ts:113</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal calculada que resuelve el nombre del autor, priorizando su nombre real, usuario o un texto predeterminado.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="content"></a>
+                    <span class="name">
+                        <span ><b>content</b></span>
+                        <a href="#content"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt;
+		[this.post().title, this.post().description].filter(Boolean).join(&#x27;\n\n&#x27;),
+	)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="139" class="link-to-prism">src/app/shared/components/post-card/post-card.ts:139</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal calculada que concatena el título y la descripción para formar el cuerpo del contenido textual.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="expanded"></a>
+                    <span class="name">
+                        <span ><b>expanded</b></span>
+                        <a href="#expanded"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">src/app/shared/components/post-card/post-card.ts:68</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal reactiva que gestiona si el texto completo de la publicación está expandido.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hasLongContent"></a>
+                    <span class="name">
+                        <span ><b>hasLongContent</b></span>
+                        <a href="#hasLongContent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; this.content().length &gt; 96)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="146" class="link-to-prism">src/app/shared/components/post-card/post-card.ts:146</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal calculada que determina si la publicación tiene una extensión textual larga que requiera truncado inicial.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="likeAnimating"></a>
+                    <span class="name">
+                        <span ><b>likeAnimating</b></span>
+                        <a href="#likeAnimating"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">src/app/shared/components/post-card/post-card.ts:73</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal reactiva que controla la animación momentánea de la pulsación de Like.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="liked"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>liked</b></span>
+                        <a href="#liked"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; this.postActions.isLiked(this.post().id, this.post().liked))</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="88" class="link-to-prism">src/app/shared/components/post-card/post-card.ts:88</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal calculada que indica si el usuario actual ha reaccionado con &#39;Me gusta&#39; a esta publicación.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="likesCount"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>likesCount</b></span>
+                        <a href="#likesCount"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; this.postActions.likesCount(this.post().id, this.post().likesCount))</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="93" class="link-to-prism">src/app/shared/components/post-card/post-card.ts:93</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal calculada con el número consolidado de &#39;Me gusta&#39; de la publicación.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="menuItems"></a>
+                    <span class="name">
+                        <span ><b>menuItems</b></span>
+                        <a href="#menuItems"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed&lt;MenuItem[]&gt;(() &#x3D;&gt; [
+		{
+			label: this.saved() ? &#x27;Quitar guardado&#x27; : &#x27;Guardar&#x27;,
+			icon: this.saved() ? &#x27;pi pi-bookmark-fill&#x27; : &#x27;pi pi-bookmark&#x27;,
+			command: () &#x3D;&gt; this.triggerSave(),
+		},
+		{
+			label: &#x27;Reportar&#x27;,
+			icon: &#x27;pi pi-flag&#x27;,
+			command: () &#x3D;&gt; this.report.emit(this.post()),
+		},
+	])</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="151" class="link-to-prism">src/app/shared/components/post-card/post-card.ts:151</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal calculada que genera las opciones del menú contextual de la tarjeta adaptadas a si ya está guardada o no.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="optionsMenu"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Optional</span>
+                        <span ><b>optionsMenu</b></span>
+                        <a href="#optionsMenu"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Menu</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;optionsMenu&#x27;)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/shared/components/post-card/post-card.ts:28</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Referencia de vista al menú desplegable de opciones adicionales en la tarjeta.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="postActions"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>postActions</b></span>
+                        <a href="#postActions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(PostActionsService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/shared/components/post-card/post-card.ts:38</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Servicio inyectado para el manejo de acciones globales de publicaciones (Likes, guardados).</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="postLink"></a>
+                    <span class="name">
+                        <span ><b>postLink</b></span>
+                        <a href="#postLink"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; [&#x27;/post&#x27;, this.post().id])</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="134" class="link-to-prism">src/app/shared/components/post-card/post-card.ts:134</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal calculada que genera la ruta de navegación para ver el detalle completo de la publicación.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="preferences"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>preferences</b></span>
+                        <a href="#preferences"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(PreferencesService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/shared/components/post-card/post-card.ts:43</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Servicio de preferencias inyectado para consultar configuraciones dietéticas del usuario.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="primaryMedia"></a>
+                    <span class="name">
+                        <span ><b>primaryMedia</b></span>
+                        <a href="#primaryMedia"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; this.post().media[0] ?? null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="108" class="link-to-prism">src/app/shared/components/post-card/post-card.ts:108</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal calculada que obtiene el archivo multimedia principal (la primera imagen) de la lista de recursos de la publicación.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="profileLink"></a>
+                    <span class="name">
+                        <span ><b>profileLink</b></span>
+                        <a href="#profileLink"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt;
+		this.post().author.username ? [&#x27;/profile&#x27;, this.post().author.username] : [&#x27;/profile&#x27;],
+	)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="127" class="link-to-prism">src/app/shared/components/post-card/post-card.ts:127</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal calculada que genera los parámetros de ruta de navegación hacia el perfil del autor.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="router"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>router</b></span>
+                        <a href="#router"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(Router)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/shared/components/post-card/post-card.ts:33</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Servicio de enrutador inyectado para la navegación interna.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="saved"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>saved</b></span>
+                        <a href="#saved"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; this.postActions.isSaved(this.post().id, this.post().saved))</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="98" class="link-to-prism">src/app/shared/components/post-card/post-card.ts:98</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal calculada que indica si la publicación está guardada por el usuario en sus colecciones.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="savesCount"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>savesCount</b></span>
+                        <a href="#savesCount"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; this.postActions.savesCount(this.post().id, this.post().savesCount))</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="103" class="link-to-prism">src/app/shared/components/post-card/post-card.ts:103</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal calculada con el número consolidado de guardados de la publicación.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="veganModalOpen"></a>
+                    <span class="name">
+                        <span ><b>veganModalOpen</b></span>
+                        <a href="#veganModalOpen"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">src/app/shared/components/post-card/post-card.ts:78</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal que controla si se visualiza el modal de asistente para conversión vegana.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="vegetarianModalOpen"></a>
+                    <span class="name">
+                        <span ><b>vegetarianModalOpen</b></span>
+                        <a href="#vegetarianModalOpen"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">src/app/shared/components/post-card/post-card.ts:83</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal que controla si se visualiza el modal de asistente para conversión vegetariana.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { NgOptimizedImage } from &#x27;@angular/common&#x27;
+import { Component, computed, inject, input, output, signal, ViewChild } from &#x27;@angular/core&#x27;
+import { Router, RouterLink } from &#x27;@angular/router&#x27;
+import { Post } from &#x27;@core/models/post/post.model&#x27;
+import { PostActionsService } from &#x27;@core/services/post-actions.service&#x27;
+import { PreferencesService } from &#x27;@core/services/preferences.service&#x27;
+import { VeganConvertModal } from &#x27;@features/feed/components/vegan-convert-modal/vegan-convert-modal&#x27;
+import { Avatar } from &#x27;@shared/components/avatar/avatar&#x27;
+import { ImgFallbackDirective } from &#x27;@shared/directives/img-fallback.directive&#x27;
+import { TimeAgoPipe } from &#x27;@shared/pipes/time-ago.pipe&#x27;
+import { TruncateTextPipe } from &#x27;@shared/pipes/truncate.pipe&#x27;
+import { MenuItem } from &#x27;primeng/api&#x27;
+import { Menu } from &#x27;primeng/menu&#x27;
+
+/**
+ * Componente que representa la tarjeta visual para mostrar una receta o publicación en el feed.
+ * Soporta interactividad como likes, guardado, compartir, reporte y navegación al modo cocina.
+ */
+@Component({
+	selector: &#x27;app-post-card&#x27;,
+	imports: [Avatar, Menu, NgOptimizedImage, RouterLink, TimeAgoPipe, TruncateTextPipe, VeganConvertModal, ImgFallbackDirective],
+	templateUrl: &#x27;./post-card.html&#x27;,
+})
+export class PostCard {
+	/**
+	 * Referencia de vista al menú desplegable de opciones adicionales en la tarjeta.
+	 */
+	@ViewChild(&#x27;optionsMenu&#x27;) private optionsMenu?: Menu
+
+	/**
+	 * Servicio de enrutador inyectado para la navegación interna.
+	 */
+	private readonly router &#x3D; inject(Router)
+
+	/**
+	 * Servicio inyectado para el manejo de acciones globales de publicaciones (Likes, guardados).
+	 */
+	private readonly postActions &#x3D; inject(PostActionsService)
+
+	/**
+	 * Servicio de preferencias inyectado para consultar configuraciones dietéticas del usuario.
+	 */
+	readonly preferences &#x3D; inject(PreferencesService)
+
+	/**
+	 * Publicación o receta de entrada requerida para rellenar la tarjeta.
+	 */
+	post &#x3D; input.required&lt;Post&gt;()
+
+	/**
+	 * Evento emitido al hacer clic en la acción de comentar la publicación.
+	 */
+	comment &#x3D; output&lt;Post&gt;()
+
+	/**
+	 * Evento emitido para abrir el modal de reporte de la publicación.
+	 */
+	report &#x3D; output&lt;Post&gt;()
+
+	/**
+	 * Evento emitido al hacer clic en compartir la publicación.
+	 */
+	share &#x3D; output&lt;Post&gt;()
+
+	/**
+	 * Señal reactiva que gestiona si el texto completo de la publicación está expandido.
+	 */
+	expanded       &#x3D; signal(false)
+
+	/**
+	 * Señal reactiva que controla la animación momentánea de la pulsación de Like.
+	 */
+	likeAnimating  &#x3D; signal(false)
+
+	/**
+	 * Señal que controla si se visualiza el modal de asistente para conversión vegana.
+	 */
+	veganModalOpen &#x3D; signal(false)
+
+	/**
+	 * Señal que controla si se visualiza el modal de asistente para conversión vegetariana.
+	 */
+	vegetarianModalOpen &#x3D; signal(false)
+
+	/**
+	 * Señal calculada que indica si el usuario actual ha reaccionado con &#x27;Me gusta&#x27; a esta publicación.
+	 */
+	readonly liked      &#x3D; computed(() &#x3D;&gt; this.postActions.isLiked(this.post().id, this.post().liked))
+
+	/**
+	 * Señal calculada con el número consolidado de &#x27;Me gusta&#x27; de la publicación.
+	 */
+	readonly likesCount &#x3D; computed(() &#x3D;&gt; this.postActions.likesCount(this.post().id, this.post().likesCount))
+
+	/**
+	 * Señal calculada que indica si la publicación está guardada por el usuario en sus colecciones.
+	 */
+	readonly saved      &#x3D; computed(() &#x3D;&gt; this.postActions.isSaved(this.post().id, this.post().saved))
+
+	/**
+	 * Señal calculada con el número consolidado de guardados de la publicación.
+	 */
+	readonly savesCount &#x3D; computed(() &#x3D;&gt; this.postActions.savesCount(this.post().id, this.post().savesCount))
+
+	/**
+	 * Señal calculada que obtiene el archivo multimedia principal (la primera imagen) de la lista de recursos de la publicación.
+	 */
+	primaryMedia &#x3D; computed(() &#x3D;&gt; this.post().media[0] ?? null)
+
+	/**
+	 * Señal calculada que resuelve el nombre del autor, priorizando su nombre real, usuario o un texto predeterminado.
+	 */
+	authorName &#x3D; computed(() &#x3D;&gt;
+		this.post().author.name || this.post().author.username || &#x27;Chef anonimo&#x27;,
+	)
+
+	/**
+	 * Señal calculada que resuelve el identificador público o handle del autor precedido por &#x27;@&#x27;.
+	 */
+	authorHandle &#x3D; computed(() &#x3D;&gt;
+		this.post().author.username ? &#x60;@${this.post().author.username}&#x60; : &#x27;savorealo&#x27;,
+	)
+
+	/**
+	 * Señal calculada que genera los parámetros de ruta de navegación hacia el perfil del autor.
+	 */
+	profileLink &#x3D; computed(() &#x3D;&gt;
+		this.post().author.username ? [&#x27;/profile&#x27;, this.post().author.username] : [&#x27;/profile&#x27;],
+	)
+
+	/**
+	 * Señal calculada que genera la ruta de navegación para ver el detalle completo de la publicación.
+	 */
+	postLink &#x3D; computed(() &#x3D;&gt; [&#x27;/post&#x27;, this.post().id])
+
+	/**
+	 * Señal calculada que concatena el título y la descripción para formar el cuerpo del contenido textual.
+	 */
+	content &#x3D; computed(() &#x3D;&gt;
+		[this.post().title, this.post().description].filter(Boolean).join(&#x27;\n\n&#x27;),
+	)
+
+	/**
+	 * Señal calculada que determina si la publicación tiene una extensión textual larga que requiera truncado inicial.
+	 */
+	hasLongContent &#x3D; computed(() &#x3D;&gt; this.content().length &gt; 96)
+
+	/**
+	 * Señal calculada que genera las opciones del menú contextual de la tarjeta adaptadas a si ya está guardada o no.
+	 */
+	menuItems &#x3D; computed&lt;MenuItem[]&gt;(() &#x3D;&gt; [
+		{
+			label: this.saved() ? &#x27;Quitar guardado&#x27; : &#x27;Guardar&#x27;,
+			icon: this.saved() ? &#x27;pi pi-bookmark-fill&#x27; : &#x27;pi pi-bookmark&#x27;,
+			command: () &#x3D;&gt; this.triggerSave(),
+		},
+		{
+			label: &#x27;Reportar&#x27;,
+			icon: &#x27;pi pi-flag&#x27;,
+			command: () &#x3D;&gt; this.report.emit(this.post()),
+		},
+	])
+
+	/**
+	 * Alterna el estado de visibilidad del menú contextual de opciones adicionales de la tarjeta.
+	 * @param event Evento desencadenante de la interacción.
+	 */
+	toggleMenu(event: Event): void {
+		this.optionsMenu?.toggle(event)
+	}
+
+	/**
+	 * Dispara la acción de dar/quitar &#x27;Me gusta&#x27; y gestiona el lanzamiento de la animación visual.
+	 */
+	triggerLike(): void {
+		this.likeAnimating.set(true)
+		setTimeout(() &#x3D;&gt; this.likeAnimating.set(false), 400)
+		this.postActions.toggleLike(this.post().id, this.liked(), this.likesCount())
+	}
+
+	/**
+	 * Dispara la acción de guardar/quitar de guardados la publicación actual.
+	 */
+	triggerSave(): void {
+		this.postActions.toggleSave(this.post().id, this.saved(), this.savesCount())
+	}
+
+	/**
+	 * Redirecciona al usuario al modo de cocina guiada para preparar la receta de la tarjeta.
+	 */
+	openCookingMode(): void {
+		this.router.navigate([&#x27;/cook&#x27;, this.post().id])
+	}
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;article class&#x3D;&quot;mx-auto grid w-full max-w-[500px] gap-2 bg-transparent px-3 sm:px-0&quot;&gt;
+	&lt;header class&#x3D;&quot;flex min-w-0 items-start gap-2 px-0 sm:px-2&quot;&gt;
+		&lt;a [routerLink]&#x3D;&quot;profileLink()&quot; class&#x3D;&quot;shrink-0 rounded-pill focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary&quot;&gt;
+			&lt;app-avatar [src]&#x3D;&quot;post().author.photoUrl&quot; [name]&#x3D;&quot;authorName()&quot; size&#x3D;&quot;md&quot; /&gt;
+		&lt;/a&gt;
+
+		&lt;div class&#x3D;&quot;min-w-0 flex-1 pt-0.5 leading-none&quot;&gt;
+			&lt;div class&#x3D;&quot;flex min-w-0 items-center gap-1 overflow-hidden&quot;&gt;
+				&lt;a [routerLink]&#x3D;&quot;profileLink()&quot; class&#x3D;&quot;truncate text-body-sm font-bold text-on-surface hover:underline&quot;&gt;
+					{{ authorName() }}
+				&lt;/a&gt;
+				&lt;i class&#x3D;&quot;pi pi-check-circle shrink-0 text-[0.7rem] text-tertiary&quot;&gt;&lt;/i&gt;
+				&lt;span class&#x3D;&quot;hidden truncate text-label-md font-semibold text-on-surface-muted min-[380px]:inline&quot;&gt;{{ authorHandle() }}&lt;/span&gt;
+				&lt;span class&#x3D;&quot;shrink-0 text-label-md font-semibold text-on-surface-muted&quot;&gt;{{ post().createdAt | timeAgo }}&lt;/span&gt;
+			&lt;/div&gt;
+
+			@if (content()) {
+				&lt;p class&#x3D;&quot;mt-1 text-body-sm font-semibold leading-snug text-on-surface&quot; [class.line-clamp-2]&#x3D;&quot;!expanded()&quot;&gt;
+					{{ expanded() ? content() : (content() | truncate:96) }}
+					@if (hasLongContent()) {
+						&lt;button
+							type&#x3D;&quot;button&quot;
+							class&#x3D;&quot;inline min-h-0 align-baseline font-bold text-primary hover:underline&quot;
+							(click)&#x3D;&quot;expanded.set(!expanded())&quot;
+						&gt;
+							{{ expanded() ? &#x27;ver menos&#x27; : &#x27;ver más&#x27; }}
+						&lt;/button&gt;
+					}
+				&lt;/p&gt;
+			}
+		&lt;/div&gt;
+
+		&lt;button
+			type&#x3D;&quot;button&quot;
+			class&#x3D;&quot;grid size-11 shrink-0 place-items-center rounded-pill text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container hover:text-on-surface active:scale-[0.98]&quot;
+			(click)&#x3D;&quot;toggleMenu($event)&quot;
+			aria-label&#x3D;&quot;Opciones del post&quot;
+		&gt;
+			&lt;i class&#x3D;&quot;pi pi-ellipsis-h&quot;&gt;&lt;/i&gt;
+		&lt;/button&gt;
+		&lt;p-menu #optionsMenu [model]&#x3D;&quot;menuItems()&quot; [popup]&#x3D;&quot;true&quot; appendTo&#x3D;&quot;body&quot; /&gt;
+	&lt;/header&gt;
+
+	@if (primaryMedia(); as media) {
+		@if (media.type &#x3D;&#x3D;&#x3D; &#x27;video&#x27;) {
+			&lt;video class&#x3D;&quot;aspect-[3/2] w-full rounded-2xl bg-black object-cover sm:aspect-[1.7]&quot; [src]&#x3D;&quot;media.url&quot; controls preload&#x3D;&quot;metadata&quot;&gt;&lt;/video&gt;
+		} @else {
+			&lt;a [routerLink]&#x3D;&quot;postLink()&quot; class&#x3D;&quot;block&quot;&gt;
+				&lt;div class&#x3D;&quot;relative aspect-[3/2] overflow-hidden rounded-2xl border border-outline bg-surface-container sm:aspect-[1.7]&quot;&gt;
+					&lt;img
+						[ngSrc]&#x3D;&quot;media.url&quot;
+						[alt]&#x3D;&quot;post().title || &#x27;Publicación culinaria&#x27;&quot;
+						fill
+						appImgFallback
+						sizes&#x3D;&quot;(max-width: 768px) 100vw, 50vw&quot;
+						class&#x3D;&quot;object-cover transition-transform duration-slow ease-decelerated hover:scale-[1.02]&quot;
+					/&gt;
+				&lt;/div&gt;
+			&lt;/a&gt;
+		}
+	} @else {
+		&lt;a [routerLink]&#x3D;&quot;postLink()&quot; class&#x3D;&quot;block rounded-2xl border border-outline bg-surface-container p-4 text-body-sm font-medium leading-base text-on-surface transition-colors duration-fast ease-standard hover:bg-surface-container-high sm:p-5&quot;&gt;
+			{{ content() }}
+		&lt;/a&gt;
+	}
+
+	&lt;footer class&#x3D;&quot;grid grid-cols-[auto_auto_auto_auto_1fr] items-center gap-2 px-0 pt-1 text-on-surface sm:flex sm:gap-5 sm:px-4&quot;&gt;
+		&lt;!-- Like --&gt;
+		&lt;button
+			type&#x3D;&quot;button&quot;
+			class&#x3D;&quot;inline-flex min-h-11 items-center gap-1.5 rounded-pill px-2 text-body-sm font-bold transition-colors duration-fast ease-standard hover:bg-surface-container hover:text-error active:scale-[0.98]&quot;
+			[class.text-error]&#x3D;&quot;liked()&quot;
+			[attr.aria-pressed]&#x3D;&quot;liked()&quot;
+			(click)&#x3D;&quot;triggerLike()&quot;
+		&gt;
+			&lt;i
+				[class]&#x3D;&quot;liked() ? &#x27;pi pi-heart-fill&#x27; : &#x27;pi pi-heart&#x27;&quot;
+				[class.like-pop]&#x3D;&quot;likeAnimating()&quot;
+				class&#x3D;&quot;text-base&quot;
+			&gt;&lt;/i&gt;
+			&lt;span&gt;{{ likesCount() }}&lt;/span&gt;
+		&lt;/button&gt;
+
+		&lt;!-- Comment --&gt;
+		&lt;button
+			type&#x3D;&quot;button&quot;
+			class&#x3D;&quot;inline-flex min-h-11 items-center gap-1.5 rounded-pill px-2 text-body-sm font-bold transition-colors duration-fast ease-standard hover:bg-surface-container hover:text-primary active:scale-[0.98]&quot;
+			(click)&#x3D;&quot;comment.emit(post())&quot;
+		&gt;
+			&lt;i class&#x3D;&quot;pi pi-comment text-base&quot;&gt;&lt;/i&gt;
+			&lt;span&gt;{{ post().commentsCount }}&lt;/span&gt;
+		&lt;/button&gt;
+
+		&lt;!-- Share --&gt;
+		&lt;button
+			type&#x3D;&quot;button&quot;
+			class&#x3D;&quot;inline-flex min-h-11 items-center gap-1.5 rounded-pill px-2 text-body-sm font-bold transition-colors duration-fast ease-standard hover:bg-surface-container hover:text-primary active:scale-[0.98]&quot;
+			(click)&#x3D;&quot;share.emit(post())&quot;
+			aria-label&#x3D;&quot;Enviar post&quot;
+		&gt;
+			&lt;i class&#x3D;&quot;pi pi-send text-base&quot;&gt;&lt;/i&gt;
+			&lt;span class&#x3D;&quot;hidden min-[390px]:inline&quot;&gt;Enviar&lt;/span&gt;
+		&lt;/button&gt;
+
+		&lt;!-- Cooking mode (solo si tiene receta) --&gt;
+		@if (post().recipe) {
+			&lt;button
+				type&#x3D;&quot;button&quot;
+				class&#x3D;&quot;inline-flex min-h-11 items-center justify-center gap-1.5 rounded-pill px-3 text-label-md font-bold text-on-surface transition-all duration-fast ease-standard hover:bg-surface-container active:scale-[0.98]&quot;
+				(click)&#x3D;&quot;openCookingMode()&quot;
+				aria-label&#x3D;&quot;Modo cocina&quot;
+			&gt;
+				&lt;img src&#x3D;&quot;/gorro-de-cocinero.png&quot; class&#x3D;&quot;size-5 shrink-0 object-contain&quot; aria-hidden&#x3D;&quot;true&quot; alt&#x3D;&quot;&quot; /&gt;
+			&lt;/button&gt;
+		}
+
+		&lt;!-- Botón vegano (solo en modo vegano) --&gt;
+		@if (preferences.veganMode()) {
+			&lt;button
+				type&#x3D;&quot;button&quot;
+				class&#x3D;&quot;inline-flex min-h-11 items-center justify-center gap-1.5 rounded-pill px-2.5 text-label-md font-semibold transition-all duration-fast ease-standard active:scale-[0.98]&quot;
+				style&#x3D;&quot;color: #16a34a;&quot;
+				(click)&#x3D;&quot;veganModalOpen.set(true)&quot;
+				aria-label&#x3D;&quot;Convertir a versión vegana&quot;
+				onmouseenter&#x3D;&quot;this.style.background&#x3D;&#x27;rgba(34,197,94,0.1)&#x27;&quot;
+				onmouseleave&#x3D;&quot;this.style.background&#x3D;&#x27;&#x27;&quot;
+			&gt;
+				&lt;img src&#x3D;&quot;/vegano.png&quot; class&#x3D;&quot;size-4 shrink-0 object-contain&quot; aria-hidden&#x3D;&quot;true&quot; alt&#x3D;&quot;&quot; /&gt;
+			&lt;/button&gt;
+		}
+
+		@if (preferences.vegetarianMode()) {
+			&lt;button
+				type&#x3D;&quot;button&quot;
+				class&#x3D;&quot;inline-flex min-h-11 items-center justify-center gap-1.5 rounded-pill px-2.5 text-label-md font-semibold transition-all duration-fast ease-standard active:scale-[0.98]&quot;
+				style&#x3D;&quot;color: #16a34a;&quot;
+				(click)&#x3D;&quot;vegetarianModalOpen.set(true)&quot;
+				aria-label&#x3D;&quot;Convertir a versión vegetariana&quot;
+				onmouseenter&#x3D;&quot;this.style.background&#x3D;&#x27;rgba(34,197,94,0.1)&#x27;&quot;
+				onmouseleave&#x3D;&quot;this.style.background&#x3D;&#x27;&#x27;&quot;
+			&gt;
+				&lt;img src&#x3D;&quot;/vegetariano.png&quot; class&#x3D;&quot;size-4 shrink-0 object-contain&quot; aria-hidden&#x3D;&quot;true&quot; alt&#x3D;&quot;&quot; /&gt;
+			&lt;/button&gt;
+		}
+
+		&lt;!-- Save --&gt;
+		&lt;button
+			type&#x3D;&quot;button&quot;
+			class&#x3D;&quot;ml-auto grid size-11 place-items-center rounded-pill text-body-sm transition-colors duration-fast ease-standard hover:bg-surface-container hover:text-primary active:scale-[0.98]&quot;
+			[class.text-primary]&#x3D;&quot;saved()&quot;
+			[attr.aria-pressed]&#x3D;&quot;saved()&quot;
+			(click)&#x3D;&quot;triggerSave()&quot;
+			aria-label&#x3D;&quot;Guardar post&quot;
+		&gt;
+			&lt;i [class]&#x3D;&quot;saved() ? &#x27;pi pi-bookmark-fill&#x27; : &#x27;pi pi-bookmark&#x27;&quot; class&#x3D;&quot;text-base&quot;&gt;&lt;/i&gt;
+		&lt;/button&gt;
+	&lt;/footer&gt;
+&lt;/article&gt;
+
+@if (preferences.veganMode()) {
+	&lt;app-vegan-convert-modal [post]&#x3D;&quot;post()&quot; [(visible)]&#x3D;&quot;veganModalOpen&quot; /&gt;
+}
+
+&lt;style&gt;
+.like-pop {
+	animation: likePop 0.35s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+@keyframes likePop {
+	0%   { transform: scale(1) }
+	30%  { transform: scale(1.5) }
+	60%  { transform: scale(0.9) }
+	100% { transform: scale(1) }
+}
+&lt;/style&gt;
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis-network.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><article class="mx-auto grid w-full max-w-[500px] gap-2 bg-transparent px-3 sm:px-0">	<header class="flex min-w-0 items-start gap-2 px-0 sm:px-2">		<a [routerLink]="profileLink()" class="shrink-0 rounded-pill focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">			<app-avatar [src]="post().author.photoUrl" [name]="authorName()" size="md" />		</a>		<div class="min-w-0 flex-1 pt-0.5 leading-none">			<div class="flex min-w-0 items-center gap-1 overflow-hidden">				<a [routerLink]="profileLink()" class="truncate text-body-sm font-bold text-on-surface hover:underline">					{{ authorName() }}				</a>				<i class="pi pi-check-circle shrink-0 text-[0.7rem] text-tertiary"></i>				<span class="hidden truncate text-label-md font-semibold text-on-surface-muted min-[380px]:inline">{{ authorHandle() }}</span>				<span class="shrink-0 text-label-md font-semibold text-on-surface-muted">{{ post().createdAt | timeAgo }}</span>			</div>			@if (content()) {				<p class="mt-1 text-body-sm font-semibold leading-snug text-on-surface" [class.line-clamp-2]="!expanded()">					{{ expanded() ? content() : (content() | truncate:96) }}					@if (hasLongContent()) {						<button							type="button"							class="inline min-h-0 align-baseline font-bold text-primary hover:underline"							(click)="expanded.set(!expanded())"						>							{{ expanded() ? \'ver menos\' : \'ver más\' }}						</button>					}				</p>			}		</div>		<button			type="button"			class="grid size-11 shrink-0 place-items-center rounded-pill text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container hover:text-on-surface active:scale-[0.98]"			(click)="toggleMenu($event)"			aria-label="Opciones del post"		>			<i class="pi pi-ellipsis-h"></i>		</button>		<p-menu #optionsMenu [model]="menuItems()" [popup]="true" appendTo="body" />	</header>	@if (primaryMedia(); as media) {		@if (media.type === \'video\') {			<video class="aspect-[3/2] w-full rounded-2xl bg-black object-cover sm:aspect-[1.7]" [src]="media.url" controls preload="metadata"></video>		} @else {			<a [routerLink]="postLink()" class="block">				<div class="relative aspect-[3/2] overflow-hidden rounded-2xl border border-outline bg-surface-container sm:aspect-[1.7]">					<img						[ngSrc]="media.url"						[alt]="post().title || \'Publicación culinaria\'"						fill						appImgFallback						sizes="(max-width: 768px) 100vw, 50vw"						class="object-cover transition-transform duration-slow ease-decelerated hover:scale-[1.02]"					/>				</div>			</a>		}	} @else {		<a [routerLink]="postLink()" class="block rounded-2xl border border-outline bg-surface-container p-4 text-body-sm font-medium leading-base text-on-surface transition-colors duration-fast ease-standard hover:bg-surface-container-high sm:p-5">			{{ content() }}		</a>	}	<footer class="grid grid-cols-[auto_auto_auto_auto_1fr] items-center gap-2 px-0 pt-1 text-on-surface sm:flex sm:gap-5 sm:px-4">		<!-- Like -->		<button			type="button"			class="inline-flex min-h-11 items-center gap-1.5 rounded-pill px-2 text-body-sm font-bold transition-colors duration-fast ease-standard hover:bg-surface-container hover:text-error active:scale-[0.98]"			[class.text-error]="liked()"			[attr.aria-pressed]="liked()"			(click)="triggerLike()"		>			<i				[class]="liked() ? \'pi pi-heart-fill\' : \'pi pi-heart\'"				[class.like-pop]="likeAnimating()"				class="text-base"			></i>			<span>{{ likesCount() }}</span>		</button>		<!-- Comment -->		<button			type="button"			class="inline-flex min-h-11 items-center gap-1.5 rounded-pill px-2 text-body-sm font-bold transition-colors duration-fast ease-standard hover:bg-surface-container hover:text-primary active:scale-[0.98]"			(click)="comment.emit(post())"		>			<i class="pi pi-comment text-base"></i>			<span>{{ post().commentsCount }}</span>		</button>		<!-- Share -->		<button			type="button"			class="inline-flex min-h-11 items-center gap-1.5 rounded-pill px-2 text-body-sm font-bold transition-colors duration-fast ease-standard hover:bg-surface-container hover:text-primary active:scale-[0.98]"			(click)="share.emit(post())"			aria-label="Enviar post"		>			<i class="pi pi-send text-base"></i>			<span class="hidden min-[390px]:inline">Enviar</span>		</button>		<!-- Cooking mode (solo si tiene receta) -->		@if (post().recipe) {			<button				type="button"				class="inline-flex min-h-11 items-center justify-center gap-1.5 rounded-pill px-3 text-label-md font-bold text-on-surface transition-all duration-fast ease-standard hover:bg-surface-container active:scale-[0.98]"				(click)="openCookingMode()"				aria-label="Modo cocina"			>				<img src="/gorro-de-cocinero.png" class="size-5 shrink-0 object-contain" aria-hidden="true" alt="" />			</button>		}		<!-- Botón vegano (solo en modo vegano) -->		@if (preferences.veganMode()) {			<button				type="button"				class="inline-flex min-h-11 items-center justify-center gap-1.5 rounded-pill px-2.5 text-label-md font-semibold transition-all duration-fast ease-standard active:scale-[0.98]"				style="color: #16a34a;"				(click)="veganModalOpen.set(true)"				aria-label="Convertir a versión vegana"				onmouseenter="this.style.background=\'rgba(34,197,94,0.1)\'"				onmouseleave="this.style.background=\'\'"			>				<img src="/vegano.png" class="size-4 shrink-0 object-contain" aria-hidden="true" alt="" />			</button>		}		@if (preferences.vegetarianMode()) {			<button				type="button"				class="inline-flex min-h-11 items-center justify-center gap-1.5 rounded-pill px-2.5 text-label-md font-semibold transition-all duration-fast ease-standard active:scale-[0.98]"				style="color: #16a34a;"				(click)="vegetarianModalOpen.set(true)"				aria-label="Convertir a versión vegetariana"				onmouseenter="this.style.background=\'rgba(34,197,94,0.1)\'"				onmouseleave="this.style.background=\'\'"			>				<img src="/vegetariano.png" class="size-4 shrink-0 object-contain" aria-hidden="true" alt="" />			</button>		}		<!-- Save -->		<button			type="button"			class="ml-auto grid size-11 place-items-center rounded-pill text-body-sm transition-colors duration-fast ease-standard hover:bg-surface-container hover:text-primary active:scale-[0.98]"			[class.text-primary]="saved()"			[attr.aria-pressed]="saved()"			(click)="triggerSave()"			aria-label="Guardar post"		>			<i [class]="saved() ? \'pi pi-bookmark-fill\' : \'pi pi-bookmark\'" class="text-base"></i>		</button>	</footer></article>@if (preferences.veganMode()) {	<app-vegan-convert-modal [post]="post()" [(visible)]="veganModalOpen" />}<style>.like-pop {	animation: likePop 0.35s cubic-bezier(0.36, 0.07, 0.19, 0.97);}@keyframes likePop {	0%   { transform: scale(1) }	30%  { transform: scale(1.5) }	60%  { transform: scale(0.9) }	100% { transform: scale(1) }}</style></div>'
+    var COMPONENTS = [{'name': 'AddReviewModal', 'selector': 'app-add-review-modal'},{'name': 'AiIdeasPanel', 'selector': 'app-ai-ideas-panel'},{'name': 'AiRecipeForm', 'selector': 'app-ai-recipe-form'},{'name': 'AiRecipeResult', 'selector': 'app-ai-recipe-result'},{'name': 'AiRecipesHero', 'selector': 'app-ai-recipes-hero'},{'name': 'AiRecipesPage', 'selector': 'app-ai-recipes-page'},{'name': 'App', 'selector': 'app-root'},{'name': 'AppShell', 'selector': 'app-shell'},{'name': 'Auth', 'selector': 'app-auth'},{'name': 'Avatar', 'selector': 'app-avatar'},{'name': 'Body', 'selector': 'app-body-step1'},{'name': 'Body', 'selector': 'app-body-step3'},{'name': 'Body', 'selector': 'app-body-step2'},{'name': 'ButtonComponent', 'selector': 'app-button'},{'name': 'CallHost', 'selector': 'app-call-host'},{'name': 'CallOverlay', 'selector': 'app-call-overlay'},{'name': 'ChatPanel', 'selector': 'app-chat-panel'},{'name': 'CommentSection', 'selector': 'app-comment-section'},{'name': 'CommentsSheetComponent', 'selector': 'app-comments-sheet'},{'name': 'ConversationList', 'selector': 'app-conversation-list'},{'name': 'CookingModePage', 'selector': 'app-cooking-mode-page'},{'name': 'CreatePostComponent', 'selector': 'app-create-post'},{'name': 'EditProfileComponent', 'selector': 'app-edit-profile'},{'name': 'EmojiRain', 'selector': 'app-emoji-rain'},{'name': 'Emptystate', 'selector': 'app-emptystate'},{'name': 'ExploreCategoryTabs', 'selector': 'app-explore-category-tabs'},{'name': 'ExploreHero', 'selector': 'app-explore-hero'},{'name': 'ExplorePage', 'selector': 'app-explore-page'},{'name': 'ExploreRightRail', 'selector': 'app-explore-right-rail'},{'name': 'ExploreToolbar', 'selector': 'app-explore-toolbar'},{'name': 'FeedPage', 'selector': 'app-feed-page'},{'name': 'FeedPostList', 'selector': 'app-feed-post-list'},{'name': 'FeedRightRail', 'selector': 'app-feed-right-rail'},{'name': 'GlobalSearchPanel', 'selector': 'app-global-search-panel'},{'name': 'Header', 'selector': 'app-header-step1'},{'name': 'Header', 'selector': 'app-header-step3'},{'name': 'Header', 'selector': 'app-header-step2'},{'name': 'Home', 'selector': 'app-home'},{'name': 'IncomingCall', 'selector': 'app-incoming-call'},{'name': 'Login', 'selector': 'app-login'},{'name': 'MessageBubble', 'selector': 'app-message-bubble'},{'name': 'MessagesPage', 'selector': 'app-messages-page'},{'name': 'NewConversation', 'selector': 'app-new-conversation'},{'name': 'NotificationsPage', 'selector': 'app-notifications-page'},{'name': 'PlaceCard', 'selector': 'app-place-card'},{'name': 'PlaceDetailPage', 'selector': 'app-place-detail-page'},{'name': 'PlacesPage', 'selector': 'app-places-page'},{'name': 'PostCard', 'selector': 'app-post-card'},{'name': 'PostDetailPage', 'selector': 'app-post-detail-page'},{'name': 'Profile', 'selector': 'app-profile'},{'name': 'PublicProfilePage', 'selector': 'app-public-profile-page'},{'name': 'RecentAiRecipes', 'selector': 'app-recent-ai-recipes'},{'name': 'RecipeDiscoveryCard', 'selector': 'app-recipe-discovery-card'},{'name': 'RecipeDiscoveryGrid', 'selector': 'app-recipe-discovery-grid'},{'name': 'RecipeOfDayCard', 'selector': 'app-recipe-of-day-card'},{'name': 'Register', 'selector': 'app-register'},{'name': 'ReportSheet', 'selector': 'app-report-sheet'},{'name': 'SavedCollectionStrip', 'selector': 'app-saved-collection-strip'},{'name': 'SavedPage', 'selector': 'app-saved-page'},{'name': 'SavedRecipeCard', 'selector': 'app-saved-recipe-card'},{'name': 'SavoLoader', 'selector': 'app-savo-loader'},{'name': 'SettingsPage', 'selector': 'app-settings-page'},{'name': 'SharedPostCard', 'selector': 'app-shared-post-card'},{'name': 'SharedProfileCard', 'selector': 'app-shared-profile-card'},{'name': 'SharePostModal', 'selector': 'app-share-post-modal'},{'name': 'ShareProfileModal', 'selector': 'app-share-profile-modal'},{'name': 'ShoppingListPage', 'selector': 'app-shopping-list-page'},{'name': 'SkeletonCard', 'selector': 'app-skeleton-card'},{'name': 'Spinner', 'selector': 'app-spinner'},{'name': 'SpotlightBg', 'selector': 'app-spotlight-bg'},{'name': 'StoriesStrip', 'selector': 'app-stories-strip'},{'name': 'StoryViewer', 'selector': 'app-story-viewer'},{'name': 'SuggestionsPanel', 'selector': 'app-suggestions-panel'},{'name': 'Title', 'selector': 'app-title'},{'name': 'Topbar', 'selector': 'app-topbar'},{'name': 'TrendingList', 'selector': 'app-trending-list'},{'name': 'VeganConvertModal', 'selector': 'app-vegan-convert-modal'}];
+    var DIRECTIVES = [{'name': 'ClickOutsideDirective', 'selector': '[appClickOutside]'},{'name': 'ImgFallbackDirective', 'selector': 'img[appImgFallback]'}];
+    var ACTUAL_COMPONENT = {'name': 'PostCard'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'PostCard.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

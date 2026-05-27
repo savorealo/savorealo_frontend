@@ -62,9 +62,24 @@ import { ButtonComponent } from '../button/button';
   `,
 })
 export class Emptystate {
+  /**
+   * Propiedad para gestionar icon.
+   */
   @Input() icon = 'pi pi-inbox';
+  /**
+   * Propiedad para gestionar título.
+   */
   @Input() title = 'Nada por aquí';
+  /**
+   * Propiedad para gestionar descripción.
+   */
   @Input() description = '';
+  /**
+   * Propiedad para gestionar action label.
+   */
   @Input() actionLabel = '';
+  /**
+   * Propiedad para gestionar evento de action.
+   */
   @Input() onAction: () => void = () => { };
 }

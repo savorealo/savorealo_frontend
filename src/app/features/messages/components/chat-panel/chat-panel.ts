@@ -7,51 +7,153 @@ import { SavoLoader } from '@shared/components/savo-loader/savo-loader'
 import { TranslationService } from '@core/services/translation.service'
 import { TranslatePipe } from '@shared/pipes/translate.pipe'
 
+/**
+ * Interfaz que define la estructura o contrato de datos para messagedategroup.
+ */
 interface MessageDateGroup {
+	/**
+	 * Propiedad para gestionar clave.
+	 */
 	key: string
+	/**
+	 * Propiedad para gestionar label.
+	 */
 	label: string
+	/**
+	 * Propiedad para gestionar messages.
+	 */
 	messages: ChatMessage[]
 }
 
+/**
+ * Clase de utilidad para chatpanel.
+ */
 @Component({
 	selector: 'app-chat-panel',
 	imports: [MessageBubble, NgClass, RouterLink, SavoLoader, TranslatePipe],
 	templateUrl: './chat-panel.html',
 })
 export class ChatPanel implements OnInit {
+	/**
+	 * Propiedad para gestionar t.
+	 */
 	readonly t = inject(TranslationService)
+	/**
+	 * Propiedad para gestionar injector.
+	 */
 	private readonly injector = inject(Injector)
 
+	/**
+	 * Propiedad para gestionar conversation.
+	 */
 	conversation = input.required<Conversation>()
+	/**
+	 * Propiedad para gestionar messages.
+	 */
 	messages     = input.required<ChatMessage[]>()
+	/**
+	 * Propiedad para gestionar cargando.
+	 */
 	loading      = input(false)
+	/**
+	 * Indicador booleano para es o está typing.
+	 */
 	isTyping     = input(false)
+	/**
+	 * Propiedad para gestionar cargando more.
+	 */
 	loadingMore  = input(false)
+	/**
+	 * Indicador booleano para tiene more.
+	 */
 	hasMore      = input(false)
 
+	/**
+	 * Propiedad para gestionar enviar message.
+	 */
 	sendMessage = output<{ text: string; replyTo: ChatMessage | null }>()
+	/**
+	 * Propiedad para gestionar cargar older messages.
+	 */
 	loadOlderMessages = output<void>()
+	/**
+	 * Propiedad para gestionar typing.
+	 */
 	typing      = output<void>()
+	/**
+	 * Propiedad para gestionar start call.
+	 */
 	startCall   = output<'audio' | 'video'>()
+	/**
+	 * Propiedad para gestionar back.
+	 */
 	back        = output<void>()
 
+	/**
+	 * Propiedad para gestionar messages viewport.
+	 */
 	@ViewChild('messagesViewport') private messagesViewport?: ElementRef<HTMLElement>
+	/**
+	 * Propiedad para gestionar buscar input.
+	 */
 	@ViewChild('searchInput') private searchInput?: ElementRef<HTMLInputElement>
+	/**
+	 * Propiedad para gestionar message input.
+	 */
 	@ViewChild('messageInput') private messageInput?: ElementRef<HTMLInputElement>
 
+	/**
+	 * Propiedad para gestionar draft.
+	 */
 	readonly draft = signal('')
+	/**
+	 * Propiedad para gestionar menu abrir.
+	 */
 	readonly menuOpen = signal(false)
+	/**
+	 * Propiedad para gestionar emoji abrir.
+	 */
 	readonly emojiOpen = signal(false)
+	/**
+	 * Propiedad para gestionar buscar abrir.
+	 */
 	readonly searchOpen = signal(false)
+	/**
+	 * Propiedad para gestionar buscar query.
+	 */
 	readonly searchQuery = signal('')
+	/**
+	 * Propiedad para gestionar active buscar index.
+	 */
 	readonly activeSearchIndex = signal(0)
+	/**
+	 * Propiedad para gestionar replying to.
+	 */
 	readonly replyingTo = signal<ChatMessage | null>(null)
+	/**
+	 * Propiedad para gestionar emojis.
+	 */
 	readonly emojis = ['😀', '😂', '😍', '😋', '🤤', '🥰', '😭', '😅', '🙌', '👏', '🔥', '✨', '❤️', '💚', '👍', '👀', '🍕', '🍔', '🍟', '🌮', '🍣', '🍰', '☕', '🍷']
+	/**
+	 * Propiedad para gestionar pending prepend.
+	 */
 	private pendingPrepend = false
+	/**
+	 * Propiedad para gestionar previous scroll alto.
+	 */
 	private previousScrollHeight = 0
+	/**
+	 * Propiedad para gestionar initial scrolled conversation identificador.
+	 */
 	private initialScrolledConversationId: string | null = null
+	/**
+	 * Propiedad para gestionar pending scroll to message identificador.
+	 */
 	private pendingScrollToMessageId: string | null = null
 
+	/**
+	 * Propiedad para gestionar buscar matches.
+	 */
 	readonly searchMatches = computed(() => {
 		const query = this.normalize(this.searchQuery())
 		if (!query) return []
@@ -61,12 +163,18 @@ export class ChatPanel implements OnInit {
 		)
 	})
 
+	/**
+	 * Propiedad para gestionar active buscar message identificador.
+	 */
 	readonly activeSearchMessageId = computed(() => {
 		const matches = this.searchMatches()
 		if (!matches.length) return null
 		return matches[Math.min(this.activeSearchIndex(), matches.length - 1)]?.id ?? null
 	})
 
+	/**
+	 * Propiedad para gestionar message groups.
+	 */
 	readonly messageGroups = computed<MessageDateGroup[]>(() => {
 		const groups: MessageDateGroup[] = []
 		for (const message of this.messages()) {
@@ -88,6 +196,9 @@ export class ChatPanel implements OnInit {
 		return groups
 	})
 
+	/**
+	 * Método de ciclo de vida de Angular que se ejecuta al inicializar el componente.
+	 */
 	ngOnInit(): void {
 		effect(() => {
 			const conversationId = this.conversation().id
@@ -127,12 +238,18 @@ export class ChatPanel implements OnInit {
 		}, { injector: this.injector })
 	}
 
+	/**
+	 * Método para establecer draft.
+	 */
 	setDraft(event: Event): void {
 		const value = (event.target as HTMLInputElement).value
 		this.draft.set(value)
 		if (value.trim()) this.typing.emit()
 	}
 
+	/**
+	 * Método para enviar.
+	 */
 	send(): void {
 		const text = this.draft().trim()
 		if (!text) return
@@ -142,40 +259,64 @@ export class ChatPanel implements OnInit {
 		this.emojiOpen.set(false)
 	}
 
+	/**
+	 * Método para alternar menu.
+	 */
 	toggleMenu(): void {
 		this.menuOpen.update(v => !v)
 	}
 
+	/**
+	 * Método para call from menu.
+	 */
 	callFromMenu(type: 'audio' | 'video'): void {
 		this.menuOpen.set(false)
 		this.startCall.emit(type)
 	}
 
+	/**
+	 * Método para abrir buscar.
+	 */
 	openSearch(): void {
 		this.menuOpen.set(false)
 		this.searchOpen.set(true)
 		setTimeout(() => this.searchInput?.nativeElement.focus())
 	}
 
+	/**
+	 * Método para cerrar buscar.
+	 */
 	closeSearch(): void {
 		this.searchOpen.set(false)
 		this.searchQuery.set('')
 		this.activeSearchIndex.set(0)
 	}
 
+	/**
+	 * Método para establecer buscar query.
+	 */
 	setSearchQuery(event: Event): void {
 		this.searchQuery.set((event.target as HTMLInputElement).value)
 		this.activeSearchIndex.set(0)
 	}
 
+	/**
+	 * Método para next buscar match.
+	 */
 	nextSearchMatch(): void {
 		this.moveSearch(1)
 	}
 
+	/**
+	 * Método para previous buscar match.
+	 */
 	previousSearchMatch(): void {
 		this.moveSearch(-1)
 	}
 
+	/**
+	 * Método para evento de document keydown.
+	 */
 	@HostListener('document:keydown', ['$event'])
 	onDocumentKeydown(event: KeyboardEvent): void {
 		if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'f') {
@@ -184,16 +325,25 @@ export class ChatPanel implements OnInit {
 		}
 	}
 
+	/**
+	 * Método para reply to.
+	 */
 	replyTo(message: ChatMessage): void {
 		if (message.typing) return
 		this.replyingTo.set(message)
 	}
 
+	/**
+	 * Método para alternar emoji picker.
+	 */
 	toggleEmojiPicker(): void {
 		this.emojiOpen.update(value => !value)
 		setTimeout(() => this.messageInput?.nativeElement.focus())
 	}
 
+	/**
+	 * Método para insert emoji.
+	 */
 	insertEmoji(emoji: string): void {
 		const input = this.messageInput?.nativeElement
 		const current = this.draft()
@@ -211,6 +361,9 @@ export class ChatPanel implements OnInit {
 		})
 	}
 
+	/**
+	 * Método para evento de messages scroll.
+	 */
 	onMessagesScroll(event: Event): void {
 		const viewport = event.target as HTMLElement
 		if (viewport.scrollTop > 96 || this.loadingMore() || !this.hasMore()) return
@@ -220,11 +373,17 @@ export class ChatPanel implements OnInit {
 		this.loadOlderMessages.emit()
 	}
 
+	/**
+	 * Método para scroll to message.
+	 */
 	scrollToMessage(messageId: string): void {
 		this.pendingScrollToMessageId = messageId
 		this.tryScrollToMessage(messageId)
 	}
 
+	/**
+	 * Método para move buscar.
+	 */
 	private moveSearch(delta: 1 | -1): void {
 		const matches = this.searchMatches()
 		if (!matches.length) return
@@ -234,6 +393,9 @@ export class ChatPanel implements OnInit {
 		this.scrollToMessage(matches[nextIndex].id)
 	}
 
+	/**
+	 * Método para try scroll to message.
+	 */
 	private tryScrollToMessage(messageId: string): void {
 		const viewport = this.messagesViewport?.nativeElement
 		const target = viewport?.querySelector<HTMLElement>(`[data-message-id="${CSS.escape(messageId)}"]`)
@@ -252,6 +414,9 @@ export class ChatPanel implements OnInit {
 		}
 	}
 
+	/**
+	 * Método para restore scroll after prepend.
+	 */
 	private restoreScrollAfterPrepend(): void {
 		const viewport = this.messagesViewport?.nativeElement
 		if (!viewport) return
@@ -261,12 +426,18 @@ export class ChatPanel implements OnInit {
 		this.previousScrollHeight = 0
 	}
 
+	/**
+	 * Método para scroll to bottom.
+	 */
 	private scrollToBottom(): void {
 		const viewport = this.messagesViewport?.nativeElement
 		if (!viewport) return
 		viewport.scrollTop = viewport.scrollHeight
 	}
 
+	/**
+	 * Método para normalize.
+	 */
 	private normalize(value: string): string {
 		return value
 			.toLocaleLowerCase('es')
@@ -275,11 +446,17 @@ export class ChatPanel implements OnInit {
 			.trim()
 	}
 
+	/**
+	 * Método para message fecha.
+	 */
 	private messageDate(message: ChatMessage): Date {
 		const date = message.createdAt ? new Date(message.createdAt) : new Date()
 		return Number.isNaN(date.getTime()) ? new Date() : date
 	}
 
+	/**
+	 * Método para fecha clave.
+	 */
 	private dateKey(date: Date): string {
 		const year = date.getFullYear()
 		const month = String(date.getMonth() + 1).padStart(2, '0')
@@ -287,6 +464,9 @@ export class ChatPanel implements OnInit {
 		return `${year}-${month}-${day}`
 	}
 
+	/**
+	 * Método para fecha label.
+	 */
 	private dateLabel(date: Date): string {
 		const today = this.startOfDay(new Date())
 		const target = this.startOfDay(date)
@@ -303,6 +483,9 @@ export class ChatPanel implements OnInit {
 		})
 	}
 
+	/**
+	 * Método para start of day.
+	 */
 	private startOfDay(date: Date): Date {
 		return new Date(date.getFullYear(), date.getMonth(), date.getDate())
 	}

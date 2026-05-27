@@ -4,47 +4,178 @@ import { map, Observable } from 'rxjs'
 import { Place, PlaceReview, PlaceType } from '@core/models/places/place.model'
 import { ENVIRONMENT } from '@core/tokens/environment.token'
 
+/**
+ * Interfaz que define la estructura o contrato de datos para reviewwithuser.
+ */
 export interface ReviewWithUser extends PlaceReview {
+  /**
+   * Propiedad para gestionar display nombre.
+   */
   displayName: string | null
+  /**
+   * Propiedad para gestionar nombre de usuario.
+   */
   username:    string | null
+  /**
+   * Propiedad para gestionar avatar enlace.
+   */
   avatarUrl:   string | null
 }
 
+/**
+ * Interfaz que define la estructura o contrato de datos para placewithdistance.
+ */
 export interface PlaceWithDistance extends Place {
+  /**
+   * Propiedad para gestionar distance meters.
+   */
+export interface PlaceWithDistance extends Place {
+  /**
+   * Propiedad para gestionar distance meters.
+   */
   distanceMeters: number | null
 }
 
+/**
+ * Interfaz que define la estructura o contrato de datos para rawplace.
+ */
 interface RawPlace {
-  id: string; name: string; address: string
-  place_type: string; filters: string[] | null
-  description: string | null; media_url: string | null
-  is_open: boolean; phone: string | null
-  specialty: string | null; website: string | null
-  average_rating: number | null; reviews_count: number | null
+  /**
+   * Propiedad para gestionar identificador.
+   */
+  id: string;
+  /**
+   * Propiedad para gestionar nombre.
+   */
+  name: string;
+  /**
+   * Propiedad para gestionar address.
+   */
+  address: string
+  /**
+   * Propiedad para gestionar place type.
+   */
+  place_type: string;
+  /**
+   * Propiedad para gestionar filters.
+   */
+  filters: string[] | null
+  /**
+   * Propiedad para gestionar descripción.
+   */
+  description: string | null;
+  /**
+   * Propiedad para gestionar media enlace.
+   */
+  media_url: string | null
+  /**
+   * Indicador booleano para es o está abrir.
+   */
+  is_open: boolean;
+  /**
+   * Propiedad para gestionar phone.
+   */
+  phone: string | null
+  /**
+   * Propiedad para gestionar specialty.
+   */
+  specialty: string | null;
+  /**
+   * Propiedad para gestionar website.
+   */
+  website: string | null
+  /**
+   * Propiedad para gestionar average rating.
+   */
+  average_rating: number | null;
+  /**
+   * Propiedad para gestionar reviews cantidad.
+   */
+  reviews_count: number | null
 }
 
+/**
+ * Interfaz que define la estructura o contrato de datos para rawplacewithdistance.
+ */
 interface RawPlaceWithDistance extends RawPlace {
+  /**
+   * Propiedad para gestionar distance meters.
+   */
   distance_meters: number | null
 }
 
+/**
+ * Interfaz que define la estructura o contrato de datos para rawreview.
+ */
 interface RawReview {
-  id: string; user_id: string; place_id: string
-  rating: number; comment: string | null
-  photo_url: string | null; created_at: string
+  /**
+   * Propiedad para gestionar identificador.
+   */
+  id: string;
+  /**
+   * Propiedad para gestionar user identificador.
+   */
+  user_id: string;
+  /**
+   * Propiedad para gestionar place identificador.
+   */
+  place_id: string
+  /**
+   * Propiedad para gestionar rating.
+   */
+  rating: number;
+  /**
+   * Propiedad para gestionar comment.
+   */
+  comment: string | null
+  /**
+   * Propiedad para gestionar foto enlace.
+   */
+  photo_url: string | null;
+  /**
+   * Propiedad para gestionar created at.
+   */
+  created_at: string
+  /**
+   * Propiedad para gestionar person profiles.
+   */
   person_profiles: {
+    /**
+     * Propiedad para gestionar nombre de usuario.
+     */
     username: string | null
+    /**
+     * Propiedad para gestionar display nombre.
+     */
     display_name: string | null
+    /**
+     * Propiedad para gestionar avatar enlace.
+     */
     avatar_url: string | null
   }[] | null
 }
 
-const COLS = 'id,name,address,place_type,filters,description,media_url,is_open,phone,specialty,website,average_rating,reviews_count'
+/**
+ * Variable o constante para c o l s.
+ */
 
+/**
+ * Servicio que provee la lógica de negocio para los lugares gastronómicos.
+ */
 @Injectable({ providedIn: 'root' })
 export class PlacesService {
+  /**
+   * Propiedad para gestionar http.
+   */
   private readonly http = inject(HttpClient)
+  /**
+   * Propiedad para gestionar env.
+   */
   private readonly env  = inject(ENVIRONMENT)
 
+  /**
+   * Método para base.
+   */
   private get base(): string {
     return `${this.env.supabaseUrl}/rest/v1`
   }
@@ -68,6 +199,9 @@ export class PlacesService {
     )
   }
 
+  /**
+   * Método para obtener place por identificador.
+   */
   getPlaceById(id: string): Observable<Place> {
     return this.http.get<RawPlace[]>(`${this.base}/places`, {
       params: { select: COLS, id: `eq.${id}`, limit: '1' },
@@ -79,6 +213,9 @@ export class PlacesService {
     )
   }
 
+  /**
+   * Método para obtener reviews.
+   */
   getReviews(placeId: string): Observable<ReviewWithUser[]> {
     return this.http.get<RawReview[]>(`${this.base}/place_reviews`, {
       params: {
@@ -98,6 +235,9 @@ export class PlacesService {
     )
   }
 
+  /**
+   * Método para añadir review.
+   */
   addReview(placeId: string, userId: string, rating: number, comment: string): Observable<void> {
     return this.http.post<void>(`${this.base}/place_reviews`, {
       place_id: placeId,
@@ -107,6 +247,9 @@ export class PlacesService {
     }).pipe(map(() => void 0))
   }
 
+  /**
+   * Método para map place.
+   */
   private mapPlace(r: RawPlace): Place {
     return {
       id: r.id, name: r.name, address: r.address,

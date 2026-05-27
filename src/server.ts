@@ -7,9 +7,19 @@ import {
 import express from 'express';
 import { join } from 'node:path';
 
+/**
+ * Ruta del directorio que contiene los archivos estáticos de la aplicación construida para el navegador.
+ */
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
+/**
+ * Instancia de Express para configurar y manejar el servidor web.
+ */
 const app = express();
+
+/**
+ * Motor de renderizado SSR (Server-Side Rendering) de Angular para la aplicación en Node.js.
+ */
 const angularApp = new AngularNodeAppEngine();
 
 /**
@@ -52,6 +62,9 @@ app.use((req, res, next) => {
  * The server listens on the port defined by the `PORT` environment variable, or defaults to 4000.
  */
 if (isMainModule(import.meta.url) || process.env['pm_id']) {
+  /**
+   * Variable o constante para port.
+   */
   const port = process.env['PORT'] || 4000;
   app.listen(port, (error) => {
     if (error) {

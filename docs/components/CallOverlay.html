@@ -1,0 +1,931 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>cookeealo documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">cookeealo documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  CallOverlay</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/features/messages/components/call-overlay/call-overlay.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Clase de utilidad para calloverlay.</p>
+
+    </p>
+
+
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-call-overlay</code></td>
+            </tr>
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./call-overlay.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#call" >call</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#formattedDuration" >formattedDuration</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#localVideoEl" >localVideoEl</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#remoteAudioEl" >remoteAudioEl</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#remoteVideoEl" >remoteVideoEl</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#store" >store</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#attachStream" >attachStream</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor()</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/features/messages/components/call-overlay/call-overlay.ts:42</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div class="io-description"><p>Constructor de la clase o componente para inicializar dependencias.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="attachStream"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>attachStream</b></span>
+                        <a href="#attachStream"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>attachStream(ref: ElementRef<HTMLMediaElement> | undefined, stream: MediaStream | null)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="62"
+                                    class="link-to-prism">src/app/features/messages/components/call-overlay/call-overlay.ts:62</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método para attach stream.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>ref</td>
+                                            <td>
+                                                        <code>ElementRef&lt;HTMLMediaElement&gt; | undefined</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>stream</td>
+                                            <td>
+                                                        <code>MediaStream | null</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="call"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>call</b></span>
+                        <a href="#call"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.store.call</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/features/messages/components/call-overlay/call-overlay.ts:19</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar call.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="formattedDuration"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>formattedDuration</b></span>
+                        <a href="#formattedDuration"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; {
+		const s &#x3D; this.call().durationSeconds
+		const mm &#x3D; Math.floor(s / 60).toString().padStart(2, &#x27;0&#x27;)
+		const ss &#x3D; (s % 60).toString().padStart(2, &#x27;0&#x27;)
+		return &#x60;${mm}:${ss}&#x60;
+	})</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/features/messages/components/call-overlay/call-overlay.ts:37</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar formatted duración.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="localVideoEl"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>localVideoEl</b></span>
+                        <a href="#localVideoEl"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>viewChild&lt;ElementRef&lt;HTMLVideoElement&gt;&gt;(&#x27;localVideo&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/features/messages/components/call-overlay/call-overlay.ts:32</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar local video el.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="remoteAudioEl"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>remoteAudioEl</b></span>
+                        <a href="#remoteAudioEl"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>viewChild&lt;ElementRef&lt;HTMLAudioElement&gt;&gt;(&#x27;remoteAudio&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/features/messages/components/call-overlay/call-overlay.ts:28</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar remote audio el.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="remoteVideoEl"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>remoteVideoEl</b></span>
+                        <a href="#remoteVideoEl"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>viewChild&lt;ElementRef&lt;HTMLVideoElement&gt;&gt;(&#x27;remoteVideo&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/features/messages/components/call-overlay/call-overlay.ts:24</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar remote video el.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="store"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>store</b></span>
+                        <a href="#store"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(CallStore)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/app/features/messages/components/call-overlay/call-overlay.ts:15</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar store.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, computed, effect, inject, viewChild, ElementRef } from &#x27;@angular/core&#x27;
+import { CallStore } from &#x27;@core/store/call.store&#x27;
+
+/**
+ * Clase de utilidad para calloverlay.
+ */
+@Component({
+	selector: &#x27;app-call-overlay&#x27;,
+	templateUrl: &#x27;./call-overlay.html&#x27;,
+})
+export class CallOverlay {
+	/**
+	 * Propiedad para gestionar store.
+	 */
+	readonly store &#x3D; inject(CallStore)
+	/**
+	 * Propiedad para gestionar call.
+	 */
+	readonly call  &#x3D; this.store.call
+
+	/**
+	 * Propiedad para gestionar remote video el.
+	 */
+	private readonly remoteVideoEl &#x3D; viewChild&lt;ElementRef&lt;HTMLVideoElement&gt;&gt;(&#x27;remoteVideo&#x27;)
+	/**
+	 * Propiedad para gestionar remote audio el.
+	 */
+	private readonly remoteAudioEl &#x3D; viewChild&lt;ElementRef&lt;HTMLAudioElement&gt;&gt;(&#x27;remoteAudio&#x27;)
+	/**
+	 * Propiedad para gestionar local video el.
+	 */
+	private readonly localVideoEl  &#x3D; viewChild&lt;ElementRef&lt;HTMLVideoElement&gt;&gt;(&#x27;localVideo&#x27;)
+
+	/**
+	 * Propiedad para gestionar formatted duración.
+	 */
+	readonly formattedDuration &#x3D; computed(() &#x3D;&gt; {
+		const s &#x3D; this.call().durationSeconds
+		const mm &#x3D; Math.floor(s / 60).toString().padStart(2, &#x27;0&#x27;)
+		const ss &#x3D; (s % 60).toString().padStart(2, &#x27;0&#x27;)
+		return &#x60;${mm}:${ss}&#x60;
+	})
+
+	/**
+	 * Constructor de la clase o componente para inicializar dependencias.
+	 */
+	constructor() {
+		effect(() &#x3D;&gt; {
+			this.attachStream(this.remoteVideoEl(), this.store.remoteStream())
+		})
+		effect(() &#x3D;&gt; {
+			this.attachStream(this.remoteAudioEl(), this.store.remoteStream())
+		})
+		effect(() &#x3D;&gt; {
+			this.attachStream(this.localVideoEl(), this.store.localStream())
+		})
+	}
+
+	/**
+	 * Método para attach stream.
+	 */
+	private attachStream(ref: ElementRef&lt;HTMLMediaElement&gt; | undefined, stream: MediaStream | null): void {
+		const el &#x3D; ref?.nativeElement
+		if (!el || !stream || el.srcObject &#x3D;&#x3D;&#x3D; stream) return
+
+		el.srcObject &#x3D; stream
+		void el.play().catch(() &#x3D;&gt; undefined)
+	}
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">@if (store.isCalling() || store.isActive()) {
+	&lt;div class&#x3D;&quot;fixed inset-0 z-[100] flex flex-col bg-gray-950 text-white&quot;&gt;
+		@if (!call().isVideo &amp;&amp; store.remoteStream()) {
+			&lt;audio #remoteAudio autoplay&gt;&lt;/audio&gt;
+		}
+
+		&lt;div class&#x3D;&quot;relative flex-1 overflow-hidden&quot;&gt;
+
+			@if (call().isVideo &amp;&amp; store.isActive() &amp;&amp; store.remoteStream()) {
+				&lt;video #remoteVideo autoplay playsinline class&#x3D;&quot;h-full w-full object-cover&quot;&gt;&lt;/video&gt;
+			} @else {
+				&lt;div class&#x3D;&quot;flex h-full flex-col items-center justify-center gap-6 bg-gradient-to-b from-gray-900 to-gray-950&quot;&gt;
+					&lt;div class&#x3D;&quot;relative&quot;&gt;
+						&lt;img
+							[src]&#x3D;&quot;call().remoteAvatar || &#x27;/assets/icons/new_logo.png&#x27;&quot;
+							[alt]&#x3D;&quot;call().remoteName&quot;
+							class&#x3D;&quot;size-32 rounded-full object-cover ring-4 ring-white/10 shadow-2xl&quot;
+						/&gt;
+						@if (store.isCalling()) {
+							&lt;span class&#x3D;&quot;absolute inset-0 rounded-full animate-ping bg-orange-500/20&quot;&gt;&lt;/span&gt;
+						}
+					&lt;/div&gt;
+					&lt;div class&#x3D;&quot;text-center&quot;&gt;
+						&lt;h2 class&#x3D;&quot;text-3xl font-black tracking-tight&quot;&gt;{{ call().remoteName }}&lt;/h2&gt;
+						@if (store.isCalling()) {
+							&lt;p class&#x3D;&quot;mt-2 text-white/50 animate-pulse&quot;&gt;Llamando...&lt;/p&gt;
+						} @else {
+							&lt;p class&#x3D;&quot;mt-2 text-white/50&quot;&gt;{{ formattedDuration() }}&lt;/p&gt;
+						}
+					&lt;/div&gt;
+				&lt;/div&gt;
+			}
+
+			@if (call().isVideo &amp;&amp; store.localStream()) {
+				&lt;div class&#x3D;&quot;absolute bottom-24 right-4 overflow-hidden rounded-2xl shadow-2xl ring-2 ring-white/20 transition-all&quot;&gt;
+					&lt;video #localVideo autoplay playsinline muted class&#x3D;&quot;h-36 w-24 object-cover sm:h-48 sm:w-32&quot;&gt;&lt;/video&gt;
+					@if (store.isCameraOff()) {
+						&lt;div class&#x3D;&quot;absolute inset-0 flex items-center justify-center bg-gray-800/90&quot;&gt;
+							&lt;i class&#x3D;&quot;pi pi-eye-slash text-2xl text-white/60&quot;&gt;&lt;/i&gt;
+						&lt;/div&gt;
+					}
+				&lt;/div&gt;
+			}
+
+			@if (call().isVideo &amp;&amp; store.isActive()) {
+				&lt;div class&#x3D;&quot;absolute left-4 top-4 flex items-center gap-2 rounded-full bg-black/50 px-4 py-2 text-sm font-black backdrop-blur&quot;&gt;
+					&lt;span class&#x3D;&quot;size-2 rounded-full bg-red-500 animate-pulse&quot;&gt;&lt;/span&gt;
+					{{ formattedDuration() }}
+				&lt;/div&gt;
+			}
+		&lt;/div&gt;
+
+		&lt;div class&#x3D;&quot;flex items-center justify-center gap-4 bg-gray-950/95 px-6 py-6 sm:gap-6&quot;&gt;
+
+			&lt;button
+				type&#x3D;&quot;button&quot;
+				class&#x3D;&quot;grid size-14 place-items-center rounded-full transition active:scale-95&quot;
+				[class.bg-white/10]&#x3D;&quot;!store.isMuted()&quot;
+				[class.hover:bg-white/20]&#x3D;&quot;!store.isMuted()&quot;
+				[class.bg-red-500]&#x3D;&quot;store.isMuted()&quot;
+				(click)&#x3D;&quot;store.toggleMute()&quot;
+				[attr.aria-label]&#x3D;&quot;store.isMuted() ? &#x27;Activar micrófono&#x27; : &#x27;Silenciar&#x27;&quot;
+			&gt;
+				&lt;i class&#x3D;&quot;pi text-2xl&quot;
+				   [class.pi-microphone]&#x3D;&quot;!store.isMuted()&quot;
+				   [class.pi-microphone-slash]&#x3D;&quot;store.isMuted()&quot;&gt;
+				&lt;/i&gt;
+			&lt;/button&gt;
+
+			@if (call().isVideo) {
+				&lt;button
+					type&#x3D;&quot;button&quot;
+					class&#x3D;&quot;grid size-14 place-items-center rounded-full transition active:scale-95&quot;
+					[class.bg-white/10]&#x3D;&quot;!store.isCameraOff()&quot;
+					[class.hover:bg-white/20]&#x3D;&quot;!store.isCameraOff()&quot;
+					[class.bg-red-500]&#x3D;&quot;store.isCameraOff()&quot;
+					(click)&#x3D;&quot;store.toggleCamera()&quot;
+					[attr.aria-label]&#x3D;&quot;store.isCameraOff() ? &#x27;Activar cámara&#x27; : &#x27;Apagar cámara&#x27;&quot;
+				&gt;
+					&lt;i class&#x3D;&quot;pi text-2xl&quot;
+					   [class.pi-video]&#x3D;&quot;!store.isCameraOff()&quot;
+					   [class.pi-eye-slash]&#x3D;&quot;store.isCameraOff()&quot;&gt;
+					&lt;/i&gt;
+				&lt;/button&gt;
+			}
+
+			&lt;button
+				type&#x3D;&quot;button&quot;
+				class&#x3D;&quot;grid size-20 place-items-center rounded-full bg-red-600 text-white shadow-lg shadow-red-600/50 transition hover:bg-red-700 active:scale-95&quot;
+				(click)&#x3D;&quot;store.hangUp()&quot;
+				aria-label&#x3D;&quot;Colgar&quot;
+			&gt;
+				&lt;i class&#x3D;&quot;pi pi-phone text-2xl&quot; style&#x3D;&quot;transform: rotate(135deg)&quot;&gt;&lt;/i&gt;
+			&lt;/button&gt;
+
+			&lt;button
+				type&#x3D;&quot;button&quot;
+				class&#x3D;&quot;grid size-14 place-items-center rounded-full bg-white/10 text-white transition hover:bg-white/20 active:scale-95&quot;
+				aria-label&#x3D;&quot;Altavoz&quot;
+			&gt;
+				&lt;i class&#x3D;&quot;pi pi-volume-up text-2xl&quot;&gt;&lt;/i&gt;
+			&lt;/button&gt;
+
+			@if (!call().isVideo) {
+				&lt;div class&#x3D;&quot;size-14&quot;&gt;&lt;/div&gt;
+			}
+		&lt;/div&gt;
+
+	&lt;/div&gt;
+}
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis-network.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div>@if (store.isCalling() || store.isActive()) {	<div class="fixed inset-0 z-[100] flex flex-col bg-gray-950 text-white">		@if (!call().isVideo && store.remoteStream()) {			<audio #remoteAudio autoplay></audio>		}		<div class="relative flex-1 overflow-hidden">			@if (call().isVideo && store.isActive() && store.remoteStream()) {				<video #remoteVideo autoplay playsinline class="h-full w-full object-cover"></video>			} @else {				<div class="flex h-full flex-col items-center justify-center gap-6 bg-gradient-to-b from-gray-900 to-gray-950">					<div class="relative">						<img							[src]="call().remoteAvatar || \'/assets/icons/new_logo.png\'"							[alt]="call().remoteName"							class="size-32 rounded-full object-cover ring-4 ring-white/10 shadow-2xl"						/>						@if (store.isCalling()) {							<span class="absolute inset-0 rounded-full animate-ping bg-orange-500/20"></span>						}					</div>					<div class="text-center">						<h2 class="text-3xl font-black tracking-tight">{{ call().remoteName }}</h2>						@if (store.isCalling()) {							<p class="mt-2 text-white/50 animate-pulse">Llamando...</p>						} @else {							<p class="mt-2 text-white/50">{{ formattedDuration() }}</p>						}					</div>				</div>			}			@if (call().isVideo && store.localStream()) {				<div class="absolute bottom-24 right-4 overflow-hidden rounded-2xl shadow-2xl ring-2 ring-white/20 transition-all">					<video #localVideo autoplay playsinline muted class="h-36 w-24 object-cover sm:h-48 sm:w-32"></video>					@if (store.isCameraOff()) {						<div class="absolute inset-0 flex items-center justify-center bg-gray-800/90">							<i class="pi pi-eye-slash text-2xl text-white/60"></i>						</div>					}				</div>			}			@if (call().isVideo && store.isActive()) {				<div class="absolute left-4 top-4 flex items-center gap-2 rounded-full bg-black/50 px-4 py-2 text-sm font-black backdrop-blur">					<span class="size-2 rounded-full bg-red-500 animate-pulse"></span>					{{ formattedDuration() }}				</div>			}		</div>		<div class="flex items-center justify-center gap-4 bg-gray-950/95 px-6 py-6 sm:gap-6">			<button				type="button"				class="grid size-14 place-items-center rounded-full transition active:scale-95"				[class.bg-white/10]="!store.isMuted()"				[class.hover:bg-white/20]="!store.isMuted()"				[class.bg-red-500]="store.isMuted()"				(click)="store.toggleMute()"				[attr.aria-label]="store.isMuted() ? \'Activar micrófono\' : \'Silenciar\'"			>				<i class="pi text-2xl"				   [class.pi-microphone]="!store.isMuted()"				   [class.pi-microphone-slash]="store.isMuted()">				</i>			</button>			@if (call().isVideo) {				<button					type="button"					class="grid size-14 place-items-center rounded-full transition active:scale-95"					[class.bg-white/10]="!store.isCameraOff()"					[class.hover:bg-white/20]="!store.isCameraOff()"					[class.bg-red-500]="store.isCameraOff()"					(click)="store.toggleCamera()"					[attr.aria-label]="store.isCameraOff() ? \'Activar cámara\' : \'Apagar cámara\'"				>					<i class="pi text-2xl"					   [class.pi-video]="!store.isCameraOff()"					   [class.pi-eye-slash]="store.isCameraOff()">					</i>				</button>			}			<button				type="button"				class="grid size-20 place-items-center rounded-full bg-red-600 text-white shadow-lg shadow-red-600/50 transition hover:bg-red-700 active:scale-95"				(click)="store.hangUp()"				aria-label="Colgar"			>				<i class="pi pi-phone text-2xl" style="transform: rotate(135deg)"></i>			</button>			<button				type="button"				class="grid size-14 place-items-center rounded-full bg-white/10 text-white transition hover:bg-white/20 active:scale-95"				aria-label="Altavoz"			>				<i class="pi pi-volume-up text-2xl"></i>			</button>			@if (!call().isVideo) {				<div class="size-14"></div>			}		</div>	</div>}</div>'
+    var COMPONENTS = [{'name': 'AddReviewModal', 'selector': 'app-add-review-modal'},{'name': 'AiIdeasPanel', 'selector': 'app-ai-ideas-panel'},{'name': 'AiRecipeForm', 'selector': 'app-ai-recipe-form'},{'name': 'AiRecipeResult', 'selector': 'app-ai-recipe-result'},{'name': 'AiRecipesHero', 'selector': 'app-ai-recipes-hero'},{'name': 'AiRecipesPage', 'selector': 'app-ai-recipes-page'},{'name': 'App', 'selector': 'app-root'},{'name': 'AppShell', 'selector': 'app-shell'},{'name': 'Auth', 'selector': 'app-auth'},{'name': 'Avatar', 'selector': 'app-avatar'},{'name': 'Body', 'selector': 'app-body-step1'},{'name': 'Body', 'selector': 'app-body-step3'},{'name': 'Body', 'selector': 'app-body-step2'},{'name': 'ButtonComponent', 'selector': 'app-button'},{'name': 'CallHost', 'selector': 'app-call-host'},{'name': 'CallOverlay', 'selector': 'app-call-overlay'},{'name': 'ChatPanel', 'selector': 'app-chat-panel'},{'name': 'CommentSection', 'selector': 'app-comment-section'},{'name': 'CommentsSheetComponent', 'selector': 'app-comments-sheet'},{'name': 'ConversationList', 'selector': 'app-conversation-list'},{'name': 'CookingModePage', 'selector': 'app-cooking-mode-page'},{'name': 'CreatePostComponent', 'selector': 'app-create-post'},{'name': 'EditProfileComponent', 'selector': 'app-edit-profile'},{'name': 'EmojiRain', 'selector': 'app-emoji-rain'},{'name': 'Emptystate', 'selector': 'app-emptystate'},{'name': 'ExploreCategoryTabs', 'selector': 'app-explore-category-tabs'},{'name': 'ExploreHero', 'selector': 'app-explore-hero'},{'name': 'ExplorePage', 'selector': 'app-explore-page'},{'name': 'ExploreRightRail', 'selector': 'app-explore-right-rail'},{'name': 'ExploreToolbar', 'selector': 'app-explore-toolbar'},{'name': 'FeedPage', 'selector': 'app-feed-page'},{'name': 'FeedPostList', 'selector': 'app-feed-post-list'},{'name': 'FeedRightRail', 'selector': 'app-feed-right-rail'},{'name': 'GlobalSearchPanel', 'selector': 'app-global-search-panel'},{'name': 'Header', 'selector': 'app-header-step1'},{'name': 'Header', 'selector': 'app-header-step3'},{'name': 'Header', 'selector': 'app-header-step2'},{'name': 'Home', 'selector': 'app-home'},{'name': 'IncomingCall', 'selector': 'app-incoming-call'},{'name': 'Login', 'selector': 'app-login'},{'name': 'MessageBubble', 'selector': 'app-message-bubble'},{'name': 'MessagesPage', 'selector': 'app-messages-page'},{'name': 'NewConversation', 'selector': 'app-new-conversation'},{'name': 'NotificationsPage', 'selector': 'app-notifications-page'},{'name': 'PlaceCard', 'selector': 'app-place-card'},{'name': 'PlaceDetailPage', 'selector': 'app-place-detail-page'},{'name': 'PlacesPage', 'selector': 'app-places-page'},{'name': 'PostCard', 'selector': 'app-post-card'},{'name': 'PostDetailPage', 'selector': 'app-post-detail-page'},{'name': 'Profile', 'selector': 'app-profile'},{'name': 'PublicProfilePage', 'selector': 'app-public-profile-page'},{'name': 'RecentAiRecipes', 'selector': 'app-recent-ai-recipes'},{'name': 'RecipeDiscoveryCard', 'selector': 'app-recipe-discovery-card'},{'name': 'RecipeDiscoveryGrid', 'selector': 'app-recipe-discovery-grid'},{'name': 'RecipeOfDayCard', 'selector': 'app-recipe-of-day-card'},{'name': 'Register', 'selector': 'app-register'},{'name': 'ReportSheet', 'selector': 'app-report-sheet'},{'name': 'SavedCollectionStrip', 'selector': 'app-saved-collection-strip'},{'name': 'SavedPage', 'selector': 'app-saved-page'},{'name': 'SavedRecipeCard', 'selector': 'app-saved-recipe-card'},{'name': 'SavoLoader', 'selector': 'app-savo-loader'},{'name': 'SettingsPage', 'selector': 'app-settings-page'},{'name': 'SharedPostCard', 'selector': 'app-shared-post-card'},{'name': 'SharedProfileCard', 'selector': 'app-shared-profile-card'},{'name': 'SharePostModal', 'selector': 'app-share-post-modal'},{'name': 'ShareProfileModal', 'selector': 'app-share-profile-modal'},{'name': 'ShoppingListPage', 'selector': 'app-shopping-list-page'},{'name': 'SkeletonCard', 'selector': 'app-skeleton-card'},{'name': 'Spinner', 'selector': 'app-spinner'},{'name': 'SpotlightBg', 'selector': 'app-spotlight-bg'},{'name': 'StoriesStrip', 'selector': 'app-stories-strip'},{'name': 'StoryViewer', 'selector': 'app-story-viewer'},{'name': 'SuggestionsPanel', 'selector': 'app-suggestions-panel'},{'name': 'Title', 'selector': 'app-title'},{'name': 'Topbar', 'selector': 'app-topbar'},{'name': 'TrendingList', 'selector': 'app-trending-list'},{'name': 'VeganConvertModal', 'selector': 'app-vegan-convert-modal'}];
+    var DIRECTIVES = [{'name': 'ClickOutsideDirective', 'selector': '[appClickOutside]'},{'name': 'ImgFallbackDirective', 'selector': 'img[appImgFallback]'}];
+    var ACTUAL_COMPONENT = {'name': 'CallOverlay'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'CallOverlay.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

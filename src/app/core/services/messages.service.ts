@@ -5,19 +5,46 @@ import { ChatMessage, Conversation, MessageReply } from '@features/messages/mode
 import { MESSAGE_REPOSITORY } from '@core/repositories/tokens/repository.tokens'
 import type { ConversationRow, MessageRow } from '@core/repositories/message/message-repository'
 
+/**
+ * Interfaz que define la estructura o contrato de datos para messagespageresult.
+ */
 export interface MessagesPageResult {
+	/**
+	 * Propiedad para gestionar messages.
+	 */
 	messages: ChatMessage[]
+	/**
+	 * Indicador booleano para tiene more.
+	 */
 	hasMore: boolean
 }
 
+/**
+ * Variable o constante para s h a r e d p o s t t o k e n.
+ */
 const SHARED_POST_TOKEN = '__shared_post__:'
+/**
+ * Variable o constante para s h a r e d p o s t l i n k p r e f i x.
+ */
 const SHARED_POST_LINK_PREFIX = '/post/'
+/**
+ * Variable o constante para s h a r e d p r o f i l e t o k e n.
+ */
 const SHARED_PROFILE_TOKEN = '__shared_profile__:'
 
+/**
+ * Servicio que provee la lógica de negocio para los mensajes del chat.
+ */
 @Injectable({ providedIn: 'root' })
 export class MessagesService {
+	/**
+	 * Propiedad para gestionar repo.
+	 */
 	private readonly repo = inject(MESSAGE_REPOSITORY)
 
+	/**
+	 * Método para obtener conversations.
+	 */
 	getConversations(userId: string): Observable<Conversation[]> {
 		return this.repo.getParticipations(userId).pipe(
 			switchMap(parts => {
@@ -48,6 +75,9 @@ export class MessagesService {
 		)
 	}
 
+	/**
+	 * Método para obtener messages.
+	 */
 	getMessages(conversationId: string, currentUserId: string, limit = 30, beforeCreatedAt?: string | null): Observable<MessagesPageResult> {
 		return this.repo.getMessages(conversationId, limit + 1, beforeCreatedAt).pipe(
 			map(rows => {
@@ -62,6 +92,9 @@ export class MessagesService {
 		)
 	}
 
+	/**
+	 * Método para enviar message.
+	 */
 	sendMessage(
 		conversationId: string,
 		senderId: string,
@@ -85,10 +118,16 @@ export class MessagesService {
 		)
 	}
 
+	/**
+	 * Método para mark read.
+	 */
 	markRead(conversationId: string, userId: string): Observable<void> {
 		return this.repo.markRead(conversationId, userId)
 	}
 
+	/**
+	 * Método para subscribe to conversation.
+	 */
 	subscribeToConversation(
 		conversationId: string,
 		currentUserId: string,
@@ -104,6 +143,9 @@ export class MessagesService {
 		)
 	}
 
+	/**
+	 * Método para subscribe to typing.
+	 */
 	subscribeToTyping(
 		conversationId: string,
 		currentUserId: string,
@@ -114,14 +156,23 @@ export class MessagesService {
 		})
 	}
 
+	/**
+	 * Método para enviar typing.
+	 */
 	sendTyping(conversationId: string, userId: string): void {
 		this.repo.sendTyping(conversationId, userId)
 	}
 
+	/**
+	 * Método para find or crear conversation.
+	 */
 	findOrCreateConversation(_myId: string, otherId: string): Observable<string> {
 		return this.repo.findOrCreateConversation(otherId)
 	}
 
+	/**
+	 * Método para map conversation.
+	 */
 	private mapConversation(row: ConversationRow, userId: string, unread: number): Conversation {
 		const isGroup = row.type === 'GROUP'
 		const other = row.participants.find(p => p.user_id !== userId)
@@ -153,6 +204,9 @@ export class MessagesService {
 		}
 	}
 
+	/**
+	 * Método para map message.
+	 */
 	private mapMessage(row: MessageRow, currentUserId: string): ChatMessage {
 		const parsedSharedPost = this.parseSharedPostContent(row.content) ?? this.parseSharedPostLink(row.content)
 		const parsedSharedProfile = this.parseSharedProfileContent(row.content) ?? this.parseSharedProfileLink(row.content)
@@ -175,10 +229,16 @@ export class MessagesService {
 		}
 	}
 
+	/**
+	 * Método para build reply preview.
+	 */
 	buildReplyPreview(message: ChatMessage, messages: ChatMessage[], currentUserId: string, otherUserName = 'Usuario'): ChatMessage {
 		return this.withReplyPreview(message, messages, currentUserId, otherUserName)
 	}
 
+	/**
+	 * Método para with reply preview.
+	 */
 	private withReplyPreview(message: ChatMessage, messages: ChatMessage[], currentUserId: string, otherUserName = 'Usuario'): ChatMessage {
 		if (!message.replyToMessageId) return message
 		const original = messages.find(item => item.id === message.replyToMessageId)
@@ -194,10 +254,16 @@ export class MessagesService {
 		return { ...message, replyTo }
 	}
 
+	/**
+	 * Método para format message tiempo.
+	 */
 	private formatMessageTime(date: Date): string {
 		return date.toLocaleTimeString('es', { hour: '2-digit', minute: '2-digit' })
 	}
 
+	/**
+	 * Método para format conversation tiempo.
+	 */
 	private formatConversationTime(date: Date): string {
 		const now = new Date()
 		const diffDays = Math.floor((now.getTime() - date.getTime()) / 86400000)
@@ -207,6 +273,9 @@ export class MessagesService {
 		return date.toLocaleDateString('es', { day: 'numeric', month: 'short' })
 	}
 
+	/**
+	 * Método para format last seen.
+	 */
 	formatLastSeen(date: Date): string {
 		const time = date.getTime()
 		if (Number.isNaN(time)) return 'Desconectado'
@@ -226,11 +295,17 @@ export class MessagesService {
 		return `Activo el ${date.toLocaleDateString('es', { day: 'numeric', month: 'short' })}`
 	}
 
+	/**
+	 * Método para preview text.
+	 */
 	private previewText(text?: string): string {
 		const clean = (text ?? 'Mensaje').replace(/\s+/g, ' ').trim()
 		return clean.length > 120 ? `${clean.slice(0, 117)}...` : clean
 	}
 
+	/**
+	 * Método para conversation preview.
+	 */
 	private conversationPreview(content: string): { text: string; kind: Conversation['lastMessageKind'] } {
 		const clean = content.replace(/\s+/g, ' ').trim()
 
@@ -253,10 +328,16 @@ export class MessagesService {
 		return { text: clean || 'Sin mensajes', kind: 'text' }
 	}
 
+	/**
+	 * Método para build shared post content.
+	 */
 	private buildSharedPostContent(postId: string, authorId?: string | null): string {
 		return `${SHARED_POST_TOKEN}${postId}:${authorId ?? ''}\n${SHARED_POST_LINK_PREFIX}${postId}`
 	}
 
+	/**
+	 * Método para parse shared post content.
+	 */
 	private parseSharedPostContent(content: string): { postId: string; authorId: string | null } | null {
 		if (!content.startsWith(SHARED_POST_TOKEN)) return null
 		const raw = content.slice(SHARED_POST_TOKEN.length).split(/\s+/)[0]
@@ -265,16 +346,25 @@ export class MessagesService {
 		return { postId, authorId: authorId || null }
 	}
 
+	/**
+	 * Método para parse shared post enlace.
+	 */
 	private parseSharedPostLink(content: string): { postId: string; authorId: string | null } | null {
 		const match = content.match(/(?:^|\s)\/post\/([0-9a-fA-F-]{20,})/)
 		if (!match?.[1]) return null
 		return { postId: match[1], authorId: null }
 	}
 
+	/**
+	 * Método para build shared profile content.
+	 */
 	buildSharedProfileContent(userId: string, username?: string | null): string {
 		return `${SHARED_PROFILE_TOKEN}${userId}:${username ?? ''}\n/profile/${username ?? userId}`
 	}
 
+	/**
+	 * Método para parse shared profile content.
+	 */
 	private parseSharedProfileContent(content: string): { userId: string; username: string | null } | null {
 		if (!content.startsWith(SHARED_PROFILE_TOKEN)) return null
 		const raw = content.slice(SHARED_PROFILE_TOKEN.length).split(/\s+/)[0]
@@ -283,6 +373,9 @@ export class MessagesService {
 		return { userId, username: username || null }
 	}
 
+	/**
+	 * Método para parse shared profile enlace.
+	 */
 	private parseSharedProfileLink(content: string): { userId: string | null; username: string } | null {
 		const match = content.match(/(?:^|\s)\/profile\/([A-Za-z0-9_.-]+)/)
 		if (!match?.[1]) return null

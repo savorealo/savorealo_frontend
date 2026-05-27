@@ -10,6 +10,9 @@ import { DatePickerModule } from 'primeng/datepicker';
 import { TextareaModule } from 'primeng/textarea';
 import { TranslatePipe } from '@shared/pipes/translate.pipe';
 
+/**
+ * Clase de utilidad para body.
+ */
 @Component({
   selector: 'app-body-step2',
   imports: [
@@ -30,21 +33,42 @@ import { TranslatePipe } from '@shared/pipes/translate.pipe';
 })
 export class Body {
 
+  /**
+   * Propiedad para gestionar register form.
+   */
   registerForm = input.required<FormGroup>()
+  /**
+   * Propiedad para gestionar enviar event.
+   */
   submitEvent = output()
+  /**
+   * Propiedad para gestionar go back event.
+   */
   goBackEvent = output()
 
+  /**
+   * Propiedad para gestionar today.
+   */
   readonly today = new Date()
 
+  /**
+   * Método para es o está invalid.
+   */
   isInvalid(controlName: string): boolean {
     const control = this.registerForm().get(controlName)
     return !!(control?.invalid && control.touched)
   }
 
+  /**
+   * Método para evento de go back.
+   */
   onGoBack(){
     this.goBackEvent.emit()
   }
 
+  /**
+   * Método para evento de enviar.
+   */
   onSubmit(){
     this.submitEvent.emit()
   }

@@ -1,6 +1,9 @@
 import { PostDto, PostMediaDto, RecipeDto } from './post.dto'
 import { Post, PostAuthor, PostMedia, Recipe, RecipeStep } from './post.model'
 
+/**
+ * Función de utilidad para map author.
+ */
 function mapAuthor(dto: PostDto['author']): PostAuthor {
 	return {
 		id: dto.id,
@@ -10,6 +13,9 @@ function mapAuthor(dto: PostDto['author']): PostAuthor {
 	}
 }
 
+/**
+ * Función de utilidad para map media.
+ */
 function mapMedia(dto: PostMediaDto[]): PostMedia[] {
 	return [...dto]
 		.sort((a, b) => a.position - b.position)
@@ -21,6 +27,9 @@ function mapMedia(dto: PostMediaDto[]): PostMedia[] {
 		}))
 }
 
+/**
+ * Función de utilidad para map recipe.
+ */
 function mapRecipe(dto: RecipeDto): Recipe {
 	let steps: RecipeStep[] = []
 	try {
@@ -46,6 +55,9 @@ function mapRecipe(dto: RecipeDto): Recipe {
 	}
 }
 
+/**
+ * Función de utilidad para mapear y transformar datos.
+ */
 export function mapPostDtoToPost(dto: PostDto): Post {
 	return {
 		id: dto.id,

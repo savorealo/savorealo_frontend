@@ -6,27 +6,66 @@ import { SUGGESTED_USERS_QUERY, TOGGLE_FOLLOW_MUTATION } from '@graphql/feed.mut
 import { AuthStore } from '@core/store/auth.store'
 import { TranslatePipe } from '@shared/pipes/translate.pipe'
 
+/**
+ * Interfaz que define la estructura o contrato de datos para suggesteduser.
+ */
 interface SuggestedUser {
+	/**
+	 * Propiedad para gestionar identificador.
+	 */
 	id: string
+	/**
+	 * Propiedad para gestionar nombre de usuario.
+	 */
 	username: string | null
+	/**
+	 * Propiedad para gestionar display nombre.
+	 */
 	display_name: string | null
+	/**
+	 * Propiedad para gestionar avatar enlace.
+	 */
 	avatar_url: string | null
+	/**
+	 * Indicador booleano para es o está following.
+	 */
 	isFollowing: boolean
+	/**
+	 * Propiedad para gestionar follow cargando.
+	 */
 	followLoading: boolean
 }
 
+/**
+ * Clase de utilidad para suggestionspanel.
+ */
 @Component({
 	selector: 'app-suggestions-panel',
 	imports: [RouterLink, TranslatePipe],
 	templateUrl: './suggestions-panel.html',
 })
 export class SuggestionsPanel implements OnInit {
+	/**
+	 * Propiedad para gestionar apollo.
+	 */
 	private readonly apollo    = inject(Apollo)
+	/**
+	 * Propiedad para gestionar auth store.
+	 */
 	private readonly authStore = inject(AuthStore)
 
+	/**
+	 * Propiedad para gestionar suggestions.
+	 */
 	readonly suggestions = signal<SuggestedUser[]>([])
+	/**
+	 * Propiedad para gestionar cargando.
+	 */
 	readonly loading     = signal(true)
 
+	/**
+	 * Método de ciclo de vida de Angular que se ejecuta al inicializar el componente.
+	 */
 	ngOnInit(): void {
 		this.apollo.query<{ suggestedUsers: SuggestedUser[] }>({
 			query: SUGGESTED_USERS_QUERY,
@@ -44,6 +83,9 @@ export class SuggestionsPanel implements OnInit {
 		})
 	}
 
+	/**
+	 * Método para alternar follow.
+	 */
 	toggleFollow(user: SuggestedUser): void {
 		if (user.followLoading) return
 		this.suggestions.update(list =>
@@ -67,6 +109,9 @@ export class SuggestionsPanel implements OnInit {
 		})
 	}
 
+	/**
+	 * Método para display nombre.
+	 */
 	displayName(u: SuggestedUser): string {
 		return u.display_name || u.username || 'Chef'
 	}

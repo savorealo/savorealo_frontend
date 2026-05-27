@@ -1,0 +1,3113 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>cookeealo documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">cookeealo documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  PostDetailPage</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/features/post-detail/post-detail-page.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Componente principal para la vista o página de postdetail.</p>
+
+    </p>
+
+
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">host</td>
+                <td class="col-md-9"><code>{<br>}</code></td>
+            </tr>
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-post-detail-page</code></td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                                <code><a href="../components/AppShell.html" target="_self" >AppShell</a></code>
+                                <code><a href="../components/Avatar.html" target="_self" >Avatar</a></code>
+                            <code>NgOptimizedImage</code>
+                                <code><a href="https://angular.io/api/router/RouterLink" target="_blank" >RouterLink</a></code>
+                            <code>TimeAgoPipe</code>
+                                <code><a href="https://angular.io/api/forms/FormsModule" target="_blank" >FormsModule</a></code>
+                                <code><a href="../components/SavoLoader.html" target="_self" >SavoLoader</a></code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./post-detail-page.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#activeMediaIdx" >activeMediaIdx</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#authorHandle" >authorHandle</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#authorName" >authorName</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#authStore" >authStore</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#canSubmitComment" >canSubmitComment</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#commentDraft" >commentDraft</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#comments" >comments</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#commentsVisible" >commentsVisible</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#destroyRef" >destroyRef</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#difficultyLabel" >difficultyLabel</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#error" >error</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#feedService" >feedService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#followLoading" >followLoading</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#followStatus" >followStatus</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#isOwnPost" >isOwnPost</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#liked" >liked</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#likesCount" >likesCount</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#loading" >loading</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#location" >location</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#post" >post</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#postActions" >postActions</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#primaryMedia" >primaryMedia</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#profileLink" >profileLink</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#route" >route</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#router" >router</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#saved" >saved</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#savesCount" >savesCount</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#shoppingList" >shoppingList</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#toast" >toast</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#userService" >userService</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#addToShoppingList" >addToShoppingList</a>
+                            </li>
+                            <li>
+                                <a href="#closeComments" >closeComments</a>
+                            </li>
+                            <li>
+                                <a href="#commentAuthorName" >commentAuthorName</a>
+                            </li>
+                            <li>
+                                <a href="#goBack" >goBack</a>
+                            </li>
+                            <li>
+                                <a href="#isOwnComment" >isOwnComment</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#loadFollowStatus" >loadFollowStatus</a>
+                            </li>
+                            <li>
+                                <a href="#onCommentScroll" >onCommentScroll</a>
+                            </li>
+                            <li>
+                                <a href="#openComments" >openComments</a>
+                            </li>
+                            <li>
+                                <a href="#submitComment" >submitComment</a>
+                            </li>
+                            <li>
+                                <a href="#toggleFollow" >toggleFollow</a>
+                            </li>
+                            <li>
+                                <a href="#toggleLike" >toggleLike</a>
+                            </li>
+                            <li>
+                                <a href="#toggleSave" >toggleSave</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor()</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="218" class="link-to-prism">src/app/features/post-detail/post-detail-page.ts:218</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div class="io-description"><p>Inicializa el componente.
+Dispara la consulta al servidor para obtener la publicación identificada por ID en la ruta de navegación,
+y vincula escuchas para cambios reactivos de me gusta/guardado.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addToShoppingList"></a>
+                    <span class="name">
+                        <span ><b>addToShoppingList</b></span>
+                        <a href="#addToShoppingList"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>addToShoppingList()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="401"
+                                    class="link-to-prism">src/app/features/post-detail/post-detail-page.ts:401</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Añade todos los ingredientes descritos en la receta directamente a la lista de compras del usuario.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="closeComments"></a>
+                    <span class="name">
+                        <span ><b>closeComments</b></span>
+                        <a href="#closeComments"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>closeComments()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="357"
+                                    class="link-to-prism">src/app/features/post-detail/post-detail-page.ts:357</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Oculta el cajón de comentarios.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="commentAuthorName"></a>
+                    <span class="name">
+                        <span ><b>commentAuthorName</b></span>
+                        <a href="#commentAuthorName"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>commentAuthorName(comment: <a href="../interfaces/Comment.html" target="_self">Comment</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="386"
+                                    class="link-to-prism">src/app/features/post-detail/post-detail-page.ts:386</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Devuelve el nombre del autor del comentario.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>comment</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Comment.html" target="_self" >Comment</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Objeto comentario.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="goBack"></a>
+                    <span class="name">
+                        <span ><b>goBack</b></span>
+                        <a href="#goBack"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>goBack()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="275"
+                                    class="link-to-prism">src/app/features/post-detail/post-detail-page.ts:275</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Vuelve atrás utilizando la ubicación del historial de navegación.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isOwnComment"></a>
+                    <span class="name">
+                        <span ><b>isOwnComment</b></span>
+                        <a href="#isOwnComment"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isOwnComment(comment: <a href="../interfaces/Comment.html" target="_self">Comment</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="394"
+                                    class="link-to-prism">src/app/features/post-detail/post-detail-page.ts:394</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Determina si el comentario pertenece al usuario activo.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>comment</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Comment.html" target="_self" >Comment</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Objeto comentario.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadFollowStatus"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>loadFollowStatus</b></span>
+                        <a href="#loadFollowStatus"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>loadFollowStatus()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="256"
+                                    class="link-to-prism">src/app/features/post-detail/post-detail-page.ts:256</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Carga el estado de seguimiento (following, requested o none) del usuario hacia el creador de la publicación.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onCommentScroll"></a>
+                    <span class="name">
+                        <span ><b>onCommentScroll</b></span>
+                        <a href="#onCommentScroll"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onCommentScroll(event: <a href="https://angular.io/api/router/Event" target="_blank">Event</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="375"
+                                    class="link-to-prism">src/app/features/post-detail/post-detail-page.ts:375</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Maneja la paginación reactiva de comentarios al hacer scroll sobre el listado de comentarios.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                            <code><a href="https://angular.io/api/router/Event" target="_blank" >Event</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Evento de desplazamiento.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openComments"></a>
+                    <span class="name">
+                        <span ><b>openComments</b></span>
+                        <a href="#openComments"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>openComments()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="348"
+                                    class="link-to-prism">src/app/features/post-detail/post-detail-page.ts:348</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Abre la sección y carga los comentarios de la publicación actual.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="submitComment"></a>
+                    <span class="name">
+                        <span ><b>submitComment</b></span>
+                        <a href="#submitComment"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>submitComment()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="364"
+                                    class="link-to-prism">src/app/features/post-detail/post-detail-page.ts:364</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Envía el comentario redactado y limpia el campo borrador.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleFollow"></a>
+                    <span class="name">
+                        <span ><b>toggleFollow</b></span>
+                        <a href="#toggleFollow"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleFollow()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="282"
+                                    class="link-to-prism">src/app/features/post-detail/post-detail-page.ts:282</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Alterna el estado de seguimiento del autor de la receta de forma reactiva y optimista.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleLike"></a>
+                    <span class="name">
+                        <span ><b>toggleLike</b></span>
+                        <a href="#toggleLike"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleLike()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="330"
+                                    class="link-to-prism">src/app/features/post-detail/post-detail-page.ts:330</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Modifica y comunica el estado del &quot;me gusta&quot; del post.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleSave"></a>
+                    <span class="name">
+                        <span ><b>toggleSave</b></span>
+                        <a href="#toggleSave"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleSave()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="339"
+                                    class="link-to-prism">src/app/features/post-detail/post-detail-page.ts:339</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Modifica y comunica el estado de guardado en la biblioteca del post.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="activeMediaIdx"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>activeMediaIdx</b></span>
+                        <a href="#activeMediaIdx"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(0)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="125" class="link-to-prism">src/app/features/post-detail/post-detail-page.ts:125</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Índice que apunta a la foto o video actualmente visualizado en el visor multimedia.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="authorHandle"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>authorHandle</b></span>
+                        <a href="#authorHandle"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; {
+		const username &#x3D; this.post()?.author.username
+		return username ? &#x60;@${username}&#x60; : &#x27;&#x27;
+	})</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="199" class="link-to-prism">src/app/features/post-detail/post-detail-page.ts:199</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal calculada con el handle del autor.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="authorName"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>authorName</b></span>
+                        <a href="#authorName"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; {
+		const p &#x3D; this.post()
+		if (!p) return &#x27;&#x27;
+		return p.author.name || p.author.username || &#x27;Chef anónimo&#x27;
+	})</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="190" class="link-to-prism">src/app/features/post-detail/post-detail-page.ts:190</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal calculada con el nombre del autor.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="authStore"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>authStore</b></span>
+                        <a href="#authStore"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(AuthStore)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">src/app/features/post-detail/post-detail-page.ts:65</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Almacén de estado de autenticación inyectado.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="canSubmitComment"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>canSubmitComment</b></span>
+                        <a href="#canSubmitComment"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; this.commentDraft().trim().length &gt; 0 &amp;&amp; !this.comments.submitting())</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="120" class="link-to-prism">src/app/features/post-detail/post-detail-page.ts:120</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal calculada que indica si se puede enviar el borrador de comentario actual.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="commentDraft"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>commentDraft</b></span>
+                        <a href="#commentDraft"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(&#x27;&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="115" class="link-to-prism">src/app/features/post-detail/post-detail-page.ts:115</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Borrador o entrada de texto en búfer para redactar un nuevo comentario.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="comments"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>comments</b></span>
+                        <a href="#comments"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(CommentStore)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">src/app/features/post-detail/post-detail-page.ts:85</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Almacén de estado de comentarios.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="commentsVisible"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>commentsVisible</b></span>
+                        <a href="#commentsVisible"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="110" class="link-to-prism">src/app/features/post-detail/post-detail-page.ts:110</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal reactiva que determina si la sección/cajón de comentarios está desplegada.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="destroyRef"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>destroyRef</b></span>
+                        <a href="#destroyRef"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(DestroyRef)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="90" class="link-to-prism">src/app/features/post-detail/post-detail-page.ts:90</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Referencia de ciclo de vida para desvincular observables.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="difficultyLabel"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>difficultyLabel</b></span>
+                        <a href="#difficultyLabel"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; {
+		const map: Record&lt;string, string&gt; &#x3D; { EASY: &#x27;Fácil&#x27;, MEDIUM: &#x27;Media&#x27;, HARD: &#x27;Difícil&#x27; }
+		return this.post()?.recipe?.difficulty ? map[this.post()!.recipe!.difficulty!] : null
+	})</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="215" class="link-to-prism">src/app/features/post-detail/post-detail-page.ts:215</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Traduce de forma estática la dificultad de la receta (EASY, MEDIUM, HARD) a español.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="error"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>error</b></span>
+                        <a href="#error"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;string | null&gt;(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="105" class="link-to-prism">src/app/features/post-detail/post-detail-page.ts:105</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal reactiva con información del error de carga si ocurriera alguno.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="feedService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>feedService</b></span>
+                        <a href="#feedService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(FeedService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/app/features/post-detail/post-detail-page.ts:55</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Servicio para interactuar con las publicaciones.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="followLoading"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>followLoading</b></span>
+                        <a href="#followLoading"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="135" class="link-to-prism">src/app/features/post-detail/post-detail-page.ts:135</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Indica si se está ejecutando la acción de seguir/dejar de seguir al autor.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="followStatus"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>followStatus</b></span>
+                        <a href="#followStatus"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;&#x27;none&#x27; | &#x27;following&#x27; | &#x27;requested&#x27;&gt;(&#x27;none&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="130" class="link-to-prism">src/app/features/post-detail/post-detail-page.ts:130</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Estado de seguimiento del autor del post respecto al usuario activo.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isOwnPost"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>isOwnPost</b></span>
+                        <a href="#isOwnPost"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; {
+		const currentUserId &#x3D; this.authStore.currentUserId()
+		const authorId &#x3D; this.post()?.author.id
+		return !!currentUserId &amp;&amp; !!authorId &amp;&amp; currentUserId &#x3D;&#x3D;&#x3D; authorId
+	})</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="140" class="link-to-prism">src/app/features/post-detail/post-detail-page.ts:140</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal calculada que determina si la publicación pertenece al usuario autenticado.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="liked"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>liked</b></span>
+                        <a href="#liked"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; {
+		const p &#x3D; this.post()
+		return p ? this.postActions.isLiked(p.id, p.liked) : false
+	})</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="149" class="link-to-prism">src/app/features/post-detail/post-detail-page.ts:149</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal calculada que determina si al usuario le gusta la publicación.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="likesCount"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>likesCount</b></span>
+                        <a href="#likesCount"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; {
+		const p &#x3D; this.post()
+		return p ? this.postActions.likesCount(p.id, p.likesCount) : 0
+	})</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="157" class="link-to-prism">src/app/features/post-detail/post-detail-page.ts:157</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal calculada con el número consolidado de &#39;Me gusta&#39;.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loading"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>loading</b></span>
+                        <a href="#loading"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(true)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="100" class="link-to-prism">src/app/features/post-detail/post-detail-page.ts:100</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal reactiva que indica si la publicación se está cargando de la API.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="location"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>location</b></span>
+                        <a href="#location"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(Location)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/app/features/post-detail/post-detail-page.ts:50</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Servicio de localización del historial del navegador inyectado para volver atrás.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="post"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>post</b></span>
+                        <a href="#post"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;Post | null&gt;(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="95" class="link-to-prism">src/app/features/post-detail/post-detail-page.ts:95</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal reactiva que contiene los datos de la publicación cargada actualmente.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="postActions"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>postActions</b></span>
+                        <a href="#postActions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(PostActionsService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">src/app/features/post-detail/post-detail-page.ts:75</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Servicio global de interacciones y eventos de publicaciones (likes, guardados).</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="primaryMedia"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>primaryMedia</b></span>
+                        <a href="#primaryMedia"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; {
+		const post &#x3D; this.post()
+		if (!post) return null
+		return post.media[this.activeMediaIdx()] ?? post.media[0] ?? null
+	})</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="181" class="link-to-prism">src/app/features/post-detail/post-detail-page.ts:181</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal calculada que devuelve el objeto multimedia principal del post según el índice activo.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="profileLink"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>profileLink</b></span>
+                        <a href="#profileLink"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; {
+		const username &#x3D; this.post()?.author.username
+		return username ? [&#x27;/profile&#x27;, username] : [&#x27;/profile&#x27;]
+	})</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="207" class="link-to-prism">src/app/features/post-detail/post-detail-page.ts:207</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal calculada con los parámetros de ruta al perfil del autor.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="route"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>route</b></span>
+                        <a href="#route"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(ActivatedRoute)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/features/post-detail/post-detail-page.ts:40</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Servicio para la extracción de parámetros de la ruta activa.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="router"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>router</b></span>
+                        <a href="#router"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(Router)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/features/post-detail/post-detail-page.ts:45</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Servicio de enrutador inyectado para la navegación interna.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="saved"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>saved</b></span>
+                        <a href="#saved"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; {
+		const p &#x3D; this.post()
+		return p ? this.postActions.isSaved(p.id, p.saved) : false
+	})</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="165" class="link-to-prism">src/app/features/post-detail/post-detail-page.ts:165</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal calculada que determina si el post se encuentra guardado en biblioteca.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="savesCount"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>savesCount</b></span>
+                        <a href="#savesCount"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; {
+		const p &#x3D; this.post()
+		return p ? this.postActions.savesCount(p.id, p.savesCount) : 0
+	})</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="173" class="link-to-prism">src/app/features/post-detail/post-detail-page.ts:173</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal calculada con el número consolidado de veces guardado.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="shoppingList"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>shoppingList</b></span>
+                        <a href="#shoppingList"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(ShoppingListService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="80" class="link-to-prism">src/app/features/post-detail/post-detail-page.ts:80</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Servicio inyectado de control sobre la lista de la compra.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toast"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>toast</b></span>
+                        <a href="#toast"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(ToastService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">src/app/features/post-detail/post-detail-page.ts:70</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Servicio de notificaciones toast.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="userService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>userService</b></span>
+                        <a href="#userService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(UserService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/app/features/post-detail/post-detail-page.ts:60</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Servicio de chefs/usuarios inyectado.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { afterNextRender, Component, computed, DestroyRef, inject, signal } from &#x27;@angular/core&#x27;
+import { takeUntilDestroyed } from &#x27;@angular/core/rxjs-interop&#x27;
+import { Location } from &#x27;@angular/common&#x27;
+import { FormsModule } from &#x27;@angular/forms&#x27;
+import { ActivatedRoute, Router, RouterLink } from &#x27;@angular/router&#x27;
+import { NgOptimizedImage } from &#x27;@angular/common&#x27;
+import { finalize } from &#x27;rxjs&#x27;
+import { FeedService } from &#x27;@core/services/feed.service&#x27;
+import { UserService } from &#x27;@core/services/user.service&#x27;
+import { AuthStore } from &#x27;@core/store/auth.store&#x27;
+import { ToastService } from &#x27;@core/services/toast.service&#x27;
+import { PostActionsService } from &#x27;@core/services/post-actions.service&#x27;
+import { CommentStore } from &#x27;@core/store/comment.store&#x27;
+import { Post } from &#x27;@core/models/post/post.model&#x27;
+import { Comment } from &#x27;@core/models/post-actions/post-actions.model&#x27;
+import { AppShell } from &#x27;@shared/components/app-shell/app-shell&#x27;
+import { Avatar } from &#x27;@shared/components/avatar/avatar&#x27;
+import { TimeAgoPipe } from &#x27;@shared/pipes/time-ago.pipe&#x27;
+import { SavoLoader } from &#x27;@shared/components/savo-loader/savo-loader&#x27;
+import { ShoppingListService } from &#x27;@features/shopping-list/shopping-list.service&#x27;
+
+/**
+ * Componente principal para la vista o página de postdetail.
+ */
+@Component({
+	selector: &#x27;app-post-detail-page&#x27;,
+	imports: [AppShell, Avatar, NgOptimizedImage, RouterLink, TimeAgoPipe, FormsModule, SavoLoader],
+	host: { ngSkipHydration: &#x27;true&#x27; },
+	templateUrl: &#x27;./post-detail-page.html&#x27;,
+})
+/**
+ * Componente que representa la página de detalles completos de una publicación o receta.
+ * Ofrece visualizaciones multimedia interactivas, ingredientes de receta con adición a la lista de compras,
+ * cajón de comentarios integrados en tiempo real y opciones de suscripción/seguimiento de chefs.
+ */
+export class PostDetailPage {
+	/**
+	 * Servicio para la extracción de parámetros de la ruta activa.
+	 */
+	private readonly route       &#x3D; inject(ActivatedRoute)
+
+	/**
+	 * Servicio de enrutador inyectado para la navegación interna.
+	 */
+	readonly router              &#x3D; inject(Router)
+
+	/**
+	 * Servicio de localización del historial del navegador inyectado para volver atrás.
+	 */
+	private readonly location    &#x3D; inject(Location)
+
+	/**
+	 * Servicio para interactuar con las publicaciones.
+	 */
+	private readonly feedService &#x3D; inject(FeedService)
+
+	/**
+	 * Servicio de chefs/usuarios inyectado.
+	 */
+	private readonly userService &#x3D; inject(UserService)
+
+	/**
+	 * Almacén de estado de autenticación inyectado.
+	 */
+	private readonly authStore   &#x3D; inject(AuthStore)
+
+	/**
+	 * Servicio de notificaciones toast.
+	 */
+	private readonly toast       &#x3D; inject(ToastService)
+
+	/**
+	 * Servicio global de interacciones y eventos de publicaciones (likes, guardados).
+	 */
+	readonly postActions         &#x3D; inject(PostActionsService)
+
+	/**
+	 * Servicio inyectado de control sobre la lista de la compra.
+	 */
+	readonly shoppingList        &#x3D; inject(ShoppingListService)
+
+	/**
+	 * Almacén de estado de comentarios.
+	 */
+	readonly comments            &#x3D; inject(CommentStore)
+
+	/**
+	 * Referencia de ciclo de vida para desvincular observables.
+	 */
+	private readonly destroyRef  &#x3D; inject(DestroyRef)
+
+	/**
+	 * Señal reactiva que contiene los datos de la publicación cargada actualmente.
+	 */
+	readonly post &#x3D; signal&lt;Post | null&gt;(null)
+
+	/**
+	 * Señal reactiva que indica si la publicación se está cargando de la API.
+	 */
+	readonly loading &#x3D; signal(true)
+
+	/**
+	 * Señal reactiva con información del error de carga si ocurriera alguno.
+	 */
+	readonly error &#x3D; signal&lt;string | null&gt;(null)
+
+	/**
+	 * Señal reactiva que determina si la sección/cajón de comentarios está desplegada.
+	 */
+	readonly commentsVisible  &#x3D; signal(false)
+
+	/**
+	 * Borrador o entrada de texto en búfer para redactar un nuevo comentario.
+	 */
+	readonly commentDraft     &#x3D; signal(&#x27;&#x27;)
+
+	/**
+	 * Señal calculada que indica si se puede enviar el borrador de comentario actual.
+	 */
+	readonly canSubmitComment &#x3D; computed(() &#x3D;&gt; this.commentDraft().trim().length &gt; 0 &amp;&amp; !this.comments.submitting())
+
+	/**
+	 * Índice que apunta a la foto o video actualmente visualizado en el visor multimedia.
+	 */
+	readonly activeMediaIdx &#x3D; signal(0)
+
+	/**
+	 * Estado de seguimiento del autor del post respecto al usuario activo.
+	 */
+	readonly followStatus &#x3D; signal&lt;&#x27;none&#x27; | &#x27;following&#x27; | &#x27;requested&#x27;&gt;(&#x27;none&#x27;)
+
+	/**
+	 * Indica si se está ejecutando la acción de seguir/dejar de seguir al autor.
+	 */
+	readonly followLoading &#x3D; signal(false)
+
+	/**
+	 * Señal calculada que determina si la publicación pertenece al usuario autenticado.
+	 */
+	readonly isOwnPost &#x3D; computed(() &#x3D;&gt; {
+		const currentUserId &#x3D; this.authStore.currentUserId()
+		const authorId &#x3D; this.post()?.author.id
+		return !!currentUserId &amp;&amp; !!authorId &amp;&amp; currentUserId &#x3D;&#x3D;&#x3D; authorId
+	})
+
+	/**
+	 * Señal calculada que determina si al usuario le gusta la publicación.
+	 */
+	readonly liked &#x3D; computed(() &#x3D;&gt; {
+		const p &#x3D; this.post()
+		return p ? this.postActions.isLiked(p.id, p.liked) : false
+	})
+
+	/**
+	 * Señal calculada con el número consolidado de &#x27;Me gusta&#x27;.
+	 */
+	readonly likesCount &#x3D; computed(() &#x3D;&gt; {
+		const p &#x3D; this.post()
+		return p ? this.postActions.likesCount(p.id, p.likesCount) : 0
+	})
+
+	/**
+	 * Señal calculada que determina si el post se encuentra guardado en biblioteca.
+	 */
+	readonly saved &#x3D; computed(() &#x3D;&gt; {
+		const p &#x3D; this.post()
+		return p ? this.postActions.isSaved(p.id, p.saved) : false
+	})
+
+	/**
+	 * Señal calculada con el número consolidado de veces guardado.
+	 */
+	readonly savesCount &#x3D; computed(() &#x3D;&gt; {
+		const p &#x3D; this.post()
+		return p ? this.postActions.savesCount(p.id, p.savesCount) : 0
+	})
+
+	/**
+	 * Señal calculada que devuelve el objeto multimedia principal del post según el índice activo.
+	 */
+	readonly primaryMedia &#x3D; computed(() &#x3D;&gt; {
+		const post &#x3D; this.post()
+		if (!post) return null
+		return post.media[this.activeMediaIdx()] ?? post.media[0] ?? null
+	})
+
+	/**
+	 * Señal calculada con el nombre del autor.
+	 */
+	readonly authorName &#x3D; computed(() &#x3D;&gt; {
+		const p &#x3D; this.post()
+		if (!p) return &#x27;&#x27;
+		return p.author.name || p.author.username || &#x27;Chef anónimo&#x27;
+	})
+
+	/**
+	 * Señal calculada con el handle del autor.
+	 */
+	readonly authorHandle &#x3D; computed(() &#x3D;&gt; {
+		const username &#x3D; this.post()?.author.username
+		return username ? &#x60;@${username}&#x60; : &#x27;&#x27;
+	})
+
+	/**
+	 * Señal calculada con los parámetros de ruta al perfil del autor.
+	 */
+	readonly profileLink &#x3D; computed(() &#x3D;&gt; {
+		const username &#x3D; this.post()?.author.username
+		return username ? [&#x27;/profile&#x27;, username] : [&#x27;/profile&#x27;]
+	})
+
+	/**
+	 * Traduce de forma estática la dificultad de la receta (EASY, MEDIUM, HARD) a español.
+	 */
+	readonly difficultyLabel &#x3D; computed(() &#x3D;&gt; {
+		const map: Record&lt;string, string&gt; &#x3D; { EASY: &#x27;Fácil&#x27;, MEDIUM: &#x27;Media&#x27;, HARD: &#x27;Difícil&#x27; }
+		return this.post()?.recipe?.difficulty ? map[this.post()!.recipe!.difficulty!] : null
+	})
+
+	/**
+	 * Inicializa el componente.
+	 * Dispara la consulta al servidor para obtener la publicación identificada por ID en la ruta de navegación,
+	 * y vincula escuchas para cambios reactivos de me gusta/guardado.
+	 */
+	constructor() {
+		afterNextRender(() &#x3D;&gt; {
+			const id &#x3D; this.route.snapshot.paramMap.get(&#x27;id&#x27;)
+			if (!id) {
+				this.router.navigate([&#x27;/&#x27;])
+				return
+			}
+			this.feedService.getPostById(id).subscribe({
+				next: post &#x3D;&gt; {
+					this.post.set(post)
+					this.loading.set(false)
+					this.loadFollowStatus()
+				},
+				error: err &#x3D;&gt; {
+					this.error.set(err.message ?? &#x27;No se pudo cargar el post&#x27;)
+					this.loading.set(false)
+				},
+			})
+		})
+
+		this.postActions.likeChanged$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(e &#x3D;&gt; {
+			this.post.update(p &#x3D;&gt; p?.id &#x3D;&#x3D;&#x3D; e.postId ? ({ ...p, liked: e.liked, likesCount: e.likesCount }) as Post : p)
+		})
+		this.postActions.saveChanged$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(e &#x3D;&gt; {
+			this.post.update(p &#x3D;&gt; p?.id &#x3D;&#x3D;&#x3D; e.postId ? ({ ...p, saved: e.saved, savesCount: e.savesCount }) as Post : p)
+		})
+	}
+
+	/**
+	 * Carga el estado de seguimiento (following, requested o none) del usuario hacia el creador de la publicación.
+	 */
+	private loadFollowStatus(): void {
+		const authorId &#x3D; this.post()?.author.id
+		if (!authorId || this.isOwnPost()) return
+
+		this.userService.getUserById(authorId).subscribe({
+			next: ({ data }) &#x3D;&gt; {
+				const user &#x3D; data as unknown as { followStatus?: string }
+				const raw &#x3D; user?.followStatus ?? &#x27;none&#x27;
+				this.followStatus.set(
+					raw &#x3D;&#x3D;&#x3D; &#x27;following&#x27; || raw &#x3D;&#x3D;&#x3D; &#x27;requested&#x27; ? raw as &#x27;following&#x27; | &#x27;requested&#x27; : &#x27;none&#x27;,
+				)
+			},
+			error: () &#x3D;&gt; {throw new Error(&#x27;No se pudo cargar el estado de seguimiento&#x27;)},
+		})
+	}
+
+	/**
+	 * Vuelve atrás utilizando la ubicación del historial de navegación.
+	 */
+	goBack(): void {
+		this.location.back()
+	}
+
+	/**
+	 * Alterna el estado de seguimiento del autor de la receta de forma reactiva y optimista.
+	 */
+	toggleFollow(): void {
+		const authorId &#x3D; this.post()?.author.id
+		if (!authorId || this.followLoading()) return
+
+		const wasStatus &#x3D; this.followStatus()
+		this.followLoading.set(true)
+
+		let optimisticStatus: &#x27;none&#x27; | &#x27;following&#x27; | &#x27;requested&#x27;
+		if (wasStatus &#x3D;&#x3D;&#x3D; &#x27;following&#x27; || wasStatus &#x3D;&#x3D;&#x3D; &#x27;requested&#x27;) {
+			optimisticStatus &#x3D; &#x27;none&#x27;
+		} else {
+			optimisticStatus &#x3D; &#x27;following&#x27;
+		}
+		this.followStatus.set(optimisticStatus)
+
+		this.userService.toggleFollow(authorId, wasStatus &#x3D;&#x3D;&#x3D; &#x27;following&#x27;).pipe(
+			finalize(() &#x3D;&gt; this.followLoading.set(false)),
+		).subscribe({
+			next: result &#x3D;&gt; {
+				const newStatus: &#x27;none&#x27; | &#x27;following&#x27; | &#x27;requested&#x27; &#x3D;
+					result.following ? &#x27;following&#x27; : result.requested ? &#x27;requested&#x27; : &#x27;none&#x27;
+				this.followStatus.set(newStatus)
+				this.postActions.followChanged$.next({
+					userId: authorId,
+					following: result.following,
+					requested: result.requested,
+				})
+				const name &#x3D; this.authorName()
+				if (result.following) {
+					this.toast.success(&#x60;Ahora sigues a ${name}&#x60;, &#x27;&#x27;)
+				} else if (result.requested) {
+					this.toast.success(&#x60;Solicitud enviada a ${name}&#x60;, &#x27;&#x27;)
+				} else if (wasStatus &#x3D;&#x3D;&#x3D; &#x27;requested&#x27;) {
+					this.toast.success(&#x60;Solicitud cancelada&#x60;, &#x27;&#x27;)
+				} else {
+					this.toast.success(&#x60;Dejaste de seguir a ${name}&#x60;, &#x27;&#x27;)
+				}
+			},
+			error: () &#x3D;&gt; {
+				this.followStatus.set(wasStatus)
+				this.toast.error(&#x27;No se pudo actualizar el seguimiento&#x27;)
+			},
+		})
+	}
+
+	/**
+	 * Modifica y comunica el estado del &quot;me gusta&quot; del post.
+	 */
+	toggleLike(): void {
+		const p &#x3D; this.post()
+		if (!p) return
+		this.postActions.toggleLike(p.id, this.liked(), this.likesCount())
+	}
+
+	/**
+	 * Modifica y comunica el estado de guardado en la biblioteca del post.
+	 */
+	toggleSave(): void {
+		const p &#x3D; this.post()
+		if (!p) return
+		this.postActions.toggleSave(p.id, this.saved(), this.savesCount())
+	}
+
+	/**
+	 * Abre la sección y carga los comentarios de la publicación actual.
+	 */
+	openComments(): void {
+		const post &#x3D; this.post()
+		if (post) this.comments.open(post.id)
+		this.commentsVisible.set(true)
+	}
+
+	/**
+	 * Oculta el cajón de comentarios.
+	 */
+	closeComments(): void {
+		this.commentsVisible.set(false)
+	}
+
+	/**
+	 * Envía el comentario redactado y limpia el campo borrador.
+	 */
+	submitComment(): void {
+		const text &#x3D; this.commentDraft().trim()
+		if (!text) return
+		this.commentDraft.set(&#x27;&#x27;)
+		this.comments.addComment(text)
+	}
+
+	/**
+	 * Maneja la paginación reactiva de comentarios al hacer scroll sobre el listado de comentarios.
+	 * @param event Evento de desplazamiento.
+	 */
+	onCommentScroll(event: Event): void {
+		const el &#x3D; event.target as HTMLElement
+		if (el.scrollTop + el.clientHeight &gt;&#x3D; el.scrollHeight - 80) {
+			this.comments.loadMore()
+		}
+	}
+
+	/**
+	 * Devuelve el nombre del autor del comentario.
+	 * @param comment Objeto comentario.
+	 */
+	commentAuthorName(comment: Comment): string {
+		return comment.author.name || comment.author.username || &#x27;Chef&#x27;
+	}
+
+	/**
+	 * Determina si el comentario pertenece al usuario activo.
+	 * @param comment Objeto comentario.
+	 */
+	isOwnComment(comment: Comment): boolean {
+		return !!this.authStore.currentUserId() &amp;&amp; comment.authorId &#x3D;&#x3D;&#x3D; this.authStore.currentUserId()
+	}
+
+	/**
+	 * Añade todos los ingredientes descritos en la receta directamente a la lista de compras del usuario.
+	 */
+	addToShoppingList(): void {
+		const post &#x3D; this.post()
+		if (!post?.recipe) return
+		const added &#x3D; this.shoppingList.addFromRecipe(post.recipe, post.title ?? &#x27;&#x27;)
+		if (added &gt; 0) {
+			this.toast.success(&#x60;${added} ingrediente${added !&#x3D;&#x3D; 1 ? &#x27;s&#x27; : &#x27;&#x27;} añadido${added !&#x3D;&#x3D; 1 ? &#x27;s&#x27; : &#x27;&#x27;} a la lista&#x60;)
+		} else {
+			this.toast.info(&#x27;Todos los ingredientes ya están en tu lista&#x27;)
+		}
+	}
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;app-shell&gt;
+	&lt;div class&#x3D;&quot;mx-auto max-w-2xl px-4 py-6 pb-24&quot;&gt;
+
+		&lt;!-- Back --&gt;
+		&lt;button
+			type&#x3D;&quot;button&quot;
+			class&#x3D;&quot;mb-5 inline-flex min-h-11 items-center gap-2 rounded-pill px-3 text-body-sm font-bold text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container hover:text-on-surface&quot;
+			(click)&#x3D;&quot;goBack()&quot;
+		&gt;
+			&lt;i class&#x3D;&quot;pi pi-arrow-left&quot;&gt;&lt;/i&gt;
+			Volver
+		&lt;/button&gt;
+
+		&lt;!-- Loading --&gt;
+		@if (loading()) {
+			&lt;app-savo-loader size&#x3D;&quot;lg&quot; message&#x3D;&quot;Cargando receta...&quot; /&gt;
+		}
+
+		&lt;!-- Error --&gt;
+		@if (error()) {
+			&lt;div class&#x3D;&quot;rounded-2xl border border-error/30 bg-error-container p-6 text-center&quot;&gt;
+				&lt;i class&#x3D;&quot;pi pi-exclamation-triangle mb-2 text-3xl text-error&quot;&gt;&lt;/i&gt;
+				&lt;p class&#x3D;&quot;font-bold text-on-error-container&quot;&gt;{{ error() }}&lt;/p&gt;
+				&lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;mt-3 text-body-sm font-bold text-error underline&quot; (click)&#x3D;&quot;router.navigate([&#x27;/&#x27;])&quot;&gt;Ir al feed&lt;/button&gt;
+			&lt;/div&gt;
+		}
+
+		&lt;!-- Post --&gt;
+		@if (post(); as post) {
+			&lt;article class&#x3D;&quot;grid gap-5&quot;&gt;
+
+				&lt;!-- Author --&gt;
+				&lt;header class&#x3D;&quot;flex items-center gap-3&quot;&gt;
+					&lt;a [routerLink]&#x3D;&quot;profileLink()&quot; class&#x3D;&quot;shrink-0&quot;&gt;
+						&lt;app-avatar [src]&#x3D;&quot;post.author.photoUrl&quot; [name]&#x3D;&quot;authorName()&quot; size&#x3D;&quot;lg&quot; /&gt;
+					&lt;/a&gt;
+					&lt;div class&#x3D;&quot;min-w-0 flex-1&quot;&gt;
+						&lt;a [routerLink]&#x3D;&quot;profileLink()&quot; class&#x3D;&quot;text-body-md font-bold text-on-surface hover:underline&quot;&gt;{{ authorName() }}&lt;/a&gt;
+						&lt;div class&#x3D;&quot;flex flex-wrap items-center gap-x-2 gap-y-0.5 text-body-sm font-medium text-on-surface-muted&quot;&gt;
+							@if (authorHandle()) { &lt;span&gt;{{ authorHandle() }}&lt;/span&gt;&lt;span&gt;·&lt;/span&gt; }
+							&lt;span&gt;{{ post.createdAt | timeAgo }}&lt;/span&gt;
+						&lt;/div&gt;
+					&lt;/div&gt;
+					@if (!isOwnPost()) {
+						&lt;button type&#x3D;&quot;button&quot;
+							class&#x3D;&quot;ml-auto inline-flex h-9 items-center gap-1.5 rounded-full px-4 text-xs font-black transition disabled:opacity-60&quot;
+							[class]&#x3D;&quot;followStatus() &#x3D;&#x3D;&#x3D; &#x27;following&#x27;
+								? &#x27;border border-black/10 text-black/60 hover:bg-black/5&#x27;
+								: &#x27;bg-[#ff8f27] text-white hover:bg-[#f47f13]&#x27;&quot;
+							[disabled]&#x3D;&quot;followLoading()&quot;
+							(click)&#x3D;&quot;toggleFollow()&quot;&gt;
+							@if (followLoading()) {
+								&lt;i class&#x3D;&quot;pi pi-spinner pi-spin&quot;&gt;&lt;/i&gt;
+							} @else if (followStatus() &#x3D;&#x3D;&#x3D; &#x27;following&#x27;) {
+								&lt;i class&#x3D;&quot;pi pi-user-minus text-xs&quot;&gt;&lt;/i&gt;
+								&lt;span&gt;Siguiendo&lt;/span&gt;
+							} @else if (followStatus() &#x3D;&#x3D;&#x3D; &#x27;requested&#x27;) {
+								&lt;i class&#x3D;&quot;pi pi-clock text-xs&quot;&gt;&lt;/i&gt;
+								&lt;span&gt;Solicitado&lt;/span&gt;
+							} @else {
+								&lt;i class&#x3D;&quot;pi pi-user-plus text-xs&quot;&gt;&lt;/i&gt;
+								&lt;span&gt;Seguir&lt;/span&gt;
+							}
+						&lt;/button&gt;
+					}
+				&lt;/header&gt;
+
+				&lt;!-- Title --&gt;
+				@if (post.title) {
+					&lt;h1 class&#x3D;&quot;font-display text-headline-md text-on-surface&quot;&gt;{{ post.title }}&lt;/h1&gt;
+				}
+
+				&lt;!-- Categories --&gt;
+				@if (post.categories.length &gt; 0) {
+					&lt;div class&#x3D;&quot;flex flex-wrap gap-2&quot;&gt;
+						@for (cat of post.categories; track cat) {
+							&lt;span class&#x3D;&quot;rounded-pill bg-primary-container px-3 py-1 text-label-md font-bold text-on-primary-container&quot;&gt;{{ cat }}&lt;/span&gt;
+						}
+					&lt;/div&gt;
+				}
+
+				&lt;!-- Media carousel --&gt;
+				@if (post.media.length &gt; 0) {
+					&lt;div class&#x3D;&quot;grid gap-2&quot;&gt;
+						&lt;div class&#x3D;&quot;relative aspect-square overflow-hidden rounded-2xl border border-outline bg-surface-container&quot;&gt;
+							@if (primaryMedia()!.type &#x3D;&#x3D;&#x3D; &#x27;video&#x27;) {
+								&lt;video
+									class&#x3D;&quot;size-full object-cover&quot;
+									[src]&#x3D;&quot;primaryMedia()!.url&quot;
+									controls
+									preload&#x3D;&quot;metadata&quot;
+								&gt;&lt;/video&gt;
+							} @else {
+								&lt;img
+									[ngSrc]&#x3D;&quot;primaryMedia()!.url&quot;
+									[alt]&#x3D;&quot;post.title || &#x27;Publicación culinaria&#x27;&quot;
+									fill
+									sizes&#x3D;&quot;(max-width: 768px) 100vw, 50vw&quot;
+									class&#x3D;&quot;object-cover&quot;
+								/&gt;
+							}
+						&lt;/div&gt;
+
+						@if (post.media.length &gt; 1) {
+							&lt;div class&#x3D;&quot;flex gap-2 overflow-x-auto pb-1&quot;&gt;
+								@for (media of post.media; track media.id; let i &#x3D; $index) {
+									&lt;button
+										type&#x3D;&quot;button&quot;
+										class&#x3D;&quot;relative aspect-square w-16 shrink-0 overflow-hidden rounded-lg transition-all duration-fast ease-standard&quot;
+										[class]&#x3D;&quot;activeMediaIdx() &#x3D;&#x3D;&#x3D; i ? &#x27;ring-2 ring-primary&#x27; : &#x27;opacity-60 hover:opacity-100&#x27;&quot;
+										(click)&#x3D;&quot;activeMediaIdx.set(i)&quot;
+									&gt;
+										&lt;img [ngSrc]&#x3D;&quot;media.url&quot; [alt]&#x3D;&quot;&#x27;Imagen &#x27; + (i + 1)&quot; fill class&#x3D;&quot;object-cover&quot; /&gt;
+									&lt;/button&gt;
+								}
+							&lt;/div&gt;
+						}
+					&lt;/div&gt;
+				}
+
+				&lt;!-- Description --&gt;
+				@if (post.description) {
+					&lt;p class&#x3D;&quot;text-body-md font-medium leading-base text-on-surface whitespace-pre-line&quot;&gt;{{ post.description }}&lt;/p&gt;
+				}
+
+				&lt;!-- Recipe --&gt;
+				@if (post.recipe; as recipe) {
+					&lt;section class&#x3D;&quot;grid gap-5 rounded-2xl border border-outline bg-surface-container p-5&quot;&gt;
+						&lt;div class&#x3D;&quot;flex items-start justify-between gap-3&quot;&gt;
+							&lt;h2 class&#x3D;&quot;text-title-lg font-bold text-on-surface&quot;&gt;{{ recipe.name }}&lt;/h2&gt;
+						&lt;/div&gt;
+
+						@if (recipe.description) {
+							&lt;p class&#x3D;&quot;text-body-sm font-medium leading-base text-on-surface-muted&quot;&gt;{{ recipe.description }}&lt;/p&gt;
+						}
+
+						&lt;!-- Meta chips --&gt;
+						&lt;div class&#x3D;&quot;flex flex-wrap gap-2 text-label-md font-bold&quot;&gt;
+							@if (recipe.timeRequired) {
+								&lt;span class&#x3D;&quot;inline-flex items-center gap-1.5 rounded-pill bg-primary-container px-3 py-1.5 text-on-primary-container&quot;&gt;
+									&lt;i class&#x3D;&quot;pi pi-clock&quot;&gt;&lt;/i&gt; {{ recipe.timeRequired }} min
+								&lt;/span&gt;
+							}
+							@if (difficultyLabel()) {
+								&lt;span class&#x3D;&quot;inline-flex items-center gap-1.5 rounded-pill bg-tertiary-container px-3 py-1.5 text-on-tertiary-container&quot;&gt;
+									&lt;i class&#x3D;&quot;pi pi-chart-bar&quot;&gt;&lt;/i&gt; {{ difficultyLabel() }}
+								&lt;/span&gt;
+							}
+							@if (recipe.servings) {
+								&lt;span class&#x3D;&quot;inline-flex items-center gap-1.5 rounded-pill bg-secondary-container px-3 py-1.5 text-on-secondary-container&quot;&gt;
+									&lt;i class&#x3D;&quot;pi pi-users&quot;&gt;&lt;/i&gt; {{ recipe.servings }} porciones
+								&lt;/span&gt;
+							}
+							@if (recipe.estimatedCost) {
+								&lt;span class&#x3D;&quot;inline-flex items-center gap-1.5 rounded-pill bg-surface-container-high px-3 py-1.5 text-on-surface&quot;&gt;
+									&lt;i class&#x3D;&quot;pi pi-dollar&quot;&gt;&lt;/i&gt; ~{{ recipe.estimatedCost }}€
+								&lt;/span&gt;
+							}
+						&lt;/div&gt;
+
+						&lt;!-- Ingredients --&gt;
+						@if (recipe.ingredients.length &gt; 0) {
+							&lt;div&gt;
+								&lt;div class&#x3D;&quot;mb-3 flex items-center justify-between gap-2&quot;&gt;
+									&lt;h3 class&#x3D;&quot;text-label-md font-bold uppercase tracking-wide text-on-surface-muted&quot;&gt;Ingredientes&lt;/h3&gt;
+									&lt;button type&#x3D;&quot;button&quot;
+										class&#x3D;&quot;inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-label-md font-bold transition active:scale-95&quot;
+										[class]&#x3D;&quot;shoppingList.hasRecipe(recipe.id)
+											? &#x27;bg-[#22c55e]/15 text-[#16a34a]&#x27;
+											: &#x27;bg-primary-container text-on-primary-container hover:opacity-80&#x27;&quot;
+										(click)&#x3D;&quot;addToShoppingList()&quot;&gt;
+										&lt;i [class]&#x3D;&quot;shoppingList.hasRecipe(recipe.id) ? &#x27;pi pi-check&#x27; : &#x27;pi pi-shopping-cart&#x27;&quot; class&#x3D;&quot;text-xs&quot;&gt;&lt;/i&gt;
+										{{ shoppingList.hasRecipe(recipe.id) ? &#x27;En tu lista&#x27; : &#x27;Añadir a la compra&#x27; }}
+									&lt;/button&gt;
+								&lt;/div&gt;
+								&lt;ul class&#x3D;&quot;grid gap-2&quot;&gt;
+									@for (ing of recipe.ingredients; track ing.ingredientId) {
+										&lt;li class&#x3D;&quot;flex items-center gap-3 rounded-xl bg-surface px-4 py-3 text-body-sm font-medium shadow-1&quot;&gt;
+											&lt;span class&#x3D;&quot;size-2 shrink-0 rounded-pill bg-primary&quot;&gt;&lt;/span&gt;
+											&lt;span class&#x3D;&quot;flex-1 text-on-surface&quot;&gt;{{ ing.name }}&lt;/span&gt;
+											&lt;span class&#x3D;&quot;text-on-surface-muted&quot;&gt;{{ ing.quantity }} {{ ing.unit }}&lt;/span&gt;
+											@if (ing.notes) {
+												&lt;span class&#x3D;&quot;text-on-surface-muted text-label-md&quot;&gt;({{ ing.notes }})&lt;/span&gt;
+											}
+										&lt;/li&gt;
+									}
+								&lt;/ul&gt;
+							&lt;/div&gt;
+						}
+
+						&lt;!-- Steps --&gt;
+						@if (recipe.steps.length &gt; 0) {
+							&lt;div&gt;
+								&lt;h3 class&#x3D;&quot;mb-3 text-label-md font-bold uppercase tracking-wide text-on-surface-muted&quot;&gt;Preparación&lt;/h3&gt;
+								&lt;ol class&#x3D;&quot;grid gap-4&quot;&gt;
+									@for (step of recipe.steps; track step.step) {
+										&lt;li class&#x3D;&quot;flex gap-4&quot;&gt;
+											&lt;span class&#x3D;&quot;grid size-8 shrink-0 place-items-center rounded-pill bg-primary text-label-md font-bold text-on-primary shadow-1&quot;&gt;
+												{{ step.step }}
+											&lt;/span&gt;
+											&lt;p class&#x3D;&quot;flex-1 pt-1 text-body-sm font-medium leading-base text-on-surface&quot;&gt;{{ step.text }}&lt;/p&gt;
+										&lt;/li&gt;
+									}
+								&lt;/ol&gt;
+							&lt;/div&gt;
+						}
+					&lt;/section&gt;
+				}
+
+				&lt;!-- Cooking mode button --&gt;
+				@if (post.recipe &amp;&amp; post.recipe.steps.length &gt; 0) {
+					&lt;a
+						[routerLink]&#x3D;&quot;[&#x27;/cook&#x27;, post.id]&quot;
+						class&#x3D;&quot;group flex w-full items-center justify-center gap-3 rounded-2xl bg-inverse-surface px-6 py-4 font-bold text-inverse-on-surface transition-all duration-fast ease-standard hover:bg-primary hover:text-on-primary hover:shadow-3&quot;
+					&gt;
+						&lt;img src&#x3D;&quot;/gorro-de-cocinero.png&quot; class&#x3D;&quot;size-6 shrink-0 object-contain transition-all group-hover:brightness-[100]&quot; aria-hidden&#x3D;&quot;true&quot; alt&#x3D;&quot;&quot; /&gt;
+						Modo cocina
+						&lt;span class&#x3D;&quot;ml-auto rounded-pill bg-inverse-on-surface/10 px-3 py-1 text-label-md font-bold group-hover:bg-on-primary/10&quot;&gt;{{ post.recipe.steps.length }} pasos&lt;/span&gt;
+					&lt;/a&gt;
+				}
+
+			&lt;!-- Actions --&gt;
+				&lt;footer class&#x3D;&quot;flex items-center gap-3 border-t border-outline pt-4 sm:gap-6&quot;&gt;
+					&lt;button
+						type&#x3D;&quot;button&quot;
+						class&#x3D;&quot;inline-flex min-h-11 items-center gap-2 rounded-pill px-2 text-body-sm font-bold transition-colors duration-fast ease-standard hover:bg-surface-container active:scale-[0.98]&quot;
+						[class]&#x3D;&quot;liked() ? &#x27;text-error&#x27; : &#x27;text-on-surface-muted hover:text-error&#x27;&quot;
+						(click)&#x3D;&quot;toggleLike()&quot;
+					&gt;
+						&lt;i [class]&#x3D;&quot;liked() ? &#x27;pi pi-heart-fill&#x27; : &#x27;pi pi-heart&#x27;&quot;&gt;&lt;/i&gt;
+						&lt;span&gt;{{ likesCount() }}&lt;/span&gt;
+					&lt;/button&gt;
+
+					&lt;button
+						type&#x3D;&quot;button&quot;
+						class&#x3D;&quot;inline-flex min-h-11 items-center gap-2 rounded-pill px-2 text-body-sm font-bold text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container hover:text-primary active:scale-[0.98]&quot;
+						(click)&#x3D;&quot;openComments()&quot;
+					&gt;
+						&lt;i class&#x3D;&quot;pi pi-comment&quot;&gt;&lt;/i&gt;
+						&lt;span&gt;{{ post.commentsCount }}&lt;/span&gt;
+					&lt;/button&gt;
+
+					&lt;span class&#x3D;&quot;inline-flex items-center gap-2 text-body-sm font-bold text-on-surface-muted&quot;&gt;
+						&lt;i class&#x3D;&quot;pi pi-eye&quot;&gt;&lt;/i&gt;
+						&lt;span&gt;{{ post.viewsCount }}&lt;/span&gt;
+					&lt;/span&gt;
+
+					&lt;button
+						type&#x3D;&quot;button&quot;
+						class&#x3D;&quot;ml-auto grid size-11 place-items-center rounded-pill transition-colors duration-fast ease-standard hover:bg-surface-container active:scale-[0.98]&quot;
+						[class]&#x3D;&quot;saved() ? &#x27;text-primary&#x27; : &#x27;text-on-surface-muted&#x27;&quot;
+						(click)&#x3D;&quot;toggleSave()&quot;
+						aria-label&#x3D;&quot;Guardar post&quot;
+					&gt;
+						&lt;i [class]&#x3D;&quot;saved() ? &#x27;pi pi-bookmark-fill&#x27; : &#x27;pi pi-bookmark&#x27;&quot;&gt;&lt;/i&gt;
+					&lt;/button&gt;
+				&lt;/footer&gt;
+			&lt;/article&gt;
+
+			&lt;!-- ── Panel de comentarios ─────────────────────────────────────
+			     Mobile : ancho completo, slide-up desde el fondo
+			     Desktop: ancho del post (max-w-2xl), centrado, 75 vh
+			──────────────────────────────────────────────────────────────── --&gt;
+			@if (commentsVisible()) {
+				&lt;!-- Backdrop --&gt;
+				&lt;div
+					class&#x3D;&quot;fixed inset-0 z-40 bg-black/50 backdrop-blur-[2px]&quot;
+					(click)&#x3D;&quot;closeComments()&quot;
+				&gt;&lt;/div&gt;
+
+				&lt;!-- Sheet: full-width mobile / post-width desktop --&gt;
+				&lt;div class&#x3D;&quot;fixed bottom-0 left-0 z-50 w-full lg:left-1/2 lg:max-w-2xl lg:-translate-x-1/2&quot; style&#x3D;&quot;height: 75vh;&quot;&gt;
+					&lt;div class&#x3D;&quot;animate-slide-up-panel flex h-full flex-col overflow-hidden rounded-t-2xl border border-b-0 border-outline bg-surface shadow-4&quot;&gt;
+
+						&lt;!-- Cabecera --&gt;
+						&lt;div class&#x3D;&quot;flex shrink-0 items-center justify-between border-b border-outline px-4 py-3&quot;&gt;
+							&lt;div&gt;
+								&lt;span class&#x3D;&quot;text-body-sm font-bold text-on-surface&quot;&gt;Comentarios&lt;/span&gt;
+								&lt;span class&#x3D;&quot;ml-2 text-label-md font-semibold text-on-surface-muted&quot;&gt;{{ post.commentsCount }}&lt;/span&gt;
+							&lt;/div&gt;
+							&lt;button
+								type&#x3D;&quot;button&quot;
+								class&#x3D;&quot;grid size-8 place-items-center rounded-full text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container hover:text-on-surface active:scale-95&quot;
+								(click)&#x3D;&quot;closeComments()&quot;
+								aria-label&#x3D;&quot;Cerrar comentarios&quot;
+							&gt;
+								&lt;i class&#x3D;&quot;pi pi-times text-sm&quot;&gt;&lt;/i&gt;
+							&lt;/button&gt;
+						&lt;/div&gt;
+
+						&lt;!-- Lista --&gt;
+						&lt;section class&#x3D;&quot;flex-1 overflow-y-auto px-3 py-3&quot; (scroll)&#x3D;&quot;onCommentScroll($event)&quot;&gt;
+							@if (comments.error()) {
+								&lt;p class&#x3D;&quot;rounded-xl border border-error/30 bg-error-container p-3 text-body-sm font-semibold text-on-error-container&quot;&gt;{{ comments.error() }}&lt;/p&gt;
+							}
+							@if (comments.loading()) {
+								&lt;div class&#x3D;&quot;grid gap-2.5&quot;&gt;
+									@for (s of [1,2,3]; track s) {
+										&lt;div class&#x3D;&quot;h-14 animate-pulse rounded-xl bg-surface-container-high&quot;&gt;&lt;/div&gt;
+									}
+								&lt;/div&gt;
+							} @else if (comments.isEmpty()) {
+								&lt;div class&#x3D;&quot;grid place-items-center py-12 text-center&quot;&gt;
+									&lt;i class&#x3D;&quot;pi pi-comment text-2xl text-on-surface-muted&quot;&gt;&lt;/i&gt;
+									&lt;p class&#x3D;&quot;mt-2 text-body-sm font-semibold text-on-surface-muted&quot;&gt;Sé el primero en comentar&lt;/p&gt;
+								&lt;/div&gt;
+							} @else {
+								&lt;div class&#x3D;&quot;grid gap-2.5&quot;&gt;
+									@for (comment of comments.comments(); track comment.id) {
+										&lt;article class&#x3D;&quot;flex gap-2.5 rounded-xl bg-surface px-3 py-2.5 shadow-1&quot;&gt;
+											&lt;app-avatar [src]&#x3D;&quot;comment.author.photoUrl&quot; [name]&#x3D;&quot;commentAuthorName(comment)&quot; size&#x3D;&quot;sm&quot; /&gt;
+											&lt;div class&#x3D;&quot;min-w-0 flex-1&quot;&gt;
+												&lt;div class&#x3D;&quot;flex items-center gap-2&quot;&gt;
+													&lt;strong class&#x3D;&quot;truncate text-label-md font-bold text-on-surface&quot;&gt;{{ commentAuthorName(comment) }}&lt;/strong&gt;
+													&lt;span class&#x3D;&quot;shrink-0 text-[0.65rem] font-semibold text-on-surface-muted&quot;&gt;{{ comment.createdAt | timeAgo }}&lt;/span&gt;
+												&lt;/div&gt;
+												&lt;p class&#x3D;&quot;mt-0.5 whitespace-pre-line text-body-sm font-medium leading-snug text-on-surface&quot;&gt;{{ comment.text }}&lt;/p&gt;
+											&lt;/div&gt;
+											@if (isOwnComment(comment)) {
+												&lt;button
+													type&#x3D;&quot;button&quot;
+													class&#x3D;&quot;grid size-7 shrink-0 place-items-center rounded-full text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-error/10 hover:text-error active:scale-95&quot;
+													(click)&#x3D;&quot;comments.deleteComment(comment)&quot;
+													aria-label&#x3D;&quot;Eliminar comentario&quot;
+												&gt;
+													&lt;i class&#x3D;&quot;pi pi-trash text-xs&quot;&gt;&lt;/i&gt;
+												&lt;/button&gt;
+											}
+										&lt;/article&gt;
+									}
+								&lt;/div&gt;
+							}
+							@if (comments.loadingMore()) {
+								&lt;div class&#x3D;&quot;mt-2.5 h-12 animate-pulse rounded-xl bg-surface-container-high&quot;&gt;&lt;/div&gt;
+							}
+						&lt;/section&gt;
+
+						&lt;!-- Formulario --&gt;
+						&lt;form class&#x3D;&quot;flex shrink-0 gap-2 border-t border-outline px-3 py-3&quot; (ngSubmit)&#x3D;&quot;submitComment()&quot;&gt;
+							&lt;textarea
+								name&#x3D;&quot;commentInput&quot;
+								rows&#x3D;&quot;1&quot;
+								maxlength&#x3D;&quot;300&quot;
+								class&#x3D;&quot;min-h-10 flex-1 resize-none rounded-xl border border-outline bg-surface px-3 py-2.5 text-body-sm font-medium outline-none placeholder:text-on-surface-muted transition-colors duration-fast ease-standard focus:border-primary focus:ring-2 focus:ring-primary/20&quot;
+								placeholder&#x3D;&quot;Escribe un comentario...&quot;
+								[ngModel]&#x3D;&quot;commentDraft()&quot;
+								(ngModelChange)&#x3D;&quot;commentDraft.set($event)&quot;
+							&gt;&lt;/textarea&gt;
+							&lt;button
+								type&#x3D;&quot;submit&quot;
+								class&#x3D;&quot;grid size-10 shrink-0 place-items-center rounded-full bg-primary text-on-primary transition-colors duration-fast ease-standard hover:opacity-90 disabled:opacity-40 active:scale-95&quot;
+								[disabled]&#x3D;&quot;!canSubmitComment()&quot;
+								aria-label&#x3D;&quot;Enviar comentario&quot;
+							&gt;
+								&lt;i class&#x3D;&quot;pi pi-send text-sm&quot;&gt;&lt;/i&gt;
+							&lt;/button&gt;
+						&lt;/form&gt;
+					&lt;/div&gt;
+				&lt;/div&gt;
+			}
+		}
+	&lt;/div&gt;
+&lt;/app-shell&gt;
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis-network.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><app-shell>	<div class="mx-auto max-w-2xl px-4 py-6 pb-24">		<!-- Back -->		<button			type="button"			class="mb-5 inline-flex min-h-11 items-center gap-2 rounded-pill px-3 text-body-sm font-bold text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container hover:text-on-surface"			(click)="goBack()"		>			<i class="pi pi-arrow-left"></i>			Volver		</button>		<!-- Loading -->		@if (loading()) {			<app-savo-loader size="lg" message="Cargando receta..." />		}		<!-- Error -->		@if (error()) {			<div class="rounded-2xl border border-error/30 bg-error-container p-6 text-center">				<i class="pi pi-exclamation-triangle mb-2 text-3xl text-error"></i>				<p class="font-bold text-on-error-container">{{ error() }}</p>				<button type="button" class="mt-3 text-body-sm font-bold text-error underline" (click)="router.navigate([\'/\'])">Ir al feed</button>			</div>		}		<!-- Post -->		@if (post(); as post) {			<article class="grid gap-5">				<!-- Author -->				<header class="flex items-center gap-3">					<a [routerLink]="profileLink()" class="shrink-0">						<app-avatar [src]="post.author.photoUrl" [name]="authorName()" size="lg" />					</a>					<div class="min-w-0 flex-1">						<a [routerLink]="profileLink()" class="text-body-md font-bold text-on-surface hover:underline">{{ authorName() }}</a>						<div class="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-body-sm font-medium text-on-surface-muted">							@if (authorHandle()) { <span>{{ authorHandle() }}</span><span>·</span> }							<span>{{ post.createdAt | timeAgo }}</span>						</div>					</div>					@if (!isOwnPost()) {						<button type="button"							class="ml-auto inline-flex h-9 items-center gap-1.5 rounded-full px-4 text-xs font-black transition disabled:opacity-60"							[class]="followStatus() === \'following\'								? \'border border-black/10 text-black/60 hover:bg-black/5\'								: \'bg-[#ff8f27] text-white hover:bg-[#f47f13]\'"							[disabled]="followLoading()"							(click)="toggleFollow()">							@if (followLoading()) {								<i class="pi pi-spinner pi-spin"></i>							} @else if (followStatus() === \'following\') {								<i class="pi pi-user-minus text-xs"></i>								<span>Siguiendo</span>							} @else if (followStatus() === \'requested\') {								<i class="pi pi-clock text-xs"></i>								<span>Solicitado</span>							} @else {								<i class="pi pi-user-plus text-xs"></i>								<span>Seguir</span>							}						</button>					}				</header>				<!-- Title -->				@if (post.title) {					<h1 class="font-display text-headline-md text-on-surface">{{ post.title }}</h1>				}				<!-- Categories -->				@if (post.categories.length > 0) {					<div class="flex flex-wrap gap-2">						@for (cat of post.categories; track cat) {							<span class="rounded-pill bg-primary-container px-3 py-1 text-label-md font-bold text-on-primary-container">{{ cat }}</span>						}					</div>				}				<!-- Media carousel -->				@if (post.media.length > 0) {					<div class="grid gap-2">						<div class="relative aspect-square overflow-hidden rounded-2xl border border-outline bg-surface-container">							@if (primaryMedia()!.type === \'video\') {								<video									class="size-full object-cover"									[src]="primaryMedia()!.url"									controls									preload="metadata"								></video>							} @else {								<img									[ngSrc]="primaryMedia()!.url"									[alt]="post.title || \'Publicación culinaria\'"									fill									sizes="(max-width: 768px) 100vw, 50vw"									class="object-cover"								/>							}						</div>						@if (post.media.length > 1) {							<div class="flex gap-2 overflow-x-auto pb-1">								@for (media of post.media; track media.id; let i = $index) {									<button										type="button"										class="relative aspect-square w-16 shrink-0 overflow-hidden rounded-lg transition-all duration-fast ease-standard"										[class]="activeMediaIdx() === i ? \'ring-2 ring-primary\' : \'opacity-60 hover:opacity-100\'"										(click)="activeMediaIdx.set(i)"									>										<img [ngSrc]="media.url" [alt]="\'Imagen \' + (i + 1)" fill class="object-cover" />									</button>								}							</div>						}					</div>				}				<!-- Description -->				@if (post.description) {					<p class="text-body-md font-medium leading-base text-on-surface whitespace-pre-line">{{ post.description }}</p>				}				<!-- Recipe -->				@if (post.recipe; as recipe) {					<section class="grid gap-5 rounded-2xl border border-outline bg-surface-container p-5">						<div class="flex items-start justify-between gap-3">							<h2 class="text-title-lg font-bold text-on-surface">{{ recipe.name }}</h2>						</div>						@if (recipe.description) {							<p class="text-body-sm font-medium leading-base text-on-surface-muted">{{ recipe.description }}</p>						}						<!-- Meta chips -->						<div class="flex flex-wrap gap-2 text-label-md font-bold">							@if (recipe.timeRequired) {								<span class="inline-flex items-center gap-1.5 rounded-pill bg-primary-container px-3 py-1.5 text-on-primary-container">									<i class="pi pi-clock"></i> {{ recipe.timeRequired }} min								</span>							}							@if (difficultyLabel()) {								<span class="inline-flex items-center gap-1.5 rounded-pill bg-tertiary-container px-3 py-1.5 text-on-tertiary-container">									<i class="pi pi-chart-bar"></i> {{ difficultyLabel() }}								</span>							}							@if (recipe.servings) {								<span class="inline-flex items-center gap-1.5 rounded-pill bg-secondary-container px-3 py-1.5 text-on-secondary-container">									<i class="pi pi-users"></i> {{ recipe.servings }} porciones								</span>							}							@if (recipe.estimatedCost) {								<span class="inline-flex items-center gap-1.5 rounded-pill bg-surface-container-high px-3 py-1.5 text-on-surface">									<i class="pi pi-dollar"></i> ~{{ recipe.estimatedCost }}€								</span>							}						</div>						<!-- Ingredients -->						@if (recipe.ingredients.length > 0) {							<div>								<div class="mb-3 flex items-center justify-between gap-2">									<h3 class="text-label-md font-bold uppercase tracking-wide text-on-surface-muted">Ingredientes</h3>									<button type="button"										class="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-label-md font-bold transition active:scale-95"										[class]="shoppingList.hasRecipe(recipe.id)											? \'bg-[#22c55e]/15 text-[#16a34a]\'											: \'bg-primary-container text-on-primary-container hover:opacity-80\'"										(click)="addToShoppingList()">										<i [class]="shoppingList.hasRecipe(recipe.id) ? \'pi pi-check\' : \'pi pi-shopping-cart\'" class="text-xs"></i>										{{ shoppingList.hasRecipe(recipe.id) ? \'En tu lista\' : \'Añadir a la compra\' }}									</button>								</div>								<ul class="grid gap-2">									@for (ing of recipe.ingredients; track ing.ingredientId) {										<li class="flex items-center gap-3 rounded-xl bg-surface px-4 py-3 text-body-sm font-medium shadow-1">											<span class="size-2 shrink-0 rounded-pill bg-primary"></span>											<span class="flex-1 text-on-surface">{{ ing.name }}</span>											<span class="text-on-surface-muted">{{ ing.quantity }} {{ ing.unit }}</span>											@if (ing.notes) {												<span class="text-on-surface-muted text-label-md">({{ ing.notes }})</span>											}										</li>									}								</ul>							</div>						}						<!-- Steps -->						@if (recipe.steps.length > 0) {							<div>								<h3 class="mb-3 text-label-md font-bold uppercase tracking-wide text-on-surface-muted">Preparación</h3>								<ol class="grid gap-4">									@for (step of recipe.steps; track step.step) {										<li class="flex gap-4">											<span class="grid size-8 shrink-0 place-items-center rounded-pill bg-primary text-label-md font-bold text-on-primary shadow-1">												{{ step.step }}											</span>											<p class="flex-1 pt-1 text-body-sm font-medium leading-base text-on-surface">{{ step.text }}</p>										</li>									}								</ol>							</div>						}					</section>				}				<!-- Cooking mode button -->				@if (post.recipe && post.recipe.steps.length > 0) {					<a						[routerLink]="[\'/cook\', post.id]"						class="group flex w-full items-center justify-center gap-3 rounded-2xl bg-inverse-surface px-6 py-4 font-bold text-inverse-on-surface transition-all duration-fast ease-standard hover:bg-primary hover:text-on-primary hover:shadow-3"					>						<img src="/gorro-de-cocinero.png" class="size-6 shrink-0 object-contain transition-all group-hover:brightness-[100]" aria-hidden="true" alt="" />						Modo cocina						<span class="ml-auto rounded-pill bg-inverse-on-surface/10 px-3 py-1 text-label-md font-bold group-hover:bg-on-primary/10">{{ post.recipe.steps.length }} pasos</span>					</a>				}			<!-- Actions -->				<footer class="flex items-center gap-3 border-t border-outline pt-4 sm:gap-6">					<button						type="button"						class="inline-flex min-h-11 items-center gap-2 rounded-pill px-2 text-body-sm font-bold transition-colors duration-fast ease-standard hover:bg-surface-container active:scale-[0.98]"						[class]="liked() ? \'text-error\' : \'text-on-surface-muted hover:text-error\'"						(click)="toggleLike()"					>						<i [class]="liked() ? \'pi pi-heart-fill\' : \'pi pi-heart\'"></i>						<span>{{ likesCount() }}</span>					</button>					<button						type="button"						class="inline-flex min-h-11 items-center gap-2 rounded-pill px-2 text-body-sm font-bold text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container hover:text-primary active:scale-[0.98]"						(click)="openComments()"					>						<i class="pi pi-comment"></i>						<span>{{ post.commentsCount }}</span>					</button>					<span class="inline-flex items-center gap-2 text-body-sm font-bold text-on-surface-muted">						<i class="pi pi-eye"></i>						<span>{{ post.viewsCount }}</span>					</span>					<button						type="button"						class="ml-auto grid size-11 place-items-center rounded-pill transition-colors duration-fast ease-standard hover:bg-surface-container active:scale-[0.98]"						[class]="saved() ? \'text-primary\' : \'text-on-surface-muted\'"						(click)="toggleSave()"						aria-label="Guardar post"					>						<i [class]="saved() ? \'pi pi-bookmark-fill\' : \'pi pi-bookmark\'"></i>					</button>				</footer>			</article>			<!-- ── Panel de comentarios ─────────────────────────────────────			     Mobile : ancho completo, slide-up desde el fondo			     Desktop: ancho del post (max-w-2xl), centrado, 75 vh			──────────────────────────────────────────────────────────────── -->			@if (commentsVisible()) {				<!-- Backdrop -->				<div					class="fixed inset-0 z-40 bg-black/50 backdrop-blur-[2px]"					(click)="closeComments()"				></div>				<!-- Sheet: full-width mobile / post-width desktop -->				<div class="fixed bottom-0 left-0 z-50 w-full lg:left-1/2 lg:max-w-2xl lg:-translate-x-1/2" style="height: 75vh;">					<div class="animate-slide-up-panel flex h-full flex-col overflow-hidden rounded-t-2xl border border-b-0 border-outline bg-surface shadow-4">						<!-- Cabecera -->						<div class="flex shrink-0 items-center justify-between border-b border-outline px-4 py-3">							<div>								<span class="text-body-sm font-bold text-on-surface">Comentarios</span>								<span class="ml-2 text-label-md font-semibold text-on-surface-muted">{{ post.commentsCount }}</span>							</div>							<button								type="button"								class="grid size-8 place-items-center rounded-full text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container hover:text-on-surface active:scale-95"								(click)="closeComments()"								aria-label="Cerrar comentarios"							>								<i class="pi pi-times text-sm"></i>							</button>						</div>						<!-- Lista -->						<section class="flex-1 overflow-y-auto px-3 py-3" (scroll)="onCommentScroll($event)">							@if (comments.error()) {								<p class="rounded-xl border border-error/30 bg-error-container p-3 text-body-sm font-semibold text-on-error-container">{{ comments.error() }}</p>							}							@if (comments.loading()) {								<div class="grid gap-2.5">									@for (s of [1,2,3]; track s) {										<div class="h-14 animate-pulse rounded-xl bg-surface-container-high"></div>									}								</div>							} @else if (comments.isEmpty()) {								<div class="grid place-items-center py-12 text-center">									<i class="pi pi-comment text-2xl text-on-surface-muted"></i>									<p class="mt-2 text-body-sm font-semibold text-on-surface-muted">Sé el primero en comentar</p>								</div>							} @else {								<div class="grid gap-2.5">									@for (comment of comments.comments(); track comment.id) {										<article class="flex gap-2.5 rounded-xl bg-surface px-3 py-2.5 shadow-1">											<app-avatar [src]="comment.author.photoUrl" [name]="commentAuthorName(comment)" size="sm" />											<div class="min-w-0 flex-1">												<div class="flex items-center gap-2">													<strong class="truncate text-label-md font-bold text-on-surface">{{ commentAuthorName(comment) }}</strong>													<span class="shrink-0 text-[0.65rem] font-semibold text-on-surface-muted">{{ comment.createdAt | timeAgo }}</span>												</div>												<p class="mt-0.5 whitespace-pre-line text-body-sm font-medium leading-snug text-on-surface">{{ comment.text }}</p>											</div>											@if (isOwnComment(comment)) {												<button													type="button"													class="grid size-7 shrink-0 place-items-center rounded-full text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-error/10 hover:text-error active:scale-95"													(click)="comments.deleteComment(comment)"													aria-label="Eliminar comentario"												>													<i class="pi pi-trash text-xs"></i>												</button>											}										</article>									}								</div>							}							@if (comments.loadingMore()) {								<div class="mt-2.5 h-12 animate-pulse rounded-xl bg-surface-container-high"></div>							}						</section>						<!-- Formulario -->						<form class="flex shrink-0 gap-2 border-t border-outline px-3 py-3" (ngSubmit)="submitComment()">							<textarea								name="commentInput"								rows="1"								maxlength="300"								class="min-h-10 flex-1 resize-none rounded-xl border border-outline bg-surface px-3 py-2.5 text-body-sm font-medium outline-none placeholder:text-on-surface-muted transition-colors duration-fast ease-standard focus:border-primary focus:ring-2 focus:ring-primary/20"								placeholder="Escribe un comentario..."								[ngModel]="commentDraft()"								(ngModelChange)="commentDraft.set($event)"							></textarea>							<button								type="submit"								class="grid size-10 shrink-0 place-items-center rounded-full bg-primary text-on-primary transition-colors duration-fast ease-standard hover:opacity-90 disabled:opacity-40 active:scale-95"								[disabled]="!canSubmitComment()"								aria-label="Enviar comentario"							>								<i class="pi pi-send text-sm"></i>							</button>						</form>					</div>				</div>			}		}	</div></app-shell></div>'
+    var COMPONENTS = [{'name': 'AddReviewModal', 'selector': 'app-add-review-modal'},{'name': 'AiIdeasPanel', 'selector': 'app-ai-ideas-panel'},{'name': 'AiRecipeForm', 'selector': 'app-ai-recipe-form'},{'name': 'AiRecipeResult', 'selector': 'app-ai-recipe-result'},{'name': 'AiRecipesHero', 'selector': 'app-ai-recipes-hero'},{'name': 'AiRecipesPage', 'selector': 'app-ai-recipes-page'},{'name': 'App', 'selector': 'app-root'},{'name': 'AppShell', 'selector': 'app-shell'},{'name': 'Auth', 'selector': 'app-auth'},{'name': 'Avatar', 'selector': 'app-avatar'},{'name': 'Body', 'selector': 'app-body-step1'},{'name': 'Body', 'selector': 'app-body-step3'},{'name': 'Body', 'selector': 'app-body-step2'},{'name': 'ButtonComponent', 'selector': 'app-button'},{'name': 'CallHost', 'selector': 'app-call-host'},{'name': 'CallOverlay', 'selector': 'app-call-overlay'},{'name': 'ChatPanel', 'selector': 'app-chat-panel'},{'name': 'CommentSection', 'selector': 'app-comment-section'},{'name': 'CommentsSheetComponent', 'selector': 'app-comments-sheet'},{'name': 'ConversationList', 'selector': 'app-conversation-list'},{'name': 'CookingModePage', 'selector': 'app-cooking-mode-page'},{'name': 'CreatePostComponent', 'selector': 'app-create-post'},{'name': 'EditProfileComponent', 'selector': 'app-edit-profile'},{'name': 'EmojiRain', 'selector': 'app-emoji-rain'},{'name': 'Emptystate', 'selector': 'app-emptystate'},{'name': 'ExploreCategoryTabs', 'selector': 'app-explore-category-tabs'},{'name': 'ExploreHero', 'selector': 'app-explore-hero'},{'name': 'ExplorePage', 'selector': 'app-explore-page'},{'name': 'ExploreRightRail', 'selector': 'app-explore-right-rail'},{'name': 'ExploreToolbar', 'selector': 'app-explore-toolbar'},{'name': 'FeedPage', 'selector': 'app-feed-page'},{'name': 'FeedPostList', 'selector': 'app-feed-post-list'},{'name': 'FeedRightRail', 'selector': 'app-feed-right-rail'},{'name': 'GlobalSearchPanel', 'selector': 'app-global-search-panel'},{'name': 'Header', 'selector': 'app-header-step1'},{'name': 'Header', 'selector': 'app-header-step3'},{'name': 'Header', 'selector': 'app-header-step2'},{'name': 'Home', 'selector': 'app-home'},{'name': 'IncomingCall', 'selector': 'app-incoming-call'},{'name': 'Login', 'selector': 'app-login'},{'name': 'MessageBubble', 'selector': 'app-message-bubble'},{'name': 'MessagesPage', 'selector': 'app-messages-page'},{'name': 'NewConversation', 'selector': 'app-new-conversation'},{'name': 'NotificationsPage', 'selector': 'app-notifications-page'},{'name': 'PlaceCard', 'selector': 'app-place-card'},{'name': 'PlaceDetailPage', 'selector': 'app-place-detail-page'},{'name': 'PlacesPage', 'selector': 'app-places-page'},{'name': 'PostCard', 'selector': 'app-post-card'},{'name': 'PostDetailPage', 'selector': 'app-post-detail-page'},{'name': 'Profile', 'selector': 'app-profile'},{'name': 'PublicProfilePage', 'selector': 'app-public-profile-page'},{'name': 'RecentAiRecipes', 'selector': 'app-recent-ai-recipes'},{'name': 'RecipeDiscoveryCard', 'selector': 'app-recipe-discovery-card'},{'name': 'RecipeDiscoveryGrid', 'selector': 'app-recipe-discovery-grid'},{'name': 'RecipeOfDayCard', 'selector': 'app-recipe-of-day-card'},{'name': 'Register', 'selector': 'app-register'},{'name': 'ReportSheet', 'selector': 'app-report-sheet'},{'name': 'SavedCollectionStrip', 'selector': 'app-saved-collection-strip'},{'name': 'SavedPage', 'selector': 'app-saved-page'},{'name': 'SavedRecipeCard', 'selector': 'app-saved-recipe-card'},{'name': 'SavoLoader', 'selector': 'app-savo-loader'},{'name': 'SettingsPage', 'selector': 'app-settings-page'},{'name': 'SharedPostCard', 'selector': 'app-shared-post-card'},{'name': 'SharedProfileCard', 'selector': 'app-shared-profile-card'},{'name': 'SharePostModal', 'selector': 'app-share-post-modal'},{'name': 'ShareProfileModal', 'selector': 'app-share-profile-modal'},{'name': 'ShoppingListPage', 'selector': 'app-shopping-list-page'},{'name': 'SkeletonCard', 'selector': 'app-skeleton-card'},{'name': 'Spinner', 'selector': 'app-spinner'},{'name': 'SpotlightBg', 'selector': 'app-spotlight-bg'},{'name': 'StoriesStrip', 'selector': 'app-stories-strip'},{'name': 'StoryViewer', 'selector': 'app-story-viewer'},{'name': 'SuggestionsPanel', 'selector': 'app-suggestions-panel'},{'name': 'Title', 'selector': 'app-title'},{'name': 'Topbar', 'selector': 'app-topbar'},{'name': 'TrendingList', 'selector': 'app-trending-list'},{'name': 'VeganConvertModal', 'selector': 'app-vegan-convert-modal'}];
+    var DIRECTIVES = [{'name': 'ClickOutsideDirective', 'selector': '[appClickOutside]'},{'name': 'ImgFallbackDirective', 'selector': 'img[appImgFallback]'}];
+    var ACTUAL_COMPONENT = {'name': 'PostDetailPage'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'PostDetailPage.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

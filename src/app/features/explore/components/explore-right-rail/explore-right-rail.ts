@@ -6,32 +6,95 @@ import { SupabaseService } from '@core/services/supabase.service'
 import { AuthStore } from '@core/store/auth.store'
 import { Post } from '@core/models/post/post.model'
 
+/**
+ * Interfaz que define la estructura o contrato de datos para collection.
+ */
 interface Collection {
+	/**
+	 * Propiedad para gestionar clave.
+	 */
 	key: string
+	/**
+	 * Propiedad para gestionar título.
+	 */
 	title: string
+	/**
+	 * Propiedad para gestionar cantidad.
+	 */
 	count: number
+	/**
+	 * Propiedad para gestionar imagen enlace.
+	 */
 	imageUrl: string | null
+	/**
+	 * Propiedad para gestionar post identificador.
+	 */
 	postId: string
 }
 
+/**
+ * Interfaz que define la estructura o contrato de datos para featuredchef.
+ */
 interface FeaturedChef {
+	/**
+	 * Propiedad para gestionar identificador.
+	 */
 	id: string
+	/**
+	 * Propiedad para gestionar nombre de usuario.
+	 */
 	username: string
+	/**
+	 * Propiedad para gestionar display nombre.
+	 */
 	displayName: string
+	/**
+	 * Propiedad para gestionar avatar enlace.
+	 */
 	avatarUrl: string | null
+	/**
+	 * Propiedad para gestionar biografía.
+	 */
 	bio: string | null
+	/**
+	 * Propiedad para gestionar posts cantidad.
+	 */
 	postsCount: number
+	/**
+	 * Propiedad para gestionar followers cantidad.
+	 */
 	followersCount: number
 }
 
+/**
+ * Interfaz que define la estructura o contrato de datos para trend.
+ */
 interface Trend {
+	/**
+	 * Propiedad para gestionar rank.
+	 */
 	rank: number
+	/**
+	 * Propiedad para gestionar título.
+	 */
 	title: string
+	/**
+	 * Propiedad para gestionar cantidad.
+	 */
 	count: number
+	/**
+	 * Propiedad para gestionar imagen enlace.
+	 */
 	imageUrl: string | null
+	/**
+	 * Propiedad para gestionar post identificador.
+	 */
 	postId: string
 }
 
+/**
+ * Variable o constante para c a t e g o r y l a b e l s.
+ */
 const CATEGORY_LABELS: Record<string, string> = {
 	TRENDING: 'Tendencia', ITALIAN: 'Italiana', MEXICAN: 'Mexicana',
 	JAPANESE: 'Japonesa', CHINESE: 'China', DESSERTS: 'Postres',
@@ -43,27 +106,60 @@ const CATEGORY_LABELS: Record<string, string> = {
 
 import { TranslatePipe } from '@shared/pipes/translate.pipe'
 
+/**
+ * Clase de utilidad para explorerightrail.
+ */
 @Component({
 	selector: 'app-explore-right-rail',
 	imports: [RouterLink, TranslatePipe],
 	templateUrl: './explore-right-rail.html',
 })
 export class ExploreRightRail implements OnInit {
+	/**
+	 * Propiedad para gestionar feed service.
+	 */
 	private readonly feedService = inject(FeedService)
+	/**
+	 * Propiedad para gestionar supabase.
+	 */
 	private readonly supabase    = inject(SupabaseService)
+	/**
+	 * Propiedad para gestionar auth store.
+	 */
 	private readonly authStore   = inject(AuthStore)
 
+	/**
+	 * Propiedad para gestionar collections.
+	 */
 	readonly collections    = signal<Collection[]>([])
+	/**
+	 * Propiedad para gestionar featured chef.
+	 */
 	readonly featuredChef   = signal<FeaturedChef | null>(null)
+	/**
+	 * Propiedad para gestionar trends.
+	 */
 	readonly trends         = signal<Trend[]>([])
+	/**
+	 * Propiedad para gestionar cargando content.
+	 */
 	readonly loadingContent = signal(true)
+	/**
+	 * Propiedad para gestionar cargando chef.
+	 */
 	readonly loadingChef    = signal(true)
 
+	/**
+	 * Método de ciclo de vida de Angular que se ejecuta al inicializar el componente.
+	 */
 	ngOnInit(): void {
 		this.loadPostData()
 		this.loadFeaturedChef()
 	}
 
+	/**
+	 * Método para cargar post datos.
+	 */
 	private loadPostData(): void {
 		from(this.feedService.fetchDiscoverGql(30)).subscribe({
 			next: posts => {
@@ -75,6 +171,9 @@ export class ExploreRightRail implements OnInit {
 		})
 	}
 
+	/**
+	 * Método para build collections.
+	 */
 	private buildCollections(posts: Post[]): Collection[] {
 		const map = new Map<string, { count: number; post: Post }>()
 		for (const post of posts) {
@@ -110,6 +209,9 @@ export class ExploreRightRail implements OnInit {
 			}))
 	}
 
+	/**
+	 * Método para build trends.
+	 */
 	private buildTrends(posts: Post[]): Trend[] {
 		const sorted = [...posts].sort((a, b) => b.likesCount - a.likesCount).slice(0, 3)
 		return sorted.map((p, i) => ({
@@ -121,6 +223,9 @@ export class ExploreRightRail implements OnInit {
 		}))
 	}
 
+	/**
+	 * Método para cargar featured chef.
+	 */
 	private loadFeaturedChef(): void {
 		const currentId = this.authStore.currentUserId()
 		from(
@@ -156,6 +261,9 @@ export class ExploreRightRail implements OnInit {
 		})
 	}
 
+	/**
+	 * Método para format cantidad.
+	 */
 	formatCount(n: number): string {
 		if (n >= 1000) return (n / 1000).toFixed(n >= 10000 ? 0 : 1).replace('.0', '') + 'K'
 		return String(n)

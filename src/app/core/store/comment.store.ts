@@ -6,30 +6,93 @@ import { ToastService } from '@core/services/toast.service'
 import { PostActionsService } from '@core/services/post-actions.service'
 import { toUserMessage } from '@core/utils/user-error'
 
+/**
+ * Almacén de estado reactivo para gestionar la lógica de un comentario.
+ */
 @Injectable({ providedIn: 'root' })
 export class CommentStore {
+	/**
+	 * Propiedad para gestionar comment service.
+	 */
 	private readonly commentService = inject(CommentService)
+	/**
+	 * Propiedad para gestionar post actions.
+	 */
 	private readonly postActions    = inject(PostActionsService)
+	/**
+	 * Propiedad para gestionar toast.
+	 */
 	private readonly toast          = inject(ToastService)
 
+	/**
+	 * Propiedad para gestionar post identificador.
+	 */
 	private readonly _postId = signal<string | null>(null)
+	/**
+	 * Propiedad para gestionar comments.
+	 */
 	private readonly _comments = signal<Comment[]>([])
+	/**
+	 * Propiedad para gestionar cargando.
+	 */
 	private readonly _loading = signal(false)
+	/**
+	 * Propiedad para gestionar cargando more.
+	 */
 	private readonly _loadingMore = signal(false)
+	/**
+	 * Propiedad para gestionar submitting.
+	 */
 	private readonly _submitting = signal(false)
+	/**
+	 * Propiedad para gestionar error.
+	 */
 	private readonly _error = signal<string | null>(null)
+	/**
+	 * Propiedad para gestionar end cursor.
+	 */
 	private readonly _endCursor = signal<string | null>(null)
+	/**
+	 * Propiedad para gestionar tiene next page.
+	 */
 	private readonly _hasNextPage = signal(false)
 
+	/**
+	 * Propiedad para gestionar post identificador.
+	 */
 	readonly postId = this._postId.asReadonly()
+	/**
+	 * Propiedad para gestionar comments.
+	 */
 	readonly comments = this._comments.asReadonly()
+	/**
+	 * Propiedad para gestionar cargando.
+	 */
 	readonly loading = this._loading.asReadonly()
+	/**
+	 * Propiedad para gestionar cargando more.
+	 */
 	readonly loadingMore = this._loadingMore.asReadonly()
+	/**
+	 * Propiedad para gestionar submitting.
+	 */
 	readonly submitting = this._submitting.asReadonly()
+	/**
+	 * Propiedad para gestionar error.
+	 */
 	readonly error = this._error.asReadonly()
+	/**
+	 * Indicador booleano para tiene next page.
+	 */
 	readonly hasNextPage = this._hasNextPage.asReadonly()
+	/**
+	 * Indicador booleano para es o está empty.
+	 */
 	readonly isEmpty = computed(() => !this._loading() && this._comments().length === 0)
 
+	/**
+	 * Método para abrir.
+	 */
 	open(postId: string): void {
 		this._postId.set(postId)
 		this._comments.set([])
@@ -38,6 +101,9 @@ export class CommentStore {
 		this.load(postId)
 	}
 
+	/**
+	 * Método para cargar more.
+	 */
 	loadMore(): void {
 		const postId = this._postId()
 		if (!postId || !this._hasNextPage() || this._loadingMore()) return
@@ -57,6 +123,9 @@ export class CommentStore {
 		})
 	}
 
+	/**
+	 * Método para añadir comment.
+	 */
 	addComment(text: string): void {
 		const postId = this._postId()
 		const cleanText = text.trim()
@@ -94,6 +163,9 @@ export class CommentStore {
 		})
 	}
 
+	/**
+	 * Método para eliminar comment.
+	 */
 	deleteComment(comment: Comment): void {
 		this._comments.update(comments => comments.filter(item => item.id !== comment.id))
 		this.postActions.commentCountChanged$.next({ postId: comment.postId, delta: -1 })
@@ -107,6 +179,9 @@ export class CommentStore {
 		})
 	}
 
+	/**
+	 * Método para cargar.
+	 */
 	private load(postId: string): void {
 		this._loading.set(true)
 		this._error.set(null)

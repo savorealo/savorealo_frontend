@@ -5,12 +5,21 @@ import { Router }                           from '@angular/router'
 import { SupabaseService }                  from '@core/services/supabase.service'
 
 // Margen en segundos antes de expirar para hacer refresh proactivo
+/**
+ * Variable o constante para t o k e n e x p i r y m a r g i n s.
+ */
 const TOKEN_EXPIRY_MARGIN_S = 60
 
 // Promesa compartida: todas las peticiones concurrentes reutilizan el mismo refresh
 // en vuelo para evitar la rotación solapada del refresh token.
+/**
+ * Variable o constante para refrescar en vuelo/curso.
+ */
 let refreshInFlight: Promise<string | null> | null = null
 
+/**
+ * Función de utilidad para obtener valid token.
+ */
 async function getValidToken(supabase: SupabaseService): Promise<string | null> {
 	const { data: { session } } = await supabase.client.auth.getSession()
 	if (!session) return null
@@ -33,6 +42,9 @@ async function getValidToken(supabase: SupabaseService): Promise<string | null> 
 	return refreshInFlight
 }
 
+/**
+ * Interceptor de red para procesar las peticiones relacionadas con la autenticación.
+ */
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
 	const supabase = inject(SupabaseService)
 	const router   = inject(Router)

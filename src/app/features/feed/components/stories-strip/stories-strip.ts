@@ -2,30 +2,69 @@ import { Component, ElementRef, inject, OnDestroy, signal, viewChild } from '@an
 import { StoriesStore } from '@core/store/stories.store'
 import { Avatar } from '@shared/components/avatar/avatar'
 
+/**
+ * Clase de utilidad para storiesstrip.
+ */
 @Component({
 	selector: 'app-stories-strip',
 	imports: [Avatar],
 	templateUrl: './stories-strip.html',
 })
 export class StoriesStrip implements OnDestroy {
+	/**
+	 * Propiedad para gestionar store.
+	 */
 	readonly store = inject(StoriesStore)
 
+	/**
+	 * Propiedad para gestionar menu abrir.
+	 */
 	readonly menuOpen = signal(false)
+	/**
+	 * Propiedad para gestionar selected file.
+	 */
 	readonly selectedFile = signal<File | null>(null)
+	/**
+	 * Propiedad para gestionar preview enlace.
+	 */
 	readonly previewUrl = signal<string | null>(null)
+	/**
+	 * Propiedad para gestionar uploading.
+	 */
 	readonly uploading = signal(false)
+	/**
+	 * Propiedad para gestionar camera abrir.
+	 */
 	readonly cameraOpen = signal(false)
+	/**
+	 * Propiedad para gestionar camera error.
+	 */
 	readonly cameraError = signal<string | null>(null)
 
+	/**
+	 * Propiedad para gestionar stream.
+	 */
 	private stream: MediaStream | null = null
+	/**
+	 * Propiedad para gestionar video el.
+	 */
 	private readonly videoEl = viewChild<ElementRef<HTMLVideoElement>>('cameraVideo')
+	/**
+	 * Indicador booleano para canvas el.
+	 */
 	private readonly canvasEl = viewChild<ElementRef<HTMLCanvasElement>>('cameraCanvas')
 
+	/**
+	 * Método de ciclo de vida de Angular que se ejecuta al destruir el componente para liberar recursos.
+	 */
 	ngOnDestroy(): void {
 		this._revokePreview()
 		this._stopStream()
 	}
 
+	/**
+	 * Método para evento de file selected.
+	 */
 	onFileSelected(event: Event): void {
 		const file = (event.target as HTMLInputElement).files?.[0]
 		if (!file) return
@@ -36,6 +75,9 @@ export class StoriesStrip implements OnDestroy {
 		;(event.target as HTMLInputElement).value = ''
 	}
 
+	/**
+	 * Método para abrir camera.
+	 */
 	async openCamera(): Promise<void> {
 		this.menuOpen.set(false)
 		this.cameraError.set(null)
@@ -59,6 +101,9 @@ export class StoriesStrip implements OnDestroy {
 		}
 	}
 
+	/**
+	 * Método para capture foto.
+	 */
 	capturePhoto(): void {
 		const video = this.videoEl()?.nativeElement
 		const canvas = this.canvasEl()?.nativeElement
@@ -78,12 +123,18 @@ export class StoriesStrip implements OnDestroy {
 		}, 'image/jpeg', 0.92)
 	}
 
+	/**
+	 * Método para cerrar camera.
+	 */
 	closeCamera(): void {
 		this._stopStream()
 		this.cameraOpen.set(false)
 		this.cameraError.set(null)
 	}
 
+	/**
+	 * Método para publish.
+	 */
 	publish(): void {
 		const file = this.selectedFile()
 		if (!file || this.uploading()) return
@@ -94,6 +145,9 @@ export class StoriesStrip implements OnDestroy {
 		})
 	}
 
+	/**
+	 * Método para cancelar.
+	 */
 	cancel(): void {
 		this._revokePreview()
 		this.selectedFile.set(null)
@@ -101,11 +155,17 @@ export class StoriesStrip implements OnDestroy {
 		this.uploading.set(false)
 	}
 
+	/**
+	 * Método para stop stream.
+	 */
 	private _stopStream(): void {
 		this.stream?.getTracks().forEach(t => t.stop())
 		this.stream = null
 	}
 
+	/**
+	 * Método para revoke preview.
+	 */
 	private _revokePreview(): void {
 		const url = this.previewUrl()
 		if (url) URL.revokeObjectURL(url)

@@ -2,6 +2,9 @@ import { Routes } from '@angular/router'
 import { authGuard, authMatchGuard } from '@core/guards/auth.guard'
 import { guestGuard, guestMatchGuard } from '@core/guards/guest.guard'
 
+/**
+ * Definición de las rutas de navegación del lado del cliente.
+ */
 export const routes: Routes = [
     {
         path: 'auth',

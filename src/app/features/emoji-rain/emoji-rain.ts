@@ -1,5 +1,8 @@
 import { Component } from '@angular/core'
 
+/**
+ * Clase de utilidad para emojirain.
+ */
 @Component({
   selector: 'app-emoji-rain',
   imports: [],
@@ -7,8 +10,17 @@ import { Component } from '@angular/core'
   styleUrl: './emoji-rain.scss',
 })
 export class EmojiRain {
+  /**
+   * Propiedad para gestionar emojis.
+   */
   emojis: any = [];
+  /**
+   * Propiedad para gestionar emoji lista.
+   */
   private emojiList = ['🍳', '🥐', '🧁', '🍓', '🥑', '🍅', '🍋', '🌿'];
+  /**
+   * Método de ciclo de vida de Angular que se ejecuta al inicializar el componente.
+   */
   ngOnInit(): void {
     this.emojis = Array.from({ length: 6 }, () => ({
       char: this.emojiList[Math.floor(Math.random() * this.emojiList.length)],

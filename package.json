@@ -13,7 +13,9 @@
     "serve:ssr:cookeealo": "node dist/cookeealo/server/server.mjs",
     "lint": "eslint src --fix",
     "format": "prettier --write src",
-    "prepare": "husky"
+    "prepare": "husky",
+    "compodoc": "compodoc -p tsconfig.doc.json -d docs",
+    "compodoc:serve": "compodoc -s -d docs"
   },
   "lint-staged": {
     "*.ts": [
@@ -61,6 +63,7 @@
     "@angular/compiler-cli": "^21.2.0",
     "@commitlint/cli": "^20.5.0",
     "@commitlint/config-conventional": "^20.5.0",
+    "@compodoc/compodoc": "^1.2.1",
     "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.58.2",
     "@testing-library/angular": "^19.2.1",
