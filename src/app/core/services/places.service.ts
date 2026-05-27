@@ -29,10 +29,6 @@ export interface PlaceWithDistance extends Place {
   /**
    * Propiedad para gestionar distance meters.
    */
-export interface PlaceWithDistance extends Place {
-  /**
-   * Propiedad para gestionar distance meters.
-   */
   distanceMeters: number | null
 }
 
@@ -158,6 +154,7 @@ interface RawReview {
 /**
  * Variable o constante para c o l s.
  */
+const COLS = 'id,name,address,place_type,filters,description,media_url,is_open,phone,specialty,website,average_rating,reviews_count'
 
 /**
  * Servicio que provee la lógica de negocio para los lugares gastronómicos.
