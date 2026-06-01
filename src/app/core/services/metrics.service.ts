@@ -33,7 +33,7 @@ export class MetricsService {
    */
   log(method: string, url: string, statusCode: number, responseTimeMs: number): void {
     // Ignoramos las peticiones internas a la propia API de Supabase para no entrar en bucle
-    if (url.includes('/RequestLogs')) return
+    if (url.includes('/requestlogs')) return
 
     // Extraemos solo el "path" limpio de la URL (sin dominio ni query params)
     const endpoint = this.extractEndpoint(url)
@@ -47,6 +47,8 @@ export class MetricsService {
     })
   }
 
+  private detectedSchema: 'lowercase' | 'pascal' | null = null;
+
   /**
    * Vacía la cola e inserta todos los registros acumulados en Supabase de una sola vez.
    */
@@ -56,9 +58,53 @@ export class MetricsService {
     // Sacamos todos los elementos de la cola de golpe (Bulk Insert)
     const batch = this.queue.splice(0, this.queue.length)
 
+    // Detectar el esquema la primera vez
+    if (!this.detectedSchema) {
+      try {
+        const { data } = await this.supabase.client
+          .from('requestlogs')
+          .select('*')
+          .limit(1)
+
+        if (data && data.length > 0) {
+          const row = data[0]
+          if ('timestamp' in row) {
+            this.detectedSchema = 'lowercase'
+          } else {
+            this.detectedSchema = 'pascal'
+          }
+        } else {
+          this.detectedSchema = 'lowercase' // default
+        }
+      } catch {
+        this.detectedSchema = 'lowercase'
+      }
+    }
+
+    // Mapear los registros al esquema correcto
+    const formattedBatch = batch.map(item => {
+      if (this.detectedSchema === 'lowercase') {
+        return {
+          timestamp:      item.Timestamp,
+          method:         item.Method,
+          endpoint:       item.Endpoint,
+          statuscode:     item.StatusCode,
+          responsetimems: item.ResponseTimeMs
+        }
+      } else {
+        return {
+          Timestamp:      item.Timestamp,
+          Method:         item.Method,
+          Endpoint:       item.Endpoint,
+          StatusCode:     item.StatusCode,
+          ResponseTimeMs: item.ResponseTimeMs
+        }
+      }
+    })
+
     const { error } = await this.supabase.client
-      .from('RequestLogs')
-      .insert(batch)
+      .from('requestlogs')
+      .insert(formattedBatch)
 
     if (error) {
       console.warn('[MetricsService] Error al guardar logs:', error.message)
