@@ -1,10 +1,17 @@
-<app-emoji-rain />
-
 <main class="relative grid min-h-dvh place-items-center overflow-hidden bg-surface px-4 py-8">
-  <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_15%,rgb(var(--rgb-primary)/0.18),transparent_24rem),radial-gradient(circle_at_86%_82%,rgb(var(--rgb-secondary)/0.18),transparent_22rem)]"></div>
+
+  <!-- Dot grid texture -->
+  <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle,rgb(var(--rgb-on-surface)/0.055)_1px,transparent_1px)] bg-[size:28px_28px]"></div>
+
+  <!-- Atmospheric color blobs -->
+  <div class="pointer-events-none absolute inset-0 overflow-hidden">
+    <div class="absolute -left-72 -top-72 size-[1000px] rounded-full bg-primary/[0.13] blur-[180px]"></div>
+    <div class="absolute -right-48 -top-24 size-[650px] rounded-full bg-secondary/[0.09] blur-[140px]"></div>
+    <div class="absolute -bottom-56 left-1/2 -translate-x-1/2 size-[750px] rounded-full bg-primary/[0.07] blur-[160px]"></div>
+  </div>
 
   <section
-    class="relative grid w-full max-w-6xl overflow-hidden rounded-3xl border border-outline bg-surface-container shadow-4 xl:grid-cols-[0.95fr_1.05fr]"
+    class="relative w-full max-w-6xl overflow-hidden rounded-3xl border border-outline bg-surface-container shadow-4 xl:grid xl:grid-cols-[0.95fr_1.05fr]"
     [ngClass]="isRegister() ? 'xl:[&>.auth-brand-panel]:order-2 xl:[&>.auth-form-panel]:order-1' : ''"
   >
     <aside class="auth-brand-panel relative hidden min-h-[680px] overflow-hidden p-10 xl:grid bg-primary-container text-on-primary-container">

@@ -16,7 +16,6 @@ import { EmojiRain } from "@features/emoji-rain/emoji-rain";
     NgClass,
     Login,
     Register,
-    EmojiRain
   ],
   templateUrl: './auth.html',
 })
