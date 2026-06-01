@@ -106,11 +106,12 @@
 		@if (post().recipe) {
 			<button
 				type="button"
-				class="inline-flex min-h-11 items-center justify-center gap-1.5 rounded-pill px-3 text-label-md font-bold text-on-surface transition-all duration-fast ease-standard hover:bg-surface-container active:scale-[0.98]"
+				class="inline-flex min-h-11 items-center gap-1.5 rounded-pill px-3 text-label-md font-bold text-on-surface transition-all duration-fast ease-standard hover:bg-surface-container active:scale-[0.98]"
 				(click)="openCookingMode()"
 				aria-label="Modo cocina"
 			>
 				<img src="/gorro-de-cocinero.png" class="size-5 shrink-0 object-contain" aria-hidden="true" alt="" />
+				<span class="hidden min-[390px]:inline">Cocinar</span>
 			</button>
 		}
 
@@ -118,28 +119,24 @@
 		@if (preferences.veganMode()) {
 			<button
 				type="button"
-				class="inline-flex min-h-11 items-center justify-center gap-1.5 rounded-pill px-2.5 text-label-md font-semibold transition-all duration-fast ease-standard active:scale-[0.98]"
-				style="color: #16a34a;"
+				class="inline-flex min-h-11 items-center gap-1.5 rounded-pill px-2.5 text-label-md font-semibold text-green-700 transition-all duration-fast ease-standard hover:bg-green-50 active:scale-[0.98]"
 				(click)="veganModalOpen.set(true)"
 				aria-label="Convertir a versión vegana"
-				onmouseenter="this.style.background='rgba(34,197,94,0.1)'"
-				onmouseleave="this.style.background=''"
 			>
-				<img src="/vegano.png" class="size-4 shrink-0 object-contain" aria-hidden="true" alt="" />
+				<i class="pi pi-leaf text-sm"></i>
+				<span class="hidden min-[390px]:inline">Vegano</span>
 			</button>
 		}
 
 		@if (preferences.vegetarianMode()) {
 			<button
 				type="button"
-				class="inline-flex min-h-11 items-center justify-center gap-1.5 rounded-pill px-2.5 text-label-md font-semibold transition-all duration-fast ease-standard active:scale-[0.98]"
-				style="color: #16a34a;"
+				class="inline-flex min-h-11 items-center gap-1.5 rounded-pill px-2.5 text-label-md font-semibold text-green-700 transition-all duration-fast ease-standard hover:bg-green-50 active:scale-[0.98]"
 				(click)="vegetarianModalOpen.set(true)"
 				aria-label="Convertir a versión vegetariana"
-				onmouseenter="this.style.background='rgba(34,197,94,0.1)'"
-				onmouseleave="this.style.background=''"
 			>
-				<img src="/vegetariano.png" class="size-4 shrink-0 object-contain" aria-hidden="true" alt="" />
+				<i class="pi pi-heart text-sm"></i>
+				<span class="hidden min-[390px]:inline">Vegetariano</span>
 			</button>
 		}
 

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 
 /**
  * Clase de utilidad para emojirain.
@@ -9,14 +9,8 @@ import { Component } from '@angular/core'
   templateUrl: './emoji-rain.html',
   styleUrl: './emoji-rain.scss',
 })
-export class EmojiRain {
-  /**
-   * Propiedad para gestionar emojis.
-   */
-  emojis: any = [];
-  /**
-   * Propiedad para gestionar emoji lista.
-   */
+export class EmojiRain implements OnInit {
+  emojis: unknown = [];
   private emojiList = ['🍳', '🥐', '🧁', '🍓', '🥑', '🍅', '🍋', '🌿'];
   /**
    * Método de ciclo de vida de Angular que se ejecuta al inicializar el componente.

@@ -268,9 +268,9 @@
 					(click)="closeComments()"
 				></div>
 
-				<!-- Sheet: full-width mobile / post-width desktop -->
-				<div class="fixed bottom-0 left-0 z-50 w-full lg:left-1/2 lg:max-w-2xl lg:-translate-x-1/2" style="height: 75vh;">
-					<div class="animate-slide-up-panel flex h-full flex-col overflow-hidden rounded-t-2xl border border-b-0 border-outline bg-surface shadow-4">
+				<!-- Sheet: ocupa todo el ancho disponible, centrado a max-w-2xl en desktop -->
+				<div class="fixed bottom-0 left-0 right-0 z-50 flex justify-center" style="height: 75vh;">
+					<div class="animate-slide-up-panel flex w-full max-w-2xl flex-col overflow-hidden rounded-t-2xl border border-b-0 border-outline bg-surface shadow-4">
 
 						<!-- Cabecera -->
 						<div class="flex shrink-0 items-center justify-between border-b border-outline px-4 py-3">
@@ -343,13 +343,12 @@
 								maxlength="300"
 								class="min-h-10 flex-1 resize-none rounded-xl border border-outline bg-surface px-3 py-2.5 text-body-sm font-medium outline-none placeholder:text-on-surface-muted transition-colors duration-fast ease-standard focus:border-primary focus:ring-2 focus:ring-primary/20"
 								placeholder="Escribe un comentario..."
-								[ngModel]="commentDraft()"
-								(ngModelChange)="commentDraft.set($event)"
+								[(ngModel)]="commentDraft"
 							></textarea>
 							<button
 								type="submit"
 								class="grid size-10 shrink-0 place-items-center rounded-full bg-primary text-on-primary transition-colors duration-fast ease-standard hover:opacity-90 disabled:opacity-40 active:scale-95"
-								[disabled]="!canSubmitComment()"
+								[disabled]="!canSubmitComment"
 								aria-label="Enviar comentario"
 							>
 								<i class="pi pi-send text-sm"></i>
