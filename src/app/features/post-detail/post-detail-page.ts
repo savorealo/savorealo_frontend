@@ -362,9 +362,9 @@ export class PostDetailPage {
 	 * Envía el comentario redactado y limpia el campo borrador.
 	 */
 	submitComment(): void {
-		const text = this.commentDraft.trim()
+		const text = this.commentDraft().trim()
 		if (!text) return
-		this.commentDraft = ''
+		this.commentDraft.set('')
 		this.comments.addComment(text)
 	}
 

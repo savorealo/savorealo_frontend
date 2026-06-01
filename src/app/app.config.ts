@@ -11,7 +11,8 @@ import { definePreset } from '@primeng/themes'
 import Aura from '@primeng/themes/aura'
 
 import { routes } from './app.routes'
-import { authInterceptor } from '@core/interceptors/auth.interceptor'
+import { authInterceptor }   from '@core/interceptors/auth.interceptor'
+import { metricsInterceptor } from '@core/interceptors/metrics.interceptor'
 import { ENVIRONMENT } from '@core/tokens/environment.token'
 import { environment } from '../environments/environment'
 import { provideApollo } from 'apollo-angular'
@@ -66,7 +67,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideZonelessChangeDetection(),
     provideRouter(routes, withViewTransitions({ skipInitialTransition: true }), withComponentInputBinding()),
-    provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
+    provideHttpClient(withFetch(), withInterceptors([authInterceptor, metricsInterceptor])),
     provideClientHydration(withEventReplay()),
     provideAnimationsAsync(),
     providePrimeNG({

@@ -10,7 +10,7 @@ import { Component, OnInit } from '@angular/core'
   styleUrl: './emoji-rain.scss',
 })
 export class EmojiRain implements OnInit {
-  emojis: unknown = [];
+  emojis: { char: string; left: string; duration: string; delay: string; size: string }[] = [];
   private emojiList = ['🍳', '🥐', '🧁', '🍓', '🥑', '🍅', '🍋', '🌿'];
   /**
    * Método de ciclo de vida de Angular que se ejecuta al inicializar el componente.

@@ -1,0 +1,390 @@
+<app-shell>
+  <div class="admin-bg min-h-full p-4 sm:p-6 lg:p-8">
+    <div class="mx-auto max-w-[1600px] flex flex-col gap-6">
+
+      <!-- ══════════════════════════════════════════════
+           HEADER
+      ══════════════════════════════════════════════ -->
+      <div class="admin-header-card flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div class="min-w-0">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="admin-badge">
+              <i class="pi pi-shield mr-1" style="font-size: 0.65rem;"></i>
+              ADMIN
+            </span>
+            <span class="text-xs font-bold" style="color: rgba(180,170,220,0.5);">v1.2.0</span>
+          </div>
+          <h1 class="text-2xl sm:text-3xl font-black tracking-tight" style="color: #f0eeff;">
+            Panel de Control &amp; Analíticas
+          </h1>
+          <p class="mt-1 text-sm" style="color: rgba(180,170,220,0.6);">
+            Monitoreo de endpoints, API y rendimiento en tiempo real.
+          </p>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <!-- Last updated -->
+          <span *ngIf="lastUpdated()" class="text-xs" style="color: rgba(180,170,220,0.45);">
+            Actualizado: {{ lastUpdated() | date:'HH:mm:ss' }}
+          </span>
+
+          <button
+            id="admin-refresh-btn"
+            type="button"
+            class="admin-btn-secondary"
+            (click)="loadData()"
+            [disabled]="loading()"
+          >
+            <i class="pi pi-refresh" [class.animate-spin]="loading()"></i>
+            <span>{{ loading() ? 'Cargando...' : 'Actualizar' }}</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════
+           ERROR STATE
+      ══════════════════════════════════════════════ -->
+      <div *ngIf="error()" class="admin-error-card">
+        <i class="pi pi-exclamation-circle text-2xl" style="color: #f87171;"></i>
+        <div>
+          <p class="font-bold" style="color: #fca5a5;">Error al cargar los datos</p>
+          <p class="text-sm mt-0.5" style="color: rgba(252,165,165,0.7);">{{ error() }}</p>
+        </div>
+        <button type="button" class="admin-btn-secondary ml-auto" (click)="loadData()">
+          Reintentar
+        </button>
+      </div>
+
+      <!-- ══════════════════════════════════════════════
+           SIMULATION STATE BANNER
+      ══════════════════════════════════════════════ -->
+      <div *ngIf="simulationMode() && !error()" class="flex items-center gap-3 p-4 rounded-2xl border" style="background: rgba(245,158,11,0.06); border-color: rgba(245,158,11,0.25); backdrop-filter: blur(10px);">
+        <i class="pi pi-info-circle text-xl" style="color: #f59e0b;"></i>
+        <div>
+          <p class="font-bold text-sm" style="color: #f59e0b;">Modo Simulación Activo</p>
+          <p class="text-xs mt-0.5" style="color: rgba(245,158,11,0.85);">
+            Mostrando métricas y rendimiento simulados en tiempo real debido a restricciones de políticas de acceso (RLS) en la tabla <code>requestlogs</code> de Supabase.
+          </p>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════
+           LOADING SKELETON
+      ══════════════════════════════════════════════ -->
+      <div *ngIf="loading() && !error()" class="flex flex-col gap-6">
+        <!-- Stat cards skeleton -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div *ngFor="let i of [0,1,2,3]" class="admin-skeleton h-28 rounded-2xl"></div>
+        </div>
+        <!-- Charts skeleton -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          <div class="admin-skeleton h-80 rounded-2xl lg:col-span-2"></div>
+          <div class="admin-skeleton h-80 rounded-2xl"></div>
+        </div>
+        <div class="admin-skeleton h-64 rounded-2xl"></div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════
+           CONTENT (loaded)
+      ══════════════════════════════════════════════ -->
+      <ng-container *ngIf="!loading()">
+
+        <!-- STAT CARDS -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div
+            *ngFor="let card of statCards(); let i = index"
+            class="admin-stat-card"
+            [style.animation-delay]="i * 80 + 'ms'"
+          >
+            <!-- Icon -->
+            <div class="stat-icon-wrap bg-gradient-to-br {{ card.color }}">
+              <i class="pi {{ card.icon }} text-white text-lg"></i>
+            </div>
+
+            <div class="mt-3">
+              <p class="text-xs font-semibold uppercase tracking-widest" style="color: rgba(180,170,220,0.5);">
+                {{ card.label }}
+              </p>
+              <p class="mt-1 text-2xl sm:text-3xl font-black" style="color: #f0eeff;">
+                {{ card.value }}
+              </p>
+            </div>
+
+            <div class="flex items-center gap-1 mt-2">
+              <i
+                class="pi text-xs"
+                [class.pi-arrow-up-right]="card.trendUp"
+                [class.pi-arrow-down-right]="!card.trendUp"
+                [style.color]="card.trendUp ? '#34d399' : '#f87171'"
+              ></i>
+              <span class="text-xs font-medium" [style.color]="card.trendUp ? 'rgba(52,211,153,0.8)' : 'rgba(248,113,113,0.8)'">
+                {{ card.trend }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- CHARTS ROW 1: Bar + Doughnut -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+
+          <!-- Endpoints Bar Chart -->
+          <div class="admin-chart-card lg:col-span-2">
+            <div class="chart-header">
+              <div>
+                <h2 class="chart-title">Endpoints más usados</h2>
+                <p class="chart-subtitle">Top 8 rutas por volumen de llamadas</p>
+              </div>
+              <div class="chart-badge">
+                <i class="pi pi-chart-bar" style="color: rgba(139,92,246,0.8);"></i>
+                Bar
+              </div>
+            </div>
+            <div class="chart-body">
+              <canvas id="admin-endpoints-chart" #endpointsChart></canvas>
+            </div>
+          </div>
+
+          <!-- Status Codes Doughnut -->
+          <div class="admin-chart-card">
+            <div class="chart-header">
+              <div>
+                <h2 class="chart-title">Códigos de Estado</h2>
+                <p class="chart-subtitle">Distribución de respuestas HTTP</p>
+              </div>
+              <div class="chart-badge">
+                <i class="pi pi-chart-pie" style="color: rgba(139,92,246,0.8);"></i>
+                Donut
+              </div>
+            </div>
+            <div class="chart-body">
+              <canvas id="admin-status-chart" #statusChart></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- CHARTS ROW 2: Line chart full width -->
+        <div class="admin-chart-card">
+          <div class="chart-header">
+            <div>
+              <h2 class="chart-title">Tiempos de Respuesta — Últimas 24 h</h2>
+              <p class="chart-subtitle">Promedio por hora en milisegundos</p>
+            </div>
+            <div class="chart-badge">
+              <i class="pi pi-chart-line" style="color: rgba(139,92,246,0.8);"></i>
+              Línea
+            </div>
+          </div>
+          <div class="chart-body" style="height: 240px;">
+            <canvas id="admin-response-time-chart" #responseTimeChart></canvas>
+          </div>
+        </div>
+
+        <!-- EMPTY STATE -->
+        <div *ngIf="statCards().length > 0 && statCards()[0].value === '0'" class="admin-empty-card">
+          <div class="empty-icon-ring">
+            <i class="pi pi-database text-3xl" style="color: rgba(139,92,246,0.7);"></i>
+          </div>
+          <h3 class="text-lg font-black mt-4" style="color: #f0eeff;">Sin datos por ahora</h3>
+          <p class="text-sm mt-1" style="color: rgba(180,170,220,0.5);">
+            La tabla RequestLogs está vacía. Los datos aparecerán en cuanto los usuarios utilicen la aplicación.
+          </p>
+        </div>
+
+      </ng-container>
+
+    </div>
+  </div>
+</app-shell>
+
+<style>
+  /* ─── Background ───────────────────────────────── */
+  .admin-bg {
+    background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(139,92,246,0.15) 0%, transparent 60%),
+                linear-gradient(180deg, #0c0a14 0%, #0f0d1a 100%);
+    min-height: 100%;
+  }
+
+  /* ─── Header Card ──────────────────────────────── */
+  .admin-header-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(139,92,246,0.15);
+    border-radius: 1.5rem;
+    padding: 1.5rem;
+    backdrop-filter: blur(12px);
+  }
+
+  .admin-badge {
+    display: inline-flex;
+    align-items: center;
+    background: linear-gradient(135deg, rgba(139,92,246,0.9), rgba(99,102,241,0.9));
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    padding: 0.2rem 0.7rem;
+    border-radius: 999px;
+    text-transform: uppercase;
+  }
+
+  /* ─── Buttons ──────────────────────────────────── */
+  .admin-btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 2.5rem;
+    padding: 0 1.25rem;
+    border-radius: 999px;
+    border: 1px solid rgba(139,92,246,0.25);
+    background: rgba(139,92,246,0.08);
+    color: rgba(200,190,240,0.9);
+    font-size: 0.8rem;
+    font-weight: 700;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .admin-btn-secondary:hover {
+    background: rgba(139,92,246,0.18);
+    border-color: rgba(139,92,246,0.4);
+  }
+  .admin-btn-secondary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* ─── Error Card ───────────────────────────────── */
+  .admin-error-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    border-radius: 1.25rem;
+    background: rgba(239,68,68,0.08);
+    border: 1px solid rgba(239,68,68,0.25);
+  }
+
+  /* ─── Skeleton ─────────────────────────────────── */
+  .admin-skeleton {
+    background: linear-gradient(90deg,
+      rgba(255,255,255,0.04) 25%,
+      rgba(255,255,255,0.07) 50%,
+      rgba(255,255,255,0.04) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+  @keyframes shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  /* ─── Stat Cards ───────────────────────────────── */
+  .admin-stat-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(139,92,246,0.12);
+    border-radius: 1.25rem;
+    padding: 1.25rem;
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+    animation: fadeInUp 0.4s ease both;
+  }
+  .admin-stat-card:hover {
+    border-color: rgba(139,92,246,0.3);
+    background: rgba(139,92,246,0.06);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(139,92,246,0.12);
+  }
+
+  .stat-icon-wrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.75rem;
+  }
+
+  /* ─── Chart Cards ──────────────────────────────── */
+  .admin-chart-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(139,92,246,0.12);
+    border-radius: 1.5rem;
+    padding: 1.5rem;
+    backdrop-filter: blur(8px);
+    transition: border-color 0.3s;
+    animation: fadeInUp 0.5s ease both;
+  }
+  .admin-chart-card:hover {
+    border-color: rgba(139,92,246,0.25);
+  }
+
+  .chart-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+  }
+  .chart-title {
+    font-size: 1rem;
+    font-weight: 900;
+    color: #f0eeff;
+    margin: 0;
+  }
+  .chart-subtitle {
+    font-size: 0.75rem;
+    color: rgba(180,170,220,0.5);
+    margin: 0.2rem 0 0 0;
+  }
+  .chart-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(139,92,246,0.1);
+    border: 1px solid rgba(139,92,246,0.2);
+    border-radius: 999px;
+    padding: 0.2rem 0.75rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: rgba(180,170,220,0.7);
+    white-space: nowrap;
+  }
+  .chart-body {
+    position: relative;
+    height: 280px;
+  }
+  .chart-body canvas {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  /* ─── Empty State ──────────────────────────────── */
+  .admin-empty-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    border-radius: 1.5rem;
+    border: 1px dashed rgba(139,92,246,0.25);
+    background: rgba(139,92,246,0.03);
+    text-align: center;
+  }
+  .empty-icon-ring {
+    display: grid;
+    place-items: center;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background: rgba(139,92,246,0.1);
+    border: 1px solid rgba(139,92,246,0.25);
+  }
+
+  /* ─── Animations ───────────────────────────────── */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0);    }
+  }
+
+  /* Spinning */
+  .animate-spin { animation: spin 0.8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>

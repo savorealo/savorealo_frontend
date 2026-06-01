@@ -113,6 +113,11 @@ export const routes: Routes = [
         loadComponent: () => import('@features/shopping-list/shopping-list-page').then(c => c.ShoppingListPage),
     },
     {
+        path: 'admin',
+        title: 'Panel de Administración | Savorealo',
+        loadComponent: () => import('@features/admin/admin-page').then(c => c.AdminPage),
+    },
+    {
         path: '**',
         redirectTo: '',
     },
