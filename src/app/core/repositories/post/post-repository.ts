@@ -271,6 +271,10 @@ export interface IPostRepository {
 	 */
 	imageUrl?: string | null }): Observable<GqlPostNode>
 	/**
+	 * Método para borrar post.
+	 */
+	deletePost(postId: string): Observable<boolean>
+	/**
 	 * Método para crear recipe post.
 	 */
 	createRecipePost(input: {
