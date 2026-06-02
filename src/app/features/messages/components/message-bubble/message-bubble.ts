@@ -1,102 +1,95 @@
 import { NgClass } from '@angular/common'
-import { Component, computed, input, output, signal } from '@angular/core'
+import { Component, computed, DestroyRef, inject, input, output, signal } from '@angular/core'
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
+import { ContentTranslationService } from '@core/services/content-translation.service'
+import { TranslationService } from '@core/services/translation.service'
 import { MessageMarkdownPipe } from '@shared/pipes/message-markdown.pipe'
+import { TranslatePipe } from '@shared/pipes/translate.pipe'
 import { TruncateTextPipe } from '@shared/pipes/truncate.pipe'
+import { finalize } from 'rxjs/operators'
 import { ChatMessage, Conversation } from '../../models/messages.models'
 import { SharedPostCard } from '../shared-post-card/shared-post-card'
 import { SharedProfileCard } from '../shared-profile-card/shared-profile-card'
 
 /**
- * Clase de utilidad para messagebubble.
+ * Componente que representa la burbuja visual de un mensaje individual del chat.
  */
 @Component({
 	selector: 'app-message-bubble',
-	imports: [MessageMarkdownPipe, NgClass, SharedPostCard, SharedProfileCard, TruncateTextPipe],
+	imports: [MessageMarkdownPipe, NgClass, SharedPostCard, SharedProfileCard, TruncateTextPipe, TranslatePipe],
 	templateUrl: './message-bubble.html',
 })
 export class MessageBubble {
-	/**
-	 * Propiedad para gestionar message preview limit.
-	 */
 	private readonly messagePreviewLimit = 420
-	/**
-	 * Propiedad para gestionar shared post token.
-	 */
-	private readonly sharedPostToken = '__shared_post__:'
-	/**
-	 * Propiedad para gestionar shared profile token.
-	 */
+	private readonly sharedPostToken    = '__shared_post__:'
 	private readonly sharedProfileToken = '__shared_profile__:'
 
-	/**
-	 * Propiedad para gestionar message.
-	 */
-	message = input.required<ChatMessage>()
-	/**
-	 * Propiedad para gestionar conversation.
-	 */
-	conversation = input.required<Conversation>()
-	/**
-	 * Propiedad para gestionar reply.
-	 */
-	reply = output<ChatMessage>()
-	/**
-	 * Propiedad para gestionar navigate to message.
-	 */
+	message          = input.required<ChatMessage>()
+	conversation     = input.required<Conversation>()
+	reply            = output<ChatMessage>()
 	navigateToMessage = output<string>()
-	/**
-	 * Propiedad para gestionar expanded.
-	 */
-	expanded = signal(false)
+	expanded         = signal(false)
 
-	/**
-	 * Indicador booleano para es o está mis.
-	 */
-	readonly isMine = computed(() => this.message().sender === 'me')
-	/**
-	 * Propiedad para gestionar shared post identificador.
-	 */
-	readonly sharedPostId = computed(() => this.message().sharedPostId || this.parseSharedPostId(this.message().text))
-	/**
-	 * Propiedad para gestionar shared post author identificador.
-	 */
-	readonly sharedPostAuthorId = computed(() => this.message().sharedPostAuthorId || this.parseSharedPostAuthorId(this.message().text))
-	/**
-	 * Propiedad para gestionar shared profile identificador.
-	 */
-	readonly sharedProfileId = computed(() => this.message().sharedProfileId || this.parseSharedProfileId(this.message().text))
-	/**
-	 * Propiedad para gestionar shared profile nombre de usuario.
-	 */
+	private readonly contentTranslation = inject(ContentTranslationService)
+	private readonly translationService = inject(TranslationService)
+	private readonly destroyRef         = inject(DestroyRef)
+
+	/** Texto traducido del mensaje. Null cuando se muestra el original. */
+	translatedText   = signal<string | null>(null)
+	/** Indica si la traducción está en curso. */
+	translateLoading = signal(false)
+	/** Indica si la última traducción falló. */
+	translateError   = signal(false)
+
+	readonly isMine              = computed(() => this.message().sender === 'me')
+	readonly sharedPostId        = computed(() => this.message().sharedPostId || this.parseSharedPostId(this.message().text))
+	readonly sharedPostAuthorId  = computed(() => this.message().sharedPostAuthorId || this.parseSharedPostAuthorId(this.message().text))
+	readonly sharedProfileId     = computed(() => this.message().sharedProfileId || this.parseSharedProfileId(this.message().text))
 	readonly sharedProfileUsername = computed(() => this.message().sharedProfileUsername || this.parseSharedProfileUsername(this.message().text))
-	/**
-	 * Indicador booleano para tiene shared reference.
-	 */
-	readonly hasSharedReference = computed(() => !!this.sharedPostId() || !!this.sharedProfileId() || !!this.sharedProfileUsername())
-	/**
-	 * Indicador booleano para tiene long text.
-	 */
-	readonly hasLongText = computed(() => (this.message().text?.length ?? 0) > this.messagePreviewLimit)
-	/**
-	 * Propiedad para gestionar text limit.
-	 */
-	readonly textLimit = this.messagePreviewLimit
+	readonly hasSharedReference  = computed(() => !!this.sharedPostId() || !!this.sharedProfileId() || !!this.sharedProfileUsername())
+	readonly hasLongText         = computed(() => (this.message().text?.length ?? 0) > this.messagePreviewLimit)
+	readonly textLimit           = this.messagePreviewLimit
+
+	/** Texto a mostrar: traducido si está disponible, original si no. */
+	readonly displayText = computed(() => this.translatedText() ?? this.message().text)
+	/** Indica si el mensaje muestra la traducción. */
+	readonly isTranslated = computed(() => this.translatedText() !== null)
+	/** Dirección de texto del idioma activo ('rtl' para árabe). */
+	readonly translationDir = computed(() =>
+		this.translationService.currentLang() === 'ar' ? 'rtl' : 'ltr'
+	)
 
 	/**
-	 * Método para parse shared post identificador.
+	 * Alterna entre mostrar la traducción del mensaje y el texto original.
 	 */
+	triggerTranslate(): void {
+		if (this.isTranslated()) {
+			this.translatedText.set(null)
+			return
+		}
+		const text = this.message().text
+		if (!text) return
+		this.translateLoading.set(true)
+		this.translateError.set(false)
+		this.contentTranslation.translate(text)
+			.pipe(
+				finalize(() => this.translateLoading.set(false)),
+				takeUntilDestroyed(this.destroyRef),
+			)
+			.subscribe({
+				next: result => this.translatedText.set(result),
+				error: ()     => this.translateError.set(true),
+			})
+	}
+
 	private parseSharedPostId(text?: string): string | null {
 		const clean = text ?? ''
 		if (clean.startsWith(this.sharedPostToken)) {
 			return clean.slice(this.sharedPostToken.length).split(/[:\s]/)[0] || null
 		}
-
 		return clean.match(/(?:^|\s)\/post\/([0-9a-fA-F-]{20,})/)?.[1] ?? null
 	}
 
-	/**
-	 * Método para parse shared post author identificador.
-	 */
 	private parseSharedPostAuthorId(text?: string): string | null {
 		const clean = text ?? ''
 		if (!clean.startsWith(this.sharedPostToken)) return null
@@ -104,25 +97,18 @@ export class MessageBubble {
 		return raw.split(':')[1] || null
 	}
 
-	/**
-	 * Método para parse shared profile identificador.
-	 */
 	private parseSharedProfileId(text?: string): string | null {
 		const clean = text ?? ''
 		if (!clean.startsWith(this.sharedProfileToken)) return null
 		return clean.slice(this.sharedProfileToken.length).split(/[:\s]/)[0] || null
 	}
 
-	/**
-	 * Método para parse shared profile nombre de usuario.
-	 */
 	private parseSharedProfileUsername(text?: string): string | null {
 		const clean = text ?? ''
 		if (clean.startsWith(this.sharedProfileToken)) {
 			const raw = clean.slice(this.sharedProfileToken.length).split(/\s+/)[0]
 			return raw.split(':')[1] || null
 		}
-
 		return clean.match(/(?:^|\s)\/profile\/([A-Za-z0-9_.-]+)/)?.[1] ?? null
 	}
 }

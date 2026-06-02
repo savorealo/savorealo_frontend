@@ -1,3 +1,28 @@
+<div class="mb-4 flex justify-end">
+  <p-select
+    [options]="localeOptions"
+    [ngModel]="selectedLocale()"
+    (ngModelChange)="changeLocale($event)"
+    optionLabel="label"
+    class="w-52"
+    [filter]="true"
+    filterBy="label"
+  >
+    <ng-template pTemplate="selectedItem" let-opt>
+      <span class="flex items-center gap-2 text-sm font-medium">
+        <span>{{ opt.flag }}</span>
+        <span>{{ opt.label }}</span>
+      </span>
+    </ng-template>
+    <ng-template pTemplate="item" let-opt>
+      <span class="flex items-center gap-2 text-sm">
+        <span>{{ opt.flag }}</span>
+        <span>{{ opt.label }}</span>
+      </span>
+    </ng-template>
+  </p-select>
+</div>
+
 <div>
   <span class="inline-flex rounded-pill bg-primary-container px-4 py-2 text-label-md font-bold text-on-primary-container">{{ 'auth.register.new_account' | translate }}</span>
   <h1 class="mt-4 font-display text-display-sm text-on-surface lg:text-display-md">{{ registerTitle() }}</h1>
