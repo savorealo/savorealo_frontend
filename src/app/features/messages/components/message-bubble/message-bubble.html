@@ -23,6 +23,7 @@
 			[class.flex-row-reverse]="isMine()"
 			[ngClass]="isMine() ? 'max-w-[min(92%,38rem)]' : 'max-w-[calc(100%-2.75rem)] sm:max-w-[min(80%,38rem)]'"
 		>
+			<!-- Botón responder -->
 			<button
 				type="button"
 				class="grid size-7 shrink-0 place-items-center rounded-pill text-on-surface-muted opacity-100 transition duration-fast ease-standard hover:bg-primary-container hover:text-on-primary-container sm:size-8 sm:opacity-0 sm:group-hover:opacity-100"
@@ -31,6 +32,23 @@
 			>
 				<i class="pi pi-reply text-sm"></i>
 			</button>
+
+			<!-- Botón traducir (solo para mensajes con texto puro) -->
+			@if (message().text && !hasSharedReference()) {
+				<button
+					type="button"
+					class="grid size-7 shrink-0 place-items-center rounded-pill text-on-surface-muted opacity-100 transition duration-fast ease-standard hover:bg-primary-container hover:text-on-primary-container sm:size-8 sm:opacity-0 sm:group-hover:opacity-100"
+					[disabled]="translateLoading()"
+					(click)="triggerTranslate()"
+					[attr.aria-label]="(isTranslated() ? 'translate.original_btn' : 'translate.translate_btn') | translate"
+				>
+					@if (translateLoading()) {
+						<i class="pi pi-spinner pi-spin text-xs"></i>
+					} @else {
+						<i class="pi pi-language text-sm"></i>
+					}
+				</button>
+			}
 
 			<div
 				data-message-surface
@@ -48,84 +66,58 @@
 					</button>
 				}
 
-			@if (sharedPostId(); as postId) {
-				<app-shared-post-card
-					[postId]="postId"
-					[authorId]="sharedPostAuthorId()"
-				/>
-			}
+				@if (sharedPostId(); as postId) {
+					<app-shared-post-card
+						[postId]="postId"
+						[authorId]="sharedPostAuthorId()"
+					/>
+				}
 
-			@if (sharedProfileId() || sharedProfileUsername()) {
-				<app-shared-profile-card
-					[userId]="sharedProfileId()"
-					[username]="sharedProfileUsername()"
-				/>
-			}
+				@if (sharedProfileId() || sharedProfileUsername()) {
+					<app-shared-profile-card
+						[userId]="sharedProfileId()"
+						[username]="sharedProfileUsername()"
+					/>
+				}
 
-			@if (message().text && !hasSharedReference()) {
-				<div class="flex min-w-0 items-end gap-2 px-3 py-2.5 sm:gap-4 sm:px-5 sm:py-3">
-					<div class="min-w-0 flex-1 whitespace-normal break-words [overflow-wrap:anywhere] [&_span+span]:mt-1" [innerHTML]="(expanded() ? message().text : (message().text | truncate:textLimit)) | messageMarkdown"></div>
-					<div class="shrink-0">
-						@if (hasLongText()) {
-							<button
-								type="button"
-								class="inline min-h-0 align-baseline text-sm font-black text-primary hover:underline"
-								(click)="expanded.set(!expanded())"
+				@if (message().text && !hasSharedReference()) {
+					<div class="flex min-w-0 items-end gap-2 px-3 py-2.5 sm:gap-4 sm:px-5 sm:py-3">
+						<div
+							class="min-w-0 flex-1 whitespace-normal break-words [overflow-wrap:anywhere] [&_span+span]:mt-1"
+							[attr.dir]="isTranslated() && translationDir() === 'rtl' ? 'rtl' : null"
+							[innerHTML]="(expanded() ? displayText() : (displayText() | truncate:textLimit)) | messageMarkdown"
+						></div>
+						<div class="shrink-0">
+							@if (hasLongText()) {
+								<button
+									type="button"
+									class="inline min-h-0 align-baseline text-sm font-black text-primary hover:underline"
+									(click)="expanded.set(!expanded())"
+								>
+									{{ expanded() ? 'ver menos' : 'ver más' }}
+								</button>
+							}
+						</div>
+						@if (message().time) {
+							<span class="shrink-0 text-xs font-black text-on-surface-muted">{{ message().time }}</span>
+						}
+						@if (isMine()) {
+							<span
+								class="inline-flex shrink-0 items-center gap-1 text-xs font-black"
+								[ngClass]="message().deliveryStatus === 'seen' ? 'text-primary' : 'text-on-surface-muted'"
+								[attr.aria-label]="message().deliveryStatus === 'seen' ? 'Visto' : 'Enviado'"
 							>
-								{{ expanded() ? 'ver menos' : 'ver más' }}
-							</button>
+								<i class="pi" [ngClass]="message().deliveryStatus === 'seen' ? 'pi-check-circle' : 'pi-check'"></i>
+								<span class="sr-only">{{ message().deliveryStatus === 'seen' ? 'Visto' : 'Enviado' }}</span>
+							</span>
 						}
 					</div>
-					@if (message().time) {
-						<span class="shrink-0 text-xs font-black text-on-surface-muted">{{ message().time }}</span>
+					@if (translateError()) {
+						<p class="px-3 pb-2 text-xs font-semibold text-error">{{ 'translate.error' | translate }}</p>
 					}
-					@if (isMine()) {
-						<span
-							class="inline-flex shrink-0 items-center gap-1 text-xs font-black"
-							[ngClass]="message().deliveryStatus === 'seen' ? 'text-primary' : 'text-on-surface-muted'"
-							[attr.aria-label]="message().deliveryStatus === 'seen' ? 'Visto' : 'Enviado'"
-						>
-							<i class="pi" [ngClass]="message().deliveryStatus === 'seen' ? 'pi-check-circle' : 'pi-check'"></i>
-							<span class="sr-only">{{ message().deliveryStatus === 'seen' ? 'Visto' : 'Enviado' }}</span>
-						</span>
-					}
-				</div>
-			}
+				}
 
-			@if (hasSharedReference() && message().time) {
-				<div class="flex justify-end gap-2 px-4 pb-3 text-xs font-black text-on-surface-muted">
-					<span>{{ message().time }}</span>
-					@if (isMine()) {
-						<span
-							class="inline-flex items-center gap-1"
-							[ngClass]="message().deliveryStatus === 'seen' ? 'text-primary' : 'text-on-surface-muted'"
-							[attr.aria-label]="message().deliveryStatus === 'seen' ? 'Visto' : 'Enviado'"
-						>
-							<i class="pi" [ngClass]="message().deliveryStatus === 'seen' ? 'pi-check-circle' : 'pi-check'"></i>
-							<span class="sr-only">{{ message().deliveryStatus === 'seen' ? 'Visto' : 'Enviado' }}</span>
-						</span>
-					}
-				</div>
-			}
-
-			@if (message().attachment; as recipe) {
-				<div class="grid overflow-hidden border-t border-outline bg-surface-container sm:grid-cols-[210px_minmax(0,1fr)]">
-					<img [src]="recipe.imageUrl" [alt]="recipe.title" class="h-44 w-full object-cover sm:h-full" />
-					<div class="grid content-between gap-4 p-5">
-						<div>
-							<h3 class="text-lg font-black leading-6 text-on-surface">{{ recipe.title }}</h3>
-							<p class="mt-2 text-sm font-semibold text-on-surface-muted">
-								<i class="pi pi-user"></i>
-								Por {{ recipe.author }}
-							</p>
-						</div>
-						<a class="inline-flex items-center gap-2 text-sm font-black text-primary">
-							Ver receta
-							<i class="pi pi-chevron-right text-xs"></i>
-						</a>
-					</div>
-				</div>
-				@if (message().time) {
+				@if (hasSharedReference() && message().time) {
 					<div class="flex justify-end gap-2 px-4 pb-3 text-xs font-black text-on-surface-muted">
 						<span>{{ message().time }}</span>
 						@if (isMine()) {
@@ -140,7 +132,40 @@
 						}
 					</div>
 				}
-			}
+
+				@if (message().attachment; as recipe) {
+					<div class="grid overflow-hidden border-t border-outline bg-surface-container sm:grid-cols-[210px_minmax(0,1fr)]">
+						<img [src]="recipe.imageUrl" [alt]="recipe.title" class="h-44 w-full object-cover sm:h-full" />
+						<div class="grid content-between gap-4 p-5">
+							<div>
+								<h3 class="text-lg font-black leading-6 text-on-surface">{{ recipe.title }}</h3>
+								<p class="mt-2 text-sm font-semibold text-on-surface-muted">
+									<i class="pi pi-user"></i>
+									Por {{ recipe.author }}
+								</p>
+							</div>
+							<a class="inline-flex items-center gap-2 text-sm font-black text-primary">
+								Ver receta
+								<i class="pi pi-chevron-right text-xs"></i>
+							</a>
+						</div>
+					</div>
+					@if (message().time) {
+						<div class="flex justify-end gap-2 px-4 pb-3 text-xs font-black text-on-surface-muted">
+							<span>{{ message().time }}</span>
+							@if (isMine()) {
+								<span
+									class="inline-flex items-center gap-1"
+									[ngClass]="message().deliveryStatus === 'seen' ? 'text-primary' : 'text-on-surface-muted'"
+									[attr.aria-label]="message().deliveryStatus === 'seen' ? 'Visto' : 'Enviado'"
+								>
+									<i class="pi" [ngClass]="message().deliveryStatus === 'seen' ? 'pi-check-circle' : 'pi-check'"></i>
+									<span class="sr-only">{{ message().deliveryStatus === 'seen' ? 'Visto' : 'Enviado' }}</span>
+								</span>
+							}
+						</div>
+					}
+				}
 			</div>
 		</div>
 	}
