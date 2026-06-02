@@ -73,6 +73,7 @@ const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
 		'shell.profile': 'Tu perfil',
 		'shell.logout': 'Cerrar sesión',
 		'shell.chats': 'Chats',
+		'shell.admin_panel': 'Panel Admin',
 
 		// Settings Header
 		'settings.control_center': 'Centro de control',
@@ -675,6 +676,7 @@ const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
 		'shell.profile': 'Your profile',
 		'shell.logout': 'Log out',
 		'shell.chats': 'Chats',
+		'shell.admin_panel': 'Admin Panel',
 
 		// Settings Header
 		'settings.control_center': 'Control Center',
@@ -1277,6 +1279,7 @@ const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
 		'shell.profile': 'Votre profil',
 		'shell.logout': 'Se déconnecter',
 		'shell.chats': 'Chats',
+		'shell.admin_panel': 'Panel Admin',
 
 		// Settings Header
 		'settings.control_center': 'Centre de contrôle',
@@ -1879,6 +1882,7 @@ const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
 		'shell.profile': 'Dein Profil',
 		'shell.logout': 'Abmelden',
 		'shell.chats': 'Chats',
+		'shell.admin_panel': 'Admin-Bereich',
 
 		// Settings Header
 		'settings.control_center': 'Kontrollzentrum',

@@ -1,4 +1,4 @@
-import { Component, inject, input, OnInit, output } from '@angular/core'
+import { Component, inject, input, OnInit, output, computed } from '@angular/core'
 import { RouterLink, RouterLinkActive }              from '@angular/router'
 import { AuthStore }                                 from '@core/store/auth.store'
 import { NotificationsStore }                        from '@core/store/notifications.store'
@@ -54,7 +54,7 @@ export class AppShell implements OnInit {
 	/**
 	 * Almacén de estado de autenticación de la aplicación.
 	 */
-	private readonly authStore = inject(AuthStore)
+	readonly authStore = inject(AuthStore)
 
 	/**
 	 * Almacén de estado de notificaciones.
@@ -94,17 +94,24 @@ export class AppShell implements OnInit {
 	/**
 	 * Configuración del menú de navegación lateral en pantallas de escritorio.
 	 */
-	readonly navItems: ShellNavItem[] = [
-		{ icon: 'pi pi-home',          labelKey: 'shell.feed',          route: '/' },
-		{ icon: 'pi pi-search',        labelKey: 'shell.explore',       route: '/explore' },
-		{ icon: 'pi pi-map-marker',    labelKey: 'shell.places',        route: '/places' },
-		{ icon: 'pi pi-sparkles',      labelKey: 'shell.ai_recipes',    route: '/ai' },
-		{ icon: 'pi pi-bookmark',      labelKey: 'shell.saved',         route: '/saved' },
-		{ icon: 'pi pi-comments',      labelKey: 'shell.messages',      route: '/chat' },
-		{ icon: 'pi pi-bell',          labelKey: 'shell.notifications', route: '/notifications' },
-		{ icon: 'pi pi-shopping-cart', labelKey: 'shell.shopping',      route: '/shopping' },
-		{ icon: 'pi pi-cog',           labelKey: 'shell.settings',      route: '/settings' },
-	]
+	readonly navItems = computed<ShellNavItem[]>(() => {
+		const items: ShellNavItem[] = [
+			{ icon: 'pi pi-home',          labelKey: 'shell.feed',          route: '/' },
+			{ icon: 'pi pi-search',        labelKey: 'shell.explore',       route: '/explore' },
+			{ icon: 'pi pi-map-marker',    labelKey: 'shell.places',        route: '/places' },
+			{ icon: 'pi pi-sparkles',      labelKey: 'shell.ai_recipes',    route: '/ai' },
+			{ icon: 'pi pi-bookmark',      labelKey: 'shell.saved',         route: '/saved' },
+			{ icon: 'pi pi-comments',      labelKey: 'shell.messages',      route: '/chat' },
+			{ icon: 'pi pi-bell',          labelKey: 'shell.notifications', route: '/notifications' },
+			{ icon: 'pi pi-shopping-cart', labelKey: 'shell.shopping',      route: '/shopping' },
+			{ icon: 'pi pi-cog',           labelKey: 'shell.settings',      route: '/settings' },
+		];
+		// Solo mostramos la pestaña de admin a usuarios administradores
+		if (this.authStore.isAdmin()) {
+			items.push({ icon: 'pi pi-shield', labelKey: 'shell.admin_panel', route: '/admin' });
+		}
+		return items;
+	});
 
 	/**
 	 * Configuración simplificada de navegación para la barra inferior (tabbar) en pantallas de móviles.

@@ -5,7 +5,6 @@ import { LoginUser, RegisterUser } from '@core/models/user/User';
 import { Register } from "./register/register";
 import { AuthStore } from '@core/store/auth.store';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EmojiRain } from "@features/emoji-rain/emoji-rain";
 
 /**
  * Clase de utilidad para la autenticación.
@@ -16,7 +15,6 @@ import { EmojiRain } from "@features/emoji-rain/emoji-rain";
     NgClass,
     Login,
     Register,
-    EmojiRain
   ],
   templateUrl: './auth.html',
 })

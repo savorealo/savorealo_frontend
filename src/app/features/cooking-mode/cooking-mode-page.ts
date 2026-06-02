@@ -165,6 +165,7 @@ export class CookingModePage implements OnInit, OnDestroy {
 	 * Indicador booleano para tiene voice support.
 	 */
 	readonly hasVoiceSupport   = signal(false)
+	readonly userLocation      = signal<{ lat: number; lon: number } | null>(null)
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	/**
 	 * Propiedad para gestionar recognition.
@@ -304,6 +305,7 @@ export class CookingModePage implements OnInit, OnDestroy {
 		if (!id) { this.router.navigate(['/']); return }
 		this.initVoices()
 		this.initSpeechRecognition()
+		this.initGeolocation()
 		this.requestWakeLock()
 		this.feedService.getPostById(id).subscribe({
 			next: post => { this.post.set(post); this.loading.set(false); this.speakCurrentStep(); this.autoSuggestTimer() },
@@ -505,14 +507,34 @@ export class CookingModePage implements OnInit, OnDestroy {
 	 */
 	private initVoices(): void {
 		const select = () => {
-			const voices   = window.speechSynthesis?.getVoices() ?? []
-			const es       = voices.filter(v => v.lang.startsWith('es'))
-			const markers  = ['natural', 'neural', 'premium', 'enhanced', 'google', 'microsoft', 'siri', 'lucía', 'lucia', 'mónica', 'monica', 'jorge']
-			const score    = (v: SpeechSynthesisVoice) => { const i = markers.findIndex(m => v.name.toLowerCase().includes(m)); return i === -1 ? 999 : i }
+			const voices  = window.speechSynthesis?.getVoices() ?? []
+			const es      = voices.filter(v => v.lang.startsWith('es'))
+			// Voces femeninas primero, luego calidad, luego masculinas al final
+			const female  = ['helena', 'laura', 'elvira', 'sabina', 'lucía', 'lucia', 'mónica', 'monica', 'paloma', 'elena', 'valentina', 'camila', 'sofía', 'sofia', 'isabella', 'rosa', 'pilar']
+			const quality = ['natural', 'neural', 'premium', 'enhanced', 'google', 'microsoft', 'siri']
+			const male    = ['jorge', 'pablo', 'miguel', 'carlos', 'antonio']
+			const score   = (v: SpeechSynthesisVoice) => {
+				const n = v.name.toLowerCase()
+				const fi = female.findIndex(m => n.includes(m))
+				if (fi !== -1) return fi
+				const qi = quality.findIndex(m => n.includes(m))
+				if (qi !== -1) return 100 + qi
+				const mi = male.findIndex(m => n.includes(m))
+				if (mi !== -1) return 500 + mi
+				return 300
+			}
 			this.bestVoice = [...es].sort((a, b) => score(a) - score(b))[0] ?? null
 			this.voiceName.set(this.bestVoice?.name ?? 'Voz del sistema')
 		}
 		if (window.speechSynthesis) { select(); window.speechSynthesis.onvoiceschanged = select }
+	}
+
+	private initGeolocation(): void {
+		if (!navigator.geolocation) return
+		navigator.geolocation.getCurrentPosition(
+			pos => this.userLocation.set({ lat: pos.coords.latitude, lon: pos.coords.longitude }),
+			() => { /* sin ubicación: el asistente funcionará sin contexto local */ },
+		)
 	}
 
 	// ─── Asistente ───────────────────────────────────────────────────
@@ -564,7 +586,9 @@ export class CookingModePage implements OnInit, OnDestroy {
 	 * Método para process voice input.
 	 */
 	private processVoiceInput(text: string): void {
-		if (!this.handleCommand(text)) this.callAssistant(text)
+		// Elimina el wake word "savo" del inicio para que también funcione como prefijo
+		const cleaned = text.replace(/^(oye\s+|hola\s+)?savo[,!\s]+/i, '').trim() || text
+		if (!this.handleCommand(cleaned)) this.callAssistant(cleaned)
 	}
 
 	/**
@@ -594,17 +618,19 @@ export class CookingModePage implements OnInit, OnDestroy {
 		this.assistantState.set('thinking')
 		const post = this.post()
 		const step = this.currentStep()
+		const loc  = this.userLocation()
 		this.http.post<{ answer: string }>(
 			`${this.env.supabaseUrl}/functions/v1/cooking-assistant`,
 			{
 				question,
-				recipe_name:  post?.recipe?.name ?? post?.title ?? 'Receta',
-				step_num:     this.activeStep() + 1,
-				total_steps:  this.stepsCount(),
-				current_step: step?.text ?? '',
-				ingredients:  post?.recipe?.ingredients?.map(i =>
+				recipe_name:   post?.recipe?.name ?? post?.title ?? 'Receta',
+				step_num:      this.activeStep() + 1,
+				total_steps:   this.stepsCount(),
+				current_step:  step?.text ?? '',
+				ingredients:   post?.recipe?.ingredients?.map(i =>
 					`${i.quantity ? i.quantity + ' ' + i.unit + ' de ' : ''}${i.name}`.trim(),
 				) ?? [],
+				...(loc ? { user_location: loc } : {}),
 			},
 		).subscribe({
 			next: ({ answer }) => this.showAssistantResponse(answer),

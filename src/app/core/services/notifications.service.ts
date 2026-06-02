@@ -63,7 +63,11 @@ export class NotificationsService {
 	 * Método para map row.
 	 */
 	mapRow(row: RawNotificationRow | Record<string, unknown>): Notification {
-		type PersonProfile = { username: string | null; full_name: string | null; photo_url: string | null }
+		interface PersonProfile {
+			username: string | null
+			full_name: string | null
+			photo_url: string | null
+		}
 		const actorRaw = (row as Record<string, unknown>)['actor'] as {
 			id?: string
 			username?: string | null
