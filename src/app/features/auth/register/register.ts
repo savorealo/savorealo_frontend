@@ -1,7 +1,7 @@
 import { Component, computed, inject, output, signal } from '@angular/core'
 import { StepperModule } from 'primeng/stepper'
 import { ButtonModule } from 'primeng/button'
-import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators, ReactiveFormsModule } from '@angular/forms'
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms'
 import { RegisterUser } from '@core/models/user/User'
 import { UserService } from '@core/services/user.service'
 import { usernameAvailableValidator, usernameFormatValidator } from '@core/utils/username.validators'
@@ -10,13 +10,14 @@ import { DatePickerModule } from 'primeng/datepicker'
 import { TextareaModule } from 'primeng/textarea'
 import { InputTextModule } from 'primeng/inputtext'
 import { MessageModule } from 'primeng/message'
+import { SelectModule } from 'primeng/select'
 import { Header as Header_Step_1 } from './steps/step1/header/header'
 import { Header as Header_Step_2 } from './steps/step2/header/header'
 import { Header as Header_Step_3 } from './steps/step3/header/header'
 import { Body as Body_Step_1 } from "./steps/step1/body/body"
 import { Body as Body_Step_2 } from "./steps/step2/body/body"
 import { Body as Body_Step_3 } from "./steps/step3/body/body"
-import { TranslationService } from '@core/services/translation.service'
+import { TranslationService, LocaleOption, LOCALE_OPTIONS } from '@core/services/translation.service'
 import { TranslatePipe } from '@shared/pipes/translate.pipe'
 
 /**
@@ -37,11 +38,13 @@ function passwordMatchValidator(form: AbstractControl): ValidationErrors | null 
     StepperModule,
     ButtonModule,
     ReactiveFormsModule,
+    FormsModule,
     PasswordModule,
     DatePickerModule,
     TextareaModule,
     InputTextModule,
     MessageModule,
+    SelectModule,
     Header_Step_1,
     Header_Step_2,
     Header_Step_3,
@@ -82,6 +85,28 @@ export class Register {
    * Propiedad para gestionar translation service.
    */
   private translationService = inject(TranslationService)
+
+  /**
+   * Opciones de región/idioma para el selector.
+   */
+  readonly localeOptions: LocaleOption[] = LOCALE_OPTIONS
+
+  /**
+   * Locale seleccionado actualmente.
+   */
+  selectedLocale = signal<LocaleOption>(
+    LOCALE_OPTIONS.find(o => o.langCode === this.translationService.currentLang()) ?? LOCALE_OPTIONS[0]
+  )
+
+  /**
+   * Cambia el idioma de la app según la región seleccionada.
+   */
+  changeLocale(locale: LocaleOption): void {
+    if (locale) {
+      this.selectedLocale.set(locale)
+      this.translationService.setLanguage(locale.langCode)
+    }
+  }
 
   /**
    * Propiedad para gestionar register título.

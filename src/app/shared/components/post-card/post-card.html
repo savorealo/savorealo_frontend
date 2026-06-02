@@ -15,8 +15,12 @@
 			</div>
 
 			@if (content()) {
-				<p class="mt-1 text-body-sm font-semibold leading-snug text-on-surface" [class.line-clamp-2]="!expanded()">
-					{{ expanded() ? content() : (content() | truncate:96) }}
+				<p
+					class="mt-1 text-body-sm font-semibold leading-snug text-on-surface"
+					[class.line-clamp-2]="!expanded()"
+					[attr.dir]="isTranslated() && translationDir() === 'rtl' ? 'rtl' : null"
+				>
+					{{ expanded() ? displayContent() : (displayContent() | truncate:96) }}
 					@if (hasLongContent()) {
 						<button
 							type="button"
@@ -27,6 +31,25 @@
 						</button>
 					}
 				</p>
+
+				<div class="mt-1 flex items-center gap-2">
+					<button
+						type="button"
+						class="inline-flex items-center gap-1 text-label-md font-bold text-primary hover:underline disabled:opacity-40"
+						[disabled]="translateLoading()"
+						(click)="triggerTranslate()"
+					>
+						@if (translateLoading()) {
+							<i class="pi pi-spinner pi-spin text-xs"></i>
+						} @else {
+							<i class="pi pi-language text-xs"></i>
+						}
+						{{ (isTranslated() ? 'translate.original_btn' : 'translate.translate_btn') | translate }}
+					</button>
+					@if (translateError()) {
+						<span class="text-label-md font-semibold text-error">{{ 'translate.error' | translate }}</span>
+					}
+				</div>
 			}
 		</div>
 
@@ -60,7 +83,7 @@
 		}
 	} @else {
 		<a [routerLink]="postLink()" class="block rounded-2xl border border-outline bg-surface-container p-4 text-body-sm font-medium leading-base text-on-surface transition-colors duration-fast ease-standard hover:bg-surface-container-high sm:p-5">
-			{{ content() }}
+			{{ displayContent() }}
 		</a>
 	}
 

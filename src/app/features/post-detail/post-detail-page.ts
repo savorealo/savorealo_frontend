@@ -5,7 +5,9 @@ import { FormsModule } from '@angular/forms'
 import { ActivatedRoute, Router, RouterLink } from '@angular/router'
 import { NgOptimizedImage } from '@angular/common'
 import { finalize } from 'rxjs'
+import { ContentTranslationService } from '@core/services/content-translation.service'
 import { FeedService } from '@core/services/feed.service'
+import { TranslationService } from '@core/services/translation.service'
 import { UserService } from '@core/services/user.service'
 import { AuthStore } from '@core/store/auth.store'
 import { ToastService } from '@core/services/toast.service'
@@ -16,6 +18,7 @@ import { Comment } from '@core/models/post-actions/post-actions.model'
 import { AppShell } from '@shared/components/app-shell/app-shell'
 import { Avatar } from '@shared/components/avatar/avatar'
 import { TimeAgoPipe } from '@shared/pipes/time-ago.pipe'
+import { TranslatePipe } from '@shared/pipes/translate.pipe'
 import { SavoLoader } from '@shared/components/savo-loader/savo-loader'
 import { ShoppingListService } from '@features/shopping-list/shopping-list.service'
 
@@ -24,7 +27,7 @@ import { ShoppingListService } from '@features/shopping-list/shopping-list.servi
  */
 @Component({
 	selector: 'app-post-detail-page',
-	imports: [AppShell, Avatar, NgOptimizedImage, RouterLink, TimeAgoPipe, FormsModule, SavoLoader],
+	imports: [AppShell, Avatar, NgOptimizedImage, RouterLink, TimeAgoPipe, FormsModule, SavoLoader, TranslatePipe],
 	host: { ngSkipHydration: 'true' },
 	templateUrl: './post-detail-page.html',
 })
@@ -88,6 +91,48 @@ export class PostDetailPage {
 	 * Referencia de ciclo de vida para desvincular observables.
 	 */
 	private readonly destroyRef  = inject(DestroyRef)
+
+	/**
+	 * Servicio de traducción de contenido dinámico vía MyMemory API.
+	 */
+	private readonly contentTranslation  = inject(ContentTranslationService)
+
+	/**
+	 * Servicio de traducción de UI para leer el idioma activo.
+	 */
+	private readonly translationService  = inject(TranslationService)
+
+	/**
+	 * Texto traducido de la descripción del post. Null cuando se muestra el original.
+	 */
+	translatedDescription = signal<string | null>(null)
+
+	/**
+	 * Indica si la traducción de la descripción está en curso.
+	 */
+	translateLoading = signal(false)
+
+	/**
+	 * Indica si la última traducción falló.
+	 */
+	translateError = signal(false)
+
+	/**
+	 * Devuelve la descripción traducida si está disponible, o la original.
+	 */
+	displayDescription = computed(() => this.translatedDescription() ?? this.post()?.description ?? null)
+
+	/**
+	 * Indica si el post muestra la descripción traducida.
+	 */
+	isTranslated = computed(() => this.translatedDescription() !== null)
+
+	/**
+	 * Dirección de texto del idioma activo ('rtl' para árabe).
+	 */
+	translationDir = computed(() =>
+		this.translationService.currentLang() === 'ar' ? 'rtl' : 'ltr'
+	)
 
 	/**
 	 * Señal reactiva que contiene los datos de la publicación cargada actualmente.
@@ -407,5 +452,28 @@ export class PostDetailPage {
 		} else {
 			this.toast.info('Todos los ingredientes ya están en tu lista')
 		}
+	}
+
+	/**
+	 * Alterna entre mostrar la traducción de la descripción del post y el texto original.
+	 */
+	triggerTranslate(): void {
+		if (this.isTranslated()) {
+			this.translatedDescription.set(null)
+			return
+		}
+		const text = this.post()?.description
+		if (!text) return
+		this.translateLoading.set(true)
+		this.translateError.set(false)
+		this.contentTranslation.translate(text)
+			.pipe(
+				finalize(() => this.translateLoading.set(false)),
+				takeUntilDestroyed(this.destroyRef),
+			)
+			.subscribe({
+				next: result => this.translatedDescription.set(result),
+				error: ()     => this.translateError.set(true),
+			})
 	}
 }

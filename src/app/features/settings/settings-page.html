@@ -273,66 +273,23 @@
 								<i class="pi pi-language text-lg"></i>
 							</span>
 						</div>
-						<div class="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
-							<button
-								type="button"
-								(click)="changeLanguage('es')"
-								class="flex flex-col items-center justify-center gap-2 rounded-2xl border p-4 text-center transition-all duration-fast ease-standard hover:bg-surface-container-high active:scale-95"
-								[class.border-primary]="settings().language === 'es'"
-								[class.bg-primary-container]="settings().language === 'es'"
-								[class.text-on-primary-container]="settings().language === 'es'"
-								[class.border-outline]="settings().language !== 'es'"
-								[class.bg-surface]="settings().language !== 'es'"
-								[class.text-on-surface]="settings().language !== 'es'"
-							>
-								<span class="text-2xl">🇪🇸</span>
-								<span class="text-body-sm font-bold">{{ 'settings.language.es' | translate }}</span>
-							</button>
-
-							<button
-								type="button"
-								(click)="changeLanguage('en')"
-								class="flex flex-col items-center justify-center gap-2 rounded-2xl border p-4 text-center transition-all duration-fast ease-standard hover:bg-surface-container-high active:scale-95"
-								[class.border-primary]="settings().language === 'en'"
-								[class.bg-primary-container]="settings().language === 'en'"
-								[class.text-on-primary-container]="settings().language === 'en'"
-								[class.border-outline]="settings().language !== 'en'"
-								[class.bg-surface]="settings().language !== 'en'"
-								[class.text-on-surface]="settings().language !== 'en'"
-							>
-								<span class="text-2xl">🇬🇧</span>
-								<span class="text-body-sm font-bold">{{ 'settings.language.en' | translate }}</span>
-							</button>
-
-							<button
-								type="button"
-								(click)="changeLanguage('fr')"
-								class="flex flex-col items-center justify-center gap-2 rounded-2xl border p-4 text-center transition-all duration-fast ease-standard hover:bg-surface-container-high active:scale-95"
-								[class.border-primary]="settings().language === 'fr'"
-								[class.bg-primary-container]="settings().language === 'fr'"
-								[class.text-on-primary-container]="settings().language === 'fr'"
-								[class.border-outline]="settings().language !== 'fr'"
-								[class.bg-surface]="settings().language !== 'fr'"
-								[class.text-on-surface]="settings().language !== 'fr'"
-							>
-								<span class="text-2xl">🇫🇷</span>
-								<span class="text-body-sm font-bold">{{ 'settings.language.fr' | translate }}</span>
-							</button>
-
-							<button
-								type="button"
-								(click)="changeLanguage('de')"
-								class="flex flex-col items-center justify-center gap-2 rounded-2xl border p-4 text-center transition-all duration-fast ease-standard hover:bg-surface-container-high active:scale-95"
-								[class.border-primary]="settings().language === 'de'"
-								[class.bg-primary-container]="settings().language === 'de'"
-								[class.text-on-primary-container]="settings().language === 'de'"
-								[class.border-outline]="settings().language !== 'de'"
-								[class.bg-surface]="settings().language !== 'de'"
-								[class.text-on-surface]="settings().language !== 'de'"
-							>
-								<span class="text-2xl">🇩🇪</span>
-								<span class="text-body-sm font-bold">{{ 'settings.language.de' | translate }}</span>
-							</button>
+						<div class="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-7">
+							@for (opt of languageOptions; track opt.langCode) {
+								<button
+									type="button"
+									(click)="changeLanguage(opt.langCode)"
+									class="flex flex-col items-center justify-center gap-2 rounded-2xl border p-4 text-center transition-all duration-fast ease-standard hover:bg-surface-container-high active:scale-95"
+									[class.border-primary]="settings().language === opt.langCode"
+									[class.bg-primary-container]="settings().language === opt.langCode"
+									[class.text-on-primary-container]="settings().language === opt.langCode"
+									[class.border-outline]="settings().language !== opt.langCode"
+									[class.bg-surface]="settings().language !== opt.langCode"
+									[class.text-on-surface]="settings().language !== opt.langCode"
+								>
+									<span class="text-2xl">{{ opt.flag }}</span>
+									<span class="text-body-sm font-bold">{{ opt.label }}</span>
+								</button>
+							}
 						</div>
 					</section>
 

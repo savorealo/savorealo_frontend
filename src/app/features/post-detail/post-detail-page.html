@@ -120,7 +120,28 @@
 
 				<!-- Description -->
 				@if (post.description) {
-					<p class="text-body-md font-medium leading-base text-on-surface whitespace-pre-line">{{ post.description }}</p>
+					<p
+						class="text-body-md font-medium leading-base text-on-surface whitespace-pre-line"
+						[attr.dir]="isTranslated() && translationDir() === 'rtl' ? 'rtl' : null"
+					>{{ displayDescription() }}</p>
+					<div class="mt-2 flex items-center gap-2">
+						<button
+							type="button"
+							class="inline-flex items-center gap-1 text-label-md font-bold text-primary hover:underline disabled:opacity-40"
+							[disabled]="translateLoading()"
+							(click)="triggerTranslate()"
+						>
+							@if (translateLoading()) {
+								<i class="pi pi-spinner pi-spin text-xs"></i>
+							} @else {
+								<i class="pi pi-language text-xs"></i>
+							}
+							{{ (isTranslated() ? 'translate.original_btn' : 'translate.translate_btn') | translate }}
+						</button>
+						@if (translateError()) {
+							<span class="text-label-md font-semibold text-error">{{ 'translate.error' | translate }}</span>
+						}
+					</div>
 				}
 
 				<!-- Recipe -->
