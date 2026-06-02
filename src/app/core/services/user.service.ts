@@ -211,6 +211,7 @@ export class UserService {
 			postsCount:     u.posts_count ?? null,
 			followersCount: u.followers_count ?? null,
 			followingCount: u.following_count ?? null,
+			is_admin:       u.is_admin ?? false,
 			isFollowedByCurrentUser: !!u.isFollowing,
 			followStatus,
 			isPrivate: !!u.is_private,
@@ -235,6 +236,7 @@ export class UserService {
 			postsCount:     u.posts_count ?? null,
 			followersCount: u.followers_count ?? null,
 			followingCount: u.following_count ?? null,
+			is_admin:       u.is_admin ?? false,
 		}
 	}
 }

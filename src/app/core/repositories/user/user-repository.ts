@@ -60,6 +60,10 @@ export interface GqlUser {
 	 * Indicador booleano para es o está following viewer.
 	 */
 	isFollowingViewer: boolean | null
+	/**
+	 * Indicador booleano para es o está administrador.
+	 */
+	is_admin: boolean | null
 }
 
 /**

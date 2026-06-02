@@ -6,8 +6,10 @@ import { AuthStore } from '@core/store/auth.store'
 import { PreferencesService } from '@core/services/preferences.service'
 import { SettingsService, UserSettings } from '@core/services/settings.service'
 import { ToastService } from '@core/services/toast.service'
+import { NgIf } from '@angular/common'
 import { TranslationService, LanguageCode } from '@core/services/translation.service'
 import { TranslatePipe } from '@shared/pipes/translate.pipe'
+import { SupabaseService } from '@core/services/supabase.service'
 
 /**
  * Estructura que define un interruptor de configuración (toggle) en la interfaz de ajustes.
@@ -34,7 +36,7 @@ interface SettingsToggle {
  */
 @Component({
 	selector: 'app-settings-page',
-	imports: [AppShell, FormsModule, RouterLink, TranslatePipe],
+	imports: [AppShell, FormsModule, RouterLink, TranslatePipe, NgIf],
 	templateUrl: './settings-page.html',
 })
 export class SettingsPage implements OnInit {
@@ -201,5 +203,49 @@ export class SettingsPage implements OnInit {
 	 */
 	logOut(): void {
 		this.auth.logout()
+	}
+
+	// ─── Sistema de Tickets y Sugerencias ────────────────────────────────────────
+
+	private readonly supabase = inject(SupabaseService)
+	ticketType = 'error'
+	ticketTitle = ''
+	ticketDescription = ''
+	readonly ticketSubmitting = signal(false)
+	readonly ticketSuccess = signal(false)
+	readonly ticketError = signal<string | null>(null)
+
+	async sendTicket(): Promise<void> {
+		if (!this.ticketTitle.trim() || !this.ticketDescription.trim()) return
+
+		this.ticketSubmitting.set(true)
+		this.ticketSuccess.set(false)
+		this.ticketError.set(null)
+
+		try {
+			const { error } = await this.supabase.client
+				.from('tickets')
+				.insert({
+					user_id:     this.profile()?.id,
+					type:        this.ticketType,
+					title:       this.ticketTitle.trim(),
+					description: this.ticketDescription.trim(),
+					status:      'open'
+				})
+
+			if (error) throw error
+
+			this.ticketSuccess.set(true)
+			this.ticketTitle = ''
+			this.ticketDescription = ''
+			this.ticketType = 'error'
+
+			// Ocultar mensaje de éxito tras 5 segundos
+			setTimeout(() => this.ticketSuccess.set(false), 5000)
+		} catch (err: any) {
+			this.ticketError.set(err?.message ?? 'Error al enviar el ticket')
+		} finally {
+			this.ticketSubmitting.set(false)
+		}
 	}
 }
