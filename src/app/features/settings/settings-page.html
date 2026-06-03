@@ -293,6 +293,65 @@
 						</div>
 					</section>
 
+					<!-- Tickets / Soporte y Sugerencias -->
+					<section class="rounded-2xl border border-outline bg-surface-container p-4 shadow-1 sm:p-6">
+						<div class="flex items-center justify-between gap-4">
+							<div>
+								<h2 class="text-title-lg font-bold text-on-surface">Soporte y Sugerencias</h2>
+								<p class="mt-1 text-body-sm font-medium text-on-surface-muted">Reporta errores, envía sugerencias o solicita nuevas características.</p>
+							</div>
+							<span class="grid size-11 place-items-center rounded-xl bg-orange-100 text-orange-700">
+								<i class="pi pi-question-circle text-lg"></i>
+							</span>
+						</div>
+						
+						<!-- Formulario de Ticket -->
+						<form (ngSubmit)="sendTicket()" class="mt-5 grid gap-4">
+							<div class="grid gap-4 sm:grid-cols-3">
+								<label class="grid gap-2 sm:col-span-1">
+									<span class="text-label-md font-bold uppercase tracking-wide text-on-surface-muted">Tipo de Mensaje</span>
+									<select [(ngModel)]="ticketType" name="ticketType"
+										class="h-12 rounded-xl border border-outline bg-surface px-4 text-body-sm font-bold text-on-surface outline-none focus:border-primary focus:ring-2 focus:ring-primary/20">
+										<option value="error">🐛 Reportar un Error</option>
+										<option value="suggestion">💡 Sugerencia</option>
+										<option value="feature">✨ Característica Nueva</option>
+										<option value="other">❓ Otro Motivo</option>
+									</select>
+								</label>
+								<label class="grid gap-2 sm:col-span-2">
+									<span class="text-label-md font-bold uppercase tracking-wide text-on-surface-muted">Título</span>
+									<input type="text" [(ngModel)]="ticketTitle" name="ticketTitle" placeholder="Ej: Error al cargar el feed de recetas" required
+										class="h-12 rounded-xl border border-outline bg-surface px-4 text-body-sm font-semibold text-on-surface outline-none focus:border-primary focus:ring-2 focus:ring-primary/20" />
+								</label>
+							</div>
+
+							<label class="grid gap-2">
+								<span class="text-label-md font-bold uppercase tracking-wide text-on-surface-muted">Descripción Detallada</span>
+								<textarea [(ngModel)]="ticketDescription" name="ticketDescription" rows="4" placeholder="Describe brevemente el problema o tu sugerencia..." required
+									class="rounded-xl border border-outline bg-surface p-4 text-body-sm font-medium text-on-surface outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"></textarea>
+							</label>
+
+							<div class="flex items-center justify-between gap-4 mt-2">
+								<span *ngIf="ticketSuccess()" class="text-body-sm font-bold text-green-600 flex items-center gap-1">
+									<i class="pi pi-check-circle"></i> ¡Mensaje enviado con éxito!
+								</span>
+								<span *ngIf="ticketError()" class="text-body-sm font-bold text-red-600 flex items-center gap-1">
+									<i class="pi pi-times-circle"></i> {{ ticketError() }}
+								</span>
+								
+								<button
+									type="submit"
+									[disabled]="ticketSubmitting() || !ticketTitle.trim() || !ticketDescription.trim()"
+									class="ml-auto inline-flex min-h-11 items-center justify-center gap-2 rounded-pill bg-primary px-6 text-body-sm font-bold text-on-primary transition-all duration-fast ease-standard hover:opacity-90 disabled:opacity-40 disabled:scale-100 active:scale-95"
+								>
+									<i class="pi pi-spinner pi-spin" *ngIf="ticketSubmitting()"></i>
+									<i class="pi pi-send" *ngIf="!ticketSubmitting()"></i>
+									<span>{{ ticketSubmitting() ? 'Enviando...' : 'Enviar Ticket' }}</span>
+								</button>
+							</div>
+						</form>
+					</section>
+
 					<!-- Sesión -->
 					<section class="rounded-2xl border border-error/30 bg-surface-container p-4 shadow-1 sm:p-6">
 						<div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">

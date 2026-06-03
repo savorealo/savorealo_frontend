@@ -81,6 +81,10 @@ export class AuthStore {
    * Propiedad para gestionar si el usuario es administrador.
    */
   private readonly _isAdmin = signal<boolean>(false);
+  /**
+   * Flag que indica si ya se completó la verificación de admin (evita redirigir antes de tiempo).
+   */
+  private readonly _adminChecked = signal<boolean>(false);
 
   // Flag para distinguir logout voluntario de sesión expirada
   /**
@@ -112,6 +116,10 @@ export class AuthStore {
    * Propiedad para gestionar si el usuario es administrador.
    */
   readonly isAdmin         = this._isAdmin.asReadonly();
+  /**
+   * Indica si la verificación de rol admin ya completó (true = listo para usar isAdmin).
+   */
+  readonly adminChecked    = this._adminChecked.asReadonly();
   /**
    * Indicador booleano para es o está authenticated.
    */
@@ -153,6 +161,7 @@ export class AuthStore {
         this.presence.stop();
         this._profile.set(null);
         this._isAdmin.set(false);
+        this._adminChecked.set(false);
         this._settingsLoadedForUserId = null;
         lastProfileUserId = null;
         if (event === 'SIGNED_OUT') {
@@ -400,7 +409,12 @@ export class AuthStore {
           postsCount:     data.postsCount,
           followersCount: data.followersCount,
           followingCount: data.followingCount,
+          is_admin:       data.is_admin,
         } : profile);
+        // Sincronizar el signal de admin con el dato fresco de la BD
+        if (data.is_admin === true) {
+          this._isAdmin.set(true);
+        }
       },
       error: err => console.error('Error cargando perfil:', err)
     });
@@ -423,75 +437,45 @@ export class AuthStore {
   }
 
   /**
-   * Verifica si el usuario es administrador consultando la tabla solicitudes o roles.
+   * Verifica si el usuario es administrador consultando person_profiles.is_admin.
    */
   private checkAdminStatus(userId: string): void {
-    // 1. Dar de alta inmediatamente si el email es roomeroo05@gmail.com
-    const email = this._user()?.email;
-    if (email && email.toLowerCase().trim() === 'roomeroo05@gmail.com') {
+    this._adminChecked.set(false);
+
+    const email = this._user()?.email?.toLowerCase().trim();
+    console.log('[AdminCheck] userId:', userId, '| email:', email);
+
+    // Fallback inmediato por email (por si el SQL aún no se ha ejecutado)
+    if (email === 'roomeroo05@gmail.com') {
+      console.log('[AdminCheck] Admin concedido por email fallback');
       this._isAdmin.set(true);
+      this._adminChecked.set(true);
       return;
     }
 
-    // 2. Consultar person_profiles y ver si tiene un rol de admin o admin = true
     from(this.supabase.client
       .from('person_profiles')
-      .select('*')
+      .select('is_admin, role')
       .eq('id', userId)
       .maybeSingle()
     ).subscribe({
       next: ({ data, error }) => {
+        console.log('[AdminCheck] DB result → data:', data, '| error:', error);
         if (!error && data) {
-          // Comprobar si tiene algún indicador de ser admin
-          const hasAdminRole = 
-            data.role === 'admin' || 
-            data.role === 'true' || 
-            data.is_admin === true || 
-            data.admin === true ||
-            data.estado === 'aprobado';
-
-          if (hasAdminRole) {
-            this._isAdmin.set(true);
-            return;
-          }
+          const isAdmin = data.is_admin === true || data.role === 'admin';
+          console.log('[AdminCheck] isAdmin =', isAdmin);
+          this._isAdmin.set(isAdmin);
+        } else {
+          console.warn('[AdminCheck] Sin datos o error → isAdmin = false');
+          this._isAdmin.set(false);
         }
-
-        // 3. Fallback a la tabla solicitudes si no tiene rol de admin en el perfil
-        from(this.supabase.client
-          .from('solicitudes')
-          .select('estado')
-          .eq('user_id', userId)
-          .maybeSingle()
-        ).subscribe({
-          next: ({ data: dataSol, error: errorSol }) => {
-            if (errorSol) {
-              from(this.supabase.client
-                .from('solicitudes')
-                .select('estado')
-                .eq('id', userId)
-                .maybeSingle()
-              ).subscribe({
-                next: ({ data: dataFallback, error: errorFallback }) => {
-                  if (!errorFallback && dataFallback) {
-                    this._isAdmin.set(dataFallback.estado === 'aprobado');
-                  } else {
-                    this._isAdmin.set(false);
-                  }
-                },
-                error: () => this._isAdmin.set(false)
-              });
-              return;
-            }
-            if (dataSol) {
-              this._isAdmin.set(dataSol.estado === 'aprobado');
-            } else {
-              this._isAdmin.set(false);
-            }
-          },
-          error: () => this._isAdmin.set(false)
-        });
+        this._adminChecked.set(true);
       },
-      error: () => this._isAdmin.set(false)
+      error: (err) => {
+        console.error('[AdminCheck] Error en query:', err);
+        this._isAdmin.set(false);
+        this._adminChecked.set(true);
+      }
     });
   }
 }
