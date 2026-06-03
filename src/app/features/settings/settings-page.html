@@ -107,7 +107,7 @@
 								<p class="mt-1 text-body-sm font-medium text-on-surface-muted">Adapta el contenido a tu estilo de vida.</p>
 							</div>
 							<span class="grid size-11 shrink-0 place-items-center rounded-xl bg-green-100 text-green-700">
-								<i class="pi pi-leaf"></i>
+								<span style="font-size:1.2rem;line-height:1">🌱</span>
 							</span>
 						</div>
 						<div class="mt-5 divide-y divide-outline overflow-hidden rounded-2xl border border-outline">
@@ -119,12 +119,15 @@
 								[attr.aria-pressed]="preferences.veganMode()"
 							>
 								<span class="flex items-center gap-3">
-									<span
-										class="grid size-9 shrink-0 place-items-center rounded-xl transition-colors duration-fast ease-standard"
-										[class]="preferences.veganMode() ? 'bg-green-100 text-green-700' : 'bg-surface-container-high text-on-surface-muted'"
-									>
-										<i class="pi pi-leaf"></i>
-									</span>
+									@if (preferences.veganMode()) {
+										<span class="grid size-9 shrink-0 place-items-center rounded-xl bg-green-100 text-green-700">
+											<span style="font-size:1.1rem;line-height:1">🌱</span>
+										</span>
+									} @else {
+										<span class="grid size-9 shrink-0 place-items-center rounded-xl bg-surface-container-high text-on-surface-muted">
+											<span style="font-size:1.1rem;line-height:1">🌱</span>
+										</span>
+									}
 									<span>
 										<span class="block text-body-sm font-bold text-on-surface">Modo vegano</span>
 										<span class="mt-1 block text-body-sm font-medium leading-snug text-on-surface-muted">
@@ -152,12 +155,15 @@
 								[attr.aria-pressed]="preferences.vegetarianMode()"
 							>
 								<span class="flex items-center gap-3">
-									<span
-										class="grid size-9 shrink-0 place-items-center rounded-xl transition-colors duration-fast ease-standard"
-										[class]="preferences.vegetarianMode() ? 'bg-green-100 text-green-700' : 'bg-surface-container-high text-on-surface-muted'"
-									>
-										<i class="pi pi-heart"></i>
-									</span>
+									@if (preferences.vegetarianMode()) {
+										<span class="grid size-9 shrink-0 place-items-center rounded-xl bg-green-100 text-green-700">
+											<span style="font-size:1.1rem;line-height:1">🥗</span>
+										</span>
+									} @else {
+										<span class="grid size-9 shrink-0 place-items-center rounded-xl bg-surface-container-high text-on-surface-muted">
+											<span style="font-size:1.1rem;line-height:1">🥗</span>
+										</span>
+									}
 									<span>
 										<span class="block text-body-sm font-bold text-on-surface">Modo vegetariano</span>
 										<span class="mt-1 block text-body-sm font-medium leading-snug text-on-surface-muted">
