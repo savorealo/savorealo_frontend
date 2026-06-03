@@ -178,6 +178,13 @@ export class UserService {
 	}
 
 	/**
+	 * Método para quitar follower.
+	 */
+	removeFollower(userId: string): Observable<boolean> {
+		return this.userRepo.removeFollower(userId)
+	}
+
+	/**
 	 * Método para obtener following.
 	 */
 	getFollowing(userId: string, limit = 20): Observable<FollowListUser[]> {

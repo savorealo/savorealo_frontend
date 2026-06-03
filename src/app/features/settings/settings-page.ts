@@ -6,8 +6,12 @@ import { AuthStore } from '@core/store/auth.store'
 import { PreferencesService } from '@core/services/preferences.service'
 import { SettingsService, UserSettings } from '@core/services/settings.service'
 import { ToastService } from '@core/services/toast.service'
+<<<<<<< HEAD
 import { NgIf } from '@angular/common'
 import { TranslationService, LanguageCode } from '@core/services/translation.service'
+=======
+import { TranslationService, LanguageCode, LANGUAGE_OPTIONS, LocaleOption } from '@core/services/translation.service'
+>>>>>>> develop
 import { TranslatePipe } from '@shared/pipes/translate.pipe'
 import { SupabaseService } from '@core/services/supabase.service'
 
@@ -64,6 +68,11 @@ export class SettingsPage implements OnInit {
 	 * Servicio de traducción para internacionalizar la interfaz tras cambiar el idioma.
 	 */
 	readonly translationService = inject(TranslationService)
+
+	/**
+	 * Opciones de idioma disponibles.
+	 */
+	readonly languageOptions: LocaleOption[] = LANGUAGE_OPTIONS
 
 	/**
 	 * Señal con la información del perfil del usuario autenticado.

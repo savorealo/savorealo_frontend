@@ -1,14 +1,19 @@
 import { NgOptimizedImage } from '@angular/common'
-import { Component, computed, inject, input, output, signal, ViewChild } from '@angular/core'
+import { Component, computed, DestroyRef, inject, input, output, signal, ViewChild } from '@angular/core'
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { Router, RouterLink } from '@angular/router'
 import { Post } from '@core/models/post/post.model'
+import { ContentTranslationService } from '@core/services/content-translation.service'
 import { PostActionsService } from '@core/services/post-actions.service'
 import { PreferencesService } from '@core/services/preferences.service'
+import { TranslationService } from '@core/services/translation.service'
 import { VeganConvertModal } from '@features/feed/components/vegan-convert-modal/vegan-convert-modal'
 import { Avatar } from '@shared/components/avatar/avatar'
 import { ImgFallbackDirective } from '@shared/directives/img-fallback.directive'
 import { TimeAgoPipe } from '@shared/pipes/time-ago.pipe'
 import { TruncateTextPipe } from '@shared/pipes/truncate.pipe'
+import { TranslatePipe } from '@shared/pipes/translate.pipe'
+import { finalize } from 'rxjs/operators'
 import { MenuItem } from 'primeng/api'
 import { Menu } from 'primeng/menu'
 
@@ -18,7 +23,7 @@ import { Menu } from 'primeng/menu'
  */
 @Component({
 	selector: 'app-post-card',
-	imports: [Avatar, Menu, NgOptimizedImage, RouterLink, TimeAgoPipe, TruncateTextPipe, VeganConvertModal, ImgFallbackDirective],
+	imports: [Avatar, Menu, NgOptimizedImage, RouterLink, TimeAgoPipe, TruncateTextPipe, VeganConvertModal, ImgFallbackDirective, TranslatePipe],
 	templateUrl: './post-card.html',
 })
 export class PostCard {
@@ -41,6 +46,53 @@ export class PostCard {
 	 * Servicio de preferencias inyectado para consultar configuraciones dietéticas del usuario.
 	 */
 	readonly preferences = inject(PreferencesService)
+
+	/**
+	 * Servicio de traducción de contenido dinámico vía MyMemory API.
+	 */
+	private readonly contentTranslation = inject(ContentTranslationService)
+
+	/**
+	 * Servicio de traducción de UI para leer el idioma activo.
+	 */
+	private readonly translationService = inject(TranslationService)
+
+	/**
+	 * DestroyRef para cancelar suscripciones al destruir el componente.
+	 */
+	private readonly destroyRef = inject(DestroyRef)
+
+	/**
+	 * Señal que almacena el texto traducido del contenido del post. Null cuando se muestra el original.
+	 */
+	translatedContent = signal<string | null>(null)
+
+	/**
+	 * Señal que indica si la traducción está en curso.
+	 */
+	translateLoading = signal(false)
+
+	/**
+	 * Señal que indica si la última traducción falló.
+	 */
+	translateError = signal(false)
+
+	/**
+	 * Señal calculada que devuelve el contenido traducido si está disponible, o el original.
+	 */
+	displayContent = computed(() => this.translatedContent() ?? this.content())
+
+	/**
+	 * Señal calculada que indica si el post está mostrando la traducción.
+	 */
+	isTranslated = computed(() => this.translatedContent() !== null)
+
+	/**
+	 * Señal calculada que devuelve la dirección de texto del idioma activo ('rtl' para árabe).
+	 */
+	translationDir = computed(() =>
+		this.translationService.currentLang() === 'ar' ? 'rtl' : 'ltr'
+	)
 
 	/**
 	 * Publicación o receta de entrada requerida para rellenar la tarjeta.
@@ -190,5 +242,29 @@ export class PostCard {
 	 */
 	openCookingMode(): void {
 		this.router.navigate(['/cook', this.post().id])
+	}
+
+	/**
+	 * Alterna entre mostrar la traducción y el texto original del post.
+	 * La primera vez llama a la API; las siguientes usan la caché del servicio.
+	 */
+	triggerTranslate(): void {
+		if (this.isTranslated()) {
+			this.translatedContent.set(null)
+			return
+		}
+		const text = this.content()
+		if (!text) return
+		this.translateLoading.set(true)
+		this.translateError.set(false)
+		this.contentTranslation.translate(text)
+			.pipe(
+				finalize(() => this.translateLoading.set(false)),
+				takeUntilDestroyed(this.destroyRef),
+			)
+			.subscribe({
+				next: result => this.translatedContent.set(result),
+				error: ()     => this.translateError.set(true),
+			})
 	}
 }

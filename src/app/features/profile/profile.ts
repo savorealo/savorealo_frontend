@@ -1,10 +1,11 @@
 import { afterNextRender, Component, computed, DestroyRef, inject, signal } from '@angular/core'
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
-import { finalize } from 'rxjs'
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop'
+import { filter, finalize, take } from 'rxjs'
 import { AuthStore } from '@core/store/auth.store'
-import { UserService } from '@core/services/user.service'
+import { UserService, FollowListUser } from '@core/services/user.service'
 import { FeedService } from '@core/services/feed.service'
 import { PostActionsService } from '@core/services/post-actions.service'
+import { ToastService } from '@core/services/toast.service'
 import { Post } from '@core/models/post/post.model'
 import { AppShell } from '@shared/components/app-shell/app-shell'
 import { Avatar } from '@shared/components/avatar/avatar'
@@ -53,6 +54,11 @@ export class Profile {
   private readonly postActions = inject(PostActionsService)
 
   /**
+   * Servicio de notificaciones toast.
+   */
+  private readonly toast = inject(ToastService)
+
+  /**
    * Referencia inyectada para el desvínculo automático de suscripciones al destruir el componente.
    */
   private readonly destroyRef = inject(DestroyRef)
@@ -91,6 +97,46 @@ export class Profile {
    * Señal reactiva que gestiona los datos de perfil para el diálogo modal de compartir.
    */
   readonly sharingProfile = signal<ShareableProfile | null>(null)
+
+  /**
+   * Controla la visibilidad del modal de lista de followers/following.
+   */
+  readonly showFollowList = signal(false)
+
+  /**
+   * Título del modal de lista de seguidores/siguiendo.
+   */
+  readonly followListTitle = signal('')
+
+  /**
+   * Usuarios mostrados en el modal de lista de seguidores/siguiendo.
+   */
+  readonly followListUsers = signal<FollowListUser[]>([])
+
+  /**
+   * Indica si la lista de seguidores/siguiendo está cargando.
+   */
+  readonly followListLoading = signal(false)
+
+  /**
+   * Tipo de lista abierta: seguidores o siguiendo.
+   */
+  readonly followListType = signal<'followers' | 'following'>('followers')
+
+  /**
+   * IDs de usuarios con operación de follow/unfollow en progreso.
+   */
+  readonly processingUsers = signal(new Set<string>())
+
+  /**
+   * Post pendiente de confirmación de borrado.
+   */
+  readonly pendingDeletePost = signal<Post | null>(null)
+
+  /**
+   * Indica si hay un borrado de post en progreso.
+   */
+  readonly deletingPost = signal(false)
 
   /**
    * Colección de publicaciones guardadas por el usuario.
@@ -179,15 +225,21 @@ export class Profile {
    * y configura la reactividad ante eventos globales de me gusta o guardado de posts.
    */
   constructor() {
+    const userId$ = toObservable(this.authStore.currentUserId).pipe(
+      filter((id): id is string => !!id),
+      take(1),
+      takeUntilDestroyed(this.destroyRef),
+    )
+
     afterNextRender(() => {
-      const userId = this.authStore.currentUserId()
-      if (!userId) return
-      this.loadingPosts.set(true)
-      this.userService.getUserPosts(userId).pipe(
-        finalize(() => this.loadingPosts.set(false)),
-      ).subscribe({
-        next: page => this.posts.set(page.posts),
-        error: () => {},
+      userId$.subscribe(userId => {
+        this.loadingPosts.set(true)
+        this.userService.getUserPosts(userId).pipe(
+          finalize(() => this.loadingPosts.set(false)),
+        ).subscribe({
+          next: page => this.posts.set(page.posts),
+          error: () => {},
+        })
       })
     })
     this.postActions.likeChanged$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(e => {
@@ -261,6 +313,101 @@ export class Profile {
       username: profile.username,
       displayName: profile.fullName,
       photoUrl: profile.photo_url,
+    })
+  }
+
+  /**
+   * Abre el modal de lista de seguidores o siguiendo y carga sus datos.
+   */
+  openFollowList(type: 'followers' | 'following'): void {
+    const userId = this.authStore.currentUserId()
+    if (!userId) return
+    this.followListType.set(type)
+    this.followListTitle.set(type === 'followers'
+      ? this.translationService.translate('profile.followers')
+      : this.translationService.translate('profile.following'))
+    this.followListUsers.set([])
+    this.followListLoading.set(true)
+    this.showFollowList.set(true)
+    const obs = type === 'followers'
+      ? this.userService.getFollowers(userId)
+      : this.userService.getFollowing(userId)
+    obs.pipe(finalize(() => this.followListLoading.set(false))).subscribe({
+      next: users => this.followListUsers.set(users),
+      error: () => {},
+    })
+  }
+
+  /**
+   * Deja de seguir a un usuario desde la lista de siguiendo.
+   */
+  unfollowUser(user: FollowListUser): void {
+    if (this.processingUsers().has(user.id)) return
+    this.processingUsers.update(s => { const n = new Set(s); n.add(user.id); return n })
+    this.userService.toggleFollow(user.id, true).pipe(
+      finalize(() => this.processingUsers.update(s => { const n = new Set(s); n.delete(user.id); return n })),
+    ).subscribe({
+      next: () => {
+        this.followListUsers.update(us => us.filter(u => u.id !== user.id))
+        this.authStore.patchProfileCounts({ followingCount: -1 })
+        this.toast.success(this.translationService.translate('profile.unfollow_success'), '')
+      },
+      error: () => this.toast.error(this.translationService.translate('profile.unfollow_error')),
+    })
+  }
+
+  /**
+   * Quita a un seguidor de la lista de seguidores.
+   */
+  removeFollower(user: FollowListUser): void {
+    if (this.processingUsers().has(user.id)) return
+    this.processingUsers.update(s => { const n = new Set(s); n.add(user.id); return n })
+    this.userService.removeFollower(user.id).pipe(
+      finalize(() => this.processingUsers.update(s => { const n = new Set(s); n.delete(user.id); return n })),
+    ).subscribe({
+      next: () => {
+        this.followListUsers.update(us => us.filter(u => u.id !== user.id))
+        this.authStore.patchProfileCounts({ followersCount: -1 })
+        this.toast.success(this.translationService.translate('profile.remove_follower_success'), '')
+      },
+      error: () => this.toast.error(this.translationService.translate('profile.remove_follower_error')),
+    })
+  }
+
+  /**
+   * Establece el post pendiente de confirmación de borrado.
+   */
+  confirmDeletePost(post: Post): void {
+    this.pendingDeletePost.set(post)
+  }
+
+  /**
+   * Cancela el borrado pendiente.
+   */
+  cancelDeletePost(): void {
+    this.pendingDeletePost.set(null)
+  }
+
+  /**
+   * Ejecuta el borrado del post pendiente.
+   */
+  executeDeletePost(): void {
+    const post = this.pendingDeletePost()
+    if (!post || this.deletingPost()) return
+    this.deletingPost.set(true)
+    this.feedService.deletePost(post.id).pipe(
+      finalize(() => this.deletingPost.set(false)),
+    ).subscribe({
+      next: () => {
+        this.posts.update(ps => ps.filter(p => p.id !== post.id))
+        this.pendingDeletePost.set(null)
+        this.authStore.patchProfileCounts({ postsCount: -1 })
+        this.toast.success(this.translationService.translate('profile.delete_post_success'), '')
+      },
+      error: () => {
+        this.pendingDeletePost.set(null)
+        this.toast.error(this.translationService.translate('profile.delete_post_error'))
+      },
     })
   }
 

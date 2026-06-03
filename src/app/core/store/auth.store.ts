@@ -344,6 +344,28 @@ export class AuthStore {
     );
   }
 
+  /**
+   * Ajusta los contadores del perfil en la señal local sin ir al servidor.
+   * Útil para actualizaciones optimistas tras follow/unfollow/delete.
+   */
+  patchProfileCounts(delta: { followersCount?: number; followingCount?: number; postsCount?: number }): void {
+    this._profile.update(profile => {
+      if (!profile) return profile
+      return {
+        ...profile,
+        ...(delta.followersCount !== undefined
+          ? { followersCount: Math.max(0, (profile.followersCount ?? 0) + delta.followersCount) }
+          : {}),
+        ...(delta.followingCount !== undefined
+          ? { followingCount: Math.max(0, (profile.followingCount ?? 0) + delta.followingCount) }
+          : {}),
+        ...(delta.postsCount !== undefined
+          ? { postsCount: Math.max(0, (profile.postsCount ?? 0) + delta.postsCount) }
+          : {}),
+      }
+    })
+  }
+
   // ─── Helpers ─────────────────────────────────────────────────────────────────
 
   /**

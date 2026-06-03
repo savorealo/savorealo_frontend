@@ -465,3 +465,21 @@ export const LIKED_POSTS_QUERY = gql`
   }
   ${POST_CARD_FRAGMENT}
 `
+/**
+ * Mutación GraphQL para delete post mutation.
+ */
+export const DELETE_POST_MUTATION = gql`
+  mutation DeletePost($postId: ID!) {
+    deletePost(postId: $postId) {
+      success
+    }
+  }
+`
+/**
+ * Mutación GraphQL para remove follower mutation.
+ */
+export const REMOVE_FOLLOWER_MUTATION = gql`
+  mutation RemoveFollower($userId: ID!) {
+    removeFollower(userId: $userId)
+  }
+`

@@ -247,6 +247,13 @@ export class FeedService {
 	// ── Create ───────────────────────────────────────────────────────────────
 
 	/**
+	 * Método para borrar post.
+	 */
+	deletePost(postId: string): Observable<boolean> {
+		return this.repo.deletePost(postId)
+	}
+
+	/**
 	 * Método para crear post.
 	 */
 	createPost(input: CreatePostInput): Observable<Post> {

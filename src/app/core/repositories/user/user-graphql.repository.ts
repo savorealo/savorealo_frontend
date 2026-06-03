@@ -4,7 +4,7 @@ import { firstValueFrom, from, map, Observable } from 'rxjs'
 import { SupabaseService } from '@core/services/supabase.service'
 import {
 	CHECK_USERNAME_QUERY, FOLLOWERS_QUERY, FOLLOWING_QUERY,
-	GET_USER_QUERY, RESPOND_FOLLOW_REQUEST_MUTATION, TOGGLE_FOLLOW_MUTATION,
+	GET_USER_QUERY, REMOVE_FOLLOWER_MUTATION, RESPOND_FOLLOW_REQUEST_MUTATION, TOGGLE_FOLLOW_MUTATION,
 } from '@graphql/feed.mutations'
 import type { GqlFollowUser, GqlUser, IUserRepository, RespondFollowRequestResult, ToggleFollowResult } from './user-repository'
 
@@ -122,6 +122,18 @@ export class UserGraphqlRepository implements IUserRepository {
 	 */
 	getFollowing(userId: string, limit: number): Observable<GqlFollowUser[]> {
 		return this.fetchFollowList(FOLLOWING_QUERY, 'following', userId, limit)
+	}
+
+	/**
+	 * Método para quitar follower.
+	 */
+	removeFollower(userId: string): Observable<boolean> {
+		return from(firstValueFrom(
+			this.apollo.mutate<{ removeFollower: boolean }>({
+				mutation: REMOVE_FOLLOWER_MUTATION,
+				variables: { userId },
+			}),
+		)).pipe(map(res => res.data?.removeFollower ?? false))
 	}
 
 	/**

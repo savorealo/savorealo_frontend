@@ -3,6 +3,7 @@ import { type HttpInterceptorFn }           from '@angular/common/http'
 import { from, switchMap, catchError, throwError } from 'rxjs'
 import { Router }                           from '@angular/router'
 import { SupabaseService }                  from '@core/services/supabase.service'
+import { ENVIRONMENT }                      from '@core/tokens/environment.token'
 
 // Margen en segundos antes de expirar para hacer refresh proactivo
 /**
@@ -48,6 +49,12 @@ async function getValidToken(supabase: SupabaseService): Promise<string | null> 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
 	const supabase = inject(SupabaseService)
 	const router   = inject(Router)
+	const env      = inject(ENVIRONMENT)
+
+	// No inyectar cabeceras de auth en peticiones a APIs externas (ej: MyMemory)
+	if (!req.url.startsWith(env.supabaseUrl) && !req.url.startsWith(env.apiUrl)) {
+		return next(req)
+	}
 
 	return from(getValidToken(supabase)).pipe(
 		switchMap(token => {

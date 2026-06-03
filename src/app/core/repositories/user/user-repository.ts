@@ -174,4 +174,8 @@ export interface IUserRepository {
 	 * Método para obtener following.
 	 */
 	getFollowing(userId: string, limit: number): Observable<GqlFollowUser[]>
+	/**
+	 * Método para quitar follower.
+	 */
+	removeFollower(userId: string): Observable<boolean>
 }
