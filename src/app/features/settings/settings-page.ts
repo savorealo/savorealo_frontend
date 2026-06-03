@@ -6,12 +6,7 @@ import { AuthStore } from '@core/store/auth.store'
 import { PreferencesService } from '@core/services/preferences.service'
 import { SettingsService, UserSettings } from '@core/services/settings.service'
 import { ToastService } from '@core/services/toast.service'
-<<<<<<< HEAD
-import { NgIf } from '@angular/common'
-import { TranslationService, LanguageCode } from '@core/services/translation.service'
-=======
 import { TranslationService, LanguageCode, LANGUAGE_OPTIONS, LocaleOption } from '@core/services/translation.service'
->>>>>>> develop
 import { TranslatePipe } from '@shared/pipes/translate.pipe'
 import { SupabaseService } from '@core/services/supabase.service'
 
@@ -40,7 +35,7 @@ interface SettingsToggle {
  */
 @Component({
 	selector: 'app-settings-page',
-	imports: [AppShell, FormsModule, RouterLink, TranslatePipe, NgIf],
+	imports: [AppShell, FormsModule, RouterLink, TranslatePipe],
 	templateUrl: './settings-page.html',
 })
 export class SettingsPage implements OnInit {
