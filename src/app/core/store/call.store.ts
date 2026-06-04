@@ -472,7 +472,7 @@ export class CallStore {
 		const ch = this.channels.get(conversationId)
 		if (ch) await ch.send({ type: 'broadcast', event: 'call-signal', payload: enriched })
 
-		if (payload.type === 'answer' || payload.type === 'hangup' || payload.type === 'reject') {
+		if (payload.type === 'answer' || payload.type === 'hangup' || payload.type === 'reject' || payload.type === 'ice-candidate') {
 			await this.sendToUserChannel(payload.to, enriched)
 		}
 	}
