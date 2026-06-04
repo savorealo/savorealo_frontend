@@ -1,0 +1,1565 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>cookeealo documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">cookeealo documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  PlaceDetailPage</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/features/places/place-detail-page.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Componente principal para la vista o página de placedetail.</p>
+
+    </p>
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-place-detail-page</code></td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                                <code><a href="../components/AppShell.html" target="_self" >AppShell</a></code>
+                                <code><a href="https://angular.io/api/router/RouterLink" target="_blank" >RouterLink</a></code>
+                                <code><a href="../components/Avatar.html" target="_self" >Avatar</a></code>
+                            <code>TimeAgoPipe</code>
+                                <code><a href="../components/AddReviewModal.html" target="_self" >AddReviewModal</a></code>
+                                <code><a href="https://angular.io/api/common/DecimalPipe" target="_blank" >DecimalPipe</a></code>
+                            <code>TranslatePipe</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./place-detail-page.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#auth" >auth</a>
+                            </li>
+                            <li>
+                                <a href="#error" >error</a>
+                            </li>
+                            <li>
+                                <a href="#loading" >loading</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#mapsUrl" >mapsUrl</a>
+                            </li>
+                            <li>
+                                <a href="#place" >place</a>
+                            </li>
+                            <li>
+                                <a href="#reviews" >reviews</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#route" >route</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#router" >router</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#service" >service</a>
+                            </li>
+                            <li>
+                                <a href="#showReviewModal" >showReviewModal</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#starsArray" >starsArray</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#typeLabelKey" >typeLabelKey</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#load" >load</a>
+                            </li>
+                            <li>
+                                <a href="#loadReviews" >loadReviews</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#onReviewAdded" >onReviewAdded</a>
+                            </li>
+                            <li>
+                                <a href="#starsFor" >starsFor</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="load"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>load</b></span>
+                        <a href="#load"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>load(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="105"
+                                    class="link-to-prism">src/app/features/places/place-detail-page.ts:105</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Carga de forma asíncrona la información básica del establecimiento.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Identificador único del establecimiento.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadReviews"></a>
+                    <span class="name">
+                        <span ><b>loadReviews</b></span>
+                        <a href="#loadReviews"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>loadReviews(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="124"
+                                    class="link-to-prism">src/app/features/places/place-detail-page.ts:124</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Carga la colección de opiniones y valoraciones del establecimiento.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Identificador único del establecimiento.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="95"
+                                    class="link-to-prism">src/app/features/places/place-detail-page.ts:95</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método de ciclo de vida de Angular para obtener el ID del lugar de los parámetros de ruta e iniciar la carga de datos.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onReviewAdded"></a>
+                    <span class="name">
+                        <span ><b>onReviewAdded</b></span>
+                        <a href="#onReviewAdded"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onReviewAdded()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="134"
+                                    class="link-to-prism">src/app/features/places/place-detail-page.ts:134</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Callback invocado tras añadir una reseña con éxito para actualizar el listado visible de opiniones.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="starsFor"></a>
+                    <span class="name">
+                        <span ><b>starsFor</b></span>
+                        <a href="#starsFor"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>starsFor(rating: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="143"
+                                    class="link-to-prism">src/app/features/places/place-detail-page.ts:143</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Resuelve una colección de estrellas representadas como booleanos para un rating dado.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>rating</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Calificación del establecimiento.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>boolean[]</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="auth"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>auth</b></span>
+                        <a href="#auth"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(AuthStore)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/features/places/place-detail-page.ts:40</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Almacén de estado de autenticación inyectado.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="error"></a>
+                    <span class="name">
+                        <span ><b>error</b></span>
+                        <a href="#error"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;string | null&gt;(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/app/features/places/place-detail-page.ts:60</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Mensaje de error de carga en caso de fallo.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loading"></a>
+                    <span class="name">
+                        <span ><b>loading</b></span>
+                        <a href="#loading"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(true)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/app/features/places/place-detail-page.ts:55</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal que indica si los datos están cargando del servidor.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mapsUrl"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>mapsUrl</b></span>
+                        <a href="#mapsUrl"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; {
+    const p &#x3D; this.place()
+    if (!p) return &#x27;#&#x27;
+    const q &#x3D; encodeURIComponent(&#x60;${p.name} ${p.address}&#x60;)
+    return &#x60;https://www.google.com/maps/search/?api&#x3D;1&amp;query&#x3D;${q}&#x60;
+  })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">src/app/features/places/place-detail-page.ts:85</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal calculada que construye la URL externa de búsqueda en Google Maps basada en la dirección física.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="place"></a>
+                    <span class="name">
+                        <span ><b>place</b></span>
+                        <a href="#place"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;Place | null&gt;(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/features/places/place-detail-page.ts:45</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal reactiva que contiene los datos del establecimiento cargado.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="reviews"></a>
+                    <span class="name">
+                        <span ><b>reviews</b></span>
+                        <a href="#reviews"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;ReviewWithUser[]&gt;([])</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/app/features/places/place-detail-page.ts:50</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Listado de reseñas y opiniones añadidas al establecimiento.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="route"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>route</b></span>
+                        <a href="#route"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(ActivatedRoute)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/features/places/place-detail-page.ts:25</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Servicio para la obtención de parámetros de la ruta activa.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="router"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>router</b></span>
+                        <a href="#router"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(Router)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/features/places/place-detail-page.ts:30</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Servicio del router inyectado para la navegación interna.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="service"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>service</b></span>
+                        <a href="#service"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(PlacesService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/features/places/place-detail-page.ts:35</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Servicio de consulta de lugares y reseñas gastronómicas.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showReviewModal"></a>
+                    <span class="name">
+                        <span ><b>showReviewModal</b></span>
+                        <a href="#showReviewModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">src/app/features/places/place-detail-page.ts:65</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal reactiva que controla la visibilidad del modal para añadir una reseña.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="starsArray"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>starsArray</b></span>
+                        <a href="#starsArray"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt;
+    Array.from({ length: 5 }, (_, i) &#x3D;&gt; i &lt; Math.round(this.place()?.averageRating ?? 0)),
+  )</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">src/app/features/places/place-detail-page.ts:78</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal calculada que genera un array de booleanos que representan las 5 estrellas del establecimiento según su puntuación media.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="typeLabelKey"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>typeLabelKey</b></span>
+                        <a href="#typeLabelKey"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; {
+    const p &#x3D; this.place()
+    return p ? &#x60;places.type.${p.placeType.toLowerCase()}&#x60; : &#x27;&#x27;
+  })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">src/app/features/places/place-detail-page.ts:70</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal calculada que devuelve la clave de traducción correspondiente al tipo de establecimiento.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { DecimalPipe } from &#x27;@angular/common&#x27;
+import { Component, computed, inject, OnInit, signal } from &#x27;@angular/core&#x27;
+import { ActivatedRoute, Router, RouterLink } from &#x27;@angular/router&#x27;
+import { AppShell } from &#x27;@shared/components/app-shell/app-shell&#x27;
+import { Avatar } from &#x27;@shared/components/avatar/avatar&#x27;
+import { TimeAgoPipe } from &#x27;@shared/pipes/time-ago.pipe&#x27;
+import { Place } from &#x27;@core/models/places/place.model&#x27;
+import { PlacesService, ReviewWithUser } from &#x27;@core/services/places.service&#x27;
+import { AuthStore } from &#x27;@core/store/auth.store&#x27;
+import { AddReviewModal } from &#x27;./components/add-review-modal/add-review-modal&#x27;
+import { TranslatePipe } from &#x27;@shared/pipes/translate.pipe&#x27;
+
+/**
+ * Componente principal para la vista o página de placedetail.
+ */
+@Component({
+  selector: &#x27;app-place-detail-page&#x27;,
+  imports: [AppShell, RouterLink, Avatar, TimeAgoPipe, AddReviewModal, DecimalPipe, TranslatePipe],
+  templateUrl: &#x27;./place-detail-page.html&#x27;,
+})
+export class PlaceDetailPage implements OnInit {
+  /**
+   * Servicio para la obtención de parámetros de la ruta activa.
+   */
+  private readonly route   &#x3D; inject(ActivatedRoute)
+
+  /**
+   * Servicio del router inyectado para la navegación interna.
+   */
+  private readonly router  &#x3D; inject(Router)
+
+  /**
+   * Servicio de consulta de lugares y reseñas gastronómicas.
+   */
+  private readonly service &#x3D; inject(PlacesService)
+
+  /**
+   * Almacén de estado de autenticación inyectado.
+   */
+  readonly auth            &#x3D; inject(AuthStore)
+
+  /**
+   * Señal reactiva que contiene los datos del establecimiento cargado.
+   */
+  place    &#x3D; signal&lt;Place | null&gt;(null)
+
+  /**
+   * Listado de reseñas y opiniones añadidas al establecimiento.
+   */
+  reviews  &#x3D; signal&lt;ReviewWithUser[]&gt;([])
+
+  /**
+   * Señal que indica si los datos están cargando del servidor.
+   */
+  loading  &#x3D; signal(true)
+
+  /**
+   * Mensaje de error de carga en caso de fallo.
+   */
+  error    &#x3D; signal&lt;string | null&gt;(null)
+
+  /**
+   * Señal reactiva que controla la visibilidad del modal para añadir una reseña.
+   */
+  showReviewModal &#x3D; signal(false)
+
+  /**
+   * Señal calculada que devuelve la clave de traducción correspondiente al tipo de establecimiento.
+   */
+  readonly typeLabelKey &#x3D; computed(() &#x3D;&gt; {
+    const p &#x3D; this.place()
+    return p ? &#x60;places.type.${p.placeType.toLowerCase()}&#x60; : &#x27;&#x27;
+  })
+
+  /**
+   * Señal calculada que genera un array de booleanos que representan las 5 estrellas del establecimiento según su puntuación media.
+   */
+  readonly starsArray &#x3D; computed(() &#x3D;&gt;
+    Array.from({ length: 5 }, (_, i) &#x3D;&gt; i &lt; Math.round(this.place()?.averageRating ?? 0)),
+  )
+
+  /**
+   * Señal calculada que construye la URL externa de búsqueda en Google Maps basada en la dirección física.
+   */
+  readonly mapsUrl &#x3D; computed(() &#x3D;&gt; {
+    const p &#x3D; this.place()
+    if (!p) return &#x27;#&#x27;
+    const q &#x3D; encodeURIComponent(&#x60;${p.name} ${p.address}&#x60;)
+    return &#x60;https://www.google.com/maps/search/?api&#x3D;1&amp;query&#x3D;${q}&#x60;
+  })
+
+  /**
+   * Método de ciclo de vida de Angular para obtener el ID del lugar de los parámetros de ruta e iniciar la carga de datos.
+   */
+  ngOnInit(): void {
+    const id &#x3D; this.route.snapshot.paramMap.get(&#x27;id&#x27;)
+    if (!id) { this.router.navigate([&#x27;/places&#x27;]); return }
+    this.load(id)
+  }
+
+  /**
+   * Carga de forma asíncrona la información básica del establecimiento.
+   * @param id Identificador único del establecimiento.
+   */
+  private load(id: string): void {
+    this.loading.set(true)
+    this.service.getPlaceById(id).subscribe({
+      next: place &#x3D;&gt; {
+        this.place.set(place)
+        this.loading.set(false)
+        this.loadReviews(id)
+      },
+      error: () &#x3D;&gt; {
+        this.error.set(&#x27;No se pudo cargar el lugar&#x27;)
+        this.loading.set(false)
+      },
+    })
+  }
+
+  /**
+   * Carga la colección de opiniones y valoraciones del establecimiento.
+   * @param id Identificador único del establecimiento.
+   */
+  loadReviews(id: string): void {
+    this.service.getReviews(id).subscribe({
+      next: reviews &#x3D;&gt; this.reviews.set(reviews),
+      error: () &#x3D;&gt; {},
+    })
+  }
+
+  /**
+   * Callback invocado tras añadir una reseña con éxito para actualizar el listado visible de opiniones.
+   */
+  onReviewAdded(): void {
+    const id &#x3D; this.route.snapshot.paramMap.get(&#x27;id&#x27;)
+    if (id) this.loadReviews(id)
+  }
+
+  /**
+   * Resuelve una colección de estrellas representadas como booleanos para un rating dado.
+   * @param rating Calificación del establecimiento.
+   */
+  starsFor(rating: number): boolean[] {
+    return Array.from({ length: 5 }, (_, i) &#x3D;&gt; i &lt; Math.round(rating))
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;app-shell&gt;
+  &lt;div class&#x3D;&quot;min-h-dvh bg-surface text-on-surface&quot;&gt;
+
+    &lt;!-- Loading --&gt;
+    @if (loading()) {
+      &lt;div class&#x3D;&quot;flex h-64 items-center justify-center&quot;&gt;
+        &lt;i class&#x3D;&quot;pi pi-spinner pi-spin text-3xl text-primary&quot;&gt;&lt;/i&gt;
+      &lt;/div&gt;
+    }
+
+    &lt;!-- Error --&gt;
+    @if (!loading() &amp;&amp; error()) {
+      &lt;div class&#x3D;&quot;flex flex-col items-center gap-4 py-20 text-center&quot;&gt;
+        &lt;span class&#x3D;&quot;text-5xl&quot;&gt;😕&lt;/span&gt;
+        &lt;p class&#x3D;&quot;text-body-sm text-on-surface-muted&quot;&gt;{{ error() }}&lt;/p&gt;
+        &lt;a routerLink&#x3D;&quot;/places&quot; class&#x3D;&quot;rounded-pill bg-primary px-5 py-2.5 text-body-sm font-bold text-on-primary&quot;&gt;{{ &#x27;places.back&#x27; | translate }}&lt;/a&gt;
+      &lt;/div&gt;
+    }
+
+    &lt;!-- Contenido --&gt;
+    @if (!loading() &amp;&amp; place(); as p) {
+      &lt;!-- Hero imagen --&gt;
+      &lt;div class&#x3D;&quot;relative aspect-[16/7] w-full overflow-hidden bg-surface-container-high&quot;&gt;
+        @if (p.mediaUrl) {
+          &lt;img [src]&#x3D;&quot;p.mediaUrl&quot; [alt]&#x3D;&quot;p.name&quot; class&#x3D;&quot;h-full w-full object-cover&quot; /&gt;
+        } @else {
+          &lt;div class&#x3D;&quot;flex h-full w-full items-center justify-center text-8xl opacity-20&quot;&gt;🍽️&lt;/div&gt;
+        }
+        &lt;div class&#x3D;&quot;absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent&quot;&gt;&lt;/div&gt;
+
+        &lt;!-- Back button --&gt;
+        &lt;a
+          routerLink&#x3D;&quot;/places&quot;
+          class&#x3D;&quot;absolute left-4 top-4 grid size-10 place-items-center rounded-full bg-surface/80 text-on-surface shadow-2 backdrop-blur-sm transition-colors hover:bg-surface&quot;
+        &gt;
+          &lt;i class&#x3D;&quot;pi pi-arrow-left text-sm&quot;&gt;&lt;/i&gt;
+        &lt;/a&gt;
+
+        &lt;!-- Badge abierto --&gt;
+        &lt;span
+          class&#x3D;&quot;absolute right-4 top-4 rounded-pill px-3 py-1.5 text-label-md font-bold&quot;
+          [class]&#x3D;&quot;p.isOpen ? &#x27;bg-green-600 text-white&#x27; : &#x27;bg-surface-container/90 text-on-surface-muted&#x27;&quot;
+        &gt;
+          ● {{ (p.isOpen ? &#x27;places.open&#x27; : &#x27;places.closed&#x27;) | translate }}
+        &lt;/span&gt;
+      &lt;/div&gt;
+
+      &lt;div class&#x3D;&quot;mx-auto max-w-[760px] px-4 py-6 pb-16&quot;&gt;
+
+        &lt;!-- Nombre y tipo --&gt;
+        &lt;div class&#x3D;&quot;flex flex-wrap items-start justify-between gap-3&quot;&gt;
+          &lt;div&gt;
+            &lt;span class&#x3D;&quot;inline-block rounded-lg bg-surface-container-high px-2.5 py-1 text-label-md font-bold text-on-surface-muted&quot;&gt;
+              {{ typeLabelKey() | translate }}
+            &lt;/span&gt;
+            &lt;h1 class&#x3D;&quot;mt-2 font-display text-headline-md text-on-surface&quot;&gt;{{ p.name }}&lt;/h1&gt;
+          &lt;/div&gt;
+
+          &lt;!-- Rating grande --&gt;
+          &lt;div class&#x3D;&quot;flex flex-col items-center gap-1 rounded-2xl border border-outline bg-surface-container p-3 text-center&quot;&gt;
+            &lt;span class&#x3D;&quot;font-display text-display-sm text-primary&quot;&gt;{{ p.averageRating | number:&#x27;1.1-1&#x27; }}&lt;/span&gt;
+            &lt;div class&#x3D;&quot;flex gap-0.5&quot;&gt;
+              @for (filled of starsArray(); track $index) {
+                &lt;i [class]&#x3D;&quot;filled ? &#x27;pi pi-star-fill text-primary&#x27; : &#x27;pi pi-star text-outline-strong&#x27;&quot; class&#x3D;&quot;text-xs&quot;&gt;&lt;/i&gt;
+              }
+            &lt;/div&gt;
+            &lt;span class&#x3D;&quot;text-label-md text-on-surface-muted&quot;&gt;{{ p.reviewsCount }} {{ (p.reviewsCount &#x3D;&#x3D;&#x3D; 1 ? &#x27;places.reviews_count.singular&#x27; : &#x27;places.reviews_count.plural&#x27;) | translate }}&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Descripción --&gt;
+        @if (p.description) {
+          &lt;p class&#x3D;&quot;mt-4 text-body-sm font-medium leading-relaxed text-on-surface-muted&quot;&gt;{{ p.description }}&lt;/p&gt;
+        }
+
+        &lt;!-- Info rápida --&gt;
+        &lt;div class&#x3D;&quot;mt-5 grid gap-3 rounded-2xl border border-outline bg-surface-container p-4&quot;&gt;
+          &lt;div class&#x3D;&quot;flex items-start gap-3&quot;&gt;
+            &lt;i class&#x3D;&quot;pi pi-map-marker mt-0.5 shrink-0 text-primary&quot;&gt;&lt;/i&gt;
+            &lt;span class&#x3D;&quot;text-body-sm font-medium text-on-surface&quot;&gt;{{ p.address }}&lt;/span&gt;
+          &lt;/div&gt;
+
+          @if (p.phone) {
+            &lt;a [href]&#x3D;&quot;&#x27;tel:&#x27; + p.phone&quot; class&#x3D;&quot;flex items-center gap-3 text-body-sm font-medium text-on-surface hover:text-primary&quot;&gt;
+              &lt;i class&#x3D;&quot;pi pi-phone shrink-0 text-primary&quot;&gt;&lt;/i&gt;
+              {{ p.phone }}
+            &lt;/a&gt;
+          }
+
+          @if (p.website) {
+            &lt;a [href]&#x3D;&quot;p.website&quot; target&#x3D;&quot;_blank&quot; rel&#x3D;&quot;noopener&quot; class&#x3D;&quot;flex items-center gap-3 text-body-sm font-medium text-primary hover:underline&quot;&gt;
+              &lt;i class&#x3D;&quot;pi pi-external-link shrink-0&quot;&gt;&lt;/i&gt;
+              {{ &#x27;places.view_web&#x27; | translate }}
+            &lt;/a&gt;
+          }
+
+          @if (p.specialty) {
+            &lt;div class&#x3D;&quot;flex items-center gap-3&quot;&gt;
+              &lt;i class&#x3D;&quot;pi pi-star shrink-0 text-primary&quot;&gt;&lt;/i&gt;
+              &lt;span class&#x3D;&quot;text-body-sm font-medium text-on-surface&quot;&gt;{{ p.specialty }}&lt;/span&gt;
+            &lt;/div&gt;
+          }
+
+          &lt;!-- Ver en mapa --&gt;
+          &lt;a
+            [href]&#x3D;&quot;mapsUrl()&quot;
+            target&#x3D;&quot;_blank&quot;
+            rel&#x3D;&quot;noopener&quot;
+            class&#x3D;&quot;mt-1 inline-flex items-center gap-2 rounded-xl border border-outline bg-surface px-4 py-2.5 text-body-sm font-bold text-on-surface transition-colors hover:bg-surface-container&quot;
+          &gt;
+            &lt;i class&#x3D;&quot;pi pi-map text-primary&quot;&gt;&lt;/i&gt;
+            {{ &#x27;places.view_maps&#x27; | translate }}
+          &lt;/a&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Tags --&gt;
+        @if (p.filters.length &gt; 0) {
+          &lt;div class&#x3D;&quot;mt-5 flex flex-wrap gap-2&quot;&gt;
+            @for (f of p.filters; track f) {
+              &lt;span class&#x3D;&quot;rounded-pill bg-primary-container px-3 py-1 text-label-md font-bold text-on-primary-container&quot;&gt;
+                {{ (&#x27;places.tag.&#x27; + f.toLowerCase()) | translate }}
+              &lt;/span&gt;
+            }
+          &lt;/div&gt;
+        }
+
+        &lt;!-- Sección reseñas --&gt;
+        &lt;div class&#x3D;&quot;mt-8&quot;&gt;
+          &lt;div class&#x3D;&quot;flex items-center justify-between gap-4&quot;&gt;
+            &lt;h2 class&#x3D;&quot;font-display text-title-lg text-on-surface&quot;&gt;{{ &#x27;places.reviews&#x27; | translate }}&lt;/h2&gt;
+            @if (auth.isAuthenticated()) {
+              &lt;button
+                type&#x3D;&quot;button&quot;
+                class&#x3D;&quot;inline-flex items-center gap-2 rounded-pill bg-primary px-4 py-2 text-body-sm font-bold text-on-primary transition-all hover:shadow-2 active:scale-[0.98]&quot;
+                (click)&#x3D;&quot;showReviewModal.set(true)&quot;
+              &gt;
+                &lt;i class&#x3D;&quot;pi pi-plus text-xs&quot;&gt;&lt;/i&gt;
+                {{ &#x27;places.add_review&#x27; | translate }}
+              &lt;/button&gt;
+            }
+          &lt;/div&gt;
+
+          @if (reviews().length &#x3D;&#x3D;&#x3D; 0) {
+            &lt;div class&#x3D;&quot;mt-6 flex flex-col items-center gap-3 rounded-2xl border border-dashed border-outline py-10 text-center&quot;&gt;
+              &lt;span class&#x3D;&quot;text-4xl&quot;&gt;💬&lt;/span&gt;
+              &lt;p class&#x3D;&quot;text-body-sm font-medium text-on-surface-muted&quot;&gt;{{ &#x27;places.first_review&#x27; | translate }}&lt;/p&gt;
+            &lt;/div&gt;
+          } @else {
+            &lt;div class&#x3D;&quot;mt-4 grid gap-4&quot;&gt;
+              @for (review of reviews(); track review.id) {
+                &lt;div class&#x3D;&quot;rounded-2xl border border-outline bg-surface-container p-4&quot;&gt;
+                  &lt;div class&#x3D;&quot;flex items-start gap-3&quot;&gt;
+                    &lt;app-avatar
+                      [src]&#x3D;&quot;review.avatarUrl&quot;
+                      [name]&#x3D;&quot;review.displayName || review.username || &#x27;U&#x27;&quot;
+                      size&#x3D;&quot;sm&quot;
+                    /&gt;
+                    &lt;div class&#x3D;&quot;min-w-0 flex-1&quot;&gt;
+                      &lt;div class&#x3D;&quot;flex flex-wrap items-center gap-2&quot;&gt;
+                        &lt;span class&#x3D;&quot;text-body-sm font-bold text-on-surface&quot;&gt;
+                          {{ review.displayName || review.username || &#x27;Usuario&#x27; }}
+                        &lt;/span&gt;
+                        &lt;span class&#x3D;&quot;text-label-md text-on-surface-muted&quot;&gt;{{ review.createdAt | timeAgo }}&lt;/span&gt;
+                      &lt;/div&gt;
+                      &lt;!-- Estrellas de la reseña --&gt;
+                      &lt;div class&#x3D;&quot;mt-1 flex gap-0.5&quot;&gt;
+                        @for (filled of starsFor(review.rating); track $index) {
+                          &lt;i [class]&#x3D;&quot;filled ? &#x27;pi pi-star-fill text-primary&#x27; : &#x27;pi pi-star text-outline-strong&#x27;&quot; class&#x3D;&quot;text-xs&quot;&gt;&lt;/i&gt;
+                        }
+                      &lt;/div&gt;
+                      @if (review.comment) {
+                        &lt;p class&#x3D;&quot;mt-2 text-body-sm font-medium leading-relaxed text-on-surface&quot;&gt;{{ review.comment }}&lt;/p&gt;
+                      }
+                    &lt;/div&gt;
+                  &lt;/div&gt;
+                &lt;/div&gt;
+              }
+            &lt;/div&gt;
+          }
+        &lt;/div&gt;
+
+      &lt;/div&gt;
+
+      &lt;!-- Modal añadir reseña --&gt;
+      @if (showReviewModal()) {
+        &lt;app-add-review-modal
+          [placeId]&#x3D;&quot;p.id&quot;
+          [(visible)]&#x3D;&quot;showReviewModal&quot;
+          (reviewed)&#x3D;&quot;onReviewAdded()&quot;
+        /&gt;
+      }
+    }
+
+  &lt;/div&gt;
+&lt;/app-shell&gt;
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis-network.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><app-shell>  <div class="min-h-dvh bg-surface text-on-surface">    <!-- Loading -->    @if (loading()) {      <div class="flex h-64 items-center justify-center">        <i class="pi pi-spinner pi-spin text-3xl text-primary"></i>      </div>    }    <!-- Error -->    @if (!loading() && error()) {      <div class="flex flex-col items-center gap-4 py-20 text-center">        <span class="text-5xl">😕</span>        <p class="text-body-sm text-on-surface-muted">{{ error() }}</p>        <a routerLink="/places" class="rounded-pill bg-primary px-5 py-2.5 text-body-sm font-bold text-on-primary">{{ \'places.back\' | translate }}</a>      </div>    }    <!-- Contenido -->    @if (!loading() && place(); as p) {      <!-- Hero imagen -->      <div class="relative aspect-[16/7] w-full overflow-hidden bg-surface-container-high">        @if (p.mediaUrl) {          <img [src]="p.mediaUrl" [alt]="p.name" class="h-full w-full object-cover" />        } @else {          <div class="flex h-full w-full items-center justify-center text-8xl opacity-20">🍽️</div>        }        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>        <!-- Back button -->        <a          routerLink="/places"          class="absolute left-4 top-4 grid size-10 place-items-center rounded-full bg-surface/80 text-on-surface shadow-2 backdrop-blur-sm transition-colors hover:bg-surface"        >          <i class="pi pi-arrow-left text-sm"></i>        </a>        <!-- Badge abierto -->        <span          class="absolute right-4 top-4 rounded-pill px-3 py-1.5 text-label-md font-bold"          [class]="p.isOpen ? \'bg-green-600 text-white\' : \'bg-surface-container/90 text-on-surface-muted\'"        >          ● {{ (p.isOpen ? \'places.open\' : \'places.closed\') | translate }}        </span>      </div>      <div class="mx-auto max-w-[760px] px-4 py-6 pb-16">        <!-- Nombre y tipo -->        <div class="flex flex-wrap items-start justify-between gap-3">          <div>            <span class="inline-block rounded-lg bg-surface-container-high px-2.5 py-1 text-label-md font-bold text-on-surface-muted">              {{ typeLabelKey() | translate }}            </span>            <h1 class="mt-2 font-display text-headline-md text-on-surface">{{ p.name }}</h1>          </div>          <!-- Rating grande -->          <div class="flex flex-col items-center gap-1 rounded-2xl border border-outline bg-surface-container p-3 text-center">            <span class="font-display text-display-sm text-primary">{{ p.averageRating | number:\'1.1-1\' }}</span>            <div class="flex gap-0.5">              @for (filled of starsArray(); track $index) {                <i [class]="filled ? \'pi pi-star-fill text-primary\' : \'pi pi-star text-outline-strong\'" class="text-xs"></i>              }            </div>            <span class="text-label-md text-on-surface-muted">{{ p.reviewsCount }} {{ (p.reviewsCount === 1 ? \'places.reviews_count.singular\' : \'places.reviews_count.plural\') | translate }}</span>          </div>        </div>        <!-- Descripción -->        @if (p.description) {          <p class="mt-4 text-body-sm font-medium leading-relaxed text-on-surface-muted">{{ p.description }}</p>        }        <!-- Info rápida -->        <div class="mt-5 grid gap-3 rounded-2xl border border-outline bg-surface-container p-4">          <div class="flex items-start gap-3">            <i class="pi pi-map-marker mt-0.5 shrink-0 text-primary"></i>            <span class="text-body-sm font-medium text-on-surface">{{ p.address }}</span>          </div>          @if (p.phone) {            <a [href]="\'tel:\' + p.phone" class="flex items-center gap-3 text-body-sm font-medium text-on-surface hover:text-primary">              <i class="pi pi-phone shrink-0 text-primary"></i>              {{ p.phone }}            </a>          }          @if (p.website) {            <a [href]="p.website" target="_blank" rel="noopener" class="flex items-center gap-3 text-body-sm font-medium text-primary hover:underline">              <i class="pi pi-external-link shrink-0"></i>              {{ \'places.view_web\' | translate }}            </a>          }          @if (p.specialty) {            <div class="flex items-center gap-3">              <i class="pi pi-star shrink-0 text-primary"></i>              <span class="text-body-sm font-medium text-on-surface">{{ p.specialty }}</span>            </div>          }          <!-- Ver en mapa -->          <a            [href]="mapsUrl()"            target="_blank"            rel="noopener"            class="mt-1 inline-flex items-center gap-2 rounded-xl border border-outline bg-surface px-4 py-2.5 text-body-sm font-bold text-on-surface transition-colors hover:bg-surface-container"          >            <i class="pi pi-map text-primary"></i>            {{ \'places.view_maps\' | translate }}          </a>        </div>        <!-- Tags -->        @if (p.filters.length > 0) {          <div class="mt-5 flex flex-wrap gap-2">            @for (f of p.filters; track f) {              <span class="rounded-pill bg-primary-container px-3 py-1 text-label-md font-bold text-on-primary-container">                {{ (\'places.tag.\' + f.toLowerCase()) | translate }}              </span>            }          </div>        }        <!-- Sección reseñas -->        <div class="mt-8">          <div class="flex items-center justify-between gap-4">            <h2 class="font-display text-title-lg text-on-surface">{{ \'places.reviews\' | translate }}</h2>            @if (auth.isAuthenticated()) {              <button                type="button"                class="inline-flex items-center gap-2 rounded-pill bg-primary px-4 py-2 text-body-sm font-bold text-on-primary transition-all hover:shadow-2 active:scale-[0.98]"                (click)="showReviewModal.set(true)"              >                <i class="pi pi-plus text-xs"></i>                {{ \'places.add_review\' | translate }}              </button>            }          </div>          @if (reviews().length === 0) {            <div class="mt-6 flex flex-col items-center gap-3 rounded-2xl border border-dashed border-outline py-10 text-center">              <span class="text-4xl">💬</span>              <p class="text-body-sm font-medium text-on-surface-muted">{{ \'places.first_review\' | translate }}</p>            </div>          } @else {            <div class="mt-4 grid gap-4">              @for (review of reviews(); track review.id) {                <div class="rounded-2xl border border-outline bg-surface-container p-4">                  <div class="flex items-start gap-3">                    <app-avatar                      [src]="review.avatarUrl"                      [name]="review.displayName || review.username || \'U\'"                      size="sm"                    />                    <div class="min-w-0 flex-1">                      <div class="flex flex-wrap items-center gap-2">                        <span class="text-body-sm font-bold text-on-surface">                          {{ review.displayName || review.username || \'Usuario\' }}                        </span>                        <span class="text-label-md text-on-surface-muted">{{ review.createdAt | timeAgo }}</span>                      </div>                      <!-- Estrellas de la reseña -->                      <div class="mt-1 flex gap-0.5">                        @for (filled of starsFor(review.rating); track $index) {                          <i [class]="filled ? \'pi pi-star-fill text-primary\' : \'pi pi-star text-outline-strong\'" class="text-xs"></i>                        }                      </div>                      @if (review.comment) {                        <p class="mt-2 text-body-sm font-medium leading-relaxed text-on-surface">{{ review.comment }}</p>                      }                    </div>                  </div>                </div>              }            </div>          }        </div>      </div>      <!-- Modal añadir reseña -->      @if (showReviewModal()) {        <app-add-review-modal          [placeId]="p.id"          [(visible)]="showReviewModal"          (reviewed)="onReviewAdded()"        />      }    }  </div></app-shell></div>'
+    var COMPONENTS = [{'name': 'AddReviewModal', 'selector': 'app-add-review-modal'},{'name': 'AiIdeasPanel', 'selector': 'app-ai-ideas-panel'},{'name': 'AiRecipeForm', 'selector': 'app-ai-recipe-form'},{'name': 'AiRecipeResult', 'selector': 'app-ai-recipe-result'},{'name': 'AiRecipesHero', 'selector': 'app-ai-recipes-hero'},{'name': 'AiRecipesPage', 'selector': 'app-ai-recipes-page'},{'name': 'App', 'selector': 'app-root'},{'name': 'AppShell', 'selector': 'app-shell'},{'name': 'Auth', 'selector': 'app-auth'},{'name': 'Avatar', 'selector': 'app-avatar'},{'name': 'Body', 'selector': 'app-body-step1'},{'name': 'Body', 'selector': 'app-body-step3'},{'name': 'Body', 'selector': 'app-body-step2'},{'name': 'ButtonComponent', 'selector': 'app-button'},{'name': 'CallHost', 'selector': 'app-call-host'},{'name': 'CallOverlay', 'selector': 'app-call-overlay'},{'name': 'ChatPanel', 'selector': 'app-chat-panel'},{'name': 'CommentSection', 'selector': 'app-comment-section'},{'name': 'CommentsSheetComponent', 'selector': 'app-comments-sheet'},{'name': 'ConversationList', 'selector': 'app-conversation-list'},{'name': 'CookingModePage', 'selector': 'app-cooking-mode-page'},{'name': 'CreatePostComponent', 'selector': 'app-create-post'},{'name': 'EditProfileComponent', 'selector': 'app-edit-profile'},{'name': 'EmojiRain', 'selector': 'app-emoji-rain'},{'name': 'Emptystate', 'selector': 'app-emptystate'},{'name': 'ExploreCategoryTabs', 'selector': 'app-explore-category-tabs'},{'name': 'ExploreHero', 'selector': 'app-explore-hero'},{'name': 'ExplorePage', 'selector': 'app-explore-page'},{'name': 'ExploreRightRail', 'selector': 'app-explore-right-rail'},{'name': 'ExploreToolbar', 'selector': 'app-explore-toolbar'},{'name': 'FeedPage', 'selector': 'app-feed-page'},{'name': 'FeedPostList', 'selector': 'app-feed-post-list'},{'name': 'FeedRightRail', 'selector': 'app-feed-right-rail'},{'name': 'GlobalSearchPanel', 'selector': 'app-global-search-panel'},{'name': 'Header', 'selector': 'app-header-step1'},{'name': 'Header', 'selector': 'app-header-step3'},{'name': 'Header', 'selector': 'app-header-step2'},{'name': 'Home', 'selector': 'app-home'},{'name': 'IncomingCall', 'selector': 'app-incoming-call'},{'name': 'Login', 'selector': 'app-login'},{'name': 'MessageBubble', 'selector': 'app-message-bubble'},{'name': 'MessagesPage', 'selector': 'app-messages-page'},{'name': 'NewConversation', 'selector': 'app-new-conversation'},{'name': 'NotificationsPage', 'selector': 'app-notifications-page'},{'name': 'PlaceCard', 'selector': 'app-place-card'},{'name': 'PlaceDetailPage', 'selector': 'app-place-detail-page'},{'name': 'PlacesPage', 'selector': 'app-places-page'},{'name': 'PostCard', 'selector': 'app-post-card'},{'name': 'PostDetailPage', 'selector': 'app-post-detail-page'},{'name': 'Profile', 'selector': 'app-profile'},{'name': 'PublicProfilePage', 'selector': 'app-public-profile-page'},{'name': 'RecentAiRecipes', 'selector': 'app-recent-ai-recipes'},{'name': 'RecipeDiscoveryCard', 'selector': 'app-recipe-discovery-card'},{'name': 'RecipeDiscoveryGrid', 'selector': 'app-recipe-discovery-grid'},{'name': 'RecipeOfDayCard', 'selector': 'app-recipe-of-day-card'},{'name': 'Register', 'selector': 'app-register'},{'name': 'ReportSheet', 'selector': 'app-report-sheet'},{'name': 'SavedCollectionStrip', 'selector': 'app-saved-collection-strip'},{'name': 'SavedPage', 'selector': 'app-saved-page'},{'name': 'SavedRecipeCard', 'selector': 'app-saved-recipe-card'},{'name': 'SavoLoader', 'selector': 'app-savo-loader'},{'name': 'SettingsPage', 'selector': 'app-settings-page'},{'name': 'SharedPostCard', 'selector': 'app-shared-post-card'},{'name': 'SharedProfileCard', 'selector': 'app-shared-profile-card'},{'name': 'SharePostModal', 'selector': 'app-share-post-modal'},{'name': 'ShareProfileModal', 'selector': 'app-share-profile-modal'},{'name': 'ShoppingListPage', 'selector': 'app-shopping-list-page'},{'name': 'SkeletonCard', 'selector': 'app-skeleton-card'},{'name': 'Spinner', 'selector': 'app-spinner'},{'name': 'SpotlightBg', 'selector': 'app-spotlight-bg'},{'name': 'StoriesStrip', 'selector': 'app-stories-strip'},{'name': 'StoryViewer', 'selector': 'app-story-viewer'},{'name': 'SuggestionsPanel', 'selector': 'app-suggestions-panel'},{'name': 'Title', 'selector': 'app-title'},{'name': 'Topbar', 'selector': 'app-topbar'},{'name': 'TrendingList', 'selector': 'app-trending-list'},{'name': 'VeganConvertModal', 'selector': 'app-vegan-convert-modal'}];
+    var DIRECTIVES = [{'name': 'ClickOutsideDirective', 'selector': '[appClickOutside]'},{'name': 'ImgFallbackDirective', 'selector': 'img[appImgFallback]'}];
+    var ACTUAL_COMPONENT = {'name': 'PlaceDetailPage'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'PlaceDetailPage.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

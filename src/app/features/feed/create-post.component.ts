@@ -5,141 +5,254 @@ import { PostMediaService } from '@core/services/post-media.service'
 import { ToastService } from '@core/services/toast.service'
 import { Post } from '@core/models/post/post.model'
 import { finalize, switchMap } from 'rxjs'
-import { ProgressBar } from 'primeng/progressbar'
-import { Textarea } from 'primeng/textarea'
+import { TranslatePipe } from '@shared/pipes/translate.pipe'
 
+/**
+ * Interfaz que define la estructura o contrato de datos para ingredientrow.
+ */
+interface IngredientRow {
+	/**
+	 * Propiedad para gestionar el nombre.
+	 */
+	name: string;
+	/**
+	 * Propiedad para gestionar la cantidad.
+	 */
+	quantity: string;
+	/**
+	 * Propiedad para gestionar la unidad.
+	 */
+	unit: string;
+}
+
+/**
+ * Componente principal para la vista o página de createpost.
+ */
 @Component({
 	selector: 'app-create-post',
-	imports: [FormsModule, ProgressBar, Textarea],
-	template: `
-		<form class="mx-auto grid w-full max-w-[500px] gap-3 rounded-2xl bg-white p-4 shadow-sm" (ngSubmit)="publish()">
-			<div class="grid gap-2">
-				<textarea
-					pTextarea
-					name="content"
-					[(ngModel)]="content"
-					maxlength="500"
-					rows="3"
-					class="w-full resize-none rounded-xl border border-black/10 bg-[#f6f6f6] p-3 text-sm font-semibold leading-6 outline-none placeholder:text-black/35 focus:border-[#ff8f27] focus:bg-white focus:ring-2 focus:ring-orange-100"
-					placeholder="Comparte una receta, un antojo o tu ultimo descubrimiento..."
-				></textarea>
-				<div class="flex items-center justify-between text-xs font-semibold text-surface-500">
-					<span>{{ error() }}</span>
-					<span>{{ content().length }}/500</span>
-				</div>
-			</div>
-
-			@if (previewUrl(); as preview) {
-				<div class="relative overflow-hidden rounded-2xl border border-black/10">
-					<img [src]="preview" alt="Preview de la imagen seleccionada" class="max-h-80 w-full object-cover" />
-					<button
-						type="button"
-						class="absolute right-3 top-3 grid size-9 place-items-center rounded-full bg-white/90 text-surface-800 shadow-sm hover:bg-white"
-						(click)="removeImage()"
-						aria-label="Eliminar imagen"
-					>
-						<i class="pi pi-times"></i>
-					</button>
-				</div>
-			}
-
-			@if (uploading()) {
-				<p-progressbar [value]="uploadProgress()" [showValue]="false" />
-			}
-
-			<div class="flex items-center gap-2">
-				<input #fileInput type="file" accept="image/*" class="hidden" (change)="selectImage($event)" />
-				<button
-					type="button"
-					class="inline-flex min-h-10 items-center gap-2 rounded-full border border-black/10 px-4 text-sm font-black text-black/70 hover:bg-black/5"
-					(click)="fileInput.click()"
-				>
-					<i class="pi pi-image"></i>
-					<span>Imagen</span>
-				</button>
-
-				<button
-					type="submit"
-					class="ml-auto inline-flex min-h-10 items-center gap-2 rounded-full bg-[#ff8f27] px-5 text-sm font-black text-white shadow-sm transition hover:bg-[#f47f13] disabled:cursor-not-allowed disabled:opacity-50"
-					[disabled]="!canPublish()"
-				>
-					<i class="pi pi-send"></i>
-					<span>{{ publishing() ? 'Publicando...' : 'Publicar' }}</span>
-				</button>
-			</div>
-		</form>
-	`,
+	imports: [FormsModule, TranslatePipe],
+	templateUrl: './create-post.component.html',
 })
 export class CreatePostComponent {
+	/**
+	 * Propiedad para gestionar feed service.
+	 */
 	private readonly feedService  = inject(FeedService)
+	/**
+	 * Propiedad para gestionar media service.
+	 */
 	private readonly mediaService = inject(PostMediaService)
+	/**
+	 * Propiedad para gestionar toast.
+	 */
 	private readonly toast        = inject(ToastService)
 
+	/**
+	 * Propiedad para gestionar post created.
+	 */
 	postCreated = output<Post>()
 
-	content = signal('')
-	selectedFile = signal<File | null>(null)
-	previewUrl = signal<string | null>(null)
-	uploadProgress = signal(0)
-	uploading = signal(false)
-	publishing = signal(false)
-	error = signal('')
+	// ─── Post base ───────────────────────────────────────────────────
+	/**
+	 * Propiedad para gestionar content.
+	 */
+	readonly content      = signal('')
+	/**
+	 * Propiedad para gestionar selected file.
+	 */
+	readonly selectedFile = signal<File | null>(null)
+	/**
+	 * Propiedad para gestionar preview enlace.
+	 */
+	readonly previewUrl   = signal<string | null>(null)
+	/**
+	 * Propiedad para gestionar upload progress.
+	 */
+	readonly uploadProgress = signal(0)
+	/**
+	 * Propiedad para gestionar uploading.
+	 */
+	readonly uploading    = signal(false)
+	/**
+	 * Propiedad para gestionar publishing.
+	 */
+	readonly publishing   = signal(false)
+	/**
+	 * Propiedad para gestionar error.
+	 */
+	readonly error        = signal('')
 
-	canPublish = computed(() =>
-		this.content().trim().length > 0 && !this.publishing(),
-	)
+	// ─── Modo receta ─────────────────────────────────────────────────
+	/**
+	 * Indicador booleano para es o está recipe.
+	 */
+	readonly isRecipe      = signal(false)
+	/**
+	 * Propiedad para gestionar recipe nombre.
+	 */
+	readonly recipeName    = signal('')
+	/**
+	 * Propiedad para gestionar difficulty.
+	 */
+	readonly difficulty    = signal('')
+	/**
+	 * Propiedad para gestionar recipe tiempo.
+	 */
+	readonly recipeTime    = signal<number | null>(null)
+	/**
+	 * Propiedad para gestionar recipe servings.
+	 */
+	readonly recipeServings = signal<number | null>(null)
+	/**
+	 * Propiedad para gestionar ingredients.
+	 */
+	readonly ingredients   = signal<IngredientRow[]>([])
+	/**
+	 * Propiedad para gestionar steps.
+	 */
+	readonly steps         = signal<string[]>([])
 
+	/**
+	 * Indicador booleano para puede publish.
+	 */
+	readonly canPublish = computed(() => {
+		if (this.publishing()) return false
+		if (!this.content().trim()) return false
+		if (this.isRecipe()) {
+			if (!this.recipeName().trim()) return false
+			if (this.ingredients().some(i => !i.name.trim())) return false
+			if (this.steps().some(s => !s.trim())) return false
+		}
+		return true
+	})
+
+	// ─── Imagen ──────────────────────────────────────────────────────
+	/**
+	 * Método para seleccionar imagen.
+	 */
 	selectImage(event: Event): void {
-		const input = event.target as HTMLInputElement
-		const file = input.files?.[0] ?? null
+		const file = (event.target as HTMLInputElement).files?.[0] ?? null
 		if (!file) return
-
 		this.selectedFile.set(file)
 		this.previewUrl.set(URL.createObjectURL(file))
-		input.value = ''
+		;(event.target as HTMLInputElement).value = ''
 	}
 
+	/**
+	 * Método para eliminar imagen.
+	 */
 	removeImage(): void {
-		const preview = this.previewUrl()
-		if (preview) URL.revokeObjectURL(preview)
+		const url = this.previewUrl()
+		if (url) URL.revokeObjectURL(url)
 		this.previewUrl.set(null)
 		this.selectedFile.set(null)
 	}
 
+	// ─── Ingredientes ────────────────────────────────────────────────
+	/**
+	 * Método para añadir ingredient.
+	 */
+	addIngredient(): void {
+		this.ingredients.update(list => [...list, { name: '', quantity: '', unit: '' }])
+	}
+
+	/**
+	 * Método para eliminar ingredient.
+	 */
+	removeIngredient(index: number): void {
+		this.ingredients.update(list => list.filter((_, i) => i !== index))
+	}
+
+	/**
+	 * Método para actualizar ingredient.
+	 */
+	updateIngredient(index: number, field: keyof IngredientRow, value: string): void {
+		this.ingredients.update(list =>
+			list.map((row, i) => i === index ? { ...row, [field]: value } : row),
+		)
+	}
+
+	// ─── Pasos ───────────────────────────────────────────────────────
+	/**
+	 * Método para añadir step.
+	 */
+	addStep(): void {
+		this.steps.update(list => [...list, ''])
+	}
+
+	/**
+	 * Método para eliminar step.
+	 */
+	removeStep(index: number): void {
+		this.steps.update(list => list.filter((_, i) => i !== index))
+	}
+
+	/**
+	 * Método para actualizar step.
+	 */
+	updateStep(index: number, value: string): void {
+		this.steps.update(list => list.map((s, i) => i === index ? value : s))
+	}
+
+	// ─── Publicar ────────────────────────────────────────────────────
+	/**
+	 * Método para publish.
+	 */
 	publish(): void {
-		const description = this.content().trim()
-		if (!description || this.publishing()) return
+		if (!this.canPublish()) return
 
 		this.publishing.set(true)
 		this.error.set('')
+
+		const recipe = this.isRecipe() ? {
+			name:        this.recipeName().trim(),
+			difficulty:  this.difficulty() || null,
+			timeRequired: this.recipeTime() ?? null,
+			servings:    this.recipeServings() ?? null,
+			ingredients: this.ingredients()
+				.filter(i => i.name.trim())
+				.map(i => ({
+					name:     i.name.trim(),
+					quantity: parseFloat(i.quantity) || 0,
+					unit:     i.unit.trim(),
+				})),
+			steps: this.steps()
+				.filter(s => s.trim())
+				.map((text, idx) => ({ order: idx + 1, text: text.trim() })),
+		} : null
 
 		const file = this.selectedFile()
 		const request = file
 			? this.mediaService.uploadPostImage(file).pipe(
 				switchMap(mediaUrl => {
 					this.uploadProgress.set(100)
-					return this.feedService.createPost({ description, mediaUrl })
+					return this.feedService.createPost({
+						description: this.content().trim(),
+						mediaUrl,
+						mediaType: file.type.startsWith('video') ? 'video' : 'image',
+						recipe,
+					})
 				}),
 			)
-			: this.feedService.createPost({ description })
+			: this.feedService.createPost({ description: this.content().trim(), recipe })
 
-		if (file) {
-			this.uploading.set(true)
-			this.uploadProgress.set(35)
-		}
+		if (file) { this.uploading.set(true); this.uploadProgress.set(35) }
 
 		request.pipe(
-			finalize(() => {
-				this.publishing.set(false)
-				this.uploading.set(false)
-				this.uploadProgress.set(0)
-			}),
+			finalize(() => { this.publishing.set(false); this.uploading.set(false); this.uploadProgress.set(0) }),
 		).subscribe({
 			next: post => {
 				this.content.set('')
+				this.recipeName.set('')
+				this.difficulty.set('')
+				this.recipeTime.set(null)
+				this.recipeServings.set(null)
+				this.ingredients.set([])
+				this.steps.set([])
+				this.isRecipe.set(false)
 				this.removeImage()
 				this.postCreated.emit(post)
-				this.toast.success('¡Post publicado! 🎉', '')
+				this.toast.success('Publicado', '')
 			},
 			error: err => {
 				this.error.set(err.message ?? 'No se pudo publicar')

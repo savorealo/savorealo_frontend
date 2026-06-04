@@ -3,50 +3,188 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { User as UserSupabase } from '@supabase/supabase-js';
 import { catchError, finalize, from, map, Observable, switchMap, tap, throwError } from 'rxjs';
+import { MessageService } from 'primeng/api';
 import { AuthService } from '@core/services/auth.service';
 import { UserService } from '@core/services/user.service';
 import { StorageService } from '@core/services/storage';
 import { SupabaseService } from '@core/services/supabase.service';
+import { PresenceService } from '@core/services/presence.service';
+import { SettingsService } from '@core/services/settings.service';
 import { ProfileService, UpdatePersonProfileInput } from '@core/services/profile-service';
 import { LoginUser, RegisterUser, User } from '@core/models/user/User';
+import { toUserMessage } from '@core/utils/user-error';
+import { TranslationService, LanguageCode } from '@core/services/translation.service';
 
+/**
+ * Almacén de estado reactivo para gestionar la lógica de la autenticación.
+ */
 @Injectable({ providedIn: 'root' })
 export class AuthStore {
+  /**
+   * Propiedad para gestionar auth service.
+   */
   private authService    = inject(AuthService);
+  /**
+   * Propiedad para gestionar user service.
+   */
   private userService    = inject(UserService);
+  /**
+   * Propiedad para gestionar storage service.
+   */
   private storageService = inject(StorageService);
+  /**
+   * Propiedad para gestionar profile service.
+   */
   private profileService = inject(ProfileService);
-  private supabase       = inject(SupabaseService); // para sacar el token de sesión
+  /**
+   * Propiedad para gestionar supabase.
+   */
+  private supabase       = inject(SupabaseService);
+  /**
+   * Propiedad para gestionar presence.
+   */
+  private presence       = inject(PresenceService);
+  /**
+   * Propiedad para gestionar settings.
+   */
+  private settings       = inject(SettingsService);
+  /**
+   * Propiedad para gestionar router.
+   */
   private router         = inject(Router);
+  /**
+   * Propiedad para gestionar messages.
+   */
+  private messages       = inject(MessageService);
+  /**
+   * Propiedad para gestionar translation service.
+   */
+  private translationService = inject(TranslationService);
 
+  /**
+   * Propiedad para gestionar user.
+   */
   private readonly _user    = signal<UserSupabase | null>(null);
+  /**
+   * Propiedad para gestionar profile.
+   */
   private readonly _profile = signal<User | null>(null);
+  /**
+   * Propiedad para gestionar cargando.
+   */
   private readonly _loading = signal(false);
+  /**
+   * Propiedad para gestionar error.
+   */
   private readonly _error   = signal<string | null>(null);
+  /**
+   * Propiedad para gestionar si el usuario es administrador.
+   */
+  private readonly _isAdmin = signal<boolean>(false);
+  /**
+   * Flag que indica si ya se completó la verificación de admin (evita redirigir antes de tiempo).
+   */
+  private readonly _adminChecked = signal<boolean>(false);
 
+  // Flag para distinguir logout voluntario de sesión expirada
+  /**
+   * Propiedad para gestionar logging out.
+   */
+  private _loggingOut = false;
+  /**
+   * Propiedad para gestionar settings loaded for user identificador.
+   */
+  private _settingsLoadedForUserId: string | null = null;
+
+  /**
+   * Propiedad para gestionar user.
+   */
   readonly user            = this._user.asReadonly();
+  /**
+   * Propiedad para gestionar profile.
+   */
   readonly profile         = this._profile.asReadonly();
+  /**
+   * Propiedad para gestionar cargando.
+   */
   readonly loading         = this._loading.asReadonly();
+  /**
+   * Propiedad para gestionar error.
+   */
   readonly error           = this._error.asReadonly();
+  /**
+   * Propiedad para gestionar si el usuario es administrador.
+   */
+  readonly isAdmin         = this._isAdmin.asReadonly();
+  /**
+   * Indica si la verificación de rol admin ya completó (true = listo para usar isAdmin).
+   */
+  readonly adminChecked    = this._adminChecked.asReadonly();
+  /**
+   * Indicador booleano para es o está authenticated.
+   */
   readonly isAuthenticated = computed(() => this._user() !== null);
+  /**
+   * Propiedad para gestionar current user identificador.
+   */
   readonly currentUserId   = computed(() => this._user()?.id ?? null);
 
+  /**
+   * Constructor de la clase o componente para inicializar dependencias.
+   */
   constructor(private destroyRef: DestroyRef) {
+    let lastProfileUserId: string | null = null;
+
     this.authService.onAuthStateChange().pipe(
       takeUntilDestroyed(this.destroyRef)
-    ).subscribe(({ session }) => {
+    ).subscribe(({ event, session }) => {
       this._user.set(session?.user ?? null);
       if (session?.user) {
+        this.presence.start(session.user.id);
+        // Fallback inmediato desde JWT metadata (puede estar stale)
         this._profile.set(this.mapMetaToProfile(session.user));
-        this.loadCounters(session.user.id);
+        // Cargar estado de admin
+        this.checkAdminStatus(session.user.id);
+        // Cargar perfil fresco desde la BD en eventos relevantes:
+        // - INITIAL_SESSION / SIGNED_IN: primera carga o login
+        // - USER_UPDATED: el trigger SQL sincronizó metadata
+        const isRelevant = event === 'INITIAL_SESSION' || event === 'SIGNED_IN' || event === 'USER_UPDATED';
+        if ((event === 'INITIAL_SESSION' || event === 'SIGNED_IN') && this._settingsLoadedForUserId !== session.user.id) {
+          this._settingsLoadedForUserId = session.user.id;
+          this.loadUserSettings();
+        }
+        if (isRelevant && (lastProfileUserId !== session.user.id || event === 'USER_UPDATED')) {
+          lastProfileUserId = session.user.id;
+          this.loadFullProfile(session.user.id);
+        }
       } else {
+        this.presence.stop();
         this._profile.set(null);
+        this._isAdmin.set(false);
+        this._adminChecked.set(false);
+        this._settingsLoadedForUserId = null;
+        lastProfileUserId = null;
+        if (event === 'SIGNED_OUT') {
+          if (!this._loggingOut) {
+            // Sesión expirada por caducidad del refresh token — informar al usuario
+            this.messages.add({
+              severity: 'warn',
+              summary: 'Sesión expirada',
+              detail: 'Por favor, inicia sesión de nuevo.',
+              life: 5000,
+            });
+          }
+          this.router.navigate(['/auth']);
+        }
       }
     });
   }
 
   // ─── Auth ────────────────────────────────────────────────────────────────────
 
+  /**
+   * Método para login.
+   */
   login(user: LoginUser): Observable<void> {
     this._loading.set(true);
     this._error.set(null);
@@ -55,10 +193,12 @@ export class AuthStore {
         if (error) throw error;
         this._user.set(data.user!);
         this._profile.set(this.mapMetaToProfile(data.user!));
-        this.loadCounters(data.user!.id);
+        this._settingsLoadedForUserId = data.user!.id;
+        this.loadUserSettings();
+        this.loadFullProfile(data.user!.id);
       }),
       catchError(err => {
-        this._error.set(err.message);
+        this._error.set(toUserMessage(err, 'No se pudo iniciar sesión'));
         return throwError(() => err);
       }),
       finalize(() => this._loading.set(false)),
@@ -66,6 +206,9 @@ export class AuthStore {
     );
   }
 
+  /**
+   * Método para login with google.
+   */
   loginWithGoogle(): Observable<void> {
     this._loading.set(true);
     this._error.set(null);
@@ -75,7 +218,7 @@ export class AuthStore {
         if (error) throw error;
       }),
       catchError(err => {
-        this._error.set(err.message ?? 'Error al iniciar sesión con Google');
+        this._error.set(toUserMessage(err, 'No se pudo iniciar sesión con Google'));
         return throwError(() => err);
       }),
       finalize(() => this._loading.set(false)),
@@ -83,6 +226,9 @@ export class AuthStore {
     );
   }
 
+  /**
+   * Método para register.
+   */
   register(userData: RegisterUser): Observable<void> {
     this._loading.set(true);
     this._error.set(null);
@@ -93,13 +239,15 @@ export class AuthStore {
         tap(({ error }) => { if (error) throw error; }),
         tap(({ data }) => {
           this._user.set(data.user!);
+          this._settingsLoadedForUserId = data.user!.id;
+          this.loadUserSettings();
           this._profile.set({
             ...this.mapMetaToProfile(data.user!),
             postsCount: 0, followersCount: 0, followingCount: 0,
           });
         }),
         catchError(err => {
-          this._error.set(err.message ?? 'Error al registrar');
+          this._error.set(toUserMessage(err, 'No se pudo completar el registro'));
           return throwError(() => err);
         }),
         finalize(() => this._loading.set(false)),
@@ -111,13 +259,15 @@ export class AuthStore {
       tap(({ error }) => { if (error) throw error; }),
       tap(({ data }) => {
         this._user.set(data.user!);
+        this._settingsLoadedForUserId = data.user!.id;
+        this.loadUserSettings();
         this._profile.set({
           ...this.mapMetaToProfile(data.user!),
           postsCount: 0, followersCount: 0, followingCount: 0,
         });
       }),
       catchError(err => {
-        this._error.set(err.message ?? 'Error al registrar');
+        this._error.set(toUserMessage(err, 'No se pudo completar el registro'));
         return throwError(() => err);
       }),
       finalize(() => this._loading.set(false)),
@@ -125,11 +275,14 @@ export class AuthStore {
     );
   }
 
+  /**
+   * Método para logout.
+   */
   logout(): void {
-    this.authService.logout().subscribe(() => {
-      this._user.set(null);
-      this._profile.set(null);
-      this.router.navigate(['/auth']);
+    this._loggingOut = true;
+    this.authService.logout().subscribe({
+      complete: () => { this._loggingOut = false; },
+      error:    () => { this._loggingOut = false; },
     });
   }
 
@@ -166,7 +319,7 @@ export class AuthStore {
         return this.profileService.updateProfile(input, session.access_token);
       }),
       tap((updatedUser: User) => {
-        // Parcheamos solo los campos editables, mantenemos contadores intactos
+        // Parche optimista inmediato para que la UI refleje el cambio al instante
         this._profile.update(profile => profile ? {
           ...profile,
           username:   updatedUser.username   ?? profile.username,
@@ -176,9 +329,14 @@ export class AuthStore {
           location:   updatedUser.location   ?? profile.location,
           birth_date: updatedUser.birth_date ?? profile.birth_date,
         } : profile);
+
+        // Recargamos el perfil completo desde la BD para que el signal
+        // tenga datos frescos y no dependamos del JWT cacheado de Supabase
+        const userId = this._user()?.id;
+        if (userId) this.loadFullProfile(userId);
       }),
       catchError(err => {
-        this._error.set(err.message ?? 'Error al actualizar perfil');
+        this._error.set(toUserMessage(err, 'No se pudo actualizar el perfil'));
         return throwError(() => err);
       }),
       finalize(() => this._loading.set(false)),
@@ -186,8 +344,33 @@ export class AuthStore {
     );
   }
 
+  /**
+   * Ajusta los contadores del perfil en la señal local sin ir al servidor.
+   * Útil para actualizaciones optimistas tras follow/unfollow/delete.
+   */
+  patchProfileCounts(delta: { followersCount?: number; followingCount?: number; postsCount?: number }): void {
+    this._profile.update(profile => {
+      if (!profile) return profile
+      return {
+        ...profile,
+        ...(delta.followersCount !== undefined
+          ? { followersCount: Math.max(0, (profile.followersCount ?? 0) + delta.followersCount) }
+          : {}),
+        ...(delta.followingCount !== undefined
+          ? { followingCount: Math.max(0, (profile.followingCount ?? 0) + delta.followingCount) }
+          : {}),
+        ...(delta.postsCount !== undefined
+          ? { postsCount: Math.max(0, (profile.postsCount ?? 0) + delta.postsCount) }
+          : {}),
+      }
+    })
+  }
+
   // ─── Helpers ─────────────────────────────────────────────────────────────────
 
+  /**
+   * Método para map meta to profile.
+   */
   private mapMetaToProfile(user: UserSupabase): User {
     const meta = user.user_metadata ?? {};
     return {
@@ -205,18 +388,94 @@ export class AuthStore {
     };
   }
 
-  private loadCounters(userId: string): void {
+  /**
+   * Carga el perfil completo desde GraphQL (BD) y sobrescribe los datos
+   * del JWT cacheado. Así bio, foto, location, contadores, etc. siempre
+   * reflejan el estado real de la base de datos, no el user_metadata stale
+   * del token de Supabase.
+   */
+  private loadFullProfile(userId: string): void {
     this.userService.getUserById(userId).subscribe({
       next: ({ data }) => {
         if (!data) return;
         this._profile.update(profile => profile ? {
           ...profile,
+          username:       data.username       ?? profile.username,
+          fullName:       data.fullName        ?? profile.fullName,
+          photo_url:      data.photo_url       ?? profile.photo_url,
+          bio:            data.bio             ?? profile.bio,
+          location:       data.location        ?? profile.location,
+          birth_date:     data.birth_date      ?? profile.birth_date,
           postsCount:     data.postsCount,
           followersCount: data.followersCount,
           followingCount: data.followingCount,
+          is_admin:       data.is_admin,
         } : profile);
+        // Sincronizar el signal de admin con el dato fresco de la BD
+        if (data.is_admin === true) {
+          this._isAdmin.set(true);
+        }
       },
-      error: err => console.error('Error cargando contadores:', err)
+      error: err => console.error('Error cargando perfil:', err)
+    });
+  }
+
+  /**
+   * Método para cargar user settings.
+   */
+  private loadUserSettings(): void {
+    this.settings.loadSettings().pipe(
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe({
+      next: (s) => {
+        if (s.language) {
+          this.translationService.setLanguage(s.language as LanguageCode);
+        }
+      },
+      error: err => console.error('Error cargando ajustes:', err)
+    });
+  }
+
+  /**
+   * Verifica si el usuario es administrador consultando person_profiles.is_admin.
+   */
+  private checkAdminStatus(userId: string): void {
+    this._adminChecked.set(false);
+
+    const email = this._user()?.email?.toLowerCase().trim();
+    console.log('[AdminCheck] userId:', userId, '| email:', email);
+
+    // Fallback inmediato por email (por si el SQL aún no se ha ejecutado)
+    if (email === 'roomeroo05@gmail.com') {
+      console.log('[AdminCheck] Admin concedido por email fallback');
+      this._isAdmin.set(true);
+      this._adminChecked.set(true);
+      return;
+    }
+
+    from(this.supabase.client
+      .from('person_profiles')
+      .select('is_admin, role')
+      .eq('id', userId)
+      .maybeSingle()
+    ).subscribe({
+      next: ({ data, error }) => {
+        console.log('[AdminCheck] DB result → data:', data, '| error:', error);
+        if (!error && data) {
+          const isAdmin = data.is_admin === true || data.role === 'admin';
+          console.log('[AdminCheck] isAdmin =', isAdmin);
+          this._isAdmin.set(isAdmin);
+        } else {
+          console.warn('[AdminCheck] Sin datos o error → isAdmin = false');
+          this._isAdmin.set(false);
+        }
+        this._adminChecked.set(true);
+      },
+      error: (err) => {
+        console.error('[AdminCheck] Error en query:', err);
+        this._isAdmin.set(false);
+        this._adminChecked.set(true);
+      }
     });
   }
 }

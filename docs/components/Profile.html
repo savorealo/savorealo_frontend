@@ -1,0 +1,2403 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>cookeealo documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">cookeealo documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  Profile</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/features/profile/profile.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Clase de utilidad para el perfil del chef.</p>
+
+    </p>
+
+
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-profile</code></td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                                <code><a href="../components/AppShell.html" target="_self" >AppShell</a></code>
+                                <code><a href="../components/Avatar.html" target="_self" >Avatar</a></code>
+                                <code><a href="../interfaces/Tab.html" target="_self" >TabsModule</a></code>
+                            <code>DialogModule</code>
+                                <code><a href="https://angular.io/api/router/RouterLink" target="_blank" >RouterLink</a></code>
+                                <code><a href="../components/EditProfileComponent.html" target="_self" >EditProfileComponent</a></code>
+                            <code>NgOptimizedImage</code>
+                                <code><a href="../directives/ImgFallbackDirective.html" target="_self" >ImgFallbackDirective</a></code>
+                                <code><a href="../components/ShareProfileModal.html" target="_self" >ShareProfileModal</a></code>
+                            <code>TranslatePipe</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./profile.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#activeTab" >activeTab</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#authStore" >authStore</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#badges" >badges</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#bio" >bio</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#destroyRef" >destroyRef</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#displayName" >displayName</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#feedService" >feedService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#joinedLabel" >joinedLabel</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#likedLoaded" >likedLoaded</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#likedPosts" >likedPosts</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#loadingLiked" >loadingLiked</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#loadingPosts" >loadingPosts</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#loadingSaved" >loadingSaved</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#location" >location</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#postActions" >postActions</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#posts" >posts</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#postsCount" >postsCount</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#profile" >profile</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#router" >router</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#savedLoaded" >savedLoaded</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#savedPosts" >savedPosts</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#sharingProfile" >sharingProfile</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#showEditProfile" >showEditProfile</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#translationService" >translationService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#username" >username</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#userService" >userService</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#loadLiked" >loadLiked</a>
+                            </li>
+                            <li>
+                                <a href="#loadSaved" >loadSaved</a>
+                            </li>
+                            <li>
+                                <a href="#logOut" >logOut</a>
+                            </li>
+                            <li>
+                                <a href="#onTabChange" >onTabChange</a>
+                            </li>
+                            <li>
+                                <a href="#openShareProfile" >openShareProfile</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor()</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="174" class="link-to-prism">src/app/features/profile/profile.ts:174</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div class="io-description"><p>Inicializa el componente.
+Realiza la carga diferida inicial de los posts del usuario autenticado en el cliente
+y configura la reactividad ante eventos globales de me gusta o guardado de posts.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadLiked"></a>
+                    <span class="name">
+                        <span ><b>loadLiked</b></span>
+                        <a href="#loadLiked"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>loadLiked()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="227"
+                                    class="link-to-prism">src/app/features/profile/profile.ts:227</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Solicita al servidor el listado de publicaciones marcadas con &quot;me gusta&quot; por el usuario.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadSaved"></a>
+                    <span class="name">
+                        <span ><b>loadSaved</b></span>
+                        <a href="#loadSaved"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>loadSaved()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="210"
+                                    class="link-to-prism">src/app/features/profile/profile.ts:210</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Solicita al servidor el listado de publicaciones guardadas por el usuario autenticado.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="logOut"></a>
+                    <span class="name">
+                        <span ><b>logOut</b></span>
+                        <a href="#logOut"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>logOut()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="270"
+                                    class="link-to-prism">src/app/features/profile/profile.ts:270</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Cierra de forma completa la sesión activa.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onTabChange"></a>
+                    <span class="name">
+                        <span ><b>onTabChange</b></span>
+                        <a href="#onTabChange"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onTabChange(value: string | number | undefined)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="245"
+                                    class="link-to-prism">src/app/features/profile/profile.ts:245</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Responde al cambio de pestaña y dispara la carga bajo demanda de la información requerida.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>value</td>
+                                            <td>
+                                                        <code>string | number | undefined</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Identificador o valor del Tab activo.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openShareProfile"></a>
+                    <span class="name">
+                        <span ><b>openShareProfile</b></span>
+                        <a href="#openShareProfile"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>openShareProfile()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="255"
+                                    class="link-to-prism">src/app/features/profile/profile.ts:255</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Abre la ventana modal para compartir el perfil propio a través de chats de mensajería interna.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="activeTab"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>activeTab</b></span>
+                        <a href="#activeTab"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(&#x27;0&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="128" class="link-to-prism">src/app/features/profile/profile.ts:128</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Índice o identificador del Tab activo (0: Publicaciones, 1: Guardados, 2: Likes).</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="authStore"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>authStore</b></span>
+                        <a href="#authStore"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(AuthStore)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/features/profile/profile.ts:38</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Almacén de estado de autenticación inyectado.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="badges"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>badges</b></span>
+                        <a href="#badges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+    { icon: &#x27;pi pi-star-fill&#x27;, labelKey: &#x27;profile.badge.active_chef.label&#x27;, descKey: &#x27;profile.badge.active_chef.desc&#x27; },
+    { icon: &#x27;pi pi-heart-fill&#x27;, labelKey: &#x27;profile.badge.favorites.label&#x27;, descKey: &#x27;profile.badge.favorites.desc&#x27; },
+    { icon: &#x27;pi pi-bookmark-fill&#x27;, labelKey: &#x27;profile.badge.curator.label&#x27;, descKey: &#x27;profile.badge.curator.desc&#x27; },
+  ]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="170" class="link-to-prism">src/app/features/profile/profile.ts:170</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Listado de insignias (badges) destacadas de gamificación del perfil del usuario.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="bio"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>bio</b></span>
+                        <a href="#bio"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; this.profile()?.bio || this.translationService.translate(&#x27;profile.bio_fallback&#x27;))</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="148" class="link-to-prism">src/app/features/profile/profile.ts:148</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal calculada con la biografía corta del perfil del usuario.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="destroyRef"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>destroyRef</b></span>
+                        <a href="#destroyRef"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(DestroyRef)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">src/app/features/profile/profile.ts:58</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Referencia inyectada para el desvínculo automático de suscripciones al destruir el componente.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="displayName"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>displayName</b></span>
+                        <a href="#displayName"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; this.profile()?.fullName || this.profile()?.username || &#x27;Chef Savorealo&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="133" class="link-to-prism">src/app/features/profile/profile.ts:133</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal calculada con el nombre a mostrar del usuario.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="feedService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>feedService</b></span>
+                        <a href="#feedService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(FeedService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/features/profile/profile.ts:48</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Servicio para la obtención de publicaciones.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="joinedLabel"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>joinedLabel</b></span>
+                        <a href="#joinedLabel"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; {
+    const birthDate &#x3D; this.profile()?.birth_date
+    if (birthDate) {
+      const joinedSince &#x3D; this.translationService.translate(&#x27;profile.joined_since&#x27;)
+      return &#x60;${joinedSince} ${new Date(birthDate).getFullYear()}&#x60;
+    }
+    return this.translationService.translate(&#x27;profile.in_construction&#x27;)
+  })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="153" class="link-to-prism">src/app/features/profile/profile.ts:153</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal calculada con la descripción del año de nacimiento o inicio en la plataforma.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="likedLoaded"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>likedLoaded</b></span>
+                        <a href="#likedLoaded"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="123" class="link-to-prism">src/app/features/profile/profile.ts:123</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Bandera que evita cargar publicaciones que le gustan repetidamente si ya se han cargado.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="likedPosts"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>likedPosts</b></span>
+                        <a href="#likedPosts"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;Post[]&gt;([])</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="113" class="link-to-prism">src/app/features/profile/profile.ts:113</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Colección de publicaciones que le gustan al usuario.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadingLiked"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>loadingLiked</b></span>
+                        <a href="#loadingLiked"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="118" class="link-to-prism">src/app/features/profile/profile.ts:118</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Indica si las publicaciones que le gustan al usuario están cargando del servidor.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadingPosts"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>loadingPosts</b></span>
+                        <a href="#loadingPosts"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">src/app/features/profile/profile.ts:83</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal que indica si sus publicaciones propias están cargando del servidor.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadingSaved"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>loadingSaved</b></span>
+                        <a href="#loadingSaved"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="103" class="link-to-prism">src/app/features/profile/profile.ts:103</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Indica si las publicaciones guardadas están cargando del servidor.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="location"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>location</b></span>
+                        <a href="#location"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; this.profile()?.location || this.translationService.translate(&#x27;profile.no_location&#x27;))</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="143" class="link-to-prism">src/app/features/profile/profile.ts:143</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal calculada con la ubicación del usuario.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="postActions"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>postActions</b></span>
+                        <a href="#postActions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(PostActionsService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/app/features/profile/profile.ts:53</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Servicio inyectado de acciones globales de publicaciones.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="posts"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>posts</b></span>
+                        <a href="#posts"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;Post[]&gt;([])</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">src/app/features/profile/profile.ts:78</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Colección de publicaciones propias del usuario.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="postsCount"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>postsCount</b></span>
+                        <a href="#postsCount"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; this.posts().length &gt; 0 ? this.posts().length : (this.profile()?.postsCount ?? 0))</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="165" class="link-to-prism">src/app/features/profile/profile.ts:165</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Cantidad calculada de recetas publicadas por el chef.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="profile"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>profile</b></span>
+                        <a href="#profile"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.authStore.profile</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">src/app/features/profile/profile.ts:73</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal que devuelve la información del perfil del usuario autenticado actual.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="router"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>router</b></span>
+                        <a href="#router"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(Router)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">src/app/features/profile/profile.ts:63</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Servicio del enrutador inyectado para la navegación interna.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="savedLoaded"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>savedLoaded</b></span>
+                        <a href="#savedLoaded"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="108" class="link-to-prism">src/app/features/profile/profile.ts:108</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Bandera que evita cargar publicaciones guardadas repetidamente si ya se han cargado una vez.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="savedPosts"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>savedPosts</b></span>
+                        <a href="#savedPosts"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;Post[]&gt;([])</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="98" class="link-to-prism">src/app/features/profile/profile.ts:98</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Colección de publicaciones guardadas por el usuario.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sharingProfile"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>sharingProfile</b></span>
+                        <a href="#sharingProfile"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;ShareableProfile | null&gt;(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="93" class="link-to-prism">src/app/features/profile/profile.ts:93</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal reactiva que gestiona los datos de perfil para el diálogo modal de compartir.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showEditProfile"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>showEditProfile</b></span>
+                        <a href="#showEditProfile"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="88" class="link-to-prism">src/app/features/profile/profile.ts:88</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal que gestiona la visibilidad del modal para la edición de perfil.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="translationService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>translationService</b></span>
+                        <a href="#translationService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(TranslationService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">src/app/features/profile/profile.ts:68</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Servicio de traducción inyectado para traducción en TypeScript.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="username"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>username</b></span>
+                        <a href="#username"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; this.profile()?.username || &#x27;usuario&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="138" class="link-to-prism">src/app/features/profile/profile.ts:138</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal calculada con el handle de usuario.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="userService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>userService</b></span>
+                        <a href="#userService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(UserService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/features/profile/profile.ts:43</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Servicio de usuarios inyectado para peticiones y gestiones.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { afterNextRender, Component, computed, DestroyRef, inject, signal } from &#x27;@angular/core&#x27;
+import { takeUntilDestroyed } from &#x27;@angular/core/rxjs-interop&#x27;
+import { finalize } from &#x27;rxjs&#x27;
+import { AuthStore } from &#x27;@core/store/auth.store&#x27;
+import { UserService } from &#x27;@core/services/user.service&#x27;
+import { FeedService } from &#x27;@core/services/feed.service&#x27;
+import { PostActionsService } from &#x27;@core/services/post-actions.service&#x27;
+import { Post } from &#x27;@core/models/post/post.model&#x27;
+import { AppShell } from &#x27;@shared/components/app-shell/app-shell&#x27;
+import { Avatar } from &#x27;@shared/components/avatar/avatar&#x27;
+import { TabsModule } from &#x27;primeng/tabs&#x27;
+import { DialogModule } from &#x27;primeng/dialog&#x27;
+import { Router, RouterLink } from &#x27;@angular/router&#x27;
+import { EditProfileComponent } from &#x27;./edit-profile/edit-profile&#x27;
+import { NgOptimizedImage } from &#x27;@angular/common&#x27;
+import { ImgFallbackDirective } from &#x27;@shared/directives/img-fallback.directive&#x27;
+import { ShareProfileModal, ShareableProfile } from &#x27;@features/messages/components/share-profile-modal/share-profile-modal&#x27;
+import { TranslatePipe } from &#x27;@shared/pipes/translate.pipe&#x27;
+import { TranslationService } from &#x27;@core/services/translation.service&#x27;
+
+/**
+ * Clase de utilidad para el perfil del chef.
+ */
+@Component({
+  selector: &#x27;app-profile&#x27;,
+  imports: [AppShell, Avatar, TabsModule, DialogModule, RouterLink, EditProfileComponent, NgOptimizedImage, ImgFallbackDirective, ShareProfileModal, TranslatePipe],
+  templateUrl: &#x27;./profile.html&#x27;,
+})
+/**
+ * Componente que representa la página de perfil personal del usuario autenticado.
+ * Muestra el avatar del chef, biografía, insignias del usuario y pestañas navegables
+ * para consultar sus propias publicaciones, sus recetas guardadas y sus publicaciones favoritas (Liked).
+ */
+export class Profile {
+  /**
+   * Almacén de estado de autenticación inyectado.
+   */
+  private readonly authStore &#x3D; inject(AuthStore)
+
+  /**
+   * Servicio de usuarios inyectado para peticiones y gestiones.
+   */
+  private readonly userService &#x3D; inject(UserService)
+
+  /**
+   * Servicio para la obtención de publicaciones.
+   */
+  private readonly feedService &#x3D; inject(FeedService)
+
+  /**
+   * Servicio inyectado de acciones globales de publicaciones.
+   */
+  private readonly postActions &#x3D; inject(PostActionsService)
+
+  /**
+   * Referencia inyectada para el desvínculo automático de suscripciones al destruir el componente.
+   */
+  private readonly destroyRef &#x3D; inject(DestroyRef)
+
+  /**
+   * Servicio del enrutador inyectado para la navegación interna.
+   */
+  readonly router &#x3D; inject(Router)
+
+  /**
+   * Servicio de traducción inyectado para traducción en TypeScript.
+   */
+  private readonly translationService &#x3D; inject(TranslationService)
+
+  /**
+   * Señal que devuelve la información del perfil del usuario autenticado actual.
+   */
+  readonly profile &#x3D; this.authStore.profile
+
+  /**
+   * Colección de publicaciones propias del usuario.
+   */
+  readonly posts &#x3D; signal&lt;Post[]&gt;([])
+
+  /**
+   * Señal que indica si sus publicaciones propias están cargando del servidor.
+   */
+  readonly loadingPosts &#x3D; signal(false)
+
+  /**
+   * Señal que gestiona la visibilidad del modal para la edición de perfil.
+   */
+  readonly showEditProfile &#x3D; signal(false)
+
+  /**
+   * Señal reactiva que gestiona los datos de perfil para el diálogo modal de compartir.
+   */
+  readonly sharingProfile &#x3D; signal&lt;ShareableProfile | null&gt;(null)
+
+  /**
+   * Colección de publicaciones guardadas por el usuario.
+   */
+  readonly savedPosts &#x3D; signal&lt;Post[]&gt;([])
+
+  /**
+   * Indica si las publicaciones guardadas están cargando del servidor.
+   */
+  readonly loadingSaved &#x3D; signal(false)
+
+  /**
+   * Bandera que evita cargar publicaciones guardadas repetidamente si ya se han cargado una vez.
+   */
+  readonly savedLoaded &#x3D; signal(false)
+
+  /**
+   * Colección de publicaciones que le gustan al usuario.
+   */
+  readonly likedPosts &#x3D; signal&lt;Post[]&gt;([])
+
+  /**
+   * Indica si las publicaciones que le gustan al usuario están cargando del servidor.
+   */
+  readonly loadingLiked &#x3D; signal(false)
+
+  /**
+   * Bandera que evita cargar publicaciones que le gustan repetidamente si ya se han cargado.
+   */
+  readonly likedLoaded &#x3D; signal(false)
+
+  /**
+   * Índice o identificador del Tab activo (0: Publicaciones, 1: Guardados, 2: Likes).
+   */
+  readonly activeTab &#x3D; signal(&#x27;0&#x27;)
+
+  /**
+   * Señal calculada con el nombre a mostrar del usuario.
+   */
+  readonly displayName &#x3D; computed(() &#x3D;&gt; this.profile()?.fullName || this.profile()?.username || &#x27;Chef Savorealo&#x27;)
+
+  /**
+   * Señal calculada con el handle de usuario.
+   */
+  readonly username &#x3D; computed(() &#x3D;&gt; this.profile()?.username || &#x27;usuario&#x27;)
+
+  /**
+   * Señal calculada con la ubicación del usuario.
+   */
+  readonly location &#x3D; computed(() &#x3D;&gt; this.profile()?.location || this.translationService.translate(&#x27;profile.no_location&#x27;))
+
+  /**
+   * Señal calculada con la biografía corta del perfil del usuario.
+   */
+  readonly bio &#x3D; computed(() &#x3D;&gt; this.profile()?.bio || this.translationService.translate(&#x27;profile.bio_fallback&#x27;))
+
+  /**
+   * Señal calculada con la descripción del año de nacimiento o inicio en la plataforma.
+   */
+  readonly joinedLabel &#x3D; computed(() &#x3D;&gt; {
+    const birthDate &#x3D; this.profile()?.birth_date
+    if (birthDate) {
+      const joinedSince &#x3D; this.translationService.translate(&#x27;profile.joined_since&#x27;)
+      return &#x60;${joinedSince} ${new Date(birthDate).getFullYear()}&#x60;
+    }
+    return this.translationService.translate(&#x27;profile.in_construction&#x27;)
+  })
+
+  /**
+   * Cantidad calculada de recetas publicadas por el chef.
+   */
+  readonly postsCount &#x3D; computed(() &#x3D;&gt; this.posts().length &gt; 0 ? this.posts().length : (this.profile()?.postsCount ?? 0))
+
+  /**
+   * Listado de insignias (badges) destacadas de gamificación del perfil del usuario.
+   */
+  readonly badges &#x3D; [
+    { icon: &#x27;pi pi-star-fill&#x27;, labelKey: &#x27;profile.badge.active_chef.label&#x27;, descKey: &#x27;profile.badge.active_chef.desc&#x27; },
+    { icon: &#x27;pi pi-heart-fill&#x27;, labelKey: &#x27;profile.badge.favorites.label&#x27;, descKey: &#x27;profile.badge.favorites.desc&#x27; },
+    { icon: &#x27;pi pi-bookmark-fill&#x27;, labelKey: &#x27;profile.badge.curator.label&#x27;, descKey: &#x27;profile.badge.curator.desc&#x27; },
+  ]
+
+  /**
+   * Inicializa el componente.
+   * Realiza la carga diferida inicial de los posts del usuario autenticado en el cliente
+   * y configura la reactividad ante eventos globales de me gusta o guardado de posts.
+   */
+  constructor() {
+    afterNextRender(() &#x3D;&gt; {
+      const userId &#x3D; this.authStore.currentUserId()
+      if (!userId) return
+      this.loadingPosts.set(true)
+      this.userService.getUserPosts(userId).pipe(
+        finalize(() &#x3D;&gt; this.loadingPosts.set(false)),
+      ).subscribe({
+        next: page &#x3D;&gt; this.posts.set(page.posts),
+        error: () &#x3D;&gt; {},
+      })
+    })
+    this.postActions.likeChanged$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(e &#x3D;&gt; {
+      this.posts.update(ps &#x3D;&gt; ps.map(p &#x3D;&gt;
+        p.id &#x3D;&#x3D;&#x3D; e.postId ? { ...p, liked: e.liked, likesCount: e.likesCount } : p,
+      ))
+      this.likedLoaded.set(false)
+    })
+    this.postActions.saveChanged$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(e &#x3D;&gt; {
+      this.posts.update(ps &#x3D;&gt; ps.map(p &#x3D;&gt;
+        p.id &#x3D;&#x3D;&#x3D; e.postId ? { ...p, saved: e.saved, savesCount: e.savesCount } : p,
+      ))
+      this.savedLoaded.set(false)
+    })
+  }
+
+  /**
+   * Solicita al servidor el listado de publicaciones guardadas por el usuario autenticado.
+   */
+  loadSaved(): void {
+    if (this.savedLoaded()) return
+    this.loadingSaved.set(true)
+    this.feedService.getSavedPosts(24).pipe(
+      finalize(() &#x3D;&gt; this.loadingSaved.set(false)),
+    ).subscribe({
+      next: page &#x3D;&gt; {
+        this.savedPosts.set(page.posts)
+        this.savedLoaded.set(true)
+      },
+      error: () &#x3D;&gt; { this.savedLoaded.set(true) },
+    })
+  }
+
+  /**
+   * Solicita al servidor el listado de publicaciones marcadas con &quot;me gusta&quot; por el usuario.
+   */
+  loadLiked(): void {
+    if (this.likedLoaded()) return
+    this.loadingLiked.set(true)
+    this.feedService.getLikedPosts(24).pipe(
+      finalize(() &#x3D;&gt; this.loadingLiked.set(false)),
+    ).subscribe({
+      next: page &#x3D;&gt; {
+        this.likedPosts.set(page.posts)
+        this.likedLoaded.set(true)
+      },
+      error: () &#x3D;&gt; { this.likedLoaded.set(true) },
+    })
+  }
+
+  /**
+   * Responde al cambio de pestaña y dispara la carga bajo demanda de la información requerida.
+   * @param value Identificador o valor del Tab activo.
+   */
+  onTabChange(value: string | number | undefined): void {
+    const tab &#x3D; String(value ?? &#x27;0&#x27;)
+    this.activeTab.set(tab)
+    if (tab &#x3D;&#x3D;&#x3D; &#x27;1&#x27;) this.loadSaved()
+    if (tab &#x3D;&#x3D;&#x3D; &#x27;2&#x27;) this.loadLiked()
+  }
+
+  /**
+   * Abre la ventana modal para compartir el perfil propio a través de chats de mensajería interna.
+   */
+  openShareProfile(): void {
+    const profile &#x3D; this.profile()
+    const id &#x3D; this.authStore.currentUserId()
+    if (!profile || !id) return
+    this.sharingProfile.set({
+      id,
+      username: profile.username,
+      displayName: profile.fullName,
+      photoUrl: profile.photo_url,
+    })
+  }
+
+  /**
+   * Cierra de forma completa la sesión activa.
+   */
+  logOut(): void {
+    this.authStore.logout()
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;app-shell&gt;
+  &lt;main class&#x3D;&quot;min-h-dvh bg-surface px-3 py-4 text-on-surface sm:px-6 sm:py-5 lg:px-8&quot;&gt;
+    &lt;div class&#x3D;&quot;mx-auto grid max-w-[1280px] gap-6 xl:grid-cols-[minmax(0,1fr)_320px]&quot;&gt;
+      &lt;section class&#x3D;&quot;min-w-0&quot;&gt;
+        &lt;div class&#x3D;&quot;overflow-hidden rounded-3xl border border-outline bg-surface-container shadow-2&quot;&gt;
+          &lt;div class&#x3D;&quot;relative min-h-52 bg-primary-container px-4 py-6 text-on-primary-container sm:px-8 sm:py-8&quot;&gt;
+            &lt;div class&#x3D;&quot;absolute -right-16 -top-16 size-56 rounded-pill bg-primary/30 blur-3xl&quot;&gt;&lt;/div&gt;
+            &lt;div class&#x3D;&quot;absolute -bottom-20 -left-20 size-60 rounded-pill bg-secondary/30 blur-3xl&quot;&gt;&lt;/div&gt;
+
+            &lt;div class&#x3D;&quot;relative z-10 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between&quot;&gt;
+              &lt;div class&#x3D;&quot;flex flex-col gap-5 sm:flex-row sm:items-end&quot;&gt;
+                &lt;div class&#x3D;&quot;rounded-pill border-4 border-surface bg-surface p-1 shadow-3&quot;&gt;
+                  &lt;app-avatar [src]&#x3D;&quot;profile()?.photo_url&quot; [name]&#x3D;&quot;displayName()&quot; size&#x3D;&quot;xl&quot; /&gt;
+                &lt;/div&gt;
+
+                &lt;div class&#x3D;&quot;min-w-0&quot;&gt;
+                  &lt;span class&#x3D;&quot;inline-flex rounded-pill bg-on-primary-container/15 px-3 py-1 text-label-md font-bold uppercase tracking-wide&quot;&gt;
+                    {{ &#x27;profile.kitchen_profile&#x27; | translate }}
+                  &lt;/span&gt;
+                  &lt;h1 class&#x3D;&quot;mt-3 font-display text-display-sm sm:text-display-md&quot;&gt;{{ displayName() }}&lt;/h1&gt;
+                  &lt;div class&#x3D;&quot;mt-2 flex flex-wrap items-center gap-3 text-body-sm font-medium text-on-primary-container/75&quot;&gt;
+                    &lt;span&gt;@{{ username() }}&lt;/span&gt;
+                    &lt;span class&#x3D;&quot;hidden size-1 rounded-pill bg-on-primary-container/30 sm:inline-block&quot;&gt;&lt;/span&gt;
+                    &lt;span&gt;{{ location() }}&lt;/span&gt;
+                    &lt;span class&#x3D;&quot;hidden size-1 rounded-pill bg-on-primary-container/30 sm:inline-block&quot;&gt;&lt;/span&gt;
+                    &lt;span&gt;{{ joinedLabel() }}&lt;/span&gt;
+                  &lt;/div&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+
+              &lt;div class&#x3D;&quot;grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:gap-3&quot;&gt;
+                &lt;button
+                  type&#x3D;&quot;button&quot;
+                  class&#x3D;&quot;inline-flex min-h-11 items-center justify-center gap-2 rounded-pill bg-surface px-4 text-body-sm font-bold text-on-surface transition-colors duration-fast ease-standard hover:bg-surface-container-high sm:px-5&quot;
+                  (click)&#x3D;&quot;showEditProfile.set(true)&quot;
+                &gt;
+                  &lt;i class&#x3D;&quot;pi pi-pencil&quot;&gt;&lt;/i&gt;
+                  {{ &#x27;profile.edit_profile&#x27; | translate }}
+                &lt;/button&gt;
+                &lt;a
+                  routerLink&#x3D;&quot;/settings&quot;
+                  class&#x3D;&quot;inline-flex min-h-11 items-center justify-center gap-2 rounded-pill border border-on-primary-container/25 px-4 text-body-sm font-bold transition-colors duration-fast ease-standard hover:bg-on-primary-container/10 sm:px-5&quot;
+                &gt;
+                  &lt;i class&#x3D;&quot;pi pi-cog&quot;&gt;&lt;/i&gt;
+                  {{ &#x27;settings.title&#x27; | translate }}
+                &lt;/a&gt;
+                &lt;button
+                  type&#x3D;&quot;button&quot;
+                  class&#x3D;&quot;col-span-2 inline-flex min-h-11 items-center justify-center gap-2 rounded-pill border border-on-primary-container/25 px-4 text-body-sm font-bold transition-colors duration-fast ease-standard hover:bg-on-primary-container/10 sm:col-span-1 sm:px-5&quot;
+                  (click)&#x3D;&quot;openShareProfile()&quot;
+                &gt;
+                  &lt;i class&#x3D;&quot;pi pi-share-alt&quot;&gt;&lt;/i&gt;
+                  {{ &#x27;profile.share_profile&#x27; | translate }}
+                &lt;/button&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+
+          &lt;div class&#x3D;&quot;grid gap-5 px-4 py-5 sm:gap-6 sm:px-8 sm:py-6 lg:grid-cols-[minmax(0,1fr)_280px]&quot;&gt;
+            &lt;div class&#x3D;&quot;min-w-0&quot;&gt;
+              &lt;p class&#x3D;&quot;max-w-3xl text-body-md font-medium leading-base text-on-surface-muted&quot;&gt;{{ bio() }}&lt;/p&gt;
+
+              &lt;div class&#x3D;&quot;mt-5 grid grid-cols-3 overflow-hidden rounded-2xl border border-outline bg-surface-container-high sm:mt-6&quot;&gt;
+                &lt;div class&#x3D;&quot;px-2 py-4 sm:px-4 sm:py-5&quot;&gt;
+                  &lt;span class&#x3D;&quot;block text-headline-sm font-bold text-on-surface&quot;&gt;{{ profile()?.followersCount ?? 0 }}&lt;/span&gt;
+                  &lt;span class&#x3D;&quot;text-label-md font-bold uppercase tracking-wide text-on-surface-muted&quot;&gt;{{ &#x27;profile.followers&#x27; | translate }}&lt;/span&gt;
+                &lt;/div&gt;
+                &lt;div class&#x3D;&quot;border-x border-outline px-2 py-4 sm:px-4 sm:py-5&quot;&gt;
+                  &lt;span class&#x3D;&quot;block text-headline-sm font-bold text-on-surface&quot;&gt;{{ profile()?.followingCount ?? 0 }}&lt;/span&gt;
+                  &lt;span class&#x3D;&quot;text-label-md font-bold uppercase tracking-wide text-on-surface-muted&quot;&gt;{{ &#x27;profile.following&#x27; | translate }}&lt;/span&gt;
+                &lt;/div&gt;
+                &lt;div class&#x3D;&quot;px-2 py-4 sm:px-4 sm:py-5&quot;&gt;
+                  &lt;span class&#x3D;&quot;block text-headline-sm font-bold text-on-surface&quot;&gt;{{ postsCount() }}&lt;/span&gt;
+                  &lt;span class&#x3D;&quot;text-label-md font-bold uppercase tracking-wide text-on-surface-muted&quot;&gt;{{ &#x27;profile.posts&#x27; | translate }}&lt;/span&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;div class&#x3D;&quot;rounded-2xl border border-outline bg-tertiary-container p-5 text-on-tertiary-container&quot;&gt;
+              &lt;div class&#x3D;&quot;flex items-start gap-3&quot;&gt;
+                &lt;span class&#x3D;&quot;grid size-11 shrink-0 place-items-center rounded-xl bg-surface text-tertiary shadow-1&quot;&gt;
+                  &lt;i class&#x3D;&quot;pi pi-chart-line&quot;&gt;&lt;/i&gt;
+                &lt;/span&gt;
+                &lt;div&gt;
+                  &lt;h2 class&#x3D;&quot;text-body-md font-bold&quot;&gt;{{ &#x27;profile.boost_title&#x27; | translate }}&lt;/h2&gt;
+                  &lt;p class&#x3D;&quot;mt-1 text-body-sm font-medium leading-base text-on-tertiary-container/85&quot;&gt;{{ &#x27;profile.boost_desc&#x27; | translate }}&lt;/p&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div class&#x3D;&quot;mt-5 rounded-2xl border border-outline bg-surface-container p-3 shadow-1 sm:mt-6 sm:p-6&quot;&gt;
+          &lt;p-tabs lazy value&#x3D;&quot;0&quot; (valueChange)&#x3D;&quot;onTabChange($event)&quot;&gt;
+            &lt;p-tablist&gt;
+              &lt;p-tab value&#x3D;&quot;0&quot;&gt;{{ &#x27;profile.posts&#x27; | translate }}&lt;/p-tab&gt;
+              &lt;p-tab value&#x3D;&quot;1&quot;&gt;{{ &#x27;shell.saved&#x27; | translate }}&lt;/p-tab&gt;
+              &lt;p-tab value&#x3D;&quot;2&quot;&gt;{{ &#x27;notifications.chip.like&#x27; | translate }}&lt;/p-tab&gt;
+            &lt;/p-tablist&gt;
+            &lt;p-tabpanels&gt;
+              &lt;p-tabpanel value&#x3D;&quot;0&quot;&gt;
+                &lt;!-- Loading skeletons --&gt;
+                @if (loadingPosts()) {
+                  &lt;div class&#x3D;&quot;grid gap-4 pt-4 sm:grid-cols-2 xl:grid-cols-3&quot;&gt;
+                    @for (item of [1,2,3,4,5,6]; track item) {
+                      &lt;div class&#x3D;&quot;overflow-hidden rounded-2xl border border-outline bg-surface-container-high&quot;&gt;
+                        &lt;div class&#x3D;&quot;aspect-[4/3] animate-pulse bg-surface-container-high&quot;&gt;&lt;/div&gt;
+                        &lt;div class&#x3D;&quot;grid gap-2 p-4&quot;&gt;
+                          &lt;div class&#x3D;&quot;h-4 w-3/4 animate-pulse rounded-pill bg-surface-container-high&quot;&gt;&lt;/div&gt;
+                          &lt;div class&#x3D;&quot;h-3 w-1/3 animate-pulse rounded-pill bg-surface-container-high&quot;&gt;&lt;/div&gt;
+                        &lt;/div&gt;
+                      &lt;/div&gt;
+                    }
+                  &lt;/div&gt;
+                }
+
+                &lt;!-- Real posts --&gt;
+                @if (!loadingPosts() &amp;&amp; posts().length &gt; 0) {
+                  &lt;div class&#x3D;&quot;grid gap-4 pt-4 sm:grid-cols-2 xl:grid-cols-3&quot;&gt;
+                    @for (post of posts(); track post.id) {
+                      &lt;a [routerLink]&#x3D;&quot;[&#x27;/post&#x27;, post.id]&quot; class&#x3D;&quot;group overflow-hidden rounded-2xl border border-outline bg-surface-container-high transition-all duration-fast ease-standard hover:-translate-y-0.5 hover:shadow-3&quot;&gt;
+                        @if (post.media[0]; as media) {
+                          &lt;div class&#x3D;&quot;relative aspect-[4/3] overflow-hidden&quot;&gt;
+                            @if (media.type &#x3D;&#x3D;&#x3D; &#x27;VIDEO&#x27;) {
+                              &lt;video [src]&#x3D;&quot;media.url&quot; class&#x3D;&quot;size-full object-cover&quot; muted&gt;&lt;/video&gt;
+                              &lt;span class&#x3D;&quot;absolute left-3 top-3 grid size-7 place-items-center rounded-pill bg-black/65 text-white&quot;&gt;
+                                &lt;i class&#x3D;&quot;pi pi-play text-xs&quot;&gt;&lt;/i&gt;
+                              &lt;/span&gt;
+                            } @else {
+                              &lt;img [ngSrc]&#x3D;&quot;media.url&quot; fill appImgFallback class&#x3D;&quot;object-cover transition-transform duration-slow ease-decelerated group-hover:scale-105&quot; [alt]&#x3D;&quot;post.title ?? &#x27;&#x27;&quot; /&gt;
+                            }
+                            @if (post.recipe?.timeRequired) {
+                              &lt;span class&#x3D;&quot;absolute right-3 top-3 rounded-pill bg-black/65 px-3 py-1 text-label-md font-bold text-white&quot;&gt;
+                                {{ post.recipe!.timeRequired }} min
+                              &lt;/span&gt;
+                            }
+                          &lt;/div&gt;
+                        } @else {
+                          &lt;div class&#x3D;&quot;flex aspect-[4/3] items-center justify-center bg-primary/10 p-4&quot;&gt;
+                            &lt;p class&#x3D;&quot;line-clamp-5 text-center text-body-sm font-medium text-on-surface-muted&quot;&gt;{{ post.description }}&lt;/p&gt;
+                          &lt;/div&gt;
+                        }
+                        &lt;div class&#x3D;&quot;p-4&quot;&gt;
+                          &lt;h3 class&#x3D;&quot;line-clamp-2 text-body-md font-bold text-on-surface&quot;&gt;{{ post.title || post.description }}&lt;/h3&gt;
+                          &lt;div class&#x3D;&quot;mt-3 flex items-center gap-4 text-body-sm font-bold text-on-surface-muted&quot;&gt;
+                            &lt;span&gt;&lt;i class&#x3D;&quot;pi pi-heart-fill text-error&quot;&gt;&lt;/i&gt; {{ post.likesCount }}&lt;/span&gt;
+                            &lt;span&gt;&lt;i class&#x3D;&quot;pi pi-comment&quot;&gt;&lt;/i&gt; {{ post.commentsCount }}&lt;/span&gt;
+                          &lt;/div&gt;
+                        &lt;/div&gt;
+                      &lt;/a&gt;
+                    }
+                  &lt;/div&gt;
+                }
+
+                &lt;!-- Empty state --&gt;
+                @if (!loadingPosts() &amp;&amp; posts().length &#x3D;&#x3D;&#x3D; 0) {
+                  &lt;div class&#x3D;&quot;grid min-h-56 place-items-center rounded-2xl bg-surface-container-high p-8 text-center&quot;&gt;
+                    &lt;div&gt;
+                      &lt;i class&#x3D;&quot;pi pi-pencil text-3xl text-primary&quot;&gt;&lt;/i&gt;
+                      &lt;h3 class&#x3D;&quot;mt-3 text-title-md font-bold text-on-surface&quot;&gt;{{ &#x27;profile.empty_posts_title&#x27; | translate }}&lt;/h3&gt;
+                      &lt;p class&#x3D;&quot;mt-1 text-body-sm font-medium text-on-surface-muted&quot;&gt;{{ &#x27;profile.empty_posts_desc&#x27; | translate }}&lt;/p&gt;
+                    &lt;/div&gt;
+                  &lt;/div&gt;
+                }
+              &lt;/p-tabpanel&gt;
+              &lt;p-tabpanel value&#x3D;&quot;1&quot;&gt;
+                &lt;!-- Loading skeletons --&gt;
+                @if (loadingSaved()) {
+                  &lt;div class&#x3D;&quot;grid gap-4 pt-4 sm:grid-cols-2 xl:grid-cols-3&quot;&gt;
+                    @for (item of [1,2,3,4,5,6]; track item) {
+                      &lt;div class&#x3D;&quot;overflow-hidden rounded-2xl border border-outline bg-surface-container-high&quot;&gt;
+                        &lt;div class&#x3D;&quot;aspect-[4/3] animate-pulse bg-surface-container-high&quot;&gt;&lt;/div&gt;
+                        &lt;div class&#x3D;&quot;grid gap-2 p-4&quot;&gt;
+                          &lt;div class&#x3D;&quot;h-4 w-3/4 animate-pulse rounded-pill bg-surface-container-high&quot;&gt;&lt;/div&gt;
+                          &lt;div class&#x3D;&quot;h-3 w-1/3 animate-pulse rounded-pill bg-surface-container-high&quot;&gt;&lt;/div&gt;
+                        &lt;/div&gt;
+                      &lt;/div&gt;
+                    }
+                  &lt;/div&gt;
+                }
+
+                &lt;!-- Saved posts grid --&gt;
+                @if (!loadingSaved() &amp;&amp; savedPosts().length &gt; 0) {
+                  &lt;div class&#x3D;&quot;grid gap-4 pt-4 sm:grid-cols-2 xl:grid-cols-3&quot;&gt;
+                    @for (post of savedPosts(); track post.id) {
+                      &lt;a [routerLink]&#x3D;&quot;[&#x27;/post&#x27;, post.id]&quot; class&#x3D;&quot;group overflow-hidden rounded-2xl border border-outline bg-surface-container-high transition-all duration-fast ease-standard hover:-translate-y-0.5 hover:shadow-3&quot;&gt;
+                        @if (post.media[0]; as media) {
+                          &lt;div class&#x3D;&quot;relative aspect-[4/3] overflow-hidden&quot;&gt;
+                            @if (media.type &#x3D;&#x3D;&#x3D; &#x27;VIDEO&#x27;) {
+                              &lt;video [src]&#x3D;&quot;media.url&quot; class&#x3D;&quot;size-full object-cover&quot; muted&gt;&lt;/video&gt;
+                              &lt;span class&#x3D;&quot;absolute left-3 top-3 grid size-7 place-items-center rounded-pill bg-black/65 text-white&quot;&gt;
+                                &lt;i class&#x3D;&quot;pi pi-play text-xs&quot;&gt;&lt;/i&gt;
+                              &lt;/span&gt;
+                            } @else {
+                              &lt;img [ngSrc]&#x3D;&quot;media.url&quot; fill appImgFallback class&#x3D;&quot;object-cover transition-transform duration-slow ease-decelerated group-hover:scale-105&quot; [alt]&#x3D;&quot;post.title ?? &#x27;&#x27;&quot; /&gt;
+                            }
+                            @if (post.recipe?.timeRequired) {
+                              &lt;span class&#x3D;&quot;absolute right-3 top-3 rounded-pill bg-black/65 px-3 py-1 text-label-md font-bold text-white&quot;&gt;
+                                {{ post.recipe!.timeRequired }} min
+                              &lt;/span&gt;
+                            }
+                          &lt;/div&gt;
+                        } @else {
+                          &lt;div class&#x3D;&quot;flex aspect-[4/3] items-center justify-center bg-primary/10 p-4&quot;&gt;
+                            &lt;p class&#x3D;&quot;line-clamp-5 text-center text-body-sm font-medium text-on-surface-muted&quot;&gt;{{ post.description }}&lt;/p&gt;
+                          &lt;/div&gt;
+                        }
+                        &lt;div class&#x3D;&quot;p-4&quot;&gt;
+                          &lt;h3 class&#x3D;&quot;line-clamp-2 text-body-md font-bold text-on-surface&quot;&gt;{{ post.title || post.description }}&lt;/h3&gt;
+                          &lt;div class&#x3D;&quot;mt-3 flex items-center gap-4 text-body-sm font-bold text-on-surface-muted&quot;&gt;
+                            &lt;span&gt;&lt;i class&#x3D;&quot;pi pi-heart-fill text-error&quot;&gt;&lt;/i&gt; {{ post.likesCount }}&lt;/span&gt;
+                            &lt;span&gt;&lt;i class&#x3D;&quot;pi pi-comment&quot;&gt;&lt;/i&gt; {{ post.commentsCount }}&lt;/span&gt;
+                          &lt;/div&gt;
+                        &lt;/div&gt;
+                      &lt;/a&gt;
+                    }
+                  &lt;/div&gt;
+                }
+
+                &lt;!-- Empty state --&gt;
+                @if (!loadingSaved() &amp;&amp; savedLoaded() &amp;&amp; savedPosts().length &#x3D;&#x3D;&#x3D; 0) {
+                  &lt;div class&#x3D;&quot;grid min-h-56 place-items-center rounded-2xl bg-surface-container-high p-8 text-center&quot;&gt;
+                    &lt;div&gt;
+                      &lt;i class&#x3D;&quot;pi pi-bookmark text-3xl text-primary&quot;&gt;&lt;/i&gt;
+                      &lt;h3 class&#x3D;&quot;mt-3 text-title-md font-bold text-on-surface&quot;&gt;{{ &#x27;profile.empty_saved_title&#x27; | translate }}&lt;/h3&gt;
+                      &lt;p class&#x3D;&quot;mt-1 text-body-sm font-medium text-on-surface-muted&quot;&gt;{{ &#x27;profile.empty_saved_desc&#x27; | translate }}&lt;/p&gt;
+                    &lt;/div&gt;
+                  &lt;/div&gt;
+                }
+              &lt;/p-tabpanel&gt;
+              &lt;p-tabpanel value&#x3D;&quot;2&quot;&gt;
+                &lt;!-- Loading skeletons --&gt;
+                @if (loadingLiked()) {
+                  &lt;div class&#x3D;&quot;grid gap-4 pt-4 sm:grid-cols-2 xl:grid-cols-3&quot;&gt;
+                    @for (item of [1,2,3,4,5,6]; track item) {
+                      &lt;div class&#x3D;&quot;overflow-hidden rounded-2xl border border-outline bg-surface-container-high&quot;&gt;
+                        &lt;div class&#x3D;&quot;aspect-[4/3] animate-pulse bg-surface-container-high&quot;&gt;&lt;/div&gt;
+                        &lt;div class&#x3D;&quot;grid gap-2 p-4&quot;&gt;
+                          &lt;div class&#x3D;&quot;h-4 w-3/4 animate-pulse rounded-pill bg-surface-container-high&quot;&gt;&lt;/div&gt;
+                          &lt;div class&#x3D;&quot;h-3 w-1/3 animate-pulse rounded-pill bg-surface-container-high&quot;&gt;&lt;/div&gt;
+                        &lt;/div&gt;
+                      &lt;/div&gt;
+                    }
+                  &lt;/div&gt;
+                }
+
+                &lt;!-- Liked posts grid --&gt;
+                @if (!loadingLiked() &amp;&amp; likedPosts().length &gt; 0) {
+                  &lt;div class&#x3D;&quot;grid gap-4 pt-4 sm:grid-cols-2 xl:grid-cols-3&quot;&gt;
+                    @for (post of likedPosts(); track post.id) {
+                      &lt;a [routerLink]&#x3D;&quot;[&#x27;/post&#x27;, post.id]&quot; class&#x3D;&quot;group overflow-hidden rounded-2xl border border-outline bg-surface-container-high transition-all duration-fast ease-standard hover:-translate-y-0.5 hover:shadow-3&quot;&gt;
+                        @if (post.media[0]; as media) {
+                          &lt;div class&#x3D;&quot;relative aspect-[4/3] overflow-hidden&quot;&gt;
+                            @if (media.type &#x3D;&#x3D;&#x3D; &#x27;VIDEO&#x27;) {
+                              &lt;video [src]&#x3D;&quot;media.url&quot; class&#x3D;&quot;size-full object-cover&quot; muted&gt;&lt;/video&gt;
+                              &lt;span class&#x3D;&quot;absolute left-3 top-3 grid size-7 place-items-center rounded-pill bg-black/65 text-white&quot;&gt;
+                                &lt;i class&#x3D;&quot;pi pi-play text-xs&quot;&gt;&lt;/i&gt;
+                              &lt;/span&gt;
+                            } @else {
+                              &lt;img [ngSrc]&#x3D;&quot;media.url&quot; fill appImgFallback class&#x3D;&quot;object-cover transition-transform duration-slow ease-decelerated group-hover:scale-105&quot; [alt]&#x3D;&quot;post.title ?? &#x27;&#x27;&quot; /&gt;
+                            }
+                            @if (post.recipe?.timeRequired) {
+                              &lt;span class&#x3D;&quot;absolute right-3 top-3 rounded-pill bg-black/65 px-3 py-1 text-label-md font-bold text-white&quot;&gt;
+                                {{ post.recipe!.timeRequired }} min
+                              &lt;/span&gt;
+                            }
+                          &lt;/div&gt;
+                        } @else {
+                          &lt;div class&#x3D;&quot;flex aspect-[4/3] items-center justify-center bg-primary/10 p-4&quot;&gt;
+                            &lt;p class&#x3D;&quot;line-clamp-5 text-center text-body-sm font-medium text-on-surface-muted&quot;&gt;{{ post.description }}&lt;/p&gt;
+                          &lt;/div&gt;
+                        }
+                        &lt;div class&#x3D;&quot;p-4&quot;&gt;
+                          &lt;h3 class&#x3D;&quot;line-clamp-2 text-body-md font-bold text-on-surface&quot;&gt;{{ post.title || post.description }}&lt;/h3&gt;
+                          &lt;div class&#x3D;&quot;mt-3 flex items-center gap-4 text-body-sm font-bold text-on-surface-muted&quot;&gt;
+                            &lt;span&gt;&lt;i class&#x3D;&quot;pi pi-heart-fill text-error&quot;&gt;&lt;/i&gt; {{ post.likesCount }}&lt;/span&gt;
+                            &lt;span&gt;&lt;i class&#x3D;&quot;pi pi-comment&quot;&gt;&lt;/i&gt; {{ post.commentsCount }}&lt;/span&gt;
+                          &lt;/div&gt;
+                        &lt;/div&gt;
+                      &lt;/a&gt;
+                    }
+                  &lt;/div&gt;
+                }
+
+                &lt;!-- Empty state --&gt;
+                @if (!loadingLiked() &amp;&amp; likedLoaded() &amp;&amp; likedPosts().length &#x3D;&#x3D;&#x3D; 0) {
+                  &lt;div class&#x3D;&quot;grid min-h-56 place-items-center rounded-2xl bg-surface-container-high p-8 text-center&quot;&gt;
+                    &lt;div&gt;
+                      &lt;i class&#x3D;&quot;pi pi-heart text-3xl text-primary&quot;&gt;&lt;/i&gt;
+                      &lt;h3 class&#x3D;&quot;mt-3 text-title-md font-bold text-on-surface&quot;&gt;{{ &#x27;profile.empty_liked_title&#x27; | translate }}&lt;/h3&gt;
+                      &lt;p class&#x3D;&quot;mt-1 text-body-sm font-medium text-on-surface-muted&quot;&gt;{{ &#x27;profile.empty_liked_desc&#x27; | translate }}&lt;/p&gt;
+                    &lt;/div&gt;
+                  &lt;/div&gt;
+                }
+              &lt;/p-tabpanel&gt;
+            &lt;/p-tabpanels&gt;
+          &lt;/p-tabs&gt;
+        &lt;/div&gt;
+      &lt;/section&gt;
+
+      &lt;aside class&#x3D;&quot;hidden gap-5 xl:grid&quot;&gt;
+        &lt;section class&#x3D;&quot;rounded-2xl border border-outline bg-surface-container p-5 shadow-1&quot;&gt;
+          &lt;h2 class&#x3D;&quot;text-title-md font-bold text-on-surface&quot;&gt;{{ &#x27;profile.badges&#x27; | translate }}&lt;/h2&gt;
+          &lt;div class&#x3D;&quot;mt-4 grid gap-3&quot;&gt;
+            @for (badge of badges; track badge.labelKey) {
+              &lt;div class&#x3D;&quot;flex items-start gap-3 rounded-xl bg-surface-container-high p-3&quot;&gt;
+                &lt;span class&#x3D;&quot;grid size-10 shrink-0 place-items-center rounded-xl bg-primary-container text-on-primary-container&quot;&gt;
+                  &lt;i [class]&#x3D;&quot;badge.icon&quot;&gt;&lt;/i&gt;
+                &lt;/span&gt;
+                &lt;div&gt;
+                  &lt;p class&#x3D;&quot;text-body-sm font-bold text-on-surface&quot;&gt;{{ badge.labelKey | translate }}&lt;/p&gt;
+                  &lt;p class&#x3D;&quot;mt-0.5 text-label-md font-medium leading-snug text-on-surface-muted&quot;&gt;{{ badge.descKey | translate }}&lt;/p&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+            }
+          &lt;/div&gt;
+        &lt;/section&gt;
+
+        &lt;section class&#x3D;&quot;rounded-2xl border border-outline bg-surface-container p-5 shadow-1&quot;&gt;
+          &lt;h2 class&#x3D;&quot;text-title-md font-bold text-on-surface&quot;&gt;{{ &#x27;profile.account&#x27; | translate }}&lt;/h2&gt;
+          &lt;div class&#x3D;&quot;mt-4 grid gap-2&quot;&gt;
+            &lt;a routerLink&#x3D;&quot;/settings&quot; class&#x3D;&quot;flex items-center justify-between rounded-xl px-3 py-3 text-body-sm font-bold text-on-surface transition-colors duration-fast ease-standard hover:bg-surface-container-high&quot;&gt;
+              {{ &#x27;settings.title&#x27; | translate }}
+              &lt;i class&#x3D;&quot;pi pi-chevron-right text-xs text-on-surface-muted&quot;&gt;&lt;/i&gt;
+            &lt;/a&gt;
+            &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;flex items-center justify-between rounded-xl px-3 py-3 text-left text-body-sm font-bold text-error transition-colors duration-fast ease-standard hover:bg-error/10&quot; (click)&#x3D;&quot;logOut()&quot;&gt;
+              {{ &#x27;profile.logout&#x27; | translate }}
+              &lt;i class&#x3D;&quot;pi pi-sign-out text-xs&quot;&gt;&lt;/i&gt;
+            &lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/section&gt;
+      &lt;/aside&gt;
+    &lt;/div&gt;
+
+    &lt;p-dialog
+      [visible]&#x3D;&quot;showEditProfile()&quot;
+      (visibleChange)&#x3D;&quot;showEditProfile.set($event)&quot;
+      [modal]&#x3D;&quot;true&quot;
+      [dismissableMask]&#x3D;&quot;true&quot;
+      [style]&#x3D;&quot;{ width: &#x27;min(92vw, 520px)&#x27; }&quot;
+      [showHeader]&#x3D;&quot;false&quot;
+    &gt;
+      &lt;app-edit-profile (visibleChange)&#x3D;&quot;showEditProfile.set($event)&quot; /&gt;
+    &lt;/p-dialog&gt;
+
+    @if (sharingProfile(); as profile) {
+      &lt;app-share-profile-modal [profile]&#x3D;&quot;profile&quot; (close)&#x3D;&quot;sharingProfile.set(null)&quot; /&gt;
+    }
+
+  &lt;/main&gt;
+&lt;/app-shell&gt;
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis-network.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><app-shell>  <main class="min-h-dvh bg-surface px-3 py-4 text-on-surface sm:px-6 sm:py-5 lg:px-8">    <div class="mx-auto grid max-w-[1280px] gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">      <section class="min-w-0">        <div class="overflow-hidden rounded-3xl border border-outline bg-surface-container shadow-2">          <div class="relative min-h-52 bg-primary-container px-4 py-6 text-on-primary-container sm:px-8 sm:py-8">            <div class="absolute -right-16 -top-16 size-56 rounded-pill bg-primary/30 blur-3xl"></div>            <div class="absolute -bottom-20 -left-20 size-60 rounded-pill bg-secondary/30 blur-3xl"></div>            <div class="relative z-10 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">              <div class="flex flex-col gap-5 sm:flex-row sm:items-end">                <div class="rounded-pill border-4 border-surface bg-surface p-1 shadow-3">                  <app-avatar [src]="profile()?.photo_url" [name]="displayName()" size="xl" />                </div>                <div class="min-w-0">                  <span class="inline-flex rounded-pill bg-on-primary-container/15 px-3 py-1 text-label-md font-bold uppercase tracking-wide">                    {{ \'profile.kitchen_profile\' | translate }}                  </span>                  <h1 class="mt-3 font-display text-display-sm sm:text-display-md">{{ displayName() }}</h1>                  <div class="mt-2 flex flex-wrap items-center gap-3 text-body-sm font-medium text-on-primary-container/75">                    <span>@{{ username() }}</span>                    <span class="hidden size-1 rounded-pill bg-on-primary-container/30 sm:inline-block"></span>                    <span>{{ location() }}</span>                    <span class="hidden size-1 rounded-pill bg-on-primary-container/30 sm:inline-block"></span>                    <span>{{ joinedLabel() }}</span>                  </div>                </div>              </div>              <div class="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:gap-3">                <button                  type="button"                  class="inline-flex min-h-11 items-center justify-center gap-2 rounded-pill bg-surface px-4 text-body-sm font-bold text-on-surface transition-colors duration-fast ease-standard hover:bg-surface-container-high sm:px-5"                  (click)="showEditProfile.set(true)"                >                  <i class="pi pi-pencil"></i>                  {{ \'profile.edit_profile\' | translate }}                </button>                <a                  routerLink="/settings"                  class="inline-flex min-h-11 items-center justify-center gap-2 rounded-pill border border-on-primary-container/25 px-4 text-body-sm font-bold transition-colors duration-fast ease-standard hover:bg-on-primary-container/10 sm:px-5"                >                  <i class="pi pi-cog"></i>                  {{ \'settings.title\' | translate }}                </a>                <button                  type="button"                  class="col-span-2 inline-flex min-h-11 items-center justify-center gap-2 rounded-pill border border-on-primary-container/25 px-4 text-body-sm font-bold transition-colors duration-fast ease-standard hover:bg-on-primary-container/10 sm:col-span-1 sm:px-5"                  (click)="openShareProfile()"                >                  <i class="pi pi-share-alt"></i>                  {{ \'profile.share_profile\' | translate }}                </button>              </div>            </div>          </div>          <div class="grid gap-5 px-4 py-5 sm:gap-6 sm:px-8 sm:py-6 lg:grid-cols-[minmax(0,1fr)_280px]">            <div class="min-w-0">              <p class="max-w-3xl text-body-md font-medium leading-base text-on-surface-muted">{{ bio() }}</p>              <div class="mt-5 grid grid-cols-3 overflow-hidden rounded-2xl border border-outline bg-surface-container-high sm:mt-6">                <div class="px-2 py-4 sm:px-4 sm:py-5">                  <span class="block text-headline-sm font-bold text-on-surface">{{ profile()?.followersCount ?? 0 }}</span>                  <span class="text-label-md font-bold uppercase tracking-wide text-on-surface-muted">{{ \'profile.followers\' | translate }}</span>                </div>                <div class="border-x border-outline px-2 py-4 sm:px-4 sm:py-5">                  <span class="block text-headline-sm font-bold text-on-surface">{{ profile()?.followingCount ?? 0 }}</span>                  <span class="text-label-md font-bold uppercase tracking-wide text-on-surface-muted">{{ \'profile.following\' | translate }}</span>                </div>                <div class="px-2 py-4 sm:px-4 sm:py-5">                  <span class="block text-headline-sm font-bold text-on-surface">{{ postsCount() }}</span>                  <span class="text-label-md font-bold uppercase tracking-wide text-on-surface-muted">{{ \'profile.posts\' | translate }}</span>                </div>              </div>            </div>            <div class="rounded-2xl border border-outline bg-tertiary-container p-5 text-on-tertiary-container">              <div class="flex items-start gap-3">                <span class="grid size-11 shrink-0 place-items-center rounded-xl bg-surface text-tertiary shadow-1">                  <i class="pi pi-chart-line"></i>                </span>                <div>                  <h2 class="text-body-md font-bold">{{ \'profile.boost_title\' | translate }}</h2>                  <p class="mt-1 text-body-sm font-medium leading-base text-on-tertiary-container/85">{{ \'profile.boost_desc\' | translate }}</p>                </div>              </div>            </div>          </div>        </div>        <div class="mt-5 rounded-2xl border border-outline bg-surface-container p-3 shadow-1 sm:mt-6 sm:p-6">          <p-tabs lazy value="0" (valueChange)="onTabChange($event)">            <p-tablist>              <p-tab value="0">{{ \'profile.posts\' | translate }}</p-tab>              <p-tab value="1">{{ \'shell.saved\' | translate }}</p-tab>              <p-tab value="2">{{ \'notifications.chip.like\' | translate }}</p-tab>            </p-tablist>            <p-tabpanels>              <p-tabpanel value="0">                <!-- Loading skeletons -->                @if (loadingPosts()) {                  <div class="grid gap-4 pt-4 sm:grid-cols-2 xl:grid-cols-3">                    @for (item of [1,2,3,4,5,6]; track item) {                      <div class="overflow-hidden rounded-2xl border border-outline bg-surface-container-high">                        <div class="aspect-[4/3] animate-pulse bg-surface-container-high"></div>                        <div class="grid gap-2 p-4">                          <div class="h-4 w-3/4 animate-pulse rounded-pill bg-surface-container-high"></div>                          <div class="h-3 w-1/3 animate-pulse rounded-pill bg-surface-container-high"></div>                        </div>                      </div>                    }                  </div>                }                <!-- Real posts -->                @if (!loadingPosts() && posts().length > 0) {                  <div class="grid gap-4 pt-4 sm:grid-cols-2 xl:grid-cols-3">                    @for (post of posts(); track post.id) {                      <a [routerLink]="[\'/post\', post.id]" class="group overflow-hidden rounded-2xl border border-outline bg-surface-container-high transition-all duration-fast ease-standard hover:-translate-y-0.5 hover:shadow-3">                        @if (post.media[0]; as media) {                          <div class="relative aspect-[4/3] overflow-hidden">                            @if (media.type === \'VIDEO\') {                              <video [src]="media.url" class="size-full object-cover" muted></video>                              <span class="absolute left-3 top-3 grid size-7 place-items-center rounded-pill bg-black/65 text-white">                                <i class="pi pi-play text-xs"></i>                              </span>                            } @else {                              <img [ngSrc]="media.url" fill appImgFallback class="object-cover transition-transform duration-slow ease-decelerated group-hover:scale-105" [alt]="post.title ?? \'\'" />                            }                            @if (post.recipe?.timeRequired) {                              <span class="absolute right-3 top-3 rounded-pill bg-black/65 px-3 py-1 text-label-md font-bold text-white">                                {{ post.recipe!.timeRequired }} min                              </span>                            }                          </div>                        } @else {                          <div class="flex aspect-[4/3] items-center justify-center bg-primary/10 p-4">                            <p class="line-clamp-5 text-center text-body-sm font-medium text-on-surface-muted">{{ post.description }}</p>                          </div>                        }                        <div class="p-4">                          <h3 class="line-clamp-2 text-body-md font-bold text-on-surface">{{ post.title || post.description }}</h3>                          <div class="mt-3 flex items-center gap-4 text-body-sm font-bold text-on-surface-muted">                            <span><i class="pi pi-heart-fill text-error"></i> {{ post.likesCount }}</span>                            <span><i class="pi pi-comment"></i> {{ post.commentsCount }}</span>                          </div>                        </div>                      </a>                    }                  </div>                }                <!-- Empty state -->                @if (!loadingPosts() && posts().length === 0) {                  <div class="grid min-h-56 place-items-center rounded-2xl bg-surface-container-high p-8 text-center">                    <div>                      <i class="pi pi-pencil text-3xl text-primary"></i>                      <h3 class="mt-3 text-title-md font-bold text-on-surface">{{ \'profile.empty_posts_title\' | translate }}</h3>                      <p class="mt-1 text-body-sm font-medium text-on-surface-muted">{{ \'profile.empty_posts_desc\' | translate }}</p>                    </div>                  </div>                }              </p-tabpanel>              <p-tabpanel value="1">                <!-- Loading skeletons -->                @if (loadingSaved()) {                  <div class="grid gap-4 pt-4 sm:grid-cols-2 xl:grid-cols-3">                    @for (item of [1,2,3,4,5,6]; track item) {                      <div class="overflow-hidden rounded-2xl border border-outline bg-surface-container-high">                        <div class="aspect-[4/3] animate-pulse bg-surface-container-high"></div>                        <div class="grid gap-2 p-4">                          <div class="h-4 w-3/4 animate-pulse rounded-pill bg-surface-container-high"></div>                          <div class="h-3 w-1/3 animate-pulse rounded-pill bg-surface-container-high"></div>                        </div>                      </div>                    }                  </div>                }                <!-- Saved posts grid -->                @if (!loadingSaved() && savedPosts().length > 0) {                  <div class="grid gap-4 pt-4 sm:grid-cols-2 xl:grid-cols-3">                    @for (post of savedPosts(); track post.id) {                      <a [routerLink]="[\'/post\', post.id]" class="group overflow-hidden rounded-2xl border border-outline bg-surface-container-high transition-all duration-fast ease-standard hover:-translate-y-0.5 hover:shadow-3">                        @if (post.media[0]; as media) {                          <div class="relative aspect-[4/3] overflow-hidden">                            @if (media.type === \'VIDEO\') {                              <video [src]="media.url" class="size-full object-cover" muted></video>                              <span class="absolute left-3 top-3 grid size-7 place-items-center rounded-pill bg-black/65 text-white">                                <i class="pi pi-play text-xs"></i>                              </span>                            } @else {                              <img [ngSrc]="media.url" fill appImgFallback class="object-cover transition-transform duration-slow ease-decelerated group-hover:scale-105" [alt]="post.title ?? \'\'" />                            }                            @if (post.recipe?.timeRequired) {                              <span class="absolute right-3 top-3 rounded-pill bg-black/65 px-3 py-1 text-label-md font-bold text-white">                                {{ post.recipe!.timeRequired }} min                              </span>                            }                          </div>                        } @else {                          <div class="flex aspect-[4/3] items-center justify-center bg-primary/10 p-4">                            <p class="line-clamp-5 text-center text-body-sm font-medium text-on-surface-muted">{{ post.description }}</p>                          </div>                        }                        <div class="p-4">                          <h3 class="line-clamp-2 text-body-md font-bold text-on-surface">{{ post.title || post.description }}</h3>                          <div class="mt-3 flex items-center gap-4 text-body-sm font-bold text-on-surface-muted">                            <span><i class="pi pi-heart-fill text-error"></i> {{ post.likesCount }}</span>                            <span><i class="pi pi-comment"></i> {{ post.commentsCount }}</span>                          </div>                        </div>                      </a>                    }                  </div>                }                <!-- Empty state -->                @if (!loadingSaved() && savedLoaded() && savedPosts().length === 0) {                  <div class="grid min-h-56 place-items-center rounded-2xl bg-surface-container-high p-8 text-center">                    <div>                      <i class="pi pi-bookmark text-3xl text-primary"></i>                      <h3 class="mt-3 text-title-md font-bold text-on-surface">{{ \'profile.empty_saved_title\' | translate }}</h3>                      <p class="mt-1 text-body-sm font-medium text-on-surface-muted">{{ \'profile.empty_saved_desc\' | translate }}</p>                    </div>                  </div>                }              </p-tabpanel>              <p-tabpanel value="2">                <!-- Loading skeletons -->                @if (loadingLiked()) {                  <div class="grid gap-4 pt-4 sm:grid-cols-2 xl:grid-cols-3">                    @for (item of [1,2,3,4,5,6]; track item) {                      <div class="overflow-hidden rounded-2xl border border-outline bg-surface-container-high">                        <div class="aspect-[4/3] animate-pulse bg-surface-container-high"></div>                        <div class="grid gap-2 p-4">                          <div class="h-4 w-3/4 animate-pulse rounded-pill bg-surface-container-high"></div>                          <div class="h-3 w-1/3 animate-pulse rounded-pill bg-surface-container-high"></div>                        </div>                      </div>                    }                  </div>                }                <!-- Liked posts grid -->                @if (!loadingLiked() && likedPosts().length > 0) {                  <div class="grid gap-4 pt-4 sm:grid-cols-2 xl:grid-cols-3">                    @for (post of likedPosts(); track post.id) {                      <a [routerLink]="[\'/post\', post.id]" class="group overflow-hidden rounded-2xl border border-outline bg-surface-container-high transition-all duration-fast ease-standard hover:-translate-y-0.5 hover:shadow-3">                        @if (post.media[0]; as media) {                          <div class="relative aspect-[4/3] overflow-hidden">                            @if (media.type === \'VIDEO\') {                              <video [src]="media.url" class="size-full object-cover" muted></video>                              <span class="absolute left-3 top-3 grid size-7 place-items-center rounded-pill bg-black/65 text-white">                                <i class="pi pi-play text-xs"></i>                              </span>                            } @else {                              <img [ngSrc]="media.url" fill appImgFallback class="object-cover transition-transform duration-slow ease-decelerated group-hover:scale-105" [alt]="post.title ?? \'\'" />                            }                            @if (post.recipe?.timeRequired) {                              <span class="absolute right-3 top-3 rounded-pill bg-black/65 px-3 py-1 text-label-md font-bold text-white">                                {{ post.recipe!.timeRequired }} min                              </span>                            }                          </div>                        } @else {                          <div class="flex aspect-[4/3] items-center justify-center bg-primary/10 p-4">                            <p class="line-clamp-5 text-center text-body-sm font-medium text-on-surface-muted">{{ post.description }}</p>                          </div>                        }                        <div class="p-4">                          <h3 class="line-clamp-2 text-body-md font-bold text-on-surface">{{ post.title || post.description }}</h3>                          <div class="mt-3 flex items-center gap-4 text-body-sm font-bold text-on-surface-muted">                            <span><i class="pi pi-heart-fill text-error"></i> {{ post.likesCount }}</span>                            <span><i class="pi pi-comment"></i> {{ post.commentsCount }}</span>                          </div>                        </div>                      </a>                    }                  </div>                }                <!-- Empty state -->                @if (!loadingLiked() && likedLoaded() && likedPosts().length === 0) {                  <div class="grid min-h-56 place-items-center rounded-2xl bg-surface-container-high p-8 text-center">                    <div>                      <i class="pi pi-heart text-3xl text-primary"></i>                      <h3 class="mt-3 text-title-md font-bold text-on-surface">{{ \'profile.empty_liked_title\' | translate }}</h3>                      <p class="mt-1 text-body-sm font-medium text-on-surface-muted">{{ \'profile.empty_liked_desc\' | translate }}</p>                    </div>                  </div>                }              </p-tabpanel>            </p-tabpanels>          </p-tabs>        </div>      </section>      <aside class="hidden gap-5 xl:grid">        <section class="rounded-2xl border border-outline bg-surface-container p-5 shadow-1">          <h2 class="text-title-md font-bold text-on-surface">{{ \'profile.badges\' | translate }}</h2>          <div class="mt-4 grid gap-3">            @for (badge of badges; track badge.labelKey) {              <div class="flex items-start gap-3 rounded-xl bg-surface-container-high p-3">                <span class="grid size-10 shrink-0 place-items-center rounded-xl bg-primary-container text-on-primary-container">                  <i [class]="badge.icon"></i>                </span>                <div>                  <p class="text-body-sm font-bold text-on-surface">{{ badge.labelKey | translate }}</p>                  <p class="mt-0.5 text-label-md font-medium leading-snug text-on-surface-muted">{{ badge.descKey | translate }}</p>                </div>              </div>            }          </div>        </section>        <section class="rounded-2xl border border-outline bg-surface-container p-5 shadow-1">          <h2 class="text-title-md font-bold text-on-surface">{{ \'profile.account\' | translate }}</h2>          <div class="mt-4 grid gap-2">            <a routerLink="/settings" class="flex items-center justify-between rounded-xl px-3 py-3 text-body-sm font-bold text-on-surface transition-colors duration-fast ease-standard hover:bg-surface-container-high">              {{ \'settings.title\' | translate }}              <i class="pi pi-chevron-right text-xs text-on-surface-muted"></i>            </a>            <button type="button" class="flex items-center justify-between rounded-xl px-3 py-3 text-left text-body-sm font-bold text-error transition-colors duration-fast ease-standard hover:bg-error/10" (click)="logOut()">              {{ \'profile.logout\' | translate }}              <i class="pi pi-sign-out text-xs"></i>            </button>          </div>        </section>      </aside>    </div>    <p-dialog      [visible]="showEditProfile()"      (visibleChange)="showEditProfile.set($event)"      [modal]="true"      [dismissableMask]="true"      [style]="{ width: \'min(92vw, 520px)\' }"      [showHeader]="false"    >      <app-edit-profile (visibleChange)="showEditProfile.set($event)" />    </p-dialog>    @if (sharingProfile(); as profile) {      <app-share-profile-modal [profile]="profile" (close)="sharingProfile.set(null)" />    }  </main></app-shell></div>'
+    var COMPONENTS = [{'name': 'AddReviewModal', 'selector': 'app-add-review-modal'},{'name': 'AiIdeasPanel', 'selector': 'app-ai-ideas-panel'},{'name': 'AiRecipeForm', 'selector': 'app-ai-recipe-form'},{'name': 'AiRecipeResult', 'selector': 'app-ai-recipe-result'},{'name': 'AiRecipesHero', 'selector': 'app-ai-recipes-hero'},{'name': 'AiRecipesPage', 'selector': 'app-ai-recipes-page'},{'name': 'App', 'selector': 'app-root'},{'name': 'AppShell', 'selector': 'app-shell'},{'name': 'Auth', 'selector': 'app-auth'},{'name': 'Avatar', 'selector': 'app-avatar'},{'name': 'Body', 'selector': 'app-body-step1'},{'name': 'Body', 'selector': 'app-body-step3'},{'name': 'Body', 'selector': 'app-body-step2'},{'name': 'ButtonComponent', 'selector': 'app-button'},{'name': 'CallHost', 'selector': 'app-call-host'},{'name': 'CallOverlay', 'selector': 'app-call-overlay'},{'name': 'ChatPanel', 'selector': 'app-chat-panel'},{'name': 'CommentSection', 'selector': 'app-comment-section'},{'name': 'CommentsSheetComponent', 'selector': 'app-comments-sheet'},{'name': 'ConversationList', 'selector': 'app-conversation-list'},{'name': 'CookingModePage', 'selector': 'app-cooking-mode-page'},{'name': 'CreatePostComponent', 'selector': 'app-create-post'},{'name': 'EditProfileComponent', 'selector': 'app-edit-profile'},{'name': 'EmojiRain', 'selector': 'app-emoji-rain'},{'name': 'Emptystate', 'selector': 'app-emptystate'},{'name': 'ExploreCategoryTabs', 'selector': 'app-explore-category-tabs'},{'name': 'ExploreHero', 'selector': 'app-explore-hero'},{'name': 'ExplorePage', 'selector': 'app-explore-page'},{'name': 'ExploreRightRail', 'selector': 'app-explore-right-rail'},{'name': 'ExploreToolbar', 'selector': 'app-explore-toolbar'},{'name': 'FeedPage', 'selector': 'app-feed-page'},{'name': 'FeedPostList', 'selector': 'app-feed-post-list'},{'name': 'FeedRightRail', 'selector': 'app-feed-right-rail'},{'name': 'GlobalSearchPanel', 'selector': 'app-global-search-panel'},{'name': 'Header', 'selector': 'app-header-step1'},{'name': 'Header', 'selector': 'app-header-step3'},{'name': 'Header', 'selector': 'app-header-step2'},{'name': 'Home', 'selector': 'app-home'},{'name': 'IncomingCall', 'selector': 'app-incoming-call'},{'name': 'Login', 'selector': 'app-login'},{'name': 'MessageBubble', 'selector': 'app-message-bubble'},{'name': 'MessagesPage', 'selector': 'app-messages-page'},{'name': 'NewConversation', 'selector': 'app-new-conversation'},{'name': 'NotificationsPage', 'selector': 'app-notifications-page'},{'name': 'PlaceCard', 'selector': 'app-place-card'},{'name': 'PlaceDetailPage', 'selector': 'app-place-detail-page'},{'name': 'PlacesPage', 'selector': 'app-places-page'},{'name': 'PostCard', 'selector': 'app-post-card'},{'name': 'PostDetailPage', 'selector': 'app-post-detail-page'},{'name': 'Profile', 'selector': 'app-profile'},{'name': 'PublicProfilePage', 'selector': 'app-public-profile-page'},{'name': 'RecentAiRecipes', 'selector': 'app-recent-ai-recipes'},{'name': 'RecipeDiscoveryCard', 'selector': 'app-recipe-discovery-card'},{'name': 'RecipeDiscoveryGrid', 'selector': 'app-recipe-discovery-grid'},{'name': 'RecipeOfDayCard', 'selector': 'app-recipe-of-day-card'},{'name': 'Register', 'selector': 'app-register'},{'name': 'ReportSheet', 'selector': 'app-report-sheet'},{'name': 'SavedCollectionStrip', 'selector': 'app-saved-collection-strip'},{'name': 'SavedPage', 'selector': 'app-saved-page'},{'name': 'SavedRecipeCard', 'selector': 'app-saved-recipe-card'},{'name': 'SavoLoader', 'selector': 'app-savo-loader'},{'name': 'SettingsPage', 'selector': 'app-settings-page'},{'name': 'SharedPostCard', 'selector': 'app-shared-post-card'},{'name': 'SharedProfileCard', 'selector': 'app-shared-profile-card'},{'name': 'SharePostModal', 'selector': 'app-share-post-modal'},{'name': 'ShareProfileModal', 'selector': 'app-share-profile-modal'},{'name': 'ShoppingListPage', 'selector': 'app-shopping-list-page'},{'name': 'SkeletonCard', 'selector': 'app-skeleton-card'},{'name': 'Spinner', 'selector': 'app-spinner'},{'name': 'SpotlightBg', 'selector': 'app-spotlight-bg'},{'name': 'StoriesStrip', 'selector': 'app-stories-strip'},{'name': 'StoryViewer', 'selector': 'app-story-viewer'},{'name': 'SuggestionsPanel', 'selector': 'app-suggestions-panel'},{'name': 'Title', 'selector': 'app-title'},{'name': 'Topbar', 'selector': 'app-topbar'},{'name': 'TrendingList', 'selector': 'app-trending-list'},{'name': 'VeganConvertModal', 'selector': 'app-vegan-convert-modal'}];
+    var DIRECTIVES = [{'name': 'ClickOutsideDirective', 'selector': '[appClickOutside]'},{'name': 'ImgFallbackDirective', 'selector': 'img[appImgFallback]'}];
+    var ACTUAL_COMPONENT = {'name': 'Profile'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'Profile.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

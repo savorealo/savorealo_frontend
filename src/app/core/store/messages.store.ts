@@ -1,44 +1,171 @@
-import { computed, DestroyRef, inject, Injectable, signal } from '@angular/core'
+import { computed, DestroyRef, effect, inject, Injectable, signal } from '@angular/core'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { finalize } from 'rxjs'
 import { RealtimeChannel } from '@supabase/supabase-js'
 import { MessagesService } from '@core/services/messages.service'
+import { PresenceService } from '@core/services/presence.service'
 import { AuthStore } from '@core/store/auth.store'
 import { ChatMessage, Conversation } from '@features/messages/models/messages.models'
+import { toUserMessage } from '@core/utils/user-error'
 
+/**
+ * Almacén de estado reactivo para gestionar la lógica de los mensajes del chat.
+ */
 @Injectable({ providedIn: 'root' })
 export class MessagesStore {
+	/**
+	 * Propiedad para gestionar service.
+	 */
 	private readonly service = inject(MessagesService)
+	/**
+	 * Propiedad para gestionar presence.
+	 */
+	private readonly presence = inject(PresenceService)
+	/**
+	 * Propiedad para gestionar auth.
+	 */
 	private readonly auth = inject(AuthStore)
+	/**
+	 * Propiedad para gestionar destroy ref.
+	 */
 	private readonly destroyRef = inject(DestroyRef)
+	/**
+	 * Propiedad para gestionar page tamaño.
+	 */
+	private readonly pageSize = 30
 
+	/**
+	 * Propiedad para gestionar conversations.
+	 */
 	private readonly _conversations = signal<Conversation[]>([])
+	/**
+	 * Propiedad para gestionar messages.
+	 */
 	private readonly _messages = signal<ChatMessage[]>([])
+	/**
+	 * Propiedad para gestionar active identificador.
+	 */
 	private readonly _activeId = signal<string | null>(null)
+	/**
+	 * Propiedad para gestionar cargando conversations.
+	 */
 	private readonly _loadingConversations = signal(false)
+	/**
+	 * Propiedad para gestionar cargando messages.
+	 */
 	private readonly _loadingMessages = signal(false)
+	/**
+	 * Propiedad para gestionar cargando more messages.
+	 */
+	private readonly _loadingMoreMessages = signal(false)
+	/**
+	 * Propiedad para gestionar tiene more messages.
+	 */
+	private readonly _hasMoreMessages = signal(false)
+	/**
+	 * Propiedad para gestionar error.
+	 */
 	private readonly _error = signal<string | null>(null)
+	/**
+	 * Propiedad para gestionar es o está typing.
+	 */
 	private readonly _isTyping = signal(false)
+	/**
+	 * Propiedad para gestionar channel.
+	 */
 	private channel: RealtimeChannel | null = null
+	/**
+	 * Propiedad para gestionar typing channels.
+	 */
+	private readonly typingChannels = new Map<string, RealtimeChannel>()
+	/**
+	 * Propiedad para gestionar typing timers.
+	 */
+	private readonly typingTimers = new Map<string, ReturnType<typeof setTimeout>>()
+	/**
+	 * Propiedad para gestionar typing timer.
+	 */
 	private typingTimer: ReturnType<typeof setTimeout> | null = null
 
+	/**
+	 * Propiedad para gestionar conversations.
+	 */
 	readonly conversations = this._conversations.asReadonly()
+	/**
+	 * Propiedad para gestionar messages.
+	 */
 	readonly messages = this._messages.asReadonly()
+	/**
+	 * Propiedad para gestionar active identificador.
+	 */
 	readonly activeId = this._activeId.asReadonly()
+	/**
+	 * Propiedad para gestionar cargando conversations.
+	 */
 	readonly loadingConversations = this._loadingConversations.asReadonly()
+	/**
+	 * Propiedad para gestionar cargando messages.
+	 */
 	readonly loadingMessages = this._loadingMessages.asReadonly()
+	/**
+	 * Propiedad para gestionar cargando more messages.
+	 */
+	readonly loadingMoreMessages = this._loadingMoreMessages.asReadonly()
+	/**
+	 * Indicador booleano para tiene more messages.
+	 */
+	readonly hasMoreMessages = this._hasMoreMessages.asReadonly()
+	/**
+	 * Propiedad para gestionar error.
+	 */
 	readonly error = this._error.asReadonly()
+	/**
+	 * Indicador booleano para es o está typing.
+	 */
 	readonly isTyping = this._isTyping.asReadonly()
 
+	/**
+	 * Propiedad para gestionar active conversation.
+	 */
 	readonly activeConversation = computed(() =>
 		this._conversations().find(c => c.id === this._activeId()) ?? null,
 	)
 
+	/**
+	 * Propiedad para gestionar other user identificador.
+	 */
 	readonly otherUserId = computed(() => {
 		const conv = this.activeConversation()
 		return conv?.user.id ?? null
 	})
 
+	/**
+	 * Constructor de la clase o componente para inicializar dependencias.
+	 */
+	constructor() {
+		effect(() => {
+			const userId = this.auth.currentUserId()
+			this.presence.onlineUserIds()
+
+			if (userId) {
+				this._conversations.update(convs => this.withPresence(convs))
+			} else {
+				this._conversations.set([])
+				this._messages.set([])
+				this._activeId.set(null)
+			}
+		})
+
+		this.destroyRef.onDestroy(() => {
+			this.channel?.unsubscribe()
+			this.unsubscribeTypingChannels()
+			if (this.typingTimer) clearTimeout(this.typingTimer)
+		})
+	}
+
+	/**
+	 * Método para cargar conversations.
+	 */
 	loadConversations(): void {
 		const userId = this.auth.currentUserId()
 		if (!userId) return
@@ -51,48 +178,80 @@ export class MessagesStore {
 			takeUntilDestroyed(this.destroyRef),
 		).subscribe({
 			next: convs => {
-				this._conversations.set(convs)
-				if (convs.length > 0 && !this._activeId()) {
+				this._conversations.set(this.withPresence(convs))
+				this.subscribeTypingChannels(convs)
+				const activeId = this._activeId()
+				if (activeId && convs.some(conversation => conversation.id === activeId)) {
+					this.markConversationRead(activeId)
+					if (this._messages().length === 0) {
+						this.loadMessages(activeId)
+					}
+				} else if (convs.length > 0 && !activeId) {
 					this.selectConversation(convs[0].id)
 				}
 			},
-			error: err => this._error.set(err.message ?? 'No se pudieron cargar los mensajes'),
+			error: err => this._error.set(toUserMessage(err, 'No se pudieron cargar las conversaciones')),
 		})
 	}
 
+	/**
+	 * Método para seleccionar conversation.
+	 */
 	selectConversation(id: string): void {
-		if (this._activeId() === id) return
+		if (this._activeId() === id) {
+			this.markConversationRead(id)
+			return
+		}
 		this._activeId.set(id)
 		this._messages.set([])
+		this._hasMoreMessages.set(false)
 		this.channel?.unsubscribe()
 		this.loadMessages(id)
 		this.markConversationRead(id)
 	}
 
-	sendMessage(text: string): void {
+	/**
+	 * Método para limpiar active.
+	 */
+	clearActive(): void {
+		this._activeId.set(null)
+		this._messages.set([])
+		this._hasMoreMessages.set(false)
+		this.channel?.unsubscribe()
+		this.channel = null
+	}
+
+	/**
+	 * Método para enviar message.
+	 */
+	sendMessage(text: string, replyTo: ChatMessage | null = null): void {
 		const userId = this.auth.currentUserId()
 		const convId = this._activeId()
 		const receiverId = this.otherUserId()
+		const cleanText = this.sanitizeOutgoingMessage(text)
 
-		if (!userId || !convId || !receiverId || !text.trim()) return
+		if (!userId || !convId || !receiverId || !cleanText) return
 
 		const optimistic: ChatMessage = {
 			id: `local-${Date.now()}`,
 			conversationId: convId,
 			sender: 'me',
 			senderId: userId,
-			text: text.trim(),
+			text: cleanText,
 			time: 'Ahora',
+			createdAt: new Date().toISOString(),
+			replyToMessageId: replyTo?.id ?? null,
+			replyTo: replyTo ? this.toReplyPreview(replyTo, userId) : null,
 		}
 		this._messages.update(msgs => [...msgs, optimistic])
-		this.updateConversationPreview(convId, text.trim())
+		this.updateConversationPreview(convId, cleanText)
 
-		this.service.sendMessage(convId, userId, receiverId, text.trim()).pipe(
+		this.service.sendMessage(convId, userId, receiverId, cleanText, replyTo?.id ?? null).pipe(
 			takeUntilDestroyed(this.destroyRef),
 		).subscribe({
 			next: saved => {
 				this._messages.update(msgs =>
-					msgs.map(m => m.id === optimistic.id ? saved : m),
+					msgs.map(m => m.id === optimistic.id ? { ...saved, replyTo: optimistic.replyTo } : m),
 				)
 			},
 			error: () => {
@@ -101,21 +260,55 @@ export class MessagesStore {
 		})
 	}
 
+	/**
+	 * Método para cargar messages.
+	 */
 	private loadMessages(conversationId: string): void {
 		const userId = this.auth.currentUserId()
 		if (!userId) return
 
 		this._loadingMessages.set(true)
 
-		this.service.getMessages(conversationId, userId).pipe(
+		this.service.getMessages(conversationId, userId, this.pageSize).pipe(
 			finalize(() => this._loadingMessages.set(false)),
 			takeUntilDestroyed(this.destroyRef),
 		).subscribe({
-			next: messages => {
-				this._messages.set(messages)
+			next: page => {
+				const messages = page.messages
+				this._messages.set(this.hydrateReplyPreviews(messages, userId))
+				this._hasMoreMessages.set(page.hasMore)
 				this.subscribeRealtime(conversationId, userId)
 			},
-			error: err => this._error.set(err.message ?? 'No se pudieron cargar los mensajes'),
+			error: err => this._error.set(toUserMessage(err, 'No se pudieron cargar los mensajes')),
+		})
+	}
+
+	/**
+	 * Método para cargar older messages.
+	 */
+	loadOlderMessages(): void {
+		const userId = this.auth.currentUserId()
+		const convId = this._activeId()
+		const firstMessage = this._messages()[0]
+		const beforeCreatedAt = firstMessage?.createdAt
+
+		if (!userId || !convId || !beforeCreatedAt || !this._hasMoreMessages() || this._loadingMoreMessages() || this._loadingMessages()) return
+
+		this._loadingMoreMessages.set(true)
+		this.service.getMessages(convId, userId, this.pageSize, beforeCreatedAt).pipe(
+			finalize(() => this._loadingMoreMessages.set(false)),
+			takeUntilDestroyed(this.destroyRef),
+		).subscribe({
+			next: page => {
+				this._messages.update(current => {
+					const existingIds = new Set(current.map(message => message.id))
+					const older = page.messages.filter(message => !existingIds.has(message.id))
+					const combined = [...older, ...current]
+					return this.hydrateReplyPreviews(combined, userId)
+				})
+				this._hasMoreMessages.set(page.hasMore)
+			},
+			error: err => this._error.set(toUserMessage(err, 'No se pudieron cargar más mensajes')),
 		})
 	}
 
@@ -134,14 +327,18 @@ export class MessagesStore {
 				// but we pre-set activeId so the panel opens right away)
 				this._activeId.set(convId)
 				this._messages.set([])
+				this._hasMoreMessages.set(false)
 				this.channel?.unsubscribe()
 				this.loadMessages(convId)
 				this.markConversationRead(convId)
 			},
-			error: err => this._error.set(err.message ?? 'No se pudo abrir la conversación'),
+			error: err => this._error.set(toUserMessage(err, 'No se pudo abrir la conversación')),
 		})
 	}
 
+	/**
+	 * Método para evento de typing.
+	 */
 	onTyping(): void {
 		const convId = this._activeId()
 		const userId = this.auth.currentUserId()
@@ -149,12 +346,24 @@ export class MessagesStore {
 		this.service.sendTyping(convId, userId)
 	}
 
+	/**
+	 * Método para subscribe realtime.
+	 */
 	private subscribeRealtime(conversationId: string, userId: string): void {
 		this.channel = this.service.subscribeToConversation(conversationId, userId, {
 			onMessage: msg => {
 				if (msg.sender === 'them') {
 					this._isTyping.set(false)
-					this._messages.update(msgs => [...msgs.filter(m => !m.typing), msg])
+					this._messages.update(msgs => {
+						const cleanMessages = msgs.filter(m => !m.typing)
+						const hydrated = this.service.buildReplyPreview(
+							msg,
+							cleanMessages,
+							userId,
+							this.activeConversation()?.user.name ?? 'Usuario',
+						)
+						return [...cleanMessages, hydrated]
+					})
 					this.markConversationRead(conversationId)
 					this.updateConversationPreview(conversationId, msg.text ?? '')
 					this._conversations.update(convs =>
@@ -162,14 +371,103 @@ export class MessagesStore {
 					)
 				}
 			},
-			onTyping: () => {
-				this._isTyping.set(true)
-				if (this.typingTimer) clearTimeout(this.typingTimer)
-				this.typingTimer = setTimeout(() => this._isTyping.set(false), 3000)
+			onUpdate: msg => {
+				this._messages.update(messages =>
+					messages.map(message => message.id === msg.id ? { ...message, readAt: msg.readAt, deliveryStatus: msg.deliveryStatus } : message),
+				)
 			},
 		})
 	}
 
+	/**
+	 * Método para with presence.
+	 */
+	private withPresence(conversations: Conversation[]): Conversation[] {
+		const onlineUserIds = this.presence.onlineUserIds()
+		return conversations.map(conversation => ({
+			...conversation,
+			user: {
+				...conversation.user,
+				online: onlineUserIds.has(conversation.user.id),
+				lastSeenAt: conversation.user.online && !onlineUserIds.has(conversation.user.id)
+					? new Date().toISOString()
+					: conversation.user.lastSeenAt,
+				statusText: onlineUserIds.has(conversation.user.id)
+					? 'En linea'
+					: this.service.formatLastSeen(new Date(
+						conversation.user.online && !onlineUserIds.has(conversation.user.id)
+							? new Date().toISOString()
+							: (conversation.user.lastSeenAt ?? ''),
+					)),
+			},
+		}))
+	}
+
+	/**
+	 * Método para subscribe typing channels.
+	 */
+	private subscribeTypingChannels(conversations: Conversation[]): void {
+		const userId = this.auth.currentUserId()
+		if (!userId) return
+
+		const nextIds = new Set(conversations.map(conversation => conversation.id))
+		for (const [conversationId, channel] of this.typingChannels) {
+			if (nextIds.has(conversationId)) continue
+			channel.unsubscribe()
+			this.typingChannels.delete(conversationId)
+		}
+
+		for (const conversation of conversations) {
+			if (this.typingChannels.has(conversation.id)) continue
+			const channel = this.service.subscribeToTyping(conversation.id, userId, conversationId => this.setConversationTyping(conversationId))
+			this.typingChannels.set(conversation.id, channel)
+		}
+	}
+
+	/**
+	 * Método para unsubscribe typing channels.
+	 */
+	private unsubscribeTypingChannels(): void {
+		this.typingChannels.forEach(channel => channel.unsubscribe())
+		this.typingChannels.clear()
+		this.typingTimers.forEach(timer => clearTimeout(timer))
+		this.typingTimers.clear()
+	}
+
+	/**
+	 * Método para establecer conversation typing.
+	 */
+	private setConversationTyping(conversationId: string): void {
+		this._conversations.update(conversations =>
+			conversations.map(conversation => conversation.id === conversationId
+				? { ...conversation, typing: true }
+				: conversation,
+			),
+		)
+
+		if (this._activeId() === conversationId) {
+			this._isTyping.set(true)
+			if (this.typingTimer) clearTimeout(this.typingTimer)
+			this.typingTimer = setTimeout(() => this._isTyping.set(false), 3000)
+		}
+
+		const existingTimer = this.typingTimers.get(conversationId)
+		if (existingTimer) clearTimeout(existingTimer)
+		const timer = setTimeout(() => {
+			this._conversations.update(conversations =>
+				conversations.map(conversation => conversation.id === conversationId
+					? { ...conversation, typing: false }
+					: conversation,
+				),
+			)
+			this.typingTimers.delete(conversationId)
+		}, 3000)
+		this.typingTimers.set(conversationId, timer)
+	}
+
+	/**
+	 * Método para mark conversation read.
+	 */
 	private markConversationRead(conversationId: string): void {
 		const userId = this.auth.currentUserId()
 		if (!userId) return
@@ -181,12 +479,62 @@ export class MessagesStore {
 		).subscribe()
 	}
 
+	/**
+	 * Método para actualizar conversation preview.
+	 */
 	private updateConversationPreview(convId: string, text: string): void {
+		const lastMessageKind = text === 'Post compartido'
+			? 'post'
+			: text === 'Perfil compartido'
+				? 'profile'
+				: 'text'
+
 		this._conversations.update(convs =>
 			convs.map(c => c.id === convId
-				? { ...c, lastMessage: text, time: 'Ahora' }
+				? { ...c, lastMessage: text, lastMessageKind, time: 'Ahora' }
 				: c,
 			),
 		)
+	}
+
+	/**
+	 * Método para hydrate reply previews.
+	 */
+	private hydrateReplyPreviews(messages: ChatMessage[], userId: string): ChatMessage[] {
+		const otherUserName = this.activeConversation()?.user.name ?? 'Usuario'
+		return messages.map(message => this.service.buildReplyPreview(message, messages, userId, otherUserName))
+	}
+
+	/**
+	 * Método para to reply preview.
+	 */
+	private toReplyPreview(message: ChatMessage, userId: string) {
+		return {
+			id: message.id,
+			senderName: message.senderId === userId ? 'Tu' : (this.activeConversation()?.user.name ?? 'Usuario'),
+			text: this.previewText(message.text),
+			isMine: message.senderId === userId,
+		}
+	}
+
+	/**
+	 * Método para preview text.
+	 */
+	private previewText(text?: string): string {
+		const clean = (text ?? 'Mensaje').replace(/\s+/g, ' ').trim()
+		return clean.length > 120 ? `${clean.slice(0, 117)}...` : clean
+	}
+
+	/**
+	 * Método para sanitize outgoing message.
+	 */
+	private sanitizeOutgoingMessage(text: string): string {
+		return text
+			.replace(/\r\n/g, '\n')
+			.replace(/\r/g, '\n')
+			.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, '')
+			.replace(/\n{4,}/g, '\n\n\n')
+			.trim()
+			.slice(0, 8000)
 	}
 }

@@ -1,0 +1,720 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>cookeealo documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">cookeealo documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Interfaces</li>
+  <li class="breadcrumb-item"
+  >
+  StoreOption</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/app/features/shopping-list/shopping-list-page.ts</code>
+        </p>
+
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Interfaz que define las propiedades necesarias para representar e interactuar con un supermercado en línea.</p>
+
+            </p>
+
+
+        <section data-compodoc="block-index">
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                        <a href="#logoSvg" 
+>
+                                            logoSvg
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#name" 
+>
+                                            name
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#url" 
+>
+                                            url
+                                        </a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+            <section data-compodoc="block-properties">
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="logoSvg"></a>
+                                        <span class="name "><b>logoSvg</b>
+                                            <a href="#logoSvg">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>logoSvg:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Cadena de texto que contiene el logotipo vectorial SVG del supermercado.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="name"></a>
+                                        <span class="name "><b>name</b>
+                                            <a href="#name">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>name:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Nombre comercial legible del supermercado.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="url"></a>
+                                        <span class="name "><b>url</b>
+                                            <a href="#url">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>url:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>URL de búsqueda directa del artículo parametrizada.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, computed, inject, signal } from &#x27;@angular/core&#x27;
+import { FormsModule } from &#x27;@angular/forms&#x27;
+import { RouterLink } from &#x27;@angular/router&#x27;
+import { DomSanitizer, SafeHtml } from &#x27;@angular/platform-browser&#x27;
+import { ShoppingListService } from &#x27;./shopping-list.service&#x27;
+import { ToastService } from &#x27;@core/services/toast.service&#x27;
+import { AppShell } from &#x27;@shared/components/app-shell/app-shell&#x27;
+import { TranslatePipe } from &#x27;@shared/pipes/translate.pipe&#x27;
+import { TranslationService } from &#x27;@core/services/translation.service&#x27;
+
+/**
+ * Interfaz que define las propiedades necesarias para representar e interactuar con un supermercado en línea.
+ */
+export interface StoreOption {
+	/**
+	 * Nombre comercial legible del supermercado.
+	 */
+	name: string
+
+	/**
+	 * URL de búsqueda directa del artículo parametrizada.
+	 */
+	url: string
+
+	/**
+	 * Cadena de texto que contiene el logotipo vectorial SVG del supermercado.
+	 */
+	logoSvg: string
+}
+
+// ─── SVG logos ───────────────────────────────────────────────────────────────
+
+/**
+ * Diccionario con los gráficos vectoriales SVG de los logotipos de los supermercados soportados.
+ */
+const SVG &#x3D; {
+	Mercadona: &#x60;&lt;svg xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot; viewBox&#x3D;&quot;0 0 32 32&quot; width&#x3D;&quot;28&quot; height&#x3D;&quot;28&quot;&gt;&lt;rect width&#x3D;&quot;32&quot; height&#x3D;&quot;32&quot; rx&#x3D;&quot;7&quot; fill&#x3D;&quot;#00A651&quot;/&gt;&lt;text x&#x3D;&quot;16&quot; y&#x3D;&quot;23&quot; text-anchor&#x3D;&quot;middle&quot; font-family&#x3D;&quot;system-ui,Arial,sans-serif&quot; font-size&#x3D;&quot;20&quot; font-weight&#x3D;&quot;900&quot; fill&#x3D;&quot;white&quot;&gt;M&lt;/text&gt;&lt;/svg&gt;&#x60;,
+
+	Carrefour: &#x60;&lt;svg xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot; viewBox&#x3D;&quot;0 0 32 32&quot; width&#x3D;&quot;28&quot; height&#x3D;&quot;28&quot;&gt;&lt;rect width&#x3D;&quot;32&quot; height&#x3D;&quot;32&quot; rx&#x3D;&quot;7&quot; fill&#x3D;&quot;white&quot;/&gt;&lt;polygon points&#x3D;&quot;4,5 18,16 4,27&quot; fill&#x3D;&quot;#E30613&quot;/&gt;&lt;polygon points&#x3D;&quot;28,5 14,16 28,27&quot; fill&#x3D;&quot;#0033A0&quot;/&gt;&lt;/svg&gt;&#x60;,
+
+	Hipercor: &#x60;&lt;svg xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot; viewBox&#x3D;&quot;0 0 32 32&quot; width&#x3D;&quot;28&quot; height&#x3D;&quot;28&quot;&gt;&lt;rect width&#x3D;&quot;32&quot; height&#x3D;&quot;32&quot; rx&#x3D;&quot;7&quot; fill&#x3D;&quot;#007A3D&quot;/&gt;&lt;text x&#x3D;&quot;16&quot; y&#x3D;&quot;23&quot; text-anchor&#x3D;&quot;middle&quot; font-family&#x3D;&quot;system-ui,Arial,sans-serif&quot; font-size&#x3D;&quot;18&quot; font-weight&#x3D;&quot;bold&quot; fill&#x3D;&quot;white&quot;&gt;H&lt;/text&gt;&lt;/svg&gt;&#x60;,
+
+	Día: &#x60;&lt;svg xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot; viewBox&#x3D;&quot;0 0 32 32&quot; width&#x3D;&quot;28&quot; height&#x3D;&quot;28&quot;&gt;&lt;rect width&#x3D;&quot;32&quot; height&#x3D;&quot;32&quot; rx&#x3D;&quot;7&quot; fill&#x3D;&quot;#E30613&quot;/&gt;&lt;text x&#x3D;&quot;16&quot; y&#x3D;&quot;22&quot; text-anchor&#x3D;&quot;middle&quot; font-family&#x3D;&quot;system-ui,Arial,sans-serif&quot; font-size&#x3D;&quot;14&quot; font-weight&#x3D;&quot;bold&quot; fill&#x3D;&quot;white&quot;&gt;Día&lt;/text&gt;&lt;/svg&gt;&#x60;,
+
+	Aldi: &#x60;&lt;svg xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot; viewBox&#x3D;&quot;0 0 32 32&quot; width&#x3D;&quot;28&quot; height&#x3D;&quot;28&quot;&gt;&lt;rect width&#x3D;&quot;32&quot; height&#x3D;&quot;32&quot; rx&#x3D;&quot;7&quot; fill&#x3D;&quot;#00377B&quot;/&gt;&lt;text x&#x3D;&quot;16&quot; y&#x3D;&quot;21&quot; text-anchor&#x3D;&quot;middle&quot; font-family&#x3D;&quot;system-ui,Arial,sans-serif&quot; font-size&#x3D;&quot;13&quot; font-weight&#x3D;&quot;bold&quot; fill&#x3D;&quot;white&quot;&gt;aldi&lt;/text&gt;&lt;/svg&gt;&#x60;,
+
+	Amazon: &#x60;&lt;svg xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot; viewBox&#x3D;&quot;0 0 32 32&quot; width&#x3D;&quot;28&quot; height&#x3D;&quot;28&quot;&gt;&lt;rect width&#x3D;&quot;32&quot; height&#x3D;&quot;32&quot; rx&#x3D;&quot;7&quot; fill&#x3D;&quot;#FF9900&quot;/&gt;&lt;text x&#x3D;&quot;16&quot; y&#x3D;&quot;17&quot; text-anchor&#x3D;&quot;middle&quot; font-family&#x3D;&quot;system-ui,Arial,sans-serif&quot; font-size&#x3D;&quot;8.5&quot; font-weight&#x3D;&quot;bold&quot; fill&#x3D;&quot;#131921&quot;&gt;amazon&lt;/text&gt;&lt;path d&#x3D;&quot;M9 22 Q16 27 23 22&quot; stroke&#x3D;&quot;#131921&quot; stroke-width&#x3D;&quot;2.5&quot; fill&#x3D;&quot;none&quot; stroke-linecap&#x3D;&quot;round&quot;/&gt;&lt;polygon points&#x3D;&quot;22,21 25,24 22,25&quot; fill&#x3D;&quot;#131921&quot;/&gt;&lt;/svg&gt;&#x60;,
+
+	Rewe: &#x60;&lt;svg xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot; viewBox&#x3D;&quot;0 0 32 32&quot; width&#x3D;&quot;28&quot; height&#x3D;&quot;28&quot;&gt;&lt;rect width&#x3D;&quot;32&quot; height&#x3D;&quot;32&quot; rx&#x3D;&quot;7&quot; fill&#x3D;&quot;#CC0000&quot;/&gt;&lt;text x&#x3D;&quot;16&quot; y&#x3D;&quot;21&quot; text-anchor&#x3D;&quot;middle&quot; font-family&#x3D;&quot;system-ui,Arial,sans-serif&quot; font-size&#x3D;&quot;12&quot; font-weight&#x3D;&quot;bold&quot; fill&#x3D;&quot;white&quot;&gt;REWE&lt;/text&gt;&lt;/svg&gt;&#x60;,
+
+	Penny: &#x60;&lt;svg xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot; viewBox&#x3D;&quot;0 0 32 32&quot; width&#x3D;&quot;28&quot; height&#x3D;&quot;28&quot;&gt;&lt;rect width&#x3D;&quot;32&quot; height&#x3D;&quot;32&quot; rx&#x3D;&quot;7&quot; fill&#x3D;&quot;#CC0000&quot;/&gt;&lt;text x&#x3D;&quot;16&quot; y&#x3D;&quot;22&quot; text-anchor&#x3D;&quot;middle&quot; font-family&#x3D;&quot;system-ui,Arial,sans-serif&quot; font-size&#x3D;&quot;11&quot; font-weight&#x3D;&quot;bold&quot; fill&#x3D;&quot;white&quot;&gt;penny&lt;/text&gt;&lt;/svg&gt;&#x60;,
+
+	Lidl: &#x60;&lt;svg xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot; viewBox&#x3D;&quot;0 0 32 32&quot; width&#x3D;&quot;28&quot; height&#x3D;&quot;28&quot;&gt;&lt;circle cx&#x3D;&quot;16&quot; cy&#x3D;&quot;16&quot; r&#x3D;&quot;16&quot; fill&#x3D;&quot;#003DA5&quot;/&gt;&lt;circle cx&#x3D;&quot;16&quot; cy&#x3D;&quot;16&quot; r&#x3D;&quot;12&quot; fill&#x3D;&quot;#EF3340&quot;/&gt;&lt;circle cx&#x3D;&quot;16&quot; cy&#x3D;&quot;7&quot; r&#x3D;&quot;4.5&quot; fill&#x3D;&quot;#F9D616&quot;/&gt;&lt;text x&#x3D;&quot;16&quot; y&#x3D;&quot;23&quot; text-anchor&#x3D;&quot;middle&quot; font-family&#x3D;&quot;system-ui,Arial,sans-serif&quot; font-size&#x3D;&quot;9&quot; font-weight&#x3D;&quot;bold&quot; fill&#x3D;&quot;white&quot;&gt;lidl&lt;/text&gt;&lt;/svg&gt;&#x60;,
+
+	Tesco: &#x60;&lt;svg xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot; viewBox&#x3D;&quot;0 0 32 32&quot; width&#x3D;&quot;28&quot; height&#x3D;&quot;28&quot;&gt;&lt;rect width&#x3D;&quot;32&quot; height&#x3D;&quot;32&quot; rx&#x3D;&quot;7&quot; fill&#x3D;&quot;#003DA5&quot;/&gt;&lt;rect x&#x3D;&quot;5&quot; y&#x3D;&quot;8&quot; width&#x3D;&quot;22&quot; height&#x3D;&quot;2.5&quot; rx&#x3D;&quot;1.25&quot; fill&#x3D;&quot;white&quot;/&gt;&lt;text x&#x3D;&quot;16&quot; y&#x3D;&quot;21&quot; text-anchor&#x3D;&quot;middle&quot; font-family&#x3D;&quot;system-ui,Arial,sans-serif&quot; font-size&#x3D;&quot;9&quot; font-weight&#x3D;&quot;bold&quot; fill&#x3D;&quot;white&quot;&gt;TESCO&lt;/text&gt;&lt;rect x&#x3D;&quot;5&quot; y&#x3D;&quot;23.5&quot; width&#x3D;&quot;22&quot; height&#x3D;&quot;2.5&quot; rx&#x3D;&quot;1.25&quot; fill&#x3D;&quot;white&quot;/&gt;&lt;/svg&gt;&#x60;,
+
+	&quot;Sainsbury&#x27;s&quot;: &#x60;&lt;svg xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot; viewBox&#x3D;&quot;0 0 32 32&quot; width&#x3D;&quot;28&quot; height&#x3D;&quot;28&quot;&gt;&lt;rect width&#x3D;&quot;32&quot; height&#x3D;&quot;32&quot; rx&#x3D;&quot;7&quot; fill&#x3D;&quot;#F06C00&quot;/&gt;&lt;text x&#x3D;&quot;16&quot; y&#x3D;&quot;24&quot; text-anchor&#x3D;&quot;middle&quot; font-family&#x3D;&quot;system-ui,Arial,sans-serif&quot; font-size&#x3D;&quot;22&quot; font-weight&#x3D;&quot;900&quot; fill&#x3D;&quot;white&quot;&gt;S&lt;/text&gt;&lt;/svg&gt;&#x60;,
+
+	Asda: &#x60;&lt;svg xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot; viewBox&#x3D;&quot;0 0 32 32&quot; width&#x3D;&quot;28&quot; height&#x3D;&quot;28&quot;&gt;&lt;rect width&#x3D;&quot;32&quot; height&#x3D;&quot;32&quot; rx&#x3D;&quot;7&quot; fill&#x3D;&quot;#78BE20&quot;/&gt;&lt;text x&#x3D;&quot;16&quot; y&#x3D;&quot;21&quot; text-anchor&#x3D;&quot;middle&quot; font-family&#x3D;&quot;system-ui,Arial,sans-serif&quot; font-size&#x3D;&quot;12&quot; font-weight&#x3D;&quot;bold&quot; fill&#x3D;&quot;white&quot;&gt;asda&lt;/text&gt;&lt;/svg&gt;&#x60;,
+
+	Leclerc: &#x60;&lt;svg xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot; viewBox&#x3D;&quot;0 0 32 32&quot; width&#x3D;&quot;28&quot; height&#x3D;&quot;28&quot;&gt;&lt;rect width&#x3D;&quot;32&quot; height&#x3D;&quot;32&quot; rx&#x3D;&quot;7&quot; fill&#x3D;&quot;#003DA5&quot;/&gt;&lt;text x&#x3D;&quot;16&quot; y&#x3D;&quot;15&quot; text-anchor&#x3D;&quot;middle&quot; font-family&#x3D;&quot;system-ui,Arial,sans-serif&quot; font-size&#x3D;&quot;12&quot; font-weight&#x3D;&quot;bold&quot; fill&#x3D;&quot;white&quot;&gt;E.&lt;/text&gt;&lt;text x&#x3D;&quot;16&quot; y&#x3D;&quot;26&quot; text-anchor&#x3D;&quot;middle&quot; font-family&#x3D;&quot;system-ui,Arial,sans-serif&quot; font-size&#x3D;&quot;9&quot; font-weight&#x3D;&quot;bold&quot; fill&#x3D;&quot;white&quot;&gt;Leclerc&lt;/text&gt;&lt;/svg&gt;&#x60;,
+
+	Auchan: &#x60;&lt;svg xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot; viewBox&#x3D;&quot;0 0 32 32&quot; width&#x3D;&quot;28&quot; height&#x3D;&quot;28&quot;&gt;&lt;rect width&#x3D;&quot;32&quot; height&#x3D;&quot;32&quot; rx&#x3D;&quot;7&quot; fill&#x3D;&quot;#E63946&quot;/&gt;&lt;text x&#x3D;&quot;16&quot; y&#x3D;&quot;22&quot; text-anchor&#x3D;&quot;middle&quot; font-family&#x3D;&quot;system-ui,Arial,sans-serif&quot; font-size&#x3D;&quot;9.5&quot; font-weight&#x3D;&quot;bold&quot; fill&#x3D;&quot;white&quot;&gt;Auchan&lt;/text&gt;&lt;/svg&gt;&#x60;,
+} as const
+
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * Componente que representa la página de la lista de compras de la aplicación.
+ * Permite al usuario controlar sus ingredientes, añadir manuales, tachar y buscar ingredientes en supermercados online de su país.
+ */
+@Component({
+	selector: &#x27;app-shopping-list-page&#x27;,
+	imports: [AppShell, RouterLink, FormsModule, TranslatePipe],
+	templateUrl: &#x27;./shopping-list-page.html&#x27;,
+})
+export class ShoppingListPage {
+	/**
+	 * Servicio toast inyectado para mostrar notificaciones informativas.
+	 */
+	private readonly toast     &#x3D; inject(ToastService)
+
+	/**
+	 * Sanitizador de contenido inyectado para poder pintar logotipos SVG de forma segura.
+	 */
+	private readonly sanitizer &#x3D; inject(DomSanitizer)
+
+	/**
+	 * Servicio que implementa la lógica de datos de la lista de la compra.
+	 */
+	readonly list &#x3D; inject(ShoppingListService)
+
+	/**
+	 * Servicio de traducción inyectado para localización en TypeScript.
+	 */
+	private readonly translationService &#x3D; inject(TranslationService)
+
+	/**
+	 * Señal reactiva que indica si se muestra el modal de confirmación de vaciado total.
+	 */
+	readonly confirmClear &#x3D; signal(false)
+
+	/**
+	 * Señal calculada con la cantidad de elementos marcados/comprados de la lista.
+	 */
+	readonly checkedCount &#x3D; computed(() &#x3D;&gt; this.list.items().filter(i &#x3D;&gt; i.checked).length)
+
+	// ─── Input manual ────────────────────────────────────────────────
+	/**
+	 * Señal que almacena el nombre del artículo introducido manualmente.
+	 */
+	readonly manualName     &#x3D; signal(&#x27;&#x27;)
+
+	/**
+	 * Señal que almacena la cantidad del artículo introducido manualmente.
+	 */
+	readonly manualQuantity &#x3D; signal(&#x27;&#x27;)
+
+	/**
+	 * Señal que almacena la unidad de medida del artículo introducido manualmente.
+	 */
+	readonly manualUnit     &#x3D; signal(&#x27;&#x27;)
+
+	/**
+	 * Grupos estructurados con unidades de medida tradicionales españolas y sus claves de internacionalización.
+	 */
+	readonly unitGroups &#x3D; [
+		{
+			labelKey: &#x27;shopping.unit.weight&#x27;,
+			options: [
+				{ value: &#x27;gramos&#x27;,     labelKey: &#x27;shopping.unit.grams&#x27; },
+				{ value: &#x27;kilogramos&#x27;, labelKey: &#x27;shopping.unit.kilograms&#x27; },
+			],
+		},
+		{
+			labelKey: &#x27;shopping.unit.volume&#x27;,
+			options: [
+				{ value: &#x27;ml&#x27;,     labelKey: &#x27;shopping.unit.ml&#x27; },
+				{ value: &#x27;litros&#x27;, labelKey: &#x27;shopping.unit.liters&#x27; },
+			],
+		},
+		{
+			labelKey: &#x27;shopping.unit.units&#x27;,
+			options: [
+				{ value: &#x27;unidades&#x27;,  labelKey: &#x27;shopping.unit.units_val&#x27; },
+				{ value: &#x27;paquetes&#x27;,  labelKey: &#x27;shopping.unit.packages&#x27; },
+				{ value: &#x27;latas&#x27;,     labelKey: &#x27;shopping.unit.cans&#x27; },
+				{ value: &#x27;bolsas&#x27;,    labelKey: &#x27;shopping.unit.bags&#x27; },
+			],
+		},
+		{
+			labelKey: &#x27;shopping.unit.cooking&#x27;,
+			options: [
+				{ value: &#x27;cucharadas&#x27;,   labelKey: &#x27;shopping.unit.tablespoons&#x27; },
+				{ value: &#x27;cucharaditas&#x27;, labelKey: &#x27;shopping.unit.teaspoons&#x27; },
+				{ value: &#x27;tazas&#x27;,        labelKey: &#x27;shopping.unit.cups&#x27; },
+				{ value: &#x27;pizcas&#x27;,       labelKey: &#x27;shopping.unit.pinches&#x27; },
+			],
+		},
+	]
+
+	// ─── Modal de supermercados ───────────────────────────────────────
+	/**
+	 * Señal con el término de búsqueda actual del ingrediente en el modal de supermercados.
+	 */
+	readonly storeModalSearch &#x3D; signal&lt;string | null&gt;(null)
+
+	/**
+	 * Señal con las opciones de supermercado disponibles.
+	 */
+	readonly storeModalStores &#x3D; signal&lt;StoreOption[]&gt;([])
+
+	/**
+	 * Sanitiza el código SVG para habilitar su pintado interactivo de forma segura en las plantillas.
+	 * @param svg Logotipo en formato vectorial SVG.
+	 */
+	safeSvg(svg: string): SafeHtml {
+		return this.sanitizer.bypassSecurityTrustHtml(svg)
+	}
+
+	/**
+	 * Traduce la unidad de medida si existe su correspondiente clave localizada en el servicio.
+	 * @param unit Identificador textual de la unidad.
+	 */
+	translateUnit(unit?: string): string {
+		if (!unit) return &#x27;&#x27;
+		const key &#x3D; unit &#x3D;&#x3D;&#x3D; &#x27;unidades&#x27; ? &#x27;shopping.unit.units_val&#x27; : &#x60;shopping.unit.${unit}&#x60;
+		return this.translationService.translate(key) || unit
+	}
+
+	/**
+	 * Agrega un nuevo ingrediente manual a la lista de compras del usuario y resetea las señales del formulario.
+	 */
+	addManual(): void {
+		const name &#x3D; this.manualName().trim()
+		if (!name) return
+		const qty &#x3D; parseFloat(this.manualQuantity())
+		this.list.addManual(name, isNaN(qty) ? undefined : qty, this.manualUnit().trim() || undefined)
+		this.manualName.set(&#x27;&#x27;)
+		this.manualQuantity.set(&#x27;&#x27;)
+		this.manualUnit.set(&#x27;&#x27;)
+	}
+
+	/**
+	 * Tacha o destacha el artículo indicado.
+	 * @param key Identificador único del ingrediente.
+	 */
+	toggleItem(key: string): void {
+		this.list.toggleItem(key)
+	}
+
+	/**
+	 * Elimina por completo todos los ingredientes agrupados bajo una receta específica.
+	 * @param recipeId Identificador único de la receta.
+	 */
+	removeGroup(recipeId: string): void {
+		this.list.removeRecipe(recipeId)
+		this.toast.info(this.translationService.translate(&#x27;shopping.toast.group_removed&#x27;))
+	}
+
+	/**
+	 * Limpia y purga de la lista todos los artículos tachados/comprados.
+	 */
+	clearChecked(): void {
+		this.list.clearChecked()
+		this.toast.info(this.translationService.translate(&#x27;shopping.toast.checked_removed&#x27;))
+	}
+
+	/**
+	 * Borra y limpia de forma completa la lista de compras completa.
+	 */
+	clearAll(): void {
+		this.list.clearAll()
+		this.confirmClear.set(false)
+		this.toast.info(this.translationService.translate(&#x27;shopping.toast.list_cleared&#x27;))
+	}
+
+	/**
+	 * Despliega la ventana modal de supermercados online para buscar el ingrediente indicado.
+	 * @param searchTerm Nombre del ingrediente.
+	 */
+	openStoreModal(searchTerm: string): void {
+		this.storeModalSearch.set(searchTerm)
+		this.storeModalStores.set(this.buildStores(searchTerm))
+	}
+
+	/**
+	 * Oculta la ventana modal de supermercados online.
+	 */
+	closeStoreModal(): void {
+		this.storeModalSearch.set(null)
+		this.storeModalStores.set([])
+	}
+
+	/**
+	 * Resuelve las siglas del país en base a la configuración regional del navegador para segmentar supermercados nacionales.
+	 */
+	private detectCountry(): string {
+		const lang &#x3D; navigator.language ?? &#x27;es-ES&#x27;
+		const parts &#x3D; lang.split(&#x27;-&#x27;)
+		return (parts.length &gt; 1 ? parts[1] : parts[0]).toUpperCase()
+	}
+
+	/**
+	 * Construye los enlaces directos parametrizados para los supermercados correspondientes al país detectado.
+	 * @param searchTerm Nombre del artículo a buscar.
+	 */
+	private buildStores(searchTerm: string): StoreOption[] {
+		const q &#x3D; encodeURIComponent(searchTerm)
+		const country &#x3D; this.detectCountry()
+
+		const byCountry: Record&lt;string, StoreOption[]&gt; &#x3D; {
+			ES: [
+				{ name: &#x27;Mercadona&#x27;,  url: &#x60;https://tienda.mercadona.es/search-results?query&#x3D;${q}&#x60;,                             logoSvg: SVG.Mercadona },
+				{ name: &#x27;Carrefour&#x27;,  url: &#x60;https://www.carrefour.es/search?query&#x3D;${q}&#x60;,                                        logoSvg: SVG.Carrefour },
+				{ name: &#x27;Hipercor&#x27;,   url: &#x60;https://www.hipercor.es/buscar?q&#x3D;${q}&#x60;,                                             logoSvg: SVG.Hipercor  },
+				{ name: &#x27;Día&#x27;,        url: &#x60;https://www.dia.es/buscar?q&#x3D;${q}&#x60;,                                                  logoSvg: SVG.Día       },
+				{ name: &#x27;Aldi&#x27;,       url: &#x60;https://www.aldi.es/search?query&#x3D;${q}&#x60;,                                             logoSvg: SVG.Aldi      },
+				{ name: &#x27;Amazon&#x27;,     url: &#x60;https://www.amazon.es/s?k&#x3D;${q}&amp;i&#x3D;grocery&#x60;,                                          logoSvg: SVG.Amazon    },
+			],
+			DE: [
+				{ name: &#x27;Rewe&#x27;,   url: &#x60;https://shop.rewe.de/productList?search&#x3D;${q}&#x60;,            logoSvg: SVG.Rewe   },
+				{ name: &#x27;Penny&#x27;,  url: &#x60;https://www.penny.de/sortiment?search&#x3D;${q}&#x60;,              logoSvg: SVG.Penny  },
+				{ name: &#x27;Aldi&#x27;,   url: &#x60;https://www.aldi.de/unsere-produkte.html?q&#x3D;${q}&#x60;,         logoSvg: SVG.Aldi   },
+				{ name: &#x27;Lidl&#x27;,   url: &#x60;https://www.lidl.de/search?q&#x3D;${q}&#x60;,                       logoSvg: SVG.Lidl   },
+				{ name: &#x27;Amazon&#x27;, url: &#x60;https://www.amazon.de/s?k&#x3D;${q}&amp;i&#x3D;grocery&#x60;,                logoSvg: SVG.Amazon },
+			],
+			FR: [
+				{ name: &#x27;Carrefour&#x27;, url: &#x60;https://www.carrefour.fr/search?query&#x3D;${q}&#x60;,           logoSvg: SVG.Carrefour },
+				{ name: &#x27;Leclerc&#x27;,   url: &#x60;https://www.e.leclerc/cat/recherche?text&#x3D;${q}&#x60;,        logoSvg: SVG.Leclerc   },
+				{ name: &#x27;Auchan&#x27;,    url: &#x60;https://www.auchan.fr/recherche?query&#x3D;${q}&#x60;,           logoSvg: SVG.Auchan    },
+				{ name: &#x27;Amazon&#x27;,    url: &#x60;https://www.amazon.fr/s?k&#x3D;${q}&amp;i&#x3D;grocery&#x60;,             logoSvg: SVG.Amazon    },
+			],
+			GB: [
+				{ name: &#x27;Tesco&#x27;,       url: &#x60;https://www.tesco.com/groceries/en-GB/search?query&#x3D;${q}&#x60;,                      logoSvg: SVG.Tesco          },
+				{ name: &quot;Sainsbury&#x27;s&quot;, url: &#x60;https://www.sainsburys.co.uk/gol-ui/SearchDisplayView?filters[keyword]&#x3D;${q}&#x60;,  logoSvg: SVG[&quot;Sainsbury&#x27;s&quot;] },
+				{ name: &#x27;Asda&#x27;,        url: &#x60;https://groceries.asda.com/search/${q}&#x60;,                                       logoSvg: SVG.Asda           },
+				{ name: &#x27;Amazon&#x27;,      url: &#x60;https://www.amazon.co.uk/s?k&#x3D;${q}&amp;i&#x3D;grocery&#x60;,                                  logoSvg: SVG.Amazon         },
+			],
+		}
+
+		return byCountry[country] ?? byCountry[&#x27;ES&#x27;]
+	}
+
+	/**
+	 * Lanza el diálogo nativo para compartir el texto detallado de la lista o, si no está disponible, lo copia al portapapeles.
+	 */
+	async share(): Promise&lt;void&gt; {
+		const text &#x3D; this.list.buildShareText()
+		if (navigator.share) {
+			try {
+				const shareTitle &#x3D; this.translationService.translate(&#x27;shopping.share_title&#x27;)
+				await navigator.share({ title: shareTitle, text })
+			} catch { /* usuario canceló */ }
+		} else {
+			await navigator.clipboard.writeText(text)
+			this.toast.success(this.translationService.translate(&#x27;shopping.toast.list_copied&#x27;))
+		}
+	}
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'StoreOption.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

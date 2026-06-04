@@ -1,0 +1,1010 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>cookeealo documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">cookeealo documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content miscellaneous-typealiases">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Miscellaneous</li>
+  <li class="breadcrumb-item">Type aliases</li>
+</ol>
+
+<section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <ul class="index-list">
+                        <li>
+                            <a href="#AiRecipeType" title="src/app/core/services/ai-recipe.service.ts" ><b>AiRecipeType</b>&nbsp;&nbsp;&nbsp;(src/.../ai-recipe.service.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#AssistantState" title="src/app/features/cooking-mode/cooking-mode-page.ts" ><b>AssistantState</b>&nbsp;&nbsp;&nbsp;(src/.../cooking-mode-page.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#AvatarSize" title="src/app/shared/components/avatar/avatar.ts" ><b>AvatarSize</b>&nbsp;&nbsp;&nbsp;(src/.../avatar.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ButtonSize" title="src/app/shared/components/button/button.ts" ><b>ButtonSize</b>&nbsp;&nbsp;&nbsp;(src/.../button.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ButtonVariant" title="src/app/shared/components/button/button.ts" ><b>ButtonVariant</b>&nbsp;&nbsp;&nbsp;(src/.../button.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#CallStatus" title="src/app/core/store/call.store.ts" ><b>CallStatus</b>&nbsp;&nbsp;&nbsp;(src/.../call.store.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ConversationFilter" title="src/app/features/messages/models/messages.models.ts" ><b>ConversationFilter</b>&nbsp;&nbsp;&nbsp;(src/.../messages.models.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DifficultyLevel" title="src/app/core/models/post/post.model.ts" ><b>DifficultyLevel</b>&nbsp;&nbsp;&nbsp;(src/.../post.model.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DifficultyLevel" title="src/app/core/models/recipe/recipe.model.ts" ><b>DifficultyLevel</b>&nbsp;&nbsp;&nbsp;(src/.../recipe.model.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ExploreSort" title="src/app/core/store/explore.store.ts" ><b>ExploreSort</b>&nbsp;&nbsp;&nbsp;(src/.../explore.store.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#LanguageCode" title="src/app/core/services/translation.service.ts" ><b>LanguageCode</b>&nbsp;&nbsp;&nbsp;(src/.../translation.service.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#NotificationTab" title="src/app/core/models/notification/notification.model.ts" ><b>NotificationTab</b>&nbsp;&nbsp;&nbsp;(src/.../notification.model.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#NotificationType" title="src/app/core/models/notification/notification.model.ts" ><b>NotificationType</b>&nbsp;&nbsp;&nbsp;(src/.../notification.model.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#PlaceFilter" title="src/app/core/models/places/place.model.ts" ><b>PlaceFilter</b>&nbsp;&nbsp;&nbsp;(src/.../place.model.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#PlaceSortMode" title="src/app/core/store/places.store.ts" ><b>PlaceSortMode</b>&nbsp;&nbsp;&nbsp;(src/.../places.store.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#PlaceType" title="src/app/core/models/places/place.model.ts" ><b>PlaceType</b>&nbsp;&nbsp;&nbsp;(src/.../place.model.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#PostCategory" title="src/app/core/models/post/post.dto.ts" ><b>PostCategory</b>&nbsp;&nbsp;&nbsp;(src/.../post.dto.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#PostType" title="src/app/core/models/post/post.dto.ts" ><b>PostType</b>&nbsp;&nbsp;&nbsp;(src/.../post.dto.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ReportCategory" title="src/app/core/services/reports.service.ts" ><b>ReportCategory</b>&nbsp;&nbsp;&nbsp;(src/.../reports.service.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ResolvedTheme" title="src/app/core/services/theme.service.ts" ><b>ResolvedTheme</b>&nbsp;&nbsp;&nbsp;(src/.../theme.service.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#SavedFilter" title="src/app/features/saved/models/saved.models.ts" ><b>SavedFilter</b>&nbsp;&nbsp;&nbsp;(src/.../saved.models.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#Section" title="src/app/features/cooking-mode/cooking-mode-page.ts" ><b>Section</b>&nbsp;&nbsp;&nbsp;(src/.../cooking-mode-page.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#SendTarget" title="src/app/features/messages/components/share-post-modal/share-post-modal.ts" ><b>SendTarget</b>&nbsp;&nbsp;&nbsp;(src/.../share-post-modal.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#SendTarget" title="src/app/features/messages/components/share-profile-modal/share-profile-modal.ts" ><b>SendTarget</b>&nbsp;&nbsp;&nbsp;(src/.../share-profile-modal.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#SpinnerSize" title="src/app/shared/components/spinner/spinner.ts" ><b>SpinnerSize</b>&nbsp;&nbsp;&nbsp;(src/.../spinner.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#StoryType" title="src/app/core/models/story/story.model.ts" ><b>StoryType</b>&nbsp;&nbsp;&nbsp;(src/.../story.model.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ThemeMode" title="src/app/core/services/theme.service.ts" ><b>ThemeMode</b>&nbsp;&nbsp;&nbsp;(src/.../theme.service.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ToastSeverity" title="src/app/core/services/toast.service.ts" ><b>ToastSeverity</b>&nbsp;&nbsp;&nbsp;(src/.../toast.service.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#UserType" title="src/app/core/models/user/user.dto.ts" ><b>UserType</b>&nbsp;&nbsp;&nbsp;(src/.../user.dto.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#UserType" title="src/app/core/models/user/user.model.ts" ><b>UserType</b>&nbsp;&nbsp;&nbsp;(src/.../user.model.ts)</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+    <h3>src/app/core/services/ai-recipe.service.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="AiRecipeType"></a>
+                    <span class="name "><b>AiRecipeType</b><a href="#AiRecipeType"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Tipo de dato personalizado para airecipetype.</p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;quick&quot; | &quot;healthy&quot; | &quot;vegetarian&quot; | &quot;gourmet&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>src/app/features/cooking-mode/cooking-mode-page.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="AssistantState"></a>
+                    <span class="name "><b>AssistantState</b><a href="#AssistantState"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Tipo de dato personalizado para assistantstate.</p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;idle&quot; | &quot;listening&quot; | &quot;thinking&quot; | &quot;speaking&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="Section"></a>
+                    <span class="name "><b>Section</b><a href="#Section"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Tipo de dato personalizado para section.</p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;pasos&quot; | &quot;ingredientes&quot; | &quot;receta&quot; | &quot;notas&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>src/app/shared/components/avatar/avatar.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="AvatarSize"></a>
+                    <span class="name "><b>AvatarSize</b><a href="#AvatarSize"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Define los tamaños del avatar disponibles para su visualización.</p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;xs&quot; | &quot;sm&quot; | &quot;md&quot; | &quot;lg&quot; | &quot;xl&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>src/app/shared/components/button/button.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ButtonSize"></a>
+                    <span class="name "><b>ButtonSize</b><a href="#ButtonSize"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Define los tamaños de visualización disponibles para el botón.</p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;sm&quot; | &quot;md&quot; | &quot;lg&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ButtonVariant"></a>
+                    <span class="name "><b>ButtonVariant</b><a href="#ButtonVariant"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Define las variantes de estilo visual disponibles para el componente de botón.</p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;primary&quot; | &quot;secondary&quot; | &quot;ghost&quot; | &quot;danger&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>src/app/core/store/call.store.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="CallStatus"></a>
+                    <span class="name "><b>CallStatus</b><a href="#CallStatus"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Tipo de dato personalizado para callstatus.</p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;idle&quot; | &quot;calling&quot; | &quot;incoming&quot; | &quot;active&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>src/app/features/messages/models/messages.models.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ConversationFilter"></a>
+                    <span class="name "><b>ConversationFilter</b><a href="#ConversationFilter"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Tipo de dato personalizado para conversationfilter.</p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;all&quot; | &quot;unread&quot; | &quot;groups&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>src/app/core/models/post/post.model.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DifficultyLevel"></a>
+                    <span class="name "><b>DifficultyLevel</b><a href="#DifficultyLevel"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Tipo de dato personalizado para difficultylevel.</p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;EASY&quot; | &quot;MEDIUM&quot; | &quot;HARD&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>src/app/core/models/recipe/recipe.model.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DifficultyLevel"></a>
+                    <span class="name "><b>DifficultyLevel</b><a href="#DifficultyLevel"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Tipo de dato personalizado para difficultylevel.</p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;EASY&quot; | &quot;MEDIUM&quot; | &quot;HARD&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>src/app/core/store/explore.store.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ExploreSort"></a>
+                    <span class="name "><b>ExploreSort</b><a href="#ExploreSort"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Tipo de dato personalizado para exploresort.</p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;relevant&quot; | &quot;recent&quot; | &quot;popular&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>src/app/core/services/translation.service.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="LanguageCode"></a>
+                    <span class="name "><b>LanguageCode</b><a href="#LanguageCode"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Tipo de dato personalizado para languagecode.</p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;es&quot; | &quot;en&quot; | &quot;fr&quot; | &quot;de&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>src/app/core/models/notification/notification.model.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="NotificationTab"></a>
+                    <span class="name "><b>NotificationTab</b><a href="#NotificationTab"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Tipo de dato personalizado para notificationtab.</p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;all&quot; | &quot;unread&quot; | &quot;mentions&quot; | &quot;social&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="NotificationType"></a>
+                    <span class="name "><b>NotificationType</b><a href="#NotificationType"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Tipo de dato personalizado para notificationtype.</p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;LIKE&quot; | &quot;COMMENT&quot; | &quot;FOLLOW&quot; | &quot;FOLLOW_REQUEST&quot; | &quot;FOLLOW_ACCEPTED&quot; | &quot;MENTION&quot; | &quot;RECIPE_SAVE&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>src/app/core/models/places/place.model.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="PlaceFilter"></a>
+                    <span class="name "><b>PlaceFilter</b><a href="#PlaceFilter"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Tipo de dato personalizado para placefilter.</p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;BURGER&quot; | &quot;SEAFOOD&quot; | &quot;ITALIAN&quot; | &quot;MEXICAN&quot; | &quot;CHINESE&quot; | &quot;JAPANESE&quot; | &quot;COCKTAIL&quot; | &quot;WINE&quot; | &quot;HAPPY_HOUR&quot; | &quot;NIGHTLIFE&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="PlaceType"></a>
+                    <span class="name "><b>PlaceType</b><a href="#PlaceType"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Tipo de dato personalizado para placetype.</p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;RESTAURANT&quot; | &quot;BAR&quot; | &quot;CAFE&quot; | &quot;BAKERY&quot; | &quot;FOOD_TRUCK&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>src/app/core/store/places.store.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="PlaceSortMode"></a>
+                    <span class="name "><b>PlaceSortMode</b><a href="#PlaceSortMode"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Tipo de dato personalizado para placesortmode.</p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;rating&quot; | &quot;distance&quot; | &quot;name&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>src/app/core/models/post/post.dto.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="PostCategory"></a>
+                    <span class="name "><b>PostCategory</b><a href="#PostCategory"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Tipo de dato personalizado para postcategory.</p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;TRENDING&quot; | &quot;ITALIAN&quot; | &quot;MEXICAN&quot; | &quot;JAPANESE&quot; | &quot;CHINESE&quot; | &quot;DESSERTS&quot; | &quot;VEGAN&quot; | &quot;QUICK_EASY&quot; | &quot;BURGER&quot; | &quot;SEAFOOD&quot; | &quot;COCKTAILS&quot; | &quot;BREAKFAST&quot; | &quot;LUNCH&quot; | &quot;DINNER&quot; | &quot;SNACKS&quot; | &quot;HEALTHY&quot; | &quot;COMFORT_FOOD&quot; | &quot;STREET_FOOD&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="PostType"></a>
+                    <span class="name "><b>PostType</b><a href="#PostType"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Tipo de dato personalizado para posttype.</p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;PHOTO&quot; | &quot;VIDEO&quot; | &quot;TEXT&quot; | &quot;RECIPE&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>src/app/core/services/reports.service.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ReportCategory"></a>
+                    <span class="name "><b>ReportCategory</b><a href="#ReportCategory"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Tipo de dato personalizado para reportcategory.</p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;SPAM&quot; | &quot;HATE&quot; | &quot;VIOLENCE&quot; | &quot;SEXUAL&quot; | &quot;FRAUD&quot; | &quot;OTHER&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>src/app/core/services/theme.service.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ResolvedTheme"></a>
+                    <span class="name "><b>ResolvedTheme</b><a href="#ResolvedTheme"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Tipo de dato personalizado para resolvedtheme.</p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;light&quot; | &quot;dark&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ThemeMode"></a>
+                    <span class="name "><b>ThemeMode</b><a href="#ThemeMode"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Tipo de dato personalizado para thememode.</p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;light&quot; | &quot;dark&quot; | &quot;auto&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>src/app/features/saved/models/saved.models.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="SavedFilter"></a>
+                    <span class="name "><b>SavedFilter</b><a href="#SavedFilter"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Tipo de filtro de visualización en la biblioteca de guardados (&#39;all&#39; | &#39;recipes&#39; | &#39;posts&#39; | &#39;collections&#39;).</p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;all&quot; | &quot;recipes&quot; | &quot;posts&quot; | &quot;collections&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>src/app/features/messages/components/share-post-modal/share-post-modal.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="SendTarget"></a>
+                    <span class="name "><b>SendTarget</b><a href="#SendTarget"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Tipo de dato personalizado para sendtarget.</p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>literal type | literal type</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>src/app/features/messages/components/share-profile-modal/share-profile-modal.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="SendTarget"></a>
+                    <span class="name "><b>SendTarget</b><a href="#SendTarget"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Tipo de dato personalizado para sendtarget.</p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>literal type | literal type</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>src/app/shared/components/spinner/spinner.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="SpinnerSize"></a>
+                    <span class="name "><b>SpinnerSize</b><a href="#SpinnerSize"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Define los tamaños de visualización disponibles para el spinner de carga.</p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;sm&quot; | &quot;md&quot; | &quot;lg&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>src/app/core/models/story/story.model.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="StoryType"></a>
+                    <span class="name "><b>StoryType</b><a href="#StoryType"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Tipo de dato personalizado para storytype.</p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;PHOTO&quot; | &quot;VIDEO&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>src/app/core/services/toast.service.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ToastSeverity"></a>
+                    <span class="name "><b>ToastSeverity</b><a href="#ToastSeverity"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Tipo de dato personalizado para toastseverity.</p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;success&quot; | &quot;error&quot; | &quot;info&quot; | &quot;warn&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>src/app/core/models/user/user.dto.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="UserType"></a>
+                    <span class="name "><b>UserType</b><a href="#UserType"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Tipo de dato personalizado para usertype.</p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;PERSON&quot; | &quot;RESTAURANT&quot; | &quot;BAR&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>src/app/core/models/user/user.model.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="UserType"></a>
+                    <span class="name "><b>UserType</b><a href="#UserType"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Tipo de dato personalizado para usertype.</p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;PERSON&quot; | &quot;RESTAURANT&quot; | &quot;BAR&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'miscellaneous-typealiases';
+            var COMPODOC_CURRENT_PAGE_URL = 'typealiases.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

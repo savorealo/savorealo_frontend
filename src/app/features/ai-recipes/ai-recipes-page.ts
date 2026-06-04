@@ -4,11 +4,13 @@ import { AiIdeasPanel } from './components/ai-ideas-panel/ai-ideas-panel'
 import { AiRecipeForm } from './components/ai-recipe-form/ai-recipe-form'
 import { AiRecipeResult } from './components/ai-recipe-result/ai-recipe-result'
 import { AiRecipesHero } from './components/ai-recipes-hero/ai-recipes-hero'
-import { AiRecipesTopbar } from './components/ai-recipes-topbar/ai-recipes-topbar'
 import { RecentAiRecipes } from './components/recent-ai-recipes/recent-ai-recipes'
 import { AiRecipeStore } from '@core/store/ai-recipe.store'
 import { inject } from '@angular/core'
 
+/**
+ * Componente principal para la vista o página de airecipes.
+ */
 @Component({
 	selector: 'app-ai-recipes-page',
 	imports: [
@@ -17,11 +19,13 @@ import { inject } from '@angular/core'
 		AiRecipeForm,
 		AiRecipeResult,
 		AiRecipesHero,
-		AiRecipesTopbar,
 		RecentAiRecipes,
 	],
 	templateUrl: './ai-recipes-page.html',
 })
 export class AiRecipesPage {
+	/**
+	 * Propiedad para gestionar store.
+	 */
 	readonly store = inject(AiRecipeStore)
 }

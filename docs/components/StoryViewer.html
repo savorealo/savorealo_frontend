@@ -1,0 +1,1578 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>cookeealo documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">cookeealo documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  StoryViewer</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/features/feed/components/story-viewer/story-viewer.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Clase de utilidad para storyviewer.</p>
+
+    </p>
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-story-viewer</code></td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                                <code><a href="../components/Avatar.html" target="_self" >Avatar</a></code>
+                            <code>TimeAgoPipe</code>
+                                <code><a href="../directives/ImgFallbackDirective.html" target="_self" >ImgFallbackDirective</a></code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./story-viewer.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#animFrame" >animFrame</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#paused" >paused</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#progressPct" >progressPct</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#startTime" >startTime</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#store" >store</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#videoEl" >videoEl</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#cancelTimer" >cancelTimer</a>
+                            </li>
+                            <li>
+                                <a href="#close" >close</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#continueTimer" >continueTimer</a>
+                            </li>
+                            <li>
+                                <a href="#holdEnd" >holdEnd</a>
+                            </li>
+                            <li>
+                                <a href="#holdStart" >holdStart</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
+                            </li>
+                            <li>
+                                <a href="#onVideoMetadata" >onVideoMetadata</a>
+                            </li>
+                            <li>
+                                <a href="#onVideoTimeUpdate" >onVideoTimeUpdate</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#startTimer" >startTimer</a>
+                            </li>
+                            <li>
+                                <a href="#storyTrack" >storyTrack</a>
+                            </li>
+                            <li>
+                                <a href="#tap" >tap</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#tick" >tick</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor()</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/features/feed/components/story-viewer/story-viewer.ts:45</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div class="io-description"><p>Constructor de la clase o componente para inicializar dependencias.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cancelTimer"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>cancelTimer</b></span>
+                        <a href="#cancelTimer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>cancelTimer()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="176"
+                                    class="link-to-prism">src/app/features/feed/components/story-viewer/story-viewer.ts:176</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método para cancelar timer.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="close"></a>
+                    <span class="name">
+                        <span ><b>close</b></span>
+                        <a href="#close"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>close()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="107"
+                                    class="link-to-prism">src/app/features/feed/components/story-viewer/story-viewer.ts:107</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método para cerrar.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="continueTimer"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>continueTimer</b></span>
+                        <a href="#continueTimer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>continueTimer()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="149"
+                                    class="link-to-prism">src/app/features/feed/components/story-viewer/story-viewer.ts:149</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método para continue timer.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="holdEnd"></a>
+                    <span class="name">
+                        <span ><b>holdEnd</b></span>
+                        <a href="#holdEnd"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>holdEnd()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="95"
+                                    class="link-to-prism">src/app/features/feed/components/story-viewer/story-viewer.ts:95</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método para hold end.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="holdStart"></a>
+                    <span class="name">
+                        <span ><b>holdStart</b></span>
+                        <a href="#holdStart"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>holdStart()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="83"
+                                    class="link-to-prism">src/app/features/feed/components/story-viewer/story-viewer.ts:83</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método para hold start.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <span ><b>ngOnDestroy</b></span>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="186"
+                                    class="link-to-prism">src/app/features/feed/components/story-viewer/story-viewer.ts:186</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método de ciclo de vida de Angular que se ejecuta al destruir el componente para liberar recursos.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onVideoMetadata"></a>
+                    <span class="name">
+                        <span ><b>onVideoMetadata</b></span>
+                        <a href="#onVideoMetadata"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onVideoMetadata()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="119"
+                                    class="link-to-prism">src/app/features/feed/components/story-viewer/story-viewer.ts:119</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método para evento de video metadata.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onVideoTimeUpdate"></a>
+                    <span class="name">
+                        <span ><b>onVideoTimeUpdate</b></span>
+                        <a href="#onVideoTimeUpdate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onVideoTimeUpdate(event: <a href="https://angular.io/api/router/Event" target="_blank">Event</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="126"
+                                    class="link-to-prism">src/app/features/feed/components/story-viewer/story-viewer.ts:126</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método para evento de video tiempo actualizar.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                            <code><a href="https://angular.io/api/router/Event" target="_blank" >Event</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="startTimer"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>startTimer</b></span>
+                        <a href="#startTimer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>startTimer()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="138"
+                                    class="link-to-prism">src/app/features/feed/components/story-viewer/story-viewer.ts:138</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método para start timer.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="storyTrack"></a>
+                    <span class="name">
+                        <span ><b>storyTrack</b></span>
+                        <a href="#storyTrack"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>storyTrack(_: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, idx: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="114"
+                                    class="link-to-prism">src/app/features/feed/components/story-viewer/story-viewer.ts:114</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método para story track.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>_</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>idx</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="tap"></a>
+                    <span class="name">
+                        <span ><b>tap</b></span>
+                        <a href="#tap"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>tap(side: "left" | "right")</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="72"
+                                    class="link-to-prism">src/app/features/feed/components/story-viewer/story-viewer.ts:72</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método para tap.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>side</td>
+                                            <td>
+                                                        <code>&quot;left&quot; | &quot;right&quot;</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="tick"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>tick</b></span>
+                        <a href="#tick"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>tick()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="158"
+                                    class="link-to-prism">src/app/features/feed/components/story-viewer/story-viewer.ts:158</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método para tick.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="animFrame"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>animFrame</b></span>
+                        <a href="#animFrame"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>number | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/features/feed/components/story-viewer/story-viewer.ts:37</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar anim frame.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="paused"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>paused</b></span>
+                        <a href="#paused"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/features/feed/components/story-viewer/story-viewer.ts:45</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar paused.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="progressPct"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>progressPct</b></span>
+                        <a href="#progressPct"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(0)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/features/feed/components/story-viewer/story-viewer.ts:28</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar progress pct.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="startTime"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>startTime</b></span>
+                        <a href="#startTime"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>0</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/app/features/feed/components/story-viewer/story-viewer.ts:41</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar start tiempo.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="store"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>store</b></span>
+                        <a href="#store"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(StoriesStore)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/features/feed/components/story-viewer/story-viewer.ts:24</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar store.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="videoEl"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>videoEl</b></span>
+                        <a href="#videoEl"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>viewChild&lt;ElementRef&lt;HTMLVideoElement&gt;&gt;(&#x27;storyVideo&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/features/feed/components/story-viewer/story-viewer.ts:32</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar video el.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, effect, ElementRef, inject, OnDestroy, signal, viewChild } from &#x27;@angular/core&#x27;
+import { StoriesStore } from &#x27;@core/store/stories.store&#x27;
+import { Avatar } from &#x27;@shared/components/avatar/avatar&#x27;
+import { ImgFallbackDirective } from &#x27;@shared/directives/img-fallback.directive&#x27;
+import { TimeAgoPipe } from &#x27;@shared/pipes/time-ago.pipe&#x27;
+
+/**
+ * Variable o constante para s t o r y d u r a t i o n.
+ */
+const STORY_DURATION &#x3D; 5000
+
+/**
+ * Clase de utilidad para storyviewer.
+ */
+@Component({
+	selector: &#x27;app-story-viewer&#x27;,
+	imports: [Avatar, TimeAgoPipe, ImgFallbackDirective],
+	templateUrl: &#x27;./story-viewer.html&#x27;,
+})
+export class StoryViewer implements OnDestroy {
+	/**
+	 * Propiedad para gestionar store.
+	 */
+	readonly store &#x3D; inject(StoriesStore)
+	/**
+	 * Propiedad para gestionar progress pct.
+	 */
+	readonly progressPct &#x3D; signal(0)
+	/**
+	 * Propiedad para gestionar video el.
+	 */
+	private readonly videoEl &#x3D; viewChild&lt;ElementRef&lt;HTMLVideoElement&gt;&gt;(&#x27;storyVideo&#x27;)
+
+	/**
+	 * Propiedad para gestionar anim frame.
+	 */
+	private animFrame: number | null &#x3D; null
+	/**
+	 * Propiedad para gestionar start tiempo.
+	 */
+	private startTime &#x3D; 0
+	/**
+	 * Propiedad para gestionar paused.
+	 */
+	private paused &#x3D; false
+
+	/**
+	 * Constructor de la clase o componente para inicializar dependencias.
+	 */
+	constructor() {
+		effect(() &#x3D;&gt; {
+			const story &#x3D; this.store.activeStory()
+			const open &#x3D; this.store.viewerOpen()
+			if (open &amp;&amp; story) {
+				if (story.storyType &#x3D;&#x3D;&#x3D; &#x27;VIDEO&#x27;) {
+					this.cancelTimer()
+					this.progressPct.set(0)
+					this.paused &#x3D; false
+				} else {
+					this.startTimer()
+				}
+			} else {
+				this.cancelTimer()
+				this.progressPct.set(0)
+			}
+		})
+	}
+
+	/**
+	 * Método para tap.
+	 */
+	tap(side: &#x27;left&#x27; | &#x27;right&#x27;): void {
+		if (side &#x3D;&#x3D;&#x3D; &#x27;left&#x27;) {
+			this.store.prevStory()
+		} else {
+			this.store.nextStory()
+		}
+	}
+
+	/**
+	 * Método para hold start.
+	 */
+	holdStart(): void {
+		this.paused &#x3D; true
+		if (this.store.activeStory()?.storyType &#x3D;&#x3D;&#x3D; &#x27;VIDEO&#x27;) {
+			this.videoEl()?.nativeElement.pause()
+		} else {
+			this.cancelTimer()
+		}
+	}
+
+	/**
+	 * Método para hold end.
+	 */
+	holdEnd(): void {
+		this.paused &#x3D; false
+		if (this.store.activeStory()?.storyType &#x3D;&#x3D;&#x3D; &#x27;VIDEO&#x27;) {
+			void this.videoEl()?.nativeElement.play()
+		} else {
+			this.continueTimer()
+		}
+	}
+
+	/**
+	 * Método para cerrar.
+	 */
+	close(): void {
+		this.store.closeViewer()
+	}
+
+	/**
+	 * Método para story track.
+	 */
+	storyTrack(_: number, idx: number): number { return idx }
+
+	/**
+	 * Método para evento de video metadata.
+	 */
+	onVideoMetadata(): void {
+		this.progressPct.set(0)
+	}
+
+	/**
+	 * Método para evento de video tiempo actualizar.
+	 */
+	onVideoTimeUpdate(event: Event): void {
+		const video &#x3D; event.target as HTMLVideoElement
+		if (!video.duration || Number.isNaN(video.duration)) {
+			this.progressPct.set(0)
+			return
+		}
+		this.progressPct.set(Math.min(100, (video.currentTime / video.duration) * 100))
+	}
+
+	/**
+	 * Método para start timer.
+	 */
+	private startTimer(): void {
+		this.cancelTimer()
+		this.progressPct.set(0)
+		this.startTime &#x3D; performance.now()
+		this.paused &#x3D; false
+		this.tick()
+	}
+
+	/**
+	 * Método para continue timer.
+	 */
+	private continueTimer(): void {
+		const elapsed &#x3D; (this.progressPct() / 100) * STORY_DURATION
+		this.startTime &#x3D; performance.now() - elapsed
+		this.tick()
+	}
+
+	/**
+	 * Método para tick.
+	 */
+	private tick(): void {
+		const frame &#x3D; (now: number) &#x3D;&gt; {
+			if (this.paused) return
+			const elapsed &#x3D; now - this.startTime
+			const pct &#x3D; Math.min(100, (elapsed / STORY_DURATION) * 100)
+			this.progressPct.set(pct)
+			if (pct &lt; 100) {
+				this.animFrame &#x3D; requestAnimationFrame(frame)
+			} else {
+				this.store.nextStory()
+			}
+		}
+		this.animFrame &#x3D; requestAnimationFrame(frame)
+	}
+
+	/**
+	 * Método para cancelar timer.
+	 */
+	private cancelTimer(): void {
+		if (this.animFrame !&#x3D;&#x3D; null) {
+			cancelAnimationFrame(this.animFrame)
+			this.animFrame &#x3D; null
+		}
+	}
+
+	/**
+	 * Método de ciclo de vida de Angular que se ejecuta al destruir el componente para liberar recursos.
+	 */
+	ngOnDestroy(): void {
+		this.cancelTimer()
+	}
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">@if (store.viewerOpen() &amp;&amp; store.activeStory()) {
+	&lt;div
+		class&#x3D;&quot;fixed inset-0 z-50 flex items-center justify-center bg-black&quot;
+		(keydown.escape)&#x3D;&quot;close()&quot;
+		tabindex&#x3D;&quot;0&quot;
+	&gt;
+		&lt;!-- Story card --&gt;
+		&lt;div class&#x3D;&quot;relative h-dvh w-full max-w-sm overflow-hidden sm:rounded-2xl sm:h-[90vh]&quot;&gt;
+
+			&lt;!-- Media --&gt;
+			@if (store.activeStory()!.storyType &#x3D;&#x3D;&#x3D; &#x27;VIDEO&#x27;) {
+				&lt;video
+					#storyVideo
+					[src]&#x3D;&quot;store.activeStory()!.mediaUrl&quot;
+					class&#x3D;&quot;absolute inset-0 size-full object-cover&quot;
+					autoplay
+					muted
+					playsinline
+					(loadedmetadata)&#x3D;&quot;onVideoMetadata()&quot;
+					(timeupdate)&#x3D;&quot;onVideoTimeUpdate($event)&quot;
+					(ended)&#x3D;&quot;store.nextStory()&quot;
+				&gt;&lt;/video&gt;
+			} @else {
+				&lt;img
+					[src]&#x3D;&quot;store.activeStory()!.mediaUrl&quot;
+					[alt]&#x3D;&quot;store.activeGroup()!.displayName&quot;
+					appImgFallback
+					class&#x3D;&quot;absolute inset-0 size-full object-cover&quot;
+				/&gt;
+			}
+
+			&lt;!-- Gradient overlay top --&gt;
+			&lt;div class&#x3D;&quot;absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-black/60 to-transparent&quot;&gt;&lt;/div&gt;
+			&lt;!-- Gradient overlay bottom --&gt;
+			&lt;div class&#x3D;&quot;absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/40 to-transparent&quot;&gt;&lt;/div&gt;
+
+			&lt;!-- Progress bars --&gt;
+			&lt;div class&#x3D;&quot;absolute inset-x-0 top-0 flex gap-1 px-3 pt-3&quot;&gt;
+				@for (s of store.activeGroup()!.stories; track s.id; let i &#x3D; $index) {
+					&lt;div class&#x3D;&quot;h-[3px] flex-1 overflow-hidden rounded-full bg-white/30&quot;&gt;
+						@if (i &lt; store.activeStoryIdx()) {
+							&lt;div class&#x3D;&quot;h-full w-full bg-white&quot;&gt;&lt;/div&gt;
+						} @else if (i &#x3D;&#x3D;&#x3D; store.activeStoryIdx()) {
+							&lt;div class&#x3D;&quot;h-full bg-white&quot; [style.width.%]&#x3D;&quot;progressPct()&quot;&gt;&lt;/div&gt;
+						}
+					&lt;/div&gt;
+				}
+			&lt;/div&gt;
+
+			&lt;!-- Header — z-20 para quedar por encima de las tap-zones --&gt;
+			&lt;div class&#x3D;&quot;absolute inset-x-0 top-5 z-20 flex items-center justify-between gap-3 px-3 pt-3&quot;&gt;
+				&lt;div class&#x3D;&quot;flex items-center gap-3&quot;&gt;
+					&lt;app-avatar
+						[src]&#x3D;&quot;store.activeGroup()!.avatarUrl&quot;
+						[name]&#x3D;&quot;store.activeGroup()!.displayName&quot;
+						[fill]&#x3D;&quot;true&quot;
+						class&#x3D;&quot;block size-8 rounded-pill&quot;
+					/&gt;
+					&lt;div&gt;
+						&lt;p class&#x3D;&quot;text-sm font-black text-white leading-tight&quot;&gt;{{ store.activeGroup()!.displayName }}&lt;/p&gt;
+						&lt;p class&#x3D;&quot;text-xs font-semibold text-white/60&quot;&gt;{{ store.activeStory()!.createdAt | timeAgo }}&lt;/p&gt;
+					&lt;/div&gt;
+				&lt;/div&gt;
+				&lt;button
+					type&#x3D;&quot;button&quot;
+					class&#x3D;&quot;grid size-11 place-items-center rounded-pill bg-white/10 text-white transition-colors duration-fast ease-standard hover:bg-white/20 active:scale-[0.98]&quot;
+					aria-label&#x3D;&quot;Cerrar&quot;
+					(click)&#x3D;&quot;close()&quot;
+				&gt;
+					&lt;i class&#x3D;&quot;pi pi-times&quot;&gt;&lt;/i&gt;
+				&lt;/button&gt;
+			&lt;/div&gt;
+
+			&lt;!-- Tap zones --&gt;
+			&lt;div class&#x3D;&quot;absolute inset-0 flex&quot;&gt;
+				&lt;button
+					type&#x3D;&quot;button&quot;
+					class&#x3D;&quot;h-full w-1/3 focus:outline-none&quot;
+					aria-label&#x3D;&quot;Historia anterior&quot;
+					(click)&#x3D;&quot;tap(&#x27;left&#x27;)&quot;
+					(pointerdown)&#x3D;&quot;holdStart()&quot;
+					(pointerup)&#x3D;&quot;holdEnd()&quot;
+					(pointerleave)&#x3D;&quot;holdEnd()&quot;
+				&gt;&lt;/button&gt;
+				&lt;div class&#x3D;&quot;flex-1&quot;&gt;&lt;/div&gt;
+				&lt;button
+					type&#x3D;&quot;button&quot;
+					class&#x3D;&quot;h-full w-1/3 focus:outline-none&quot;
+					aria-label&#x3D;&quot;Historia siguiente&quot;
+					(click)&#x3D;&quot;tap(&#x27;right&#x27;)&quot;
+					(pointerdown)&#x3D;&quot;holdStart()&quot;
+					(pointerup)&#x3D;&quot;holdEnd()&quot;
+					(pointerleave)&#x3D;&quot;holdEnd()&quot;
+				&gt;&lt;/button&gt;
+			&lt;/div&gt;
+		&lt;/div&gt;
+
+		&lt;!-- Click outside to close (desktop) --&gt;
+		&lt;div class&#x3D;&quot;absolute inset-0 -z-10 hidden sm:block&quot; (click)&#x3D;&quot;close()&quot;&gt;&lt;/div&gt;
+	&lt;/div&gt;
+}
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis-network.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div>@if (store.viewerOpen() && store.activeStory()) {	<div		class="fixed inset-0 z-50 flex items-center justify-center bg-black"		(keydown.escape)="close()"		tabindex="0"	>		<!-- Story card -->		<div class="relative h-dvh w-full max-w-sm overflow-hidden sm:rounded-2xl sm:h-[90vh]">			<!-- Media -->			@if (store.activeStory()!.storyType === \'VIDEO\') {				<video					#storyVideo					[src]="store.activeStory()!.mediaUrl"					class="absolute inset-0 size-full object-cover"					autoplay					muted					playsinline					(loadedmetadata)="onVideoMetadata()"					(timeupdate)="onVideoTimeUpdate($event)"					(ended)="store.nextStory()"				></video>			} @else {				<img					[src]="store.activeStory()!.mediaUrl"					[alt]="store.activeGroup()!.displayName"					appImgFallback					class="absolute inset-0 size-full object-cover"				/>			}			<!-- Gradient overlay top -->			<div class="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-black/60 to-transparent"></div>			<!-- Gradient overlay bottom -->			<div class="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/40 to-transparent"></div>			<!-- Progress bars -->			<div class="absolute inset-x-0 top-0 flex gap-1 px-3 pt-3">				@for (s of store.activeGroup()!.stories; track s.id; let i = $index) {					<div class="h-[3px] flex-1 overflow-hidden rounded-full bg-white/30">						@if (i < store.activeStoryIdx()) {							<div class="h-full w-full bg-white"></div>						} @else if (i === store.activeStoryIdx()) {							<div class="h-full bg-white" [style.width.%]="progressPct()"></div>						}					</div>				}			</div>			<!-- Header — z-20 para quedar por encima de las tap-zones -->			<div class="absolute inset-x-0 top-5 z-20 flex items-center justify-between gap-3 px-3 pt-3">				<div class="flex items-center gap-3">					<app-avatar						[src]="store.activeGroup()!.avatarUrl"						[name]="store.activeGroup()!.displayName"						[fill]="true"						class="block size-8 rounded-pill"					/>					<div>						<p class="text-sm font-black text-white leading-tight">{{ store.activeGroup()!.displayName }}</p>						<p class="text-xs font-semibold text-white/60">{{ store.activeStory()!.createdAt | timeAgo }}</p>					</div>				</div>				<button					type="button"					class="grid size-11 place-items-center rounded-pill bg-white/10 text-white transition-colors duration-fast ease-standard hover:bg-white/20 active:scale-[0.98]"					aria-label="Cerrar"					(click)="close()"				>					<i class="pi pi-times"></i>				</button>			</div>			<!-- Tap zones -->			<div class="absolute inset-0 flex">				<button					type="button"					class="h-full w-1/3 focus:outline-none"					aria-label="Historia anterior"					(click)="tap(\'left\')"					(pointerdown)="holdStart()"					(pointerup)="holdEnd()"					(pointerleave)="holdEnd()"				></button>				<div class="flex-1"></div>				<button					type="button"					class="h-full w-1/3 focus:outline-none"					aria-label="Historia siguiente"					(click)="tap(\'right\')"					(pointerdown)="holdStart()"					(pointerup)="holdEnd()"					(pointerleave)="holdEnd()"				></button>			</div>		</div>		<!-- Click outside to close (desktop) -->		<div class="absolute inset-0 -z-10 hidden sm:block" (click)="close()"></div>	</div>}</div>'
+    var COMPONENTS = [{'name': 'AddReviewModal', 'selector': 'app-add-review-modal'},{'name': 'AiIdeasPanel', 'selector': 'app-ai-ideas-panel'},{'name': 'AiRecipeForm', 'selector': 'app-ai-recipe-form'},{'name': 'AiRecipeResult', 'selector': 'app-ai-recipe-result'},{'name': 'AiRecipesHero', 'selector': 'app-ai-recipes-hero'},{'name': 'AiRecipesPage', 'selector': 'app-ai-recipes-page'},{'name': 'App', 'selector': 'app-root'},{'name': 'AppShell', 'selector': 'app-shell'},{'name': 'Auth', 'selector': 'app-auth'},{'name': 'Avatar', 'selector': 'app-avatar'},{'name': 'Body', 'selector': 'app-body-step1'},{'name': 'Body', 'selector': 'app-body-step3'},{'name': 'Body', 'selector': 'app-body-step2'},{'name': 'ButtonComponent', 'selector': 'app-button'},{'name': 'CallHost', 'selector': 'app-call-host'},{'name': 'CallOverlay', 'selector': 'app-call-overlay'},{'name': 'ChatPanel', 'selector': 'app-chat-panel'},{'name': 'CommentSection', 'selector': 'app-comment-section'},{'name': 'CommentsSheetComponent', 'selector': 'app-comments-sheet'},{'name': 'ConversationList', 'selector': 'app-conversation-list'},{'name': 'CookingModePage', 'selector': 'app-cooking-mode-page'},{'name': 'CreatePostComponent', 'selector': 'app-create-post'},{'name': 'EditProfileComponent', 'selector': 'app-edit-profile'},{'name': 'EmojiRain', 'selector': 'app-emoji-rain'},{'name': 'Emptystate', 'selector': 'app-emptystate'},{'name': 'ExploreCategoryTabs', 'selector': 'app-explore-category-tabs'},{'name': 'ExploreHero', 'selector': 'app-explore-hero'},{'name': 'ExplorePage', 'selector': 'app-explore-page'},{'name': 'ExploreRightRail', 'selector': 'app-explore-right-rail'},{'name': 'ExploreToolbar', 'selector': 'app-explore-toolbar'},{'name': 'FeedPage', 'selector': 'app-feed-page'},{'name': 'FeedPostList', 'selector': 'app-feed-post-list'},{'name': 'FeedRightRail', 'selector': 'app-feed-right-rail'},{'name': 'GlobalSearchPanel', 'selector': 'app-global-search-panel'},{'name': 'Header', 'selector': 'app-header-step1'},{'name': 'Header', 'selector': 'app-header-step3'},{'name': 'Header', 'selector': 'app-header-step2'},{'name': 'Home', 'selector': 'app-home'},{'name': 'IncomingCall', 'selector': 'app-incoming-call'},{'name': 'Login', 'selector': 'app-login'},{'name': 'MessageBubble', 'selector': 'app-message-bubble'},{'name': 'MessagesPage', 'selector': 'app-messages-page'},{'name': 'NewConversation', 'selector': 'app-new-conversation'},{'name': 'NotificationsPage', 'selector': 'app-notifications-page'},{'name': 'PlaceCard', 'selector': 'app-place-card'},{'name': 'PlaceDetailPage', 'selector': 'app-place-detail-page'},{'name': 'PlacesPage', 'selector': 'app-places-page'},{'name': 'PostCard', 'selector': 'app-post-card'},{'name': 'PostDetailPage', 'selector': 'app-post-detail-page'},{'name': 'Profile', 'selector': 'app-profile'},{'name': 'PublicProfilePage', 'selector': 'app-public-profile-page'},{'name': 'RecentAiRecipes', 'selector': 'app-recent-ai-recipes'},{'name': 'RecipeDiscoveryCard', 'selector': 'app-recipe-discovery-card'},{'name': 'RecipeDiscoveryGrid', 'selector': 'app-recipe-discovery-grid'},{'name': 'RecipeOfDayCard', 'selector': 'app-recipe-of-day-card'},{'name': 'Register', 'selector': 'app-register'},{'name': 'ReportSheet', 'selector': 'app-report-sheet'},{'name': 'SavedCollectionStrip', 'selector': 'app-saved-collection-strip'},{'name': 'SavedPage', 'selector': 'app-saved-page'},{'name': 'SavedRecipeCard', 'selector': 'app-saved-recipe-card'},{'name': 'SavoLoader', 'selector': 'app-savo-loader'},{'name': 'SettingsPage', 'selector': 'app-settings-page'},{'name': 'SharedPostCard', 'selector': 'app-shared-post-card'},{'name': 'SharedProfileCard', 'selector': 'app-shared-profile-card'},{'name': 'SharePostModal', 'selector': 'app-share-post-modal'},{'name': 'ShareProfileModal', 'selector': 'app-share-profile-modal'},{'name': 'ShoppingListPage', 'selector': 'app-shopping-list-page'},{'name': 'SkeletonCard', 'selector': 'app-skeleton-card'},{'name': 'Spinner', 'selector': 'app-spinner'},{'name': 'SpotlightBg', 'selector': 'app-spotlight-bg'},{'name': 'StoriesStrip', 'selector': 'app-stories-strip'},{'name': 'StoryViewer', 'selector': 'app-story-viewer'},{'name': 'SuggestionsPanel', 'selector': 'app-suggestions-panel'},{'name': 'Title', 'selector': 'app-title'},{'name': 'Topbar', 'selector': 'app-topbar'},{'name': 'TrendingList', 'selector': 'app-trending-list'},{'name': 'VeganConvertModal', 'selector': 'app-vegan-convert-modal'}];
+    var DIRECTIVES = [{'name': 'ClickOutsideDirective', 'selector': '[appClickOutside]'},{'name': 'ImgFallbackDirective', 'selector': 'img[appImgFallback]'}];
+    var ACTUAL_COMPONENT = {'name': 'StoryViewer'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'StoryViewer.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

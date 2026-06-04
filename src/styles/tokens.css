@@ -1,0 +1,328 @@
+/* =============================================================
+   Savorealo · Design Tokens
+   Única fuente de verdad de colores, tipografías, espaciado,
+   radios, sombras y motion. NO escribir colores literales en
+   componentes — siempre referenciar desde aquí.
+
+   Estrategia de color:
+     · Las variables `--rgb-*` guardan tripletes R G B (sin coma)
+       para que Tailwind use el modificador `/<alpha-value>` y
+       podamos hacer `bg-primary/40`, `text-on-surface/70`, etc.
+     · Las variables `--color-*` exponen el color ya envuelto en
+       `rgb(...)` para uso directo en CSS de componentes.
+
+   Paleta oficial (Figma) — Mayo 2026
+   ============================================================= */
+
+:root {
+	/* ───────── Primitivos · paleta de marca ───────── */
+	/* Naranja Savorealo — paleta oficial Mayo 2026     */
+	--rgb-yellow-500:  255 122  24;   /* #FF7A18 Naranja Savorealo · Primario  */
+	--rgb-yellow-900:   61  21   0;   /* #3D1500 En primario (oscuro) */
+	--rgb-salmon-500:  255 179  71;   /* #FFB347 Naranja Claro · Secundario */
+	--rgb-salmon-900:   69  23   0;   /* #451700 En secundario (oscuro) */
+	--rgb-orange-deep: 255  61   0;   /* #FF3D00 Naranja Intenso · Acento */
+	--rgb-indigo-300:  144 163 255;   /* #90A3FF Terciario */
+	--rgb-indigo-900:    0  27 110;   /* #001B6E En terciario */
+	--rgb-cream-100:   255 244 235;   /* #FFF4EB Crema oficial */
+	--rgb-error-500:   207  44  39;   /* #CF2C27 Error */
+
+	/* ───────── Primitivos · neutros cálidos ─────────
+	   Pensados para encajar con la paleta cálida de marca,
+	   evitando grises azulados que rompen la armonía. */
+	--rgb-neutral-0:   255 255 255;
+	--rgb-neutral-50:  255 250 245;
+	--rgb-neutral-100: 247 241 232;
+	--rgb-neutral-200: 230 220 205;
+	--rgb-neutral-300: 198 184 165;
+	--rgb-neutral-400: 158 143 125;
+	--rgb-neutral-500: 117 103  88;
+	--rgb-neutral-600:  87  74  62;
+	--rgb-neutral-700:  60  49  39;
+	--rgb-neutral-800:  40  32  25;
+	--rgb-neutral-900:  26  20  16;
+	--rgb-neutral-950:  16  12   8;
+
+	/* ───────── Semánticos · LIGHT THEME (default) ─────────
+	   Inspirado en Material 3 (container / on-container).
+	   Cambiar SOLO aquí para mover toda la app. */
+
+	/* Superficies
+	   Jerarquía visual clara:
+	     surface              = crema cálida visible (fondo general)
+	     surface-container    = blanco puro (tarjetas/cards elevadas)
+	     surface-container-high = naranja melocotón (sidebar, chrome, hover rows)
+	     surface-container-low = beige cálido (inputs/recessed) */
+	--rgb-surface:                 247 240 232;   /* #F7F0E8 — crema cálida visible */
+	--rgb-surface-container:       255 255 255;   /* #FFFFFF — blanco puro para cards */
+	--rgb-surface-container-high:  255 228 200;   /* #FFE4C8 — naranja melocotón sidebar */
+	--rgb-surface-container-low:   238 226 210;   /* #EEE2D2 — beige cálido para inputs */
+	--rgb-on-surface:              var(--rgb-neutral-950);
+	--rgb-on-surface-muted:        110  84  58;   /* #6E543A — marrón cálido, contraste 5.5:1 ✓ WCAG AA */
+	--rgb-outline:                 215 193 168;   /* #D7C1A8 — borde cálido visible */
+	--rgb-outline-strong:          178 152 124;   /* #B2987C */
+
+	/* Marca · CTAs principales
+	   on-primary = oscuro cálido en LIGHT — contraste 7.4:1 sobre #FF7A18 ✓ WCAG AAA
+	   primary-container = naranja-crema vivo para chips, nav activo y badges */
+	--rgb-primary:                 var(--rgb-yellow-500);   /* #FF7A18 */
+	--rgb-on-primary:               28   8   0;              /* #1C0800 — oscuro cálido, contraste 7.4:1 ✓ */
+	--rgb-primary-container:       255 219 182;   /* #FFDBB6 — naranja-crema vivo, contraste 12:1 ✓ WCAG AAA */
+	--rgb-on-primary-container:    var(--rgb-yellow-900);   /* #3D1500 — marrón oscuro, contraste 12:1 ✓ WCAG AAA */
+
+	/* Secundario · Naranja Claro — más cálido, solo como tint/badge */
+	--rgb-secondary:               var(--rgb-salmon-500);   /* #FFB347 */
+	--rgb-on-secondary:            var(--rgb-yellow-900);   /* oscuro — contraste 8:1 ✓ sobre ámbar */
+	--rgb-secondary-container:     var(--rgb-cream-100);    /* #FFF4EB — crema suave diferenciada de primary */
+	--rgb-on-secondary-container:  var(--rgb-salmon-900);   /* oscuro sobre crema */
+
+	/* Acento terciario · highlights, info, IA */
+	--rgb-tertiary:                var(--rgb-indigo-300);
+	--rgb-on-tertiary:             var(--rgb-indigo-900);
+	--rgb-tertiary-container:      var(--rgb-indigo-300);
+	--rgb-on-tertiary-container:   var(--rgb-indigo-900);
+
+	/* Estado de error */
+	--rgb-error:                   var(--rgb-error-500);
+	--rgb-on-error:                255 255 255;
+	--rgb-error-container:         252 220 218;
+	--rgb-on-error-container:       89   0   0;
+
+	/* Inverso (snackbars/tooltips) */
+	--rgb-inverse-surface:         var(--rgb-neutral-900);
+	--rgb-inverse-on-surface:      var(--rgb-neutral-50);
+
+	/* Estado · interacción */
+	--rgb-focus-ring:              var(--rgb-indigo-300);
+
+	/* ───────── Wrappers `rgb()` para uso directo en CSS ───────── */
+	--color-surface:                rgb(var(--rgb-surface));
+	--color-surface-container:      rgb(var(--rgb-surface-container));
+	--color-surface-container-high: rgb(var(--rgb-surface-container-high));
+	--color-surface-container-low:  rgb(var(--rgb-surface-container-low));
+	--color-on-surface:             rgb(var(--rgb-on-surface));
+	--color-on-surface-muted:       rgb(var(--rgb-on-surface-muted));
+	--color-outline:                rgb(var(--rgb-outline));
+	--color-outline-strong:         rgb(var(--rgb-outline-strong));
+
+	--color-primary:                rgb(var(--rgb-primary));
+	--color-on-primary:             rgb(var(--rgb-on-primary));
+	--color-primary-container:      rgb(var(--rgb-primary-container));
+	--color-on-primary-container:   rgb(var(--rgb-on-primary-container));
+
+	--color-secondary:              rgb(var(--rgb-secondary));
+	--color-on-secondary:           rgb(var(--rgb-on-secondary));
+	--color-secondary-container:    rgb(var(--rgb-secondary-container));
+	--color-on-secondary-container: rgb(var(--rgb-on-secondary-container));
+
+	--color-tertiary:               rgb(var(--rgb-tertiary));
+	--color-on-tertiary:            rgb(var(--rgb-on-tertiary));
+	--color-tertiary-container:     rgb(var(--rgb-tertiary-container));
+	--color-on-tertiary-container:  rgb(var(--rgb-on-tertiary-container));
+
+	--color-error:                  rgb(var(--rgb-error));
+	--color-on-error:               rgb(var(--rgb-on-error));
+	--color-error-container:        rgb(var(--rgb-error-container));
+	--color-on-error-container:     rgb(var(--rgb-on-error-container));
+
+	--color-inverse-surface:        rgb(var(--rgb-inverse-surface));
+	--color-inverse-on-surface:     rgb(var(--rgb-inverse-on-surface));
+	--color-focus-ring:             rgb(var(--rgb-focus-ring));
+
+	/* ───────── Tipografía ───────── */
+	--font-display: 'Dela Gothic One', 'Impact', system-ui, sans-serif;
+	--font-body:    'Chivo', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+	/* Escala responsiva con clamp() — escala suavemente entre móvil y escritorio */
+	--text-display-lg: clamp(1.75rem, 6vw, 3rem);      /* 28px → 48px */
+	--text-display-md: clamp(1.5rem, 4.5vw, 2.25rem);  /* 24px → 36px */
+	--text-display-sm: clamp(1.25rem, 3.5vw, 1.75rem); /* 20px → 28px */
+	--text-headline-lg: clamp(1.25rem, 3.5vw, 1.75rem);/* 20px → 28px */
+	--text-headline-md: clamp(1.125rem, 3vw, 1.5rem);  /* 18px → 24px */
+	--text-headline-sm: clamp(1rem, 2.5vw, 1.25rem);   /* 16px → 20px */
+	--text-title-lg: 1.125rem;     /* 18px — fijo, ya es moderado */
+	--text-title-md: 1rem;         /* 16px */
+	--text-title-sm: 0.9375rem;    /* 15px */
+	--text-body-lg: 1rem;          /* 16px */
+	--text-body-md: 0.9375rem;     /* 15px */
+	--text-body-sm: 0.8125rem;     /* 13px */
+	--text-label-lg: 0.8125rem;    /* 13px */
+	--text-label-md: 0.75rem;      /* 12px */
+	--text-label-sm: 0.6875rem;    /* 11px */
+
+	--leading-tight: 1.15;
+	--leading-snug:  1.3;
+	--leading-base:  1.5;
+	--leading-loose: 1.7;
+
+	--tracking-tight:  -0.01em;
+	--tracking-base:    0em;
+	--tracking-wide:    0.04em;
+	--tracking-display: -0.02em;
+
+	/* ───────── Espaciado (escala 4px) ───────── */
+	--space-0:  0;
+	--space-1:  0.25rem;   /*  4px */
+	--space-2:  0.5rem;    /*  8px */
+	--space-3:  0.75rem;   /* 12px */
+	--space-4:  1rem;      /* 16px */
+	--space-5:  1.25rem;   /* 20px */
+	--space-6:  1.5rem;    /* 24px */
+	--space-8:  2rem;      /* 32px */
+	--space-10: 2.5rem;    /* 40px */
+	--space-12: 3rem;      /* 48px */
+	--space-16: 4rem;      /* 64px */
+	--space-20: 5rem;      /* 80px */
+	--space-24: 6rem;      /* 96px */
+
+	/* ───────── Radios ───────── */
+	--radius-xs:   4px;
+	--radius-sm:   8px;
+	--radius-md:  12px;
+	--radius-lg:  16px;
+	--radius-xl:  20px;
+	--radius-2xl: 28px;
+	--radius-3xl: 36px;
+	--radius-pill: 9999px;
+
+	/* ───────── Elevación · sombras suaves cálidas ───────── */
+	--shadow-0: none;
+	--shadow-1: 0 1px 3px rgb(var(--rgb-neutral-900) / 0.09), 0 1px 2px rgb(var(--rgb-neutral-900) / 0.06);
+	--shadow-2: 0 2px 8px rgb(var(--rgb-neutral-900) / 0.10), 0 1px 3px rgb(var(--rgb-neutral-900) / 0.06);
+	--shadow-3: 0 6px 16px rgb(var(--rgb-neutral-900) / 0.12), 0 2px 5px rgb(var(--rgb-neutral-900) / 0.07);
+	--shadow-4: 0 14px 32px rgb(var(--rgb-neutral-900) / 0.14), 0 4px 10px rgb(var(--rgb-neutral-900) / 0.07);
+	--shadow-5: 0 28px 64px rgb(var(--rgb-neutral-900) / 0.18), 0 8px 18px rgb(var(--rgb-neutral-900) / 0.10);
+
+	/* ───────── Motion ───────── */
+	--duration-instant: 50ms;
+	--duration-fast:    150ms;
+	--duration-base:    250ms;
+	--duration-slow:    400ms;
+	--duration-slower:  600ms;
+
+	--ease-standard:    cubic-bezier(0.2, 0, 0, 1);
+	--ease-emphasized:  cubic-bezier(0.3, 0, 0, 1);
+	--ease-decelerated: cubic-bezier(0.05, 0.7, 0.1, 1);
+	--ease-accelerated: cubic-bezier(0.3, 0, 0.8, 0.15);
+
+	/* ───────── Gradientes oficiales de marca ───────── */
+	--gradient-brand:     linear-gradient(135deg, #FFB347 0%, #FF7A18 50%, #FF3D00 100%);
+	--gradient-brand-h:   linear-gradient(90deg,  #FFB347 0%, #FF7A18 50%, #FF3D00 100%);
+	--gradient-ai:        linear-gradient(135deg, #FF9A00 0%, #FF3D00 100%);
+	--gradient-dark-ui:   linear-gradient(135deg, #1C1C1F 0%, #2A1A10 70%, #FF7A18 100%);
+	--gradient-warm-glow: radial-gradient(ellipse at top, rgba(255,122,24,0.15) 0%, transparent 70%);
+
+	/* ───────── Layout · alturas/anchuras estructurales ───────── */
+	--shell-sidebar-width:    240px;
+	--shell-sidebar-collapsed: 84px;
+	--shell-topbar-height:    64px;
+	--shell-bottombar-height: 68px;
+
+	/* ───────── PrimeNG bridge ─────────
+	   Mapeamos los tokens del preset Aura a nuestras variables
+	   para que p-button, p-toast, p-card... usen automáticamente
+	   la paleta Savorealo, sin necesidad de duplicar nada en TS. */
+	--p-primary-color:               var(--color-primary);
+	--p-primary-color-text:          #ffffff; /* blanco siempre en componentes PrimeNG */
+	--p-primary-50:                  rgb(var(--rgb-cream-100));
+	--p-primary-100:                 rgb(var(--rgb-salmon-500) / 0.25);
+	--p-primary-200:                 rgb(var(--rgb-salmon-500) / 0.50);
+	--p-primary-300:                 rgb(var(--rgb-salmon-500) / 0.80);
+	--p-primary-400:                 rgb(var(--rgb-salmon-500));
+	--p-primary-500:                 var(--color-primary);
+	--p-primary-600:                 rgb(var(--rgb-orange-deep));
+	--p-primary-700:                 rgb(var(--rgb-orange-deep) / 0.80);
+	--p-primary-800:                 var(--color-on-primary);
+	--p-primary-900:                 var(--color-on-primary);
+
+	--p-border-radius:               var(--radius-md);
+	--p-surface-0:                   var(--color-surface-container);
+	--p-surface-ground:              var(--color-surface);
+	--p-text-color:                  var(--color-on-surface);
+	--p-text-muted-color:            var(--color-on-surface-muted);
+	--p-content-border-color:        var(--color-outline);
+}
+
+/* =============================================================
+   DARK THEME · overrides
+   Aplicado por `<html data-theme="dark">` (gestionado por ThemeService).
+   ============================================================= */
+[data-theme='dark'] {
+	/*
+	 * Superficies · oscuro cálido premium
+	 * Marrones muy profundos — harmony con el naranja de marca.
+	 * Ni negro puro ni gris frío: profundidad con alma.
+	 */
+	--rgb-surface:                 18  14  10;   /* #120E0A — marrón muy oscuro */
+	--rgb-surface-container:       28  22  16;   /* #1C1610 — dark warm */
+	--rgb-surface-container-high:  40  32  22;   /* #282016 — medium warm dark */
+	--rgb-surface-container-low:   22  17  12;   /* #16110C */
+	--rgb-on-surface:              242 238 232;  /* #F2EEE8 — blanco cálido, no frío */
+	--rgb-on-surface-muted:        152 138 122;  /* #98897A — warm muted */
+	--rgb-outline:                  52  42  32;  /* #342A20 — separator cálido */
+	--rgb-outline-strong:           72  58  44;  /* #483A2C */
+
+	/* Primario · naranja vivo sobre dark neutro — alto impacto controlado */
+	--rgb-primary:                 var(--rgb-yellow-500);   /* #FF7A18 */
+	--rgb-on-primary:              255 255 255;              /* blanco siempre en dark */
+	--rgb-primary-container:        45  18   0;  /* #2D1200 — naranja muy oscuro como chip bg */
+	--rgb-on-primary-container:    var(--rgb-salmon-500);   /* #FFB347 — legible sobre oscuro */
+
+	/* Secundario dark */
+	--rgb-secondary:               var(--rgb-salmon-500);
+	--rgb-on-secondary:            14  14  16;   /* negro neutro sobre ámbar */
+	--rgb-secondary-container:      38  24   0;  /* #261800 */
+	--rgb-on-secondary-container:  var(--rgb-salmon-500);
+
+	--rgb-tertiary:                var(--rgb-indigo-300);
+	--rgb-on-tertiary:             var(--rgb-indigo-900);
+	--rgb-tertiary-container:      var(--rgb-indigo-900);
+	--rgb-on-tertiary-container:   var(--rgb-indigo-300);
+
+	--rgb-error-container:          89   0   0;
+	--rgb-on-error-container:      252 220 218;
+
+	--rgb-inverse-surface:         var(--rgb-neutral-50);
+	--rgb-inverse-on-surface:      var(--rgb-neutral-900);
+
+	/* Sombras más sutiles en oscuro */
+	--shadow-1: 0 1px 2px rgb(0 0 0 / 0.40);
+	--shadow-2: 0 2px 6px rgb(0 0 0 / 0.50);
+	--shadow-3: 0 6px 14px rgb(0 0 0 / 0.55);
+	--shadow-4: 0 14px 28px rgb(0 0 0 / 0.60);
+	--shadow-5: 0 28px 60px rgb(0 0 0 / 0.70);
+}
+
+/* =============================================================
+   Auto-dark cuando NO hay preferencia explícita del usuario.
+   El ThemeService añade `data-theme="light"` o `dark` cuando el
+   usuario elige manualmente; mientras no exista esa marca,
+   seguimos al sistema operativo.
+   ============================================================= */
+@media (prefers-color-scheme: dark) {
+	html:not([data-theme]) {
+		color-scheme: dark;
+		/* Mismo oscuro cálido que [data-theme='dark'] */
+		--rgb-surface:                 18  14  10;
+		--rgb-surface-container:       28  22  16;
+		--rgb-surface-container-high:  40  32  22;
+		--rgb-surface-container-low:   22  17  12;
+		--rgb-on-surface:              242 238 232;
+		--rgb-on-surface-muted:        152 138 122;
+		--rgb-outline:                  52  42  32;
+		--rgb-outline-strong:           72  58  44;
+
+		--rgb-primary-container:        45  18   0;
+		--rgb-on-primary-container:    var(--rgb-salmon-500);
+		--rgb-secondary-container:      38  24   0;
+		--rgb-on-secondary-container:  var(--rgb-salmon-500);
+		--rgb-tertiary-container:      var(--rgb-indigo-900);
+		--rgb-on-tertiary-container:   var(--rgb-indigo-300);
+
+		--rgb-error-container:          89   0   0;
+		--rgb-on-error-container:      252 220 218;
+
+		--rgb-inverse-surface:         var(--rgb-neutral-50);
+		--rgb-inverse-on-surface:      var(--rgb-neutral-900);
+	}
+}

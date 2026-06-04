@@ -4,14 +4,32 @@ import { from, Observable } from 'rxjs';
 import { AuthChangeEvent, Session, User } from '@supabase/supabase-js';
 import { LoginUser, RegisterUser } from '@core/models/user/User';
 
+/**
+ * Servicio que provee la lógica de negocio para la autenticación.
+ */
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+  /**
+   * Propiedad para gestionar supabase.
+   */
   private supabase = inject(SupabaseService);
+  /**
+   * Propiedad para gestionar user.
+   */
   private _user = signal<User | null>(null);
 
+  /**
+   * Propiedad para gestionar user.
+   */
   user = this._user.asReadonly();
+  /**
+   * Indicador booleano para es o está logged.
+   */
   isLogged = computed(() => this._user() !== null);
 
+  /**
+   * Método para login.
+   */
   login(user: LoginUser) {
     return from(
       this.supabase.client.auth.signInWithPassword({
@@ -21,6 +39,9 @@ export class AuthService {
     );
   }
 
+  /**
+   * Método para login with google.
+   */
   loginWithGoogle() {
     const redirectTo = typeof window !== 'undefined'
       ? window.location.origin
@@ -66,18 +87,30 @@ export class AuthService {
     );
   }
 
+  /**
+   * Método para logout.
+   */
   logout() {
     return from(this.supabase.client.auth.signOut());
   }
 
+  /**
+   * Método para reiniciar contraseña.
+   */
   resetPassword(email: string) {
     return from(this.supabase.client.auth.resetPasswordForEmail(email));
   }
 
+  /**
+   * Método para obtener session.
+   */
   getSession() {
     return from(this.supabase.client.auth.getSession());
   }
 
+  /**
+   * Método para evento de auth estado cambiar.
+   */
   onAuthStateChange(): Observable<{ event: AuthChangeEvent; session: Session | null }> {
     return new Observable(observer => {
       const { data } = this.supabase.client.auth.onAuthStateChange(

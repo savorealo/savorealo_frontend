@@ -1,87 +1,119 @@
 <app-global-search-panel />
+<app-call-host />
 
-<div class="min-h-dvh bg-[#f4f4f4] text-surface-950 lg:grid lg:grid-cols-[184px_minmax(0,1fr)]">
+<div class="h-dvh overflow-hidden bg-surface text-on-surface transition-colors duration-base ease-standard lg:grid lg:grid-cols-[200px_minmax(0,1fr)] xl:grid-cols-[240px_minmax(0,1fr)]">
+
 	<aside
-		class="fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-black px-3 py-2 text-white lg:sticky lg:inset-auto lg:top-0 lg:h-dvh lg:border-r lg:border-t-0 lg:px-4 lg:py-5"
-		aria-label="Navegacion principal"
+		class="fixed inset-x-0 bottom-0 z-40 border-t border-outline bg-surface-container-high px-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] pt-2 shadow-4 lg:sticky lg:inset-auto lg:top-0 lg:h-dvh lg:border-r lg:border-t-0 lg:px-4 lg:py-6 lg:shadow-none lg:flex lg:flex-col lg:gap-6"
+		aria-label="Navegación principal"
 	>
-		<div class="hidden items-center gap-2 lg:flex">
-			<a routerLink="/" class="flex items-center gap-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400" aria-label="Ir al feed">
-				<span class="grid size-11 shrink-0 place-items-center overflow-hidden rounded-full bg-[#ff8f27]">
+		<div class="hidden items-center gap-3 lg:flex">
+			<a
+				routerLink="/"
+				class="flex items-center gap-3 rounded-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+				aria-label="Ir al feed"
+			>
+				<span class="grid size-11 shrink-0 place-items-center overflow-hidden rounded-pill">
 					<img [src]="logoUrl" alt="" class="size-full object-contain" />
 				</span>
-				<span class="text-2xl font-black tracking-tight">
-					savore<span class="text-orange-500">alo</span>
+				<span class="font-display text-headline-sm tracking-tight text-on-surface">
+					savorealo
 				</span>
 			</a>
 		</div>
 
-		<!-- Quick search button (desktop only) -->
-		<button
-			type="button"
-			class="mt-4 hidden w-full items-center gap-2 rounded-2xl border border-white/10 bg-white/[0.06] px-4 py-2.5 text-left text-sm text-white/40 transition hover:bg-white/10 hover:text-white/70 lg:flex"
-			(click)="globalSearch.openPanel()"
-			aria-label="Buscar"
-		>
-			<i class="pi pi-search text-base"></i>
-			<span class="flex-1 text-sm font-semibold">Buscar...</span>
-			<kbd class="rounded-md border border-white/10 bg-white/10 px-1.5 py-0.5 text-[0.65rem] font-bold text-white/30">⌘K</kbd>
-		</button>
-
-		<nav class="grid grid-cols-7 gap-1 lg:mt-8 lg:flex lg:grid-cols-none lg:flex-col lg:gap-3">
-			@for (item of navItems; track item.route) {
+		<nav class="hidden lg:flex lg:flex-col lg:gap-1.5">
+			@for (item of navItems(); track item.route) {
 				<a
 					[routerLink]="item.route"
 					routerLinkActive="is-active"
 					[routerLinkActiveOptions]="{ exact: item.route === '/' }"
-					class="group relative flex min-h-14 items-center justify-center gap-3 rounded-2xl px-3 text-sm font-bold text-white/75 transition hover:bg-white/10 hover:text-white lg:justify-start lg:text-lg [&.is-active]:bg-[#2a1708] [&.is-active]:text-white [&.is-active_i]:text-orange-500"
-					[attr.aria-label]="item.label"
+					class="group relative flex min-h-12 items-center justify-center gap-3 rounded-pill px-3 text-body-md font-semibold text-on-surface-muted transition-all duration-fast ease-standard hover:bg-surface-container hover:text-on-surface lg:justify-start lg:px-4 [&.is-active]:bg-primary-container [&.is-active]:text-on-primary-container [&.is-active]:font-bold"
+					[attr.aria-label]="item.labelKey | translate"
 				>
-					<span class="relative">
-						<i [class]="item.icon" class="text-2xl text-white"></i>
+					<span class="relative grid place-items-center">
+						<i [class]="item.icon" class="text-xl"></i>
 						@if (item.route === '/notifications' && notifications.unreadCount() > 0) {
-							<span class="absolute -right-1.5 -top-1.5 flex size-4 items-center justify-center rounded-full bg-orange-500 text-[0.6rem] font-black text-white">
+							<span
+								class="absolute -right-2 -top-2 grid min-w-[18px] place-items-center rounded-pill bg-error px-1 text-[0.625rem] font-black leading-none text-on-error h-[18px]"
+								aria-label="Notificaciones sin leer"
+							>
 								{{ notifications.unreadCount() > 9 ? '9+' : notifications.unreadCount() }}
 							</span>
 						}
+						@if (item.route === '/shopping' && shoppingList.uncheckedCount() > 0) {
+							<span
+								class="absolute -right-2 -top-2 grid min-w-[18px] place-items-center rounded-pill bg-primary px-1 text-[0.625rem] font-black leading-none text-on-primary h-[18px]"
+								aria-label="Ingredientes pendientes"
+							>
+								{{ shoppingList.uncheckedCount() > 9 ? '9+' : shoppingList.uncheckedCount() }}
+							</span>
+						}
 					</span>
-					<span class="hidden lg:inline">{{ item.label }}</span>
+					<span class="hidden lg:inline">{{ item.labelKey | translate }}</span>
 				</a>
 			}
 		</nav>
 
-		<div class="mt-auto hidden pt-6 lg:grid">
+		<nav class="grid grid-cols-5 gap-1 lg:hidden" aria-label="Navegación móvil">
+			@for (item of mobileNavItems; track item.route) {
+				<a
+					[routerLink]="item.route"
+					routerLinkActive="is-active"
+					[routerLinkActiveOptions]="{ exact: item.route === '/' }"
+					class="group flex min-h-[56px] min-w-0 flex-col items-center justify-center gap-1 rounded-xl px-1 text-[0.68rem] font-bold leading-none text-on-surface-muted transition-colors duration-fast ease-standard active:scale-[0.98] [&.is-active]:text-on-primary-container"
+					[attr.aria-label]="item.labelKey | translate"
+				>
+					<span class="grid size-8 place-items-center rounded-pill transition-colors duration-fast ease-standard group-[.is-active]:bg-primary-container">
+						<i [class]="item.icon" class="text-[1.15rem]"></i>
+					</span>
+					<span class="max-w-full truncate">{{ item.labelKey | translate }}</span>
+				</a>
+			}
+		</nav>
+
+		<div class="mt-auto hidden gap-2 pt-4 lg:grid">
 			<a
 				routerLink="/profile"
-				class="mb-4 flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-3 text-left transition hover:bg-white/10"
+				class="flex items-center gap-3 rounded-xl border border-outline bg-surface-container p-3 text-left transition-colors duration-fast ease-standard hover:bg-surface-container-low"
 			>
-				<span class="grid size-11 shrink-0 place-items-center overflow-hidden rounded-full bg-orange-500">
+				<span class="grid size-10 shrink-0 place-items-center overflow-hidden rounded-pill bg-primary">
 					<img
 						[src]="profile()?.photo_url || logoUrl"
-						[alt]="profile()?.username || 'Perfil'"
+						[alt]="profile()?.username || ('shell.profile' | translate)"
 						class="size-full"
 						[class.object-cover]="profile()?.photo_url"
 						[class.object-contain]="!profile()?.photo_url"
 					/>
 				</span>
 				<span class="min-w-0">
-					<span class="block truncate text-sm font-black text-white">{{ profile()?.fullName || profile()?.username || 'Tu perfil' }}</span>
-					<span class="block truncate text-xs font-semibold text-white/45">@{{ profile()?.username || 'savorealo' }}</span>
+					<span class="block truncate text-body-sm font-bold text-on-surface">
+						{{ profile()?.fullName || profile()?.username || ('shell.profile' | translate) }}
+					</span>
+					<span class="block truncate text-label-md font-medium text-on-surface-muted">
+						&#64;{{ profile()?.username || 'savorealo' }}
+					</span>
 				</span>
 			</a>
+
 			<button
 				type="button"
-				class="flex min-h-11 items-center justify-center gap-2 rounded-2xl text-sm font-bold text-white/65 transition hover:bg-white/10 hover:text-white"
+				class="flex min-h-11 items-center justify-center gap-2 rounded-pill text-body-sm font-semibold text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-error/10 hover:text-error"
 				(click)="logout()"
-				aria-label="Cerrar sesion"
+				[attr.aria-label]="'shell.logout' | translate"
 			>
 				<i class="pi pi-sign-out"></i>
-				<span>Cerrar sesion</span>
+				<span>{{ 'shell.logout' | translate }}</span>
 			</button>
 		</div>
 	</aside>
 
-	<main class="min-w-0 pb-20 lg:pb-0">
-		<ng-content />
-	</main>
+	<div class="grid min-w-0 grid-rows-[auto_minmax(0,1fr)] h-[calc(100dvh-var(--shell-bottombar-height))] lg:h-dvh">
+		@if (showTopbar()) {
+			<app-topbar (create)="create.emit()" />
+		}
+		<main class="min-w-0 overflow-y-auto overflow-x-hidden">
+			<ng-content />
+		</main>
+	</div>
 </div>

@@ -1,0 +1,141 @@
+<!-- Backdrop -->
+<div
+	class="fixed inset-0 z-[100] flex items-end justify-center bg-black/50 backdrop-blur-sm sm:items-center sm:px-4"
+	(click)="onBackdropClick()"
+>
+	<!-- Sheet -->
+	<div
+		class="w-full max-w-lg overflow-hidden rounded-t-3xl bg-surface-container text-on-surface shadow-5 sm:rounded-3xl"
+		(click)="$event.stopPropagation()"
+		style="animation: reportSheetSlide 0.22s ease"
+	>
+		<!-- Estado de éxito -->
+		@if (submitted()) {
+			<div class="px-6 py-10 text-center">
+				<div class="mx-auto mb-4 grid size-14 place-items-center rounded-pill bg-primary-container">
+					<i class="pi pi-check-circle text-3xl text-on-primary-container"></i>
+				</div>
+				<h2 class="text-title-lg font-bold text-on-surface">{{ 'report.submitted_title' | translate }}</h2>
+				<p class="mt-2 text-body-sm font-semibold text-on-surface-muted">
+					{{ 'report.submitted_desc' | translate }}
+				</p>
+			</div>
+		} @else {
+			<!-- Header -->
+			<header class="flex items-start justify-between gap-3 border-b border-outline px-5 py-4">
+				<div>
+					<h2 class="text-title-md font-bold text-on-surface">{{ 'report.title' | translate }}</h2>
+					<p class="mt-1 text-body-sm font-semibold text-on-surface-muted">
+						{{ 'report.subtitle' | translate }}
+					</p>
+				</div>
+				<button
+					type="button"
+					class="grid size-11 shrink-0 place-items-center rounded-pill text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container-high hover:text-on-surface active:scale-[0.98]"
+					(click)="close.emit()"
+					[disabled]="submitting()"
+					[attr.aria-label]="'report.close' | translate"
+				>
+					<i class="pi pi-times text-base"></i>
+				</button>
+			</header>
+
+			<!-- Categorías -->
+			<div class="max-h-[60vh] overflow-y-auto px-3 py-3">
+				<div class="grid gap-2">
+					@for (cat of categories; track cat.value) {
+						<button
+							type="button"
+							class="group flex min-h-[72px] w-full items-start gap-3 rounded-2xl border-2 p-3 text-left transition-colors duration-fast ease-standard active:scale-[0.99]"
+							[class.border-primary]="selectedCategory() === cat.value"
+							[class.bg-primary-container]="selectedCategory() === cat.value"
+							[class.border-transparent]="selectedCategory() !== cat.value"
+							[class.hover:bg-surface-container-high]="selectedCategory() !== cat.value"
+							[class.hover:border-outline]="selectedCategory() !== cat.value"
+							(click)="selectCategory(cat.value)"
+						>
+							<span
+								class="grid size-11 shrink-0 place-items-center rounded-pill bg-surface-container-high transition-colors duration-fast ease-standard"
+								[class.bg-primary]="selectedCategory() === cat.value"
+							>
+								<i
+									[class]="cat.icon"
+									class="text-lg"
+									[class.text-primary]="selectedCategory() !== cat.value"
+									[class.text-on-primary]="selectedCategory() === cat.value"
+								></i>
+							</span>
+							<span class="min-w-0 flex-1">
+								<span class="block text-body-sm font-bold text-on-surface">{{ cat.label | translate }}</span>
+								<span class="block text-label-md font-semibold normal-case tracking-normal text-on-surface-muted">{{ cat.description | translate }}</span>
+							</span>
+							@if (selectedCategory() === cat.value) {
+								<i class="pi pi-check-circle mt-1 text-lg text-primary"></i>
+							}
+						</button>
+					}
+				</div>
+
+				<!-- Textarea opcional para detalles -->
+				@if (selectedCategory()) {
+					<div class="mt-4 px-1">
+						<label class="block text-label-md font-bold text-on-surface-muted">
+							{{ 'report.details_label' | translate }}
+						</label>
+						<textarea
+							class="mt-2 h-24 w-full resize-none rounded-2xl border border-outline bg-surface px-4 py-3 text-body-sm font-semibold text-on-surface outline-none placeholder:text-on-surface-muted focus:bg-surface-container focus:shadow-[0_0_0_2px_rgb(var(--rgb-primary)/0.45)]"
+							[placeholder]="'report.details_placeholder' | translate"
+							maxlength="500"
+							[value]="detail()"
+							(input)="onDetailInput($event)"
+							[disabled]="submitting()"
+						></textarea>
+						<p class="mt-1 text-right text-label-md font-semibold text-on-surface-muted">
+							{{ detail().length }}/500
+						</p>
+					</div>
+				}
+
+				<!-- Error -->
+				@if (error(); as err) {
+					<div class="mt-3 rounded-2xl border border-error/30 bg-error-container px-4 py-3 text-body-sm font-bold text-on-error-container">
+						{{ err }}
+					</div>
+				}
+			</div>
+
+			<!-- Footer -->
+			<footer class="flex items-center justify-end gap-3 border-t border-outline bg-surface-container-low px-5 py-4">
+				<button
+					type="button"
+					class="inline-flex min-h-11 items-center justify-center rounded-pill px-5 text-body-sm font-bold text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container-high hover:text-on-surface"
+					(click)="close.emit()"
+					[disabled]="submitting()"
+				>
+					{{ 'report.cancel' | translate }}
+				</button>
+				<button
+					type="button"
+					class="inline-flex min-h-11 items-center justify-center gap-2 rounded-pill bg-primary px-5 text-body-sm font-bold text-on-primary shadow-2 transition-all duration-fast ease-standard hover:shadow-3 active:scale-[0.98] disabled:opacity-40"
+					[disabled]="!canSubmit()"
+					(click)="submit()"
+				>
+					@if (submitting()) {
+						<span class="size-4 animate-spin rounded-full border-2 border-white/40 border-t-white"></span>
+						{{ 'report.submitting' | translate }}
+					} @else {
+						<i class="pi pi-flag text-sm"></i>
+						{{ 'report.submit' | translate }}
+					}
+				</button>
+			</footer>
+		}
+	</div>
+</div>
+
+<style>
+@keyframes reportSheetSlide {
+	from { opacity: 0; transform: translateY(2rem) }
+	to   { opacity: 1; transform: translateY(0) }
+}
+</style>

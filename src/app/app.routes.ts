@@ -2,6 +2,9 @@ import { Routes } from '@angular/router'
 import { authGuard, authMatchGuard } from '@core/guards/auth.guard'
 import { guestGuard, guestMatchGuard } from '@core/guards/guest.guard'
 
+/**
+ * Definición de las rutas de navegación del lado del cliente.
+ */
 export const routes: Routes = [
     {
         path: 'auth',
@@ -87,6 +90,39 @@ export const routes: Routes = [
         canMatch: [authMatchGuard],
         canActivate: [authGuard],
         loadComponent: () => import('@features/profile/public-profile-page').then(c => c.PublicProfilePage),
+    },
+    {
+        path: 'places',
+        title: 'Lugares | Savorealo',
+        canMatch: [authMatchGuard],
+        canActivate: [authGuard],
+        loadComponent: () => import('@features/places/places-page').then(c => c.PlacesPage),
+    },
+    {
+        path: 'places/:id',
+        title: 'Lugar | Savorealo',
+        canMatch: [authMatchGuard],
+        canActivate: [authGuard],
+        loadComponent: () => import('@features/places/place-detail-page').then(c => c.PlaceDetailPage),
+    },
+    {
+        path: 'shopping',
+        title: 'Lista de la compra | Savorealo',
+        canMatch: [authMatchGuard],
+        canActivate: [authGuard],
+        loadComponent: () => import('@features/shopping-list/shopping-list-page').then(c => c.ShoppingListPage),
+    },
+    {
+        path: 'generar-receta',
+        title: 'Generar Receta IA | Savorealo',
+        canMatch: [authMatchGuard],
+        canActivate: [authGuard],
+        loadComponent: () => import('@features/recipe-agent/recipe-agent-page').then(c => c.RecipeAgentPage),
+    },
+    {
+        path: 'admin',
+        title: 'Panel de Administración | Savorealo',
+        loadComponent: () => import('@features/admin/admin-page').then(c => c.AdminPage),
     },
     {
         path: '**',

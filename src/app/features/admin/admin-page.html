@@ -1,0 +1,733 @@
+<app-shell>
+  <div class="admin-bg min-h-full p-4 sm:p-6 lg:p-8">
+    <div class="mx-auto max-w-[1600px] flex flex-col gap-6">
+
+      <!-- ══════════════════════════════════════════════
+           HEADER
+      ══════════════════════════════════════════════ -->
+      <div class="admin-header-card flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div class="min-w-0">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="admin-badge">
+              <i class="pi pi-shield mr-1" style="font-size: 0.65rem;"></i>
+              ADMIN
+            </span>
+            <span class="text-xs font-bold" style="color: var(--color-on-surface-muted); opacity: 0.7;">v1.2.0</span>
+          </div>
+          <h1 class="text-2xl sm:text-3xl font-black tracking-tight" style="color: var(--color-on-surface);">
+            Panel de Control &amp; Analíticas
+          </h1>
+          <p class="mt-1 text-sm" style="color: var(--color-on-surface-muted);">
+            Monitoreo de endpoints, API y rendimiento en tiempo real.
+          </p>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <!-- Last updated -->
+          <span *ngIf="lastUpdated()" class="text-xs" style="color: var(--color-on-surface-muted); opacity: 0.6;">
+            Actualizado: {{ lastUpdated() | date:'HH:mm:ss' }}
+          </span>
+
+          <button
+            id="admin-refresh-btn"
+            type="button"
+            class="admin-btn-secondary"
+            (click)="loadData()"
+            [disabled]="loading()"
+          >
+            <i class="pi pi-refresh" [class.animate-spin]="loading()"></i>
+            <span>{{ loading() ? 'Cargando...' : 'Actualizar' }}</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════
+           ERROR STATE
+      ══════════════════════════════════════════════ -->
+      <div *ngIf="error()" class="admin-error-card">
+        <i class="pi pi-exclamation-circle text-2xl" style="color: #f87171;"></i>
+        <div>
+          <p class="font-bold" style="color: #fca5a5;">Error al cargar los datos</p>
+          <p class="text-sm mt-0.5" style="color: rgba(252,165,165,0.7);">{{ error() }}</p>
+        </div>
+        <button type="button" class="admin-btn-secondary ml-auto" (click)="loadData()">
+          Reintentar
+        </button>
+      </div>
+
+      <!-- ══════════════════════════════════════════════
+           SIMULATION STATE BANNER
+      ══════════════════════════════════════════════ -->
+      <div *ngIf="simulationMode() && !error()" class="flex items-center gap-3 p-4 rounded-2xl border" style="background: rgba(245,158,11,0.06); border-color: rgba(245,158,11,0.25); backdrop-filter: blur(10px);">
+        <i class="pi pi-info-circle text-xl" style="color: #f59e0b;"></i>
+        <div>
+          <p class="font-bold text-sm" style="color: #f59e0b;">Modo Simulación Activo</p>
+          <p class="text-xs mt-0.5" style="color: rgba(245,158,11,0.85);">
+            Mostrando métricas y rendimiento simulados en tiempo real debido a restricciones de políticas de acceso (RLS) en la tabla <code>requestlogs</code> de Supabase.
+          </p>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════
+           TAB SYSTEM
+      ══════════════════════════════════════════════ -->
+      <div class="flex gap-4 border-b mb-4" style="border-color: var(--color-outline);">
+        <button
+          type="button"
+          class="pb-3 font-bold transition-all text-sm flex items-center gap-2 border-b-2"
+          [class.border-primary]="activeTab() === 'analytics'"
+          [class.text-primary]="activeTab() === 'analytics'"
+          [class.border-transparent]="activeTab() !== 'analytics'"
+          [style.color]="activeTab() === 'analytics' ? 'var(--color-primary)' : 'var(--color-on-surface-muted)'"
+          (click)="activeTab.set('analytics')"
+          style="background: transparent; border-top: none; border-left: none; border-right: none; cursor: pointer;"
+        >
+          <i class="pi pi-chart-bar"></i>
+          <span>Analíticas</span>
+        </button>
+        <button
+          type="button"
+          class="pb-3 font-bold transition-all text-sm flex items-center gap-2 border-b-2"
+          [class.border-primary]="activeTab() === 'tickets'"
+          [class.text-primary]="activeTab() === 'tickets'"
+          [class.border-transparent]="activeTab() !== 'tickets'"
+          [style.color]="activeTab() === 'tickets' ? 'var(--color-primary)' : 'var(--color-on-surface-muted)'"
+          (click)="activeTab.set('tickets')"
+          style="background: transparent; border-top: none; border-left: none; border-right: none; cursor: pointer;"
+        >
+          <i class="pi pi-envelope"></i>
+          <span>Tickets ({{ openTicketsCount() }})</span>
+        </button>
+        <button
+          type="button"
+          class="pb-3 font-bold transition-all text-sm flex items-center gap-2 border-b-2"
+          [class.border-primary]="activeTab() === 'reports'"
+          [class.text-primary]="activeTab() === 'reports'"
+          [class.border-transparent]="activeTab() !== 'reports'"
+          [style.color]="activeTab() === 'reports' ? 'var(--color-primary)' : 'var(--color-on-surface-muted)'"
+          (click)="activeTab.set('reports')"
+          style="background: transparent; border-top: none; border-left: none; border-right: none; cursor: pointer;"
+        >
+          <i class="pi pi-exclamation-triangle"></i>
+          <span>Reportes ({{ reports().length }})</span>
+        </button>
+      </div>
+
+      <!-- ══════════════════════════════════════════════
+           LOADING SKELETON
+      ══════════════════════════════════════════════ -->
+      <div *ngIf="loading() && !error()" class="flex flex-col gap-6">
+        <!-- Stat cards skeleton -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div *ngFor="let i of [0,1,2,3]" class="admin-skeleton h-28 rounded-2xl"></div>
+        </div>
+        <!-- Charts skeleton -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          <div class="admin-skeleton h-80 rounded-2xl lg:col-span-2"></div>
+          <div class="admin-skeleton h-80 rounded-2xl"></div>
+        </div>
+        <div class="admin-skeleton h-64 rounded-2xl"></div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════
+           CONTENT (loaded)
+      ══════════════════════════════════════════════ -->
+      <ng-container *ngIf="!loading()">
+
+        <!-- ==========================================
+             ANALYTICS TAB VIEW
+        ========================================== -->
+        <ng-container *ngIf="activeTab() === 'analytics'">
+          <div class="flex flex-col gap-6" style="animation: fadeInUp 0.4s ease both;">
+            <!-- STAT CARDS -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              <div
+                *ngFor="let card of statCards(); let i = index"
+                class="admin-stat-card"
+                [style.animation-delay]="i * 80 + 'ms'"
+              >
+                <!-- Icon -->
+                <div class="stat-icon-wrap bg-gradient-to-br {{ card.color }}">
+                  <i class="pi {{ card.icon }} text-white text-lg"></i>
+                </div>
+
+                <div class="mt-3">
+                  <p class="text-xs font-semibold uppercase tracking-widest" style="color: rgba(180,170,220,0.5);">
+                    {{ card.label }}
+                  </p>
+                  <p class="mt-1 text-2xl sm:text-3xl font-black" style="color: #f0eeff;">
+                    {{ card.value }}
+                  </p>
+                </div>
+
+                <div class="flex items-center gap-1 mt-2">
+                  <i
+                    class="pi text-xs"
+                    [class.pi-arrow-up-right]="card.trendUp"
+                    [class.pi-arrow-down-right]="!card.trendUp"
+                    [style.color]="card.trendUp ? '#34d399' : '#f87171'"
+                  ></i>
+                  <span class="text-xs font-medium" [style.color]="card.trendUp ? 'rgba(52,211,153,0.8)' : 'rgba(248,113,113,0.8)'">
+                    {{ card.trend }}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- CHARTS ROW 1: Bar + Doughnut -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+
+              <!-- Endpoints Bar Chart -->
+              <div class="admin-chart-card lg:col-span-2">
+                <div class="chart-header">
+                  <div>
+                    <h2 class="chart-title">Endpoints más usados</h2>
+                    <p class="chart-subtitle">Top 8 rutas por volumen de llamadas</p>
+                  </div>
+                  <div class="chart-badge">
+                    <i class="pi pi-chart-bar" style="color: rgba(139,92,246,0.8);"></i>
+                    Bar
+                  </div>
+                </div>
+                <div class="chart-body">
+                  <canvas id="admin-endpoints-chart" #endpointsChart></canvas>
+                </div>
+              </div>
+
+              <!-- Status Codes Doughnut -->
+              <div class="admin-chart-card">
+                <div class="chart-header">
+                  <div>
+                    <h2 class="chart-title">Códigos de Estado</h2>
+                    <p class="chart-subtitle">Distribución de respuestas HTTP</p>
+                  </div>
+                  <div class="chart-badge">
+                    <i class="pi pi-chart-pie" style="color: rgba(139,92,246,0.8);"></i>
+                    Donut
+                  </div>
+                </div>
+                <div class="chart-body">
+                  <canvas id="admin-status-chart" #statusChart></canvas>
+                </div>
+              </div>
+            </div>
+
+            <!-- CHARTS ROW 2: Line chart full width -->
+            <div class="admin-chart-card">
+              <div class="chart-header">
+                <div>
+                  <h2 class="chart-title">Tiempos de Respuesta — Últimas 24 h</h2>
+                  <p class="chart-subtitle">Promedio por hora en milisegundos</p>
+                </div>
+                <div class="chart-badge">
+                  <i class="pi pi-chart-line" style="color: rgba(139,92,246,0.8);"></i>
+                  Línea
+                </div>
+              </div>
+              <div class="chart-body" style="height: 240px;">
+                <canvas id="admin-response-time-chart" #responseTimeChart></canvas>
+              </div>
+            </div>
+
+            <!-- EMPTY STATE -->
+            <div *ngIf="statCards().length > 0 && statCards()[0].value === '0'" class="admin-empty-card">
+              <div class="empty-icon-ring">
+                <i class="pi pi-database text-3xl" style="color: rgba(139,92,246,0.7);"></i>
+              </div>
+              <h3 class="text-lg font-black mt-4" style="color: #f0eeff;">Sin datos por ahora</h3>
+              <p class="text-sm mt-1" style="color: rgba(180,170,220,0.5);">
+                La tabla RequestLogs está vacía. Los datos aparecerán en cuanto los usuarios utilicen la aplicación.
+              </p>
+            </div>
+          </div>
+        </ng-container>
+
+        <!-- ==========================================
+             TICKETS TAB VIEW
+        ========================================== -->
+        <ng-container *ngIf="activeTab() === 'tickets'">
+          <div class="flex flex-col gap-6" style="animation: fadeInUp 0.4s ease both;">
+            
+            <!-- Filters & Stats Header -->
+            <div class="flex flex-col md:flex-row gap-4 justify-between items-start md:items-center p-5 rounded-2xl" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(139,92,246,0.1);">
+              <div class="flex flex-wrap gap-2">
+                <!-- Status filter pills -->
+                <button type="button" 
+                  (click)="ticketFilterStatus.set('all')"
+                  class="px-4 py-2 rounded-full text-xs font-bold transition-all"
+                  [style.background]="ticketFilterStatus() === 'all' ? 'rgba(139,92,246,0.25)' : 'rgba(255,255,255,0.03)'"
+                  [style.border]="ticketFilterStatus() === 'all' ? '1px solid rgba(139,92,246,0.4)' : '1px solid rgba(255,255,255,0.05)'"
+                  [style.color]="ticketFilterStatus() === 'all' ? '#c084fc' : 'rgba(220,220,240,0.85)'"
+                  style="cursor: pointer;">
+                  Todos ({{ tickets().length }})
+                </button>
+                <button type="button" 
+                  (click)="ticketFilterStatus.set('open')"
+                  class="px-4 py-2 rounded-full text-xs font-bold transition-all"
+                  [style.background]="ticketFilterStatus() === 'open' ? 'rgba(239,68,68,0.15)' : 'rgba(255,255,255,0.03)'"
+                  [style.border]="ticketFilterStatus() === 'open' ? '1px solid rgba(239,68,68,0.3)' : '1px solid rgba(255,255,255,0.05)'"
+                  [style.color]="ticketFilterStatus() === 'open' ? '#f87171' : 'rgba(220,220,240,0.85)'"
+                  style="cursor: pointer;">
+                  Abiertos ({{ openTicketsCount() }})
+                </button>
+                <button type="button" 
+                  (click)="ticketFilterStatus.set('in_progress')"
+                  class="px-4 py-2 rounded-full text-xs font-bold transition-all"
+                  [style.background]="ticketFilterStatus() === 'in_progress' ? 'rgba(59,130,246,0.15)' : 'rgba(255,255,255,0.03)'"
+                  [style.border]="ticketFilterStatus() === 'in_progress' ? '1px solid rgba(59,130,246,0.3)' : '1px solid rgba(255,255,255,0.05)'"
+                  [style.color]="ticketFilterStatus() === 'in_progress' ? '#60a5fa' : 'rgba(220,220,240,0.85)'"
+                  style="cursor: pointer;">
+                  En Progreso ({{ inProgressTicketsCount() }})
+                </button>
+                <button type="button" 
+                  (click)="ticketFilterStatus.set('resolved')"
+                  class="px-4 py-2 rounded-full text-xs font-bold transition-all"
+                  [style.background]="ticketFilterStatus() === 'resolved' ? 'rgba(16,185,129,0.15)' : 'rgba(255,255,255,0.03)'"
+                  [style.border]="ticketFilterStatus() === 'resolved' ? '1px solid rgba(16,185,129,0.3)' : '1px solid rgba(255,255,255,0.05)'"
+                  [style.color]="ticketFilterStatus() === 'resolved' ? '#34d399' : 'rgba(220,220,240,0.85)'"
+                  style="cursor: pointer;">
+                  Resueltos ({{ resolvedTicketsCount() }})
+                </button>
+              </div>
+
+              <!-- Type select filter -->
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-bold" style="color: rgba(180,170,220,0.5);">Filtrar Tipo:</span>
+                <select [ngModel]="ticketFilterType()" (ngModelChange)="ticketFilterType.set($event)"
+                  class="h-9 rounded-xl border bg-surface-container px-3 text-xs font-bold text-on-surface outline-none focus:border-primary"
+                  style="border-color: rgba(139,92,246,0.15); color: #f0eeff;">
+                  <option value="all">📁 Todos los tipos</option>
+                  <option value="error">🐛 Error</option>
+                  <option value="suggestion">💡 Sugerencia</option>
+                  <option value="feature">✨ Característica</option>
+                  <option value="other">❓ Otro</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Tickets List -->
+            <div class="grid gap-4">
+              <div *ngFor="let ticket of filteredTickets()" 
+                class="p-5 rounded-2xl border flex flex-col gap-4 transition-all"
+                style="background: rgba(255,255,255,0.02); border-color: rgba(139,92,246,0.12);"
+                [style.border-left-width]="'6px'"
+                [style.border-left-color]="
+                  ticket.type === 'error' ? '#f87171' : 
+                  ticket.type === 'suggestion' ? '#fbbf24' : 
+                  ticket.type === 'feature' ? '#60a5fa' : '#a78bfa'
+                ">
+                
+                <!-- Ticket Header -->
+                <div class="flex flex-wrap items-center justify-between gap-3">
+                  <div class="flex items-center gap-2">
+                    <!-- Type Badge -->
+                    <span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider"
+                      [style.background]="
+                        ticket.type === 'error' ? 'rgba(239,68,68,0.12)' : 
+                        ticket.type === 'suggestion' ? 'rgba(245,158,11,0.12)' : 
+                        ticket.type === 'feature' ? 'rgba(59,130,246,0.12)' : 'rgba(139,92,246,0.12)'
+                      "
+                      [style.color]="
+                        ticket.type === 'error' ? '#f87171' : 
+                        ticket.type === 'suggestion' ? '#fbbf24' : 
+                        ticket.type === 'feature' ? '#60a5fa' : '#a78bfa'
+                      ">
+                      {{ 
+                        ticket.type === 'error' ? '🐛 Error' : 
+                        ticket.type === 'suggestion' ? '💡 Sugerencia' : 
+                        ticket.type === 'feature' ? '✨ Característica' : '❓ Otro'
+                      }}
+                    </span>
+
+                    <!-- Status Badge -->
+                    <span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider"
+                      [style.background]="
+                        ticket.status === 'open' ? 'rgba(239,68,68,0.08)' : 
+                        ticket.status === 'in_progress' ? 'rgba(59,130,246,0.08)' : 'rgba(16,185,129,0.08)'
+                      "
+                      [style.color]="
+                        ticket.status === 'open' ? '#f87171' : 
+                        ticket.status === 'in_progress' ? '#60a5fa' : '#34d399'
+                      "
+                      [style.border]="
+                        ticket.status === 'open' ? '1px solid rgba(239,68,68,0.2)' : 
+                        ticket.status === 'in_progress' ? '1px solid rgba(59,130,246,0.2)' : '1px solid rgba(16,185,129,0.2)'
+                      ">
+                      {{ 
+                        ticket.status === 'open' ? 'Abierto' : 
+                        ticket.status === 'in_progress' ? 'En Progreso' : 'Resuelto'
+                      }}
+                    </span>
+                  </div>
+                  
+                  <span class="text-xs font-semibold" style="color: rgba(180,170,220,0.45);">
+                    {{ ticket.created_at | date:'dd/MM/yyyy HH:mm' }}
+                  </span>
+                </div>
+
+                <!-- Ticket Title & Description -->
+                <div>
+                  <h3 class="text-base font-black text-on-surface" style="color: #f0eeff;">
+                    {{ ticket.title }}
+                  </h3>
+                  <p class="text-sm mt-2 leading-relaxed text-on-surface-muted" style="color: rgba(180,170,220,0.7); white-space: pre-wrap;">
+                    {{ ticket.description }}
+                  </p>
+                </div>
+
+                <!-- Author & Actions Footer -->
+                <div class="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center pt-3 border-t" style="border-color: rgba(255,255,255,0.04);">
+                  <!-- Author profile info -->
+                  <div class="flex items-center gap-2">
+                    <div class="size-8 rounded-full overflow-hidden flex items-center justify-center shrink-0" style="background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.2);">
+                      <img *ngIf="ticket.person_profiles?.[0]?.avatar_url" [src]="ticket.person_profiles[0].avatar_url" class="size-full object-cover" />
+                      <i *ngIf="!ticket.person_profiles?.[0]?.avatar_url" class="pi pi-user text-sm" style="color: rgba(180,170,220,0.5);"></i>
+                    </div>
+                    <div>
+                      <p class="text-xs font-bold text-on-surface" style="color: #f0eeff;">
+                        {{ ticket.person_profiles?.[0]?.display_name || 'Usuario Savorealo' }}
+                      </p>
+                      <p class="text-[10px] font-medium text-on-surface-muted" style="color: rgba(180,170,220,0.5);">
+                        @{{ ticket.person_profiles?.[0]?.username || 'usuario' }}
+                      </p>
+                    </div>
+                  </div>
+
+                  <!-- Actions buttons -->
+                  <div class="flex gap-2">
+                    <button *ngIf="ticket.status === 'open'" type="button"
+                      (click)="updateTicketStatus(ticket.id, 'in_progress')"
+                      class="px-3 py-1.5 rounded-xl text-xs font-bold bg-blue-600 hover:bg-blue-700 text-white transition-all border-none"
+                      style="cursor: pointer;">
+                      <i class="pi pi-play mr-1 text-[10px]"></i> Atender
+                    </button>
+                    <button *ngIf="ticket.status === 'open' || ticket.status === 'in_progress'" type="button"
+                      (click)="updateTicketStatus(ticket.id, 'resolved')"
+                      class="px-3 py-1.5 rounded-xl text-xs font-bold bg-green-600 hover:bg-green-700 text-white transition-all border-none"
+                      style="cursor: pointer;">
+                      <i class="pi pi-check mr-1 text-[10px]"></i> Resolver
+                    </button>
+                    <button *ngIf="ticket.status === 'resolved'" type="button"
+                      (click)="updateTicketStatus(ticket.id, 'open')"
+                      class="px-3 py-1.5 rounded-xl text-xs font-bold bg-gray-600 hover:bg-gray-700 text-white transition-all border-none"
+                      style="cursor: pointer;">
+                      <i class="pi pi-refresh mr-1 text-[10px]"></i> Reabrir
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Empty State for tickets -->
+            <div *ngIf="filteredTickets().length === 0" class="admin-empty-card">
+              <div class="empty-icon-ring">
+                <i class="pi pi-envelope text-3xl" style="color: rgba(139,92,246,0.7);"></i>
+              </div>
+              <h3 class="text-lg font-black mt-4" style="color: #f0eeff;">No hay tickets</h3>
+              <p class="text-sm mt-1" style="color: rgba(180,170,220,0.5);">
+                No se encontraron tickets que coincidan con los filtros seleccionados.
+              </p>
+            </div>
+
+          </div>
+        </ng-container>
+
+        <!-- ==========================================
+             REPORTS TAB VIEW
+        ========================================== -->
+        <ng-container *ngIf="activeTab() === 'reports'">
+          <div class="flex flex-col gap-6" style="animation: fadeInUp 0.4s ease both;">
+
+            <!-- Reports List -->
+            <div class="grid gap-4">
+              <div *ngFor="let rep of reports()" 
+                class="p-5 rounded-2xl border flex flex-col gap-4 transition-all"
+                style="background: rgba(255,255,255,0.02); border-color: rgba(239,68,68,0.25);"
+                [style.border-left-width]="'6px'"
+                [style.border-left-color]="'#f87171'">
+                
+                <!-- Report Header -->
+                <div class="flex flex-wrap items-center justify-between gap-3">
+                  <div class="flex items-center gap-2">
+                    <span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-red-500/10 text-red-400 border border-red-500/20">
+                      🚨 Reporte: {{ rep.category || 'Contenido Inadecuado' }}
+                    </span>
+                  </div>
+                  
+                  <span class="text-xs font-semibold" style="color: rgba(180,170,220,0.45);">
+                    {{ rep.created_at | date:'dd/MM/yyyy HH:mm' }}
+                  </span>
+                </div>
+
+                <!-- Report Detail -->
+                <div class="p-4 rounded-xl" style="background: rgba(239,68,68,0.03); border: 1px solid rgba(239,68,68,0.1);">
+                  <p class="text-xs font-bold text-red-400">Motivo del reporte:</p>
+                  <p class="text-sm mt-1 text-on-surface-muted leading-relaxed" style="color: rgba(250,220,220,0.85); white-space: pre-wrap;">
+                    {{ rep.detail || 'Sin detalles adicionales especificados por el remitente.' }}
+                  </p>
+                  <p class="text-[10px] mt-2 font-medium" style="color: rgba(180,170,220,0.5);">
+                    Reportado por: @{{ rep.reporter?.username || 'usuario' }} ({{ rep.reporter?.display_name || 'Anónimo' }})
+                  </p>
+                </div>
+
+                <!-- Reported Post details -->
+                <div class="p-4 rounded-xl border" style="background: rgba(255,255,255,0.01); border-color: rgba(255,255,255,0.05);">
+                  <div class="flex items-center justify-between">
+                    <span class="text-[10px] font-black uppercase tracking-wider text-on-surface-muted" style="color: rgba(180,170,220,0.5);">
+                      Publicación Reportada
+                    </span>
+                    <span class="text-[10px] font-semibold text-on-surface-muted" style="color: rgba(180,170,220,0.4);">
+                      ID: {{ rep.post_id }}
+                    </span>
+                  </div>
+                  
+                  <div class="mt-3" *ngIf="rep.posts">
+                    <div *ngIf="rep.posts.imageUrl" class="mb-3 rounded-xl overflow-hidden" style="max-height: 180px;">
+                      <img [src]="rep.posts.imageUrl" alt="Imagen del post"
+                        class="w-full object-cover"
+                        style="max-height: 180px; border-radius: 12px;"
+                        onerror="this.style.display='none'">
+                    </div>
+                    <h4 class="text-sm font-black text-on-surface" style="color: #f0eeff;">
+                      {{ rep.posts.title || 'Publicación sin título' }}
+                    </h4>
+                    <p class="text-xs mt-1 text-on-surface-muted line-clamp-2" style="color: rgba(180,170,220,0.65);">
+                      {{ rep.posts.description || 'Sin descripción' }}
+                    </p>
+                  </div>
+                  <div class="mt-3 p-3 rounded-lg bg-yellow-500/5 border border-yellow-500/10 text-xs text-yellow-500/80" *ngIf="!rep.posts">
+                    ⚠️ La publicación ya no existe o fue eliminada previamente.
+                  </div>
+                </div>
+
+                <!-- Action buttons -->
+                <div class="flex gap-2 justify-end pt-3 border-t" style="border-color: rgba(255,255,255,0.04);">
+                  <button type="button"
+                    (click)="dismissReport(rep.id)"
+                    class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-gray-600 hover:bg-gray-700 text-white transition-all border-none"
+                    style="cursor: pointer;">
+                    <i class="pi pi-times mr-1 text-[10px]"></i> Descartar Reporte
+                  </button>
+                  <button *ngIf="rep.posts" type="button"
+                    (click)="deletePost(rep.post_id)"
+                    class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-red-600 hover:bg-red-700 text-white transition-all border-none"
+                    style="cursor: pointer;">
+                    <i class="pi pi-trash mr-1 text-[10px]"></i> Borrar Publicación
+                  </button>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Empty State for reports -->
+            <div *ngIf="reports().length === 0" class="admin-empty-card">
+              <div class="empty-icon-ring" style="background: rgba(16,185,129,0.1); border-color: rgba(16,185,129,0.25);">
+                <i class="pi pi-check-circle text-3xl" style="color: #10b981;"></i>
+              </div>
+              <h3 class="text-lg font-black mt-4" style="color: #f0eeff;">¡Todo limpio!</h3>
+              <p class="text-sm mt-1" style="color: rgba(180,170,220,0.5);">
+                No hay reportes de contenido pendientes de moderar.
+              </p>
+            </div>
+
+          </div>
+        </ng-container>
+
+      </ng-container>
+
+    </div>
+  </div>
+</app-shell>
+
+<style>
+  /* ─── Background ───────────────────────────────── */
+  .admin-bg {
+    background: var(--gradient-warm-glow), var(--color-surface);
+    min-height: 100%;
+  }
+
+  /* ─── Header Card ──────────────────────────────── */
+  .admin-header-card {
+    background: var(--color-surface-container);
+    border: 1px solid var(--color-outline);
+    border-radius: 1.5rem;
+    padding: 1.5rem;
+    backdrop-filter: blur(12px);
+  }
+
+  .admin-badge {
+    display: inline-flex;
+    align-items: center;
+    background: var(--gradient-brand);
+    color: var(--color-on-primary);
+    font-size: 0.65rem;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    padding: 0.2rem 0.7rem;
+    border-radius: 999px;
+    text-transform: uppercase;
+  }
+
+  /* ─── Buttons ──────────────────────────────────── */
+  .admin-btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 2.5rem;
+    padding: 0 1.25rem;
+    border-radius: 999px;
+    border: 1px solid var(--color-outline-strong);
+    background: var(--color-surface-container-high);
+    color: var(--color-on-surface);
+    font-size: 0.8rem;
+    font-weight: 700;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .admin-btn-secondary:hover {
+    background: var(--color-surface-container-low);
+    border-color: var(--color-outline);
+  }
+  .admin-btn-secondary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* ─── Error Card ───────────────────────────────── */
+  .admin-error-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    border-radius: 1.25rem;
+    background: rgba(239,68,68,0.08);
+    border: 1px solid rgba(239,68,68,0.25);
+  }
+
+  /* ─── Skeleton ─────────────────────────────────── */
+  .admin-skeleton {
+    background: linear-gradient(90deg,
+      rgba(255,255,255,0.04) 25%,
+      rgba(255,255,255,0.07) 50%,
+      rgba(255,255,255,0.04) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+  @keyframes shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  /* ─── Stat Cards ───────────────────────────────── */
+  .admin-stat-card {
+    background: var(--color-surface-container);
+    border: 1px solid var(--color-outline);
+    border-radius: 1.25rem;
+    padding: 1.25rem;
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+    animation: fadeInUp 0.4s ease both;
+  }
+  .admin-stat-card:hover {
+    border-color: var(--color-primary);
+    background: rgb(var(--rgb-primary) / 0.05);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgb(var(--rgb-primary) / 0.08);
+  }
+
+  .stat-icon-wrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.75rem;
+  }
+
+  /* ─── Chart Cards ──────────────────────────────── */
+  .admin-chart-card {
+    background: var(--color-surface-container);
+    border: 1px solid var(--color-outline);
+    border-radius: 1.5rem;
+    padding: 1.5rem;
+    backdrop-filter: blur(8px);
+    transition: border-color 0.3s;
+    animation: fadeInUp 0.5s ease both;
+  }
+  .admin-chart-card:hover {
+    border-color: var(--color-outline-strong);
+  }
+
+  .chart-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+  }
+  .chart-title {
+    font-size: 1rem;
+    font-weight: 900;
+    color: var(--color-on-surface);
+    margin: 0;
+  }
+  .chart-subtitle {
+    font-size: 0.75rem;
+    color: var(--color-on-surface-muted);
+    margin: 0.2rem 0 0 0;
+  }
+  .chart-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--color-primary-container);
+    border: 1px solid var(--color-outline);
+    border-radius: 999px;
+    padding: 0.2rem 0.75rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--color-on-primary-container);
+    white-space: nowrap;
+  }
+  .chart-body {
+    position: relative;
+    height: 280px;
+  }
+  .chart-body canvas {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  /* ─── Empty State ──────────────────────────────── */
+  .admin-empty-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    border-radius: 1.5rem;
+    border: 1px dashed var(--color-outline-strong);
+    background: var(--color-surface-container-low);
+    text-align: center;
+  }
+  .empty-icon-ring {
+    display: grid;
+    place-items: center;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background: var(--color-primary-container);
+    border: 1px solid var(--color-outline);
+  }
+
+  /* ─── Animations ───────────────────────────────── */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0);    }
+  }
+
+  /* Spinning */
+  .animate-spin { animation: spin 0.8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>

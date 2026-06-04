@@ -1,0 +1,2977 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>cookeealo documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">cookeealo documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  NotificationsPage</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/features/notifications/notifications-page.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Componente que representa la página del Centro de Notificaciones.
+Muestra alertas agrupadas cronológicamente (likes, comentarios, seguimientos, menciones)
+y permite gestionar solicitudes de seguimiento interactuando con Supabase y el UserService.</p>
+
+    </p>
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-notifications-page</code></td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                                <code><a href="../components/AppShell.html" target="_self" >AppShell</a></code>
+                                <code><a href="../components/Avatar.html" target="_self" >Avatar</a></code>
+                                <code><a href="https://angular.io/api/router/RouterLink" target="_blank" >RouterLink</a></code>
+                            <code>TimeAgoPipe</code>
+                                <code><a href="../components/SavoLoader.html" target="_self" >SavoLoader</a></code>
+                            <code>TranslatePipe</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./notifications-page.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#authStore" >authStore</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#followStates" >followStates</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#groups" >groups</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#loadingFollows" >loadingFollows</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#loadingRequests" >loadingRequests</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#requestResponses" >requestResponses</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#router" >router</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#store" >store</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#supabase" >supabase</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#tabs" >tabs</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#userService" >userService</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#actorName" >actorName</a>
+                            </li>
+                            <li>
+                                <a href="#chipClass" >chipClass</a>
+                            </li>
+                            <li>
+                                <a href="#chipLabelKey" >chipLabelKey</a>
+                            </li>
+                            <li>
+                                <a href="#followActor" >followActor</a>
+                            </li>
+                            <li>
+                                <a href="#followButtonLabelKey" >followButtonLabelKey</a>
+                            </li>
+                            <li>
+                                <a href="#getFollowState" >getFollowState</a>
+                            </li>
+                            <li>
+                                <a href="#getRequestResponse" >getRequestResponse</a>
+                            </li>
+                            <li>
+                                <a href="#goToProfile" >goToProfile</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#groupByDate" >groupByDate</a>
+                            </li>
+                            <li>
+                                <a href="#hasPostThumbnail" >hasPostThumbnail</a>
+                            </li>
+                            <li>
+                                <a href="#isLoadingFollow" >isLoadingFollow</a>
+                            </li>
+                            <li>
+                                <a href="#isLoadingRequest" >isLoadingRequest</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#notificationIcon" >notificationIcon</a>
+                            </li>
+                            <li>
+                                <a href="#notificationTextKey" >notificationTextKey</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#preloadFollowStates" >preloadFollowStates</a>
+                            </li>
+                            <li>
+                                <a href="#respondRequest" >respondRequest</a>
+                            </li>
+                            <li>
+                                <a href="#targetLink" >targetLink</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor()</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="104" class="link-to-prism">src/app/features/notifications/notifications-page.ts:104</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div class="io-description"><p>Inicializa el componente.
+Registra un efecto reactivo para pre-cargar el estado de seguimiento recíproco con los autores de las notificaciones cargadas.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="actorName"></a>
+                    <span class="name">
+                        <span ><b>actorName</b></span>
+                        <a href="#actorName"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>actorName(n: <a href="../interfaces/Notification.html" target="_self">Notification</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="167"
+                                    class="link-to-prism">src/app/features/notifications/notifications-page.ts:167</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Devuelve el nombre del usuario o actor que generó la notificación.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>n</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Notification.html" target="_self" >Notification</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Notificación a analizar.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="chipClass"></a>
+                    <span class="name">
+                        <span ><b>chipClass</b></span>
+                        <a href="#chipClass"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>chipClass(type: <a href="../miscellaneous/typealiases.html#NotificationType" target="_self">NotificationType</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="227"
+                                    class="link-to-prism">src/app/features/notifications/notifications-page.ts:227</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Devuelve la clase CSS de estilos visuales para pintar el chip de la categoría correspondiente.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>type</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#NotificationType" target="_self" >NotificationType</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Tipo de notificación.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="chipLabelKey"></a>
+                    <span class="name">
+                        <span ><b>chipLabelKey</b></span>
+                        <a href="#chipLabelKey"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>chipLabelKey(type: <a href="../miscellaneous/typealiases.html#NotificationType" target="_self">NotificationType</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="210"
+                                    class="link-to-prism">src/app/features/notifications/notifications-page.ts:210</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Devuelve la clave de traducción de la etiqueta representativa (chip) de categoría.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>type</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#NotificationType" target="_self" >NotificationType</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Tipo de la notificación.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="followActor"></a>
+                    <span class="name">
+                        <span ><b>followActor</b></span>
+                        <a href="#followActor"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>followActor(n: <a href="../interfaces/Notification.html" target="_self">Notification</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="298"
+                                    class="link-to-prism">src/app/features/notifications/notifications-page.ts:298</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Envía una solicitud de seguimiento directo al actor que originó la notificación.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>n</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Notification.html" target="_self" >Notification</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Notificación.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="followButtonLabelKey"></a>
+                    <span class="name">
+                        <span ><b>followButtonLabelKey</b></span>
+                        <a href="#followButtonLabelKey"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>followButtonLabelKey(n: <a href="../interfaces/Notification.html" target="_self">Notification</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="359"
+                                    class="link-to-prism">src/app/features/notifications/notifications-page.ts:359</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Devuelve la clave de traducción correspondiente a la etiqueta del botón de seguimiento según su estado actual.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>n</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Notification.html" target="_self" >Notification</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Notificación.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getFollowState"></a>
+                    <span class="name">
+                        <span ><b>getFollowState</b></span>
+                        <a href="#getFollowState"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getFollowState(n: <a href="../interfaces/Notification.html" target="_self">Notification</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="332"
+                                    class="link-to-prism">src/app/features/notifications/notifications-page.ts:332</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Recupera el estado del seguimiento bidireccional respecto al actor de la notificación.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>n</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Notification.html" target="_self" >Notification</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Notificación.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>&quot;following&quot; | &quot;requested&quot; | null</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getRequestResponse"></a>
+                    <span class="name">
+                        <span ><b>getRequestResponse</b></span>
+                        <a href="#getRequestResponse"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getRequestResponse(notificationId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="324"
+                                    class="link-to-prism">src/app/features/notifications/notifications-page.ts:324</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Recupera el estado de resolución de una solicitud de seguimiento en la sesión actual.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>notificationId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Identificador de la notificación.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>&quot;accepted&quot; | &quot;rejected&quot; | null</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="goToProfile"></a>
+                    <span class="name">
+                        <span ><b>goToProfile</b></span>
+                        <a href="#goToProfile"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>goToProfile(n: <a href="../interfaces/Notification.html" target="_self">Notification</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="263"
+                                    class="link-to-prism">src/app/features/notifications/notifications-page.ts:263</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Navega al perfil de usuario del actor que originó la acción.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>n</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Notification.html" target="_self" >Notification</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Notificación.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="groupByDate"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>groupByDate</b></span>
+                        <a href="#groupByDate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>groupByDate(notifications: <a href="../interfaces/Notification.html" target="_self">Notification[]</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="370"
+                                    class="link-to-prism">src/app/features/notifications/notifications-page.ts:370</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Agrupa las notificaciones cronológicamente bajo etiquetas descriptivas (hoy, ayer, esta semana, antiguas).</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>notifications</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Notification.html" target="_self" >Notification[]</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Colección de notificaciones.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>NotificationGroup[]</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hasPostThumbnail"></a>
+                    <span class="name">
+                        <span ><b>hasPostThumbnail</b></span>
+                        <a href="#hasPostThumbnail"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>hasPostThumbnail(n: <a href="../interfaces/Notification.html" target="_self">Notification</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="244"
+                                    class="link-to-prism">src/app/features/notifications/notifications-page.ts:244</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Determina si la notificación está relacionada con una publicación y por ende admite miniatura gráfica.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>n</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Notification.html" target="_self" >Notification</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Notificación.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isLoadingFollow"></a>
+                    <span class="name">
+                        <span ><b>isLoadingFollow</b></span>
+                        <a href="#isLoadingFollow"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isLoadingFollow(n: <a href="../interfaces/Notification.html" target="_self">Notification</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="350"
+                                    class="link-to-prism">src/app/features/notifications/notifications-page.ts:350</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Indica si se está ejecutando la acción de seguir al actor de la notificación actual.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>n</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Notification.html" target="_self" >Notification</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Notificación.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isLoadingRequest"></a>
+                    <span class="name">
+                        <span ><b>isLoadingRequest</b></span>
+                        <a href="#isLoadingRequest"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isLoadingRequest(notificationId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="342"
+                                    class="link-to-prism">src/app/features/notifications/notifications-page.ts:342</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Indica si se está respondiendo la solicitud de seguimiento actual en segundo plano.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>notificationId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Identificador de la notificación.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="128"
+                                    class="link-to-prism">src/app/features/notifications/notifications-page.ts:128</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método de ciclo de vida de Angular para disparar la carga asíncrona inicial de notificaciones.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="notificationIcon"></a>
+                    <span class="name">
+                        <span ><b>notificationIcon</b></span>
+                        <a href="#notificationIcon"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>notificationIcon(type: <a href="../miscellaneous/typealiases.html#NotificationType" target="_self">NotificationType</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="193"
+                                    class="link-to-prism">src/app/features/notifications/notifications-page.ts:193</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Devuelve las clases de PrimeIcons e indicaciones de color en base al tipo de la notificación.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>type</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#NotificationType" target="_self" >NotificationType</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Tipo de notificación.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="notificationTextKey"></a>
+                    <span class="name">
+                        <span ><b>notificationTextKey</b></span>
+                        <a href="#notificationTextKey"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>notificationTextKey(n: <a href="../interfaces/Notification.html" target="_self">Notification</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="175"
+                                    class="link-to-prism">src/app/features/notifications/notifications-page.ts:175</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Devuelve la clave de traducción correspondiente para el texto de la notificación según su tipología.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>n</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Notification.html" target="_self" >Notification</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Notificación.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="preloadFollowStates"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Async</span>
+                        <span ><b>preloadFollowStates</b></span>
+                        <a href="#preloadFollowStates"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>preloadFollowStates(currentUserId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, actorIds: string[])</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="135"
+                                    class="link-to-prism">src/app/features/notifications/notifications-page.ts:135</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Pre-carga desde base de datos de forma paralela los estados de seguimiento para evitar desincronizaciones visuales.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>currentUserId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>actorIds</td>
+                                            <td>
+                                                        <code>string[]</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="respondRequest"></a>
+                    <span class="name">
+                        <span ><b>respondRequest</b></span>
+                        <a href="#respondRequest"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>respondRequest(n: <a href="../interfaces/Notification.html" target="_self">Notification</a>, accept: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="274"
+                                    class="link-to-prism">src/app/features/notifications/notifications-page.ts:274</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Acepta o rechaza una solicitud de seguimiento asíncrona.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>n</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Notification.html" target="_self" >Notification</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Notificación de tipo solicitud de seguimiento.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>accept</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>True para aceptar, false para declinar.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="targetLink"></a>
+                    <span class="name">
+                        <span ><b>targetLink</b></span>
+                        <a href="#targetLink"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>targetLink(n: <a href="../interfaces/Notification.html" target="_self">Notification</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="252"
+                                    class="link-to-prism">src/app/features/notifications/notifications-page.ts:252</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Devuelve los parámetros del routerLink para navegar al elemento origen de la notificación.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>n</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Notification.html" target="_self" >Notification</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Notificación.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>[] | null</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="authStore"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>authStore</b></span>
+                        <a href="#authStore"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(AuthStore)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">src/app/features/notifications/notifications-page.ts:62</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Almacén de estado de autenticación de usuario.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="followStates"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>followStates</b></span>
+                        <a href="#followStates"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;Record&lt;string, &#x27;following&#x27; | &#x27;requested&#x27;&gt;&gt;({})</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">src/app/features/notifications/notifications-page.ts:77</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Registro local reactivo del estado de seguimiento recíproco con los autores de las notificaciones.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="groups"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>groups</b></span>
+                        <a href="#groups"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed&lt;NotificationGroup[]&gt;(() &#x3D;&gt;
+		this.groupByDate(this.store.filteredNotifications()),
+	)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="102" class="link-to-prism">src/app/features/notifications/notifications-page.ts:102</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal calculada que agrupa la colección filtrada de notificaciones por su antigüedad temporal.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadingFollows"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>loadingFollows</b></span>
+                        <a href="#loadingFollows"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;Record&lt;string, boolean&gt;&gt;({})</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="87" class="link-to-prism">src/app/features/notifications/notifications-page.ts:87</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Estado de carga (spinner) asíncrono para las acciones de seguimiento optimista.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadingRequests"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>loadingRequests</b></span>
+                        <a href="#loadingRequests"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;Record&lt;string, boolean&gt;&gt;({})</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="82" class="link-to-prism">src/app/features/notifications/notifications-page.ts:82</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Estado de carga (spinner) de las solicitudes de seguimiento en proceso de respuesta.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="requestResponses"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>requestResponses</b></span>
+                        <a href="#requestResponses"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;Record&lt;string, &#x27;accepted&#x27; | &#x27;rejected&#x27;&gt;&gt;({})</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">src/app/features/notifications/notifications-page.ts:72</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Registro de respuestas guardadas localmente ante solicitudes de seguimiento (aceptadas/rechazadas) en la vista actual.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="router"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>router</b></span>
+                        <a href="#router"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(Router)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">src/app/features/notifications/notifications-page.ts:67</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Servicio de enrutador inyectado para la navegación interna.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="store"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>store</b></span>
+                        <a href="#store"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(NotificationsStore)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/features/notifications/notifications-page.ts:47</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Almacén de estado reactivo de las notificaciones.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="supabase"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>supabase</b></span>
+                        <a href="#supabase"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(SupabaseService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/app/features/notifications/notifications-page.ts:57</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Servicio Supabase inyectado para realizar pre-consultas optimizadas de seguimiento.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="tabs"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>tabs</b></span>
+                        <a href="#tabs"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed&lt;Tab[]&gt;(() &#x3D;&gt; [
+		{ key: &#x27;all&#x27;, label: &#x27;notifications.tab.all&#x27;, count: this.store.notifications().length },
+		{ key: &#x27;unread&#x27;, label: &#x27;notifications.tab.unread&#x27;, count: this.store.unreadCount() },
+		{ key: &#x27;mentions&#x27;, label: &#x27;notifications.tab.mentions&#x27;, count: this.store.mentionsCount() },
+		{ key: &#x27;social&#x27;, label: &#x27;notifications.tab.social&#x27;, count: this.store.socialCount() },
+	])</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="92" class="link-to-prism">src/app/features/notifications/notifications-page.ts:92</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal calculada con las pestañas disponibles de filtrado de notificaciones (todas, no leídas, menciones, social).</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="userService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>userService</b></span>
+                        <a href="#userService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(UserService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/app/features/notifications/notifications-page.ts:52</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Servicio inyectado para gestionar solicitudes de seguimiento y usuarios.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, computed, effect, inject, OnInit, signal, untracked } from &#x27;@angular/core&#x27;
+import { Router, RouterLink } from &#x27;@angular/router&#x27;
+import { isToday, isYesterday, isThisWeek } from &#x27;date-fns&#x27;
+import { NotificationsStore } from &#x27;@core/store/notifications.store&#x27;
+import { UserService } from &#x27;@core/services/user.service&#x27;
+import { SupabaseService } from &#x27;@core/services/supabase.service&#x27;
+import { AuthStore } from &#x27;@core/store/auth.store&#x27;
+import { Notification, NotificationGroup, NotificationTab, NotificationType } from &#x27;@core/models/notification/notification.model&#x27;
+import { AppShell } from &#x27;@shared/components/app-shell/app-shell&#x27;
+import { Avatar } from &#x27;@shared/components/avatar/avatar&#x27;
+import { TimeAgoPipe } from &#x27;@shared/pipes/time-ago.pipe&#x27;
+import { SavoLoader } from &#x27;@shared/components/savo-loader/savo-loader&#x27;
+import { TranslatePipe } from &#x27;@shared/pipes/translate.pipe&#x27;
+
+/**
+ * Interfaz que representa una pestaña de filtro en la página de notificaciones.
+ */
+interface Tab {
+	/**
+	 * Categoría o tipo de pestaña de notificaciones.
+	 */
+	key: NotificationTab
+	/**
+	 * Clave de traducción de la etiqueta visible.
+	 */
+	label: string
+	/**
+	 * Número de notificaciones contabilizadas en esta pestaña.
+	 */
+	count: number
+}
+
+/**
+ * Componente que representa la página del Centro de Notificaciones.
+ * Muestra alertas agrupadas cronológicamente (likes, comentarios, seguimientos, menciones)
+ * y permite gestionar solicitudes de seguimiento interactuando con Supabase y el UserService.
+ */
+@Component({
+	selector: &#x27;app-notifications-page&#x27;,
+	imports: [AppShell, Avatar, RouterLink, TimeAgoPipe, SavoLoader, TranslatePipe],
+	templateUrl: &#x27;./notifications-page.html&#x27;,
+})
+export class NotificationsPage implements OnInit {
+	/**
+	 * Almacén de estado reactivo de las notificaciones.
+	 */
+	readonly store &#x3D; inject(NotificationsStore)
+
+	/**
+	 * Servicio inyectado para gestionar solicitudes de seguimiento y usuarios.
+	 */
+	private readonly userService &#x3D; inject(UserService)
+
+	/**
+	 * Servicio Supabase inyectado para realizar pre-consultas optimizadas de seguimiento.
+	 */
+	private readonly supabase &#x3D; inject(SupabaseService)
+
+	/**
+	 * Almacén de estado de autenticación de usuario.
+	 */
+	private readonly authStore &#x3D; inject(AuthStore)
+
+	/**
+	 * Servicio de enrutador inyectado para la navegación interna.
+	 */
+	private readonly router &#x3D; inject(Router)
+
+	/**
+	 * Registro de respuestas guardadas localmente ante solicitudes de seguimiento (aceptadas/rechazadas) en la vista actual.
+	 */
+	readonly requestResponses &#x3D; signal&lt;Record&lt;string, &#x27;accepted&#x27; | &#x27;rejected&#x27;&gt;&gt;({})
+
+	/**
+	 * Registro local reactivo del estado de seguimiento recíproco con los autores de las notificaciones.
+	 */
+	readonly followStates &#x3D; signal&lt;Record&lt;string, &#x27;following&#x27; | &#x27;requested&#x27;&gt;&gt;({})
+
+	/**
+	 * Estado de carga (spinner) de las solicitudes de seguimiento en proceso de respuesta.
+	 */
+	readonly loadingRequests &#x3D; signal&lt;Record&lt;string, boolean&gt;&gt;({})
+
+	/**
+	 * Estado de carga (spinner) asíncrono para las acciones de seguimiento optimista.
+	 */
+	readonly loadingFollows &#x3D; signal&lt;Record&lt;string, boolean&gt;&gt;({})
+
+	/**
+	 * Señal calculada con las pestañas disponibles de filtrado de notificaciones (todas, no leídas, menciones, social).
+	 */
+	readonly tabs &#x3D; computed&lt;Tab[]&gt;(() &#x3D;&gt; [
+		{ key: &#x27;all&#x27;, label: &#x27;notifications.tab.all&#x27;, count: this.store.notifications().length },
+		{ key: &#x27;unread&#x27;, label: &#x27;notifications.tab.unread&#x27;, count: this.store.unreadCount() },
+		{ key: &#x27;mentions&#x27;, label: &#x27;notifications.tab.mentions&#x27;, count: this.store.mentionsCount() },
+		{ key: &#x27;social&#x27;, label: &#x27;notifications.tab.social&#x27;, count: this.store.socialCount() },
+	])
+
+	/**
+	 * Señal calculada que agrupa la colección filtrada de notificaciones por su antigüedad temporal.
+	 */
+	readonly groups &#x3D; computed&lt;NotificationGroup[]&gt;(() &#x3D;&gt;
+		this.groupByDate(this.store.filteredNotifications()),
+	)
+
+	/**
+	 * Inicializa el componente.
+	 * Registra un efecto reactivo para pre-cargar el estado de seguimiento recíproco con los autores de las notificaciones cargadas.
+	 */
+	constructor() {
+		// When notifications load, check which FOLLOW/FOLLOW_REQUEST actors we already follow
+		effect(() &#x3D;&gt; {
+			const notifications &#x3D; this.store.notifications()
+			const userId &#x3D; this.authStore.currentUserId()
+			if (!userId || notifications.length &#x3D;&#x3D;&#x3D; 0) return
+
+			const socialNotifs &#x3D; notifications.filter(n &#x3D;&gt; n.type &#x3D;&#x3D;&#x3D; &#x27;FOLLOW&#x27; || n.type &#x3D;&#x3D;&#x3D; &#x27;FOLLOW_REQUEST&#x27;)
+			const actorIds &#x3D; [...new Set(socialNotifs.map(n &#x3D;&gt; n.actor?.id ?? n.actorId).filter(Boolean))] as string[]
+			if (actorIds.length &#x3D;&#x3D;&#x3D; 0) return
+
+			untracked(() &#x3D;&gt; this.preloadFollowStates(userId, actorIds))
+		})
+	}
+
+	/**
+	 * Método de ciclo de vida de Angular para disparar la carga asíncrona inicial de notificaciones.
+	 */
+	ngOnInit(): void {
+		this.store.load()
+	}
+
+	/**
+	 * Pre-carga desde base de datos de forma paralela los estados de seguimiento para evitar desincronizaciones visuales.
+	 */
+	private async preloadFollowStates(currentUserId: string, actorIds: string[]): Promise&lt;void&gt; {
+		const [followsRes, requestsRes] &#x3D; await Promise.all([
+			this.supabase.client
+				.from(&#x27;follows&#x27;)
+				.select(&#x27;followed_id&#x27;)
+				.eq(&#x27;follower_id&#x27;, currentUserId)
+				.in(&#x27;followed_id&#x27;, actorIds),
+			this.supabase.client
+				.from(&#x27;follow_requests&#x27;)
+				.select(&#x27;target_id&#x27;)
+				.eq(&#x27;requester_id&#x27;, currentUserId)
+				.eq(&#x27;status&#x27;, &#x27;PENDING&#x27;)
+				.in(&#x27;target_id&#x27;, actorIds),
+		])
+
+		const updates: Record&lt;string, &#x27;following&#x27; | &#x27;requested&#x27;&gt; &#x3D; {}
+		for (const r of followsRes.data ?? []) {
+			updates[(r as { followed_id: string }).followed_id] &#x3D; &#x27;following&#x27;
+		}
+		for (const r of requestsRes.data ?? []) {
+			const id &#x3D; (r as { target_id: string }).target_id
+			if (!updates[id]) updates[id] &#x3D; &#x27;requested&#x27;
+		}
+		if (Object.keys(updates).length &gt; 0) {
+			this.followStates.update(m &#x3D;&gt; ({ ...m, ...updates }))
+		}
+	}
+
+	/**
+	 * Devuelve el nombre del usuario o actor que generó la notificación.
+	 * @param n Notificación a analizar.
+	 */
+	actorName(n: Notification): string {
+		return n.actor?.fullName || n.actor?.username || &#x27;Alguien&#x27;
+	}
+
+	/**
+	 * Devuelve la clave de traducción correspondiente para el texto de la notificación según su tipología.
+	 * @param n Notificación.
+	 */
+	notificationTextKey(n: Notification): string {
+		if (n.content &amp;&amp; n.type !&#x3D;&#x3D; &#x27;COMMENT&#x27;) return n.content
+		const map: Record&lt;NotificationType, string&gt; &#x3D; {
+			LIKE: &#x27;notifications.text.like&#x27;,
+			COMMENT: &#x27;notifications.text.comment&#x27;,
+			FOLLOW: &#x27;notifications.text.follow&#x27;,
+			FOLLOW_REQUEST: &#x27;notifications.text.follow_request&#x27;,
+			FOLLOW_ACCEPTED: &#x27;notifications.text.follow_accepted&#x27;,
+			MENTION: &#x27;notifications.text.mention&#x27;,
+			RECIPE_SAVE: &#x27;notifications.text.recipe_save&#x27;,
+		}
+		return map[n.type] ?? &#x27;notifications.text.default&#x27;
+	}
+
+	/**
+	 * Devuelve las clases de PrimeIcons e indicaciones de color en base al tipo de la notificación.
+	 * @param type Tipo de notificación.
+	 */
+	notificationIcon(type: NotificationType): string {
+		const map: Record&lt;NotificationType, string&gt; &#x3D; {
+			LIKE: &#x27;pi pi-heart-fill text-rose-500&#x27;,
+			COMMENT: &#x27;pi pi-comment text-sky-500&#x27;,
+			FOLLOW: &#x27;pi pi-user-plus text-green-500&#x27;,
+			FOLLOW_REQUEST: &#x27;pi pi-user-plus text-amber-500&#x27;,
+			FOLLOW_ACCEPTED: &#x27;pi pi-check-circle text-green-500&#x27;,
+			MENTION: &#x27;pi pi-at text-purple-500&#x27;,
+			RECIPE_SAVE: &#x27;pi pi-bookmark-fill text-primary&#x27;,
+		}
+		return map[type]
+	}
+
+	/**
+	 * Devuelve la clave de traducción de la etiqueta representativa (chip) de categoría.
+	 * @param type Tipo de la notificación.
+	 */
+	chipLabelKey(type: NotificationType): string {
+		const map: Record&lt;NotificationType, string&gt; &#x3D; {
+			LIKE: &#x27;notifications.chip.like&#x27;,
+			COMMENT: &#x27;notifications.chip.comment&#x27;,
+			FOLLOW: &#x27;notifications.chip.follow&#x27;,
+			FOLLOW_REQUEST: &#x27;notifications.chip.follow_request&#x27;,
+			FOLLOW_ACCEPTED: &#x27;notifications.chip.follow_accepted&#x27;,
+			MENTION: &#x27;notifications.chip.mention&#x27;,
+			RECIPE_SAVE: &#x27;notifications.chip.recipe_save&#x27;,
+		}
+		return map[type] ?? &#x27;&#x27;
+	}
+
+	/**
+	 * Devuelve la clase CSS de estilos visuales para pintar el chip de la categoría correspondiente.
+	 * @param type Tipo de notificación.
+	 */
+	chipClass(type: NotificationType): string {
+		const map: Record&lt;NotificationType, string&gt; &#x3D; {
+			LIKE: &#x27;bg-rose-100 text-rose-600&#x27;,
+			COMMENT: &#x27;bg-sky-100 text-sky-600&#x27;,
+			FOLLOW: &#x27;bg-amber-100 text-amber-700&#x27;,
+			FOLLOW_REQUEST: &#x27;bg-amber-100 text-amber-700&#x27;,
+			FOLLOW_ACCEPTED: &#x27;bg-green-100 text-green-700&#x27;,
+			MENTION: &#x27;bg-purple-100 text-purple-600&#x27;,
+			RECIPE_SAVE: &#x27;bg-primary-container text-on-primary-container&#x27;,
+		}
+		return map[type]
+	}
+
+	/**
+	 * Determina si la notificación está relacionada con una publicación y por ende admite miniatura gráfica.
+	 * @param n Notificación.
+	 */
+	hasPostThumbnail(n: Notification): boolean {
+		return [&#x27;LIKE&#x27;, &#x27;COMMENT&#x27;, &#x27;MENTION&#x27;, &#x27;RECIPE_SAVE&#x27;].includes(n.type) &amp;&amp; !!n.targetId
+	}
+
+	/**
+	 * Devuelve los parámetros del routerLink para navegar al elemento origen de la notificación.
+	 * @param n Notificación.
+	 */
+	targetLink(n: Notification): string[] | null {
+		if (n.type &#x3D;&#x3D;&#x3D; &#x27;FOLLOW&#x27; || n.type &#x3D;&#x3D;&#x3D; &#x27;FOLLOW_REQUEST&#x27; || n.type &#x3D;&#x3D;&#x3D; &#x27;FOLLOW_ACCEPTED&#x27;)
+			return n.actor?.username ? [&#x27;/profile&#x27;, n.actor.username] : null
+		if (!n.targetId) return null
+		return [&#x27;/post&#x27;, n.targetId]
+	}
+
+	/**
+	 * Navega al perfil de usuario del actor que originó la acción.
+	 * @param n Notificación.
+	 */
+	goToProfile(n: Notification): void {
+		if (n.actor?.username) {
+			this.router.navigate([&#x27;/profile&#x27;, n.actor.username])
+		}
+	}
+
+	/**
+	 * Acepta o rechaza una solicitud de seguimiento asíncrona.
+	 * @param n Notificación de tipo solicitud de seguimiento.
+	 * @param accept True para aceptar, false para declinar.
+	 */
+	respondRequest(n: Notification, accept: boolean): void {
+		const actorId &#x3D; n.actor?.id ?? n.actorId
+		if (!actorId || this.loadingRequests()[n.id]) return
+
+		this.loadingRequests.update(m &#x3D;&gt; ({ ...m, [n.id]: true }))
+
+		this.userService.respondFollowRequest(actorId, accept).subscribe({
+			next: () &#x3D;&gt; {
+				this.requestResponses.update(m &#x3D;&gt; ({ ...m, [n.id]: accept ? &#x27;accepted&#x27; : &#x27;rejected&#x27; }))
+				this.store.markRead(n)
+			},
+			error: () &#x3D;&gt; {
+				this.loadingRequests.update(m &#x3D;&gt; ({ ...m, [n.id]: false }))
+			},
+			complete: () &#x3D;&gt; {
+				this.loadingRequests.update(m &#x3D;&gt; ({ ...m, [n.id]: false }))
+			},
+		})
+	}
+
+	/**
+	 * Envía una solicitud de seguimiento directo al actor que originó la notificación.
+	 * @param n Notificación.
+	 */
+	followActor(n: Notification): void {
+		const actorId &#x3D; n.actor?.id ?? n.actorId
+		if (!actorId || this.loadingFollows()[actorId]) return
+
+		this.loadingFollows.update(m &#x3D;&gt; ({ ...m, [actorId]: true }))
+
+		this.userService.toggleFollow(actorId, false).subscribe({
+			next: res &#x3D;&gt; {
+				if (res.following || res.requested) {
+					const state &#x3D; res.following ? &#x27;following&#x27; : &#x27;requested&#x27;
+					this.followStates.update(m &#x3D;&gt; ({ ...m, [actorId]: state }))
+				}
+			},
+			error: () &#x3D;&gt; {
+				this.loadingFollows.update(m &#x3D;&gt; ({ ...m, [actorId]: false }))
+			},
+			complete: () &#x3D;&gt; {
+				this.loadingFollows.update(m &#x3D;&gt; ({ ...m, [actorId]: false }))
+			},
+		})
+	}
+
+	/**
+	 * Recupera el estado de resolución de una solicitud de seguimiento en la sesión actual.
+	 * @param notificationId Identificador de la notificación.
+	 */
+	getRequestResponse(notificationId: string): &#x27;accepted&#x27; | &#x27;rejected&#x27; | null {
+		return this.requestResponses()[notificationId] ?? null
+	}
+
+	/**
+	 * Recupera el estado del seguimiento bidireccional respecto al actor de la notificación.
+	 * @param n Notificación.
+	 */
+	getFollowState(n: Notification): &#x27;following&#x27; | &#x27;requested&#x27; | null {
+		const actorId &#x3D; n.actor?.id ?? n.actorId
+		if (!actorId) return null
+		return this.followStates()[actorId] ?? null
+	}
+
+	/**
+	 * Indica si se está respondiendo la solicitud de seguimiento actual en segundo plano.
+	 * @param notificationId Identificador de la notificación.
+	 */
+	isLoadingRequest(notificationId: string): boolean {
+		return !!this.loadingRequests()[notificationId]
+	}
+
+	/**
+	 * Indica si se está ejecutando la acción de seguir al actor de la notificación actual.
+	 * @param n Notificación.
+	 */
+	isLoadingFollow(n: Notification): boolean {
+		const actorId &#x3D; n.actor?.id ?? n.actorId
+		return actorId ? !!this.loadingFollows()[actorId] : false
+	}
+
+	/**
+	 * Devuelve la clave de traducción correspondiente a la etiqueta del botón de seguimiento según su estado actual.
+	 * @param n Notificación.
+	 */
+	followButtonLabelKey(n: Notification): string {
+		const state &#x3D; this.getFollowState(n)
+		if (state &#x3D;&#x3D;&#x3D; &#x27;following&#x27;) return &#x27;notifications.state.following&#x27;
+		if (state &#x3D;&#x3D;&#x3D; &#x27;requested&#x27;) return &#x27;notifications.state.requested&#x27;
+		return &#x27;notifications.state.follow&#x27;
+	}
+
+	/**
+	 * Agrupa las notificaciones cronológicamente bajo etiquetas descriptivas (hoy, ayer, esta semana, antiguas).
+	 * @param notifications Colección de notificaciones.
+	 */
+	private groupByDate(notifications: Notification[]): NotificationGroup[] {
+		const today: Notification[] &#x3D; []
+		const yesterday: Notification[] &#x3D; []
+		const thisWeek: Notification[] &#x3D; []
+		const older: Notification[] &#x3D; []
+
+		for (const n of notifications) {
+			if (isToday(n.createdAt)) today.push(n)
+			else if (isYesterday(n.createdAt)) yesterday.push(n)
+			else if (isThisWeek(n.createdAt)) thisWeek.push(n)
+			else older.push(n)
+		}
+
+		const groups: NotificationGroup[] &#x3D; []
+		if (today.length) groups.push({ label: &#x27;notifications.date.today&#x27;, notifications: today })
+		if (yesterday.length) groups.push({ label: &#x27;notifications.date.yesterday&#x27;, notifications: yesterday })
+		if (thisWeek.length) groups.push({ label: &#x27;notifications.date.this_week&#x27;, notifications: thisWeek })
+		if (older.length) groups.push({ label: &#x27;notifications.date.older&#x27;, notifications: older })
+		return groups
+	}
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;app-shell&gt;
+	&lt;main class&#x3D;&quot;min-h-dvh bg-surface pb-10&quot;&gt;
+		&lt;div class&#x3D;&quot;mx-auto max-w-2xl px-4 pt-6 sm:px-6&quot;&gt;
+
+			&lt;!-- ── Header ── --&gt;
+			&lt;div class&#x3D;&quot;mb-5 flex items-start justify-between gap-4&quot;&gt;
+				&lt;div&gt;
+					&lt;h1 class&#x3D;&quot;font-display text-3xl font-bold tracking-tight text-on-surface&quot;&gt;{{ &#x27;notifications.title&#x27; | translate }}&lt;/h1&gt;
+					@if (store.unreadCount() &gt; 0) {
+						&lt;p class&#x3D;&quot;mt-1 text-sm text-on-surface-muted&quot;&gt;
+							{{ &#x27;notifications.unread_count&#x27; | translate }} ({{ store.unreadCount() }})
+						&lt;/p&gt;
+					}
+				&lt;/div&gt;
+
+				&lt;div class&#x3D;&quot;flex shrink-0 items-center gap-2&quot;&gt;
+					@if (store.unreadCount() &gt; 0) {
+						&lt;button
+							type&#x3D;&quot;button&quot;
+							(click)&#x3D;&quot;store.markAllRead()&quot;
+							class&#x3D;&quot;inline-flex items-center gap-1.5 rounded-xl border border-outline bg-surface px-3 py-2 text-sm font-medium text-on-surface shadow-1 transition-colors duration-fast ease-standard hover:bg-surface-container active:scale-[0.98]&quot;
+						&gt;
+							&lt;i class&#x3D;&quot;pi pi-check text-xs&quot;&gt;&lt;/i&gt;
+							{{ &#x27;notifications.mark_all_read&#x27; | translate }}
+						&lt;/button&gt;
+					}
+					&lt;button
+						type&#x3D;&quot;button&quot;
+						class&#x3D;&quot;grid size-10 place-items-center rounded-xl border border-outline bg-surface text-on-surface-muted shadow-1 transition-colors duration-fast ease-standard hover:bg-surface-container active:scale-[0.98]&quot;
+						[attr.aria-label]&#x3D;&quot;&#x27;notifications.config_label&#x27; | translate&quot;
+					&gt;
+						&lt;i class&#x3D;&quot;pi pi-cog text-sm&quot;&gt;&lt;/i&gt;
+					&lt;/button&gt;
+				&lt;/div&gt;
+			&lt;/div&gt;
+
+			&lt;!-- ── Tabs ── --&gt;
+			&lt;div class&#x3D;&quot;mb-6 border-b border-outline&quot;&gt;
+				&lt;nav class&#x3D;&quot;-mb-px flex&quot; role&#x3D;&quot;tablist&quot; aria-label&#x3D;&quot;Filtros de actividad&quot;&gt;
+					@for (tab of tabs(); track tab.key) {
+						&lt;button
+							type&#x3D;&quot;button&quot;
+							role&#x3D;&quot;tab&quot;
+							[attr.aria-selected]&#x3D;&quot;store.activeTab() &#x3D;&#x3D;&#x3D; tab.key&quot;
+							(click)&#x3D;&quot;store.setTab(tab.key)&quot;
+							class&#x3D;&quot;relative flex items-center gap-1.5 px-3 pb-3 pt-1 text-sm font-medium transition-colors duration-fast ease-standard sm:px-4&quot;
+							[class.text-on-surface]&#x3D;&quot;store.activeTab() &#x3D;&#x3D;&#x3D; tab.key&quot;
+							[class.text-on-surface-muted]&#x3D;&quot;store.activeTab() !&#x3D;&#x3D; tab.key&quot;
+						&gt;
+							{{ tab.label | translate }}
+							@if (tab.count &gt; 0) {
+								&lt;span
+									class&#x3D;&quot;inline-flex h-5 min-w-5 items-center justify-center rounded-pill px-1.5 text-xs font-bold transition-colors duration-fast&quot;
+									[class.bg-primary]&#x3D;&quot;store.activeTab() &#x3D;&#x3D;&#x3D; tab.key&quot;
+									[class.text-on-primary]&#x3D;&quot;store.activeTab() &#x3D;&#x3D;&#x3D; tab.key&quot;
+									[class.bg-surface-container-high]&#x3D;&quot;store.activeTab() !&#x3D;&#x3D; tab.key&quot;
+									[class.text-on-surface-muted]&#x3D;&quot;store.activeTab() !&#x3D;&#x3D; tab.key&quot;
+								&gt;{{ tab.count }}&lt;/span&gt;
+							}
+							@if (store.activeTab() &#x3D;&#x3D;&#x3D; tab.key) {
+								&lt;span class&#x3D;&quot;absolute bottom-0 left-0 right-0 h-0.5 rounded-t-full bg-primary&quot;&gt;&lt;/span&gt;
+							}
+						&lt;/button&gt;
+					}
+				&lt;/nav&gt;
+			&lt;/div&gt;
+
+			&lt;!-- ── Loading ── --&gt;
+			@if (store.loading()) {
+				&lt;app-savo-loader [message]&#x3D;&quot;&#x27;notifications.loading&#x27; | translate&quot; /&gt;
+			}
+
+			&lt;!-- ── Error ── --&gt;
+			@if (store.error()) {
+				&lt;div class&#x3D;&quot;rounded-2xl border border-error/30 bg-error-container p-6 text-center&quot;&gt;
+					&lt;i class&#x3D;&quot;pi pi-exclamation-triangle mb-3 text-3xl text-on-error-container&quot;&gt;&lt;/i&gt;
+					&lt;p class&#x3D;&quot;font-semibold text-on-error-container&quot;&gt;{{ store.error() | translate }}&lt;/p&gt;
+				&lt;/div&gt;
+			}
+
+			&lt;!-- ── Empty state ── --&gt;
+			@if (!store.loading() &amp;&amp; !store.error() &amp;&amp; groups().length &#x3D;&#x3D;&#x3D; 0) {
+				&lt;div class&#x3D;&quot;grid place-items-center rounded-2xl border border-outline bg-surface-container py-16 text-center shadow-1&quot;&gt;
+					&lt;app-savo-loader size&#x3D;&quot;sm&quot; [padded]&#x3D;&quot;false&quot; /&gt;
+					&lt;h2 class&#x3D;&quot;mt-4 text-lg font-bold text-on-surface&quot;&gt;{{ &#x27;notifications.empty_title&#x27; | translate }}&lt;/h2&gt;
+					&lt;p class&#x3D;&quot;mt-1 max-w-xs text-sm text-on-surface-muted&quot;&gt;
+						{{ &#x27;notifications.empty_desc&#x27; | translate }}
+					&lt;/p&gt;
+				&lt;/div&gt;
+			}
+
+			&lt;!-- ── Grouped notifications ── --&gt;
+			@for (group of groups(); track group.label) {
+				&lt;section class&#x3D;&quot;mb-6&quot;&gt;
+					&lt;!-- Date label --&gt;
+					&lt;p class&#x3D;&quot;mb-2.5 text-[0.7rem] font-bold uppercase tracking-widest text-on-surface-muted&quot;&gt;
+						{{ group.label | translate }}
+					&lt;/p&gt;
+
+					&lt;div class&#x3D;&quot;grid gap-2&quot;&gt;
+						@for (n of group.notifications; track n.id) {
+							&lt;div
+								class&#x3D;&quot;group relative flex overflow-hidden rounded-2xl border transition-colors duration-fast ease-standard&quot;
+								[class.bg-primary-container]&#x3D;&quot;!n.isRead&quot;
+								[class.border-primary]&#x3D;&quot;!n.isRead&quot;
+								[class.shadow-1]&#x3D;&quot;!n.isRead&quot;
+								[class.bg-surface-container]&#x3D;&quot;n.isRead&quot;
+								[class.border-outline]&#x3D;&quot;n.isRead&quot;
+							&gt;
+								&lt;!-- Unread left accent bar --&gt;
+								@if (!n.isRead) {
+									&lt;span class&#x3D;&quot;absolute inset-y-0 left-0 w-1 rounded-l-2xl bg-primary&quot;&gt;&lt;/span&gt;
+								}
+
+								&lt;!-- Main content --&gt;
+								&lt;div
+									class&#x3D;&quot;flex flex-1 min-w-0 gap-3 p-4&quot;
+									[class.pl-5]&#x3D;&quot;!n.isRead&quot;
+								&gt;
+									&lt;!-- Avatar with type badge — click to go to profile --&gt;
+									&lt;a
+										[routerLink]&#x3D;&quot;n.actor?.username ? [&#x27;/profile&#x27;, n.actor!.username!] : null&quot;
+										class&#x3D;&quot;relative shrink-0 cursor-pointer&quot;
+									&gt;
+										&lt;app-avatar
+											[src]&#x3D;&quot;n.actor?.photoUrl&quot;
+											[name]&#x3D;&quot;actorName(n)&quot;
+											size&#x3D;&quot;md&quot;
+										/&gt;
+										&lt;span class&#x3D;&quot;absolute -bottom-1 -right-1 grid size-5 place-items-center rounded-pill bg-surface shadow-1 text-[0.6rem]&quot;&gt;
+											&lt;i [class]&#x3D;&quot;notificationIcon(n.type)&quot;&gt;&lt;/i&gt;
+										&lt;/span&gt;
+									&lt;/a&gt;
+
+									&lt;!-- Text + meta --&gt;
+									&lt;div class&#x3D;&quot;min-w-0 flex-1&quot;&gt;
+										&lt;p class&#x3D;&quot;text-sm leading-snug text-on-surface&quot;&gt;
+											&lt;a
+												[routerLink]&#x3D;&quot;n.actor?.username ? [&#x27;/profile&#x27;, n.actor!.username!] : null&quot;
+												class&#x3D;&quot;font-bold hover:underline cursor-pointer&quot;
+												[class.text-on-primary-container]&#x3D;&quot;!n.isRead&quot;
+											&gt;{{ actorName(n) }}&lt;/a&gt;
+											&lt;span [class.text-on-primary-container]&#x3D;&quot;!n.isRead&quot;&gt;
+												{{ notificationTextKey(n) | translate }}
+												@if (n.content &amp;&amp; n.type !&#x3D;&#x3D; &#x27;COMMENT&#x27;) {
+													&lt;span class&#x3D;&quot;font-semibold&quot;&gt; &amp;laquo;{{ n.content }}&amp;raquo;&lt;/span&gt;
+												}
+											&lt;/span&gt;
+										&lt;/p&gt;
+
+										&lt;!-- Time + chip --&gt;
+										&lt;div class&#x3D;&quot;mt-1.5 flex flex-wrap items-center gap-1.5&quot;&gt;
+											&lt;span class&#x3D;&quot;text-xs text-on-surface-muted&quot;&gt;{{ n.createdAt | timeAgo }}&lt;/span&gt;
+											&lt;span
+												class&#x3D;&quot;inline-flex items-center rounded-pill px-2.5 py-0.5 text-xs font-medium&quot;
+												[class]&#x3D;&quot;chipClass(n.type)&quot;
+											&gt;{{ chipLabelKey(n.type) | translate }}&lt;/span&gt;
+											@if (!n.isRead) {
+												&lt;button
+													type&#x3D;&quot;button&quot;
+													class&#x3D;&quot;ml-auto grid size-7 place-items-center rounded-pill text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container-high hover:text-primary active:scale-[0.98]&quot;
+													[attr.aria-label]&#x3D;&quot;&#x27;notifications.mark_as_read_label&#x27; | translate&quot;
+													(click)&#x3D;&quot;store.markRead(n)&quot;
+												&gt;
+													&lt;i class&#x3D;&quot;pi pi-check text-xs&quot;&gt;&lt;/i&gt;
+												&lt;/button&gt;
+											}
+										&lt;/div&gt;
+
+										&lt;!-- Comment preview --&gt;
+										@if (n.type &#x3D;&#x3D;&#x3D; &#x27;COMMENT&#x27; &amp;&amp; n.content) {
+											&lt;div class&#x3D;&quot;mt-2 rounded-xl border border-outline bg-surface px-3 py-2 text-sm italic text-on-surface-muted&quot;&gt;
+												&quot;{{ n.content }}&quot;
+											&lt;/div&gt;
+										}
+
+										&lt;!-- Reply CTA for comments --&gt;
+										@if (n.type &#x3D;&#x3D;&#x3D; &#x27;COMMENT&#x27;) {
+											&lt;a
+												[routerLink]&#x3D;&quot;targetLink(n)&quot;
+												(click)&#x3D;&quot;store.markRead(n)&quot;
+												class&#x3D;&quot;mt-2 inline-flex items-center rounded-xl border border-outline bg-surface px-4 py-1.5 text-xs font-medium text-on-surface transition-colors duration-fast ease-standard hover:bg-surface-container-high active:scale-[0.98]&quot;
+											&gt;
+												{{ &#x27;notifications.reply&#x27; | translate }}
+											&lt;/a&gt;
+										}
+
+										&lt;!-- FOLLOW_REQUEST: accept / reject actions --&gt;
+										@if (n.type &#x3D;&#x3D;&#x3D; &#x27;FOLLOW_REQUEST&#x27;) {
+											&lt;div class&#x3D;&quot;mt-2.5 flex flex-wrap items-center gap-2&quot;&gt;
+												@if (getRequestResponse(n.id); as response) {
+													@if (response &#x3D;&#x3D;&#x3D; &#x27;accepted&#x27;) {
+														&lt;span class&#x3D;&quot;inline-flex items-center gap-1.5 rounded-pill bg-green-100 px-3 py-1 text-xs font-bold text-green-700 dark:bg-green-900/30 dark:text-green-400&quot;&gt;
+															&lt;i class&#x3D;&quot;pi pi-check-circle text-xs&quot;&gt;&lt;/i&gt;
+															{{ &#x27;notifications.accepted&#x27; | translate }}
+														&lt;/span&gt;
+														@if (!getFollowState(n)) {
+															&lt;button
+																type&#x3D;&quot;button&quot;
+																class&#x3D;&quot;inline-flex min-h-8 items-center gap-1.5 rounded-pill bg-primary px-4 text-xs font-bold text-on-primary shadow-1 transition-all duration-fast ease-standard hover:shadow-2 active:scale-[0.97] disabled:opacity-50&quot;
+																[disabled]&#x3D;&quot;isLoadingFollow(n)&quot;
+																(click)&#x3D;&quot;followActor(n)&quot;
+															&gt;
+																@if (isLoadingFollow(n)) {
+																	&lt;i class&#x3D;&quot;pi pi-spin pi-spinner text-xs&quot;&gt;&lt;/i&gt;
+																}
+																{{ &#x27;notifications.follow_back&#x27; | translate }}
+															&lt;/button&gt;
+														} @else {
+															&lt;span class&#x3D;&quot;inline-flex items-center gap-1.5 rounded-pill border border-outline px-3 py-1 text-xs font-bold text-on-surface-muted&quot;&gt;
+																&lt;i class&#x3D;&quot;pi pi-check text-xs&quot;&gt;&lt;/i&gt;
+																{{ followButtonLabelKey(n) | translate }}
+															&lt;/span&gt;
+														}
+													} @else {
+														&lt;span class&#x3D;&quot;inline-flex items-center gap-1.5 rounded-pill bg-red-100 px-3 py-1 text-xs font-bold text-red-700 dark:bg-red-900/30 dark:text-red-400&quot;&gt;
+															&lt;i class&#x3D;&quot;pi pi-times-circle text-xs&quot;&gt;&lt;/i&gt;
+															{{ &#x27;notifications.rejected&#x27; | translate }}
+														&lt;/span&gt;
+													}
+												} @else {
+													&lt;button
+														type&#x3D;&quot;button&quot;
+														class&#x3D;&quot;inline-flex min-h-8 items-center gap-1.5 rounded-pill bg-primary px-4 text-xs font-bold text-on-primary shadow-1 transition-all duration-fast ease-standard hover:shadow-2 active:scale-[0.97] disabled:opacity-50&quot;
+														[disabled]&#x3D;&quot;isLoadingRequest(n.id)&quot;
+														(click)&#x3D;&quot;respondRequest(n, true)&quot;
+													&gt;
+														@if (isLoadingRequest(n.id)) {
+															&lt;i class&#x3D;&quot;pi pi-spin pi-spinner text-xs&quot;&gt;&lt;/i&gt;
+														} @else {
+															&lt;i class&#x3D;&quot;pi pi-check text-xs&quot;&gt;&lt;/i&gt;
+														}
+														{{ &#x27;notifications.accept&#x27; | translate }}
+													&lt;/button&gt;
+													&lt;button
+														type&#x3D;&quot;button&quot;
+														class&#x3D;&quot;inline-flex min-h-8 items-center gap-1.5 rounded-pill border border-outline bg-surface px-4 text-xs font-bold text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container-high hover:text-on-surface active:scale-[0.97] disabled:opacity-50&quot;
+														[disabled]&#x3D;&quot;isLoadingRequest(n.id)&quot;
+														(click)&#x3D;&quot;respondRequest(n, false)&quot;
+													&gt;
+														&lt;i class&#x3D;&quot;pi pi-times text-xs&quot;&gt;&lt;/i&gt;
+														{{ &#x27;notifications.reject&#x27; | translate }}
+													&lt;/button&gt;
+												}
+											&lt;/div&gt;
+										}
+
+										&lt;!-- FOLLOW: follow back option --&gt;
+										@if (n.type &#x3D;&#x3D;&#x3D; &#x27;FOLLOW&#x27;) {
+											&lt;div class&#x3D;&quot;mt-2.5 flex items-center gap-2&quot;&gt;
+												@if (!getFollowState(n)) {
+													&lt;button
+														type&#x3D;&quot;button&quot;
+														class&#x3D;&quot;inline-flex min-h-8 items-center gap-1.5 rounded-pill bg-primary px-4 text-xs font-bold text-on-primary shadow-1 transition-all duration-fast ease-standard hover:shadow-2 active:scale-[0.97] disabled:opacity-50&quot;
+														[disabled]&#x3D;&quot;isLoadingFollow(n)&quot;
+														(click)&#x3D;&quot;followActor(n)&quot;
+													&gt;
+														@if (isLoadingFollow(n)) {
+															&lt;i class&#x3D;&quot;pi pi-spin pi-spinner text-xs&quot;&gt;&lt;/i&gt;
+														} @else {
+															&lt;i class&#x3D;&quot;pi pi-user-plus text-xs&quot;&gt;&lt;/i&gt;
+														}
+														{{ &#x27;notifications.follow_back&#x27; | translate }}
+													&lt;/button&gt;
+												} @else {
+													&lt;span class&#x3D;&quot;inline-flex items-center gap-1.5 rounded-pill border border-outline px-3 py-1 text-xs font-bold text-on-surface-muted&quot;&gt;
+														&lt;i class&#x3D;&quot;pi pi-check text-xs&quot;&gt;&lt;/i&gt;
+														{{ followButtonLabelKey(n) | translate }}
+													&lt;/span&gt;
+												}
+											&lt;/div&gt;
+										}
+									&lt;/div&gt;
+								&lt;/div&gt;
+
+								&lt;!-- ── Right side ── --&gt;
+								&lt;!-- Post thumbnail for types with a target post --&gt;
+								@if (hasPostThumbnail(n)) {
+									&lt;a
+										[routerLink]&#x3D;&quot;targetLink(n)&quot;
+										(click)&#x3D;&quot;store.markRead(n)&quot;
+										class&#x3D;&quot;flex shrink-0 items-center py-4 pr-4&quot;
+										[attr.aria-label]&#x3D;&quot;&#x27;notifications.view_post_label&#x27; | translate&quot;
+									&gt;
+										@if (n.targetImageUrl) {
+											&lt;img
+												[src]&#x3D;&quot;n.targetImageUrl&quot;
+												alt&#x3D;&quot;&quot;
+												class&#x3D;&quot;size-16 rounded-xl object-cover shadow-1&quot;
+											/&gt;
+										} @else {
+											&lt;div class&#x3D;&quot;grid size-16 place-items-center rounded-xl bg-surface-container-high text-2xl shadow-1&quot;&gt;
+												&amp;#127869;
+											&lt;/div&gt;
+										}
+									&lt;/a&gt;
+								}
+							&lt;/div&gt;
+						}
+					&lt;/div&gt;
+				&lt;/section&gt;
+			}
+
+		&lt;/div&gt;
+	&lt;/main&gt;
+&lt;/app-shell&gt;
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis-network.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><app-shell>	<main class="min-h-dvh bg-surface pb-10">		<div class="mx-auto max-w-2xl px-4 pt-6 sm:px-6">			<!-- ── Header ── -->			<div class="mb-5 flex items-start justify-between gap-4">				<div>					<h1 class="font-display text-3xl font-bold tracking-tight text-on-surface">{{ \'notifications.title\' | translate }}</h1>					@if (store.unreadCount() > 0) {						<p class="mt-1 text-sm text-on-surface-muted">							{{ \'notifications.unread_count\' | translate }} ({{ store.unreadCount() }})						</p>					}				</div>				<div class="flex shrink-0 items-center gap-2">					@if (store.unreadCount() > 0) {						<button							type="button"							(click)="store.markAllRead()"							class="inline-flex items-center gap-1.5 rounded-xl border border-outline bg-surface px-3 py-2 text-sm font-medium text-on-surface shadow-1 transition-colors duration-fast ease-standard hover:bg-surface-container active:scale-[0.98]"						>							<i class="pi pi-check text-xs"></i>							{{ \'notifications.mark_all_read\' | translate }}						</button>					}					<button						type="button"						class="grid size-10 place-items-center rounded-xl border border-outline bg-surface text-on-surface-muted shadow-1 transition-colors duration-fast ease-standard hover:bg-surface-container active:scale-[0.98]"						[attr.aria-label]="\'notifications.config_label\' | translate"					>						<i class="pi pi-cog text-sm"></i>					</button>				</div>			</div>			<!-- ── Tabs ── -->			<div class="mb-6 border-b border-outline">				<nav class="-mb-px flex" role="tablist" aria-label="Filtros de actividad">					@for (tab of tabs(); track tab.key) {						<button							type="button"							role="tab"							[attr.aria-selected]="store.activeTab() === tab.key"							(click)="store.setTab(tab.key)"							class="relative flex items-center gap-1.5 px-3 pb-3 pt-1 text-sm font-medium transition-colors duration-fast ease-standard sm:px-4"							[class.text-on-surface]="store.activeTab() === tab.key"							[class.text-on-surface-muted]="store.activeTab() !== tab.key"						>							{{ tab.label | translate }}							@if (tab.count > 0) {								<span									class="inline-flex h-5 min-w-5 items-center justify-center rounded-pill px-1.5 text-xs font-bold transition-colors duration-fast"									[class.bg-primary]="store.activeTab() === tab.key"									[class.text-on-primary]="store.activeTab() === tab.key"									[class.bg-surface-container-high]="store.activeTab() !== tab.key"									[class.text-on-surface-muted]="store.activeTab() !== tab.key"								>{{ tab.count }}</span>							}							@if (store.activeTab() === tab.key) {								<span class="absolute bottom-0 left-0 right-0 h-0.5 rounded-t-full bg-primary"></span>							}						</button>					}				</nav>			</div>			<!-- ── Loading ── -->			@if (store.loading()) {				<app-savo-loader [message]="\'notifications.loading\' | translate" />			}			<!-- ── Error ── -->			@if (store.error()) {				<div class="rounded-2xl border border-error/30 bg-error-container p-6 text-center">					<i class="pi pi-exclamation-triangle mb-3 text-3xl text-on-error-container"></i>					<p class="font-semibold text-on-error-container">{{ store.error() | translate }}</p>				</div>			}			<!-- ── Empty state ── -->			@if (!store.loading() && !store.error() && groups().length === 0) {				<div class="grid place-items-center rounded-2xl border border-outline bg-surface-container py-16 text-center shadow-1">					<app-savo-loader size="sm" [padded]="false" />					<h2 class="mt-4 text-lg font-bold text-on-surface">{{ \'notifications.empty_title\' | translate }}</h2>					<p class="mt-1 max-w-xs text-sm text-on-surface-muted">						{{ \'notifications.empty_desc\' | translate }}					</p>				</div>			}			<!-- ── Grouped notifications ── -->			@for (group of groups(); track group.label) {				<section class="mb-6">					<!-- Date label -->					<p class="mb-2.5 text-[0.7rem] font-bold uppercase tracking-widest text-on-surface-muted">						{{ group.label | translate }}					</p>					<div class="grid gap-2">						@for (n of group.notifications; track n.id) {							<div								class="group relative flex overflow-hidden rounded-2xl border transition-colors duration-fast ease-standard"								[class.bg-primary-container]="!n.isRead"								[class.border-primary]="!n.isRead"								[class.shadow-1]="!n.isRead"								[class.bg-surface-container]="n.isRead"								[class.border-outline]="n.isRead"							>								<!-- Unread left accent bar -->								@if (!n.isRead) {									<span class="absolute inset-y-0 left-0 w-1 rounded-l-2xl bg-primary"></span>								}								<!-- Main content -->								<div									class="flex flex-1 min-w-0 gap-3 p-4"									[class.pl-5]="!n.isRead"								>									<!-- Avatar with type badge — click to go to profile -->									<a										[routerLink]="n.actor?.username ? [\'/profile\', n.actor!.username!] : null"										class="relative shrink-0 cursor-pointer"									>										<app-avatar											[src]="n.actor?.photoUrl"											[name]="actorName(n)"											size="md"										/>										<span class="absolute -bottom-1 -right-1 grid size-5 place-items-center rounded-pill bg-surface shadow-1 text-[0.6rem]">											<i [class]="notificationIcon(n.type)"></i>										</span>									</a>									<!-- Text + meta -->									<div class="min-w-0 flex-1">										<p class="text-sm leading-snug text-on-surface">											<a												[routerLink]="n.actor?.username ? [\'/profile\', n.actor!.username!] : null"												class="font-bold hover:underline cursor-pointer"												[class.text-on-primary-container]="!n.isRead"											>{{ actorName(n) }}</a>											<span [class.text-on-primary-container]="!n.isRead">												{{ notificationTextKey(n) | translate }}												@if (n.content && n.type !== \'COMMENT\') {													<span class="font-semibold"> &laquo;{{ n.content }}&raquo;</span>												}											</span>										</p>										<!-- Time + chip -->										<div class="mt-1.5 flex flex-wrap items-center gap-1.5">											<span class="text-xs text-on-surface-muted">{{ n.createdAt | timeAgo }}</span>											<span												class="inline-flex items-center rounded-pill px-2.5 py-0.5 text-xs font-medium"												[class]="chipClass(n.type)"											>{{ chipLabelKey(n.type) | translate }}</span>											@if (!n.isRead) {												<button													type="button"													class="ml-auto grid size-7 place-items-center rounded-pill text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container-high hover:text-primary active:scale-[0.98]"													[attr.aria-label]="\'notifications.mark_as_read_label\' | translate"													(click)="store.markRead(n)"												>													<i class="pi pi-check text-xs"></i>												</button>											}										</div>										<!-- Comment preview -->										@if (n.type === \'COMMENT\' && n.content) {											<div class="mt-2 rounded-xl border border-outline bg-surface px-3 py-2 text-sm italic text-on-surface-muted">												"{{ n.content }}"											</div>										}										<!-- Reply CTA for comments -->										@if (n.type === \'COMMENT\') {											<a												[routerLink]="targetLink(n)"												(click)="store.markRead(n)"												class="mt-2 inline-flex items-center rounded-xl border border-outline bg-surface px-4 py-1.5 text-xs font-medium text-on-surface transition-colors duration-fast ease-standard hover:bg-surface-container-high active:scale-[0.98]"											>												{{ \'notifications.reply\' | translate }}											</a>										}										<!-- FOLLOW_REQUEST: accept / reject actions -->										@if (n.type === \'FOLLOW_REQUEST\') {											<div class="mt-2.5 flex flex-wrap items-center gap-2">												@if (getRequestResponse(n.id); as response) {													@if (response === \'accepted\') {														<span class="inline-flex items-center gap-1.5 rounded-pill bg-green-100 px-3 py-1 text-xs font-bold text-green-700 dark:bg-green-900/30 dark:text-green-400">															<i class="pi pi-check-circle text-xs"></i>															{{ \'notifications.accepted\' | translate }}														</span>														@if (!getFollowState(n)) {															<button																type="button"																class="inline-flex min-h-8 items-center gap-1.5 rounded-pill bg-primary px-4 text-xs font-bold text-on-primary shadow-1 transition-all duration-fast ease-standard hover:shadow-2 active:scale-[0.97] disabled:opacity-50"																[disabled]="isLoadingFollow(n)"																(click)="followActor(n)"															>																@if (isLoadingFollow(n)) {																	<i class="pi pi-spin pi-spinner text-xs"></i>																}																{{ \'notifications.follow_back\' | translate }}															</button>														} @else {															<span class="inline-flex items-center gap-1.5 rounded-pill border border-outline px-3 py-1 text-xs font-bold text-on-surface-muted">																<i class="pi pi-check text-xs"></i>																{{ followButtonLabelKey(n) | translate }}															</span>														}													} @else {														<span class="inline-flex items-center gap-1.5 rounded-pill bg-red-100 px-3 py-1 text-xs font-bold text-red-700 dark:bg-red-900/30 dark:text-red-400">															<i class="pi pi-times-circle text-xs"></i>															{{ \'notifications.rejected\' | translate }}														</span>													}												} @else {													<button														type="button"														class="inline-flex min-h-8 items-center gap-1.5 rounded-pill bg-primary px-4 text-xs font-bold text-on-primary shadow-1 transition-all duration-fast ease-standard hover:shadow-2 active:scale-[0.97] disabled:opacity-50"														[disabled]="isLoadingRequest(n.id)"														(click)="respondRequest(n, true)"													>														@if (isLoadingRequest(n.id)) {															<i class="pi pi-spin pi-spinner text-xs"></i>														} @else {															<i class="pi pi-check text-xs"></i>														}														{{ \'notifications.accept\' | translate }}													</button>													<button														type="button"														class="inline-flex min-h-8 items-center gap-1.5 rounded-pill border border-outline bg-surface px-4 text-xs font-bold text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container-high hover:text-on-surface active:scale-[0.97] disabled:opacity-50"														[disabled]="isLoadingRequest(n.id)"														(click)="respondRequest(n, false)"													>														<i class="pi pi-times text-xs"></i>														{{ \'notifications.reject\' | translate }}													</button>												}											</div>										}										<!-- FOLLOW: follow back option -->										@if (n.type === \'FOLLOW\') {											<div class="mt-2.5 flex items-center gap-2">												@if (!getFollowState(n)) {													<button														type="button"														class="inline-flex min-h-8 items-center gap-1.5 rounded-pill bg-primary px-4 text-xs font-bold text-on-primary shadow-1 transition-all duration-fast ease-standard hover:shadow-2 active:scale-[0.97] disabled:opacity-50"														[disabled]="isLoadingFollow(n)"														(click)="followActor(n)"													>														@if (isLoadingFollow(n)) {															<i class="pi pi-spin pi-spinner text-xs"></i>														} @else {															<i class="pi pi-user-plus text-xs"></i>														}														{{ \'notifications.follow_back\' | translate }}													</button>												} @else {													<span class="inline-flex items-center gap-1.5 rounded-pill border border-outline px-3 py-1 text-xs font-bold text-on-surface-muted">														<i class="pi pi-check text-xs"></i>														{{ followButtonLabelKey(n) | translate }}													</span>												}											</div>										}									</div>								</div>								<!-- ── Right side ── -->								<!-- Post thumbnail for types with a target post -->								@if (hasPostThumbnail(n)) {									<a										[routerLink]="targetLink(n)"										(click)="store.markRead(n)"										class="flex shrink-0 items-center py-4 pr-4"										[attr.aria-label]="\'notifications.view_post_label\' | translate"									>										@if (n.targetImageUrl) {											<img												[src]="n.targetImageUrl"												alt=""												class="size-16 rounded-xl object-cover shadow-1"											/>										} @else {											<div class="grid size-16 place-items-center rounded-xl bg-surface-container-high text-2xl shadow-1">												&#127869;											</div>										}									</a>								}							</div>						}					</div>				</section>			}		</div>	</main></app-shell></div>'
+    var COMPONENTS = [{'name': 'AddReviewModal', 'selector': 'app-add-review-modal'},{'name': 'AiIdeasPanel', 'selector': 'app-ai-ideas-panel'},{'name': 'AiRecipeForm', 'selector': 'app-ai-recipe-form'},{'name': 'AiRecipeResult', 'selector': 'app-ai-recipe-result'},{'name': 'AiRecipesHero', 'selector': 'app-ai-recipes-hero'},{'name': 'AiRecipesPage', 'selector': 'app-ai-recipes-page'},{'name': 'App', 'selector': 'app-root'},{'name': 'AppShell', 'selector': 'app-shell'},{'name': 'Auth', 'selector': 'app-auth'},{'name': 'Avatar', 'selector': 'app-avatar'},{'name': 'Body', 'selector': 'app-body-step1'},{'name': 'Body', 'selector': 'app-body-step3'},{'name': 'Body', 'selector': 'app-body-step2'},{'name': 'ButtonComponent', 'selector': 'app-button'},{'name': 'CallHost', 'selector': 'app-call-host'},{'name': 'CallOverlay', 'selector': 'app-call-overlay'},{'name': 'ChatPanel', 'selector': 'app-chat-panel'},{'name': 'CommentSection', 'selector': 'app-comment-section'},{'name': 'CommentsSheetComponent', 'selector': 'app-comments-sheet'},{'name': 'ConversationList', 'selector': 'app-conversation-list'},{'name': 'CookingModePage', 'selector': 'app-cooking-mode-page'},{'name': 'CreatePostComponent', 'selector': 'app-create-post'},{'name': 'EditProfileComponent', 'selector': 'app-edit-profile'},{'name': 'EmojiRain', 'selector': 'app-emoji-rain'},{'name': 'Emptystate', 'selector': 'app-emptystate'},{'name': 'ExploreCategoryTabs', 'selector': 'app-explore-category-tabs'},{'name': 'ExploreHero', 'selector': 'app-explore-hero'},{'name': 'ExplorePage', 'selector': 'app-explore-page'},{'name': 'ExploreRightRail', 'selector': 'app-explore-right-rail'},{'name': 'ExploreToolbar', 'selector': 'app-explore-toolbar'},{'name': 'FeedPage', 'selector': 'app-feed-page'},{'name': 'FeedPostList', 'selector': 'app-feed-post-list'},{'name': 'FeedRightRail', 'selector': 'app-feed-right-rail'},{'name': 'GlobalSearchPanel', 'selector': 'app-global-search-panel'},{'name': 'Header', 'selector': 'app-header-step1'},{'name': 'Header', 'selector': 'app-header-step3'},{'name': 'Header', 'selector': 'app-header-step2'},{'name': 'Home', 'selector': 'app-home'},{'name': 'IncomingCall', 'selector': 'app-incoming-call'},{'name': 'Login', 'selector': 'app-login'},{'name': 'MessageBubble', 'selector': 'app-message-bubble'},{'name': 'MessagesPage', 'selector': 'app-messages-page'},{'name': 'NewConversation', 'selector': 'app-new-conversation'},{'name': 'NotificationsPage', 'selector': 'app-notifications-page'},{'name': 'PlaceCard', 'selector': 'app-place-card'},{'name': 'PlaceDetailPage', 'selector': 'app-place-detail-page'},{'name': 'PlacesPage', 'selector': 'app-places-page'},{'name': 'PostCard', 'selector': 'app-post-card'},{'name': 'PostDetailPage', 'selector': 'app-post-detail-page'},{'name': 'Profile', 'selector': 'app-profile'},{'name': 'PublicProfilePage', 'selector': 'app-public-profile-page'},{'name': 'RecentAiRecipes', 'selector': 'app-recent-ai-recipes'},{'name': 'RecipeDiscoveryCard', 'selector': 'app-recipe-discovery-card'},{'name': 'RecipeDiscoveryGrid', 'selector': 'app-recipe-discovery-grid'},{'name': 'RecipeOfDayCard', 'selector': 'app-recipe-of-day-card'},{'name': 'Register', 'selector': 'app-register'},{'name': 'ReportSheet', 'selector': 'app-report-sheet'},{'name': 'SavedCollectionStrip', 'selector': 'app-saved-collection-strip'},{'name': 'SavedPage', 'selector': 'app-saved-page'},{'name': 'SavedRecipeCard', 'selector': 'app-saved-recipe-card'},{'name': 'SavoLoader', 'selector': 'app-savo-loader'},{'name': 'SettingsPage', 'selector': 'app-settings-page'},{'name': 'SharedPostCard', 'selector': 'app-shared-post-card'},{'name': 'SharedProfileCard', 'selector': 'app-shared-profile-card'},{'name': 'SharePostModal', 'selector': 'app-share-post-modal'},{'name': 'ShareProfileModal', 'selector': 'app-share-profile-modal'},{'name': 'ShoppingListPage', 'selector': 'app-shopping-list-page'},{'name': 'SkeletonCard', 'selector': 'app-skeleton-card'},{'name': 'Spinner', 'selector': 'app-spinner'},{'name': 'SpotlightBg', 'selector': 'app-spotlight-bg'},{'name': 'StoriesStrip', 'selector': 'app-stories-strip'},{'name': 'StoryViewer', 'selector': 'app-story-viewer'},{'name': 'SuggestionsPanel', 'selector': 'app-suggestions-panel'},{'name': 'Title', 'selector': 'app-title'},{'name': 'Topbar', 'selector': 'app-topbar'},{'name': 'TrendingList', 'selector': 'app-trending-list'},{'name': 'VeganConvertModal', 'selector': 'app-vegan-convert-modal'}];
+    var DIRECTIVES = [{'name': 'ClickOutsideDirective', 'selector': '[appClickOutside]'},{'name': 'ImgFallbackDirective', 'selector': 'img[appImgFallback]'}];
+    var ACTUAL_COMPONENT = {'name': 'NotificationsPage'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'NotificationsPage.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

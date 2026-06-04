@@ -13,7 +13,9 @@
     "serve:ssr:cookeealo": "node dist/cookeealo/server/server.mjs",
     "lint": "eslint src --fix",
     "format": "prettier --write src",
-    "prepare": "husky"
+    "prepare": "husky",
+    "compodoc": "compodoc -p tsconfig.doc.json -d docs",
+    "compodoc:serve": "compodoc -s -d docs"
   },
   "lint-staged": {
     "*.ts": [
@@ -42,10 +44,13 @@
     "@angular/service-worker": "^21.2.7",
     "@angular/ssr": "^21.2.3",
     "@apollo/client": "^4.1.6",
+    "@emnapi/core": "^1.10.0",
+    "@emnapi/runtime": "^1.10.0",
     "@primeng/themes": "^21.0.4",
     "@primeuix/themes": "^2.0.3",
     "@supabase/supabase-js": "^2.99.3",
     "apollo-angular": "^13.0.0",
+    "chart.js": "^4.5.1",
     "date-fns": "^4.1.0",
     "express": "^5.1.0",
     "graphql": "^16.13.1",
@@ -61,6 +66,7 @@
     "@angular/compiler-cli": "^21.2.0",
     "@commitlint/cli": "^20.5.0",
     "@commitlint/config-conventional": "^20.5.0",
+    "@compodoc/compodoc": "^1.2.1",
     "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.58.2",
     "@testing-library/angular": "^19.2.1",

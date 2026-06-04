@@ -16,11 +16,7 @@
       }
 
       @if (feedStore.loading()) {
-        <div class="feed-skeleton">
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
+        <app-savo-loader message="Calentando el feed..." />
       } @else if (feedStore.isEmpty()) {
         <div class="feed-empty">
           <strong>Aun no hay publicaciones por aqui.</strong>
@@ -31,8 +27,6 @@
           @for (post of feedStore.posts(); track post.id) {
             <app-post-card
               [post]="post"
-              (onLike)="feedStore.toggleLike($event)"
-              (onSave)="feedStore.toggleSave($event)"
             />
           }
         </div>

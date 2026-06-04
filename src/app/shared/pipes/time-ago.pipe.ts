@@ -1,15 +1,28 @@
 import { Pipe, PipeTransform, OnDestroy, ChangeDetectorRef } from '@angular/core';
 
+/**
+ * Pipe para mostrar una representación en lenguaje natural del tiempo transcurrido desde una fecha determinada.
+ * Se actualiza de forma automática e impura utilizando temporizadores en base al tiempo restante para el siguiente cambio.
+ */
 @Pipe({
 	name: 'timeAgo',
 	standalone: true,
 	pure: false,
 })
 export class TimeAgoPipe implements PipeTransform, OnDestroy {
+	/**
+	 * Propiedad para gestionar timer.
+	 */
 	private timer: ReturnType<typeof setTimeout> | null = null;
 
+	/**
+	 * Constructor de la clase o componente para inicializar dependencias.
+	 */
 	constructor(private changeDetectorRef: ChangeDetectorRef) { }
 
+	/**
+	 * Método para transform.
+	 */
 	transform(value: Date | string | number): string {
 		this.clearTimer();
 		const time = new Date(value);
@@ -64,6 +77,9 @@ export class TimeAgoPipe implements PipeTransform, OnDestroy {
 	}
 
 	/* Programa la próxima actualización del texto */
+	/**
+	 * Método para schedule actualizar.
+	 */
 	private scheduleUpdate(seconds: number): void {
 		this.timer = setTimeout(() => {
 			this.changeDetectorRef.markForCheck();
@@ -71,6 +87,9 @@ export class TimeAgoPipe implements PipeTransform, OnDestroy {
 	}
 
 	/* Limpia el temporizador */
+	/**
+	 * Método para limpiar timer.
+	 */
 	private clearTimer(): void {
 		if (this.timer) {
 			clearTimeout(this.timer);
@@ -79,6 +98,9 @@ export class TimeAgoPipe implements PipeTransform, OnDestroy {
 	}
 
 	/* Limpia el temporizador al destruir la instancia del pipe */
+	/**
+	 * Método de ciclo de vida de Angular que se ejecuta al destruir el componente para liberar recursos.
+	 */
 	ngOnDestroy() {
 		if (this.timer) {
 			clearTimeout(this.timer);

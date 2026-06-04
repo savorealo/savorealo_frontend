@@ -1,25 +1,26 @@
-<section class="rounded-3xl border border-black/5 bg-white p-6 shadow-sm">
-	<header class="mb-6 flex items-center justify-between">
-		<h2 class="flex items-center gap-3 text-2xl font-black text-black">
-			<span>💡</span>
-			<span>Ideas para ti</span>
+<section class="rounded-2xl border border-outline bg-surface-container p-6 shadow-2">
+	<header class="mb-5 flex items-center justify-between">
+		<h2 class="flex items-center gap-2 text-title-md font-bold text-on-surface">
+			<span class="inline-flex items-center justify-center rounded-pill bg-secondary/20 p-2">
+				<i class="pi pi-lightbulb text-secondary text-lg"></i>
+			</span>
+			<span>{{ 'ai.ideas.title' | translate }}</span>
 		</h2>
-		<button type="button" class="inline-flex items-center gap-2 text-sm font-black text-orange-500" (click)="store.refreshIdeas()">
-			<i class="pi pi-refresh"></i>
-			<span>Actualizar</span>
+		<button type="button" class="inline-flex items-center gap-1.5 text-body-sm font-bold text-primary hover:text-primary/80 transition-colors duration-fast ease-standard" (click)="store.refreshIdeas()">
+			<i class="pi pi-refresh text-lg"></i>
 		</button>
 	</header>
 
-	<div class="grid gap-5">
+	<div class="grid gap-3">
 		@for (idea of store.ideas(); track idea.id) {
-			<article class="grid grid-cols-[56px_1fr_auto] items-center gap-4">
-				<img [src]="idea.imageUrl" alt="" class="size-16 rounded-full object-cover" />
+			<article class="grid grid-cols-[52px_1fr_auto] items-center gap-3 p-3 rounded-xl bg-surface hover:bg-surface-container transition-all duration-fast ease-standard cursor-pointer group">
+				<img [src]="idea.imageUrl" alt="" class="size-13 rounded-lg object-cover ring-1 ring-outline" />
 				<div class="min-w-0">
-					<h3 class="truncate text-lg font-black text-black">{{ idea.title }}</h3>
-					<p class="truncate text-sm font-semibold text-black/45">{{ idea.description }}</p>
+					<h3 class="truncate text-body-md font-bold text-on-surface">{{ idea.titleKey | translate }}</h3>
+					<p class="truncate text-body-sm font-medium text-on-surface-muted">{{ idea.descriptionKey | translate }}</p>
 				</div>
-				<button type="button" class="rounded-full bg-orange-50 px-5 py-3 text-sm font-black text-orange-500">
-					Ver receta
+				<button type="button" class="min-h-10 rounded-full bg-primary-container px-3 text-body-xs font-bold text-on-primary-container transition-all duration-fast ease-standard hover:shadow-1 active:scale-95">
+					{{ 'ai.ideas.view' | translate }}
 				</button>
 			</article>
 		}

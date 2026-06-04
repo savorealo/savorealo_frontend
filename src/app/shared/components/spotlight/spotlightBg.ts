@@ -4,6 +4,10 @@ import {
   HostListener,
 } from '@angular/core';
 
+/**
+ * Componente decorativo que proyecta un efecto visual de foco (spotlight) interactivo en el fondo.
+ * El foco sigue las coordenadas del puntero del ratón dinámicamente mediante variables CSS.
+ */
 @Component({
   selector: 'app-spotlight-bg',
   standalone: true,
@@ -29,10 +33,19 @@ import {
 })
 export class SpotlightBg {
 
+  /**
+   * Crea una instancia de SpotlightBg.
+   * @param el Referencia inyectada al elemento DOM del componente para manipular variables CSS.
+   */
   constructor(
     private el: ElementRef<HTMLElement>,
   ) {}
 
+  /**
+   * Escucha los movimientos del ratón en todo el documento para calcular la posición relativa del puntero.
+   * Modifica las variables CSS --mx y --my del elemento.
+   * @param e Evento del ratón.
+   */
   @HostListener('document:mousemove', ['$event'])
   onMouseMove(e: MouseEvent): void {
     const rect = this.el.nativeElement.getBoundingClientRect();

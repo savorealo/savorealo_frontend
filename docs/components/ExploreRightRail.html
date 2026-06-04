@@ -1,0 +1,1502 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>cookeealo documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">cookeealo documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  ExploreRightRail</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/features/explore/components/explore-right-rail/explore-right-rail.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Clase de utilidad para explorerightrail.</p>
+
+    </p>
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-explore-right-rail</code></td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                                <code><a href="https://angular.io/api/router/RouterLink" target="_blank" >RouterLink</a></code>
+                            <code>TranslatePipe</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./explore-right-rail.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#authStore" >authStore</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#collections" >collections</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#featuredChef" >featuredChef</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#feedService" >feedService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#loadingChef" >loadingChef</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#loadingContent" >loadingContent</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#supabase" >supabase</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#trends" >trends</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#buildCollections" >buildCollections</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#buildTrends" >buildTrends</a>
+                            </li>
+                            <li>
+                                <a href="#formatCount" >formatCount</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#loadFeaturedChef" >loadFeaturedChef</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#loadPostData" >loadPostData</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="buildCollections"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>buildCollections</b></span>
+                        <a href="#buildCollections"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>buildCollections(posts: <a href="../interfaces/Post.html" target="_self">Post[]</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="177"
+                                    class="link-to-prism">src/app/features/explore/components/explore-right-rail/explore-right-rail.ts:177</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método para build collections.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>posts</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Post.html" target="_self" >Post[]</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/Collection.html" target="_self" >Collection[]</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="buildTrends"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>buildTrends</b></span>
+                        <a href="#buildTrends"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>buildTrends(posts: <a href="../interfaces/Post.html" target="_self">Post[]</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="215"
+                                    class="link-to-prism">src/app/features/explore/components/explore-right-rail/explore-right-rail.ts:215</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método para build trends.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>posts</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Post.html" target="_self" >Post[]</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Trend[]</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="formatCount"></a>
+                    <span class="name">
+                        <span ><b>formatCount</b></span>
+                        <a href="#formatCount"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>formatCount(n: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="267"
+                                    class="link-to-prism">src/app/features/explore/components/explore-right-rail/explore-right-rail.ts:267</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método para format cantidad.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>n</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadFeaturedChef"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>loadFeaturedChef</b></span>
+                        <a href="#loadFeaturedChef"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>loadFeaturedChef()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="229"
+                                    class="link-to-prism">src/app/features/explore/components/explore-right-rail/explore-right-rail.ts:229</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método para cargar featured chef.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadPostData"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>loadPostData</b></span>
+                        <a href="#loadPostData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>loadPostData()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="163"
+                                    class="link-to-prism">src/app/features/explore/components/explore-right-rail/explore-right-rail.ts:163</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método para cargar post datos.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="155"
+                                    class="link-to-prism">src/app/features/explore/components/explore-right-rail/explore-right-rail.ts:155</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método de ciclo de vida de Angular que se ejecuta al inicializar el componente.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="authStore"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>authStore</b></span>
+                        <a href="#authStore"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(AuthStore)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="129" class="link-to-prism">src/app/features/explore/components/explore-right-rail/explore-right-rail.ts:129</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar auth store.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="collections"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>collections</b></span>
+                        <a href="#collections"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;Collection[]&gt;([])</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="134" class="link-to-prism">src/app/features/explore/components/explore-right-rail/explore-right-rail.ts:134</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar collections.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="featuredChef"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>featuredChef</b></span>
+                        <a href="#featuredChef"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;FeaturedChef | null&gt;(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="138" class="link-to-prism">src/app/features/explore/components/explore-right-rail/explore-right-rail.ts:138</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar featured chef.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="feedService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>feedService</b></span>
+                        <a href="#feedService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(FeedService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="121" class="link-to-prism">src/app/features/explore/components/explore-right-rail/explore-right-rail.ts:121</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar feed service.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadingChef"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>loadingChef</b></span>
+                        <a href="#loadingChef"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(true)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="150" class="link-to-prism">src/app/features/explore/components/explore-right-rail/explore-right-rail.ts:150</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar cargando chef.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadingContent"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>loadingContent</b></span>
+                        <a href="#loadingContent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(true)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="146" class="link-to-prism">src/app/features/explore/components/explore-right-rail/explore-right-rail.ts:146</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar cargando content.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="supabase"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>supabase</b></span>
+                        <a href="#supabase"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(SupabaseService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="125" class="link-to-prism">src/app/features/explore/components/explore-right-rail/explore-right-rail.ts:125</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar supabase.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="trends"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>trends</b></span>
+                        <a href="#trends"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;Trend[]&gt;([])</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="142" class="link-to-prism">src/app/features/explore/components/explore-right-rail/explore-right-rail.ts:142</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar trends.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, inject, OnInit, signal } from &#x27;@angular/core&#x27;
+import { RouterLink } from &#x27;@angular/router&#x27;
+import { from } from &#x27;rxjs&#x27;
+import { FeedService } from &#x27;@core/services/feed.service&#x27;
+import { SupabaseService } from &#x27;@core/services/supabase.service&#x27;
+import { AuthStore } from &#x27;@core/store/auth.store&#x27;
+import { Post } from &#x27;@core/models/post/post.model&#x27;
+
+/**
+ * Interfaz que define la estructura o contrato de datos para collection.
+ */
+interface Collection {
+	/**
+	 * Propiedad para gestionar clave.
+	 */
+	key: string
+	/**
+	 * Propiedad para gestionar título.
+	 */
+	title: string
+	/**
+	 * Propiedad para gestionar cantidad.
+	 */
+	count: number
+	/**
+	 * Propiedad para gestionar imagen enlace.
+	 */
+	imageUrl: string | null
+	/**
+	 * Propiedad para gestionar post identificador.
+	 */
+	postId: string
+}
+
+/**
+ * Interfaz que define la estructura o contrato de datos para featuredchef.
+ */
+interface FeaturedChef {
+	/**
+	 * Propiedad para gestionar identificador.
+	 */
+	id: string
+	/**
+	 * Propiedad para gestionar nombre de usuario.
+	 */
+	username: string
+	/**
+	 * Propiedad para gestionar display nombre.
+	 */
+	displayName: string
+	/**
+	 * Propiedad para gestionar avatar enlace.
+	 */
+	avatarUrl: string | null
+	/**
+	 * Propiedad para gestionar biografía.
+	 */
+	bio: string | null
+	/**
+	 * Propiedad para gestionar posts cantidad.
+	 */
+	postsCount: number
+	/**
+	 * Propiedad para gestionar followers cantidad.
+	 */
+	followersCount: number
+}
+
+/**
+ * Interfaz que define la estructura o contrato de datos para trend.
+ */
+interface Trend {
+	/**
+	 * Propiedad para gestionar rank.
+	 */
+	rank: number
+	/**
+	 * Propiedad para gestionar título.
+	 */
+	title: string
+	/**
+	 * Propiedad para gestionar cantidad.
+	 */
+	count: number
+	/**
+	 * Propiedad para gestionar imagen enlace.
+	 */
+	imageUrl: string | null
+	/**
+	 * Propiedad para gestionar post identificador.
+	 */
+	postId: string
+}
+
+/**
+ * Variable o constante para c a t e g o r y l a b e l s.
+ */
+const CATEGORY_LABELS: Record&lt;string, string&gt; &#x3D; {
+	TRENDING: &#x27;Tendencia&#x27;, ITALIAN: &#x27;Italiana&#x27;, MEXICAN: &#x27;Mexicana&#x27;,
+	JAPANESE: &#x27;Japonesa&#x27;, CHINESE: &#x27;China&#x27;, DESSERTS: &#x27;Postres&#x27;,
+	VEGAN: &#x27;Vegano&#x27;, QUICK_EASY: &#x27;Rápido y fácil&#x27;, BURGER: &#x27;Hamburguesas&#x27;,
+	SEAFOOD: &#x27;Mariscos&#x27;, COCKTAILS: &#x27;Cócteles&#x27;, BREAKFAST: &#x27;Desayuno&#x27;,
+	LUNCH: &#x27;Almuerzo&#x27;, DINNER: &#x27;Cena&#x27;, SNACKS: &#x27;Snacks&#x27;,
+	HEALTHY: &#x27;Saludable&#x27;, COMFORT_FOOD: &#x27;Comfort Food&#x27;, STREET_FOOD: &#x27;Comida callejera&#x27;,
+}
+
+import { TranslatePipe } from &#x27;@shared/pipes/translate.pipe&#x27;
+
+/**
+ * Clase de utilidad para explorerightrail.
+ */
+@Component({
+	selector: &#x27;app-explore-right-rail&#x27;,
+	imports: [RouterLink, TranslatePipe],
+	templateUrl: &#x27;./explore-right-rail.html&#x27;,
+})
+export class ExploreRightRail implements OnInit {
+	/**
+	 * Propiedad para gestionar feed service.
+	 */
+	private readonly feedService &#x3D; inject(FeedService)
+	/**
+	 * Propiedad para gestionar supabase.
+	 */
+	private readonly supabase    &#x3D; inject(SupabaseService)
+	/**
+	 * Propiedad para gestionar auth store.
+	 */
+	private readonly authStore   &#x3D; inject(AuthStore)
+
+	/**
+	 * Propiedad para gestionar collections.
+	 */
+	readonly collections    &#x3D; signal&lt;Collection[]&gt;([])
+	/**
+	 * Propiedad para gestionar featured chef.
+	 */
+	readonly featuredChef   &#x3D; signal&lt;FeaturedChef | null&gt;(null)
+	/**
+	 * Propiedad para gestionar trends.
+	 */
+	readonly trends         &#x3D; signal&lt;Trend[]&gt;([])
+	/**
+	 * Propiedad para gestionar cargando content.
+	 */
+	readonly loadingContent &#x3D; signal(true)
+	/**
+	 * Propiedad para gestionar cargando chef.
+	 */
+	readonly loadingChef    &#x3D; signal(true)
+
+	/**
+	 * Método de ciclo de vida de Angular que se ejecuta al inicializar el componente.
+	 */
+	ngOnInit(): void {
+		this.loadPostData()
+		this.loadFeaturedChef()
+	}
+
+	/**
+	 * Método para cargar post datos.
+	 */
+	private loadPostData(): void {
+		from(this.feedService.fetchDiscoverGql(30)).subscribe({
+			next: posts &#x3D;&gt; {
+				this.collections.set(this.buildCollections(posts))
+				this.trends.set(this.buildTrends(posts))
+				this.loadingContent.set(false)
+			},
+			error: () &#x3D;&gt; this.loadingContent.set(false),
+		})
+	}
+
+	/**
+	 * Método para build collections.
+	 */
+	private buildCollections(posts: Post[]): Collection[] {
+		const map &#x3D; new Map&lt;string, { count: number; post: Post }&gt;()
+		for (const post of posts) {
+			for (const cat of (post.categories ?? [])) {
+				if (!cat) continue
+				const entry &#x3D; map.get(cat)
+				if (entry) { entry.count++ } else { map.set(cat, { count: 1, post }) }
+			}
+		}
+
+		if (map.size &gt;&#x3D; 2) {
+			return [...map.entries()]
+				.sort((a, b) &#x3D;&gt; b[1].count - a[1].count)
+				.slice(0, 4)
+				.map(([key, { count, post }]) &#x3D;&gt; ({
+					key,
+					title: CATEGORY_LABELS[key] ?? key,
+					count,
+					imageUrl: post.media[0]?.url ?? null,
+					postId: post.id,
+				}))
+		}
+
+		return [...posts]
+			.sort((a, b) &#x3D;&gt; b.likesCount - a.likesCount)
+			.slice(0, 4)
+			.map(p &#x3D;&gt; ({
+				key: p.id,
+				title: p.recipe?.name ?? p.title ?? &#x27;Receta&#x27;,
+				count: p.likesCount,
+				imageUrl: p.media[0]?.url ?? null,
+				postId: p.id,
+			}))
+	}
+
+	/**
+	 * Método para build trends.
+	 */
+	private buildTrends(posts: Post[]): Trend[] {
+		const sorted &#x3D; [...posts].sort((a, b) &#x3D;&gt; b.likesCount - a.likesCount).slice(0, 3)
+		return sorted.map((p, i) &#x3D;&gt; ({
+			rank: i + 1,
+			title: p.recipe?.name ?? p.title ?? &#x27;Receta&#x27;,
+			count: p.likesCount,
+			imageUrl: p.media[0]?.url ?? null,
+			postId: p.id,
+		}))
+	}
+
+	/**
+	 * Método para cargar featured chef.
+	 */
+	private loadFeaturedChef(): void {
+		const currentId &#x3D; this.authStore.currentUserId()
+		from(
+			this.supabase.client
+				.from(&#x27;person_profiles&#x27;)
+				.select(&#x27;user_id, username, display_name, avatar_url, bio, followers_count, posts_count&#x27;)
+				.order(&#x27;followers_count&#x27;, { ascending: false })
+				.neq(&#x27;user_id&#x27;, currentId ?? &#x27;&#x27;)
+				.not(&#x27;username&#x27;, &#x27;is&#x27;, null)
+				.limit(1)
+				.maybeSingle(),
+		).subscribe({
+			next: ({ data }) &#x3D;&gt; {
+				if (data) {
+					const d &#x3D; data as {
+						user_id: string; username: string; display_name: string | null
+						avatar_url: string | null; bio: string | null
+						followers_count: number | null; posts_count: number | null
+					}
+					this.featuredChef.set({
+						id: d.user_id,
+						username: d.username,
+						displayName: d.display_name ?? d.username,
+						avatarUrl: d.avatar_url,
+						bio: d.bio,
+						postsCount: d.posts_count ?? 0,
+						followersCount: d.followers_count ?? 0,
+					})
+				}
+				this.loadingChef.set(false)
+			},
+			error: () &#x3D;&gt; this.loadingChef.set(false),
+		})
+	}
+
+	/**
+	 * Método para format cantidad.
+	 */
+	formatCount(n: number): string {
+		if (n &gt;&#x3D; 1000) return (n / 1000).toFixed(n &gt;&#x3D; 10000 ? 0 : 1).replace(&#x27;.0&#x27;, &#x27;&#x27;) + &#x27;K&#x27;
+		return String(n)
+	}
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;aside class&#x3D;&quot;sticky top-6 grid gap-4&quot;&gt;
+
+	&lt;!-- Colecciones populares --&gt;
+	&lt;section class&#x3D;&quot;rounded-2xl border border-outline bg-surface-container p-5 shadow-1&quot;&gt;
+		&lt;header class&#x3D;&quot;mb-4 flex items-center justify-between&quot;&gt;
+			&lt;h2 class&#x3D;&quot;text-title-sm font-bold text-on-surface&quot;&gt;{{ &#x27;explore.popular_collections&#x27; | translate }}&lt;/h2&gt;
+			&lt;a routerLink&#x3D;&quot;/explore&quot; class&#x3D;&quot;text-body-sm font-bold text-primary hover:underline&quot;&gt;{{ &#x27;explore.view_all&#x27; | translate }}&lt;/a&gt;
+		&lt;/header&gt;
+
+		@if (loadingContent()) {
+			&lt;div class&#x3D;&quot;grid gap-3&quot;&gt;
+				@for (_ of [1,2,3,4]; track $index) {
+					&lt;div class&#x3D;&quot;grid grid-cols-[64px_1fr] overflow-hidden rounded-xl bg-surface-container-high animate-pulse&quot;&gt;
+						&lt;div class&#x3D;&quot;h-16 w-16 bg-surface-container-low&quot;&gt;&lt;/div&gt;
+						&lt;div class&#x3D;&quot;flex flex-col justify-center gap-1.5 px-3&quot;&gt;
+							&lt;div class&#x3D;&quot;h-3 w-24 rounded bg-surface-container-low&quot;&gt;&lt;/div&gt;
+							&lt;div class&#x3D;&quot;h-2.5 w-14 rounded bg-surface-container-low&quot;&gt;&lt;/div&gt;
+						&lt;/div&gt;
+					&lt;/div&gt;
+				}
+			&lt;/div&gt;
+		} @else if (collections().length &#x3D;&#x3D;&#x3D; 0) {
+			&lt;p class&#x3D;&quot;text-body-sm text-on-surface-muted&quot;&gt;{{ &#x27;explore.no_collections&#x27; | translate }}&lt;/p&gt;
+		} @else {
+			&lt;div class&#x3D;&quot;grid gap-3&quot;&gt;
+				@for (col of collections(); track col.key) {
+					&lt;a [routerLink]&#x3D;&quot;[&#x27;/posts&#x27;, col.postId]&quot; class&#x3D;&quot;grid grid-cols-[64px_1fr] overflow-hidden rounded-xl bg-surface-container-high transition-colors duration-fast ease-standard hover:bg-surface-container-low&quot;&gt;
+						@if (col.imageUrl) {
+							&lt;img [src]&#x3D;&quot;col.imageUrl&quot; [alt]&#x3D;&quot;col.title&quot; class&#x3D;&quot;h-16 w-16 object-cover&quot; /&gt;
+						} @else {
+							&lt;div class&#x3D;&quot;flex h-16 w-16 items-center justify-center bg-primary/10&quot;&gt;
+								&lt;i class&#x3D;&quot;pi pi-book text-primary text-base&quot;&gt;&lt;/i&gt;
+							&lt;/div&gt;
+						}
+						&lt;div class&#x3D;&quot;flex flex-col justify-center px-3&quot;&gt;
+							&lt;strong class&#x3D;&quot;truncate text-body-sm font-bold text-on-surface&quot;&gt;{{ col.title }}&lt;/strong&gt;
+							&lt;span class&#x3D;&quot;text-label-md font-medium text-on-surface-muted&quot;&gt;{{ col.count }} {{ col.count &#x3D;&#x3D;&#x3D; 1 ? (&#x27;explore.recipe.singular&#x27; | translate) : (&#x27;explore.recipe.plural&#x27; | translate) }}&lt;/span&gt;
+						&lt;/div&gt;
+					&lt;/a&gt;
+				}
+			&lt;/div&gt;
+		}
+	&lt;/section&gt;
+
+	&lt;!-- Chef destacado --&gt;
+	&lt;section class&#x3D;&quot;overflow-hidden rounded-2xl border border-outline bg-surface-container p-5 shadow-1&quot;&gt;
+		&lt;h2 class&#x3D;&quot;mb-4 text-title-sm font-bold text-on-surface&quot;&gt;{{ &#x27;explore.featured_chef&#x27; | translate }}&lt;/h2&gt;
+
+		@if (loadingChef()) {
+			&lt;div class&#x3D;&quot;flex flex-col items-center gap-3 animate-pulse&quot;&gt;
+				&lt;div class&#x3D;&quot;size-20 rounded-pill bg-surface-container-high&quot;&gt;&lt;/div&gt;
+				&lt;div class&#x3D;&quot;h-4 w-28 rounded bg-surface-container-high&quot;&gt;&lt;/div&gt;
+				&lt;div class&#x3D;&quot;h-3 w-20 rounded bg-surface-container-high&quot;&gt;&lt;/div&gt;
+				&lt;div class&#x3D;&quot;h-8 w-full rounded-xl bg-surface-container-high mt-2&quot;&gt;&lt;/div&gt;
+			&lt;/div&gt;
+		} @else if (featuredChef(); as chef) {
+			&lt;div class&#x3D;&quot;text-center&quot;&gt;
+				&lt;div class&#x3D;&quot;relative mx-auto mb-3 grid size-20 place-items-center rounded-pill bg-primary/15&quot;&gt;
+					&lt;div class&#x3D;&quot;absolute size-24 rounded-pill bg-primary/20 blur-xl&quot;&gt;&lt;/div&gt;
+					@if (chef.avatarUrl) {
+						&lt;img [src]&#x3D;&quot;chef.avatarUrl&quot; [alt]&#x3D;&quot;chef.displayName&quot; class&#x3D;&quot;relative size-20 rounded-pill object-cover&quot; /&gt;
+					} @else {
+						&lt;span class&#x3D;&quot;relative text-headline-md font-bold text-primary&quot;&gt;{{ chef.displayName.charAt(0).toUpperCase() }}&lt;/span&gt;
+					}
+					&lt;span class&#x3D;&quot;absolute bottom-0 right-0 grid size-6 place-items-center rounded-pill bg-primary text-on-primary&quot;&gt;
+						&lt;i class&#x3D;&quot;pi pi-star text-[0.6rem]&quot;&gt;&lt;/i&gt;
+					&lt;/span&gt;
+				&lt;/div&gt;
+
+				&lt;h3 class&#x3D;&quot;text-title-sm font-bold text-on-surface&quot;&gt;{{ chef.displayName }}&lt;/h3&gt;
+				&lt;p class&#x3D;&quot;text-label-md font-medium text-on-surface-muted&quot;&gt;&amp;#64;{{ chef.username }}&lt;/p&gt;
+
+				@if (chef.bio) {
+					&lt;p class&#x3D;&quot;mx-auto mt-2 max-w-[14rem] text-body-sm font-medium leading-snug text-on-surface-muted&quot;&gt;{{ chef.bio }}&lt;/p&gt;
+				}
+
+				&lt;div class&#x3D;&quot;mt-4 grid grid-cols-2 gap-2 text-center&quot;&gt;
+					&lt;div class&#x3D;&quot;rounded-xl bg-surface-container-high p-2&quot;&gt;
+						&lt;strong class&#x3D;&quot;block text-title-sm font-bold text-on-surface&quot;&gt;{{ formatCount(chef.postsCount) }}&lt;/strong&gt;
+						&lt;span class&#x3D;&quot;text-label-md font-medium text-on-surface-muted&quot;&gt;{{ &#x27;explore.recipes_label&#x27; | translate }}&lt;/span&gt;
+					&lt;/div&gt;
+					&lt;div class&#x3D;&quot;rounded-xl bg-surface-container-high p-2&quot;&gt;
+						&lt;strong class&#x3D;&quot;block text-title-sm font-bold text-on-surface&quot;&gt;{{ formatCount(chef.followersCount) }}&lt;/strong&gt;
+						&lt;span class&#x3D;&quot;text-label-md font-medium text-on-surface-muted&quot;&gt;{{ &#x27;explore.followers_label&#x27; | translate }}&lt;/span&gt;
+					&lt;/div&gt;
+				&lt;/div&gt;
+
+				&lt;a
+					[routerLink]&#x3D;&quot;[&#x27;/profile&#x27;, chef.username]&quot;
+					class&#x3D;&quot;mt-4 flex min-h-11 w-full items-center justify-center rounded-xl bg-primary text-body-sm font-bold transition-all duration-fast ease-standard hover:shadow-2 active:scale-[0.98]&quot;
+				&gt;
+					{{ &#x27;explore.view_profile&#x27; | translate }}
+				&lt;/a&gt;
+			&lt;/div&gt;
+		} @else {
+			&lt;p class&#x3D;&quot;text-body-sm text-on-surface-muted&quot;&gt;{{ &#x27;explore.no_featured_chef&#x27; | translate }}&lt;/p&gt;
+		}
+	&lt;/section&gt;
+
+	&lt;!-- Tendencias --&gt;
+	&lt;section class&#x3D;&quot;rounded-2xl border border-outline bg-surface-container p-5 shadow-1&quot;&gt;
+		&lt;header class&#x3D;&quot;mb-4 flex items-center justify-between&quot;&gt;
+			&lt;h2 class&#x3D;&quot;text-title-sm font-bold text-on-surface&quot;&gt;{{ &#x27;explore.trends_title&#x27; | translate }}&lt;/h2&gt;
+			&lt;a routerLink&#x3D;&quot;/explore&quot; class&#x3D;&quot;text-body-sm font-bold text-primary hover:underline&quot;&gt;{{ &#x27;explore.view_all_trends&#x27; | translate }}&lt;/a&gt;
+		&lt;/header&gt;
+
+		@if (loadingContent()) {
+			&lt;div class&#x3D;&quot;grid gap-4&quot;&gt;
+				@for (_ of [1,2,3]; track $index) {
+					&lt;div class&#x3D;&quot;flex items-center gap-3 animate-pulse&quot;&gt;
+						&lt;div class&#x3D;&quot;size-11 shrink-0 rounded-xl bg-surface-container-high&quot;&gt;&lt;/div&gt;
+						&lt;div class&#x3D;&quot;w-5 h-3 rounded bg-surface-container-high shrink-0&quot;&gt;&lt;/div&gt;
+						&lt;div class&#x3D;&quot;flex-1 space-y-1.5&quot;&gt;
+							&lt;div class&#x3D;&quot;h-3 w-32 rounded bg-surface-container-high&quot;&gt;&lt;/div&gt;
+							&lt;div class&#x3D;&quot;h-2.5 w-20 rounded bg-surface-container-high&quot;&gt;&lt;/div&gt;
+						&lt;/div&gt;
+					&lt;/div&gt;
+				}
+			&lt;/div&gt;
+		} @else if (trends().length &#x3D;&#x3D;&#x3D; 0) {
+			&lt;p class&#x3D;&quot;text-body-sm text-on-surface-muted&quot;&gt;{{ &#x27;explore.no_trends&#x27; | translate }}&lt;/p&gt;
+		} @else {
+			&lt;div class&#x3D;&quot;grid gap-4&quot;&gt;
+				@for (trend of trends(); track trend.rank) {
+					&lt;a [routerLink]&#x3D;&quot;[&#x27;/posts&#x27;, trend.postId]&quot; class&#x3D;&quot;grid grid-cols-[44px_20px_1fr] items-center gap-3 rounded-xl transition-colors duration-fast ease-standard hover:bg-surface-container-low&quot;&gt;
+						@if (trend.imageUrl) {
+							&lt;img [src]&#x3D;&quot;trend.imageUrl&quot; alt&#x3D;&quot;&quot; class&#x3D;&quot;size-11 rounded-xl object-cover&quot; /&gt;
+						} @else {
+							&lt;div class&#x3D;&quot;size-11 rounded-xl bg-primary-container grid place-items-center&quot;&gt;
+								&lt;i class&#x3D;&quot;pi pi-book text-primary text-sm&quot;&gt;&lt;/i&gt;
+							&lt;/div&gt;
+						}
+						&lt;span class&#x3D;&quot;text-body-sm font-bold text-on-surface-muted text-center&quot;&gt;{{ trend.rank }}&lt;/span&gt;
+						&lt;div class&#x3D;&quot;min-w-0&quot;&gt;
+							&lt;strong class&#x3D;&quot;block truncate text-body-sm font-bold text-on-surface&quot;&gt;{{ trend.title }}&lt;/strong&gt;
+							&lt;span class&#x3D;&quot;text-label-md font-medium text-on-surface-muted&quot;&gt;{{ formatCount(trend.count) }} {{ trend.count &#x3D;&#x3D;&#x3D; 1 ? (&#x27;explore.like.singular&#x27; | translate) : (&#x27;explore.like.plural&#x27; | translate) }}&lt;/span&gt;
+						&lt;/div&gt;
+					&lt;/a&gt;
+				}
+			&lt;/div&gt;
+		}
+	&lt;/section&gt;
+
+&lt;/aside&gt;
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis-network.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><aside class="sticky top-6 grid gap-4">	<!-- Colecciones populares -->	<section class="rounded-2xl border border-outline bg-surface-container p-5 shadow-1">		<header class="mb-4 flex items-center justify-between">			<h2 class="text-title-sm font-bold text-on-surface">{{ \'explore.popular_collections\' | translate }}</h2>			<a routerLink="/explore" class="text-body-sm font-bold text-primary hover:underline">{{ \'explore.view_all\' | translate }}</a>		</header>		@if (loadingContent()) {			<div class="grid gap-3">				@for (_ of [1,2,3,4]; track $index) {					<div class="grid grid-cols-[64px_1fr] overflow-hidden rounded-xl bg-surface-container-high animate-pulse">						<div class="h-16 w-16 bg-surface-container-low"></div>						<div class="flex flex-col justify-center gap-1.5 px-3">							<div class="h-3 w-24 rounded bg-surface-container-low"></div>							<div class="h-2.5 w-14 rounded bg-surface-container-low"></div>						</div>					</div>				}			</div>		} @else if (collections().length === 0) {			<p class="text-body-sm text-on-surface-muted">{{ \'explore.no_collections\' | translate }}</p>		} @else {			<div class="grid gap-3">				@for (col of collections(); track col.key) {					<a [routerLink]="[\'/posts\', col.postId]" class="grid grid-cols-[64px_1fr] overflow-hidden rounded-xl bg-surface-container-high transition-colors duration-fast ease-standard hover:bg-surface-container-low">						@if (col.imageUrl) {							<img [src]="col.imageUrl" [alt]="col.title" class="h-16 w-16 object-cover" />						} @else {							<div class="flex h-16 w-16 items-center justify-center bg-primary/10">								<i class="pi pi-book text-primary text-base"></i>							</div>						}						<div class="flex flex-col justify-center px-3">							<strong class="truncate text-body-sm font-bold text-on-surface">{{ col.title }}</strong>							<span class="text-label-md font-medium text-on-surface-muted">{{ col.count }} {{ col.count === 1 ? (\'explore.recipe.singular\' | translate) : (\'explore.recipe.plural\' | translate) }}</span>						</div>					</a>				}			</div>		}	</section>	<!-- Chef destacado -->	<section class="overflow-hidden rounded-2xl border border-outline bg-surface-container p-5 shadow-1">		<h2 class="mb-4 text-title-sm font-bold text-on-surface">{{ \'explore.featured_chef\' | translate }}</h2>		@if (loadingChef()) {			<div class="flex flex-col items-center gap-3 animate-pulse">				<div class="size-20 rounded-pill bg-surface-container-high"></div>				<div class="h-4 w-28 rounded bg-surface-container-high"></div>				<div class="h-3 w-20 rounded bg-surface-container-high"></div>				<div class="h-8 w-full rounded-xl bg-surface-container-high mt-2"></div>			</div>		} @else if (featuredChef(); as chef) {			<div class="text-center">				<div class="relative mx-auto mb-3 grid size-20 place-items-center rounded-pill bg-primary/15">					<div class="absolute size-24 rounded-pill bg-primary/20 blur-xl"></div>					@if (chef.avatarUrl) {						<img [src]="chef.avatarUrl" [alt]="chef.displayName" class="relative size-20 rounded-pill object-cover" />					} @else {						<span class="relative text-headline-md font-bold text-primary">{{ chef.displayName.charAt(0).toUpperCase() }}</span>					}					<span class="absolute bottom-0 right-0 grid size-6 place-items-center rounded-pill bg-primary text-on-primary">						<i class="pi pi-star text-[0.6rem]"></i>					</span>				</div>				<h3 class="text-title-sm font-bold text-on-surface">{{ chef.displayName }}</h3>				<p class="text-label-md font-medium text-on-surface-muted">&#64;{{ chef.username }}</p>				@if (chef.bio) {					<p class="mx-auto mt-2 max-w-[14rem] text-body-sm font-medium leading-snug text-on-surface-muted">{{ chef.bio }}</p>				}				<div class="mt-4 grid grid-cols-2 gap-2 text-center">					<div class="rounded-xl bg-surface-container-high p-2">						<strong class="block text-title-sm font-bold text-on-surface">{{ formatCount(chef.postsCount) }}</strong>						<span class="text-label-md font-medium text-on-surface-muted">{{ \'explore.recipes_label\' | translate }}</span>					</div>					<div class="rounded-xl bg-surface-container-high p-2">						<strong class="block text-title-sm font-bold text-on-surface">{{ formatCount(chef.followersCount) }}</strong>						<span class="text-label-md font-medium text-on-surface-muted">{{ \'explore.followers_label\' | translate }}</span>					</div>				</div>				<a					[routerLink]="[\'/profile\', chef.username]"					class="mt-4 flex min-h-11 w-full items-center justify-center rounded-xl bg-primary text-body-sm font-bold transition-all duration-fast ease-standard hover:shadow-2 active:scale-[0.98]"				>					{{ \'explore.view_profile\' | translate }}				</a>			</div>		} @else {			<p class="text-body-sm text-on-surface-muted">{{ \'explore.no_featured_chef\' | translate }}</p>		}	</section>	<!-- Tendencias -->	<section class="rounded-2xl border border-outline bg-surface-container p-5 shadow-1">		<header class="mb-4 flex items-center justify-between">			<h2 class="text-title-sm font-bold text-on-surface">{{ \'explore.trends_title\' | translate }}</h2>			<a routerLink="/explore" class="text-body-sm font-bold text-primary hover:underline">{{ \'explore.view_all_trends\' | translate }}</a>		</header>		@if (loadingContent()) {			<div class="grid gap-4">				@for (_ of [1,2,3]; track $index) {					<div class="flex items-center gap-3 animate-pulse">						<div class="size-11 shrink-0 rounded-xl bg-surface-container-high"></div>						<div class="w-5 h-3 rounded bg-surface-container-high shrink-0"></div>						<div class="flex-1 space-y-1.5">							<div class="h-3 w-32 rounded bg-surface-container-high"></div>							<div class="h-2.5 w-20 rounded bg-surface-container-high"></div>						</div>					</div>				}			</div>		} @else if (trends().length === 0) {			<p class="text-body-sm text-on-surface-muted">{{ \'explore.no_trends\' | translate }}</p>		} @else {			<div class="grid gap-4">				@for (trend of trends(); track trend.rank) {					<a [routerLink]="[\'/posts\', trend.postId]" class="grid grid-cols-[44px_20px_1fr] items-center gap-3 rounded-xl transition-colors duration-fast ease-standard hover:bg-surface-container-low">						@if (trend.imageUrl) {							<img [src]="trend.imageUrl" alt="" class="size-11 rounded-xl object-cover" />						} @else {							<div class="size-11 rounded-xl bg-primary-container grid place-items-center">								<i class="pi pi-book text-primary text-sm"></i>							</div>						}						<span class="text-body-sm font-bold text-on-surface-muted text-center">{{ trend.rank }}</span>						<div class="min-w-0">							<strong class="block truncate text-body-sm font-bold text-on-surface">{{ trend.title }}</strong>							<span class="text-label-md font-medium text-on-surface-muted">{{ formatCount(trend.count) }} {{ trend.count === 1 ? (\'explore.like.singular\' | translate) : (\'explore.like.plural\' | translate) }}</span>						</div>					</a>				}			</div>		}	</section></aside></div>'
+    var COMPONENTS = [{'name': 'AddReviewModal', 'selector': 'app-add-review-modal'},{'name': 'AiIdeasPanel', 'selector': 'app-ai-ideas-panel'},{'name': 'AiRecipeForm', 'selector': 'app-ai-recipe-form'},{'name': 'AiRecipeResult', 'selector': 'app-ai-recipe-result'},{'name': 'AiRecipesHero', 'selector': 'app-ai-recipes-hero'},{'name': 'AiRecipesPage', 'selector': 'app-ai-recipes-page'},{'name': 'App', 'selector': 'app-root'},{'name': 'AppShell', 'selector': 'app-shell'},{'name': 'Auth', 'selector': 'app-auth'},{'name': 'Avatar', 'selector': 'app-avatar'},{'name': 'Body', 'selector': 'app-body-step1'},{'name': 'Body', 'selector': 'app-body-step3'},{'name': 'Body', 'selector': 'app-body-step2'},{'name': 'ButtonComponent', 'selector': 'app-button'},{'name': 'CallHost', 'selector': 'app-call-host'},{'name': 'CallOverlay', 'selector': 'app-call-overlay'},{'name': 'ChatPanel', 'selector': 'app-chat-panel'},{'name': 'CommentSection', 'selector': 'app-comment-section'},{'name': 'CommentsSheetComponent', 'selector': 'app-comments-sheet'},{'name': 'ConversationList', 'selector': 'app-conversation-list'},{'name': 'CookingModePage', 'selector': 'app-cooking-mode-page'},{'name': 'CreatePostComponent', 'selector': 'app-create-post'},{'name': 'EditProfileComponent', 'selector': 'app-edit-profile'},{'name': 'EmojiRain', 'selector': 'app-emoji-rain'},{'name': 'Emptystate', 'selector': 'app-emptystate'},{'name': 'ExploreCategoryTabs', 'selector': 'app-explore-category-tabs'},{'name': 'ExploreHero', 'selector': 'app-explore-hero'},{'name': 'ExplorePage', 'selector': 'app-explore-page'},{'name': 'ExploreRightRail', 'selector': 'app-explore-right-rail'},{'name': 'ExploreToolbar', 'selector': 'app-explore-toolbar'},{'name': 'FeedPage', 'selector': 'app-feed-page'},{'name': 'FeedPostList', 'selector': 'app-feed-post-list'},{'name': 'FeedRightRail', 'selector': 'app-feed-right-rail'},{'name': 'GlobalSearchPanel', 'selector': 'app-global-search-panel'},{'name': 'Header', 'selector': 'app-header-step1'},{'name': 'Header', 'selector': 'app-header-step3'},{'name': 'Header', 'selector': 'app-header-step2'},{'name': 'Home', 'selector': 'app-home'},{'name': 'IncomingCall', 'selector': 'app-incoming-call'},{'name': 'Login', 'selector': 'app-login'},{'name': 'MessageBubble', 'selector': 'app-message-bubble'},{'name': 'MessagesPage', 'selector': 'app-messages-page'},{'name': 'NewConversation', 'selector': 'app-new-conversation'},{'name': 'NotificationsPage', 'selector': 'app-notifications-page'},{'name': 'PlaceCard', 'selector': 'app-place-card'},{'name': 'PlaceDetailPage', 'selector': 'app-place-detail-page'},{'name': 'PlacesPage', 'selector': 'app-places-page'},{'name': 'PostCard', 'selector': 'app-post-card'},{'name': 'PostDetailPage', 'selector': 'app-post-detail-page'},{'name': 'Profile', 'selector': 'app-profile'},{'name': 'PublicProfilePage', 'selector': 'app-public-profile-page'},{'name': 'RecentAiRecipes', 'selector': 'app-recent-ai-recipes'},{'name': 'RecipeDiscoveryCard', 'selector': 'app-recipe-discovery-card'},{'name': 'RecipeDiscoveryGrid', 'selector': 'app-recipe-discovery-grid'},{'name': 'RecipeOfDayCard', 'selector': 'app-recipe-of-day-card'},{'name': 'Register', 'selector': 'app-register'},{'name': 'ReportSheet', 'selector': 'app-report-sheet'},{'name': 'SavedCollectionStrip', 'selector': 'app-saved-collection-strip'},{'name': 'SavedPage', 'selector': 'app-saved-page'},{'name': 'SavedRecipeCard', 'selector': 'app-saved-recipe-card'},{'name': 'SavoLoader', 'selector': 'app-savo-loader'},{'name': 'SettingsPage', 'selector': 'app-settings-page'},{'name': 'SharedPostCard', 'selector': 'app-shared-post-card'},{'name': 'SharedProfileCard', 'selector': 'app-shared-profile-card'},{'name': 'SharePostModal', 'selector': 'app-share-post-modal'},{'name': 'ShareProfileModal', 'selector': 'app-share-profile-modal'},{'name': 'ShoppingListPage', 'selector': 'app-shopping-list-page'},{'name': 'SkeletonCard', 'selector': 'app-skeleton-card'},{'name': 'Spinner', 'selector': 'app-spinner'},{'name': 'SpotlightBg', 'selector': 'app-spotlight-bg'},{'name': 'StoriesStrip', 'selector': 'app-stories-strip'},{'name': 'StoryViewer', 'selector': 'app-story-viewer'},{'name': 'SuggestionsPanel', 'selector': 'app-suggestions-panel'},{'name': 'Title', 'selector': 'app-title'},{'name': 'Topbar', 'selector': 'app-topbar'},{'name': 'TrendingList', 'selector': 'app-trending-list'},{'name': 'VeganConvertModal', 'selector': 'app-vegan-convert-modal'}];
+    var DIRECTIVES = [{'name': 'ClickOutsideDirective', 'selector': '[appClickOutside]'},{'name': 'ImgFallbackDirective', 'selector': 'img[appImgFallback]'}];
+    var ACTUAL_COMPONENT = {'name': 'ExploreRightRail'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'ExploreRightRail.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

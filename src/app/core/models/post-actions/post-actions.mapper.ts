@@ -2,6 +2,9 @@
 import { CommentDto, LikeResultDto } from './post-actions.dto'
 import { Comment, LikeResult } from './post-actions.model'
 
+/**
+ * Función de utilidad para mapear y transformar datos.
+ */
 export function mapCommentDtoToComment(dto: CommentDto): Comment {
 	return {
 		id: dto.id,
@@ -17,6 +20,9 @@ export function mapCommentDtoToComment(dto: CommentDto): Comment {
 	}
 }
 
+/**
+ * Función de utilidad para mapear y transformar datos.
+ */
 export function mapLikeResultDtoToLikeResult(dto: LikeResultDto): LikeResult {
 	return {
 		liked: dto.liked,

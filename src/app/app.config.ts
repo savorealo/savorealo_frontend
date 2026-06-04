@@ -1,4 +1,5 @@
 import { ApplicationConfig, isDevMode } from '@angular/core'
+import { MessageService } from 'primeng/api'
 import { provideZonelessChangeDetection } from '@angular/core'
 import { provideServiceWorker } from '@angular/service-worker'
 import { provideRouter, withViewTransitions, withComponentInputBinding } from '@angular/router'
@@ -6,53 +7,92 @@ import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser'
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'
 import { providePrimeNG } from 'primeng/config'
-import { MessageService } from 'primeng/api'
 import { definePreset } from '@primeng/themes'
 import Aura from '@primeng/themes/aura'
 
 import { routes } from './app.routes'
-import { authInterceptor } from '@core/interceptors/auth.interceptor'
+import { authInterceptor }   from '@core/interceptors/auth.interceptor'
+import { metricsInterceptor } from '@core/interceptors/metrics.interceptor'
 import { ENVIRONMENT } from '@core/tokens/environment.token'
 import { environment } from '../environments/environment'
 import { provideApollo } from 'apollo-angular'
 import { apolloOptionsFactory } from '@core/services/apollo.provider'
+import {
+  COMMENT_REPOSITORY, REPORT_REPOSITORY, POST_MEDIA_REPOSITORY,
+  NOTIFICATION_REPOSITORY, STORY_REPOSITORY, SETTINGS_REPOSITORY,
+  PROFILE_REPOSITORY, POST_REPOSITORY, USER_REPOSITORY,
+  SEARCH_REPOSITORY, MESSAGE_REPOSITORY,
+} from '@core/repositories/tokens/repository.tokens'
+import { CommentSupabaseRepository } from '@core/repositories/comment/comment-supabase.repository'
+import { ReportSupabaseRepository } from '@core/repositories/report/report-supabase.repository'
+import { PostMediaSupabaseRepository } from '@core/repositories/post-media/post-media-supabase.repository'
+import { NotificationSupabaseRepository } from '@core/repositories/notification/notification-supabase.repository'
+import { StorySupabaseRepository } from '@core/repositories/story/story-supabase.repository'
+import { SettingsGraphqlRepository } from '@core/repositories/settings/settings-graphql.repository'
+import { ProfileGraphqlRepository } from '@core/repositories/profile/profile-graphql.repository'
+import { PostGraphqlRepository } from '@core/repositories/post/post-graphql.repository'
+import { UserGraphqlRepository } from '@core/repositories/user/user-graphql.repository'
+import { SearchHybridRepository } from '@core/repositories/search/search-hybrid.repository'
+import { MessageSupabaseRepository } from '@core/repositories/message/message-supabase.repository'
 
-const SocialPreset = definePreset(Aura, {
+/**
+ * Preset PrimeNG alineado con la paleta oficial Savorealo.
+ * El color base (#FFE777) se sitúa en 500, y el "en primario"
+ * (#393000) cierra la escala en 900. Light/dark se controla
+ * vía CSS variables en `src/styles/tokens.css` — esta escala
+ * solo cubre los tokens que PrimeNG necesita para componentes
+ * como p-button, p-tag, p-toast, etc.
+ */
+const SavorealoPreset = definePreset(Aura, {
   semantic: {
     primary: {
-      50: '#eff6ff',
-      100: '#dbeafe',
-      200: '#bfdbfe',
-      300: '#93c5fd',
-      400: '#60a5fa',
-      500: '#3b82f6',
-      600: '#2563eb',
-      700: '#1d4ed8',
-      800: '#1e40af',
-      900: '#1e3a8a',
+      50:  '#FFF4EB',  // Crema
+      100: '#FFE8D2',
+      200: '#FFD0A6',
+      300: '#FFB96E',
+      400: '#FFB347',  // Naranja Claro
+      500: '#FF7A18',  // Naranja Savorealo — MAIN
+      600: '#FF3D00',  // Naranja Intenso
+      700: '#CC3000',
+      800: '#992400',
+      900: '#3D1500',  // on-primary oscuro
     },
   },
 })
 
+/**
+ * Configuración del proveedor de servicios global de la aplicación Angular.
+ */
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZonelessChangeDetection(),
-    provideRouter(routes, withViewTransitions(), withComponentInputBinding()),
-    provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
+    provideRouter(routes, withViewTransitions({ skipInitialTransition: true }), withComponentInputBinding()),
+    provideHttpClient(withFetch(), withInterceptors([authInterceptor, metricsInterceptor])),
     provideClientHydration(withEventReplay()),
     provideAnimationsAsync(),
     providePrimeNG({
       theme: {
-        preset: SocialPreset,
+        preset: SavorealoPreset,
         options: {
           darkModeSelector: '[data-theme="dark"]',
-          //cssLayer: { name: 'primeng', order: 'base, primeng, theme, utilities' },
         },
       },
       ripple: true,
     }),
     MessageService,
     { provide: ENVIRONMENT, useValue: environment },
+    { provide: COMMENT_REPOSITORY, useClass: CommentSupabaseRepository },
+    { provide: REPORT_REPOSITORY, useClass: ReportSupabaseRepository },
+    { provide: POST_MEDIA_REPOSITORY, useClass: PostMediaSupabaseRepository },
+    { provide: NOTIFICATION_REPOSITORY, useClass: NotificationSupabaseRepository },
+    { provide: STORY_REPOSITORY, useClass: StorySupabaseRepository },
+    { provide: SETTINGS_REPOSITORY, useClass: SettingsGraphqlRepository },
+    { provide: PROFILE_REPOSITORY, useClass: ProfileGraphqlRepository },
+    { provide: POST_REPOSITORY, useClass: PostGraphqlRepository },
+    { provide: USER_REPOSITORY, useClass: UserGraphqlRepository },
+    { provide: SEARCH_REPOSITORY, useClass: SearchHybridRepository },
+    { provide: MESSAGE_REPOSITORY, useClass: MessageSupabaseRepository },
+    MessageService,
     provideApollo(apolloOptionsFactory),
     provideServiceWorker('ngsw-worker.js', {
       enabled: !isDevMode(),

@@ -1,0 +1,197 @@
+<app-shell>
+	<div class="flex min-h-dvh flex-col bg-surface text-on-surface">
+		<div class="mx-auto flex w-full max-w-2xl flex-1 flex-col px-3 py-6 sm:px-6">
+
+			<!-- Encabezado -->
+			<div class="mb-6 flex items-start justify-between gap-4">
+				<div>
+					<h1 class="font-display text-headline-sm font-bold text-on-surface">
+						<i class="pi pi-sparkles mr-2 text-primary"></i>Generador de Recetas IA
+					</h1>
+					<p class="mt-1 text-body-sm font-medium text-on-surface-muted">
+						Dime qué tienes o qué te apetece y el agente creará una receta personalizada.
+					</p>
+				</div>
+				@if (hasHistory()) {
+					<button
+						type="button"
+						class="flex shrink-0 items-center gap-2 rounded-xl border border-outline px-4 py-2 text-body-sm font-bold text-on-surface transition-colors duration-fast ease-standard hover:bg-surface-container"
+						(click)="newSession()"
+					>
+						<i class="pi pi-refresh text-sm"></i>
+						<span class="hidden sm:inline">Nueva receta</span>
+					</button>
+				}
+			</div>
+
+			<!-- Sugerencias (solo cuando no hay historial) -->
+			@if (!hasHistory() && !loading()) {
+				<div class="mb-6 grid gap-3">
+					<p class="text-label-md font-bold uppercase tracking-wide text-on-surface-muted">Prueba con...</p>
+					<div class="grid gap-2 sm:grid-cols-2">
+						@for (suggestion of suggestions; track suggestion) {
+							<button
+								type="button"
+								class="rounded-2xl border border-outline bg-surface-container px-4 py-3 text-left text-body-sm font-medium text-on-surface transition-all duration-fast ease-standard hover:border-primary/40 hover:bg-primary-container/20 active:scale-[0.99]"
+								(click)="applySuggestion(suggestion)"
+							>
+								{{ suggestion }}
+							</button>
+						}
+					</div>
+				</div>
+			}
+
+			<!-- Historial de conversación -->
+			@if (hasHistory() || loading()) {
+				<div
+					#messagesContainer
+					class="mb-4 flex flex-1 flex-col gap-4 overflow-y-auto rounded-2xl border border-outline bg-surface-container p-4 sm:p-5"
+					style="min-height: 300px; max-height: 60dvh"
+				>
+					@for (msg of history(); track $index) {
+						@if (msg.role === 'user') {
+							<!-- Mensaje del usuario -->
+							<div class="flex justify-end">
+								<div class="max-w-[85%] rounded-2xl rounded-tr-sm bg-primary px-4 py-3 text-body-md font-medium leading-snug text-on-primary shadow-1">
+									{{ msg.content }}
+								</div>
+							</div>
+						} @else {
+							<!-- Respuesta del agente -->
+							<div class="flex items-start gap-3">
+								<span class="mt-0.5 grid size-8 shrink-0 place-items-center rounded-pill text-lg"
+									style="background: var(--gradient-ai, linear-gradient(135deg,#FF7A18,#FF3D00))">
+									✨
+								</span>
+								<div
+									class="recipe-agent-output min-w-0 flex-1 rounded-2xl rounded-tl-sm border border-outline/60 bg-surface px-4 py-4 shadow-1"
+									[innerHTML]="msg.content | recipeMarkdown"
+								></div>
+							</div>
+						}
+					}
+
+					<!-- Shimmer de carga -->
+					@if (loading()) {
+						<div class="flex items-start gap-3">
+							<span class="mt-0.5 grid size-8 shrink-0 place-items-center rounded-pill text-lg"
+								style="background: var(--gradient-ai, linear-gradient(135deg,#FF7A18,#FF3D00))">
+								✨
+							</span>
+							<div class="flex-1 space-y-3 rounded-2xl rounded-tl-sm border border-outline/60 bg-surface px-4 py-4 shadow-1">
+								<div class="agent-shimmer h-5 w-2/3 rounded-pill"></div>
+								<div class="agent-shimmer h-3 w-full rounded-pill"></div>
+								<div class="agent-shimmer h-3 w-4/5 rounded-pill"></div>
+								<div class="agent-shimmer h-3 w-full rounded-pill"></div>
+								<div class="agent-shimmer h-3 w-3/5 rounded-pill"></div>
+								<div class="mt-4 agent-shimmer h-3 w-2/5 rounded-pill"></div>
+								<div class="agent-shimmer h-3 w-full rounded-pill"></div>
+								<div class="agent-shimmer h-3 w-4/6 rounded-pill"></div>
+								<p class="mt-2 text-label-sm font-medium text-on-surface-muted">
+									<i class="pi pi-spin pi-spinner mr-1"></i>
+									El agente está preparando tu receta...
+								</p>
+							</div>
+						</div>
+					}
+
+					<!-- Error -->
+					@if (error()) {
+						<div class="flex items-start gap-3">
+							<span class="mt-0.5 grid size-8 shrink-0 place-items-center rounded-pill bg-error-container text-on-error-container text-sm">
+								<i class="pi pi-exclamation-triangle"></i>
+							</span>
+							<div class="rounded-2xl rounded-tl-sm border border-error/30 bg-error-container px-4 py-3 text-body-sm font-medium text-on-error-container">
+								{{ error() }}
+							</div>
+						</div>
+					}
+				</div>
+			}
+
+			<!-- Área de input (sticky en la parte inferior) -->
+			<div class="sticky bottom-4 mt-auto">
+				<div class="rounded-2xl border border-outline bg-surface shadow-4 transition-shadow duration-fast ease-standard focus-within:shadow-[0_0_0_2px_rgb(var(--rgb-primary)/0.35)]">
+					<textarea
+						rows="3"
+						maxlength="400"
+						[ngModel]="inputText()"
+						(ngModelChange)="inputText.set($event)"
+						(keydown)="onKeyDown($event)"
+						[disabled]="loading()"
+						class="w-full resize-none rounded-t-2xl bg-transparent px-4 pt-4 pb-2 text-body-md font-medium leading-snug text-on-surface outline-none placeholder:text-on-surface-muted disabled:opacity-50"
+						placeholder="Ej: tengo pollo, limón y ajo… ¿qué hago?"
+					></textarea>
+					<div class="flex items-center justify-between px-4 pb-3 pt-1">
+						<span class="text-label-sm text-on-surface-muted">{{ inputText().length }}/400 · Ctrl+Enter para enviar</span>
+						<button
+							type="button"
+							class="flex items-center gap-2 rounded-xl px-5 py-2.5 text-body-sm font-bold text-white shadow-2 transition-all duration-fast ease-standard hover:shadow-4 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+							style="background: var(--gradient-ai, linear-gradient(135deg,#FF7A18,#FF3D00))"
+							[disabled]="!canSend()"
+							(click)="send()"
+						>
+							@if (loading()) {
+								<i class="pi pi-spin pi-spinner"></i>
+								<span>Generando...</span>
+							} @else {
+								<i class="pi pi-sparkles"></i>
+								<span>Generar</span>
+							}
+						</button>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</app-shell>
+
+<style>
+	.agent-shimmer {
+		background: linear-gradient(
+			90deg,
+			rgb(var(--rgb-surface-container, 0 0 0) / 0.08) 25%,
+			rgb(var(--rgb-surface-container, 0 0 0) / 0.18) 50%,
+			rgb(var(--rgb-surface-container, 0 0 0) / 0.08) 75%
+		);
+		background-size: 200% 100%;
+		animation: shimmer 1.6s ease-in-out infinite;
+	}
+
+	@keyframes shimmer {
+		0%   { background-position: 200% 0; }
+		100% { background-position: -200% 0; }
+	}
+
+	.recipe-agent-output :is(strong) {
+		font-weight: 700;
+	}
+
+	.recipe-agent-output :is(em) {
+		font-style: italic;
+		color: rgb(var(--rgb-on-surface-muted, 0 0 0) / 0.7);
+	}
+
+	.recipe-agent-output ul {
+		list-style: disc;
+		padding-left: 1.25rem;
+	}
+
+	.recipe-agent-output ul li {
+		font-size: var(--text-body-md, 1rem);
+		line-height: 1.6;
+		color: rgb(var(--rgb-on-surface));
+	}
+
+	.recipe-agent-output > * + * {
+		margin-top: 0.25rem;
+	}
+
+	.recipe-agent-output img {
+		border-radius: 1rem;
+		max-width: 100%;
+		margin-top: 0.75rem;
+	}
+</style>

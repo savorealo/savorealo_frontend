@@ -1,16 +1,22 @@
-import { Component } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 
+/**
+ * Clase de utilidad para emojirain.
+ */
 @Component({
   selector: 'app-emoji-rain',
   imports: [],
   templateUrl: './emoji-rain.html',
   styleUrl: './emoji-rain.scss',
 })
-export class EmojiRain {
-  emojis: any = [];
-  private emojiList = ['🍣', '🍱', '🥢', '🍙', '🍚', '🐟'];
+export class EmojiRain implements OnInit {
+  emojis: { char: string; left: string; duration: string; delay: string; size: string }[] = [];
+  private emojiList = ['🍳', '🥐', '🧁', '🍓', '🥑', '🍅', '🍋', '🌿'];
+  /**
+   * Método de ciclo de vida de Angular que se ejecuta al inicializar el componente.
+   */
   ngOnInit(): void {
-    this.emojis = Array.from({ length: 5 }, () => ({
+    this.emojis = Array.from({ length: 6 }, () => ({
       char: this.emojiList[Math.floor(Math.random() * this.emojiList.length)],
       left: `${Math.random() * 99}%`,
       duration: `${3 + Math.random() * 5}s`,

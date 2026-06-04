@@ -1,0 +1,739 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>cookeealo documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">cookeealo documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Interfaces</li>
+  <li class="breadcrumb-item"
+  >
+  MessagesPageResult</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/app/core/services/messages.service.ts</code>
+        </p>
+
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Interfaz que define la estructura o contrato de datos para messagespageresult.</p>
+
+            </p>
+
+
+        <section data-compodoc="block-index">
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                        <a href="#hasMore" 
+>
+                                            hasMore
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#messages" 
+>
+                                            messages
+                                        </a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+            <section data-compodoc="block-properties">
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="hasMore"></a>
+                                        <span class="name "><b>hasMore</b>
+                                            <a href="#hasMore">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>hasMore:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Indicador booleano para tiene more.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="messages"></a>
+                                        <span class="name "><b>messages</b>
+                                            <a href="#messages">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>messages:         <code><a href="../interfaces/ChatMessage.html" target="_self" >ChatMessage[]</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="../interfaces/ChatMessage.html" target="_self" >ChatMessage[]</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Propiedad para gestionar messages.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { inject, Injectable } from &#x27;@angular/core&#x27;
+import { forkJoin, map, Observable, of, switchMap } from &#x27;rxjs&#x27;
+import { RealtimeChannel } from &#x27;@supabase/supabase-js&#x27;
+import { ChatMessage, Conversation, MessageReply } from &#x27;@features/messages/models/messages.models&#x27;
+import { MESSAGE_REPOSITORY } from &#x27;@core/repositories/tokens/repository.tokens&#x27;
+import type { ConversationRow, MessageRow } from &#x27;@core/repositories/message/message-repository&#x27;
+
+/**
+ * Interfaz que define la estructura o contrato de datos para messagespageresult.
+ */
+export interface MessagesPageResult {
+	/**
+	 * Propiedad para gestionar messages.
+	 */
+	messages: ChatMessage[]
+	/**
+	 * Indicador booleano para tiene more.
+	 */
+	hasMore: boolean
+}
+
+/**
+ * Variable o constante para s h a r e d p o s t t o k e n.
+ */
+const SHARED_POST_TOKEN &#x3D; &#x27;__shared_post__:&#x27;
+/**
+ * Variable o constante para s h a r e d p o s t l i n k p r e f i x.
+ */
+const SHARED_POST_LINK_PREFIX &#x3D; &#x27;/post/&#x27;
+/**
+ * Variable o constante para s h a r e d p r o f i l e t o k e n.
+ */
+const SHARED_PROFILE_TOKEN &#x3D; &#x27;__shared_profile__:&#x27;
+
+/**
+ * Servicio que provee la lógica de negocio para los mensajes del chat.
+ */
+@Injectable({ providedIn: &#x27;root&#x27; })
+export class MessagesService {
+	/**
+	 * Propiedad para gestionar repo.
+	 */
+	private readonly repo &#x3D; inject(MESSAGE_REPOSITORY)
+
+	/**
+	 * Método para obtener conversations.
+	 */
+	getConversations(userId: string): Observable&lt;Conversation[]&gt; {
+		return this.repo.getParticipations(userId).pipe(
+			switchMap(parts &#x3D;&gt; {
+				if (!parts.length) return of([])
+
+				const ids &#x3D; parts.map(p &#x3D;&gt; p.conversation_id)
+
+				return forkJoin([
+					this.repo.getConversations(ids),
+					this.repo.getUnreadMessageRows(ids, userId),
+				]).pipe(
+					map(([convRows, unreadRows]) &#x3D;&gt; {
+						const unreadMap &#x3D; new Map&lt;string, number&gt;()
+						for (const row of unreadRows) {
+							unreadMap.set(row.conversation_id, (unreadMap.get(row.conversation_id) ?? 0) + 1)
+						}
+
+						return convRows
+							.sort((a, b) &#x3D;&gt; {
+								const ta &#x3D; a.last_message_at ? new Date(a.last_message_at).getTime() : 0
+								const tb &#x3D; b.last_message_at ? new Date(b.last_message_at).getTime() : 0
+								return tb - ta
+							})
+							.map(row &#x3D;&gt; this.mapConversation(row, userId, unreadMap.get(row.id) ?? 0))
+					}),
+				)
+			}),
+		)
+	}
+
+	/**
+	 * Método para obtener messages.
+	 */
+	getMessages(conversationId: string, currentUserId: string, limit &#x3D; 30, beforeCreatedAt?: string | null): Observable&lt;MessagesPageResult&gt; {
+		return this.repo.getMessages(conversationId, limit + 1, beforeCreatedAt).pipe(
+			map(rows &#x3D;&gt; {
+				const hasMore &#x3D; rows.length &gt; limit
+				const pageRows &#x3D; hasMore ? rows.slice(1) : rows
+				const messages &#x3D; pageRows.map(row &#x3D;&gt; this.mapMessage(row, currentUserId))
+				return {
+					messages: messages.map(message &#x3D;&gt; this.withReplyPreview(message, messages, currentUserId)),
+					hasMore,
+				}
+			}),
+		)
+	}
+
+	/**
+	 * Método para enviar message.
+	 */
+	sendMessage(
+		conversationId: string,
+		senderId: string,
+		receiverId: string,
+		content: string,
+		replyToMessageId?: string | null,
+		sharedPostId?: string | null,
+		sharedPostAuthorId?: string | null,
+	): Observable&lt;ChatMessage&gt; {
+		const storedContent &#x3D; sharedPostId
+			? this.buildSharedPostContent(sharedPostId, sharedPostAuthorId)
+			: content
+
+		const previewContent &#x3D; this.conversationPreview(sharedPostId ? storedContent : content).text
+
+		return forkJoin([
+			this.repo.sendMessage(conversationId, senderId, receiverId, storedContent, replyToMessageId, sharedPostId, sharedPostAuthorId),
+			this.repo.updateConversationPreview(conversationId, previewContent),
+		]).pipe(
+			map(([row]) &#x3D;&gt; this.mapMessage(row, senderId)),
+		)
+	}
+
+	/**
+	 * Método para mark read.
+	 */
+	markRead(conversationId: string, userId: string): Observable&lt;void&gt; {
+		return this.repo.markRead(conversationId, userId)
+	}
+
+	/**
+	 * Método para subscribe to conversation.
+	 */
+	subscribeToConversation(
+		conversationId: string,
+		currentUserId: string,
+		callbacks: {
+			onMessage: (msg: ChatMessage) &#x3D;&gt; void
+			onUpdate: (msg: ChatMessage) &#x3D;&gt; void
+		},
+	): RealtimeChannel {
+		return this.repo.subscribeToConversation(
+			conversationId,
+			row &#x3D;&gt; callbacks.onMessage(this.mapMessage(row, currentUserId)),
+			row &#x3D;&gt; callbacks.onUpdate(this.mapMessage(row, currentUserId)),
+		)
+	}
+
+	/**
+	 * Método para subscribe to typing.
+	 */
+	subscribeToTyping(
+		conversationId: string,
+		currentUserId: string,
+		onTyping: (conversationId: string) &#x3D;&gt; void,
+	): RealtimeChannel {
+		return this.repo.subscribeToTyping(conversationId, payload &#x3D;&gt; {
+			if (payload.userId !&#x3D;&#x3D; currentUserId) onTyping(payload.conversationId)
+		})
+	}
+
+	/**
+	 * Método para enviar typing.
+	 */
+	sendTyping(conversationId: string, userId: string): void {
+		this.repo.sendTyping(conversationId, userId)
+	}
+
+	/**
+	 * Método para find or crear conversation.
+	 */
+	findOrCreateConversation(_myId: string, otherId: string): Observable&lt;string&gt; {
+		return this.repo.findOrCreateConversation(otherId)
+	}
+
+	/**
+	 * Método para map conversation.
+	 */
+	private mapConversation(row: ConversationRow, userId: string, unread: number): Conversation {
+		const isGroup &#x3D; row.type &#x3D;&#x3D;&#x3D; &#x27;GROUP&#x27;
+		const other &#x3D; row.participants.find(p &#x3D;&gt; p.user_id !&#x3D;&#x3D; userId)
+		const userEmbed &#x3D; Array.isArray(other?.user) ? other?.user?.[0] : other?.user
+		const rawProfile &#x3D; userEmbed?.person_profiles
+		const profile &#x3D; Array.isArray(rawProfile) ? rawProfile[0] : rawProfile
+
+		const preview &#x3D; this.conversationPreview(row.last_message_preview ?? &#x27;&#x27;)
+		const username &#x3D; profile?.username ?? &#x27;&#x27;
+		const name &#x3D; isGroup ? (row.name ?? &#x27;Grupo&#x27;) : (profile?.full_name || username || &#x27;Usuario&#x27;)
+
+		return {
+			id: row.id,
+			user: {
+				id: other?.user_id ?? row.id,
+				name,
+				username,
+				avatarUrl: profile?.photo_url || null,
+				online: false,
+				lastSeenAt: profile?.last_seen_at ?? null,
+				statusText: profile?.last_seen_at ? this.formatLastSeen(new Date(profile.last_seen_at)) : &#x27;Desconectado&#x27;,
+			},
+			lastMessage: preview.text,
+			lastMessageKind: preview.kind,
+			lastMessageAt: row.last_message_at,
+			time: row.last_message_at ? this.formatConversationTime(new Date(row.last_message_at)) : &#x27;&#x27;,
+			unread,
+			group: isGroup,
+		}
+	}
+
+	/**
+	 * Método para map message.
+	 */
+	private mapMessage(row: MessageRow, currentUserId: string): ChatMessage {
+		const parsedSharedPost &#x3D; this.parseSharedPostContent(row.content) ?? this.parseSharedPostLink(row.content)
+		const parsedSharedProfile &#x3D; this.parseSharedProfileContent(row.content) ?? this.parseSharedProfileLink(row.content)
+
+		return {
+			id: row.id,
+			conversationId: row.conversation_id,
+			senderId: row.sender_id,
+			sender: row.sender_id &#x3D;&#x3D;&#x3D; currentUserId ? &#x27;me&#x27; : &#x27;them&#x27;,
+			text: parsedSharedPost ? &#x27;Post compartido&#x27; : parsedSharedProfile ? &#x27;Perfil compartido&#x27; : row.content,
+			time: this.formatMessageTime(new Date(row.created_at)),
+			createdAt: row.created_at,
+			readAt: row.read_at,
+			deliveryStatus: row.sender_id &#x3D;&#x3D;&#x3D; currentUserId &amp;&amp; row.read_at ? &#x27;seen&#x27; : &#x27;sent&#x27;,
+			sharedPostId: row.shared_post_id || parsedSharedPost?.postId || null,
+			sharedPostAuthorId: row.shared_post_author_id || parsedSharedPost?.authorId || null,
+			sharedProfileId: parsedSharedProfile?.userId ?? null,
+			sharedProfileUsername: parsedSharedProfile?.username ?? null,
+			replyToMessageId: row.reply_to_message_id,
+		}
+	}
+
+	/**
+	 * Método para build reply preview.
+	 */
+	buildReplyPreview(message: ChatMessage, messages: ChatMessage[], currentUserId: string, otherUserName &#x3D; &#x27;Usuario&#x27;): ChatMessage {
+		return this.withReplyPreview(message, messages, currentUserId, otherUserName)
+	}
+
+	/**
+	 * Método para with reply preview.
+	 */
+	private withReplyPreview(message: ChatMessage, messages: ChatMessage[], currentUserId: string, otherUserName &#x3D; &#x27;Usuario&#x27;): ChatMessage {
+		if (!message.replyToMessageId) return message
+		const original &#x3D; messages.find(item &#x3D;&gt; item.id &#x3D;&#x3D;&#x3D; message.replyToMessageId)
+		if (!original) return message
+
+		const replyTo: MessageReply &#x3D; {
+			id: original.id,
+			senderName: original.senderId &#x3D;&#x3D;&#x3D; currentUserId ? &#x27;Tu&#x27; : otherUserName,
+			text: this.previewText(original.text),
+			isMine: original.senderId &#x3D;&#x3D;&#x3D; currentUserId,
+		}
+
+		return { ...message, replyTo }
+	}
+
+	/**
+	 * Método para format message tiempo.
+	 */
+	private formatMessageTime(date: Date): string {
+		return date.toLocaleTimeString(&#x27;es&#x27;, { hour: &#x27;2-digit&#x27;, minute: &#x27;2-digit&#x27; })
+	}
+
+	/**
+	 * Método para format conversation tiempo.
+	 */
+	private formatConversationTime(date: Date): string {
+		const now &#x3D; new Date()
+		const diffDays &#x3D; Math.floor((now.getTime() - date.getTime()) / 86400000)
+		if (diffDays &#x3D;&#x3D;&#x3D; 0) return date.toLocaleTimeString(&#x27;es&#x27;, { hour: &#x27;2-digit&#x27;, minute: &#x27;2-digit&#x27; })
+		if (diffDays &#x3D;&#x3D;&#x3D; 1) return &#x27;Ayer&#x27;
+		if (diffDays &lt; 7) return date.toLocaleDateString(&#x27;es&#x27;, { weekday: &#x27;short&#x27; })
+		return date.toLocaleDateString(&#x27;es&#x27;, { day: &#x27;numeric&#x27;, month: &#x27;short&#x27; })
+	}
+
+	/**
+	 * Método para format last seen.
+	 */
+	formatLastSeen(date: Date): string {
+		const time &#x3D; date.getTime()
+		if (Number.isNaN(time)) return &#x27;Desconectado&#x27;
+
+		const now &#x3D; Date.now()
+		const diffMinutes &#x3D; Math.max(0, Math.floor((now - time) / 60000))
+		if (diffMinutes &lt; 1) return &#x27;Activo hace un momento&#x27;
+		if (diffMinutes &lt; 60) return &#x60;Activo hace ${diffMinutes} min&#x60;
+
+		const diffHours &#x3D; Math.floor(diffMinutes / 60)
+		if (diffHours &lt; 24) return &#x60;Activo hace ${diffHours} h&#x60;
+
+		const diffDays &#x3D; Math.floor(diffHours / 24)
+		if (diffDays &#x3D;&#x3D;&#x3D; 1) return &#x27;Activo ayer&#x27;
+		if (diffDays &lt; 7) return &#x60;Activo hace ${diffDays} dias&#x60;
+
+		return &#x60;Activo el ${date.toLocaleDateString(&#x27;es&#x27;, { day: &#x27;numeric&#x27;, month: &#x27;short&#x27; })}&#x60;
+	}
+
+	/**
+	 * Método para preview text.
+	 */
+	private previewText(text?: string): string {
+		const clean &#x3D; (text ?? &#x27;Mensaje&#x27;).replace(/\s+/g, &#x27; &#x27;).trim()
+		return clean.length &gt; 120 ? &#x60;${clean.slice(0, 117)}...&#x60; : clean
+	}
+
+	/**
+	 * Método para conversation preview.
+	 */
+	private conversationPreview(content: string): { text: string; kind: Conversation[&#x27;lastMessageKind&#x27;] } {
+		const clean &#x3D; content.replace(/\s+/g, &#x27; &#x27;).trim()
+
+		if (
+			this.parseSharedPostContent(content) ||
+			this.parseSharedPostLink(content) ||
+			clean.toLowerCase() &#x3D;&#x3D;&#x3D; &#x27;post compartido&#x27;
+		) {
+			return { text: &#x27;Post compartido&#x27;, kind: &#x27;post&#x27; }
+		}
+
+		if (
+			this.parseSharedProfileContent(content) ||
+			this.parseSharedProfileLink(content) ||
+			clean.toLowerCase() &#x3D;&#x3D;&#x3D; &#x27;perfil compartido&#x27;
+		) {
+			return { text: &#x27;Perfil compartido&#x27;, kind: &#x27;profile&#x27; }
+		}
+
+		return { text: clean || &#x27;Sin mensajes&#x27;, kind: &#x27;text&#x27; }
+	}
+
+	/**
+	 * Método para build shared post content.
+	 */
+	private buildSharedPostContent(postId: string, authorId?: string | null): string {
+		return &#x60;${SHARED_POST_TOKEN}${postId}:${authorId ?? &#x27;&#x27;}\n${SHARED_POST_LINK_PREFIX}${postId}&#x60;
+	}
+
+	/**
+	 * Método para parse shared post content.
+	 */
+	private parseSharedPostContent(content: string): { postId: string; authorId: string | null } | null {
+		if (!content.startsWith(SHARED_POST_TOKEN)) return null
+		const raw &#x3D; content.slice(SHARED_POST_TOKEN.length).split(/\s+/)[0]
+		const [postId, authorId] &#x3D; raw.split(&#x27;:&#x27;)
+		if (!postId) return null
+		return { postId, authorId: authorId || null }
+	}
+
+	/**
+	 * Método para parse shared post enlace.
+	 */
+	private parseSharedPostLink(content: string): { postId: string; authorId: string | null } | null {
+		const match &#x3D; content.match(/(?:^|\s)\/post\/([0-9a-fA-F-]{20,})/)
+		if (!match?.[1]) return null
+		return { postId: match[1], authorId: null }
+	}
+
+	/**
+	 * Método para build shared profile content.
+	 */
+	buildSharedProfileContent(userId: string, username?: string | null): string {
+		return &#x60;${SHARED_PROFILE_TOKEN}${userId}:${username ?? &#x27;&#x27;}\n/profile/${username ?? userId}&#x60;
+	}
+
+	/**
+	 * Método para parse shared profile content.
+	 */
+	private parseSharedProfileContent(content: string): { userId: string; username: string | null } | null {
+		if (!content.startsWith(SHARED_PROFILE_TOKEN)) return null
+		const raw &#x3D; content.slice(SHARED_PROFILE_TOKEN.length).split(/\s+/)[0]
+		const [userId, username] &#x3D; raw.split(&#x27;:&#x27;)
+		if (!userId) return null
+		return { userId, username: username || null }
+	}
+
+	/**
+	 * Método para parse shared profile enlace.
+	 */
+	private parseSharedProfileLink(content: string): { userId: string | null; username: string } | null {
+		const match &#x3D; content.match(/(?:^|\s)\/profile\/([A-Za-z0-9_.-]+)/)
+		if (!match?.[1]) return null
+		return { userId: null, username: match[1] }
+	}
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'MessagesPageResult.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

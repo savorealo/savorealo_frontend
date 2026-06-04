@@ -1,11 +1,15 @@
 import { Component } from '@angular/core'
 import { Skeleton } from 'primeng/skeleton'
 
+/**
+ * Componente que representa un marcador de posición de carga (skeleton card) con estructura de tarjeta de publicación.
+ * Utilizado para simular la disposición visual de una publicación real mientras se obtienen los datos.
+ */
 @Component({
 	selector: 'app-skeleton-card',
 	imports: [Skeleton],
 	template: `
-		<article class="mx-auto grid w-full max-w-[500px] gap-4 rounded-2xl bg-white p-4 shadow-sm">
+		<article class="mx-auto grid w-full max-w-[500px] gap-4 rounded-2xl border border-outline bg-surface-container p-4 shadow-1">
 			<header class="flex items-center gap-3">
 				<p-skeleton shape="circle" size="3rem" />
 				<div class="grid flex-1 gap-2">
@@ -18,7 +22,7 @@ import { Skeleton } from 'primeng/skeleton'
 				<p-skeleton width="90%" />
 				<p-skeleton width="70%" />
 			</div>
-			<p-skeleton width="100%" height="13rem" borderRadius="8px" />
+			<p-skeleton width="100%" height="13rem" borderRadius="12px" />
 			<footer class="flex gap-3">
 				<p-skeleton width="5rem" height="2.25rem" borderRadius="999px" />
 				<p-skeleton width="5rem" height="2.25rem" borderRadius="999px" />

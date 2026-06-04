@@ -3,6 +3,9 @@ import { RecipeOfDayCard } from '../recipe-of-day-card/recipe-of-day-card'
 import { SuggestionsPanel } from '../suggestions-panel/suggestions-panel'
 import { TrendingList } from '../trending-list/trending-list'
 
+/**
+ * Clase de utilidad para feedrightrail.
+ */
 @Component({
 	selector: 'app-feed-right-rail',
 	imports: [RecipeOfDayCard, SuggestionsPanel, TrendingList],

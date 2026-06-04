@@ -1,18 +1,16 @@
-<nav class="flex gap-2 overflow-x-auto py-2" aria-label="Categorias de recetas">
-	@for (tab of tabs; track tab.label) {
+<nav class="flex gap-2 overflow-x-auto py-3" aria-label="Categorias de recetas">
+	@for (tab of tabs; track tab.labelKey) {
 		<button
 			type="button"
-			class="inline-flex h-11 shrink-0 items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 text-sm font-bold text-white/80 transition hover:bg-white/10"
-			[class.border-orange-500]="selected() === tab.value"
-			[class.bg-orange-600]="selected() === tab.value"
-			[class.text-white]="selected() === tab.value"
+			class="inline-flex h-11 shrink-0 items-center gap-2 rounded-pill border border-outline px-4 text-body-sm font-bold transition-colors duration-fast ease-standard"
+			[class]="selected() === tab.value ? 'bg-primary text-on-primary border-primary' : 'bg-surface-container text-on-surface-muted hover:bg-surface-container-high hover:text-on-surface'"
 			(click)="categoryChange.emit(tab.value)"
 		>
-			<span>{{ tab.icon }}</span>
-			<span>{{ tab.label }}</span>
+			<i [class]="tab.icon"></i>
+			<span>{{ tab.labelKey | translate }}</span>
 		</button>
 	}
-	<button type="button" class="grid size-11 shrink-0 place-items-center rounded-full bg-white/10 text-white">
+	<button type="button" class="grid size-11 shrink-0 place-items-center rounded-pill bg-surface-container text-on-surface-muted hover:bg-surface-container-high">
 		<i class="pi pi-chevron-right"></i>
 	</button>
 </nav>

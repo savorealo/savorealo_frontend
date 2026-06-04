@@ -1,0 +1,1792 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>cookeealo documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">cookeealo documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  FeedPostList</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/features/feed/components/feed-post-list/feed-post-list.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Clase de utilidad para feedpostlist.</p>
+
+    </p>
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-feed-post-list</code></td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                                <code><a href="../components/Emptystate.html" target="_self" >Emptystate</a></code>
+                                <code><a href="../components/PostCard.html" target="_self" >PostCard</a></code>
+                                <code><a href="../components/SkeletonCard.html" target="_self" >SkeletonCard</a></code>
+                                <code><a href="../components/Spinner.html" target="_self" >Spinner</a></code>
+                            <code>TranslatePipe</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./feed-post-list.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#emitExplore" >emitExplore</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#observer" >observer</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#pulling" >pulling</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#pullProgress" >pullProgress</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#pullStartY" >pullStartY</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#pullTriggered" >pullTriggered</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#scrollContainer" >scrollContainer</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#sentinel" >sentinel</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#currentScroll" >currentScroll</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
+                            </li>
+                            <li>
+                                <a href="#restoreScroll" >restoreScroll</a>
+                            </li>
+                            <li>
+                                <a href="#scrollToTop" >scrollToTop</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#setupObserver" >setupObserver</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#setupPullToRefresh" >setupPullToRefresh</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#error" >error</a>
+                            </li>
+                            <li>
+                                <a href="#hasNextPage" >hasNextPage</a>
+                            </li>
+                            <li>
+                                <a href="#isEmpty" >isEmpty</a>
+                            </li>
+                            <li>
+                                <a href="#loading" >loading</a>
+                            </li>
+                            <li>
+                                <a href="#loadingMore" >loadingMore</a>
+                            </li>
+                            <li>
+                                <a href="#posts" >posts</a>
+                            </li>
+                            <li>
+                                <a href="#refreshing" >refreshing</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#comment" >comment</a>
+                            </li>
+                            <li>
+                                <a href="#explore" >explore</a>
+                            </li>
+                            <li>
+                                <a href="#nearEnd" >nearEnd</a>
+                            </li>
+                            <li>
+                                <a href="#refresh" >refresh</a>
+                            </li>
+                            <li>
+                                <a href="#report" >report</a>
+                            </li>
+                            <li>
+                                <a href="#retry" >retry</a>
+                            </li>
+                            <li>
+                                <a href="#share" >share</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor()</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="109" class="link-to-prism">src/app/features/feed/components/feed-post-list/feed-post-list.ts:109</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div class="io-description"><p>Constructor de la clase o componente para inicializar dependencias.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section data-compodoc="block-inputs">
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="error"></a>
+                        <b>error</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>string | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">src/app/features/feed/components/feed-post-list/feed-post-list.ts:71</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Propiedad para gestionar error.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="hasNextPage"></a>
+                        <b>hasNextPage</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">src/app/features/feed/components/feed-post-list/feed-post-list.ts:75</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Indicador booleano para tiene next page.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isEmpty"></a>
+                        <b>isEmpty</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">src/app/features/feed/components/feed-post-list/feed-post-list.ts:67</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Indicador booleano para es o está empty.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="loading"></a>
+                        <b>loading</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/app/features/feed/components/feed-post-list/feed-post-list.ts:55</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Propiedad para gestionar cargando.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="loadingMore"></a>
+                        <b>loadingMore</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/app/features/feed/components/feed-post-list/feed-post-list.ts:59</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Propiedad para gestionar cargando more.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="posts"></a>
+                        <b>posts</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Post.html" target="_self" >Post[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/features/feed/components/feed-post-list/feed-post-list.ts:51</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Propiedad para gestionar posts.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="refreshing"></a>
+                        <b>refreshing</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">src/app/features/feed/components/feed-post-list/feed-post-list.ts:63</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Propiedad para gestionar refreshing.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+    <section data-compodoc="block-outputs">
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="comment"></a>
+                        <b>comment</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Post.html" target="_self" >Post</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="80" class="link-to-prism">src/app/features/feed/components/feed-post-list/feed-post-list.ts:80</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Propiedad para gestionar comment.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="explore"></a>
+                        <b>explore</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="100" class="link-to-prism">src/app/features/feed/components/feed-post-list/feed-post-list.ts:100</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Propiedad para gestionar explore.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="nearEnd"></a>
+                        <b>nearEnd</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="96" class="link-to-prism">src/app/features/feed/components/feed-post-list/feed-post-list.ts:96</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Propiedad para gestionar near end.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="refresh"></a>
+                        <b>refresh</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="104" class="link-to-prism">src/app/features/feed/components/feed-post-list/feed-post-list.ts:104</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Propiedad para gestionar refrescar.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="report"></a>
+                        <b>report</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Post.html" target="_self" >Post</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="84" class="link-to-prism">src/app/features/feed/components/feed-post-list/feed-post-list.ts:84</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Propiedad para gestionar report.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="retry"></a>
+                        <b>retry</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="92" class="link-to-prism">src/app/features/feed/components/feed-post-list/feed-post-list.ts:92</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Propiedad para gestionar retry.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="share"></a>
+                        <b>share</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Post.html" target="_self" >Post</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="88" class="link-to-prism">src/app/features/feed/components/feed-post-list/feed-post-list.ts:88</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Propiedad para gestionar share.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="currentScroll"></a>
+                    <span class="name">
+                        <span ><b>currentScroll</b></span>
+                        <a href="#currentScroll"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>currentScroll()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="183"
+                                    class="link-to-prism">src/app/features/feed/components/feed-post-list/feed-post-list.ts:183</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método para current scroll.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <span ><b>ngOnDestroy</b></span>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="197"
+                                    class="link-to-prism">src/app/features/feed/components/feed-post-list/feed-post-list.ts:197</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método de ciclo de vida de Angular que se ejecuta al destruir el componente para liberar recursos.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="restoreScroll"></a>
+                    <span class="name">
+                        <span ><b>restoreScroll</b></span>
+                        <a href="#restoreScroll"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>restoreScroll(top: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="190"
+                                    class="link-to-prism">src/app/features/feed/components/feed-post-list/feed-post-list.ts:190</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método para restore scroll.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>top</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="scrollToTop"></a>
+                    <span class="name">
+                        <span ><b>scrollToTop</b></span>
+                        <a href="#scrollToTop"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>scrollToTop()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="176"
+                                    class="link-to-prism">src/app/features/feed/components/feed-post-list/feed-post-list.ts:176</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método para scroll to top.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setupObserver"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>setupObserver</b></span>
+                        <a href="#setupObserver"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setupObserver()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="124"
+                                    class="link-to-prism">src/app/features/feed/components/feed-post-list/feed-post-list.ts:124</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método para setup observer.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setupPullToRefresh"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>setupPullToRefresh</b></span>
+                        <a href="#setupPullToRefresh"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setupPullToRefresh()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="139"
+                                    class="link-to-prism">src/app/features/feed/components/feed-post-list/feed-post-list.ts:139</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método para setup pull to refrescar.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="emitExplore"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>emitExplore</b></span>
+                        <a href="#emitExplore"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>() &#x3D;&gt; {...}</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="109" class="link-to-prism">src/app/features/feed/components/feed-post-list/feed-post-list.ts:109</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar emit explore.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="observer"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Optional</span>
+                        <span ><b>observer</b></span>
+                        <a href="#observer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>IntersectionObserver</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/features/feed/components/feed-post-list/feed-post-list.ts:29</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar observer.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="pulling"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>pulling</b></span>
+                        <a href="#pulling"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/features/feed/components/feed-post-list/feed-post-list.ts:38</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar pulling.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="pullProgress"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>pullProgress</b></span>
+                        <a href="#pullProgress"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(0)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/features/feed/components/feed-post-list/feed-post-list.ts:42</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar pull progress.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="pullStartY"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>pullStartY</b></span>
+                        <a href="#pullStartY"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>0</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/features/feed/components/feed-post-list/feed-post-list.ts:34</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar pull start y.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="pullTriggered"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>pullTriggered</b></span>
+                        <a href="#pullTriggered"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/app/features/feed/components/feed-post-list/feed-post-list.ts:46</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar pull triggered.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="scrollContainer"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>scrollContainer</b></span>
+                        <a href="#scrollContainer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>viewChild&lt;ElementRef&lt;HTMLElement&gt;&gt;(&#x27;scrollContainer&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">src/app/features/feed/components/feed-post-list/feed-post-list.ts:21</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar scroll container.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sentinel"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>sentinel</b></span>
+                        <a href="#sentinel"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>viewChild&lt;ElementRef&lt;HTMLElement&gt;&gt;(&#x27;sentinel&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/features/feed/components/feed-post-list/feed-post-list.ts:25</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar sentinel.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { afterNextRender, Component, ElementRef, input, OnDestroy, output, signal, viewChild } from &#x27;@angular/core&#x27;
+import { Post }        from &#x27;@core/models/post/post.model&#x27;
+import { Emptystate }  from &#x27;@shared/components/emptystate/emptystate&#x27;
+import { PostCard }    from &#x27;@shared/components/post-card/post-card&#x27;
+import { SkeletonCard } from &#x27;@shared/components/skeleton-card/skeleton-card&#x27;
+import { Spinner }     from &#x27;@shared/components/spinner/spinner&#x27;
+import { TranslatePipe } from &#x27;@shared/pipes/translate.pipe&#x27;
+
+/**
+ * Clase de utilidad para feedpostlist.
+ */
+@Component({
+	selector: &#x27;app-feed-post-list&#x27;,
+	imports: [Emptystate, PostCard, SkeletonCard, Spinner, TranslatePipe],
+	templateUrl: &#x27;./feed-post-list.html&#x27;,
+})
+export class FeedPostList implements OnDestroy {
+	/**
+	 * Propiedad para gestionar scroll container.
+	 */
+	private readonly scrollContainer &#x3D; viewChild&lt;ElementRef&lt;HTMLElement&gt;&gt;(&#x27;scrollContainer&#x27;)
+	/**
+	 * Propiedad para gestionar sentinel.
+	 */
+	private readonly sentinel        &#x3D; viewChild&lt;ElementRef&lt;HTMLElement&gt;&gt;(&#x27;sentinel&#x27;)
+	/**
+	 * Propiedad para gestionar observer.
+	 */
+	private observer?: IntersectionObserver
+
+	/**
+	 * Propiedad para gestionar pull start y.
+	 */
+	private pullStartY &#x3D; 0
+	/**
+	 * Propiedad para gestionar pulling.
+	 */
+	private pulling &#x3D; false
+	/**
+	 * Propiedad para gestionar pull progress.
+	 */
+	readonly pullProgress &#x3D; signal(0)
+	/**
+	 * Propiedad para gestionar pull triggered.
+	 */
+	readonly pullTriggered &#x3D; signal(false)
+
+	/**
+	 * Propiedad para gestionar posts.
+	 */
+	posts       &#x3D; input&lt;Post[]&gt;([])
+	/**
+	 * Propiedad para gestionar cargando.
+	 */
+	loading     &#x3D; input(false)
+	/**
+	 * Propiedad para gestionar cargando more.
+	 */
+	loadingMore &#x3D; input(false)
+	/**
+	 * Propiedad para gestionar refreshing.
+	 */
+	refreshing  &#x3D; input(false)
+	/**
+	 * Indicador booleano para es o está empty.
+	 */
+	isEmpty     &#x3D; input(false)
+	/**
+	 * Propiedad para gestionar error.
+	 */
+	error       &#x3D; input&lt;string | null&gt;(null)
+	/**
+	 * Indicador booleano para tiene next page.
+	 */
+	hasNextPage &#x3D; input(true)
+
+	/**
+	 * Propiedad para gestionar comment.
+	 */
+	comment &#x3D; output&lt;Post&gt;()
+	/**
+	 * Propiedad para gestionar report.
+	 */
+	report  &#x3D; output&lt;Post&gt;()
+	/**
+	 * Propiedad para gestionar share.
+	 */
+	share   &#x3D; output&lt;Post&gt;()
+	/**
+	 * Propiedad para gestionar retry.
+	 */
+	retry   &#x3D; output&lt;void&gt;()
+	/**
+	 * Propiedad para gestionar near end.
+	 */
+	nearEnd &#x3D; output&lt;void&gt;()
+	/**
+	 * Propiedad para gestionar explore.
+	 */
+	explore &#x3D; output&lt;void&gt;()
+	/**
+	 * Propiedad para gestionar refrescar.
+	 */
+	refresh &#x3D; output&lt;void&gt;()
+
+	/**
+	 * Propiedad para gestionar emit explore.
+	 */
+	readonly emitExplore &#x3D; () &#x3D;&gt; this.explore.emit()
+
+	/**
+	 * Constructor de la clase o componente para inicializar dependencias.
+	 */
+	constructor() {
+		afterNextRender(() &#x3D;&gt; {
+			this.setupObserver()
+			this.setupPullToRefresh()
+		})
+	}
+
+	/**
+	 * Método para setup observer.
+	 */
+	private setupObserver(): void {
+		const sentinel &#x3D; this.sentinel()?.nativeElement
+		const root     &#x3D; this.scrollContainer()?.nativeElement
+		if (!sentinel || !root) return
+
+		this.observer &#x3D; new IntersectionObserver(
+			entries &#x3D;&gt; { if (entries[0].isIntersecting) this.nearEnd.emit() },
+			{ root, rootMargin: &#x27;600px&#x27; },
+		)
+		this.observer.observe(sentinel)
+	}
+
+	/**
+	 * Método para setup pull to refrescar.
+	 */
+	private setupPullToRefresh(): void {
+		const el &#x3D; this.scrollContainer()?.nativeElement
+		if (!el) return
+
+		el.addEventListener(&#x27;touchstart&#x27;, (e: TouchEvent) &#x3D;&gt; {
+			if (el.scrollTop &lt;&#x3D; 0) {
+				this.pullStartY &#x3D; e.touches[0].clientY
+				this.pulling &#x3D; true
+			}
+		}, { passive: true })
+
+		el.addEventListener(&#x27;touchmove&#x27;, (e: TouchEvent) &#x3D;&gt; {
+			if (!this.pulling || el.scrollTop &gt; 0) {
+				this.pulling &#x3D; false
+				this.pullProgress.set(0)
+				return
+			}
+			const dy &#x3D; e.touches[0].clientY - this.pullStartY
+			if (dy &gt; 0) {
+				this.pullProgress.set(Math.min(dy / 100, 1))
+				this.pullTriggered.set(dy &gt;&#x3D; 100)
+			}
+		}, { passive: true })
+
+		el.addEventListener(&#x27;touchend&#x27;, () &#x3D;&gt; {
+			if (this.pullTriggered()) {
+				this.refresh.emit()
+			}
+			this.pulling &#x3D; false
+			this.pullProgress.set(0)
+			this.pullTriggered.set(false)
+		}, { passive: true })
+	}
+
+	/**
+	 * Método para scroll to top.
+	 */
+	scrollToTop(): void {
+		this.scrollContainer()?.nativeElement.scrollTo({ top: 0, behavior: &#x27;smooth&#x27; })
+	}
+
+	/**
+	 * Método para current scroll.
+	 */
+	currentScroll(): number {
+		return this.scrollContainer()?.nativeElement.scrollTop ?? 0
+	}
+
+	/**
+	 * Método para restore scroll.
+	 */
+	restoreScroll(top: number): void {
+		this.scrollContainer()?.nativeElement.scrollTo({ top })
+	}
+
+	/**
+	 * Método de ciclo de vida de Angular que se ejecuta al destruir el componente para liberar recursos.
+	 */
+	ngOnDestroy(): void {
+		this.observer?.disconnect()
+	}
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div #scrollContainer class&#x3D;&quot;h-full w-full overflow-y-auto&quot;&gt;
+	&lt;!-- Pull-to-refresh indicator --&gt;
+	@if (pullProgress() &gt; 0 || refreshing()) {
+		&lt;div
+			class&#x3D;&quot;flex items-center justify-center overflow-hidden transition-[height] duration-fast ease-standard&quot;
+			[style.height.px]&#x3D;&quot;refreshing() ? 48 : pullProgress() * 48&quot;
+		&gt;
+			@if (refreshing()) {
+				&lt;i class&#x3D;&quot;pi pi-spin pi-spinner text-lg text-primary&quot;&gt;&lt;/i&gt;
+			} @else {
+				&lt;i
+					class&#x3D;&quot;pi pi-arrow-down text-lg text-primary transition-transform duration-fast&quot;
+					[class.rotate-180]&#x3D;&quot;pullTriggered()&quot;
+				&gt;&lt;/i&gt;
+			}
+		&lt;/div&gt;
+	}
+
+	&lt;div class&#x3D;&quot;grid gap-7 pb-10&quot;&gt;
+		&lt;!-- Refresh button (visible when posts loaded) --&gt;
+		@if (posts().length &gt; 0 &amp;&amp; !loading()) {
+			&lt;div class&#x3D;&quot;flex justify-center&quot;&gt;
+				&lt;button
+					type&#x3D;&quot;button&quot;
+					class&#x3D;&quot;inline-flex h-10 items-center gap-2 rounded-pill border border-outline bg-surface-container px-5 text-body-sm font-bold text-on-surface-muted transition-all duration-fast ease-standard hover:bg-surface-container-high hover:text-on-surface active:scale-[0.98] disabled:opacity-50&quot;
+					[disabled]&#x3D;&quot;refreshing()&quot;
+					(click)&#x3D;&quot;refresh.emit()&quot;
+				&gt;
+					&lt;i class&#x3D;&quot;pi text-xs&quot; [class]&#x3D;&quot;refreshing() ? &#x27;pi-spin pi-spinner&#x27; : &#x27;pi-refresh&#x27;&quot;&gt;&lt;/i&gt;
+					{{ refreshing() ? (&#x27;feed.updating&#x27; | translate) : (&#x27;feed.refresh_feed&#x27; | translate) }}
+				&lt;/button&gt;
+			&lt;/div&gt;
+		}
+
+		@if (error()) {
+			&lt;div class&#x3D;&quot;mx-auto grid w-full max-w-[500px] place-items-center rounded-2xl border border-error/30 bg-error-container p-8 text-center text-on-error-container&quot;&gt;
+				&lt;div&gt;
+					&lt;i class&#x3D;&quot;pi pi-exclamation-triangle text-3xl&quot;&gt;&lt;/i&gt;
+					&lt;p class&#x3D;&quot;mt-3 text-body-md font-bold&quot;&gt;{{ error() }}&lt;/p&gt;
+					&lt;button
+						type&#x3D;&quot;button&quot;
+						class&#x3D;&quot;mt-4 inline-flex h-11 items-center gap-2 rounded-pill bg-on-error-container px-5 text-body-sm font-bold text-error-container transition-transform duration-fast ease-standard hover:shadow-3 active:scale-[0.98]&quot;
+						(click)&#x3D;&quot;retry.emit()&quot;
+					&gt;
+						&lt;i class&#x3D;&quot;pi pi-refresh text-xs&quot;&gt;&lt;/i&gt;
+						{{ &#x27;places.retry&#x27; | translate }}
+					&lt;/button&gt;
+				&lt;/div&gt;
+			&lt;/div&gt;
+		} @else if (loading() &amp;&amp; posts().length &#x3D;&#x3D;&#x3D; 0) {
+			@for (i of [1, 2, 3]; track i) {
+				&lt;app-skeleton-card /&gt;
+			}
+		} @else if (isEmpty()) {
+			&lt;div class&#x3D;&quot;mx-auto w-full max-w-[500px] rounded-2xl border border-outline bg-surface-container&quot;&gt;
+				&lt;app-emptystate
+					icon&#x3D;&quot;pi pi-home&quot;
+					[title]&#x3D;&quot;&#x27;feed.empty_title&#x27; | translate&quot;
+					[description]&#x3D;&quot;&#x27;feed.empty_desc&#x27; | translate&quot;
+				/&gt;
+			&lt;/div&gt;
+		}
+
+		@for (post of posts(); track post.id) {
+			&lt;app-post-card
+				[post]&#x3D;&quot;post&quot;
+				(comment)&#x3D;&quot;comment.emit($event)&quot;
+				(report)&#x3D;&quot;report.emit($event)&quot;
+				(share)&#x3D;&quot;share.emit($event)&quot;
+			/&gt;
+		}
+
+		&lt;!-- Spinner para &quot;cargando más&quot; — skeletons solo en carga inicial --&gt;
+		@if (loadingMore()) {
+			&lt;div class&#x3D;&quot;flex justify-center py-6&quot;&gt;
+				&lt;app-spinner size&#x3D;&quot;md&quot; [message]&#x3D;&quot;&#x27;feed.loading_more&#x27; | translate&quot; /&gt;
+			&lt;/div&gt;
+		}
+
+		&lt;!-- Fin del feed — aparece cuando no hay más páginas --&gt;
+		@if (posts().length &gt; 0 &amp;&amp; !loadingMore() &amp;&amp; !hasNextPage()) {
+			&lt;div class&#x3D;&quot;mx-auto w-full max-w-[500px] rounded-2xl border border-outline bg-surface-container&quot;&gt;
+				&lt;app-emptystate
+					icon&#x3D;&quot;pi pi-check-circle&quot;
+					[title]&#x3D;&quot;&#x27;feed.up_to_date_title&#x27; | translate&quot;
+					[description]&#x3D;&quot;&#x27;feed.up_to_date_desc&#x27; | translate&quot;
+					[actionLabel]&#x3D;&quot;&#x27;feed.go_to_explore&#x27; | translate&quot;
+					[onAction]&#x3D;&quot;emitExplore&quot;
+				/&gt;
+			&lt;/div&gt;
+		}
+
+		&lt;!-- Sentinela para IntersectionObserver — activa nearEnd al entrar en viewport --&gt;
+		@if (posts().length &gt; 0 &amp;&amp; !loadingMore() &amp;&amp; hasNextPage()) {
+			&lt;div #sentinel class&#x3D;&quot;h-px w-full&quot;&gt;&lt;/div&gt;
+		}
+	&lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis-network.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div #scrollContainer class="h-full w-full overflow-y-auto">	<!-- Pull-to-refresh indicator -->	@if (pullProgress() > 0 || refreshing()) {		<div			class="flex items-center justify-center overflow-hidden transition-[height] duration-fast ease-standard"			[style.height.px]="refreshing() ? 48 : pullProgress() * 48"		>			@if (refreshing()) {				<i class="pi pi-spin pi-spinner text-lg text-primary"></i>			} @else {				<i					class="pi pi-arrow-down text-lg text-primary transition-transform duration-fast"					[class.rotate-180]="pullTriggered()"				></i>			}		</div>	}	<div class="grid gap-7 pb-10">		<!-- Refresh button (visible when posts loaded) -->		@if (posts().length > 0 && !loading()) {			<div class="flex justify-center">				<button					type="button"					class="inline-flex h-10 items-center gap-2 rounded-pill border border-outline bg-surface-container px-5 text-body-sm font-bold text-on-surface-muted transition-all duration-fast ease-standard hover:bg-surface-container-high hover:text-on-surface active:scale-[0.98] disabled:opacity-50"					[disabled]="refreshing()"					(click)="refresh.emit()"				>					<i class="pi text-xs" [class]="refreshing() ? \'pi-spin pi-spinner\' : \'pi-refresh\'"></i>					{{ refreshing() ? (\'feed.updating\' | translate) : (\'feed.refresh_feed\' | translate) }}				</button>			</div>		}		@if (error()) {			<div class="mx-auto grid w-full max-w-[500px] place-items-center rounded-2xl border border-error/30 bg-error-container p-8 text-center text-on-error-container">				<div>					<i class="pi pi-exclamation-triangle text-3xl"></i>					<p class="mt-3 text-body-md font-bold">{{ error() }}</p>					<button						type="button"						class="mt-4 inline-flex h-11 items-center gap-2 rounded-pill bg-on-error-container px-5 text-body-sm font-bold text-error-container transition-transform duration-fast ease-standard hover:shadow-3 active:scale-[0.98]"						(click)="retry.emit()"					>						<i class="pi pi-refresh text-xs"></i>						{{ \'places.retry\' | translate }}					</button>				</div>			</div>		} @else if (loading() && posts().length === 0) {			@for (i of [1, 2, 3]; track i) {				<app-skeleton-card />			}		} @else if (isEmpty()) {			<div class="mx-auto w-full max-w-[500px] rounded-2xl border border-outline bg-surface-container">				<app-emptystate					icon="pi pi-home"					[title]="\'feed.empty_title\' | translate"					[description]="\'feed.empty_desc\' | translate"				/>			</div>		}		@for (post of posts(); track post.id) {			<app-post-card				[post]="post"				(comment)="comment.emit($event)"				(report)="report.emit($event)"				(share)="share.emit($event)"			/>		}		<!-- Spinner para "cargando más" — skeletons solo en carga inicial -->		@if (loadingMore()) {			<div class="flex justify-center py-6">				<app-spinner size="md" [message]="\'feed.loading_more\' | translate" />			</div>		}		<!-- Fin del feed — aparece cuando no hay más páginas -->		@if (posts().length > 0 && !loadingMore() && !hasNextPage()) {			<div class="mx-auto w-full max-w-[500px] rounded-2xl border border-outline bg-surface-container">				<app-emptystate					icon="pi pi-check-circle"					[title]="\'feed.up_to_date_title\' | translate"					[description]="\'feed.up_to_date_desc\' | translate"					[actionLabel]="\'feed.go_to_explore\' | translate"					[onAction]="emitExplore"				/>			</div>		}		<!-- Sentinela para IntersectionObserver — activa nearEnd al entrar en viewport -->		@if (posts().length > 0 && !loadingMore() && hasNextPage()) {			<div #sentinel class="h-px w-full"></div>		}	</div></div></div>'
+    var COMPONENTS = [{'name': 'AddReviewModal', 'selector': 'app-add-review-modal'},{'name': 'AiIdeasPanel', 'selector': 'app-ai-ideas-panel'},{'name': 'AiRecipeForm', 'selector': 'app-ai-recipe-form'},{'name': 'AiRecipeResult', 'selector': 'app-ai-recipe-result'},{'name': 'AiRecipesHero', 'selector': 'app-ai-recipes-hero'},{'name': 'AiRecipesPage', 'selector': 'app-ai-recipes-page'},{'name': 'App', 'selector': 'app-root'},{'name': 'AppShell', 'selector': 'app-shell'},{'name': 'Auth', 'selector': 'app-auth'},{'name': 'Avatar', 'selector': 'app-avatar'},{'name': 'Body', 'selector': 'app-body-step1'},{'name': 'Body', 'selector': 'app-body-step3'},{'name': 'Body', 'selector': 'app-body-step2'},{'name': 'ButtonComponent', 'selector': 'app-button'},{'name': 'CallHost', 'selector': 'app-call-host'},{'name': 'CallOverlay', 'selector': 'app-call-overlay'},{'name': 'ChatPanel', 'selector': 'app-chat-panel'},{'name': 'CommentSection', 'selector': 'app-comment-section'},{'name': 'CommentsSheetComponent', 'selector': 'app-comments-sheet'},{'name': 'ConversationList', 'selector': 'app-conversation-list'},{'name': 'CookingModePage', 'selector': 'app-cooking-mode-page'},{'name': 'CreatePostComponent', 'selector': 'app-create-post'},{'name': 'EditProfileComponent', 'selector': 'app-edit-profile'},{'name': 'EmojiRain', 'selector': 'app-emoji-rain'},{'name': 'Emptystate', 'selector': 'app-emptystate'},{'name': 'ExploreCategoryTabs', 'selector': 'app-explore-category-tabs'},{'name': 'ExploreHero', 'selector': 'app-explore-hero'},{'name': 'ExplorePage', 'selector': 'app-explore-page'},{'name': 'ExploreRightRail', 'selector': 'app-explore-right-rail'},{'name': 'ExploreToolbar', 'selector': 'app-explore-toolbar'},{'name': 'FeedPage', 'selector': 'app-feed-page'},{'name': 'FeedPostList', 'selector': 'app-feed-post-list'},{'name': 'FeedRightRail', 'selector': 'app-feed-right-rail'},{'name': 'GlobalSearchPanel', 'selector': 'app-global-search-panel'},{'name': 'Header', 'selector': 'app-header-step1'},{'name': 'Header', 'selector': 'app-header-step3'},{'name': 'Header', 'selector': 'app-header-step2'},{'name': 'Home', 'selector': 'app-home'},{'name': 'IncomingCall', 'selector': 'app-incoming-call'},{'name': 'Login', 'selector': 'app-login'},{'name': 'MessageBubble', 'selector': 'app-message-bubble'},{'name': 'MessagesPage', 'selector': 'app-messages-page'},{'name': 'NewConversation', 'selector': 'app-new-conversation'},{'name': 'NotificationsPage', 'selector': 'app-notifications-page'},{'name': 'PlaceCard', 'selector': 'app-place-card'},{'name': 'PlaceDetailPage', 'selector': 'app-place-detail-page'},{'name': 'PlacesPage', 'selector': 'app-places-page'},{'name': 'PostCard', 'selector': 'app-post-card'},{'name': 'PostDetailPage', 'selector': 'app-post-detail-page'},{'name': 'Profile', 'selector': 'app-profile'},{'name': 'PublicProfilePage', 'selector': 'app-public-profile-page'},{'name': 'RecentAiRecipes', 'selector': 'app-recent-ai-recipes'},{'name': 'RecipeDiscoveryCard', 'selector': 'app-recipe-discovery-card'},{'name': 'RecipeDiscoveryGrid', 'selector': 'app-recipe-discovery-grid'},{'name': 'RecipeOfDayCard', 'selector': 'app-recipe-of-day-card'},{'name': 'Register', 'selector': 'app-register'},{'name': 'ReportSheet', 'selector': 'app-report-sheet'},{'name': 'SavedCollectionStrip', 'selector': 'app-saved-collection-strip'},{'name': 'SavedPage', 'selector': 'app-saved-page'},{'name': 'SavedRecipeCard', 'selector': 'app-saved-recipe-card'},{'name': 'SavoLoader', 'selector': 'app-savo-loader'},{'name': 'SettingsPage', 'selector': 'app-settings-page'},{'name': 'SharedPostCard', 'selector': 'app-shared-post-card'},{'name': 'SharedProfileCard', 'selector': 'app-shared-profile-card'},{'name': 'SharePostModal', 'selector': 'app-share-post-modal'},{'name': 'ShareProfileModal', 'selector': 'app-share-profile-modal'},{'name': 'ShoppingListPage', 'selector': 'app-shopping-list-page'},{'name': 'SkeletonCard', 'selector': 'app-skeleton-card'},{'name': 'Spinner', 'selector': 'app-spinner'},{'name': 'SpotlightBg', 'selector': 'app-spotlight-bg'},{'name': 'StoriesStrip', 'selector': 'app-stories-strip'},{'name': 'StoryViewer', 'selector': 'app-story-viewer'},{'name': 'SuggestionsPanel', 'selector': 'app-suggestions-panel'},{'name': 'Title', 'selector': 'app-title'},{'name': 'Topbar', 'selector': 'app-topbar'},{'name': 'TrendingList', 'selector': 'app-trending-list'},{'name': 'VeganConvertModal', 'selector': 'app-vegan-convert-modal'}];
+    var DIRECTIVES = [{'name': 'ClickOutsideDirective', 'selector': '[appClickOutside]'},{'name': 'ImgFallbackDirective', 'selector': 'img[appImgFallback]'}];
+    var ACTUAL_COMPONENT = {'name': 'FeedPostList'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'FeedPostList.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

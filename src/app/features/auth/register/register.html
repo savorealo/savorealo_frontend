@@ -1,17 +1,48 @@
+<div class="mb-4 flex justify-end">
+  <p-select
+    [options]="localeOptions"
+    [ngModel]="selectedLocale()"
+    (ngModelChange)="changeLocale($event)"
+    optionLabel="label"
+    class="w-52"
+    [filter]="true"
+    filterBy="label"
+  >
+    <ng-template pTemplate="selectedItem" let-opt>
+      <span class="flex items-center gap-2 text-sm font-medium">
+        <span>{{ opt.flag }}</span>
+        <span>{{ opt.label }}</span>
+      </span>
+    </ng-template>
+    <ng-template pTemplate="item" let-opt>
+      <span class="flex items-center gap-2 text-sm">
+        <span>{{ opt.flag }}</span>
+        <span>{{ opt.label }}</span>
+      </span>
+    </ng-template>
+  </p-select>
+</div>
+
 <div>
-  <span class="inline-flex rounded-full bg-orange-50 px-4 py-2 text-sm font-black text-orange-600">Nueva cuenta</span>
-  <h1 class="mt-4 text-4xl font-black tracking-tight text-black">{{ registerTitle() }}</h1>
-  <p class="mt-3 text-base font-semibold leading-7 text-black/55">Completa tu perfil y empieza a compartir lo que cocinas.</p>
+  <span class="inline-flex rounded-pill bg-primary-container px-4 py-2 text-label-md font-bold text-on-primary-container">{{ 'auth.register.new_account' | translate }}</span>
+  <h1 class="mt-4 font-display text-display-sm text-on-surface lg:text-display-md">{{ registerTitle() }}</h1>
+  <p class="mt-3 text-body-md font-medium leading-base text-on-surface-muted">{{ 'auth.register.subtitle' | translate }}</p>
 </div>
 
 <button
   type="button"
-  class="mt-7 flex h-12 w-full items-center justify-center gap-3 rounded-2xl border border-black/10 bg-white text-sm font-black text-black transition hover:bg-orange-50"
+  class="mt-7 flex h-12 w-full items-center justify-center gap-3 rounded-xl border border-outline bg-surface text-body-md font-bold text-on-surface transition-colors duration-fast ease-standard hover:bg-surface-container"
   (click)="registerWithGoogle()"
 >
   <img src="assets/google.svg" alt="" class="size-5" />
-  <span>Registrarse con Google</span>
+  <span>{{ 'auth.register.google_btn' | translate }}</span>
 </button>
+
+@if (submitError(); as err) {
+  <div class="mt-5 rounded-xl border border-error/30 bg-error-container px-4 py-3 text-body-sm font-bold text-on-error-container">
+    {{ err }}
+  </div>
+}
 
 <form [formGroup]="registerForm" class="mt-7">
   <p-stepper
@@ -61,11 +92,11 @@
   </p-stepper>
 </form>
 
-<p class="mt-5 text-center text-sm font-semibold text-black/55">
-  Ya tienes cuenta?
+<p class="mt-5 text-center text-body-sm font-medium text-on-surface-muted">
+  {{ 'auth.register.have_account' | translate }}
   <button
     type="button"
-    class="font-black text-orange-600 underline decoration-orange-300 underline-offset-4"
+    class="font-bold text-primary underline decoration-primary/40 underline-offset-4 hover:decoration-primary"
     (click)="toLogin()"
-  >Inicia sesion</button>
+  >{{ 'auth.register.login_link' | translate }}</button>
 </p>

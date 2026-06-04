@@ -9,6 +9,9 @@ import { TimeAgoPipe } from '@shared/pipes/time-ago.pipe'
 import { Drawer } from 'primeng/drawer'
 import { Textarea } from 'primeng/textarea'
 
+/**
+ * Componente principal para la vista o página de commentssheet.
+ */
 @Component({
 	selector: 'app-comments-sheet',
 	imports: [Avatar, Drawer, FormsModule, Textarea, TimeAgoPipe],
@@ -100,20 +103,44 @@ import { Textarea } from 'primeng/textarea'
 	`,
 })
 export class CommentsSheetComponent {
+	/**
+	 * Propiedad para gestionar comments.
+	 */
 	readonly comments = inject(CommentStore)
+	/**
+	 * Propiedad para gestionar auth.
+	 */
 	private readonly auth = inject(AuthStore)
 
+	/**
+	 * Propiedad para gestionar visible.
+	 */
 	visible = model(false)
+	/**
+	 * Propiedad para gestionar post.
+	 */
 	post = input<Post | null>(null)
+	/**
+	 * Propiedad para gestionar draft.
+	 */
 	draft = ''
 
+	/**
+	 * Indicador booleano para puede enviar.
+	 */
 	canSubmit = computed(() => this.draft.trim().length > 0 && !this.comments.submitting())
 
+	/**
+	 * Método para cargar comments.
+	 */
 	loadComments(): void {
 		const post = this.post()
 		if (post) this.comments.open(post.id)
 	}
 
+	/**
+	 * Método para evento de scroll.
+	 */
 	onScroll(event: Event): void {
 		const element = event.target as HTMLElement
 		if (element.scrollTop + element.clientHeight >= element.scrollHeight - 80) {
@@ -121,6 +148,9 @@ export class CommentsSheetComponent {
 		}
 	}
 
+	/**
+	 * Método para enviar comment.
+	 */
 	submitComment(): void {
 		const text = this.draft.trim()
 		if (!text) return
@@ -128,10 +158,16 @@ export class CommentsSheetComponent {
 		this.comments.addComment(text)
 	}
 
+	/**
+	 * Método para comment author nombre.
+	 */
 	commentAuthorName(comment: Comment): string {
 		return comment.author.name || comment.author.username || 'Chef'
 	}
 
+	/**
+	 * Método para es o está own comment.
+	 */
 	isOwnComment(comment: Comment): boolean {
 		const currentUserId = this.auth.currentUserId()
 		return !!currentUserId && comment.authorId === currentUserId

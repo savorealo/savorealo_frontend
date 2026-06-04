@@ -1,29 +1,26 @@
-<app-shell>
-	<!-- Global overlays -->
-	<app-incoming-call />
-	<app-call-overlay />
+<app-shell [showTopbar]="false">
 	@if (showCompose()) {
 		<app-new-conversation (close)="showCompose.set(false)" />
 	}
 
-	<div class="flex h-dvh min-h-0 flex-col overflow-hidden bg-[#f6f6f6]">
-		<app-messages-topbar class="shrink-0" (newConversation)="showCompose.set(true)" />
-
-		<main class="mx-auto grid min-h-0 w-full max-w-[1480px] flex-1 gap-5 overflow-hidden px-4 py-5 lg:grid-cols-[430px_minmax(0,1fr)] lg:px-5">
+	<div class="flex h-full min-h-0 flex-col overflow-hidden bg-surface text-on-surface">
+		<main class="mx-auto grid min-h-0 w-full max-w-[1480px] flex-1 gap-0 overflow-hidden px-0 py-0 lg:grid-cols-[430px_minmax(0,1fr)] lg:gap-5 lg:px-5 lg:py-5">
 
 			@if (store.loadingConversations()) {
-				<div class="flex min-h-0 flex-col rounded-[1.75rem] border border-black/5 bg-white shadow-[0_18px_60px_rgba(20,20,20,0.08)]">
-					<div class="border-b border-black/5 p-6">
-						<div class="h-8 w-40 animate-pulse rounded-full bg-surface-100"></div>
-						<div class="mt-6 h-12 animate-pulse rounded-full bg-surface-100"></div>
+				<div class="flex min-h-0 flex-col bg-surface-container sm:rounded-2xl sm:border sm:border-outline sm:shadow-2"
+					 [class.hidden]="store.activeConversation()"
+					 [class.lg:flex]="true">
+					<div class="border-b border-outline p-4 sm:p-6">
+						<div class="h-6 w-32 animate-pulse rounded-pill bg-surface-container-high sm:h-8 sm:w-40"></div>
+						<div class="mt-4 h-10 animate-pulse rounded-pill bg-surface-container-high sm:mt-6 sm:h-12"></div>
 					</div>
-					<div class="grid gap-3 p-4">
+					<div class="grid gap-3 p-3 sm:p-4">
 						@for (item of [1, 2, 3, 4, 5]; track item) {
-							<div class="flex gap-3 rounded-3xl p-3">
-								<div class="size-14 shrink-0 animate-pulse rounded-full bg-surface-100"></div>
+							<div class="flex gap-3 rounded-2xl p-3">
+								<div class="size-12 shrink-0 animate-pulse rounded-pill bg-surface-container-high sm:size-14"></div>
 								<div class="flex-1 grid gap-2 py-1">
-									<div class="h-4 w-3/4 animate-pulse rounded-full bg-surface-100"></div>
-									<div class="h-3 w-1/2 animate-pulse rounded-full bg-surface-100"></div>
+									<div class="h-4 w-3/4 animate-pulse rounded-pill bg-surface-container-high"></div>
+									<div class="h-3 w-1/2 animate-pulse rounded-pill bg-surface-container-high"></div>
 								</div>
 							</div>
 						}
@@ -32,6 +29,8 @@
 			} @else {
 				<app-conversation-list
 					class="min-h-0"
+					[class.hidden]="store.activeConversation()"
+					[class.lg:block]="true"
 					[conversations]="store.conversations()"
 					[activeId]="store.activeId() ?? ''"
 					(selectConversation)="store.selectConversation($event)"
@@ -46,15 +45,19 @@
 					[messages]="store.messages()"
 					[loading]="store.loadingMessages()"
 					[isTyping]="store.isTyping()"
-					(sendMessage)="store.sendMessage($event)"
+					[loadingMore]="store.loadingMoreMessages()"
+					[hasMore]="store.hasMoreMessages()"
+					(sendMessage)="store.sendMessage($event.text, $event.replyTo)"
+					(loadOlderMessages)="store.loadOlderMessages()"
 					(typing)="store.onTyping()"
 					(startCall)="onStartCall($event)"
+					(back)="store.clearActive()"
 				/>
 			} @else if (!store.loadingConversations()) {
-				<div class="hidden min-h-0 place-items-center rounded-[1.75rem] border border-black/5 bg-white lg:grid">
+				<div class="hidden min-h-0 place-items-center rounded-2xl border border-outline bg-surface-container lg:grid">
 					<div class="text-center">
-						<i class="pi pi-comments text-5xl text-orange-200"></i>
-						<p class="mt-4 text-lg font-black text-black/40">Selecciona una conversacion</p>
+						<app-savo-loader size="md" [padded]="false" />
+						<p class="mt-4 text-title-md font-bold text-on-surface-muted">{{ 'messages.select_conversation' | translate }}</p>
 					</div>
 				</div>
 			}

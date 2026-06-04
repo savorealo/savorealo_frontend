@@ -1,0 +1,1601 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>cookeealo documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">cookeealo documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  StoriesStrip</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/features/feed/components/stories-strip/stories-strip.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Clase de utilidad para storiesstrip.</p>
+
+    </p>
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-stories-strip</code></td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                                <code><a href="../components/Avatar.html" target="_self" >Avatar</a></code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./stories-strip.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#cameraError" >cameraError</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#cameraOpen" >cameraOpen</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#canvasEl" >canvasEl</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#menuOpen" >menuOpen</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#previewUrl" >previewUrl</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#selectedFile" >selectedFile</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#store" >store</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#stream" >stream</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#uploading" >uploading</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#videoEl" >videoEl</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#_revokePreview" >_revokePreview</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#_stopStream" >_stopStream</a>
+                            </li>
+                            <li>
+                                <a href="#cancel" >cancel</a>
+                            </li>
+                            <li>
+                                <a href="#capturePhoto" >capturePhoto</a>
+                            </li>
+                            <li>
+                                <a href="#closeCamera" >closeCamera</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
+                            </li>
+                            <li>
+                                <a href="#onFileSelected" >onFileSelected</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#openCamera" >openCamera</a>
+                            </li>
+                            <li>
+                                <a href="#publish" >publish</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_revokePreview"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>_revokePreview</b></span>
+                        <a href="#_revokePreview"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>_revokePreview()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="169"
+                                    class="link-to-prism">src/app/features/feed/components/stories-strip/stories-strip.ts:169</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método para revoke preview.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_stopStream"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>_stopStream</b></span>
+                        <a href="#_stopStream"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>_stopStream()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="161"
+                                    class="link-to-prism">src/app/features/feed/components/stories-strip/stories-strip.ts:161</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método para stop stream.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cancel"></a>
+                    <span class="name">
+                        <span ><b>cancel</b></span>
+                        <a href="#cancel"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>cancel()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="151"
+                                    class="link-to-prism">src/app/features/feed/components/stories-strip/stories-strip.ts:151</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método para cancelar.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="capturePhoto"></a>
+                    <span class="name">
+                        <span ><b>capturePhoto</b></span>
+                        <a href="#capturePhoto"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>capturePhoto()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="107"
+                                    class="link-to-prism">src/app/features/feed/components/stories-strip/stories-strip.ts:107</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método para capture foto.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="closeCamera"></a>
+                    <span class="name">
+                        <span ><b>closeCamera</b></span>
+                        <a href="#closeCamera"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>closeCamera()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="129"
+                                    class="link-to-prism">src/app/features/feed/components/stories-strip/stories-strip.ts:129</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método para cerrar camera.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <span ><b>ngOnDestroy</b></span>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="60"
+                                    class="link-to-prism">src/app/features/feed/components/stories-strip/stories-strip.ts:60</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método de ciclo de vida de Angular que se ejecuta al destruir el componente para liberar recursos.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onFileSelected"></a>
+                    <span class="name">
+                        <span ><b>onFileSelected</b></span>
+                        <a href="#onFileSelected"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onFileSelected(event: <a href="https://angular.io/api/router/Event" target="_blank">Event</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="68"
+                                    class="link-to-prism">src/app/features/feed/components/stories-strip/stories-strip.ts:68</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método para evento de file selected.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                            <code><a href="https://angular.io/api/router/Event" target="_blank" >Event</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openCamera"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>openCamera</b></span>
+                        <a href="#openCamera"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>openCamera()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="81"
+                                    class="link-to-prism">src/app/features/feed/components/stories-strip/stories-strip.ts:81</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método para abrir camera.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="publish"></a>
+                    <span class="name">
+                        <span ><b>publish</b></span>
+                        <a href="#publish"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>publish()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="138"
+                                    class="link-to-prism">src/app/features/feed/components/stories-strip/stories-strip.ts:138</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Método para publish.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cameraError"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>cameraError</b></span>
+                        <a href="#cameraError"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;string | null&gt;(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/features/feed/components/stories-strip/stories-strip.ts:42</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar camera error.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cameraOpen"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>cameraOpen</b></span>
+                        <a href="#cameraOpen"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/features/feed/components/stories-strip/stories-strip.ts:38</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar camera abrir.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="canvasEl"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>canvasEl</b></span>
+                        <a href="#canvasEl"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>viewChild&lt;ElementRef&lt;HTMLCanvasElement&gt;&gt;(&#x27;cameraCanvas&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/app/features/feed/components/stories-strip/stories-strip.ts:55</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Indicador booleano para canvas el.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="menuOpen"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>menuOpen</b></span>
+                        <a href="#menuOpen"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/features/feed/components/stories-strip/stories-strip.ts:22</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar menu abrir.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="previewUrl"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>previewUrl</b></span>
+                        <a href="#previewUrl"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;string | null&gt;(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/features/feed/components/stories-strip/stories-strip.ts:30</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar preview enlace.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedFile"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>selectedFile</b></span>
+                        <a href="#selectedFile"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;File | null&gt;(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/features/feed/components/stories-strip/stories-strip.ts:26</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar selected file.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="store"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>store</b></span>
+                        <a href="#store"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(StoriesStore)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/features/feed/components/stories-strip/stories-strip.ts:17</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar store.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="stream"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>stream</b></span>
+                        <a href="#stream"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>MediaStream | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/features/feed/components/stories-strip/stories-strip.ts:47</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar stream.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="uploading"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>uploading</b></span>
+                        <a href="#uploading"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/features/feed/components/stories-strip/stories-strip.ts:34</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar uploading.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="videoEl"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>videoEl</b></span>
+                        <a href="#videoEl"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>viewChild&lt;ElementRef&lt;HTMLVideoElement&gt;&gt;(&#x27;cameraVideo&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/features/feed/components/stories-strip/stories-strip.ts:51</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Propiedad para gestionar video el.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, ElementRef, inject, OnDestroy, signal, viewChild } from &#x27;@angular/core&#x27;
+import { StoriesStore } from &#x27;@core/store/stories.store&#x27;
+import { Avatar } from &#x27;@shared/components/avatar/avatar&#x27;
+
+/**
+ * Clase de utilidad para storiesstrip.
+ */
+@Component({
+	selector: &#x27;app-stories-strip&#x27;,
+	imports: [Avatar],
+	templateUrl: &#x27;./stories-strip.html&#x27;,
+})
+export class StoriesStrip implements OnDestroy {
+	/**
+	 * Propiedad para gestionar store.
+	 */
+	readonly store &#x3D; inject(StoriesStore)
+
+	/**
+	 * Propiedad para gestionar menu abrir.
+	 */
+	readonly menuOpen &#x3D; signal(false)
+	/**
+	 * Propiedad para gestionar selected file.
+	 */
+	readonly selectedFile &#x3D; signal&lt;File | null&gt;(null)
+	/**
+	 * Propiedad para gestionar preview enlace.
+	 */
+	readonly previewUrl &#x3D; signal&lt;string | null&gt;(null)
+	/**
+	 * Propiedad para gestionar uploading.
+	 */
+	readonly uploading &#x3D; signal(false)
+	/**
+	 * Propiedad para gestionar camera abrir.
+	 */
+	readonly cameraOpen &#x3D; signal(false)
+	/**
+	 * Propiedad para gestionar camera error.
+	 */
+	readonly cameraError &#x3D; signal&lt;string | null&gt;(null)
+
+	/**
+	 * Propiedad para gestionar stream.
+	 */
+	private stream: MediaStream | null &#x3D; null
+	/**
+	 * Propiedad para gestionar video el.
+	 */
+	private readonly videoEl &#x3D; viewChild&lt;ElementRef&lt;HTMLVideoElement&gt;&gt;(&#x27;cameraVideo&#x27;)
+	/**
+	 * Indicador booleano para canvas el.
+	 */
+	private readonly canvasEl &#x3D; viewChild&lt;ElementRef&lt;HTMLCanvasElement&gt;&gt;(&#x27;cameraCanvas&#x27;)
+
+	/**
+	 * Método de ciclo de vida de Angular que se ejecuta al destruir el componente para liberar recursos.
+	 */
+	ngOnDestroy(): void {
+		this._revokePreview()
+		this._stopStream()
+	}
+
+	/**
+	 * Método para evento de file selected.
+	 */
+	onFileSelected(event: Event): void {
+		const file &#x3D; (event.target as HTMLInputElement).files?.[0]
+		if (!file) return
+		this._revokePreview()
+		this.selectedFile.set(file)
+		this.previewUrl.set(URL.createObjectURL(file))
+		this.menuOpen.set(false)
+		;(event.target as HTMLInputElement).value &#x3D; &#x27;&#x27;
+	}
+
+	/**
+	 * Método para abrir camera.
+	 */
+	async openCamera(): Promise&lt;void&gt; {
+		this.menuOpen.set(false)
+		this.cameraError.set(null)
+		this.cameraOpen.set(true)
+
+		try {
+			this.stream &#x3D; await navigator.mediaDevices.getUserMedia({
+				video: { facingMode: &#x27;environment&#x27;, width: { ideal: 1280 }, height: { ideal: 720 } },
+				audio: false,
+			})
+			// Wait one tick for the video element to render
+			setTimeout(() &#x3D;&gt; {
+				const video &#x3D; this.videoEl()?.nativeElement
+				if (video) {
+					video.srcObject &#x3D; this.stream
+					video.play()
+				}
+			}, 50)
+		} catch {
+			this.cameraError.set(&#x27;No se pudo acceder a la cámara. Revisa los permisos del navegador.&#x27;)
+		}
+	}
+
+	/**
+	 * Método para capture foto.
+	 */
+	capturePhoto(): void {
+		const video &#x3D; this.videoEl()?.nativeElement
+		const canvas &#x3D; this.canvasEl()?.nativeElement
+		if (!video || !canvas) return
+
+		canvas.width &#x3D; video.videoWidth
+		canvas.height &#x3D; video.videoHeight
+		canvas.getContext(&#x27;2d&#x27;)!.drawImage(video, 0, 0)
+
+		canvas.toBlob(blob &#x3D;&gt; {
+			if (!blob) return
+			const file &#x3D; new File([blob], &#x60;story-${Date.now()}.jpg&#x60;, { type: &#x27;image/jpeg&#x27; })
+			this._revokePreview()
+			this.selectedFile.set(file)
+			this.previewUrl.set(URL.createObjectURL(file))
+			this.closeCamera()
+		}, &#x27;image/jpeg&#x27;, 0.92)
+	}
+
+	/**
+	 * Método para cerrar camera.
+	 */
+	closeCamera(): void {
+		this._stopStream()
+		this.cameraOpen.set(false)
+		this.cameraError.set(null)
+	}
+
+	/**
+	 * Método para publish.
+	 */
+	publish(): void {
+		const file &#x3D; this.selectedFile()
+		if (!file || this.uploading()) return
+		this.uploading.set(true)
+		this.store.addStory(file).subscribe({
+			next: () &#x3D;&gt; this.cancel(),
+			error: () &#x3D;&gt; this.uploading.set(false),
+		})
+	}
+
+	/**
+	 * Método para cancelar.
+	 */
+	cancel(): void {
+		this._revokePreview()
+		this.selectedFile.set(null)
+		this.previewUrl.set(null)
+		this.uploading.set(false)
+	}
+
+	/**
+	 * Método para stop stream.
+	 */
+	private _stopStream(): void {
+		this.stream?.getTracks().forEach(t &#x3D;&gt; t.stop())
+		this.stream &#x3D; null
+	}
+
+	/**
+	 * Método para revoke preview.
+	 */
+	private _revokePreview(): void {
+		const url &#x3D; this.previewUrl()
+		if (url) URL.revokeObjectURL(url)
+	}
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;section class&#x3D;&quot;mx-auto flex w-full max-w-[500px] items-start gap-3 px-3 py-2 sm:gap-4 sm:px-2&quot;&gt;
+
+	&lt;!-- Tu historia (pinned — fuera del scroll para que el menú no se recorte) --&gt;
+	&lt;div class&#x3D;&quot;relative flex w-[4rem] shrink-0 flex-col items-center gap-1.5&quot;&gt;
+		@if (store.myGroup(); as mine) {
+			&lt;!-- Ya tienes historia: tu avatar abre tu propia historia; el &quot;+&quot; añade otra --&gt;
+			&lt;div class&#x3D;&quot;relative size-[52px] sm:size-14&quot;&gt;
+				&lt;button
+					type&#x3D;&quot;button&quot;
+					class&#x3D;&quot;grid size-full place-items-center rounded-pill p-[2px] transition-transform duration-fast ease-standard hover:scale-105 active:scale-[0.98]&quot;
+					[class]&#x3D;&quot;mine.hasUnviewed ? &#x27;bg-gradient-to-tr from-primary to-secondary&#x27; : &#x27;bg-surface-container-high&#x27;&quot;
+					(click)&#x3D;&quot;store.openGroup(mine)&quot;
+					aria-label&#x3D;&quot;Ver tu historia&quot;
+				&gt;
+					&lt;span class&#x3D;&quot;grid size-full place-items-center rounded-pill bg-surface p-[2px]&quot;&gt;
+						&lt;app-avatar [src]&#x3D;&quot;mine.avatarUrl&quot; [name]&#x3D;&quot;mine.displayName&quot; [fill]&#x3D;&quot;true&quot; class&#x3D;&quot;block size-full rounded-pill&quot; /&gt;
+					&lt;/span&gt;
+				&lt;/button&gt;
+				&lt;button
+					type&#x3D;&quot;button&quot;
+					class&#x3D;&quot;absolute -bottom-0.5 -right-0.5 grid size-5 place-items-center rounded-pill border-2 border-surface bg-primary text-on-primary transition-transform duration-fast ease-standard hover:scale-110 active:scale-95&quot;
+					(click)&#x3D;&quot;menuOpen.set(!menuOpen())&quot;
+					aria-label&#x3D;&quot;Añadir otra historia&quot;
+				&gt;
+					&lt;i class&#x3D;&quot;pi pi-plus text-[0.6rem]&quot;&gt;&lt;/i&gt;
+				&lt;/button&gt;
+			&lt;/div&gt;
+		} @else {
+			&lt;button
+				type&#x3D;&quot;button&quot;
+				class&#x3D;&quot;relative grid size-[52px] shrink-0 place-items-center rounded-pill border-2 border-dashed border-outline-strong bg-surface-container transition-colors duration-fast ease-standard hover:border-primary hover:bg-primary-container sm:size-14&quot;
+				(click)&#x3D;&quot;menuOpen.set(!menuOpen())&quot;
+				aria-label&#x3D;&quot;Añadir historia&quot;
+			&gt;
+				&lt;i class&#x3D;&quot;pi pi-plus text-lg text-on-surface-muted&quot;&gt;&lt;/i&gt;
+			&lt;/button&gt;
+		}
+		&lt;span class&#x3D;&quot;max-w-full truncate text-[0.65rem] font-bold text-on-surface-muted&quot;&gt;Tu historia&lt;/span&gt;
+
+		&lt;!-- Dropdown menu --&gt;
+		@if (menuOpen()) {
+			&lt;div class&#x3D;&quot;absolute left-0 top-[4.5rem] z-30 w-44 overflow-hidden rounded-2xl border border-outline bg-surface-container shadow-3&quot;&gt;
+				&lt;label class&#x3D;&quot;flex cursor-pointer items-center gap-3 px-4 py-3 text-body-sm font-semibold text-on-surface transition-colors duration-fast ease-standard hover:bg-surface-container-high&quot;&gt;
+					&lt;i class&#x3D;&quot;pi pi-image text-primary&quot;&gt;&lt;/i&gt;
+					Galería
+					&lt;input type&#x3D;&quot;file&quot; accept&#x3D;&quot;image/*,video/*&quot; class&#x3D;&quot;sr-only&quot; (change)&#x3D;&quot;onFileSelected($event)&quot; /&gt;
+				&lt;/label&gt;
+				&lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;flex w-full items-center gap-3 px-4 py-3 text-body-sm font-semibold text-on-surface transition-colors duration-fast ease-standard hover:bg-surface-container-high&quot; (click)&#x3D;&quot;openCamera()&quot;&gt;
+					&lt;i class&#x3D;&quot;pi pi-camera text-primary&quot;&gt;&lt;/i&gt;
+					Cámara
+				&lt;/button&gt;
+			&lt;/div&gt;
+			&lt;!-- Click outside to close --&gt;
+			&lt;div class&#x3D;&quot;fixed inset-0 z-20&quot; (click)&#x3D;&quot;menuOpen.set(false)&quot;&gt;&lt;/div&gt;
+		}
+	&lt;/div&gt;
+
+	&lt;!-- Scrollable stories row --&gt;
+	&lt;div class&#x3D;&quot;flex min-w-0 flex-1 gap-3 overflow-x-auto pb-1 scrollbar-none sm:gap-4&quot;&gt;
+
+		&lt;!-- Loading skeletons --&gt;
+		@if (store.loading()) {
+			@for (i of [1,2,3,4,5]; track i) {
+				&lt;div class&#x3D;&quot;flex w-[4rem] shrink-0 flex-col items-center gap-1.5&quot;&gt;
+					&lt;div class&#x3D;&quot;size-[52px] animate-pulse rounded-pill bg-surface-container-high sm:size-14&quot;&gt;&lt;/div&gt;
+					&lt;div class&#x3D;&quot;h-2 w-10 animate-pulse rounded-pill bg-surface-container-high&quot;&gt;&lt;/div&gt;
+				&lt;/div&gt;
+			}
+		}
+
+		&lt;!-- Story groups (sin la tuya — esa va en &quot;Tu historia&quot;) --&gt;
+		@for (group of store.otherGroups(); track group.userId) {
+			&lt;button
+				type&#x3D;&quot;button&quot;
+				class&#x3D;&quot;flex w-[4rem] shrink-0 flex-col items-center gap-1.5 focus:outline-none&quot;
+				[attr.aria-label]&#x3D;&quot;group.displayName&quot;
+				(click)&#x3D;&quot;store.openGroup(group)&quot;
+			&gt;
+				&lt;span
+					class&#x3D;&quot;grid size-[52px] place-items-center rounded-pill p-[2px] transition-transform duration-fast ease-standard hover:scale-105 active:scale-[0.98] sm:size-14&quot;
+					[class]&#x3D;&quot;group.hasUnviewed ? &#x27;bg-gradient-to-tr from-primary to-secondary&#x27; : &#x27;bg-surface-container-high&#x27;&quot;
+				&gt;
+					&lt;span class&#x3D;&quot;grid size-full place-items-center rounded-pill bg-surface p-[2px]&quot;&gt;
+						&lt;app-avatar [src]&#x3D;&quot;group.avatarUrl&quot; [name]&#x3D;&quot;group.displayName&quot; [fill]&#x3D;&quot;true&quot; class&#x3D;&quot;block size-full rounded-pill&quot; /&gt;
+					&lt;/span&gt;
+				&lt;/span&gt;
+				&lt;span class&#x3D;&quot;max-w-[3.5rem] truncate text-[0.65rem] font-bold&quot; [class.text-on-surface]&#x3D;&quot;group.hasUnviewed&quot; [class.text-on-surface-muted]&#x3D;&quot;!group.hasUnviewed&quot;&gt;
+					{{ group.displayName }}
+				&lt;/span&gt;
+			&lt;/button&gt;
+		}
+
+		&lt;!-- Empty state --&gt;
+		@if (!store.loading() &amp;&amp; store.otherGroups().length &#x3D;&#x3D;&#x3D; 0) {
+			&lt;p class&#x3D;&quot;flex items-center text-body-sm font-medium text-on-surface-muted&quot;&gt;Sin historias activas&lt;/p&gt;
+		}
+	&lt;/div&gt;
+&lt;/section&gt;
+
+&lt;!-- Camera modal --&gt;
+@if (cameraOpen()) {
+	&lt;div class&#x3D;&quot;fixed inset-0 z-50 flex items-center justify-center bg-black&quot;&gt;
+		&lt;div class&#x3D;&quot;relative h-dvh w-full max-w-sm overflow-hidden sm:h-[90vh] sm:rounded-2xl&quot;&gt;
+
+			&lt;!-- Live feed --&gt;
+			&lt;video #cameraVideo class&#x3D;&quot;absolute inset-0 size-full object-cover&quot; autoplay muted playsinline&gt;&lt;/video&gt;
+			&lt;canvas #cameraCanvas class&#x3D;&quot;hidden&quot;&gt;&lt;/canvas&gt;
+
+			&lt;!-- Overlay gradient --&gt;
+			&lt;div class&#x3D;&quot;absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/70 to-transparent&quot;&gt;&lt;/div&gt;
+
+			&lt;!-- Close button --&gt;
+			&lt;button
+				type&#x3D;&quot;button&quot;
+				class&#x3D;&quot;absolute right-4 top-4 grid size-10 place-items-center rounded-pill bg-black/40 text-white transition-colors duration-fast ease-standard hover:bg-black/60&quot;
+				aria-label&#x3D;&quot;Cerrar cámara&quot;
+				(click)&#x3D;&quot;closeCamera()&quot;
+			&gt;
+				&lt;i class&#x3D;&quot;pi pi-times&quot;&gt;&lt;/i&gt;
+			&lt;/button&gt;
+
+			&lt;!-- Error --&gt;
+			@if (cameraError()) {
+				&lt;div class&#x3D;&quot;absolute inset-x-4 top-1/2 -translate-y-1/2 rounded-2xl bg-black/70 p-5 text-center&quot;&gt;
+					&lt;i class&#x3D;&quot;pi pi-exclamation-triangle text-2xl text-primary&quot;&gt;&lt;/i&gt;
+					&lt;p class&#x3D;&quot;mt-2 text-body-sm font-semibold text-white&quot;&gt;{{ cameraError() }}&lt;/p&gt;
+					&lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;mt-4 rounded-pill bg-surface px-5 py-2 text-body-sm font-bold text-on-surface&quot; (click)&#x3D;&quot;closeCamera()&quot;&gt;Cerrar&lt;/button&gt;
+				&lt;/div&gt;
+			}
+
+			&lt;!-- Capture button --&gt;
+			@if (!cameraError()) {
+				&lt;div class&#x3D;&quot;absolute inset-x-0 bottom-10 flex justify-center&quot;&gt;
+					&lt;button
+						type&#x3D;&quot;button&quot;
+						class&#x3D;&quot;grid size-[72px] place-items-center rounded-pill border-4 border-white bg-white/20 transition-all duration-fast ease-standard active:scale-95 hover:bg-white/30&quot;
+						aria-label&#x3D;&quot;Capturar foto&quot;
+						(click)&#x3D;&quot;capturePhoto()&quot;
+					&gt;
+						&lt;span class&#x3D;&quot;size-14 rounded-pill bg-white&quot;&gt;&lt;/span&gt;
+					&lt;/button&gt;
+				&lt;/div&gt;
+			}
+		&lt;/div&gt;
+
+		&lt;!-- Click outside (desktop) --&gt;
+		&lt;div class&#x3D;&quot;absolute inset-0 -z-10 hidden sm:block&quot; (click)&#x3D;&quot;closeCamera()&quot;&gt;&lt;/div&gt;
+	&lt;/div&gt;
+}
+
+&lt;!-- Preview modal --&gt;
+@if (previewUrl()) {
+	&lt;div class&#x3D;&quot;fixed inset-0 z-50 flex items-end justify-center bg-black/70 sm:items-center&quot;&gt;
+		&lt;div class&#x3D;&quot;w-full max-w-sm overflow-hidden rounded-t-3xl bg-surface-container sm:rounded-3xl&quot;&gt;
+
+			&lt;!-- Preview media --&gt;
+			&lt;div class&#x3D;&quot;relative aspect-[9/16] max-h-[60vh] w-full overflow-hidden bg-black&quot;&gt;
+				@if (selectedFile()?.type?.startsWith(&#x27;video&#x27;)) {
+					&lt;video [src]&#x3D;&quot;previewUrl()!&quot; class&#x3D;&quot;size-full object-cover&quot; autoplay muted loop playsinline&gt;&lt;/video&gt;
+				} @else {
+					&lt;img [src]&#x3D;&quot;previewUrl()!&quot; alt&#x3D;&quot;Preview&quot; class&#x3D;&quot;size-full object-cover&quot; /&gt;
+				}
+
+				&lt;!-- Duration badge --&gt;
+				&lt;span class&#x3D;&quot;absolute right-3 top-3 rounded-pill bg-black/60 px-3 py-1 text-label-md font-bold text-white&quot;&gt;
+					Expira en 24h
+				&lt;/span&gt;
+			&lt;/div&gt;
+
+			&lt;!-- Actions --&gt;
+			&lt;div class&#x3D;&quot;flex gap-3 p-4&quot;&gt;
+				&lt;button
+					type&#x3D;&quot;button&quot;
+					class&#x3D;&quot;flex-1 rounded-pill border border-outline py-3 text-body-sm font-bold text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container-high disabled:opacity-40&quot;
+					(click)&#x3D;&quot;cancel()&quot;
+					[disabled]&#x3D;&quot;uploading()&quot;
+				&gt;
+					Cancelar
+				&lt;/button&gt;
+				&lt;button
+					type&#x3D;&quot;button&quot;
+					class&#x3D;&quot;flex flex-1 items-center justify-center gap-2 rounded-pill bg-primary py-3 text-body-sm font-bold text-on-primary transition-all duration-fast ease-standard hover:shadow-2 disabled:opacity-60&quot;
+					(click)&#x3D;&quot;publish()&quot;
+					[disabled]&#x3D;&quot;uploading()&quot;
+				&gt;
+					@if (uploading()) {
+						&lt;i class&#x3D;&quot;pi pi-spin pi-spinner&quot;&gt;&lt;/i&gt;
+						Subiendo...
+					} @else {
+						&lt;i class&#x3D;&quot;pi pi-send&quot;&gt;&lt;/i&gt;
+						Publicar historia
+					}
+				&lt;/button&gt;
+			&lt;/div&gt;
+		&lt;/div&gt;
+	&lt;/div&gt;
+}
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis-network.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><section class="mx-auto flex w-full max-w-[500px] items-start gap-3 px-3 py-2 sm:gap-4 sm:px-2">	<!-- Tu historia (pinned — fuera del scroll para que el menú no se recorte) -->	<div class="relative flex w-[4rem] shrink-0 flex-col items-center gap-1.5">		@if (store.myGroup(); as mine) {			<!-- Ya tienes historia: tu avatar abre tu propia historia; el "+" añade otra -->			<div class="relative size-[52px] sm:size-14">				<button					type="button"					class="grid size-full place-items-center rounded-pill p-[2px] transition-transform duration-fast ease-standard hover:scale-105 active:scale-[0.98]"					[class]="mine.hasUnviewed ? \'bg-gradient-to-tr from-primary to-secondary\' : \'bg-surface-container-high\'"					(click)="store.openGroup(mine)"					aria-label="Ver tu historia"				>					<span class="grid size-full place-items-center rounded-pill bg-surface p-[2px]">						<app-avatar [src]="mine.avatarUrl" [name]="mine.displayName" [fill]="true" class="block size-full rounded-pill" />					</span>				</button>				<button					type="button"					class="absolute -bottom-0.5 -right-0.5 grid size-5 place-items-center rounded-pill border-2 border-surface bg-primary text-on-primary transition-transform duration-fast ease-standard hover:scale-110 active:scale-95"					(click)="menuOpen.set(!menuOpen())"					aria-label="Añadir otra historia"				>					<i class="pi pi-plus text-[0.6rem]"></i>				</button>			</div>		} @else {			<button				type="button"				class="relative grid size-[52px] shrink-0 place-items-center rounded-pill border-2 border-dashed border-outline-strong bg-surface-container transition-colors duration-fast ease-standard hover:border-primary hover:bg-primary-container sm:size-14"				(click)="menuOpen.set(!menuOpen())"				aria-label="Añadir historia"			>				<i class="pi pi-plus text-lg text-on-surface-muted"></i>			</button>		}		<span class="max-w-full truncate text-[0.65rem] font-bold text-on-surface-muted">Tu historia</span>		<!-- Dropdown menu -->		@if (menuOpen()) {			<div class="absolute left-0 top-[4.5rem] z-30 w-44 overflow-hidden rounded-2xl border border-outline bg-surface-container shadow-3">				<label class="flex cursor-pointer items-center gap-3 px-4 py-3 text-body-sm font-semibold text-on-surface transition-colors duration-fast ease-standard hover:bg-surface-container-high">					<i class="pi pi-image text-primary"></i>					Galería					<input type="file" accept="image/*,video/*" class="sr-only" (change)="onFileSelected($event)" />				</label>				<button type="button" class="flex w-full items-center gap-3 px-4 py-3 text-body-sm font-semibold text-on-surface transition-colors duration-fast ease-standard hover:bg-surface-container-high" (click)="openCamera()">					<i class="pi pi-camera text-primary"></i>					Cámara				</button>			</div>			<!-- Click outside to close -->			<div class="fixed inset-0 z-20" (click)="menuOpen.set(false)"></div>		}	</div>	<!-- Scrollable stories row -->	<div class="flex min-w-0 flex-1 gap-3 overflow-x-auto pb-1 scrollbar-none sm:gap-4">		<!-- Loading skeletons -->		@if (store.loading()) {			@for (i of [1,2,3,4,5]; track i) {				<div class="flex w-[4rem] shrink-0 flex-col items-center gap-1.5">					<div class="size-[52px] animate-pulse rounded-pill bg-surface-container-high sm:size-14"></div>					<div class="h-2 w-10 animate-pulse rounded-pill bg-surface-container-high"></div>				</div>			}		}		<!-- Story groups (sin la tuya — esa va en "Tu historia") -->		@for (group of store.otherGroups(); track group.userId) {			<button				type="button"				class="flex w-[4rem] shrink-0 flex-col items-center gap-1.5 focus:outline-none"				[attr.aria-label]="group.displayName"				(click)="store.openGroup(group)"			>				<span					class="grid size-[52px] place-items-center rounded-pill p-[2px] transition-transform duration-fast ease-standard hover:scale-105 active:scale-[0.98] sm:size-14"					[class]="group.hasUnviewed ? \'bg-gradient-to-tr from-primary to-secondary\' : \'bg-surface-container-high\'"				>					<span class="grid size-full place-items-center rounded-pill bg-surface p-[2px]">						<app-avatar [src]="group.avatarUrl" [name]="group.displayName" [fill]="true" class="block size-full rounded-pill" />					</span>				</span>				<span class="max-w-[3.5rem] truncate text-[0.65rem] font-bold" [class.text-on-surface]="group.hasUnviewed" [class.text-on-surface-muted]="!group.hasUnviewed">					{{ group.displayName }}				</span>			</button>		}		<!-- Empty state -->		@if (!store.loading() && store.otherGroups().length === 0) {			<p class="flex items-center text-body-sm font-medium text-on-surface-muted">Sin historias activas</p>		}	</div></section><!-- Camera modal -->@if (cameraOpen()) {	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black">		<div class="relative h-dvh w-full max-w-sm overflow-hidden sm:h-[90vh] sm:rounded-2xl">			<!-- Live feed -->			<video #cameraVideo class="absolute inset-0 size-full object-cover" autoplay muted playsinline></video>			<canvas #cameraCanvas class="hidden"></canvas>			<!-- Overlay gradient -->			<div class="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/70 to-transparent"></div>			<!-- Close button -->			<button				type="button"				class="absolute right-4 top-4 grid size-10 place-items-center rounded-pill bg-black/40 text-white transition-colors duration-fast ease-standard hover:bg-black/60"				aria-label="Cerrar cámara"				(click)="closeCamera()"			>				<i class="pi pi-times"></i>			</button>			<!-- Error -->			@if (cameraError()) {				<div class="absolute inset-x-4 top-1/2 -translate-y-1/2 rounded-2xl bg-black/70 p-5 text-center">					<i class="pi pi-exclamation-triangle text-2xl text-primary"></i>					<p class="mt-2 text-body-sm font-semibold text-white">{{ cameraError() }}</p>					<button type="button" class="mt-4 rounded-pill bg-surface px-5 py-2 text-body-sm font-bold text-on-surface" (click)="closeCamera()">Cerrar</button>				</div>			}			<!-- Capture button -->			@if (!cameraError()) {				<div class="absolute inset-x-0 bottom-10 flex justify-center">					<button						type="button"						class="grid size-[72px] place-items-center rounded-pill border-4 border-white bg-white/20 transition-all duration-fast ease-standard active:scale-95 hover:bg-white/30"						aria-label="Capturar foto"						(click)="capturePhoto()"					>						<span class="size-14 rounded-pill bg-white"></span>					</button>				</div>			}		</div>		<!-- Click outside (desktop) -->		<div class="absolute inset-0 -z-10 hidden sm:block" (click)="closeCamera()"></div>	</div>}<!-- Preview modal -->@if (previewUrl()) {	<div class="fixed inset-0 z-50 flex items-end justify-center bg-black/70 sm:items-center">		<div class="w-full max-w-sm overflow-hidden rounded-t-3xl bg-surface-container sm:rounded-3xl">			<!-- Preview media -->			<div class="relative aspect-[9/16] max-h-[60vh] w-full overflow-hidden bg-black">				@if (selectedFile()?.type?.startsWith(\'video\')) {					<video [src]="previewUrl()!" class="size-full object-cover" autoplay muted loop playsinline></video>				} @else {					<img [src]="previewUrl()!" alt="Preview" class="size-full object-cover" />				}				<!-- Duration badge -->				<span class="absolute right-3 top-3 rounded-pill bg-black/60 px-3 py-1 text-label-md font-bold text-white">					Expira en 24h				</span>			</div>			<!-- Actions -->			<div class="flex gap-3 p-4">				<button					type="button"					class="flex-1 rounded-pill border border-outline py-3 text-body-sm font-bold text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container-high disabled:opacity-40"					(click)="cancel()"					[disabled]="uploading()"				>					Cancelar				</button>				<button					type="button"					class="flex flex-1 items-center justify-center gap-2 rounded-pill bg-primary py-3 text-body-sm font-bold text-on-primary transition-all duration-fast ease-standard hover:shadow-2 disabled:opacity-60"					(click)="publish()"					[disabled]="uploading()"				>					@if (uploading()) {						<i class="pi pi-spin pi-spinner"></i>						Subiendo...					} @else {						<i class="pi pi-send"></i>						Publicar historia					}				</button>			</div>		</div>	</div>}</div>'
+    var COMPONENTS = [{'name': 'AddReviewModal', 'selector': 'app-add-review-modal'},{'name': 'AiIdeasPanel', 'selector': 'app-ai-ideas-panel'},{'name': 'AiRecipeForm', 'selector': 'app-ai-recipe-form'},{'name': 'AiRecipeResult', 'selector': 'app-ai-recipe-result'},{'name': 'AiRecipesHero', 'selector': 'app-ai-recipes-hero'},{'name': 'AiRecipesPage', 'selector': 'app-ai-recipes-page'},{'name': 'App', 'selector': 'app-root'},{'name': 'AppShell', 'selector': 'app-shell'},{'name': 'Auth', 'selector': 'app-auth'},{'name': 'Avatar', 'selector': 'app-avatar'},{'name': 'Body', 'selector': 'app-body-step1'},{'name': 'Body', 'selector': 'app-body-step3'},{'name': 'Body', 'selector': 'app-body-step2'},{'name': 'ButtonComponent', 'selector': 'app-button'},{'name': 'CallHost', 'selector': 'app-call-host'},{'name': 'CallOverlay', 'selector': 'app-call-overlay'},{'name': 'ChatPanel', 'selector': 'app-chat-panel'},{'name': 'CommentSection', 'selector': 'app-comment-section'},{'name': 'CommentsSheetComponent', 'selector': 'app-comments-sheet'},{'name': 'ConversationList', 'selector': 'app-conversation-list'},{'name': 'CookingModePage', 'selector': 'app-cooking-mode-page'},{'name': 'CreatePostComponent', 'selector': 'app-create-post'},{'name': 'EditProfileComponent', 'selector': 'app-edit-profile'},{'name': 'EmojiRain', 'selector': 'app-emoji-rain'},{'name': 'Emptystate', 'selector': 'app-emptystate'},{'name': 'ExploreCategoryTabs', 'selector': 'app-explore-category-tabs'},{'name': 'ExploreHero', 'selector': 'app-explore-hero'},{'name': 'ExplorePage', 'selector': 'app-explore-page'},{'name': 'ExploreRightRail', 'selector': 'app-explore-right-rail'},{'name': 'ExploreToolbar', 'selector': 'app-explore-toolbar'},{'name': 'FeedPage', 'selector': 'app-feed-page'},{'name': 'FeedPostList', 'selector': 'app-feed-post-list'},{'name': 'FeedRightRail', 'selector': 'app-feed-right-rail'},{'name': 'GlobalSearchPanel', 'selector': 'app-global-search-panel'},{'name': 'Header', 'selector': 'app-header-step1'},{'name': 'Header', 'selector': 'app-header-step3'},{'name': 'Header', 'selector': 'app-header-step2'},{'name': 'Home', 'selector': 'app-home'},{'name': 'IncomingCall', 'selector': 'app-incoming-call'},{'name': 'Login', 'selector': 'app-login'},{'name': 'MessageBubble', 'selector': 'app-message-bubble'},{'name': 'MessagesPage', 'selector': 'app-messages-page'},{'name': 'NewConversation', 'selector': 'app-new-conversation'},{'name': 'NotificationsPage', 'selector': 'app-notifications-page'},{'name': 'PlaceCard', 'selector': 'app-place-card'},{'name': 'PlaceDetailPage', 'selector': 'app-place-detail-page'},{'name': 'PlacesPage', 'selector': 'app-places-page'},{'name': 'PostCard', 'selector': 'app-post-card'},{'name': 'PostDetailPage', 'selector': 'app-post-detail-page'},{'name': 'Profile', 'selector': 'app-profile'},{'name': 'PublicProfilePage', 'selector': 'app-public-profile-page'},{'name': 'RecentAiRecipes', 'selector': 'app-recent-ai-recipes'},{'name': 'RecipeDiscoveryCard', 'selector': 'app-recipe-discovery-card'},{'name': 'RecipeDiscoveryGrid', 'selector': 'app-recipe-discovery-grid'},{'name': 'RecipeOfDayCard', 'selector': 'app-recipe-of-day-card'},{'name': 'Register', 'selector': 'app-register'},{'name': 'ReportSheet', 'selector': 'app-report-sheet'},{'name': 'SavedCollectionStrip', 'selector': 'app-saved-collection-strip'},{'name': 'SavedPage', 'selector': 'app-saved-page'},{'name': 'SavedRecipeCard', 'selector': 'app-saved-recipe-card'},{'name': 'SavoLoader', 'selector': 'app-savo-loader'},{'name': 'SettingsPage', 'selector': 'app-settings-page'},{'name': 'SharedPostCard', 'selector': 'app-shared-post-card'},{'name': 'SharedProfileCard', 'selector': 'app-shared-profile-card'},{'name': 'SharePostModal', 'selector': 'app-share-post-modal'},{'name': 'ShareProfileModal', 'selector': 'app-share-profile-modal'},{'name': 'ShoppingListPage', 'selector': 'app-shopping-list-page'},{'name': 'SkeletonCard', 'selector': 'app-skeleton-card'},{'name': 'Spinner', 'selector': 'app-spinner'},{'name': 'SpotlightBg', 'selector': 'app-spotlight-bg'},{'name': 'StoriesStrip', 'selector': 'app-stories-strip'},{'name': 'StoryViewer', 'selector': 'app-story-viewer'},{'name': 'SuggestionsPanel', 'selector': 'app-suggestions-panel'},{'name': 'Title', 'selector': 'app-title'},{'name': 'Topbar', 'selector': 'app-topbar'},{'name': 'TrendingList', 'selector': 'app-trending-list'},{'name': 'VeganConvertModal', 'selector': 'app-vegan-convert-modal'}];
+    var DIRECTIVES = [{'name': 'ClickOutsideDirective', 'selector': '[appClickOutside]'},{'name': 'ImgFallbackDirective', 'selector': 'img[appImgFallback]'}];
+    var ACTUAL_COMPONENT = {'name': 'StoriesStrip'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'StoriesStrip.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

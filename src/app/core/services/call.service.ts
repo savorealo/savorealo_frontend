@@ -1,9 +1,5 @@
 import { Injectable, signal } from '@angular/core'
 
-/**
- * Pure WebRTC service — manages the peer connection, media streams and
- * codec negotiation. All signalling is handled by CallStore.
- */
 @Injectable({ providedIn: 'root' })
 export class CallService {
 	readonly localStream  = signal<MediaStream | null>(null)
@@ -15,11 +11,18 @@ export class CallService {
 		iceServers: [
 			{ urls: 'stun:stun.l.google.com:19302' },
 			{ urls: 'stun:stun1.l.google.com:19302' },
-			{ urls: 'stun:stun2.l.google.com:19302' },
+			{
+				urls: [
+					'turn:openrelay.metered.ca:80',
+					'turn:openrelay.metered.ca:443',
+					'turn:openrelay.metered.ca:443?transport=tcp',
+				],
+				username: 'openrelayproject',
+				credential: 'openrelayproject',
+			},
 		],
+		iceCandidatePoolSize: 10,
 	}
-
-	// ─── Media ───────────────────────────────────────────────────────────────
 
 	async getLocalStream(isVideo: boolean): Promise<MediaStream> {
 		const stream = await navigator.mediaDevices.getUserMedia({
@@ -32,10 +35,9 @@ export class CallService {
 		return stream
 	}
 
-	// ─── Peer connection ─────────────────────────────────────────────────────
-
 	createPeerConnection(
 		onIceCandidate: (candidate: RTCIceCandidateInit) => void,
+		onIceStateChange?: (state: RTCIceConnectionState) => void,
 	): RTCPeerConnection {
 		this.pc = new RTCPeerConnection(this.rtcConfig)
 
@@ -45,6 +47,12 @@ export class CallService {
 
 		this.pc.ontrack = (e) => {
 			if (e.streams[0]) this.remoteStream.set(e.streams[0])
+		}
+
+		if (onIceStateChange) {
+			this.pc.oniceconnectionstatechange = () => {
+				if (this.pc) onIceStateChange(this.pc.iceConnectionState)
+			}
 		}
 
 		return this.pc
@@ -76,17 +84,12 @@ export class CallService {
 	}
 
 	async addIceCandidate(candidate: RTCIceCandidateInit): Promise<void> {
-		if (!this.pc) return
+		if (!this.pc || !this.pc.remoteDescription) throw new Error('Remote description not ready')
 		try {
 			await this.pc.addIceCandidate(new RTCIceCandidate(candidate))
-		} catch {
-			// ignore stale candidates
-		}
+		} catch {}
 	}
 
-	// ─── Controls ────────────────────────────────────────────────────────────
-
-	/** Returns true if now muted */
 	toggleMute(): boolean {
 		const track = this.localStream()?.getAudioTracks()[0]
 		if (!track) return false
@@ -94,7 +97,6 @@ export class CallService {
 		return !track.enabled
 	}
 
-	/** Returns true if camera is now off */
 	toggleCamera(): boolean {
 		const track = this.localStream()?.getVideoTracks()[0]
 		if (!track) return false
@@ -102,7 +104,12 @@ export class CallService {
 		return !track.enabled
 	}
 
-	// ─── Cleanup ─────────────────────────────────────────────────────────────
+	toggleSpeaker(): boolean {
+		const track = this.remoteStream()?.getAudioTracks()[0]
+		if (!track) return false
+		track.enabled = !track.enabled
+		return !track.enabled
+	}
 
 	cleanup(): void {
 		this.localStream()?.getTracks().forEach(t => t.stop())

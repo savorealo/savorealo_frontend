@@ -1,0 +1,179 @@
+<p-dialog
+  [visible]="visible()"
+  (visibleChange)="visible.set($event)"
+  [modal]="true"
+  [dismissableMask]="true"
+  [style]="{ width: 'min(96vw, 520px)', padding: '0', borderRadius: '20px', overflow: 'hidden' }"
+  [contentStyle]="{ padding: '0' }"
+  [showHeader]="false"
+  appendTo="body"
+>
+  <div class="vegan-modal flex flex-col" style="max-height: 90dvh; background: var(--color-surface);">
+
+    <!-- Header -->
+    <div class="flex shrink-0 items-center justify-between gap-3 px-5 pb-4 pt-5">
+      <div class="flex items-center gap-3">
+        <span class="grid size-9 shrink-0 place-items-center rounded-xl" style="background: rgba(34,197,94,0.12);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #16a34a;">
+            <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/>
+            <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
+          </svg>
+        </span>
+        <div>
+          <h2 class="text-title-sm font-bold text-on-surface">{{ 'vegan.title' | translate }}</h2>
+          <p class="text-label-md font-medium text-on-surface-muted">{{ 'vegan.generated_ai' | translate }}</p>
+        </div>
+      </div>
+      <button
+        type="button"
+        class="grid size-9 place-items-center rounded-xl text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container"
+        (click)="close()"
+        [attr.aria-label]="'vegan.close' | translate"
+      >
+        <i class="pi pi-times text-sm"></i>
+      </button>
+    </div>
+
+    <div class="mx-5 mb-4 shrink-0 border-t border-outline"></div>
+
+    <!-- Loading -->
+    @if (loading()) {
+      <div class="flex flex-col items-center gap-5 px-5 py-8 text-center">
+        <app-savo-loader size="sm" [padded]="false" />
+        <div>
+          <p class="text-body-sm font-bold text-on-surface">{{ 'vegan.loading' | translate }}</p>
+          <p class="mt-1 text-label-md font-medium text-on-surface-muted">{{ 'vegan.searching_substitutes' | translate }}</p>
+        </div>
+      </div>
+    }
+
+    <!-- Error -->
+    @if (!loading() && error()) {
+      <div class="flex flex-col items-center gap-5 px-5 py-10 text-center">
+        <span class="grid size-12 place-items-center rounded-full bg-error/10">
+          <i class="pi pi-exclamation-triangle text-xl text-error"></i>
+        </span>
+        <div>
+          <p class="text-body-sm font-bold text-on-surface">{{ 'vegan.failed_title' | translate }}</p>
+          <p class="mt-1 text-label-md font-medium text-on-surface-muted">{{ error() }}</p>
+        </div>
+        <button
+          type="button"
+          class="inline-flex min-h-10 items-center gap-2 rounded-pill border border-outline px-5 text-body-sm font-bold text-on-surface transition-colors duration-fast ease-standard hover:bg-surface-container active:scale-[0.98]"
+          (click)="retry()"
+        >
+          <i class="pi pi-refresh text-xs"></i>
+          {{ 'vegan.retry' | translate }}
+        </button>
+      </div>
+    }
+
+    <!-- Resultado -->
+    @if (!loading() && result(); as r) {
+      <div class="min-h-0 flex-1 overflow-y-auto overscroll-contain">
+
+        <!-- Título + descripción -->
+        <div class="px-5 pb-5">
+          <h3 class="text-title-sm font-bold text-on-surface">{{ r.title }}</h3>
+          <p class="mt-2 text-body-sm font-medium leading-relaxed text-on-surface-muted">{{ r.description }}</p>
+        </div>
+
+        <!-- Ingredientes -->
+        @if (r.ingredients.length > 0) {
+          <div class="px-5 pb-5">
+            <p class="mb-3 text-label-md font-bold uppercase tracking-wider text-on-surface-muted">{{ 'vegan.ingredients_header' | translate }}</p>
+            <ul class="grid gap-2.5">
+              @for (ing of r.ingredients; track $index) {
+                <li class="flex items-start gap-3">
+                  <span
+                    class="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full text-[0.65rem] font-bold"
+                    [style]="ing.changed
+                      ? 'background: rgba(34,197,94,0.15); color: #15803d;'
+                      : 'background: var(--color-surface-container); color: var(--color-on-surface-muted);'"
+                  >
+                    @if (ing.changed) {
+                      <i class="pi pi-check" style="font-size: 0.55rem;"></i>
+                    } @else {
+                      <span>·</span>
+                    }
+                  </span>
+                  <span class="flex-1 text-body-sm leading-snug text-on-surface">
+                    @if (ing.quantity) {
+                      <span class="font-semibold text-on-surface-muted">{{ ing.quantity }}{{ ing.unit ? ' ' + ing.unit : '' }}</span><span class="text-on-surface-muted"> · </span>
+                    }
+                    <span [style]="ing.changed ? 'font-weight: 600; color: #15803d;' : ''">{{ ing.vegan }}</span>
+                    @if (ing.changed) {
+                      <span class="ml-1.5 text-label-sm text-on-surface-muted line-through">{{ ing.original }}</span>
+                    }
+                  </span>
+                </li>
+              }
+            </ul>
+          </div>
+        }
+
+        <!-- Separador -->
+        @if (r.ingredients.length > 0 && r.steps.length > 0) {
+          <div class="mx-5 mb-5 border-t border-outline"></div>
+        }
+
+        <!-- Pasos -->
+        @if (r.steps.length > 0) {
+          <div class="px-5 pb-5">
+            <p class="mb-3 text-label-md font-bold uppercase tracking-wider text-on-surface-muted">{{ 'vegan.preparation_header' | translate }}</p>
+            <ol class="grid gap-4">
+              @for (s of r.steps; track s.step) {
+                <li class="flex gap-3">
+                  <span
+                    class="mt-0.5 grid size-6 shrink-0 place-items-center rounded-full text-label-sm font-bold text-white"
+                    style="background: #16a34a; min-width: 1.5rem;"
+                  >{{ s.step }}</span>
+                  <span class="flex-1 text-body-sm font-medium leading-relaxed text-on-surface">{{ s.text }}</span>
+                </li>
+              }
+            </ol>
+          </div>
+        }
+
+        <!-- Tip -->
+        @if (r.tip) {
+          <div class="mx-5 mb-5 rounded-2xl p-4" style="background: rgba(34,197,94,0.07); border: 1px solid rgba(34,197,94,0.18);">
+            <div class="flex items-start gap-3">
+              <span class="grid size-7 shrink-0 place-items-center rounded-xl" style="background: rgba(34,197,94,0.15);">
+                <i class="pi pi-info-circle text-sm" style="color: #15803d;"></i>
+              </span>
+              <div>
+                <p class="text-label-md font-bold" style="color: #15803d;">{{ 'vegan.tip_header' | translate }}</p>
+                <p class="mt-0.5 text-body-sm font-medium leading-snug" style="color: #166534;">{{ r.tip }}</p>
+              </div>
+            </div>
+          </div>
+        }
+
+      </div>
+
+      <!-- Footer -->
+      <div class="flex shrink-0 items-center justify-between gap-3 border-t border-outline px-5 py-4">
+        <button
+          type="button"
+          class="inline-flex min-h-10 items-center gap-2 rounded-pill border border-outline px-4 text-body-sm font-semibold text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container hover:text-on-surface active:scale-[0.98]"
+          (click)="retry()"
+        >
+          <i class="pi pi-refresh text-xs"></i>
+          {{ 'vegan.regenerate' | translate }}
+        </button>
+
+        <button
+          type="button"
+          class="inline-flex min-h-10 items-center gap-2 rounded-pill px-5 text-body-sm font-bold text-white transition-all duration-fast ease-standard active:scale-[0.98]"
+          [style]="copied() ? 'background: #15803d;' : 'background: #16a34a;'"
+          (click)="copyToClipboard()"
+        >
+          <i [class]="copied() ? 'pi pi-check' : 'pi pi-copy'" class="text-xs"></i>
+          {{ copied() ? ('vegan.copied' | translate) : ('vegan.copy_recipe' | translate) }}
+        </button>
+      </div>
+    }
+
+  </div>
+</p-dialog>
