@@ -1,7 +1,6 @@
 import { inject, Injectable, PLATFORM_ID } from '@angular/core'
 import { isPlatformBrowser }               from '@angular/common'
 import { SupabaseService }                 from '@core/services/supabase.service'
-import { AuthStore }                       from '@core/store/auth.store'
 
 /**
  * Servicio que registra las métricas de las peticiones HTTP en la tabla RequestLogs de Supabase.
