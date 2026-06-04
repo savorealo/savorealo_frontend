@@ -12,7 +12,6 @@ import { AuthStore }                       from '@core/store/auth.store'
 export class MetricsService {
   private readonly supabase    = inject(SupabaseService)
   private readonly platformId  = inject(PLATFORM_ID)
-  private readonly authStore   = inject(AuthStore)
 
   /** Cola en memoria donde se acumulan los logs antes de enviarse a Supabase */
   private readonly queue: {
