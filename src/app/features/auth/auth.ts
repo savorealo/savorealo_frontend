@@ -57,7 +57,6 @@ export class Auth {
       },
       error: (err) => {
         console.error('Register error:', err)
-        alert(err?.message ?? 'Error al registrarse, inténtalo de nuevo')
       }
     })
   }
@@ -72,7 +71,6 @@ export class Auth {
       },
       error: (err) => {
         console.error('Login error:', err)
-        alert(err?.message ?? 'Error al iniciar sesión')
       }
     })
   }

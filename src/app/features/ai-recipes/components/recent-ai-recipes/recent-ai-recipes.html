@@ -8,15 +8,24 @@
 
 	<div class="grid gap-3">
 		@for (recipe of store.recentRecipes(); track recipe.id) {
-			<article class="grid grid-cols-[64px_1fr_auto] items-center gap-3 p-3 rounded-xl bg-surface hover:bg-surface-container transition-all duration-fast ease-standard group">
-				<img [src]="recipe.imageUrl" alt="" class="h-16 w-16 rounded-lg object-cover ring-1 ring-outline" />
-				<div class="min-w-0">
-					<h3 class="truncate text-body-md font-bold text-on-surface">{{ recipe.title }}</h3>
-					<p class="truncate text-body-xs font-medium text-on-surface-muted">{{ recipe.createdLabel }}</p>
+			<article class="grid gap-3 p-3 rounded-xl bg-surface hover:bg-surface-container transition-all duration-fast ease-standard group">
+				<div class="flex items-center gap-3 min-w-0">
+					<div class="flex-1 min-w-0">
+						<h3 class="truncate text-body-md font-bold text-on-surface">{{ recipe.title }}</h3>
+						<p class="truncate text-body-xs font-medium text-on-surface-muted">{{ recipe.description }}</p>
+						<div class="mt-2 flex flex-wrap gap-2 text-label-xs">
+							<span class="rounded-full bg-primary-container/30 px-2 py-1 text-on-primary-container">
+								<i class="pi pi-clock text-xs"></i> {{ recipe.timeMinutes }} min
+							</span>
+							<span class="rounded-full bg-secondary-container/30 px-2 py-1 text-on-secondary-container">
+								<i class="pi pi-users text-xs"></i> {{ recipe.portions }}
+							</span>
+						</div>
+					</div>
+					<button type="button" class="grid size-10 place-items-center rounded-full text-on-surface-muted transition-all duration-fast ease-standard hover:bg-surface-container-high hover:text-on-surface active:scale-95 shrink-0" [attr.aria-label]="'ai.recent.save_recipe' | translate">
+						<i class="pi pi-bookmark text-lg"></i>
+					</button>
 				</div>
-				<button type="button" class="grid size-10 place-items-center rounded-full text-on-surface-muted transition-all duration-fast ease-standard hover:bg-surface-container-high hover:text-on-surface active:scale-95" [attr.aria-label]="'ai.recent.save_recipe' | translate">
-					<i class="pi pi-bookmark text-lg"></i>
-				</button>
 			</article>
 		}
 	</div>
