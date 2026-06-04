@@ -93,7 +93,7 @@ export class AppShell implements OnInit {
 			{ icon: 'pi pi-home',          labelKey: 'shell.feed',          route: '/' },
 			{ icon: 'pi pi-search',        labelKey: 'shell.explore',       route: '/explore' },
 			{ icon: 'pi pi-map-marker',    labelKey: 'shell.places',        route: '/places' },
-			{ icon: 'pi pi-sparkles',      labelKey: 'shell.ai_recipes',    route: '/ai' },
+			{ icon: 'pi pi-sparkles',      labelKey: 'shell.ai_recipes',    route: '/generar-receta' },
 			{ icon: 'pi pi-bookmark',      labelKey: 'shell.saved',         route: '/saved' },
 			{ icon: 'pi pi-comments',      labelKey: 'shell.messages',      route: '/chat' },
 			{ icon: 'pi pi-bell',          labelKey: 'shell.notifications', route: '/notifications' },

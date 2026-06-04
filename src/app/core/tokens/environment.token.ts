@@ -20,6 +20,10 @@ export interface Environment {
    * Propiedad para gestionar api enlace.
    */
   apiUrl:      string
+  /**
+   * Propiedad para gestionar recipe agent enlace.
+   */
+  recipeAgentUrl: string
 }
 
 /**

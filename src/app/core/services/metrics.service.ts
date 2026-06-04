@@ -1,6 +1,7 @@
 import { inject, Injectable, PLATFORM_ID } from '@angular/core'
 import { isPlatformBrowser }               from '@angular/common'
 import { SupabaseService }                 from '@core/services/supabase.service'
+import { AuthStore }                       from '@core/store/auth.store'
 
 /**
  * Servicio que registra las métricas de las peticiones HTTP en la tabla RequestLogs de Supabase.
@@ -9,8 +10,9 @@ import { SupabaseService }                 from '@core/services/supabase.service
  */
 @Injectable({ providedIn: 'root' })
 export class MetricsService {
-  private readonly supabase   = inject(SupabaseService)
-  private readonly platformId = inject(PLATFORM_ID)
+  private readonly supabase    = inject(SupabaseService)
+  private readonly platformId  = inject(PLATFORM_ID)
+  private readonly authStore   = inject(AuthStore)
 
   /** Cola en memoria donde se acumulan los logs antes de enviarse a Supabase */
   private readonly queue: {
@@ -47,13 +49,14 @@ export class MetricsService {
     })
   }
 
-  private detectedSchema: 'lowercase' | 'pascal' | null = null;
+  private detectedSchema: 'lowercase' | 'pascal' | null = null
+  private disabled = false
 
   /**
    * Vacía la cola e inserta todos los registros acumulados en Supabase de una sola vez.
    */
   private async flush(): Promise<void> {
-    if (this.queue.length === 0) return
+    if (this.queue.length === 0 || this.disabled) return
 
     // Sacamos todos los elementos de la cola de golpe (Bulk Insert)
     const batch = this.queue.splice(0, this.queue.length)
@@ -107,7 +110,7 @@ export class MetricsService {
       .insert(formattedBatch)
 
     if (error) {
-      console.warn('[MetricsService] Error al guardar logs:', error.message)
+      this.disabled = true  // desactivar silenciosamente al primer error (RLS sin permisos)
     }
   }
 

@@ -13,4 +13,5 @@ export const environment = {
   // Por defecto apunta al backend desplegado en staging.
   // Para usar backend local con wrangler dev, cambia a 'http://localhost:8787/graphql'.
   apiUrl: 'https://develop.app.savorealo.com/api',
+  recipeAgentUrl: 'https://n8n.savorealo.com/webhook/recipe-agent-final/chat',
 }
