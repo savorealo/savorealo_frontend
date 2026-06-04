@@ -22,17 +22,6 @@
 			</a>
 		</div>
 
-		<button
-			type="button"
-			class="hidden w-full items-center gap-2 rounded-pill border border-outline bg-surface-container px-4 py-2.5 text-left text-body-sm font-medium text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container-low hover:text-on-surface lg:flex"
-			(click)="globalSearch.openPanel()"
-			[attr.aria-label]="'shell.search_placeholder' | translate"
-		>
-			<i class="pi pi-search text-base"></i>
-			<span class="flex-1">{{ 'shell.search_placeholder' | translate }}</span>
-			<kbd class="rounded-sm border border-outline bg-surface px-1.5 py-0.5 text-[0.65rem] font-bold text-on-surface-muted">⌘K</kbd>
-		</button>
-
 		<nav class="hidden lg:flex lg:flex-col lg:gap-1.5">
 			@for (item of navItems(); track item.route) {
 				<a

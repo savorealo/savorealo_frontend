@@ -1,0 +1,107 @@
+<div
+	class="fixed inset-0 z-50 flex items-end justify-center bg-black/45 px-3 pb-3 pt-12 backdrop-blur-sm sm:items-center sm:p-6"
+	(click)="close.emit()"
+>
+	<section
+		class="grid max-h-[88vh] w-full max-w-md grid-rows-[auto_auto_minmax(0,1fr)] overflow-hidden rounded-3xl border border-outline bg-surface text-on-surface shadow-3"
+		(click)="$event.stopPropagation()"
+	>
+		<header class="flex items-center justify-between border-b border-outline px-5 py-4">
+			<div class="min-w-0">
+				<h2 class="text-lg font-black">{{ title() }}</h2>
+				<p class="truncate text-xs font-semibold text-on-surface-muted">{{ subtitle() }}</p>
+			</div>
+			<button
+				type="button"
+				class="grid size-10 shrink-0 place-items-center rounded-pill text-on-surface-muted transition hover:bg-surface-container hover:text-on-surface"
+				(click)="close.emit()"
+				aria-label="Cerrar"
+			>
+				<i class="pi pi-times"></i>
+			</button>
+		</header>
+
+		<div class="border-b border-outline p-4">
+			<label class="relative block">
+				<i class="pi pi-search absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-muted"></i>
+				<input
+					type="search"
+					autofocus
+					class="h-12 w-full rounded-2xl border border-outline bg-surface-container pl-11 pr-4 text-sm font-bold outline-none placeholder:text-on-surface-muted focus:border-primary"
+					placeholder="Buscar personas..."
+					[value]="query()"
+					(input)="onInput($event)"
+				/>
+			</label>
+			@if (error()) {
+				<p class="mt-2 text-xs font-bold text-error">{{ error() }}</p>
+			}
+		</div>
+
+		<div class="min-h-0 overflow-y-auto p-2">
+			@if (query().trim()) {
+				<p class="px-3 py-2 text-xs font-black uppercase tracking-wide text-on-surface-muted">Resultados</p>
+				@if (loadingSearch()) {
+					<div class="grid place-items-center py-8 text-primary">
+						<i class="pi pi-spin pi-spinner"></i>
+					</div>
+				} @else if (results().length) {
+					@for (user of results(); track user.userId) {
+						<button
+							type="button"
+							class="flex min-h-[64px] w-full items-center gap-3 rounded-2xl p-3 text-left transition hover:bg-surface-container active:scale-[0.98]"
+							(click)="sendToUser(user)"
+							[disabled]="sendingTo() !== null || sentTo().has(user.userId)"
+						>
+							<span class="grid size-11 shrink-0 place-items-center overflow-hidden rounded-pill bg-primary-container text-primary">
+								@if (user.photoUrl) {
+									<img [src]="user.photoUrl" [alt]="user.username" class="size-full object-cover" />
+								} @else {
+									<i class="pi pi-user"></i>
+								}
+							</span>
+							<span class="min-w-0 flex-1">
+								<span class="block truncate text-sm font-black">{{ user.fullName || user.username }}</span>
+								<span class="block truncate text-xs font-semibold text-on-surface-muted">&#64;{{ user.username }}</span>
+							</span>
+							<i class="pi text-primary" [class]="sentTo().has(user.userId) ? 'pi-check' : (sendingTo() === user.userId ? 'pi-spin pi-spinner' : 'pi-send')"></i>
+						</button>
+					}
+				} @else {
+					<p class="px-3 py-8 text-center text-sm font-bold text-on-surface-muted">Sin resultados</p>
+				}
+			} @else {
+				<p class="px-3 py-2 text-xs font-black uppercase tracking-wide text-on-surface-muted">Conversaciones</p>
+				@if (loadingConversations()) {
+					<div class="grid place-items-center py-8 text-primary">
+						<i class="pi pi-spin pi-spinner"></i>
+					</div>
+				} @else if (conversations().length) {
+					@for (conversation of conversations(); track conversation.id) {
+						<button
+							type="button"
+							class="flex min-h-[64px] w-full items-center gap-3 rounded-2xl p-3 text-left transition hover:bg-surface-container active:scale-[0.98]"
+							(click)="sendToConversation(conversation)"
+							[disabled]="sendingTo() !== null || sentTo().has(conversation.id)"
+						>
+							<span class="grid size-11 shrink-0 place-items-center overflow-hidden rounded-pill bg-primary-container text-primary">
+								@if (conversation.user.avatarUrl) {
+									<img [src]="conversation.user.avatarUrl" [alt]="conversation.user.name" class="size-full object-cover" />
+								} @else {
+									<i class="pi pi-user"></i>
+								}
+							</span>
+							<span class="min-w-0 flex-1">
+								<span class="block truncate text-sm font-black">{{ conversation.user.name }}</span>
+								<span class="block truncate text-xs font-semibold text-on-surface-muted">{{ conversation.lastMessage || 'Conversación abierta' }}</span>
+							</span>
+							<i class="pi text-primary" [class]="sentTo().has(conversation.id) ? 'pi-check' : (sendingTo() === conversation.id ? 'pi-spin pi-spinner' : 'pi-send')"></i>
+						</button>
+					}
+				} @else {
+					<p class="px-3 py-8 text-center text-sm font-bold text-on-surface-muted">Busca una persona para enviar.</p>
+				}
+			}
+		</div>
+	</section>
+</div>

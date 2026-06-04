@@ -306,7 +306,7 @@
 								<h2 class="text-title-lg font-bold text-on-surface">Soporte y Sugerencias</h2>
 								<p class="mt-1 text-body-sm font-medium text-on-surface-muted">Reporta errores, envía sugerencias o solicita nuevas características.</p>
 							</div>
-							<span class="grid size-11 place-items-center rounded-xl bg-orange-100 text-orange-700">
+							<span class="grid size-11 place-items-center rounded-xl bg-primary-container text-on-primary-container">
 								<i class="pi pi-question-circle text-lg"></i>
 							</span>
 						</div>
@@ -338,20 +338,27 @@
 							</label>
 
 							<div class="flex items-center justify-between gap-4 mt-2">
-								<span *ngIf="ticketSuccess()" class="text-body-sm font-bold text-green-600 flex items-center gap-1">
-									<i class="pi pi-check-circle"></i> ¡Mensaje enviado con éxito!
-								</span>
-								<span *ngIf="ticketError()" class="text-body-sm font-bold text-red-600 flex items-center gap-1">
-									<i class="pi pi-times-circle"></i> {{ ticketError() }}
-								</span>
-								
+								@if (ticketSuccess()) {
+									<span class="text-body-sm font-bold text-green-600 flex items-center gap-1">
+										<i class="pi pi-check-circle"></i> ¡Mensaje enviado con éxito!
+									</span>
+								}
+								@if (ticketError()) {
+									<span class="text-body-sm font-bold text-error flex items-center gap-1">
+										<i class="pi pi-times-circle"></i> {{ ticketError() }}
+									</span>
+								}
+
 								<button
 									type="submit"
 									[disabled]="ticketSubmitting() || !ticketTitle.trim() || !ticketDescription.trim()"
 									class="ml-auto inline-flex min-h-11 items-center justify-center gap-2 rounded-pill bg-primary px-6 text-body-sm font-bold text-on-primary transition-all duration-fast ease-standard hover:opacity-90 disabled:opacity-40 disabled:scale-100 active:scale-95"
 								>
-									<i class="pi pi-spinner pi-spin" *ngIf="ticketSubmitting()"></i>
-									<i class="pi pi-send" *ngIf="!ticketSubmitting()"></i>
+									@if (ticketSubmitting()) {
+										<i class="pi pi-spinner pi-spin"></i>
+									} @else {
+										<i class="pi pi-send"></i>
+									}
 									<span>{{ ticketSubmitting() ? 'Enviando...' : 'Enviar Ticket' }}</span>
 								</button>
 							</div>

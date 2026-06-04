@@ -14,16 +14,18 @@
 						<img
 							[src]="call().remoteAvatar || '/assets/icons/new_logo.png'"
 							[alt]="call().remoteName"
-							class="size-32 rounded-full object-cover ring-4 ring-white/10 shadow-2xl"
+							class="size-28 rounded-full object-cover ring-4 ring-white/10 shadow-2xl sm:size-32"
 						/>
 						@if (store.isCalling()) {
 							<span class="absolute inset-0 rounded-full animate-ping bg-orange-500/20"></span>
 						}
 					</div>
 					<div class="text-center">
-						<h2 class="text-3xl font-black tracking-tight">{{ call().remoteName }}</h2>
+						<h2 class="text-2xl font-black tracking-tight sm:text-3xl">{{ call().remoteName }}</h2>
 						@if (store.isCalling()) {
 							<p class="mt-2 text-white/50 animate-pulse">Llamando...</p>
+						} @else if (iceFailed()) {
+							<p class="mt-2 text-red-400 font-semibold text-sm">Sin conexión · pulsa colgar y vuelve a llamar</p>
 						} @else {
 							<p class="mt-2 text-white/50">{{ formattedDuration() }}</p>
 						}
@@ -32,36 +34,35 @@
 			}
 
 			@if (call().isVideo && store.localStream()) {
-				<div class="absolute bottom-24 right-4 overflow-hidden rounded-2xl shadow-2xl ring-2 ring-white/20 transition-all">
-					<video #localVideo autoplay playsinline muted class="h-36 w-24 object-cover sm:h-48 sm:w-32"></video>
+				<div class="absolute bottom-28 right-3 overflow-hidden rounded-2xl shadow-2xl ring-2 ring-white/20 transition-all sm:bottom-36 sm:right-4">
+					<video #localVideo autoplay playsinline muted class="h-32 w-20 object-cover sm:h-48 sm:w-32"></video>
 					@if (store.isCameraOff()) {
 						<div class="absolute inset-0 flex items-center justify-center bg-gray-800/90">
-							<i class="pi pi-eye-slash text-2xl text-white/60"></i>
+							<i class="pi pi-eye-slash text-xl text-white/60"></i>
 						</div>
 					}
 				</div>
 			}
 
 			@if (call().isVideo && store.isActive()) {
-				<div class="absolute left-4 top-4 flex items-center gap-2 rounded-full bg-black/50 px-4 py-2 text-sm font-black backdrop-blur">
+				<div class="absolute left-3 top-3 flex items-center gap-2 rounded-full bg-black/50 px-3 py-1.5 text-xs font-black backdrop-blur sm:left-4 sm:top-4 sm:px-4 sm:py-2 sm:text-sm">
 					<span class="size-2 rounded-full bg-red-500 animate-pulse"></span>
 					{{ formattedDuration() }}
 				</div>
 			}
 		</div>
 
-		<div class="flex items-center justify-center gap-4 bg-gray-950/95 px-6 py-6 sm:gap-6">
+		<div class="flex items-center justify-center gap-3 bg-gray-950/95 px-4 pb-[calc(1.25rem+env(safe-area-inset-bottom))] pt-4 sm:gap-5 sm:px-6 sm:pb-6 sm:pt-6">
 
 			<button
 				type="button"
-				class="grid size-14 place-items-center rounded-full transition active:scale-95"
+				class="grid size-12 place-items-center rounded-full transition active:scale-95 sm:size-14"
 				[class.bg-white/10]="!store.isMuted()"
-				[class.hover:bg-white/20]="!store.isMuted()"
 				[class.bg-red-500]="store.isMuted()"
 				(click)="store.toggleMute()"
 				[attr.aria-label]="store.isMuted() ? 'Activar micrófono' : 'Silenciar'"
 			>
-				<i class="pi text-2xl"
+				<i class="pi text-xl sm:text-2xl"
 				   [class.pi-microphone]="!store.isMuted()"
 				   [class.pi-microphone-slash]="store.isMuted()">
 				</i>
@@ -70,14 +71,13 @@
 			@if (call().isVideo) {
 				<button
 					type="button"
-					class="grid size-14 place-items-center rounded-full transition active:scale-95"
+					class="grid size-12 place-items-center rounded-full transition active:scale-95 sm:size-14"
 					[class.bg-white/10]="!store.isCameraOff()"
-					[class.hover:bg-white/20]="!store.isCameraOff()"
 					[class.bg-red-500]="store.isCameraOff()"
 					(click)="store.toggleCamera()"
 					[attr.aria-label]="store.isCameraOff() ? 'Activar cámara' : 'Apagar cámara'"
 				>
-					<i class="pi text-2xl"
+					<i class="pi text-xl sm:text-2xl"
 					   [class.pi-video]="!store.isCameraOff()"
 					   [class.pi-eye-slash]="store.isCameraOff()">
 					</i>
@@ -86,23 +86,29 @@
 
 			<button
 				type="button"
-				class="grid size-20 place-items-center rounded-full bg-red-600 text-white shadow-lg shadow-red-600/50 transition hover:bg-red-700 active:scale-95"
+				class="grid size-16 place-items-center rounded-full bg-red-600 text-white shadow-lg shadow-red-600/50 transition hover:bg-red-700 active:scale-95 sm:size-20"
 				(click)="store.hangUp()"
 				aria-label="Colgar"
 			>
-				<i class="pi pi-phone text-2xl" style="transform: rotate(135deg)"></i>
+				<i class="pi pi-phone text-xl sm:text-2xl" style="transform: rotate(135deg)"></i>
 			</button>
 
 			<button
 				type="button"
-				class="grid size-14 place-items-center rounded-full bg-white/10 text-white transition hover:bg-white/20 active:scale-95"
-				aria-label="Altavoz"
+				class="grid size-12 place-items-center rounded-full transition active:scale-95 sm:size-14"
+				[class.bg-white/10]="!store.isSpeakerOff()"
+				[class.bg-red-500]="store.isSpeakerOff()"
+				(click)="store.toggleSpeaker()"
+				[attr.aria-label]="store.isSpeakerOff() ? 'Activar altavoz' : 'Silenciar altavoz'"
 			>
-				<i class="pi pi-volume-up text-2xl"></i>
+				<i class="pi text-xl sm:text-2xl"
+				   [class.pi-volume-up]="!store.isSpeakerOff()"
+				   [class.pi-volume-down]="store.isSpeakerOff()">
+				</i>
 			</button>
 
 			@if (!call().isVideo) {
-				<div class="size-14"></div>
+				<div class="size-12 sm:size-14"></div>
 			}
 		</div>
 

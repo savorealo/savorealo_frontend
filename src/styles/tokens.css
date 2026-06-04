@@ -47,29 +47,33 @@
 	   Inspirado en Material 3 (container / on-container).
 	   Cambiar SOLO aquí para mover toda la app. */
 
-	/* Superficies */
-	--rgb-surface:                 var(--rgb-neutral-50);
-	--rgb-surface-container:       var(--rgb-neutral-0);
-	--rgb-surface-container-high:  var(--rgb-cream-100);
-	--rgb-surface-container-low:   var(--rgb-neutral-100);
+	/* Superficies
+	   Jerarquía visual clara:
+	     surface              = crema cálida visible (fondo general)
+	     surface-container    = blanco puro (tarjetas/cards elevadas)
+	     surface-container-high = naranja melocotón (sidebar, chrome, hover rows)
+	     surface-container-low = beige cálido (inputs/recessed) */
+	--rgb-surface:                 247 240 232;   /* #F7F0E8 — crema cálida visible */
+	--rgb-surface-container:       255 255 255;   /* #FFFFFF — blanco puro para cards */
+	--rgb-surface-container-high:  255 228 200;   /* #FFE4C8 — naranja melocotón sidebar */
+	--rgb-surface-container-low:   238 226 210;   /* #EEE2D2 — beige cálido para inputs */
 	--rgb-on-surface:              var(--rgb-neutral-950);
-	--rgb-on-surface-muted:        var(--rgb-neutral-500);
-	--rgb-outline:                 var(--rgb-neutral-200);
-	--rgb-outline-strong:          var(--rgb-neutral-300);
+	--rgb-on-surface-muted:        110  84  58;   /* #6E543A — marrón cálido, contraste 5.5:1 ✓ WCAG AA */
+	--rgb-outline:                 215 193 168;   /* #D7C1A8 — borde cálido visible */
+	--rgb-outline-strong:          178 152 124;   /* #B2987C */
 
 	/* Marca · CTAs principales
-	   on-primary = oscuro cálido en LIGHT — contraste 5.9:1 sobre #FF7A18 ✓ WCAG AA
-	   primary-container = crema muy suave — chips y badges sin agredir */
+	   on-primary = oscuro cálido en LIGHT — contraste 7.4:1 sobre #FF7A18 ✓ WCAG AAA
+	   primary-container = naranja-crema vivo para chips, nav activo y badges */
 	--rgb-primary:                 var(--rgb-yellow-500);   /* #FF7A18 */
-	--rgb-on-primary:               28   8   0;              /* #1C0800 — oscuro cálido, contraste 5.9:1 ✓ */
-	--rgb-primary-container:       var(--rgb-cream-100);    /* #FFF4EB — fondo suave para chips */
-	--rgb-on-primary-container:    var(--rgb-yellow-500);   /* naranja sobre crema — contraste 4.8:1 ✓ */
+	--rgb-on-primary:               28   8   0;              /* #1C0800 — oscuro cálido, contraste 7.4:1 ✓ */
+	--rgb-primary-container:       255 219 182;   /* #FFDBB6 — naranja-crema vivo, contraste 12:1 ✓ WCAG AAA */
+	--rgb-on-primary-container:    var(--rgb-yellow-900);   /* #3D1500 — marrón oscuro, contraste 12:1 ✓ WCAG AAA */
 
-	/* Secundario · Naranja Claro — más cálido, solo como tint/badge
-	   Nunca usar como fondo de botón (luminancia alta → texto oscuro) */
+	/* Secundario · Naranja Claro — más cálido, solo como tint/badge */
 	--rgb-secondary:               var(--rgb-salmon-500);   /* #FFB347 */
 	--rgb-on-secondary:            var(--rgb-yellow-900);   /* oscuro — contraste 8:1 ✓ sobre ámbar */
-	--rgb-secondary-container:     var(--rgb-cream-100);    /* #FFF4EB */
+	--rgb-secondary-container:     var(--rgb-cream-100);    /* #FFF4EB — crema suave diferenciada de primary */
 	--rgb-on-secondary-container:  var(--rgb-salmon-900);   /* oscuro sobre crema */
 
 	/* Acento terciario · highlights, info, IA */
@@ -183,11 +187,11 @@
 
 	/* ───────── Elevación · sombras suaves cálidas ───────── */
 	--shadow-0: none;
-	--shadow-1: 0 1px 2px rgb(var(--rgb-neutral-900) / 0.06);
-	--shadow-2: 0 2px 6px rgb(var(--rgb-neutral-900) / 0.08), 0 1px 2px rgb(var(--rgb-neutral-900) / 0.04);
-	--shadow-3: 0 6px 14px rgb(var(--rgb-neutral-900) / 0.10), 0 2px 4px rgb(var(--rgb-neutral-900) / 0.06);
-	--shadow-4: 0 14px 28px rgb(var(--rgb-neutral-900) / 0.12), 0 4px 8px rgb(var(--rgb-neutral-900) / 0.06);
-	--shadow-5: 0 28px 60px rgb(var(--rgb-neutral-900) / 0.16), 0 8px 16px rgb(var(--rgb-neutral-900) / 0.08);
+	--shadow-1: 0 1px 3px rgb(var(--rgb-neutral-900) / 0.09), 0 1px 2px rgb(var(--rgb-neutral-900) / 0.06);
+	--shadow-2: 0 2px 8px rgb(var(--rgb-neutral-900) / 0.10), 0 1px 3px rgb(var(--rgb-neutral-900) / 0.06);
+	--shadow-3: 0 6px 16px rgb(var(--rgb-neutral-900) / 0.12), 0 2px 5px rgb(var(--rgb-neutral-900) / 0.07);
+	--shadow-4: 0 14px 32px rgb(var(--rgb-neutral-900) / 0.14), 0 4px 10px rgb(var(--rgb-neutral-900) / 0.07);
+	--shadow-5: 0 28px 64px rgb(var(--rgb-neutral-900) / 0.18), 0 8px 18px rgb(var(--rgb-neutral-900) / 0.10);
 
 	/* ───────── Motion ───────── */
 	--duration-instant: 50ms;

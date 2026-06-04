@@ -354,7 +354,7 @@
     </p-dialog>
 
     @if (sharingProfile(); as profile) {
-      <app-share-profile-modal [profile]="profile" (close)="sharingProfile.set(null)" />
+      <app-share-modal [profile]="profile" (close)="sharingProfile.set(null)" />
     }
 
     <!-- Follow list modal -->
