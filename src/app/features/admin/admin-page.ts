@@ -305,7 +305,7 @@ export class AdminPage implements OnInit, AfterViewInit, OnDestroy {
         label: 'Total Peticiones',
         value: total.toLocaleString('es-ES'),
         icon: 'pi-server',
-        color: 'from-violet-500 to-purple-600',
+        color: 'from-orange-500 to-amber-600',
         trend: 'Últimas 2000',
         trendUp: true,
       },
@@ -436,7 +436,7 @@ export class AdminPage implements OnInit, AfterViewInit, OnDestroy {
             backgroundColor: 'rgba(15,15,25,0.95)',
             titleColor: '#fff',
             bodyColor: 'rgba(200,200,220,0.9)',
-            borderColor: 'rgba(139,92,246,0.3)',
+            borderColor: 'rgba(255,122,24,0.3)',
             borderWidth: 1,
             padding: 12,
             callbacks: {
@@ -495,8 +495,8 @@ export class AdminPage implements OnInit, AfterViewInit, OnDestroy {
     const canvasEl = this.responseTimeChartRef.nativeElement
     const ctx = canvasEl.getContext('2d')!
     const grad = ctx.createLinearGradient(0, 0, 0, 300)
-    grad.addColorStop(0, 'rgba(139,92,246,0.4)')
-    grad.addColorStop(1, 'rgba(139,92,246,0.0)')
+    grad.addColorStop(0, 'rgba(255,122,24,0.4)')
+    grad.addColorStop(1, 'rgba(255,122,24,0.0)')
 
     const chart = new Chart(canvasEl, {
       type: 'line',
@@ -506,11 +506,11 @@ export class AdminPage implements OnInit, AfterViewInit, OnDestroy {
           {
             label: 'Resp. media (ms)',
             data: values,
-            borderColor: 'rgba(139,92,246,1)',
+            borderColor: 'rgba(255,122,24,1)',
             backgroundColor: grad,
             tension: 0.4,
             fill: true,
-            pointBackgroundColor: 'rgba(139,92,246,1)',
+            pointBackgroundColor: 'rgba(255,122,24,1)',
             pointRadius: 4,
             pointHoverRadius: 7,
             borderWidth: 2,
@@ -527,14 +527,14 @@ export class AdminPage implements OnInit, AfterViewInit, OnDestroy {
 
   private generateGradients(_canvas: HTMLCanvasElement, count: number): string[] {
     const palette = [
-      'rgba(139,92,246,0.85)',
-      'rgba(99,102,241,0.85)',
-      'rgba(59,130,246,0.85)',
-      'rgba(6,182,212,0.85)',
+      'rgba(255,122,24,0.85)',
+      'rgba(255,179,71,0.85)',
+      'rgba(255,61,0,0.85)',
+      'rgba(144,163,255,0.85)',
       'rgba(16,185,129,0.85)',
       'rgba(245,158,11,0.85)',
       'rgba(239,68,68,0.85)',
-      'rgba(236,72,153,0.85)',
+      'rgba(198,184,165,0.85)',
     ]
     return Array.from({ length: count }, (_, i) => palette[i % palette.length])
   }
@@ -549,7 +549,7 @@ export class AdminPage implements OnInit, AfterViewInit, OnDestroy {
           backgroundColor: 'rgba(15,15,25,0.95)',
           titleColor: '#fff',
           bodyColor: 'rgba(200,200,220,0.9)',
-          borderColor: 'rgba(139,92,246,0.3)',
+          borderColor: 'rgba(255,122,24,0.3)',
           borderWidth: 1,
           padding: 12,
         },
@@ -583,7 +583,7 @@ export class AdminPage implements OnInit, AfterViewInit, OnDestroy {
           backgroundColor: 'rgba(15,15,25,0.95)',
           titleColor: '#fff',
           bodyColor: 'rgba(200,200,220,0.9)',
-          borderColor: 'rgba(139,92,246,0.3)',
+          borderColor: 'rgba(255,122,24,0.3)',
           borderWidth: 1,
           padding: 12,
         },

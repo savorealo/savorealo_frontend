@@ -12,19 +12,19 @@
               <i class="pi pi-shield mr-1" style="font-size: 0.65rem;"></i>
               ADMIN
             </span>
-            <span class="text-xs font-bold" style="color: rgba(180,170,220,0.5);">v1.2.0</span>
+            <span class="text-xs font-bold" style="color: var(--color-on-surface-muted); opacity: 0.7;">v1.2.0</span>
           </div>
-          <h1 class="text-2xl sm:text-3xl font-black tracking-tight" style="color: #f0eeff;">
+          <h1 class="text-2xl sm:text-3xl font-black tracking-tight" style="color: var(--color-on-surface);">
             Panel de Control &amp; Analíticas
           </h1>
-          <p class="mt-1 text-sm" style="color: rgba(180,170,220,0.6);">
+          <p class="mt-1 text-sm" style="color: var(--color-on-surface-muted);">
             Monitoreo de endpoints, API y rendimiento en tiempo real.
           </p>
         </div>
 
         <div class="flex items-center gap-3">
           <!-- Last updated -->
-          <span *ngIf="lastUpdated()" class="text-xs" style="color: rgba(180,170,220,0.45);">
+          <span *ngIf="lastUpdated()" class="text-xs" style="color: var(--color-on-surface-muted); opacity: 0.6;">
             Actualizado: {{ lastUpdated() | date:'HH:mm:ss' }}
           </span>
 
@@ -71,14 +71,14 @@
       <!-- ══════════════════════════════════════════════
            TAB SYSTEM
       ══════════════════════════════════════════════ -->
-      <div class="flex gap-4 border-b mb-4" style="border-color: rgba(139,92,246,0.15);">
+      <div class="flex gap-4 border-b mb-4" style="border-color: var(--color-outline);">
         <button
           type="button"
           class="pb-3 font-bold transition-all text-sm flex items-center gap-2 border-b-2"
           [class.border-primary]="activeTab() === 'analytics'"
           [class.text-primary]="activeTab() === 'analytics'"
           [class.border-transparent]="activeTab() !== 'analytics'"
-          [style.color]="activeTab() === 'analytics' ? '#a78bfa' : 'rgba(180,170,220,0.6)'"
+          [style.color]="activeTab() === 'analytics' ? 'var(--color-primary)' : 'var(--color-on-surface-muted)'"
           (click)="activeTab.set('analytics')"
           style="background: transparent; border-top: none; border-left: none; border-right: none; cursor: pointer;"
         >
@@ -91,7 +91,7 @@
           [class.border-primary]="activeTab() === 'tickets'"
           [class.text-primary]="activeTab() === 'tickets'"
           [class.border-transparent]="activeTab() !== 'tickets'"
-          [style.color]="activeTab() === 'tickets' ? '#a78bfa' : 'rgba(180,170,220,0.6)'"
+          [style.color]="activeTab() === 'tickets' ? 'var(--color-primary)' : 'var(--color-on-surface-muted)'"
           (click)="activeTab.set('tickets')"
           style="background: transparent; border-top: none; border-left: none; border-right: none; cursor: pointer;"
         >
@@ -104,7 +104,7 @@
           [class.border-primary]="activeTab() === 'reports'"
           [class.text-primary]="activeTab() === 'reports'"
           [class.border-transparent]="activeTab() !== 'reports'"
-          [style.color]="activeTab() === 'reports' ? '#a78bfa' : 'rgba(180,170,220,0.6)'"
+          [style.color]="activeTab() === 'reports' ? 'var(--color-primary)' : 'var(--color-on-surface-muted)'"
           (click)="activeTab.set('reports')"
           style="background: transparent; border-top: none; border-left: none; border-right: none; cursor: pointer;"
         >
@@ -543,15 +543,14 @@
 <style>
   /* ─── Background ───────────────────────────────── */
   .admin-bg {
-    background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(139,92,246,0.15) 0%, transparent 60%),
-                linear-gradient(180deg, #0c0a14 0%, #0f0d1a 100%);
+    background: var(--gradient-warm-glow), var(--color-surface);
     min-height: 100%;
   }
 
   /* ─── Header Card ──────────────────────────────── */
   .admin-header-card {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(139,92,246,0.15);
+    background: var(--color-surface-container);
+    border: 1px solid var(--color-outline);
     border-radius: 1.5rem;
     padding: 1.5rem;
     backdrop-filter: blur(12px);
@@ -560,8 +559,8 @@
   .admin-badge {
     display: inline-flex;
     align-items: center;
-    background: linear-gradient(135deg, rgba(139,92,246,0.9), rgba(99,102,241,0.9));
-    color: white;
+    background: var(--gradient-brand);
+    color: var(--color-on-primary);
     font-size: 0.65rem;
     font-weight: 900;
     letter-spacing: 0.12em;
@@ -578,17 +577,17 @@
     height: 2.5rem;
     padding: 0 1.25rem;
     border-radius: 999px;
-    border: 1px solid rgba(139,92,246,0.25);
-    background: rgba(139,92,246,0.08);
-    color: rgba(200,190,240,0.9);
+    border: 1px solid var(--color-outline-strong);
+    background: var(--color-surface-container-high);
+    color: var(--color-on-surface);
     font-size: 0.8rem;
     font-weight: 700;
     transition: all 0.2s;
     cursor: pointer;
   }
   .admin-btn-secondary:hover {
-    background: rgba(139,92,246,0.18);
-    border-color: rgba(139,92,246,0.4);
+    background: var(--color-surface-container-low);
+    border-color: var(--color-outline);
   }
   .admin-btn-secondary:disabled {
     opacity: 0.5;
@@ -623,8 +622,8 @@
 
   /* ─── Stat Cards ───────────────────────────────── */
   .admin-stat-card {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(139,92,246,0.12);
+    background: var(--color-surface-container);
+    border: 1px solid var(--color-outline);
     border-radius: 1.25rem;
     padding: 1.25rem;
     backdrop-filter: blur(8px);
@@ -632,10 +631,10 @@
     animation: fadeInUp 0.4s ease both;
   }
   .admin-stat-card:hover {
-    border-color: rgba(139,92,246,0.3);
-    background: rgba(139,92,246,0.06);
+    border-color: var(--color-primary);
+    background: rgb(var(--rgb-primary) / 0.05);
     transform: translateY(-2px);
-    box-shadow: 0 8px 32px rgba(139,92,246,0.12);
+    box-shadow: 0 8px 32px rgb(var(--rgb-primary) / 0.08);
   }
 
   .stat-icon-wrap {
@@ -649,8 +648,8 @@
 
   /* ─── Chart Cards ──────────────────────────────── */
   .admin-chart-card {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(139,92,246,0.12);
+    background: var(--color-surface-container);
+    border: 1px solid var(--color-outline);
     border-radius: 1.5rem;
     padding: 1.5rem;
     backdrop-filter: blur(8px);
@@ -658,7 +657,7 @@
     animation: fadeInUp 0.5s ease both;
   }
   .admin-chart-card:hover {
-    border-color: rgba(139,92,246,0.25);
+    border-color: var(--color-outline-strong);
   }
 
   .chart-header {
@@ -670,25 +669,25 @@
   .chart-title {
     font-size: 1rem;
     font-weight: 900;
-    color: #f0eeff;
+    color: var(--color-on-surface);
     margin: 0;
   }
   .chart-subtitle {
     font-size: 0.75rem;
-    color: rgba(180,170,220,0.5);
+    color: var(--color-on-surface-muted);
     margin: 0.2rem 0 0 0;
   }
   .chart-badge {
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    background: rgba(139,92,246,0.1);
-    border: 1px solid rgba(139,92,246,0.2);
+    background: var(--color-primary-container);
+    border: 1px solid var(--color-outline);
     border-radius: 999px;
     padding: 0.2rem 0.75rem;
     font-size: 0.7rem;
     font-weight: 700;
-    color: rgba(180,170,220,0.7);
+    color: var(--color-on-primary-container);
     white-space: nowrap;
   }
   .chart-body {
@@ -708,8 +707,8 @@
     justify-content: center;
     padding: 3rem;
     border-radius: 1.5rem;
-    border: 1px dashed rgba(139,92,246,0.25);
-    background: rgba(139,92,246,0.03);
+    border: 1px dashed var(--color-outline-strong);
+    background: var(--color-surface-container-low);
     text-align: center;
   }
   .empty-icon-ring {
@@ -718,8 +717,8 @@
     width: 4rem;
     height: 4rem;
     border-radius: 50%;
-    background: rgba(139,92,246,0.1);
-    border: 1px solid rgba(139,92,246,0.25);
+    background: var(--color-primary-container);
+    border: 1px solid var(--color-outline);
   }
 
   /* ─── Animations ───────────────────────────────── */
