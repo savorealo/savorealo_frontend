@@ -2,6 +2,13 @@
 
 Aplicación Angular 21 de recetas y gastronomía social con soporte completo de internacionalización estática y traducción de contenido dinámico.
 
+> Parte del proyecto **Savorealo**. Ver también:
+> [Repositorio principal](https://github.com/savorealo/savorealo) ·
+> [Backend (API GraphQL)](https://github.com/savorealo/api) ·
+> [Mobile Android](https://github.com/acanojiDev/TFG-LET-ME-COOK-MOBILE) ·
+> [Documentación técnica](https://github.com/savorealo/savorealo/blob/main/docs/confluence/01-frontend.md) ·
+> [Compodoc (API docs)](https://savorealo.github.io/compodoc/) · [Repositorio Compodoc](https://github.com/savorealo/compodoc)
+
 ---
 
 ## Desarrollo
@@ -10,8 +17,11 @@ Aplicación Angular 21 de recetas y gastronomía social con soporte completo de 
 npm start          # Servidor de desarrollo → http://localhost:4200
 npm run build      # Build de producción
 ng build --configuration development  # Build de desarrollo
-npm run docs       # Documentación con Compodoc
+npm run docs       # Genera y sirve la documentación con Compodoc
 ```
+
+La documentación generada está publicada en **[savorealo.github.io/compodoc/](https://savorealo.github.io/compodoc/)**.
+Código fuente del site de documentación: [github.com/savorealo/compodoc](https://github.com/savorealo/compodoc).
 
 ---
 

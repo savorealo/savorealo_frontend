@@ -2,7 +2,6 @@ import { Component, computed, inject, signal, ElementRef, viewChild, PLATFORM_ID
 import { isPlatformBrowser } from '@angular/common'
 import { FormsModule } from '@angular/forms'
 import { AppShell } from '@shared/components/app-shell/app-shell'
-import { SavoLoader } from '@shared/components/savo-loader/savo-loader'
 import { RecipeAgentService } from '@core/services/recipe-agent.service'
 import { AuthStore } from '@core/store/auth.store'
 import { RecipeMarkdownPipe } from './recipe-markdown.pipe'
@@ -29,7 +28,7 @@ export interface ChatMessage {
  */
 @Component({
 	selector: 'app-recipe-agent-page',
-	imports: [AppShell, FormsModule, SavoLoader, RecipeMarkdownPipe],
+	imports: [AppShell, FormsModule, RecipeMarkdownPipe],
 	templateUrl: './recipe-agent-page.html',
 })
 export class RecipeAgentPage {

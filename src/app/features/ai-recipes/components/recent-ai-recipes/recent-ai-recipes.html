@@ -1,15 +1,20 @@
-<section class="rounded-2xl border border-outline bg-surface-container p-5 shadow-1">
-	<h2 class="mb-5 text-title-md font-bold text-on-surface">{{ 'ai.recent.title' | translate }}</h2>
+<section class="rounded-2xl border border-outline bg-surface-container p-6 shadow-2">
+	<h2 class="mb-5 flex items-center gap-2 text-title-md font-bold text-on-surface">
+		<span class="inline-flex items-center justify-center rounded-pill bg-primary/20 p-2">
+			<i class="pi pi-history text-primary text-lg"></i>
+		</span>
+		{{ 'ai.recent.title' | translate }}
+	</h2>
 
-	<div class="grid gap-4">
+	<div class="grid gap-3">
 		@for (recipe of store.recentRecipes(); track recipe.id) {
-			<article class="grid grid-cols-[64px_1fr_auto] items-center gap-3">
-				<img [src]="recipe.imageUrl" alt="" class="h-14 w-16 rounded-xl object-cover" />
+			<article class="grid grid-cols-[64px_1fr_auto] items-center gap-3 p-3 rounded-xl bg-surface hover:bg-surface-container transition-all duration-fast ease-standard group">
+				<img [src]="recipe.imageUrl" alt="" class="h-16 w-16 rounded-lg object-cover ring-1 ring-outline" />
 				<div class="min-w-0">
 					<h3 class="truncate text-body-md font-bold text-on-surface">{{ recipe.title }}</h3>
-					<p class="truncate text-body-sm font-medium text-on-surface-muted">{{ recipe.createdLabel }}</p>
+					<p class="truncate text-body-xs font-medium text-on-surface-muted">{{ recipe.createdLabel }}</p>
 				</div>
-				<button type="button" class="grid size-10 place-items-center rounded-pill text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container-high hover:text-on-surface" [attr.aria-label]="'ai.recent.save_recipe' | translate">
+				<button type="button" class="grid size-10 place-items-center rounded-full text-on-surface-muted transition-all duration-fast ease-standard hover:bg-surface-container-high hover:text-on-surface active:scale-95" [attr.aria-label]="'ai.recent.save_recipe' | translate">
 					<i class="pi pi-bookmark text-lg"></i>
 				</button>
 			</article>

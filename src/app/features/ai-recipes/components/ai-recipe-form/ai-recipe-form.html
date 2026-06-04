@@ -1,9 +1,15 @@
-<section class="rounded-2xl border border-outline bg-secondary-container p-4 text-on-secondary-container shadow-2 sm:p-6 lg:p-8">
-	<label class="grid gap-3">
-		<span class="text-title-md font-bold">
-			{{ 'ai.form.title' | translate }}
-			<i class="pi pi-info-circle text-on-secondary-container/70 ml-1"></i>
+<section class="rounded-2xl border border-outline bg-gradient-to-br from-secondary-container to-secondary-container/80 p-5 shadow-2 sm:p-6 lg:p-8">
+	<header class="mb-6 flex items-center gap-3">
+		<span class="inline-flex items-center justify-center rounded-pill bg-on-secondary-container/20 p-2">
+			<i class="pi pi-sparkles text-xl text-on-secondary-container"></i>
 		</span>
+		<h2 class="text-title-lg font-bold text-on-secondary-container">
+			{{ 'ai.form.title' | translate }}
+			<i class="pi pi-info-circle ml-2 text-on-secondary-container/60"></i>
+		</h2>
+	</header>
+
+	<label class="grid gap-3 mb-6">
 		<div class="relative">
 			<textarea
 				pTextarea
@@ -18,16 +24,22 @@
 		</div>
 	</label>
 
-	<div class="mt-7 grid gap-3">
-		<h2 class="text-title-sm font-bold">{{ 'ai.form.suggestions' | translate }}</h2>
+	<div class="mb-7 grid gap-4">
+		<div class="flex items-center justify-between">
+			<h3 class="text-title-sm font-bold text-on-secondary-container">{{ 'ai.form.suggestions' | translate }}</h3>
+			<span class="text-label-sm text-on-secondary-container/70">{{ store.selectedSuggestions().length }} seleccionados</span>
+		</div>
 		<div class="flex flex-wrap gap-2">
 			@for (suggestion of store.suggestions; track suggestion) {
 				<button
 					type="button"
-					class="min-h-11 rounded-pill border border-on-secondary-container/30 px-4 text-body-sm font-bold transition-colors duration-fast ease-standard hover:bg-on-secondary-container/10 active:scale-[0.98]"
-					[class.bg-surface]="store.selectedSuggestions().includes(suggestion)"
-					[class.text-on-surface]="store.selectedSuggestions().includes(suggestion)"
-					[class.border-surface]="store.selectedSuggestions().includes(suggestion)"
+					class="min-h-11 rounded-full border-2 px-4 text-body-sm font-bold transition-all duration-fast ease-standard"
+					[class.bg-on-secondary-container]="store.selectedSuggestions().includes(suggestion)"
+					[class.text-secondary-container]="store.selectedSuggestions().includes(suggestion)"
+					[class.border-on-secondary-container]="store.selectedSuggestions().includes(suggestion)"
+					[class.border-on-secondary-container/30]="!store.selectedSuggestions().includes(suggestion)"
+					[class.text-on-secondary-container]="!store.selectedSuggestions().includes(suggestion)"
+					[class.hover:bg-on-secondary-container/10]="!store.selectedSuggestions().includes(suggestion)"
 					(click)="store.toggleSuggestion(suggestion)"
 				>
 					{{ suggestion | translate }}
@@ -36,26 +48,27 @@
 		</div>
 	</div>
 
-	<div class="mt-7 grid gap-3">
-		<h2 class="text-title-sm font-bold">{{ 'ai.form.type_title' | translate }}</h2>
+	<div class="mb-7 grid gap-4">
+		<h3 class="text-title-sm font-bold text-on-secondary-container">{{ 'ai.form.type_title' | translate }}</h3>
 		<div class="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
 			@for (option of recipeTypes; track option.type) {
 				<button
 					type="button"
 					class="relative flex min-h-24 items-center gap-3 rounded-2xl bg-surface p-4 text-left text-on-surface shadow-1 transition-all duration-fast ease-standard hover:-translate-y-0.5 hover:shadow-2"
-					[class.outline]="store.selectedRecipeType() === option.type"
-					[class.outline-2]="store.selectedRecipeType() === option.type"
-					[class.outline-on-secondary-container]="store.selectedRecipeType() === option.type"
+					[class.ring-2]="store.selectedRecipeType() === option.type"
+					[class.ring-on-secondary-container]="store.selectedRecipeType() === option.type"
 					(click)="store.setRecipeType(option.type)"
 				>
-					<i [class]="option.icon" class="text-2xl text-secondary"></i>
+					<span class="inline-flex items-center justify-center rounded-pill" [class.bg-secondary-container]="store.selectedRecipeType() === option.type" [class.bg-secondary-container/20]="store.selectedRecipeType() !== option.type">
+						<i [class]="option.icon" class="text-2xl p-2" [class.text-on-secondary-container]="store.selectedRecipeType() === option.type" [class.text-secondary]="store.selectedRecipeType() !== option.type"></i>
+					</span>
 					<span class="min-w-0">
 						<strong class="block text-body-md font-bold truncate">{{ option.title | translate }}</strong>
 						<span class="text-body-sm font-medium text-on-surface-muted line-clamp-2">{{ option.description | translate }}</span>
 					</span>
 					@if (store.selectedRecipeType() === option.type) {
-						<span class="absolute right-3 top-3 grid size-6 place-items-center rounded-pill bg-on-secondary-container text-secondary text-label-md">
-							<i class="pi pi-check"></i>
+						<span class="absolute right-3 top-3 inline-flex items-center justify-center size-6 rounded-full bg-on-secondary-container">
+							<i class="pi pi-check text-sm text-secondary-container"></i>
 						</span>
 					}
 				</button>
@@ -63,27 +76,30 @@
 		</div>
 	</div>
 
-	<div class="mt-7 grid gap-3">
-		<h2 class="text-title-sm font-bold">{{ 'ai.form.portions' | translate }}</h2>
-		<div class="flex items-center gap-5">
-			<button type="button" class="grid size-12 place-items-center rounded-pill bg-on-secondary-container/15 text-title-md font-bold transition-colors duration-fast ease-standard hover:bg-on-secondary-container/25" (click)="store.decrementPortions()">−</button>
-			<span class="text-title-md font-bold">{{ store.portions() }} {{ 'ai.form.portions_label' | translate }}</span>
-			<button type="button" class="grid size-12 place-items-center rounded-pill bg-on-secondary-container/15 text-title-md font-bold transition-colors duration-fast ease-standard hover:bg-on-secondary-container/25" (click)="store.incrementPortions()">+</button>
+	<div class="mb-7 grid gap-4">
+		<h3 class="text-title-sm font-bold text-on-secondary-container">{{ 'ai.form.portions' | translate }}</h3>
+		<div class="flex items-center gap-4 justify-start">
+			<button type="button" class="grid size-12 place-items-center rounded-full bg-on-secondary-container/20 text-title-md font-bold transition-colors duration-fast ease-standard hover:bg-on-secondary-container/30 active:scale-95 text-on-secondary-container" (click)="store.decrementPortions()">−</button>
+			<div class="flex items-center gap-2">
+				<span class="text-title-md font-bold text-on-secondary-container">{{ store.portions() }}</span>
+				<span class="text-body-sm font-medium text-on-secondary-container/80">{{ 'ai.form.portions_label' | translate }}</span>
+			</div>
+			<button type="button" class="grid size-12 place-items-center rounded-full bg-on-secondary-container/20 text-title-md font-bold transition-colors duration-fast ease-standard hover:bg-on-secondary-container/30 active:scale-95 text-on-secondary-container" (click)="store.incrementPortions()">+</button>
 		</div>
 	</div>
 
 	@if (store.error()) {
-		<p class="mt-6 rounded-xl bg-error-container p-4 text-body-sm font-bold text-on-error-container">{{ store.error() }}</p>
+		<p class="mb-6 rounded-xl bg-error-container p-4 text-body-sm font-bold text-on-error-container">{{ store.error() }}</p>
 	}
 
 	<button
 		type="button"
-		class="mt-7 flex min-h-14 w-full items-center justify-center gap-3 rounded-2xl text-title-md font-bold text-white shadow-2 transition-all duration-fast ease-standard hover:shadow-4 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60 sm:min-h-16"
-	style="background: var(--gradient-ai); box-shadow: 0 4px 24px rgba(255,122,24,0.35)"
+		class="w-full min-h-14 flex items-center justify-center gap-3 rounded-2xl text-title-md font-bold text-white shadow-2 transition-all duration-fast ease-standard hover:shadow-4 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 sm:min-h-16"
+	style="background: linear-gradient(135deg, #FF7A18 0%, #FF9B42 100%); box-shadow: 0 4px 24px rgba(255,122,24,0.35)"
 		[disabled]="!store.canGenerate()"
 		(click)="store.generate()"
 	>
-		<i class="pi pi-sparkles"></i>
+		<i class="pi pi-sparkles text-lg"></i>
 		<span>{{ store.loading() ? ('ai.form.generating' | translate) : ('ai.form.generate_btn' | translate) }}</span>
 	</button>
 </section>
