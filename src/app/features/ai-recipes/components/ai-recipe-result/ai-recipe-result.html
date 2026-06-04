@@ -1,34 +1,56 @@
 @if (recipe(); as recipe) {
-	<section class="rounded-2xl border border-outline bg-surface-container p-6 shadow-1">
-		<div class="flex flex-wrap items-start justify-between gap-4">
+	<section class="rounded-2xl border border-outline bg-surface-container p-6 shadow-2">
+		<div class="flex flex-wrap items-start justify-between gap-4 mb-6">
 			<div class="min-w-0">
-				<span class="text-label-md font-bold uppercase tracking-wide text-primary">{{ 'ai.result.generated' | translate }}</span>
-				<h2 class="mt-2 font-display text-headline-md text-on-surface">{{ recipe.title }}</h2>
-				<p class="mt-2 max-w-2xl text-body-sm font-medium leading-base text-on-surface-muted">{{ recipe.description }}</p>
+				<div class="inline-flex items-center gap-2 mb-3">
+					<span class="inline-flex items-center justify-center rounded-pill bg-primary/20 p-1">
+						<i class="pi pi-check-circle text-primary text-lg"></i>
+					</span>
+					<span class="text-label-md font-bold uppercase tracking-wide text-primary">{{ 'ai.result.generated' | translate }}</span>
+				</div>
+				<h2 class="font-display text-headline-md text-on-surface mb-3">{{ recipe.title }}</h2>
+				<p class="max-w-2xl text-body-sm font-medium leading-base text-on-surface-muted">{{ recipe.description }}</p>
 			</div>
-			<div class="flex flex-wrap gap-2 text-body-sm font-bold text-on-surface">
-				<span class="rounded-pill bg-primary-container px-3 py-1.5 text-on-primary-container">{{ recipe.timeMinutes }} min</span>
-				<span class="rounded-pill bg-secondary-container px-3 py-1.5 text-on-secondary-container">{{ recipe.portions }} {{ 'ai.form.portions_label' | translate }}</span>
-				<span class="rounded-pill bg-tertiary-container px-3 py-1.5 text-on-tertiary-container">{{ recipe.difficulty }}</span>
+			<div class="flex flex-wrap gap-2 text-body-sm font-bold">
+				<span class="rounded-full bg-primary-container/80 px-4 py-2 text-on-primary-container inline-flex items-center gap-2">
+					<i class="pi pi-clock text-lg"></i>
+					{{ recipe.timeMinutes }} min
+				</span>
+				<span class="rounded-full bg-secondary-container/80 px-4 py-2 text-on-secondary-container inline-flex items-center gap-2">
+					<i class="pi pi-users text-lg"></i>
+					{{ recipe.portions }} {{ 'ai.form.portions_label' | translate }}
+				</span>
+				<span class="rounded-full bg-tertiary-container/80 px-4 py-2 text-on-tertiary-container inline-flex items-center gap-2">
+					<i class="pi pi-fire text-lg"></i>
+					{{ recipe.difficulty }}
+				</span>
 			</div>
 		</div>
 
-		<div class="mt-5 grid gap-6 lg:grid-cols-2">
+		<div class="mt-6 grid gap-6 lg:grid-cols-2">
 			<div>
-				<h3 class="text-title-sm font-bold text-on-surface">{{ 'ai.result.ingredients' | translate }}</h3>
-				<div class="mt-3 flex flex-wrap gap-2">
+				<h3 class="text-title-sm font-bold text-on-surface mb-4 flex items-center gap-2">
+					<i class="pi pi-shopping-bag text-secondary"></i>
+					{{ 'ai.result.ingredients' | translate }}
+				</h3>
+				<div class="flex flex-wrap gap-2">
 					@for (ingredient of recipe.ingredients; track ingredient) {
-						<span class="rounded-pill bg-surface-container-high px-3 py-1.5 text-body-sm font-semibold text-on-surface">{{ ingredient }}</span>
+						<span class="rounded-full bg-surface-container-high border border-outline px-4 py-2 text-body-sm font-semibold text-on-surface">
+							<span class="text-primary">•</span> {{ ingredient }}
+						</span>
 					}
 				</div>
 			</div>
 			<div>
-				<h3 class="text-title-sm font-bold text-on-surface">{{ 'ai.result.steps' | translate }}</h3>
-				<ol class="mt-3 grid gap-2">
+				<h3 class="text-title-sm font-bold text-on-surface mb-4 flex items-center gap-2">
+					<i class="pi pi-list text-secondary"></i>
+					{{ 'ai.result.steps' | translate }}
+				</h3>
+				<ol class="grid gap-3">
 					@for (step of recipe.steps; track step; let index = $index) {
-						<li class="flex gap-3 text-body-sm font-medium leading-base text-on-surface">
-							<span class="grid size-6 shrink-0 place-items-center rounded-pill bg-primary text-label-md font-bold text-on-primary">{{ index + 1 }}</span>
-							<span>{{ step }}</span>
+						<li class="flex gap-3 text-body-sm font-medium leading-relaxed text-on-surface">
+							<span class="inline-flex items-center justify-center size-7 rounded-full bg-primary text-label-md font-bold text-on-primary shrink-0">{{ index + 1 }}</span>
+							<span class="pt-0.5">{{ step }}</span>
 						</li>
 					}
 				</ol>
@@ -36,12 +58,15 @@
 		</div>
 	</section>
 } @else {
-	<section class="rounded-2xl border border-outline bg-surface-container p-5 shadow-1">
-		<p class="flex items-center gap-3 text-body-md font-medium text-on-surface-muted">
-			<span class="grid size-9 place-items-center rounded-pill bg-tertiary-container text-on-tertiary-container">
-				<i class="pi pi-shield"></i>
+	<section class="rounded-2xl border border-outline bg-gradient-to-br from-surface-container to-surface-container/50 p-6 shadow-1">
+		<div class="flex items-start gap-4">
+			<span class="inline-flex items-center justify-center rounded-full bg-tertiary-container/30 p-3 shrink-0">
+				<i class="pi pi-info-circle text-tertiary text-2xl"></i>
 			</span>
-			{{ 'ai.result.info_banner' | translate }}
-		</p>
+			<div>
+				<h3 class="text-body-md font-bold text-on-surface mb-2">{{ 'ai.result.empty_title' | translate }}</h3>
+				<p class="text-body-sm font-medium text-on-surface-muted">{{ 'ai.result.info_banner' | translate }}</p>
+			</div>
+		</div>
 	</section>
 }
