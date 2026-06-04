@@ -64,30 +64,41 @@ export class SharedProfileCard implements OnInit {
 		const username = this.username()
 		const userId = this.userId()
 
-		if (username) {
-			this.users.getUserByUsername(username).subscribe({
-				next: user => {
-					this.user.set(user)
-					this.loading.set(false)
-					this.failed.set(!user)
-				},
-				error: () => this.markFailed(),
-			})
-			return
-		}
-
 		if (userId) {
 			this.users.getUserById(userId).subscribe({
 				next: result => {
 					this.user.set(result.data)
 					this.loading.set(false)
+					this.failed.set(!result.data)
 				},
-				error: () => this.markFailed(),
+				error: () => {
+					if (username) {
+						this.loadByUsername(username)
+					} else {
+						this.markFailed()
+					}
+				},
 			})
 			return
 		}
 
+		if (username) {
+			this.loadByUsername(username)
+			return
+		}
+
 		this.markFailed()
+	}
+
+	private loadByUsername(username: string): void {
+		this.users.getUserByUsername(username).subscribe({
+			next: user => {
+				this.user.set(user)
+				this.loading.set(false)
+				this.failed.set(!user)
+			},
+			error: () => this.markFailed(),
+		})
 	}
 
 	/**
