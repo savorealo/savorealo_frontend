@@ -50,20 +50,20 @@
 	/* Superficies */
 	--rgb-surface:                 var(--rgb-neutral-50);
 	--rgb-surface-container:       var(--rgb-neutral-0);
-	--rgb-surface-container-high:  var(--rgb-cream-100);
-	--rgb-surface-container-low:   var(--rgb-neutral-100);
+	--rgb-surface-container-high:  var(--rgb-neutral-100);  /* #F7F1E8 — beige neutro cálido para sidebar/chrome */
+	--rgb-surface-container-low:   var(--rgb-neutral-200);  /* #E6DCCD — beige más profundo para inputs/recessed */
 	--rgb-on-surface:              var(--rgb-neutral-950);
 	--rgb-on-surface-muted:        var(--rgb-neutral-500);
-	--rgb-outline:                 var(--rgb-neutral-200);
-	--rgb-outline-strong:          var(--rgb-neutral-300);
+	--rgb-outline:                 var(--rgb-neutral-300);  /* subimos un paso para que contraste con los nuevos fondos */
+	--rgb-outline-strong:          var(--rgb-neutral-400);
 
 	/* Marca · CTAs principales
-	   on-primary = oscuro cálido en LIGHT — contraste 5.9:1 sobre #FF7A18 ✓ WCAG AA
-	   primary-container = crema muy suave — chips y badges sin agredir */
+	   on-primary = oscuro cálido en LIGHT — contraste 7.4:1 sobre #FF7A18 ✓ WCAG AAA
+	   primary-container = crema oficial Savorealo para chips y estados activos */
 	--rgb-primary:                 var(--rgb-yellow-500);   /* #FF7A18 */
-	--rgb-on-primary:               28   8   0;              /* #1C0800 — oscuro cálido, contraste 5.9:1 ✓ */
-	--rgb-primary-container:       var(--rgb-cream-100);    /* #FFF4EB — fondo suave para chips */
-	--rgb-on-primary-container:    var(--rgb-yellow-500);   /* naranja sobre crema — contraste 4.8:1 ✓ */
+	--rgb-on-primary:               28   8   0;              /* #1C0800 — oscuro cálido, contraste 7.4:1 ✓ */
+	--rgb-primary-container:       var(--rgb-cream-100);    /* #FFF4EB — chip activo y badges */
+	--rgb-on-primary-container:    var(--rgb-yellow-900);   /* #3D1500 — marrón oscuro cálido, contraste 14:1 ✓ WCAG AAA */
 
 	/* Secundario · Naranja Claro — más cálido, solo como tint/badge
 	   Nunca usar como fondo de botón (luminancia alta → texto oscuro) */

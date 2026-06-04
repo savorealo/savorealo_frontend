@@ -2,7 +2,6 @@ import { Component, inject, input, OnInit, output, computed } from '@angular/cor
 import { RouterLink, RouterLinkActive }              from '@angular/router'
 import { AuthStore }                                 from '@core/store/auth.store'
 import { NotificationsStore }                        from '@core/store/notifications.store'
-import { GlobalSearchStore }                         from '@core/store/global-search.store'
 import { GlobalSearchPanel }                         from '@shared/components/global-search/global-search-panel'
 import { Topbar }                                    from '@shared/components/topbar/topbar'
 import { CallHost }                                  from '@shared/components/call-host/call-host'
@@ -60,11 +59,6 @@ export class AppShell implements OnInit {
 	 * Almacén de estado de notificaciones.
 	 */
 	readonly notifications = inject(NotificationsStore)
-
-	/**
-	 * Almacén de estado de la búsqueda global interactiva.
-	 */
-	readonly globalSearch   = inject(GlobalSearchStore)
 
 	/**
 	 * Servicio para la lista de compras local y remota.

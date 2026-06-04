@@ -15,7 +15,8 @@ import { Router, RouterLink } from '@angular/router'
 import { EditProfileComponent } from './edit-profile/edit-profile'
 import { NgOptimizedImage } from '@angular/common'
 import { ImgFallbackDirective } from '@shared/directives/img-fallback.directive'
-import { ShareProfileModal, ShareableProfile } from '@features/messages/components/share-profile-modal/share-profile-modal'
+import { ShareModal } from '@features/messages/components/share-modal/share-modal'
+import { ShareableProfile } from '@features/messages/components/share-profile-modal/share-profile-modal'
 import { TranslatePipe } from '@shared/pipes/translate.pipe'
 import { TranslationService } from '@core/services/translation.service'
 
@@ -24,7 +25,7 @@ import { TranslationService } from '@core/services/translation.service'
  */
 @Component({
   selector: 'app-profile',
-  imports: [AppShell, Avatar, TabsModule, DialogModule, RouterLink, EditProfileComponent, NgOptimizedImage, ImgFallbackDirective, ShareProfileModal, TranslatePipe],
+  imports: [AppShell, Avatar, TabsModule, DialogModule, RouterLink, EditProfileComponent, NgOptimizedImage, ImgFallbackDirective, ShareModal, TranslatePipe],
   templateUrl: './profile.html',
 })
 /**

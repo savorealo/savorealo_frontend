@@ -42,7 +42,7 @@
 	}
 
 	@if (sharingPost(); as p) {
-		<app-share-post-modal [post]="p" (close)="closeShare()" />
+		<app-share-modal [post]="p" (close)="closeShare()" />
 	}
 </app-shell>
 
