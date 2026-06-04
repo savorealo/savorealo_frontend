@@ -13,7 +13,7 @@
       />
       <div class="min-h-5 text-[0.75rem]">
         @if (isInvalid('fullName')) {
-          <p-message severity="error" size="small" variant="simple">{{ 'auth.register.full_name_required' | translate }}</p-message>
+          <p-message severity="error" size="small" variant="simple" [text]="'auth.register.full_name_required' | translate" />
         }
       </div>
     </label>
@@ -30,7 +30,7 @@
       />
       <div class="min-h-5 text-[0.75rem]">
         @if (isInvalid('birthDate')) {
-          <p-message severity="error" size="small" variant="simple">{{ 'auth.register.birth_date_required' | translate }}</p-message>
+          <p-message severity="error" size="small" variant="simple" [text]="'auth.register.birth_date_required' | translate" />
         }
       </div>
     </label>

@@ -1,16 +1,28 @@
 <app-shell>
-	<div class="min-h-dvh bg-surface text-on-surface">
-		<section class="mx-auto grid max-w-[1280px] gap-5 px-3 py-4 sm:gap-8 sm:px-6 sm:py-8 lg:grid-cols-[minmax(0,1fr)_22rem] lg:py-10">
-			<main class="grid min-w-0 gap-5 sm:gap-8">
+	<div class="h-full overflow-hidden bg-surface text-on-surface">
+		<div class="h-full grid lg:grid-cols-[minmax(0,1fr)_22rem]">
+
+			<!-- Columna izquierda: hero + formulario -->
+			<section class="overflow-y-auto grid content-start gap-5 px-4 py-5 pb-24 sm:px-6 lg:px-8 lg:py-6 lg:pb-6">
 				<app-ai-recipes-hero />
 				<app-ai-recipe-form />
-				<app-ai-recipe-result [recipe]="store.generatedRecipe()" />
-			</main>
+				<!-- En móvil el resultado aparece aquí bajo el formulario -->
+				<div class="lg:hidden">
+					<app-ai-recipe-result [recipe]="store.generatedRecipe()" />
+				</div>
+				<div class="lg:hidden">
+					<app-recent-ai-recipes />
+				</div>
+			</section>
 
-			<aside class="grid min-w-0 content-start gap-5 sm:gap-6">
-				<app-ai-ideas-panel />
-				<app-recent-ai-recipes />
+			<!-- Columna derecha (solo desktop): resultado + recentes -->
+			<aside class="hidden lg:flex lg:flex-col overflow-hidden border-l border-outline">
+				<div class="overflow-y-auto flex-1 grid content-start gap-5 px-5 py-6">
+					<app-ai-recipe-result [recipe]="store.generatedRecipe()" />
+					<app-recent-ai-recipes />
+				</div>
 			</aside>
-		</section>
+
+		</div>
 	</div>
 </app-shell>

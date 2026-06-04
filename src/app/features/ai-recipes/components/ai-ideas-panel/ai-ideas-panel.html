@@ -15,8 +15,8 @@
 			<article class="grid grid-cols-[48px_1fr_auto] items-center gap-3">
 				<img [src]="idea.imageUrl" alt="" class="size-12 rounded-pill object-cover" />
 				<div class="min-w-0">
-					<h3 class="truncate text-body-md font-bold text-on-surface">{{ idea.title }}</h3>
-					<p class="truncate text-body-sm font-medium text-on-surface-muted">{{ idea.description }}</p>
+					<h3 class="truncate text-body-md font-bold text-on-surface">{{ idea.titleKey | translate }}</h3>
+					<p class="truncate text-body-sm font-medium text-on-surface-muted">{{ idea.descriptionKey | translate }}</p>
 				</div>
 				<button type="button" class="min-h-11 rounded-pill bg-primary-container px-4 text-body-sm font-bold text-on-primary-container transition-all duration-fast ease-standard hover:shadow-1">
 					{{ 'ai.ideas.view' | translate }}

@@ -14,9 +14,9 @@
       <div class="min-h-5 text-[0.75rem]">
         @if (isInvalid('email')) {
           @if (registerForm().get('email')?.errors?.['required']) {
-            <p-message severity="error" size="small" variant="simple">{{ 'auth.register.email_required' | translate }}</p-message>
+            <p-message severity="error" size="small" variant="simple" [text]="'auth.register.email_required' | translate" />
           } @else if (registerForm().get('email')?.errors?.['email']) {
-            <p-message severity="error" size="small" variant="simple">{{ 'auth.register.email_invalid' | translate }}</p-message>
+            <p-message severity="error" size="small" variant="simple" [text]="'auth.register.email_invalid' | translate" />
           }
         }
       </div>
@@ -40,14 +40,14 @@
       </div>
       <div class="min-h-5 text-[0.75rem]">
         @if (registerForm().get('username')?.pending) {
-          <p-message severity="secondary" size="small" variant="simple">{{ 'auth.register.checking_username' | translate }}</p-message>
+          <p-message severity="secondary" size="small" variant="simple" [text]="'auth.register.checking_username' | translate" />
         } @else if (isInvalid('username')) {
           @if (registerForm().get('username')?.errors?.['required']) {
-            <p-message severity="error" size="small" variant="simple">{{ 'auth.register.username_required' | translate }}</p-message>
+            <p-message severity="error" size="small" variant="simple" [text]="'auth.register.username_required' | translate" />
           } @else if (registerForm().get('username')?.errors?.['usernameFormat']) {
-            <p-message severity="error" size="small" variant="simple">{{ registerForm().get('username')?.errors?.['usernameFormat'] }}</p-message>
+            <p-message severity="error" size="small" variant="simple" [text]="registerForm().get('username')?.errors?.['usernameFormat']" />
           } @else if (registerForm().get('username')?.errors?.['usernameUnavailable']) {
-            <p-message severity="error" size="small" variant="simple">{{ registerForm().get('username')?.errors?.['usernameUnavailable'] }}</p-message>
+            <p-message severity="error" size="small" variant="simple" [text]="registerForm().get('username')?.errors?.['usernameUnavailable']" />
           }
         }
       </div>
@@ -65,11 +65,11 @@
       <div class="min-h-5 text-[0.75rem]">
         @if (isInvalid('password')) {
           @if (registerForm().get('password')?.errors?.['required']) {
-            <p-message severity="error" size="small" variant="simple">{{ 'auth.register.password_required' | translate }}</p-message>
+            <p-message severity="error" size="small" variant="simple" [text]="'auth.register.password_required' | translate" />
           } @else if (registerForm().get('password')?.errors?.['minlength']) {
-            <p-message severity="error" size="small" variant="simple">{{ 'auth.register.password_minlength' | translate }}</p-message>
+            <p-message severity="error" size="small" variant="simple" [text]="'auth.register.password_minlength' | translate" />
           } @else if (registerForm().get('password')?.errors?.['pattern']) {
-            <p-message severity="error" size="small" variant="simple">{{ 'auth.register.password_pattern' | translate }}</p-message>
+            <p-message severity="error" size="small" variant="simple" [text]="'auth.register.password_pattern' | translate" />
           }
         }
       </div>
@@ -86,9 +86,9 @@
       />
       <div class="min-h-5 text-[0.75rem]">
         @if (isInvalid('confirmPassword')) {
-          <p-message severity="error" size="small" variant="simple">{{ 'auth.register.confirm_required' | translate }}</p-message>
+          <p-message severity="error" size="small" variant="simple" [text]="'auth.register.confirm_required' | translate" />
         } @else if (registerForm().hasError('passwordMismatch') && registerForm().get('confirmPassword')?.touched) {
-          <p-message severity="error" size="small" variant="simple">{{ 'auth.register.password_mismatch' | translate }}</p-message>
+          <p-message severity="error" size="small" variant="simple" [text]="'auth.register.password_mismatch' | translate" />
         }
       </div>
     </label>

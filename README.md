@@ -93,19 +93,22 @@ El idioma seleccionado se guarda en `localStorage` con la clave `savorealo_lang`
 
 Las descripciones de posts y los mensajes de chat son texto libre de usuarios, imposible de pre-traducir. Para ello existe el **`ContentTranslationService`**.
 
-### API: MyMemory Translated
+### API: Google Translate (endpoint público)
 
-Se usa la [API pública de MyMemory](https://mymemory.translated.net/) — gratuita, sin API key, sin configuración de entorno.
+Se usa el endpoint público de Google Translate — gratuito, sin API key, sin registro, sin configuración de entorno.
 
 ```
-GET https://api.mymemory.translated.net/get?q=TEXTO&langpair=auto|TARGET_LANG
+GET https://translate.googleapis.com/translate_a/single
+    ?client=gtx&sl=auto&tl=TARGET_LANG&dt=t&q=TEXTO
 ```
 
-- **Sin clave**: la URL es completamente pública.
-- **Detección automática** del idioma origen con `langpair=auto|TARGET`.
-- **Límite gratuito**: 5.000 palabras/día por IP (suficiente para uso social típico).
+- **Sin clave**: endpoint público disponible desde 2010.
+- **Detección automática** del idioma origen con `sl=auto`.
+- **Sin límite diario** para uso normal de aplicación.
 - **Todos los idiomas** del sistema están soportados.
-- **Escalable**: si se requiere mayor volumen, basta con mover la lógica a una Supabase Edge Function sin cambiar la interfaz del servicio.
+- **Escalable**: si se requiere mayor control o volumen alto, la lógica puede migrarse a una Supabase Edge Function sin cambiar la interfaz del servicio.
+
+> **Nota**: es un endpoint no oficial de Google. No hay SLA, pero lleva más de 10 años estable.
 
 ### ContentTranslationService
 
@@ -171,7 +174,7 @@ src/app/core/services/
 │   ├── LOCALE_OPTIONS               # 20 regiones → LanguageCode (para el registro)
 │   ├── LANGUAGE_OPTIONS             # 14 idiomas únicos (para ajustes)
 │   └── TranslationService           # currentLang signal + setLanguage() + translate()
-└── content-translation.service.ts   # Traducción dinámica vía MyMemory
+└── content-translation.service.ts   # Traducción dinámica vía Google Translate
     └── ContentTranslationService    # translate(text): Observable<string> + caché
 
 src/app/shared/

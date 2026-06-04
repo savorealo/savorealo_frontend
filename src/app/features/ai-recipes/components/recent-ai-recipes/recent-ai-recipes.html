@@ -1,18 +1,28 @@
-<section class="rounded-2xl border border-outline bg-surface-container p-5 shadow-1">
-	<h2 class="mb-5 text-title-md font-bold text-on-surface">{{ 'ai.recent.title' | translate }}</h2>
+<section class="rounded-2xl border border-outline bg-surface-container p-4 shadow-1">
+	<h2 class="mb-4 text-title-sm font-bold text-on-surface">{{ 'ai.recent.title' | translate }}</h2>
 
-	<div class="grid gap-4">
-		@for (recipe of store.recentRecipes(); track recipe.id) {
-			<article class="grid grid-cols-[64px_1fr_auto] items-center gap-3">
-				<img [src]="recipe.imageUrl" alt="" class="h-14 w-16 rounded-xl object-cover" />
-				<div class="min-w-0">
-					<h3 class="truncate text-body-md font-bold text-on-surface">{{ recipe.title }}</h3>
-					<p class="truncate text-body-sm font-medium text-on-surface-muted">{{ recipe.createdLabel }}</p>
-				</div>
-				<button type="button" class="grid size-10 place-items-center rounded-pill text-on-surface-muted transition-colors duration-fast ease-standard hover:bg-surface-container-high hover:text-on-surface" [attr.aria-label]="'ai.recent.save_recipe' | translate">
-					<i class="pi pi-bookmark text-lg"></i>
-				</button>
-			</article>
-		}
-	</div>
+	@if (store.recentRecipes().length === 0) {
+		<div class="flex flex-col items-center gap-2 py-6 text-center">
+			<span class="grid size-10 place-items-center rounded-pill bg-surface-container-high text-on-surface-muted">
+				<i class="pi pi-history text-lg"></i>
+			</span>
+			<p class="text-body-sm font-medium text-on-surface-muted">{{ 'ai.recent.empty' | translate }}</p>
+		</div>
+	} @else {
+		<div class="grid gap-3">
+			@for (recipe of store.recentRecipes(); track recipe.id) {
+				<article class="flex items-center gap-3 rounded-xl border border-outline bg-surface p-3">
+					<div class="min-w-0 flex-1">
+						<h3 class="truncate text-body-sm font-bold text-on-surface">{{ recipe.title }}</h3>
+						<p class="mt-0.5 text-label-md font-medium text-on-surface-muted">
+							{{ recipe.timeMinutes }} min · {{ recipe.difficulty }}
+						</p>
+					</div>
+					<span class="shrink-0 rounded-pill bg-primary-container px-2 py-1 text-label-sm font-bold text-on-primary-container">
+						{{ recipe.portions }}p
+					</span>
+				</article>
+			}
+		</div>
+	}
 </section>
