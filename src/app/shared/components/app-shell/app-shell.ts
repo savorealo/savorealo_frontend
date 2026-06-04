@@ -2,7 +2,6 @@ import { Component, inject, input, OnInit, output, computed } from '@angular/cor
 import { RouterLink, RouterLinkActive }              from '@angular/router'
 import { AuthStore }                                 from '@core/store/auth.store'
 import { NotificationsStore }                        from '@core/store/notifications.store'
-import { GlobalSearchStore }                         from '@core/store/global-search.store'
 import { GlobalSearchPanel }                         from '@shared/components/global-search/global-search-panel'
 import { Topbar }                                    from '@shared/components/topbar/topbar'
 import { CallHost }                                  from '@shared/components/call-host/call-host'
@@ -62,11 +61,6 @@ export class AppShell implements OnInit {
 	readonly notifications = inject(NotificationsStore)
 
 	/**
-	 * Almacén de estado de la búsqueda global interactiva.
-	 */
-	readonly globalSearch   = inject(GlobalSearchStore)
-
-	/**
 	 * Servicio para la lista de compras local y remota.
 	 */
 	readonly shoppingList   = inject(ShoppingListService)
@@ -99,7 +93,7 @@ export class AppShell implements OnInit {
 			{ icon: 'pi pi-home',          labelKey: 'shell.feed',          route: '/' },
 			{ icon: 'pi pi-search',        labelKey: 'shell.explore',       route: '/explore' },
 			{ icon: 'pi pi-map-marker',    labelKey: 'shell.places',        route: '/places' },
-			{ icon: 'pi pi-sparkles',      labelKey: 'shell.ai_recipes',    route: '/ai' },
+			{ icon: 'pi pi-sparkles',      labelKey: 'shell.ai_recipes',    route: '/generar-receta' },
 			{ icon: 'pi pi-bookmark',      labelKey: 'shell.saved',         route: '/saved' },
 			{ icon: 'pi pi-comments',      labelKey: 'shell.messages',      route: '/chat' },
 			{ icon: 'pi pi-bell',          labelKey: 'shell.notifications', route: '/notifications' },

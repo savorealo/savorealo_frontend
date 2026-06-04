@@ -10,7 +10,7 @@ import { FeedRightRail } from './components/feed-right-rail/feed-right-rail'
 import { StoriesStrip } from './components/stories-strip/stories-strip'
 import { StoryViewer } from './components/story-viewer/story-viewer'
 import { ReportSheet } from './components/report-sheet/report-sheet'
-import { SharePostModal } from '@features/messages/components/share-post-modal/share-post-modal'
+import { ShareModal } from '@features/messages/components/share-modal/share-modal'
 
 /**
  * Componente principal para la vista o página de el feed de publicaciones.
@@ -26,7 +26,7 @@ import { SharePostModal } from '@features/messages/components/share-post-modal/s
 		StoriesStrip,
 		StoryViewer,
 		ReportSheet,
-		SharePostModal,
+		ShareModal,
 	],
 	templateUrl: './feed-page.html',
 })

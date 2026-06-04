@@ -12,7 +12,8 @@ import { Avatar } from '@shared/components/avatar/avatar'
 import { ImgFallbackDirective } from '@shared/directives/img-fallback.directive'
 import { TabsModule } from 'primeng/tabs'
 import { DialogModule } from 'primeng/dialog'
-import { ShareProfileModal, ShareableProfile } from '@features/messages/components/share-profile-modal/share-profile-modal'
+import { ShareModal } from '@features/messages/components/share-modal/share-modal'
+import { ShareableProfile } from '@features/messages/components/share-profile-modal/share-profile-modal'
 import { TranslationService } from '@core/services/translation.service'
 import { TranslatePipe } from '@shared/pipes/translate.pipe'
 
@@ -21,7 +22,7 @@ import { TranslatePipe } from '@shared/pipes/translate.pipe'
  */
 @Component({
 	selector: 'app-public-profile-page',
-	imports: [AppShell, Avatar, RouterLink, TabsModule, DialogModule, ImgFallbackDirective, ShareProfileModal, TranslatePipe],
+	imports: [AppShell, Avatar, RouterLink, TabsModule, DialogModule, ImgFallbackDirective, ShareModal, TranslatePipe],
 	templateUrl: './public-profile-page.html',
 })
 /**

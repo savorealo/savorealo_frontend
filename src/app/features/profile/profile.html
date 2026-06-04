@@ -61,14 +61,14 @@
               <p class="max-w-3xl text-body-md font-medium leading-base text-on-surface-muted">{{ bio() }}</p>
 
               <div class="mt-5 grid grid-cols-3 overflow-hidden rounded-2xl border border-outline bg-surface-container-high sm:mt-6">
-                <div class="px-2 py-4 sm:px-4 sm:py-5">
+                <button type="button" class="px-2 py-4 text-left transition-colors duration-fast ease-standard hover:bg-surface-container sm:px-4 sm:py-5" (click)="openFollowList('followers')">
                   <span class="block text-headline-sm font-bold text-on-surface">{{ profile()?.followersCount ?? 0 }}</span>
                   <span class="text-label-md font-bold uppercase tracking-wide text-on-surface-muted">{{ 'profile.followers' | translate }}</span>
-                </div>
-                <div class="border-x border-outline px-2 py-4 sm:px-4 sm:py-5">
+                </button>
+                <button type="button" class="border-x border-outline px-2 py-4 text-left transition-colors duration-fast ease-standard hover:bg-surface-container sm:px-4 sm:py-5" (click)="openFollowList('following')">
                   <span class="block text-headline-sm font-bold text-on-surface">{{ profile()?.followingCount ?? 0 }}</span>
                   <span class="text-label-md font-bold uppercase tracking-wide text-on-surface-muted">{{ 'profile.following' | translate }}</span>
-                </div>
+                </button>
                 <div class="px-2 py-4 sm:px-4 sm:py-5">
                   <span class="block text-headline-sm font-bold text-on-surface">{{ postsCount() }}</span>
                   <span class="text-label-md font-bold uppercase tracking-wide text-on-surface-muted">{{ 'profile.posts' | translate }}</span>
@@ -118,36 +118,46 @@
                 @if (!loadingPosts() && posts().length > 0) {
                   <div class="grid gap-4 pt-4 sm:grid-cols-2 xl:grid-cols-3">
                     @for (post of posts(); track post.id) {
-                      <a [routerLink]="['/post', post.id]" class="group overflow-hidden rounded-2xl border border-outline bg-surface-container-high transition-all duration-fast ease-standard hover:-translate-y-0.5 hover:shadow-3">
-                        @if (post.media[0]; as media) {
-                          <div class="relative aspect-[4/3] overflow-hidden">
-                            @if (media.type === 'VIDEO') {
-                              <video [src]="media.url" class="size-full object-cover" muted></video>
-                              <span class="absolute left-3 top-3 grid size-7 place-items-center rounded-pill bg-black/65 text-white">
-                                <i class="pi pi-play text-xs"></i>
-                              </span>
-                            } @else {
-                              <img [ngSrc]="media.url" fill appImgFallback class="object-cover transition-transform duration-slow ease-decelerated group-hover:scale-105" [alt]="post.title ?? ''" />
-                            }
-                            @if (post.recipe?.timeRequired) {
-                              <span class="absolute right-3 top-3 rounded-pill bg-black/65 px-3 py-1 text-label-md font-bold text-white">
-                                {{ post.recipe!.timeRequired }} min
-                              </span>
-                            }
+                      <div class="group relative overflow-hidden rounded-2xl border border-outline bg-surface-container-high transition-all duration-fast ease-standard hover:-translate-y-0.5 hover:shadow-3">
+                        <a [routerLink]="['/post', post.id]" class="block">
+                          @if (post.media[0]; as media) {
+                            <div class="relative aspect-[4/3] overflow-hidden">
+                              @if (media.type === 'VIDEO') {
+                                <video [src]="media.url" class="size-full object-cover" muted></video>
+                                <span class="absolute left-3 top-3 grid size-7 place-items-center rounded-pill bg-black/65 text-white">
+                                  <i class="pi pi-play text-xs"></i>
+                                </span>
+                              } @else {
+                                <img [ngSrc]="media.url" fill appImgFallback class="object-cover transition-transform duration-slow ease-decelerated group-hover:scale-105" [alt]="post.title ?? ''" />
+                              }
+                              @if (post.recipe?.timeRequired) {
+                                <span class="absolute right-3 top-3 rounded-pill bg-black/65 px-3 py-1 text-label-md font-bold text-white">
+                                  {{ post.recipe!.timeRequired }} min
+                                </span>
+                              }
+                            </div>
+                          } @else {
+                            <div class="flex aspect-[4/3] items-center justify-center bg-primary/10 p-4">
+                              <p class="line-clamp-5 text-center text-body-sm font-medium text-on-surface-muted">{{ post.description }}</p>
+                            </div>
+                          }
+                          <div class="p-4">
+                            <h3 class="line-clamp-2 text-body-md font-bold text-on-surface">{{ post.title || post.description }}</h3>
+                            <div class="mt-3 flex items-center gap-4 text-body-sm font-bold text-on-surface-muted">
+                              <span><i class="pi pi-heart-fill text-error"></i> {{ post.likesCount }}</span>
+                              <span><i class="pi pi-comment"></i> {{ post.commentsCount }}</span>
+                            </div>
                           </div>
-                        } @else {
-                          <div class="flex aspect-[4/3] items-center justify-center bg-primary/10 p-4">
-                            <p class="line-clamp-5 text-center text-body-sm font-medium text-on-surface-muted">{{ post.description }}</p>
-                          </div>
-                        }
-                        <div class="p-4">
-                          <h3 class="line-clamp-2 text-body-md font-bold text-on-surface">{{ post.title || post.description }}</h3>
-                          <div class="mt-3 flex items-center gap-4 text-body-sm font-bold text-on-surface-muted">
-                            <span><i class="pi pi-heart-fill text-error"></i> {{ post.likesCount }}</span>
-                            <span><i class="pi pi-comment"></i> {{ post.commentsCount }}</span>
-                          </div>
-                        </div>
-                      </a>
+                        </a>
+                        <button
+                          type="button"
+                          class="absolute right-2 top-2 z-10 hidden size-8 items-center justify-center rounded-full bg-error text-white opacity-0 shadow-md transition-opacity duration-fast group-hover:flex group-hover:opacity-100"
+                          [title]="'profile.delete_post' | translate"
+                          (click)="confirmDeletePost(post)"
+                        >
+                          <i class="pi pi-trash text-xs"></i>
+                        </button>
+                      </div>
                     }
                   </div>
                 }
@@ -344,8 +354,118 @@
     </p-dialog>
 
     @if (sharingProfile(); as profile) {
-      <app-share-profile-modal [profile]="profile" (close)="sharingProfile.set(null)" />
+      <app-share-modal [profile]="profile" (close)="sharingProfile.set(null)" />
     }
+
+    <!-- Follow list modal -->
+    <p-dialog
+      [visible]="showFollowList()"
+      (visibleChange)="showFollowList.set($event)"
+      [modal]="true"
+      [dismissableMask]="true"
+      [header]="followListTitle()"
+      [style]="{ width: 'min(92vw, 420px)' }"
+    >
+      @if (followListLoading()) {
+        <div class="grid gap-3 py-2">
+          @for (item of [1,2,3,4]; track item) {
+            <div class="flex items-center gap-3">
+              <div class="size-10 animate-pulse rounded-pill bg-surface-container-high"></div>
+              <div class="flex-1">
+                <div class="h-4 w-1/2 animate-pulse rounded-pill bg-surface-container-high"></div>
+                <div class="mt-1 h-3 w-1/3 animate-pulse rounded-pill bg-surface-container-high"></div>
+              </div>
+            </div>
+          }
+        </div>
+      } @else if (followListUsers().length === 0) {
+        <div class="py-8 text-center">
+          <i class="pi pi-users text-3xl text-on-surface-muted"></i>
+          <p class="mt-2 text-body-sm font-bold text-on-surface-muted">{{ 'public.no_results' | translate }}</p>
+        </div>
+      } @else {
+        <div class="grid gap-1 py-1">
+          @for (u of followListUsers(); track u.id) {
+            <div class="flex items-center gap-3 rounded-xl px-2 py-2.5">
+              <a [routerLink]="['/profile', u.username]" class="flex min-w-0 flex-1 items-center gap-3 transition hover:opacity-75" (click)="showFollowList.set(false)">
+                <app-avatar [src]="u.avatarUrl" [name]="u.displayName ?? u.username ?? ''" size="sm" />
+                <div class="min-w-0">
+                  <p class="truncate text-body-sm font-bold text-on-surface">{{ u.displayName ?? u.username }}</p>
+                  @if (u.username) {
+                    <p class="truncate text-label-md font-medium text-on-surface-muted">@{{ u.username }}</p>
+                  }
+                </div>
+              </a>
+              @if (followListType() === 'following') {
+                <button
+                  type="button"
+                  class="shrink-0 rounded-pill border border-outline px-3 py-1.5 text-label-md font-bold text-on-surface transition-colors duration-fast ease-standard hover:bg-error/10 hover:border-error hover:text-error disabled:opacity-50"
+                  [disabled]="processingUsers().has(u.id)"
+                  (click)="unfollowUser(u)"
+                >
+                  @if (processingUsers().has(u.id)) {
+                    <i class="pi pi-spinner pi-spin text-xs"></i>
+                  } @else {
+                    {{ 'profile.unfollow' | translate }}
+                  }
+                </button>
+              } @else {
+                <button
+                  type="button"
+                  class="shrink-0 rounded-pill border border-outline px-3 py-1.5 text-label-md font-bold text-on-surface transition-colors duration-fast ease-standard hover:bg-error/10 hover:border-error hover:text-error disabled:opacity-50"
+                  [disabled]="processingUsers().has(u.id)"
+                  (click)="removeFollower(u)"
+                >
+                  @if (processingUsers().has(u.id)) {
+                    <i class="pi pi-spinner pi-spin text-xs"></i>
+                  } @else {
+                    {{ 'profile.remove_follower' | translate }}
+                  }
+                </button>
+              }
+            </div>
+          }
+        </div>
+      }
+    </p-dialog>
+
+    <!-- Delete post confirmation modal -->
+    <p-dialog
+      [visible]="pendingDeletePost() !== null"
+      (visibleChange)="!$event && cancelDeletePost()"
+      [modal]="true"
+      [dismissableMask]="true"
+      [showHeader]="false"
+      [style]="{ width: 'min(92vw, 380px)' }"
+    >
+      <div class="p-2">
+        <div class="mb-4 grid size-12 place-items-center rounded-2xl bg-error/10">
+          <i class="pi pi-trash text-xl text-error"></i>
+        </div>
+        <h2 class="text-title-md font-bold text-on-surface">{{ 'profile.delete_post' | translate }}</h2>
+        <p class="mt-2 text-body-sm font-medium text-on-surface-muted">{{ 'profile.delete_post_confirm' | translate }}</p>
+        <div class="mt-5 flex justify-end gap-3">
+          <button
+            type="button"
+            class="inline-flex min-h-10 items-center rounded-pill px-4 text-body-sm font-bold text-on-surface transition-colors duration-fast ease-standard hover:bg-surface-container-high"
+            (click)="cancelDeletePost()"
+          >
+            {{ 'profile.cancel' | translate }}
+          </button>
+          <button
+            type="button"
+            class="inline-flex min-h-10 items-center gap-2 rounded-pill bg-error px-4 text-body-sm font-bold text-white transition-colors duration-fast ease-standard hover:bg-error/85 disabled:opacity-60"
+            [disabled]="deletingPost()"
+            (click)="executeDeletePost()"
+          >
+            @if (deletingPost()) {
+              <i class="pi pi-spinner pi-spin text-xs"></i>
+            }
+            {{ 'profile.delete_post' | translate }}
+          </button>
+        </div>
+      </div>
+    </p-dialog>
 
   </main>
 </app-shell>

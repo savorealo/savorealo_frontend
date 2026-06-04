@@ -134,4 +134,8 @@ export interface User {
    * Propiedad para gestionar following cantidad.
    */
   followingCount: number | null;
+  /**
+   * Propiedad para gestionar si el usuario es administrador.
+   */
+  is_admin?: boolean;
 }

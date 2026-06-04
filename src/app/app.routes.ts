@@ -113,6 +113,13 @@ export const routes: Routes = [
         loadComponent: () => import('@features/shopping-list/shopping-list-page').then(c => c.ShoppingListPage),
     },
     {
+        path: 'generar-receta',
+        title: 'Generar Receta IA | Savorealo',
+        canMatch: [authMatchGuard],
+        canActivate: [authGuard],
+        loadComponent: () => import('@features/recipe-agent/recipe-agent-page').then(c => c.RecipeAgentPage),
+    },
+    {
         path: 'admin',
         title: 'Panel de Administración | Savorealo',
         loadComponent: () => import('@features/admin/admin-page').then(c => c.AdminPage),

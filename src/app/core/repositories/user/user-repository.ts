@@ -60,6 +60,10 @@ export interface GqlUser {
 	 * Indicador booleano para es o está following viewer.
 	 */
 	isFollowingViewer: boolean | null
+	/**
+	 * Indicador booleano para es o está administrador.
+	 */
+	is_admin: boolean | null
 }
 
 /**
@@ -170,4 +174,8 @@ export interface IUserRepository {
 	 * Método para obtener following.
 	 */
 	getFollowing(userId: string, limit: number): Observable<GqlFollowUser[]>
+	/**
+	 * Método para quitar follower.
+	 */
+	removeFollower(userId: string): Observable<boolean>
 }

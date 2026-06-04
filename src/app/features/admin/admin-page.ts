@@ -2,6 +2,7 @@ import {
   Component,
   inject,
   signal,
+  computed,
   OnInit,
   OnDestroy,
   AfterViewInit,
@@ -10,8 +11,13 @@ import {
   PLATFORM_ID,
 } from '@angular/core'
 import { isPlatformBrowser, NgIf, NgFor, DatePipe } from '@angular/common'
+import { Router } from '@angular/router'
+import { FormsModule } from '@angular/forms'
+import { toObservable } from '@angular/core/rxjs-interop'
+import { filter, firstValueFrom } from 'rxjs'
 import { AppShell } from '@shared/components/app-shell/app-shell'
 import { SupabaseService } from '@core/services/supabase.service'
+import { AuthStore } from '@core/store/auth.store'
 import {
   Chart,
   BarController,
@@ -70,12 +76,14 @@ interface StatCard {
 
 @Component({
   selector: 'app-admin-page',
-  imports: [AppShell, NgIf, NgFor, DatePipe],
+  imports: [AppShell, NgIf, NgFor, DatePipe, FormsModule],
   templateUrl: './admin-page.html',
 })
 export class AdminPage implements OnInit, AfterViewInit, OnDestroy {
   private readonly supabase    = inject(SupabaseService)
   private readonly platformId  = inject(PLATFORM_ID)
+  private readonly authStore   = inject(AuthStore)
+  private readonly router      = inject(Router)
 
   @ViewChild('endpointsChart') endpointsChartRef!: ElementRef<HTMLCanvasElement>
   @ViewChild('statusChart') statusChartRef!: ElementRef<HTMLCanvasElement>
@@ -85,6 +93,33 @@ export class AdminPage implements OnInit, AfterViewInit, OnDestroy {
   readonly error = signal<string | null>(null)
   readonly lastUpdated = signal<Date | null>(null)
   readonly simulationMode = signal(false)
+  readonly activeTab = signal<'analytics' | 'tickets' | 'reports'>('analytics')
+
+  // Observable del signal adminChecked creado en contexto de inyección
+  private readonly adminChecked$ = toObservable(this.authStore.adminChecked)
+
+  readonly tickets = signal<any[]>([])
+  readonly ticketsLoading = signal(false)
+  readonly ticketFilterStatus = signal<'all' | 'open' | 'in_progress' | 'resolved'>('all')
+  readonly ticketFilterType = signal<'all' | 'error' | 'suggestion' | 'feature' | 'other'>('all')
+  readonly reports = signal<any[]>([])
+  readonly reportsLoading = signal(false)
+
+  readonly filteredTickets = computed(() => {
+    const list = this.tickets()
+    const status = this.ticketFilterStatus()
+    const type = this.ticketFilterType()
+
+    return list.filter(t => {
+      const matchStatus = status === 'all' || t.status === status
+      const matchType = type === 'all' || t.type === type
+      return matchStatus && matchType
+    })
+  })
+
+  readonly openTicketsCount = computed(() => this.tickets().filter(t => t.status === 'open').length)
+  readonly inProgressTicketsCount = computed(() => this.tickets().filter(t => t.status === 'in_progress').length)
+  readonly resolvedTicketsCount = computed(() => this.tickets().filter(t => t.status === 'resolved').length)
 
   readonly statCards = signal<StatCard[]>([])
 
@@ -128,10 +163,35 @@ export class AdminPage implements OnInit, AfterViewInit, OnDestroy {
   }
 
   async ngOnInit(): Promise<void> {
+    console.log('[AdminPage] ngOnInit → adminChecked:', this.authStore.adminChecked(), '| isAdmin:', this.authStore.isAdmin())
+
+    // Esperar a que el check async de admin termine antes de redirigir
+    if (!this.authStore.adminChecked()) {
+      console.log('[AdminPage] Esperando adminChecked...')
+      await firstValueFrom(
+        this.adminChecked$.pipe(filter(v => v === true))
+      )
+      console.log('[AdminPage] adminChecked completado → isAdmin:', this.authStore.isAdmin())
+    }
+
+    if (!this.authStore.isAdmin()) {
+      console.warn('[AdminPage] No es admin, redirigiendo a /')
+      this.router.navigate(['/'])
+      return
+    }
+
+    console.log('[AdminPage] Acceso concedido, cargando datos...')
     await this.loadData()
+    await this.loadTickets()
+    await this.loadReports()
+
     // Auto-refresh cada 30s
     if (isPlatformBrowser(this.platformId)) {
-      this.refreshInterval = setInterval(() => this.loadData(), 30_000)
+      this.refreshInterval = setInterval(() => {
+        this.loadData()
+        this.loadTickets()
+        this.loadReports()
+      }, 30_000)
     }
   }
 
@@ -245,7 +305,7 @@ export class AdminPage implements OnInit, AfterViewInit, OnDestroy {
         label: 'Total Peticiones',
         value: total.toLocaleString('es-ES'),
         icon: 'pi-server',
-        color: 'from-violet-500 to-purple-600',
+        color: 'from-orange-500 to-amber-600',
         trend: 'Últimas 2000',
         trendUp: true,
       },
@@ -376,7 +436,7 @@ export class AdminPage implements OnInit, AfterViewInit, OnDestroy {
             backgroundColor: 'rgba(15,15,25,0.95)',
             titleColor: '#fff',
             bodyColor: 'rgba(200,200,220,0.9)',
-            borderColor: 'rgba(139,92,246,0.3)',
+            borderColor: 'rgba(255,122,24,0.3)',
             borderWidth: 1,
             padding: 12,
             callbacks: {
@@ -435,8 +495,8 @@ export class AdminPage implements OnInit, AfterViewInit, OnDestroy {
     const canvasEl = this.responseTimeChartRef.nativeElement
     const ctx = canvasEl.getContext('2d')!
     const grad = ctx.createLinearGradient(0, 0, 0, 300)
-    grad.addColorStop(0, 'rgba(139,92,246,0.4)')
-    grad.addColorStop(1, 'rgba(139,92,246,0.0)')
+    grad.addColorStop(0, 'rgba(255,122,24,0.4)')
+    grad.addColorStop(1, 'rgba(255,122,24,0.0)')
 
     const chart = new Chart(canvasEl, {
       type: 'line',
@@ -446,11 +506,11 @@ export class AdminPage implements OnInit, AfterViewInit, OnDestroy {
           {
             label: 'Resp. media (ms)',
             data: values,
-            borderColor: 'rgba(139,92,246,1)',
+            borderColor: 'rgba(255,122,24,1)',
             backgroundColor: grad,
             tension: 0.4,
             fill: true,
-            pointBackgroundColor: 'rgba(139,92,246,1)',
+            pointBackgroundColor: 'rgba(255,122,24,1)',
             pointRadius: 4,
             pointHoverRadius: 7,
             borderWidth: 2,
@@ -467,14 +527,14 @@ export class AdminPage implements OnInit, AfterViewInit, OnDestroy {
 
   private generateGradients(_canvas: HTMLCanvasElement, count: number): string[] {
     const palette = [
-      'rgba(139,92,246,0.85)',
-      'rgba(99,102,241,0.85)',
-      'rgba(59,130,246,0.85)',
-      'rgba(6,182,212,0.85)',
+      'rgba(255,122,24,0.85)',
+      'rgba(255,179,71,0.85)',
+      'rgba(255,61,0,0.85)',
+      'rgba(144,163,255,0.85)',
       'rgba(16,185,129,0.85)',
       'rgba(245,158,11,0.85)',
       'rgba(239,68,68,0.85)',
-      'rgba(236,72,153,0.85)',
+      'rgba(198,184,165,0.85)',
     ]
     return Array.from({ length: count }, (_, i) => palette[i % palette.length])
   }
@@ -489,7 +549,7 @@ export class AdminPage implements OnInit, AfterViewInit, OnDestroy {
           backgroundColor: 'rgba(15,15,25,0.95)',
           titleColor: '#fff',
           bodyColor: 'rgba(200,200,220,0.9)',
-          borderColor: 'rgba(139,92,246,0.3)',
+          borderColor: 'rgba(255,122,24,0.3)',
           borderWidth: 1,
           padding: 12,
         },
@@ -523,7 +583,7 @@ export class AdminPage implements OnInit, AfterViewInit, OnDestroy {
           backgroundColor: 'rgba(15,15,25,0.95)',
           titleColor: '#fff',
           bodyColor: 'rgba(200,200,220,0.9)',
-          borderColor: 'rgba(139,92,246,0.3)',
+          borderColor: 'rgba(255,122,24,0.3)',
           borderWidth: 1,
           padding: 12,
         },
@@ -544,6 +604,212 @@ export class AdminPage implements OnInit, AfterViewInit, OnDestroy {
           beginAtZero: true,
         },
       },
+    }
+  }
+
+  // ─── Gestión de Tickets y Soporte ──────────────────────────────────────────
+
+  async loadTickets(): Promise<void> {
+    this.ticketsLoading.set(true)
+    try {
+      const { data: rawTickets, error } = await this.supabase.client
+        .from('tickets')
+        .select('*')
+        .order('created_at', { ascending: false })
+
+      if (error) throw error
+
+      const tickets = rawTickets ?? []
+
+      if (tickets.length === 0) {
+        this.tickets.set([])
+        return
+      }
+
+      // Intentar enriquecer con perfiles (puede fallar por RLS → no es fatal)
+      const userIds = [...new Set(tickets.map((t: any) => t.user_id).filter(Boolean))]
+      let profilesMap: Record<string, any> = {}
+
+      if (userIds.length > 0) {
+        const { data: pd1 } = await this.supabase.client
+          .from('person_profiles')
+          .select('user_id, username, display_name, avatar_url')
+          .in('user_id', userIds)
+
+        if (pd1) {
+          profilesMap = Object.fromEntries(pd1.map((p: any) => [p.user_id, p]))
+        }
+      }
+
+      const enriched = tickets.map((t: any) => ({
+        ...t,
+        person_profiles: profilesMap[t.user_id] ?? null,
+      }))
+
+      console.log('[loadTickets] Tickets cargados:', enriched)
+      this.tickets.set(enriched)
+
+    } catch (err: any) {
+      console.error('[loadTickets] Error:', err)
+      this.tickets.set([])
+      this.error.set(err?.message ?? 'Error al conectar con la tabla de tickets')
+    } finally {
+      this.ticketsLoading.set(false)
+    }
+  }
+
+
+
+  async updateTicketStatus(ticketId: string, newStatus: 'open' | 'in_progress' | 'resolved'): Promise<void> {
+    try {
+      // Actualizar localmente de forma optimista
+      this.tickets.update(list => list.map(t => t.id === ticketId ? { ...t, status: newStatus } : t))
+      
+      const { error } = await this.supabase.client
+        .from('tickets')
+        .update({ status: newStatus })
+        .eq('id', ticketId)
+
+      if (error) throw error
+    } catch (err) {
+      console.error('Error al actualizar ticket:', err)
+    }
+  }
+
+  // ─── Gestión de Reportes de Contenido ──────────────────────────────────────
+
+  async loadReports(): Promise<void> {
+    this.reportsLoading.set(true)
+    try {
+      // Paso 1: Cargar reportes planos
+      const { data: rawReports, error: reportsError } = await this.supabase.client
+        .from('content_reports')
+        .select('*')
+        .order('created_at', { ascending: false })
+
+      if (reportsError) throw reportsError
+
+      const reports = rawReports ?? []
+
+      if (reports.length === 0) {
+        this.reports.set([])
+        return
+      }
+
+      // Paso 2: Cargar posts por sus IDs
+      const postIds = [...new Set(reports.map((r: any) => r.post_id).filter(Boolean))]
+      let postsMap: Record<string, any> = {}
+
+      if (postIds.length > 0) {
+        const { data: postsData } = await this.supabase.client
+          .from('posts')
+          .select('id, title, description')
+          .in('id', postIds)
+
+        if (postsData) {
+          // Paso 2b: Fotos del post (post_media)
+          const { data: mediaData } = await this.supabase.client
+            .from('post_media')
+            .select('post_id, media_url, media_type, position')
+            .in('post_id', postIds)
+            .order('position', { ascending: true })
+
+          const mediaMap: Record<string, string> = {}
+          if (mediaData) {
+            for (const m of mediaData as any[]) {
+              if (!mediaMap[m.post_id]) mediaMap[m.post_id] = m.media_url
+            }
+          }
+
+          postsMap = Object.fromEntries(
+            postsData.map((p: any) => [p.id, {
+              ...p,
+              imageUrl: mediaMap[p.id] ?? null,
+              author: null,
+            }])
+          )
+        }
+      }
+
+      const reporterIds = [...new Set(reports.map((r: any) => r.reporter_id).filter(Boolean))]
+      let reportersMap: Record<string, any> = {}
+
+      if (reporterIds.length > 0) {
+        const { data: rd1 } = await this.supabase.client
+          .from('person_profiles')
+          .select('user_id, username, display_name')
+          .in('user_id', reporterIds)
+
+        if (rd1) {
+          reportersMap = Object.fromEntries(rd1.map((r: any) => [r.user_id, r]))
+        }
+      }
+
+      // Paso 4: Combinar
+      const enriched = reports.map((r: any) => ({
+        ...r,
+        posts: postsMap[r.post_id] ?? null,
+        reporter: reportersMap[r.reporter_id] ?? null,
+      }))
+
+      console.log('[loadReports] Reportes cargados:', enriched)
+      this.reports.set(enriched)
+
+    } catch (err) {
+      console.error('[loadReports] Error cargando reportes:', err)
+      this.reports.set([])
+    } finally {
+      this.reportsLoading.set(false)
+    }
+  }
+
+  async deletePost(postId: string): Promise<void> {
+    try {
+      this.reports.update(list => list.filter(r => r.post_id !== postId))
+
+      // Primero borrar los reportes del post
+      const { error: repError } = await this.supabase.client
+        .from('content_reports')
+        .delete()
+        .eq('post_id', postId)
+
+      if (repError) console.error('[deletePost] Error borrando reportes:', repError)
+
+      // Luego borrar el post
+      const { error: postError } = await this.supabase.client
+        .from('posts')
+        .delete()
+        .eq('id', postId)
+
+      if (postError) {
+        console.error('[deletePost] Error borrando post:', postError)
+      } else {
+        console.log('[deletePost] Post borrado correctamente:', postId)
+      }
+    } catch (err) {
+      console.error('[deletePost] Error inesperado:', err)
+    }
+  }
+
+  async dismissReport(reportId: string): Promise<void> {
+    try {
+      this.reports.update(list => list.filter(r => r.id !== reportId))
+
+      const { error } = await this.supabase.client
+        .from('content_reports')
+        .delete()
+        .eq('id', reportId)
+
+      if (error) {
+        console.error('[dismissReport] Error en BD:', error)
+        // Recargar para revertir cambio optimista
+        await this.loadReports()
+      } else {
+        console.log('[dismissReport] Reporte eliminado correctamente:', reportId)
+      }
+    } catch (err) {
+      console.error('[dismissReport] Error inesperado:', err)
+      await this.loadReports()
     }
   }
 }

@@ -2,8 +2,8 @@ import { inject, Injectable } from '@angular/core'
 import { Apollo } from 'apollo-angular'
 import { firstValueFrom, from, map, Observable } from 'rxjs'
 import {
-	CREATE_POST_MUTATION, CREATE_RECIPE_POST_MUTATION, DISCOVER_FEED_QUERY, HOME_FEED_QUERY, LIKED_POSTS_QUERY,
-	POST_CARD_FRAGMENT, SAVED_POSTS_QUERY, TOGGLE_LIKE_MUTATION,
+	CREATE_POST_MUTATION, CREATE_RECIPE_POST_MUTATION, DELETE_POST_MUTATION, DISCOVER_FEED_QUERY, HOME_FEED_QUERY,
+	LIKED_POSTS_QUERY, POST_CARD_FRAGMENT, SAVED_POSTS_QUERY, TOGGLE_LIKE_MUTATION,
 	TOGGLE_SAVE_MUTATION, USER_POSTS_QUERY,
 } from '@graphql/feed.mutations'
 import type { GqlPostNode, IPostRepository, SavedPostsResult, ToggleLikeResult, ToggleSaveResult } from './post-repository'
@@ -153,6 +153,22 @@ export class PostGraphqlRepository implements IPostRepository {
 				},
 			}),
 		)).pipe(map(res => ({ postId, saved: !!res.data?.toggleSave?.saved, saves: res.data?.toggleSave?.saves ?? 0 })))
+	}
+
+	/**
+	 * Método para borrar post.
+	 */
+	deletePost(postId: string): Observable<boolean> {
+		return from(firstValueFrom(
+			this.apollo.mutate<{ deletePost: { success: boolean } }>({
+				mutation: DELETE_POST_MUTATION,
+				variables: { postId },
+				update: (cache) => {
+					cache.evict({ id: cache.identify({ __typename: 'posts', id: postId }) })
+					cache.gc()
+				},
+			}),
+		)).pipe(map(res => res.data?.deletePost?.success ?? false))
 	}
 
 	/**

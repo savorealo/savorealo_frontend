@@ -86,4 +86,9 @@ module.exports = {
 		},
 	},
 	plugins: [],
+	safelist: [
+		'bg-green-100',
+		'text-green-700',
+		'bg-green-500',
+	],
 }

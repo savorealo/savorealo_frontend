@@ -150,6 +150,14 @@ export class CallStore {
 	 * Indicador booleano para es o está camera off.
 	 */
 	readonly isCameraOff = signal(false)
+	/**
+	 * Indicador booleano para es o está ice failed.
+	 */
+	readonly iceFailed      = signal(false)
+	/**
+	 * Indicador booleano para es o está speaker off.
+	 */
+	readonly isSpeakerOff   = signal(false)
 
 	/**
 	 * Propiedad para gestionar local stream.
@@ -252,8 +260,9 @@ export class CallStore {
 
 			await this.ensureSubscribed(conversationId)
 
-			this.callSvc.createPeerConnection(candidate =>
-				this.sendSignal(conversationId, { type: 'ice-candidate', from: myId, to: receiverId, candidate }),
+			this.callSvc.createPeerConnection(
+				candidate => this.sendSignal(conversationId, { type: 'ice-candidate', from: myId, to: receiverId, candidate }),
+				state => this.onIceStateChange(state),
 			)
 			this.callSvc.addLocalTracks(stream)
 
@@ -293,8 +302,9 @@ export class CallStore {
 
 			await this.ensureSubscribed(state.conversationId)
 
-			this.callSvc.createPeerConnection(candidate =>
-				this.sendSignal(state.conversationId!, { type: 'ice-candidate', from: myId, to: state.remoteUserId!, candidate }),
+			this.callSvc.createPeerConnection(
+				candidate => this.sendSignal(state.conversationId!, { type: 'ice-candidate', from: myId, to: state.remoteUserId!, candidate }),
+				iceState => this.onIceStateChange(iceState),
 			)
 			this.callSvc.addLocalTracks(stream)
 
@@ -342,11 +352,15 @@ export class CallStore {
 	/**
 	 * Método para alternar mute.
 	 */
-	toggleMute(): void    { this.isMuted.set(this.callSvc.toggleMute()) }
+	toggleMute(): void      { this.isMuted.set(this.callSvc.toggleMute()) }
 	/**
 	 * Método para alternar camera.
 	 */
-	toggleCamera(): void  { this.isCameraOff.set(this.callSvc.toggleCamera()) }
+	toggleCamera(): void    { this.isCameraOff.set(this.callSvc.toggleCamera()) }
+	/**
+	 * Método para alternar speaker.
+	 */
+	toggleSpeaker(): void   { this.isSpeakerOff.set(this.callSvc.toggleSpeaker()) }
 
 	/**
 	 * Método para gestionar signal.
@@ -468,9 +482,21 @@ export class CallStore {
 	 */
 	private async sendToUserChannel(userId: string, payload: CallSignalPayload): Promise<void> {
 		const userChannel = this.supabase.client.channel(`call-user:${userId}`)
-		await new Promise<void>(resolve => {
+		await new Promise<void>((resolve, reject) => {
+			const timeout = setTimeout(() => {
+				userChannel.unsubscribe()
+				reject(new Error('sendToUserChannel timed out'))
+			}, 8000)
+
 			userChannel.subscribe(status => {
+				if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') {
+					clearTimeout(timeout)
+					userChannel.unsubscribe()
+					reject(new Error(`sendToUserChannel failed: ${status}`))
+					return
+				}
 				if (status !== 'SUBSCRIBED') return
+				clearTimeout(timeout)
 				userChannel
 					.send({ type: 'broadcast', event: 'call-signal', payload })
 					.finally(() => {
@@ -478,7 +504,7 @@ export class CallStore {
 						resolve()
 					})
 			})
-		})
+		}).catch(err => console.warn('[CallStore] sendToUserChannel:', err))
 	}
 
 	/**
@@ -535,8 +561,18 @@ export class CallStore {
 		this._call.set(IDLE)
 		this.isMuted.set(false)
 		this.isCameraOff.set(false)
+		this.iceFailed.set(false)
+		this.isSpeakerOff.set(false)
 		this.pendingOffer = null
 		this.pendingCandidates = []
 		this.answerHandled = false
+	}
+
+	private onIceStateChange(state: RTCIceConnectionState): void {
+		if (state === 'failed') {
+			this.iceFailed.set(true)
+		} else if (state === 'connected' || state === 'completed') {
+			this.iceFailed.set(false)
+		}
 	}
 }
