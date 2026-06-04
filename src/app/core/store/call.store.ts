@@ -468,9 +468,21 @@ export class CallStore {
 	 */
 	private async sendToUserChannel(userId: string, payload: CallSignalPayload): Promise<void> {
 		const userChannel = this.supabase.client.channel(`call-user:${userId}`)
-		await new Promise<void>(resolve => {
+		await new Promise<void>((resolve, reject) => {
+			const timeout = setTimeout(() => {
+				userChannel.unsubscribe()
+				reject(new Error('sendToUserChannel timed out'))
+			}, 8000)
+
 			userChannel.subscribe(status => {
+				if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') {
+					clearTimeout(timeout)
+					userChannel.unsubscribe()
+					reject(new Error(`sendToUserChannel failed: ${status}`))
+					return
+				}
 				if (status !== 'SUBSCRIBED') return
+				clearTimeout(timeout)
 				userChannel
 					.send({ type: 'broadcast', event: 'call-signal', payload })
 					.finally(() => {
@@ -478,7 +490,7 @@ export class CallStore {
 						resolve()
 					})
 			})
-		})
+		}).catch(err => console.warn('[CallStore] sendToUserChannel:', err))
 	}
 
 	/**
