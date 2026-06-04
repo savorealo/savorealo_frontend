@@ -31,7 +31,7 @@ jobs:
             production: true,
             supabaseUrl: '${{ secrets.SUPABASE_URL }}',
             supabaseKey: '${{ secrets.SUPABASE_ANON_KEY }}',
-            apiUrl: 'https://savorealo.com/api',
+            apiUrl: 'https://app.savorealo.com/api',
           }
           EOF
 
